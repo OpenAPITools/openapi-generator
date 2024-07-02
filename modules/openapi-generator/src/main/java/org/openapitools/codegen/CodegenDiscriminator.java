@@ -1,5 +1,8 @@
 package org.openapitools.codegen;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.*;
 
 /**
@@ -14,10 +17,15 @@ import java.util.*;
 public class CodegenDiscriminator {
     // The name of the property in the payload that will hold the discriminator value.
     // This is the propertyName as specified in the OpenAPI discriminator object.
+    @Getter @Setter
     private String propertyName;
+    @Getter @Setter
     private String propertyBaseName;
+    @Getter @Setter
     private String propertyGetter;
+    @Getter @Setter
     private String propertyType;
+    @Getter @Setter
     private Map<String, String> mapping;
     private boolean isEnum;
 
@@ -36,57 +44,11 @@ public class CodegenDiscriminator {
     //
     // see the method createDiscriminator in DefaultCodegen.java
 
+    @Getter @Setter
     private Set<MappedModel> mappedModels = new TreeSet<>();
+    @Getter @Setter
     private Map<String, Object> vendorExtensions = new HashMap<>();
 
-
-    public String getPropertyName() {
-        return propertyName;
-    }
-
-    public void setPropertyName(String propertyName) {
-        this.propertyName = propertyName;
-    }
-
-    public String getPropertyGetter() {
-        return propertyGetter;
-    }
-
-    public void setPropertyGetter(String propertyGetter) {
-        this.propertyGetter = propertyGetter;
-    }
-
-    public String getPropertyBaseName() {
-        return propertyBaseName;
-    }
-
-    public void setPropertyBaseName(String propertyBaseName) {
-        this.propertyBaseName = propertyBaseName;
-    }
-
-    public String getPropertyType() {
-        return propertyType;
-    }
-
-    public void setPropertyType(String propertyType) {
-        this.propertyType = propertyType;
-    }
-
-    public Map<String, String> getMapping() {
-        return mapping;
-    }
-
-    public void setMapping(Map<String, String> mapping) {
-        this.mapping = mapping;
-    }
-
-    public Set<MappedModel> getMappedModels() {
-        return mappedModels;
-    }
-
-    public void setMappedModels(Set<MappedModel> mappedModels) {
-        this.mappedModels = mappedModels;
-    }
 
     public boolean getIsEnum() {
         return isEnum;
@@ -95,15 +57,7 @@ public class CodegenDiscriminator {
     public void setIsEnum(boolean isEnum) {
         this.isEnum = isEnum;
     }
-
-    public Map<String, Object> getVendorExtensions() {
-        return vendorExtensions;
-    }
-
-    public void setVendorExtensions(Map<String, Object> vendorExtensions) {
-        this.vendorExtensions = vendorExtensions;
-    }
-
+    
     /**
      * An object to hold discriminator mappings between payload values and schema names or
      * references.
@@ -116,11 +70,14 @@ public class CodegenDiscriminator {
      */
     public static class MappedModel implements Comparable<MappedModel>{
         // The value of the discriminator property in the payload.
+        @Getter @Setter
         private String mappingName;
         // The OAS schema name. It is obtained from the OAS document, and the string value
         // is converted to a sanitized, internal representation within codegen.
+        @Getter @Setter
         private String modelName;
 
+        @Getter @Setter
         private CodegenModel model;
 
         private final boolean explicitMapping;
@@ -153,26 +110,6 @@ public class CodegenDiscriminator {
                 return getMappingName().compareTo(other.getMappingName());
             }
         }
-
-        public String getMappingName() {
-            return mappingName;
-        }
-
-        public void setMappingName(String mappingName) {
-            this.mappingName = mappingName;
-        }
-
-        public String getModelName() {
-            return modelName;
-        }
-
-        public void setModelName(String modelName) {
-            this.modelName = modelName;
-        }
-
-        public CodegenModel getModel() { return model; }
-
-        public void setModel(CodegenModel model) { this.model = model; }
 
         @Override
         public boolean equals(Object o) {

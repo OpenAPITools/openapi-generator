@@ -28,7 +28,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("AdditionalPropertiesClass")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class AdditionalPropertiesClassDto {
 
   @Valid
@@ -77,7 +77,7 @@ public class AdditionalPropertiesClassDto {
   /**
    * Get mapString
    * @return mapString
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_string")
@@ -105,7 +105,7 @@ public class AdditionalPropertiesClassDto {
   /**
    * Get mapNumber
    * @return mapNumber
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("map_number")
@@ -133,7 +133,7 @@ public class AdditionalPropertiesClassDto {
   /**
    * Get mapInteger
    * @return mapInteger
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_integer")
@@ -161,7 +161,7 @@ public class AdditionalPropertiesClassDto {
   /**
    * Get mapBoolean
    * @return mapBoolean
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_boolean")
@@ -189,7 +189,7 @@ public class AdditionalPropertiesClassDto {
   /**
    * Get mapArrayInteger
    * @return mapArrayInteger
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("map_array_integer")
@@ -217,7 +217,7 @@ public class AdditionalPropertiesClassDto {
   /**
    * Get mapArrayAnytype
    * @return mapArrayAnytype
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("map_array_anytype")
@@ -245,7 +245,7 @@ public class AdditionalPropertiesClassDto {
   /**
    * Get mapMapString
    * @return mapMapString
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("map_map_string")
@@ -273,7 +273,7 @@ public class AdditionalPropertiesClassDto {
   /**
    * Get mapMapAnytype
    * @return mapMapAnytype
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("map_map_anytype")
@@ -293,7 +293,7 @@ public class AdditionalPropertiesClassDto {
   /**
    * Get anytype1
    * @return anytype1
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("anytype_1")
@@ -313,7 +313,7 @@ public class AdditionalPropertiesClassDto {
   /**
    * Get anytype2
    * @return anytype2
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("anytype_2")
@@ -333,7 +333,7 @@ public class AdditionalPropertiesClassDto {
   /**
    * Get anytype3
    * @return anytype3
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("anytype_3")

@@ -32,7 +32,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the pet API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class PetApi  {
    private final PetApiService delegate;
 
@@ -43,7 +43,7 @@ public class PetApi  {
          String implClass = servletContext.getInitParameter("PetApi.implementation");
          if (implClass != null && !"".equals(implClass.trim())) {
             try {
-               delegate = (PetApiService) Class.forName(implClass).newInstance();
+               delegate = (PetApiService) Class.forName(implClass).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                throw new RuntimeException(e);
             }
@@ -107,7 +107,7 @@ public class PetApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid status value", response = Void.class)
     })
-    public Response findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter", required = true) @QueryParam("status") @NotNull @Valid  List<String> status,@Context SecurityContext securityContext)
+    public Response findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter", required = true) @QueryParam("status") @NotNull  List<String> status,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.findPetsByStatus(status, securityContext);
     }
@@ -125,7 +125,7 @@ public class PetApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "Set"),
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid tag value", response = Void.class)
     })
-    public Response findPetsByTags(@ApiParam(value = "Tags to filter by", required = true) @QueryParam("tags") @NotNull @Valid  Set<String> tags,@Context SecurityContext securityContext)
+    public Response findPetsByTags(@ApiParam(value = "Tags to filter by", required = true) @QueryParam("tags") @NotNull  Set<String> tags,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.findPetsByTags(tags, securityContext);
     }

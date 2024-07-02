@@ -1,0 +1,6 @@
+## ReplaysApi
+
+### GET /replays
+## GET /replays
+GET https://api.opendota.com/api/replays
+Accept: application/json; charset=utf-8

@@ -4,6 +4,8 @@ OpenAPI Petstore
 
 - API version: 1.0.0
 
+- Generator version: 7.8.0-SNAPSHOT
+
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
 
@@ -121,6 +123,8 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterNumberSerializeWithHttpInfo**](docs/FakeApi.md#fakeOuterNumberSerializeWithHttpInfo) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**fakeOuterStringSerializeWithHttpInfo**](docs/FakeApi.md#fakeOuterStringSerializeWithHttpInfo) | **POST** /fake/outer/string | 
+*FakeApi* | [**getApplicationJsonUtf8**](docs/FakeApi.md#getApplicationJsonUtf8) | **GET** /fake/application_json_utf8 | application/json UTF8
+*FakeApi* | [**getApplicationJsonUtf8WithHttpInfo**](docs/FakeApi.md#getApplicationJsonUtf8WithHttpInfo) | **GET** /fake/application_json_utf8 | application/json UTF8
 *FakeApi* | [**getArrayOfEnums**](docs/FakeApi.md#getArrayOfEnums) | **GET** /fake/array-of-enums | Array of Enums
 *FakeApi* | [**getArrayOfEnumsWithHttpInfo**](docs/FakeApi.md#getArrayOfEnumsWithHttpInfo) | **GET** /fake/array-of-enums | Array of Enums
 *FakeApi* | [**testAdditionalPropertiesReference**](docs/FakeApi.md#testAdditionalPropertiesReference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties

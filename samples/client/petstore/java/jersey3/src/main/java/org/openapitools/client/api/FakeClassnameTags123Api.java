@@ -10,13 +10,16 @@ import jakarta.ws.rs.core.GenericType;
 
 import org.openapitools.client.model.Client;
 
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class FakeClassnameTags123Api {
   private ApiClient apiClient;
 

@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public interface UserApiService {
       public Response createUser(User user, SecurityContext securityContext);
       public Response createUsersWithArrayInput(List<@Valid User> user, SecurityContext securityContext);

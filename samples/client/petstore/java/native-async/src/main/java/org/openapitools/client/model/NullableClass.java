@@ -43,6 +43,7 @@ import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * NullableClass
  */
@@ -60,7 +61,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   NullableClass.JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP,
   NullableClass.JSON_PROPERTY_OBJECT_ITEMS_NULLABLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class NullableClass extends HashMap<String, Object> {
   public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";
   private JsonNullable<Integer> integerProp = JsonNullable.<Integer>undefined();
@@ -87,7 +88,7 @@ public class NullableClass extends HashMap<String, Object> {
   private JsonNullable<List<Object>> arrayAndItemsNullableProp = JsonNullable.<List<Object>>undefined();
 
   public static final String JSON_PROPERTY_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
-  private List<Object> arrayItemsNullable;
+  private List<Object> arrayItemsNullable = new ArrayList<>();
 
   public static final String JSON_PROPERTY_OBJECT_NULLABLE_PROP = "object_nullable_prop";
   private JsonNullable<Map<String, Object>> objectNullableProp = JsonNullable.<Map<String, Object>>undefined();
@@ -106,13 +107,12 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get integerProp
    * @return integerProp
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
-
   public Integer getIntegerProp() {
         return integerProp.orElse(null);
   }
@@ -139,13 +139,12 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get numberProp
    * @return numberProp
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
-
   public BigDecimal getNumberProp() {
         return numberProp.orElse(null);
   }
@@ -172,13 +171,12 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get booleanProp
    * @return booleanProp
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
-
   public Boolean getBooleanProp() {
         return booleanProp.orElse(null);
   }
@@ -205,13 +203,12 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get stringProp
    * @return stringProp
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
-
   public String getStringProp() {
         return stringProp.orElse(null);
   }
@@ -238,13 +235,12 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get dateProp
    * @return dateProp
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
-
   public LocalDate getDateProp() {
         return dateProp.orElse(null);
   }
@@ -271,13 +267,12 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get datetimeProp
    * @return datetimeProp
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
-
   public OffsetDateTime getDatetimeProp() {
         return datetimeProp.orElse(null);
   }
@@ -316,13 +311,12 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get arrayNullableProp
    * @return arrayNullableProp
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
-
   public List<Object> getArrayNullableProp() {
         return arrayNullableProp.orElse(null);
   }
@@ -361,13 +355,12 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get arrayAndItemsNullableProp
    * @return arrayAndItemsNullableProp
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
-
   public List<Object> getArrayAndItemsNullableProp() {
         return arrayAndItemsNullableProp.orElse(null);
   }
@@ -402,14 +395,13 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get arrayItemsNullable
    * @return arrayItemsNullable
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEMS_NULLABLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<Object> getArrayItemsNullable() {
     return arrayItemsNullable;
   }
@@ -439,13 +431,12 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get objectNullableProp
    * @return objectNullableProp
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
-
   public Map<String, Object> getObjectNullableProp() {
         return objectNullableProp.orElse(null);
   }
@@ -484,13 +475,12 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get objectAndItemsNullableProp
    * @return objectAndItemsNullableProp
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
-
   public Map<String, Object> getObjectAndItemsNullableProp() {
         return objectAndItemsNullableProp.orElse(null);
   }
@@ -525,14 +515,13 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get objectItemsNullable
    * @return objectItemsNullable
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_OBJECT_ITEMS_NULLABLE)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
-
   public Map<String, Object> getObjectItemsNullable() {
     return objectItemsNullable;
   }
@@ -699,32 +688,32 @@ public class NullableClass extends HashMap<String, Object> {
 
     // add `integer_prop` to the URL query string
     if (getIntegerProp() != null) {
-      joiner.add(String.format("%sinteger_prop%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getIntegerProp()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sinteger_prop%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getIntegerProp()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `number_prop` to the URL query string
     if (getNumberProp() != null) {
-      joiner.add(String.format("%snumber_prop%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getNumberProp()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%snumber_prop%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNumberProp()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `boolean_prop` to the URL query string
     if (getBooleanProp() != null) {
-      joiner.add(String.format("%sboolean_prop%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getBooleanProp()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sboolean_prop%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBooleanProp()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `string_prop` to the URL query string
     if (getStringProp() != null) {
-      joiner.add(String.format("%sstring_prop%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStringProp()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sstring_prop%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStringProp()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `date_prop` to the URL query string
     if (getDateProp() != null) {
-      joiner.add(String.format("%sdate_prop%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDateProp()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdate_prop%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDateProp()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `datetime_prop` to the URL query string
     if (getDatetimeProp() != null) {
-      joiner.add(String.format("%sdatetime_prop%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDatetimeProp()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdatetime_prop%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatetimeProp()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `array_nullable_prop` to the URL query string
@@ -732,7 +721,7 @@ public class NullableClass extends HashMap<String, Object> {
       for (int i = 0; i < getArrayNullableProp().size(); i++) {
         joiner.add(String.format("%sarray_nullable_prop%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(String.valueOf(getArrayNullableProp().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            URLEncoder.encode(ApiClient.valueToString(getArrayNullableProp().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
@@ -741,7 +730,7 @@ public class NullableClass extends HashMap<String, Object> {
       for (int i = 0; i < getArrayAndItemsNullableProp().size(); i++) {
         joiner.add(String.format("%sarray_and_items_nullable_prop%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(String.valueOf(getArrayAndItemsNullableProp().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            URLEncoder.encode(ApiClient.valueToString(getArrayAndItemsNullableProp().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
@@ -750,7 +739,7 @@ public class NullableClass extends HashMap<String, Object> {
       for (int i = 0; i < getArrayItemsNullable().size(); i++) {
         joiner.add(String.format("%sarray_items_nullable%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(String.valueOf(getArrayItemsNullable().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            URLEncoder.encode(ApiClient.valueToString(getArrayItemsNullable().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
@@ -759,7 +748,7 @@ public class NullableClass extends HashMap<String, Object> {
       for (String _key : getObjectNullableProp().keySet()) {
         joiner.add(String.format("%sobject_nullable_prop%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getObjectNullableProp().get(_key), URLEncoder.encode(String.valueOf(getObjectNullableProp().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            getObjectNullableProp().get(_key), URLEncoder.encode(ApiClient.valueToString(getObjectNullableProp().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
@@ -768,7 +757,7 @@ public class NullableClass extends HashMap<String, Object> {
       for (String _key : getObjectAndItemsNullableProp().keySet()) {
         joiner.add(String.format("%sobject_and_items_nullable_prop%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getObjectAndItemsNullableProp().get(_key), URLEncoder.encode(String.valueOf(getObjectAndItemsNullableProp().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            getObjectAndItemsNullableProp().get(_key), URLEncoder.encode(ApiClient.valueToString(getObjectAndItemsNullableProp().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
@@ -777,7 +766,7 @@ public class NullableClass extends HashMap<String, Object> {
       for (String _key : getObjectItemsNullable().keySet()) {
         joiner.add(String.format("%sobject_items_nullable%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getObjectItemsNullable().get(_key), URLEncoder.encode(String.valueOf(getObjectItemsNullable().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            getObjectItemsNullable().get(_key), URLEncoder.encode(ApiClient.valueToString(getObjectItemsNullable().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 

@@ -19,7 +19,7 @@ import javax.annotation.Generated;
  * Capitalization
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Capitalization {
 
   private String smallCamel;
@@ -42,7 +42,7 @@ public class Capitalization {
   /**
    * Get smallCamel
    * @return smallCamel
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("smallCamel")
@@ -62,7 +62,7 @@ public class Capitalization {
   /**
    * Get capitalCamel
    * @return capitalCamel
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("CapitalCamel")
@@ -82,7 +82,7 @@ public class Capitalization {
   /**
    * Get smallSnake
    * @return smallSnake
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("small_Snake")
@@ -102,7 +102,7 @@ public class Capitalization {
   /**
    * Get capitalSnake
    * @return capitalSnake
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("Capital_Snake")
@@ -122,7 +122,7 @@ public class Capitalization {
   /**
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("SCA_ETH_Flow_Points")
@@ -142,7 +142,7 @@ public class Capitalization {
   /**
    * Name of the pet 
    * @return ATT_NAME
-  */
+   */
   
   @ApiModelProperty(value = "Name of the pet ")
   @JsonProperty("ATT_NAME")

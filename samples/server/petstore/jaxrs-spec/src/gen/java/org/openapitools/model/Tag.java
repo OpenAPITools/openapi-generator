@@ -16,10 +16,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Tag")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Tag  implements Serializable {
-  private @Valid Long id;
-  private @Valid String name;
+  private Long id;
+  private String name;
 
   protected Tag(TagBuilder<?, ?> b) {
     this.id = b.id;
@@ -113,7 +113,7 @@ public class Tag  implements Serializable {
     return new TagBuilderImpl();
   }
 
-  private static final class TagBuilderImpl extends TagBuilder<Tag, TagBuilderImpl> {
+  private static class TagBuilderImpl extends TagBuilder<Tag, TagBuilderImpl> {
 
     @Override
     protected TagBuilderImpl self() {

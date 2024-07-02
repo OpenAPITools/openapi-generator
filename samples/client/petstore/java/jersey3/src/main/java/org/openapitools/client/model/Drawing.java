@@ -37,6 +37,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -49,7 +51,7 @@ import org.openapitools.client.JSON;
   Drawing.JSON_PROPERTY_NULLABLE_SHAPE,
   Drawing.JSON_PROPERTY_SHAPES
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Drawing {
   public static final String JSON_PROPERTY_MAIN_SHAPE = "mainShape";
   private Shape mainShape;
@@ -61,7 +63,7 @@ public class Drawing {
   private JsonNullable<NullableShape> nullableShape = JsonNullable.<NullableShape>undefined();
 
   public static final String JSON_PROPERTY_SHAPES = "shapes";
-  private List<Shape> shapes;
+  private List<Shape> shapes = new ArrayList<>();
 
   public Drawing() { 
   }
@@ -71,11 +73,13 @@ public class Drawing {
     return this;
   }
 
-   /**
+  /**
    * Get mainShape
    * @return mainShape
-  **/
+   */
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonProperty(JSON_PROPERTY_MAIN_SHAPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -96,11 +100,13 @@ public class Drawing {
     return this;
   }
 
-   /**
+  /**
    * Get shapeOrNull
    * @return shapeOrNull
-  **/
+   */
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonIgnore
 
   public ShapeOrNull getShapeOrNull() {
@@ -129,11 +135,13 @@ public class Drawing {
     return this;
   }
 
-   /**
+  /**
    * Get nullableShape
    * @return nullableShape
-  **/
+   */
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonIgnore
 
   public NullableShape getNullableShape() {
@@ -170,11 +178,13 @@ public class Drawing {
     return this;
   }
 
-   /**
+  /**
    * Get shapes
    * @return shapes
-  **/
+   */
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonProperty(JSON_PROPERTY_SHAPES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("Enum_Test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class EnumTest  implements Serializable {
   public enum EnumStringEnum {
 
@@ -65,7 +65,7 @@ public class EnumTest  implements Serializable {
     }
 }
 
-  private @Valid EnumStringEnum enumString;
+  private EnumStringEnum enumString;
   public enum EnumStringRequiredEnum {
 
     UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower")), EMPTY(String.valueOf(""));
@@ -113,7 +113,7 @@ public class EnumTest  implements Serializable {
     }
 }
 
-  private @Valid EnumStringRequiredEnum enumStringRequired;
+  private EnumStringRequiredEnum enumStringRequired;
   public enum EnumIntegerEnum {
 
     NUMBER_1(Integer.valueOf(1)), NUMBER_MINUS_1(Integer.valueOf(-1));
@@ -161,7 +161,7 @@ public class EnumTest  implements Serializable {
     }
 }
 
-  private @Valid EnumIntegerEnum enumInteger;
+  private EnumIntegerEnum enumInteger;
   public enum EnumNumberEnum {
 
     NUMBER_1_DOT_1(Double.valueOf(1.1)), NUMBER_MINUS_1_DOT_2(Double.valueOf(-1.2));
@@ -209,8 +209,8 @@ public class EnumTest  implements Serializable {
     }
 }
 
-  private @Valid EnumNumberEnum enumNumber;
-  private @Valid OuterEnum outerEnum;
+  private EnumNumberEnum enumNumber;
+  private OuterEnum outerEnum;
 
   protected EnumTest(EnumTestBuilder<?, ?> b) {
     this.enumString = b.enumString;
@@ -252,8 +252,7 @@ public class EnumTest  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty("enum_string_required")
-  @NotNull
-  public EnumStringRequiredEnum getEnumStringRequired() {
+  @NotNull public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
 
@@ -371,7 +370,7 @@ public class EnumTest  implements Serializable {
     return new EnumTestBuilderImpl();
   }
 
-  private static final class EnumTestBuilderImpl extends EnumTestBuilder<EnumTest, EnumTestBuilderImpl> {
+  private static class EnumTestBuilderImpl extends EnumTestBuilder<EnumTest, EnumTestBuilderImpl> {
 
     @Override
     protected EnumTestBuilderImpl self() {

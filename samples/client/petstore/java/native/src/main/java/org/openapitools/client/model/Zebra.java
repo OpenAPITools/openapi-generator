@@ -34,6 +34,7 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * Zebra
  */
@@ -41,7 +42,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Zebra.JSON_PROPERTY_TYPE,
   Zebra.JSON_PROPERTY_CLASS_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Zebra extends HashMap<String, Object> {
   /**
    * Gets or Sets type
@@ -94,14 +95,13 @@ public class Zebra extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get type
    * @return type
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public TypeEnum getType() {
     return type;
   }
@@ -119,14 +119,13 @@ public class Zebra extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get className
    * @return className
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getClassName() {
     return className;
   }
@@ -262,15 +261,74 @@ public class Zebra extends HashMap<String, Object> {
 
     // add `type` to the URL query string
     if (getType() != null) {
-      joiner.add(String.format("%stype%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stype%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `className` to the URL query string
     if (getClassName() != null) {
-      joiner.add(String.format("%sclassName%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getClassName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sclassName%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getClassName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private Zebra instance;
+
+    public Builder() {
+      this(new Zebra());
+    }
+
+    protected Builder(Zebra instance) {
+      this.instance = instance;
+    }
+
+    public Zebra.Builder type(TypeEnum type) {
+      this.instance.type = type;
+      return this;
+    }
+    public Zebra.Builder className(String className) {
+      this.instance.className = className;
+      return this;
+    }
+
+
+    /**
+    * returns a built Zebra instance.
+    *
+    * The builder is not reusable.
+    */
+    public Zebra build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Zebra.Builder builder() {
+    return new Zebra.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Zebra.Builder toBuilder() {
+    return new Zebra.Builder()
+      .type(getType())
+      .className(getClassName());
+  }
+
 }
 

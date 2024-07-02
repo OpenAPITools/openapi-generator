@@ -22,6 +22,7 @@ R/query.R
 R/query_api.R
 R/string_enum_ref.R
 R/tag.R
+R/test_form_object_multipart_request_marker.R
 R/test_query_style_deep_object_explode_true_object_all_of_query_object_parameter.R
 R/test_query_style_form_explode_true_array_string_query_object_parameter.R
 README.md
@@ -40,6 +41,7 @@ docs/Query.md
 docs/QueryApi.md
 docs/StringEnumRef.md
 docs/Tag.md
+docs/TestFormObjectMultipartRequestMarker.md
 docs/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md
 docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md
 git_push.sh

@@ -28,13 +28,14 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * Must be named &#x60;File&#x60; for test.
  */
 @JsonPropertyOrder({
   ModelFile.JSON_PROPERTY_SOURCE_U_R_I
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ModelFile {
   public static final String JSON_PROPERTY_SOURCE_U_R_I = "sourceURI";
   private String sourceURI;
@@ -47,14 +48,13 @@ public class ModelFile {
     return this;
   }
 
-   /**
+  /**
    * Test capitalization
    * @return sourceURI
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getSourceURI() {
     return sourceURI;
   }
@@ -141,7 +141,7 @@ public class ModelFile {
 
     // add `sourceURI` to the URL query string
     if (getSourceURI() != null) {
-      joiner.add(String.format("%ssourceURI%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSourceURI()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssourceURI%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSourceURI()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

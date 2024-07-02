@@ -18,7 +18,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("hasOnlyReadOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class HasOnlyReadOnlyDto {
 
   private String bar;
@@ -33,7 +33,7 @@ public class HasOnlyReadOnlyDto {
   /**
    * Get bar
    * @return bar
-  */
+   */
   
   @JsonProperty("bar")
   public String getBar() {
@@ -52,7 +52,7 @@ public class HasOnlyReadOnlyDto {
   /**
    * Get foo
    * @return foo
-  */
+   */
   
   @JsonProperty("foo")
   public String getFoo() {

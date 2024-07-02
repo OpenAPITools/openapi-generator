@@ -18,7 +18,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("_special_model.name_")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class SpecialModelName {
 
   private Long $specialPropertyName;
@@ -31,7 +31,7 @@ public class SpecialModelName {
   /**
    * Get $specialPropertyName
    * @return $specialPropertyName
-  */
+   */
   
   @JsonProperty("$special[property.name]")
   public Long get$SpecialPropertyName() {

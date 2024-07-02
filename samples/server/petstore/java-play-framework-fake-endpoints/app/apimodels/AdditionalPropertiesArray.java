@@ -12,7 +12,7 @@ import javax.validation.Valid;
 /**
  * AdditionalPropertiesArray
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class AdditionalPropertiesArray extends HashMap<String, List>  {
   @JsonProperty("name")

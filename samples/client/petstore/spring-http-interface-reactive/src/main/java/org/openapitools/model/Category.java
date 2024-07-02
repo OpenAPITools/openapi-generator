@@ -16,7 +16,7 @@ import jakarta.annotation.Generated;
  * Category
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Category {
 
   private Long id;
@@ -42,7 +42,7 @@ public class Category {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @JsonProperty("id")
   public Long getId() {
@@ -61,7 +61,7 @@ public class Category {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull
   @JsonProperty("name")
   public String getName() {

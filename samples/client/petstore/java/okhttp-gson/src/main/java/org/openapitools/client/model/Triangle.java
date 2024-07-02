@@ -60,7 +60,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Triangle extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Triangle.class.getName());
 
@@ -86,21 +86,21 @@ public class Triangle extends AbstractOpenApiSchema {
 
                     // check if the actual instance is of the type `EquilateralTriangle`
                     if (value.getActualInstance() instanceof EquilateralTriangle) {
-                      JsonElement element = adapterEquilateralTriangle.toJsonTree((EquilateralTriangle)value.getActualInstance());
-                      elementAdapter.write(out, element);
-                      return;
+                        JsonElement element = adapterEquilateralTriangle.toJsonTree((EquilateralTriangle)value.getActualInstance());
+                        elementAdapter.write(out, element);
+                        return;
                     }
                     // check if the actual instance is of the type `IsoscelesTriangle`
                     if (value.getActualInstance() instanceof IsoscelesTriangle) {
-                      JsonElement element = adapterIsoscelesTriangle.toJsonTree((IsoscelesTriangle)value.getActualInstance());
-                      elementAdapter.write(out, element);
-                      return;
+                        JsonElement element = adapterIsoscelesTriangle.toJsonTree((IsoscelesTriangle)value.getActualInstance());
+                        elementAdapter.write(out, element);
+                        return;
                     }
                     // check if the actual instance is of the type `ScaleneTriangle`
                     if (value.getActualInstance() instanceof ScaleneTriangle) {
-                      JsonElement element = adapterScaleneTriangle.toJsonTree((ScaleneTriangle)value.getActualInstance());
-                      elementAdapter.write(out, element);
-                      return;
+                        JsonElement element = adapterScaleneTriangle.toJsonTree((ScaleneTriangle)value.getActualInstance());
+                        elementAdapter.write(out, element);
+                        return;
                     }
                     throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle");
                 }
@@ -142,39 +142,39 @@ public class Triangle extends AbstractOpenApiSchema {
 
                     // deserialize EquilateralTriangle
                     try {
-                      // validate the JSON object to see if any exception is thrown
-                      EquilateralTriangle.validateJsonElement(jsonElement);
-                      actualAdapter = adapterEquilateralTriangle;
-                      match++;
-                      log.log(Level.FINER, "Input data matches schema 'EquilateralTriangle'");
+                        // validate the JSON object to see if any exception is thrown
+                        EquilateralTriangle.validateJsonElement(jsonElement);
+                        actualAdapter = adapterEquilateralTriangle;
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'EquilateralTriangle'");
                     } catch (Exception e) {
-                      // deserialization failed, continue
-                      errorMessages.add(String.format("Deserialization for EquilateralTriangle failed with `%s`.", e.getMessage()));
-                      log.log(Level.FINER, "Input data does not match schema 'EquilateralTriangle'", e);
+                        // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for EquilateralTriangle failed with `%s`.", e.getMessage()));
+                        log.log(Level.FINER, "Input data does not match schema 'EquilateralTriangle'", e);
                     }
                     // deserialize IsoscelesTriangle
                     try {
-                      // validate the JSON object to see if any exception is thrown
-                      IsoscelesTriangle.validateJsonElement(jsonElement);
-                      actualAdapter = adapterIsoscelesTriangle;
-                      match++;
-                      log.log(Level.FINER, "Input data matches schema 'IsoscelesTriangle'");
+                        // validate the JSON object to see if any exception is thrown
+                        IsoscelesTriangle.validateJsonElement(jsonElement);
+                        actualAdapter = adapterIsoscelesTriangle;
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'IsoscelesTriangle'");
                     } catch (Exception e) {
-                      // deserialization failed, continue
-                      errorMessages.add(String.format("Deserialization for IsoscelesTriangle failed with `%s`.", e.getMessage()));
-                      log.log(Level.FINER, "Input data does not match schema 'IsoscelesTriangle'", e);
+                        // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for IsoscelesTriangle failed with `%s`.", e.getMessage()));
+                        log.log(Level.FINER, "Input data does not match schema 'IsoscelesTriangle'", e);
                     }
                     // deserialize ScaleneTriangle
                     try {
-                      // validate the JSON object to see if any exception is thrown
-                      ScaleneTriangle.validateJsonElement(jsonElement);
-                      actualAdapter = adapterScaleneTriangle;
-                      match++;
-                      log.log(Level.FINER, "Input data matches schema 'ScaleneTriangle'");
+                        // validate the JSON object to see if any exception is thrown
+                        ScaleneTriangle.validateJsonElement(jsonElement);
+                        actualAdapter = adapterScaleneTriangle;
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'ScaleneTriangle'");
                     } catch (Exception e) {
-                      // deserialization failed, continue
-                      errorMessages.add(String.format("Deserialization for ScaleneTriangle failed with `%s`.", e.getMessage()));
-                      log.log(Level.FINER, "Input data does not match schema 'ScaleneTriangle'", e);
+                        // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for ScaleneTriangle failed with `%s`.", e.getMessage()));
+                        log.log(Level.FINER, "Input data does not match schema 'ScaleneTriangle'", e);
                     }
 
                     if (match == 1) {
@@ -196,17 +196,7 @@ public class Triangle extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public Triangle(EquilateralTriangle o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public Triangle(IsoscelesTriangle o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public Triangle(ScaleneTriangle o) {
+    public Triangle(Object o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
@@ -255,6 +245,7 @@ public class Triangle extends AbstractOpenApiSchema {
      *
      * @return The actual instance (EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -291,63 +282,63 @@ public class Triangle extends AbstractOpenApiSchema {
         return (ScaleneTriangle)super.getActualInstance();
     }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Triangle
-  */
-  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
-    // validate oneOf schemas one by one
-    int validCount = 0;
-    ArrayList<String> errorMessages = new ArrayList<>();
-    // validate the json string with EquilateralTriangle
-    try {
-      EquilateralTriangle.validateJsonElement(jsonElement);
-      validCount++;
-    } catch (Exception e) {
-      errorMessages.add(String.format("Deserialization for EquilateralTriangle failed with `%s`.", e.getMessage()));
-      // continue to the next one
+    /**
+     * Validates the JSON Element and throws an exception if issues found
+     *
+     * @param jsonElement JSON Element
+     * @throws IOException if the JSON Element is invalid with respect to Triangle
+     */
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+        // validate oneOf schemas one by one
+        int validCount = 0;
+        ArrayList<String> errorMessages = new ArrayList<>();
+        // validate the json string with EquilateralTriangle
+        try {
+            EquilateralTriangle.validateJsonElement(jsonElement);
+            validCount++;
+        } catch (Exception e) {
+            errorMessages.add(String.format("Deserialization for EquilateralTriangle failed with `%s`.", e.getMessage()));
+            // continue to the next one
+        }
+        // validate the json string with IsoscelesTriangle
+        try {
+            IsoscelesTriangle.validateJsonElement(jsonElement);
+            validCount++;
+        } catch (Exception e) {
+            errorMessages.add(String.format("Deserialization for IsoscelesTriangle failed with `%s`.", e.getMessage()));
+            // continue to the next one
+        }
+        // validate the json string with ScaleneTriangle
+        try {
+            ScaleneTriangle.validateJsonElement(jsonElement);
+            validCount++;
+        } catch (Exception e) {
+            errorMessages.add(String.format("Deserialization for ScaleneTriangle failed with `%s`.", e.getMessage()));
+            // continue to the next one
+        }
+        if (validCount != 1) {
+            throw new IOException(String.format("The JSON string is invalid for Triangle with oneOf schemas: EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
+        }
     }
-    // validate the json string with IsoscelesTriangle
-    try {
-      IsoscelesTriangle.validateJsonElement(jsonElement);
-      validCount++;
-    } catch (Exception e) {
-      errorMessages.add(String.format("Deserialization for IsoscelesTriangle failed with `%s`.", e.getMessage()));
-      // continue to the next one
-    }
-    // validate the json string with ScaleneTriangle
-    try {
-      ScaleneTriangle.validateJsonElement(jsonElement);
-      validCount++;
-    } catch (Exception e) {
-      errorMessages.add(String.format("Deserialization for ScaleneTriangle failed with `%s`.", e.getMessage()));
-      // continue to the next one
-    }
-    if (validCount != 1) {
-      throw new IOException(String.format("The JSON string is invalid for Triangle with oneOf schemas: EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
-    }
-  }
 
- /**
-  * Create an instance of Triangle given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Triangle
-  * @throws IOException if the JSON string is invalid with respect to Triangle
-  */
-  public static Triangle fromJson(String jsonString) throws IOException {
-    return JSON.getGson().fromJson(jsonString, Triangle.class);
-  }
+    /**
+     * Create an instance of Triangle given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of Triangle
+     * @throws IOException if the JSON string is invalid with respect to Triangle
+     */
+    public static Triangle fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, Triangle.class);
+    }
 
- /**
-  * Convert an instance of Triangle to an JSON string
-  *
-  * @return JSON string
-  */
-  public String toJson() {
-    return JSON.getGson().toJson(this);
-  }
+    /**
+     * Convert an instance of Triangle to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

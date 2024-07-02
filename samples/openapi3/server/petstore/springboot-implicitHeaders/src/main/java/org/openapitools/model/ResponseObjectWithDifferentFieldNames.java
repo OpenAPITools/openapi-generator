@@ -18,7 +18,7 @@ import javax.annotation.Generated;
  * ResponseObjectWithDifferentFieldNames
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ResponseObjectWithDifferentFieldNames {
 
   private String normalPropertyName;
@@ -37,7 +37,7 @@ public class ResponseObjectWithDifferentFieldNames {
   /**
    * Get normalPropertyName
    * @return normalPropertyName
-  */
+   */
   
   @Schema(name = "normalPropertyName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("normalPropertyName")
@@ -57,7 +57,7 @@ public class ResponseObjectWithDifferentFieldNames {
   /**
    * Get UPPER_CASE_PROPERTY_SNAKE
    * @return UPPER_CASE_PROPERTY_SNAKE
-  */
+   */
   
   @Schema(name = "UPPER_CASE_PROPERTY_SNAKE", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("UPPER_CASE_PROPERTY_SNAKE")
@@ -77,7 +77,7 @@ public class ResponseObjectWithDifferentFieldNames {
   /**
    * Get lowerCasePropertyDashes
    * @return lowerCasePropertyDashes
-  */
+   */
   
   @Schema(name = "lower-case-property-dashes", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("lower-case-property-dashes")
@@ -97,7 +97,7 @@ public class ResponseObjectWithDifferentFieldNames {
   /**
    * Get propertyNameWithSpaces
    * @return propertyNameWithSpaces
-  */
+   */
   
   @Schema(name = "property name with spaces", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("property name with spaces")

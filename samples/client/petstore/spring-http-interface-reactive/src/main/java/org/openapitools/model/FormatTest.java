@@ -24,7 +24,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("format_test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class FormatTest {
 
   private Integer integer;
@@ -81,7 +81,7 @@ public class FormatTest {
    * minimum: 10
    * maximum: 100
    * @return integer
-  */
+   */
   
   @JsonProperty("integer")
   public Integer getInteger() {
@@ -102,7 +102,7 @@ public class FormatTest {
    * minimum: 20
    * maximum: 200
    * @return int32
-  */
+   */
   
   @JsonProperty("int32")
   public Integer getInt32() {
@@ -121,7 +121,7 @@ public class FormatTest {
   /**
    * Get int64
    * @return int64
-  */
+   */
   
   @JsonProperty("int64")
   public Long getInt64() {
@@ -142,7 +142,7 @@ public class FormatTest {
    * minimum: 32.1
    * maximum: 543.2
    * @return number
-  */
+   */
   @NotNull
   @JsonProperty("number")
   public BigDecimal getNumber() {
@@ -163,7 +163,7 @@ public class FormatTest {
    * minimum: 54.3
    * maximum: 987.6
    * @return _float
-  */
+   */
   
   @JsonProperty("float")
   public Float getFloat() {
@@ -184,7 +184,7 @@ public class FormatTest {
    * minimum: 67.8
    * maximum: 123.4
    * @return _double
-  */
+   */
   
   @JsonProperty("double")
   public Double getDouble() {
@@ -203,7 +203,7 @@ public class FormatTest {
   /**
    * Get string
    * @return string
-  */
+   */
   
   @JsonProperty("string")
   public String getString() {
@@ -222,7 +222,7 @@ public class FormatTest {
   /**
    * Get _byte
    * @return _byte
-  */
+   */
   @NotNull
   @JsonProperty("byte")
   public byte[] getByte() {
@@ -241,7 +241,7 @@ public class FormatTest {
   /**
    * Get binary
    * @return binary
-  */
+   */
   
   @JsonProperty("binary")
   public org.springframework.core.io.Resource getBinary() {
@@ -260,7 +260,7 @@ public class FormatTest {
   /**
    * Get date
    * @return date
-  */
+   */
   @NotNull
   @JsonProperty("date")
   public LocalDate getDate() {
@@ -279,7 +279,7 @@ public class FormatTest {
   /**
    * Get dateTime
    * @return dateTime
-  */
+   */
   
   @JsonProperty("dateTime")
   public OffsetDateTime getDateTime() {
@@ -298,7 +298,7 @@ public class FormatTest {
   /**
    * Get uuid
    * @return uuid
-  */
+   */
   
   @JsonProperty("uuid")
   public UUID getUuid() {
@@ -317,7 +317,7 @@ public class FormatTest {
   /**
    * Get password
    * @return password
-  */
+   */
   @NotNull
   @JsonProperty("password")
   public String getPassword() {
@@ -336,7 +336,7 @@ public class FormatTest {
   /**
    * Get bigDecimal
    * @return bigDecimal
-  */
+   */
   
   @JsonProperty("BigDecimal")
   public BigDecimal getBigDecimal() {

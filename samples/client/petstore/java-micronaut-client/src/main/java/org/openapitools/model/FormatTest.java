@@ -47,7 +47,7 @@ import javax.annotation.Generated;
   FormatTest.JSON_PROPERTY_BIG_DECIMAL
 })
 @JsonTypeName("format_test")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @Introspected
 public class FormatTest {
     public static final String JSON_PROPERTY_INTEGER = "integer";
@@ -104,7 +104,7 @@ public class FormatTest {
      * minimum: 10
      * maximum: 100
      * @return integer
-     **/
+     */
     @Nullable
     @Min(10)
     @Max(100)
@@ -130,7 +130,7 @@ public class FormatTest {
      * minimum: 20
      * maximum: 200
      * @return int32
-     **/
+     */
     @Nullable
     @Min(20)
     @Max(200)
@@ -154,7 +154,7 @@ public class FormatTest {
     /**
      * Get int64
      * @return int64
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_INT64)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -178,7 +178,7 @@ public class FormatTest {
      * minimum: 32.1
      * maximum: 543.2
      * @return number
-     **/
+     */
     @NotNull
     @DecimalMin("32.1")
     @DecimalMax("543.2")
@@ -204,7 +204,7 @@ public class FormatTest {
      * minimum: 54.3
      * maximum: 987.6
      * @return _float
-     **/
+     */
     @Nullable
     @DecimalMin("54.3")
     @DecimalMax("987.6")
@@ -230,7 +230,7 @@ public class FormatTest {
      * minimum: 67.8
      * maximum: 123.4
      * @return _double
-     **/
+     */
     @Nullable
     @DecimalMin("67.8")
     @DecimalMax("123.4")
@@ -254,7 +254,7 @@ public class FormatTest {
     /**
      * Get string
      * @return string
-     **/
+     */
     @Nullable
     @Pattern(regexp="/[a-z]/i")
     @JsonProperty(JSON_PROPERTY_STRING)
@@ -277,7 +277,7 @@ public class FormatTest {
     /**
      * Get _byte
      * @return _byte
-     **/
+     */
     @NotNull
     @JsonProperty(JSON_PROPERTY_BYTE)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -299,7 +299,7 @@ public class FormatTest {
     /**
      * Get binary
      * @return binary
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_BINARY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -321,7 +321,7 @@ public class FormatTest {
     /**
      * Get date
      * @return date
-     **/
+     */
     @NotNull
     @JsonProperty(JSON_PROPERTY_DATE)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -345,7 +345,7 @@ public class FormatTest {
     /**
      * Get dateTime
      * @return dateTime
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_DATE_TIME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -369,7 +369,7 @@ public class FormatTest {
     /**
      * Get uuid
      * @return uuid
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_UUID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -391,7 +391,7 @@ public class FormatTest {
     /**
      * Get password
      * @return password
-     **/
+     */
     @NotNull
     @Size(min=10, max=64)
     @JsonProperty(JSON_PROPERTY_PASSWORD)
@@ -414,7 +414,7 @@ public class FormatTest {
     /**
      * Get bigDecimal
      * @return bigDecimal
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

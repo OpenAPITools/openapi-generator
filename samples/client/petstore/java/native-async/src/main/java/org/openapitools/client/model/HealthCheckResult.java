@@ -32,13 +32,14 @@ import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
  */
 @JsonPropertyOrder({
   HealthCheckResult.JSON_PROPERTY_NULLABLE_MESSAGE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class HealthCheckResult {
   public static final String JSON_PROPERTY_NULLABLE_MESSAGE = "NullableMessage";
   private JsonNullable<String> nullableMessage = JsonNullable.<String>undefined();
@@ -51,13 +52,12 @@ public class HealthCheckResult {
     return this;
   }
 
-   /**
+  /**
    * Get nullableMessage
    * @return nullableMessage
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
-
   public String getNullableMessage() {
         return nullableMessage.orElse(null);
   }
@@ -164,7 +164,7 @@ public class HealthCheckResult {
 
     // add `NullableMessage` to the URL query string
     if (getNullableMessage() != null) {
-      joiner.add(String.format("%sNullableMessage%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getNullableMessage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sNullableMessage%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNullableMessage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

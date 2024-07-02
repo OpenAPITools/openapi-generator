@@ -28,7 +28,7 @@ import javax.annotation.Generated;
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Pet {
 
   private Long id;
@@ -41,7 +41,7 @@ public class Pet {
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   @Valid
-  private List<@Valid Tag> tags;
+  private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -103,7 +103,7 @@ public class Pet {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
@@ -123,7 +123,7 @@ public class Pet {
   /**
    * Get category
    * @return category
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("category")
@@ -143,7 +143,7 @@ public class Pet {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull 
   @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty("name")
@@ -171,7 +171,7 @@ public class Pet {
   /**
    * Get photoUrls
    * @return photoUrls
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("photoUrls")
@@ -200,7 +200,7 @@ public class Pet {
   /**
    * Get tags
    * @return tags
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
@@ -221,7 +221,7 @@ public class Pet {
    * pet status in the store
    * @return status
    * @deprecated
-  */
+   */
   
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
@@ -232,7 +232,7 @@ public class Pet {
 
   /**
    * @deprecated
-  */
+   */
   @Deprecated
   public void setStatus(StatusEnum status) {
     this.status = status;

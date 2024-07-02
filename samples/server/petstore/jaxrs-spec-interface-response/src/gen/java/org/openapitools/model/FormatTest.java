@@ -23,22 +23,22 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("format_test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class FormatTest  implements Serializable {
-  private @Valid Integer integer;
-  private @Valid Integer int32;
-  private @Valid Long int64;
-  private @Valid BigDecimal number;
-  private @Valid Float _float;
-  private @Valid Double _double;
-  private @Valid String string;
-  private @Valid byte[] _byte;
-  private @Valid File binary;
-  private @Valid LocalDate date;
-  private @Valid Date dateTime;
-  private @Valid UUID uuid;
-  private @Valid String password;
-  private @Valid BigDecimal bigDecimal;
+  private Integer integer;
+  private Integer int32;
+  private Long int64;
+  private BigDecimal number;
+  private Float _float;
+  private Double _double;
+  private String string;
+  private byte[] _byte;
+  private File binary;
+  private LocalDate date;
+  private Date dateTime;
+  private UUID uuid;
+  private String password;
+  private BigDecimal bigDecimal;
 
   /**
    * minimum: 10
@@ -52,7 +52,7 @@ public class FormatTest  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("integer")
- @Min(10) @Max(100)  public Integer getInteger() {
+   @Min(10) @Max(100)public Integer getInteger() {
     return integer;
   }
 
@@ -73,7 +73,7 @@ public class FormatTest  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("int32")
- @Min(20) @Max(200)  public Integer getInt32() {
+   @Min(20) @Max(200)public Integer getInt32() {
     return int32;
   }
 
@@ -113,8 +113,7 @@ public class FormatTest  implements Serializable {
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("number")
-  @NotNull
- @DecimalMin("32.1") @DecimalMax("543.2")  public BigDecimal getNumber() {
+  @NotNull @Valid  @DecimalMin("32.1") @DecimalMax("543.2")public BigDecimal getNumber() {
     return number;
   }
 
@@ -135,7 +134,7 @@ public class FormatTest  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("float")
- @DecimalMin("54.3") @DecimalMax("987.6")  public Float getFloat() {
+   @DecimalMin("54.3") @DecimalMax("987.6")public Float getFloat() {
     return _float;
   }
 
@@ -156,7 +155,7 @@ public class FormatTest  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("double")
- @DecimalMin("67.8") @DecimalMax("123.4")  public Double getDouble() {
+   @DecimalMin("67.8") @DecimalMax("123.4")public Double getDouble() {
     return _double;
   }
 
@@ -175,7 +174,7 @@ public class FormatTest  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("string")
- @Pattern(regexp="/[a-z]/i")  public String getString() {
+   @Pattern(regexp="/[a-z]/i")public String getString() {
     return string;
   }
 
@@ -194,8 +193,7 @@ public class FormatTest  implements Serializable {
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("byte")
-  @NotNull
- @Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")  public byte[] getByte() {
+  @NotNull  @Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")public byte[] getByte() {
     return _byte;
   }
 
@@ -233,8 +231,7 @@ public class FormatTest  implements Serializable {
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("date")
-  @NotNull
-  public LocalDate getDate() {
+  @NotNull public LocalDate getDate() {
     return date;
   }
 
@@ -291,8 +288,7 @@ public class FormatTest  implements Serializable {
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("password")
-  @NotNull
- @Size(min=10,max=64)  public String getPassword() {
+  @NotNull  @Size(min=10,max=64)public String getPassword() {
     return password;
   }
 
@@ -311,7 +307,7 @@ public class FormatTest  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("BigDecimal")
-  public BigDecimal getBigDecimal() {
+  @Valid public BigDecimal getBigDecimal() {
     return bigDecimal;
   }
 

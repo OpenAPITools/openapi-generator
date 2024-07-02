@@ -1,6 +1,13 @@
 .gitignore
 Cargo.toml
 README.md
+src/apis/another_fake.rs
+src/apis/fake.rs
+src/apis/fake_classname_tags123.rs
+src/apis/mod.rs
+src/apis/pet.rs
+src/apis/store.rs
+src/apis/user.rs
 src/header.rs
 src/lib.rs
 src/models.rs

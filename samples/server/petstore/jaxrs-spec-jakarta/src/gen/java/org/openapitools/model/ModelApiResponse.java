@@ -17,11 +17,11 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("ApiResponse")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ModelApiResponse  implements Serializable {
-  private @Valid Integer code;
-  private @Valid String type;
-  private @Valid String message;
+  private Integer code;
+  private String type;
+  private String message;
 
   protected ModelApiResponse(ModelApiResponseBuilder<?, ?> b) {
     this.code = b.code;
@@ -137,7 +137,7 @@ public class ModelApiResponse  implements Serializable {
     return new ModelApiResponseBuilderImpl();
   }
 
-  private static final class ModelApiResponseBuilderImpl extends ModelApiResponseBuilder<ModelApiResponse, ModelApiResponseBuilderImpl> {
+  private static class ModelApiResponseBuilderImpl extends ModelApiResponseBuilder<ModelApiResponse, ModelApiResponseBuilderImpl> {
 
     @Override
     protected ModelApiResponseBuilderImpl self() {

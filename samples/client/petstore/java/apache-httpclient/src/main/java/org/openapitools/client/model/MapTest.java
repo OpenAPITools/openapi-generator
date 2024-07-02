@@ -37,7 +37,7 @@ import java.util.StringJoiner;
   MapTest.JSON_PROPERTY_DIRECT_MAP,
   MapTest.JSON_PROPERTY_INDIRECT_MAP
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class MapTest {
   public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
@@ -103,10 +103,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get mapMapOfString
    * @return mapMapOfString
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -122,7 +122,6 @@ public class MapTest {
     this.mapMapOfString = mapMapOfString;
   }
 
-
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     
     this.mapOfEnumString = mapOfEnumString;
@@ -137,10 +136,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get mapOfEnumString
    * @return mapOfEnumString
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -156,7 +155,6 @@ public class MapTest {
     this.mapOfEnumString = mapOfEnumString;
   }
 
-
   public MapTest directMap(Map<String, Boolean> directMap) {
     
     this.directMap = directMap;
@@ -171,10 +169,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get directMap
    * @return directMap
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -190,7 +188,6 @@ public class MapTest {
     this.directMap = directMap;
   }
 
-
   public MapTest indirectMap(Map<String, Boolean> indirectMap) {
     
     this.indirectMap = indirectMap;
@@ -205,10 +202,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get indirectMap
    * @return indirectMap
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

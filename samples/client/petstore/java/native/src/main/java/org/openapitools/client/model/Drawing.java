@@ -44,6 +44,7 @@ import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * Drawing
  */
@@ -53,7 +54,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Drawing.JSON_PROPERTY_NULLABLE_SHAPE,
   Drawing.JSON_PROPERTY_SHAPES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Drawing extends HashMap<String, Fruit> {
   public static final String JSON_PROPERTY_MAIN_SHAPE = "mainShape";
   private Shape mainShape;
@@ -65,7 +66,7 @@ public class Drawing extends HashMap<String, Fruit> {
   private JsonNullable<NullableShape> nullableShape = JsonNullable.<NullableShape>undefined();
 
   public static final String JSON_PROPERTY_SHAPES = "shapes";
-  private List<Shape> shapes;
+  private List<Shape> shapes = new ArrayList<>();
 
   public Drawing() { 
   }
@@ -75,14 +76,13 @@ public class Drawing extends HashMap<String, Fruit> {
     return this;
   }
 
-   /**
+  /**
    * Get mainShape
    * @return mainShape
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAIN_SHAPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Shape getMainShape() {
     return mainShape;
   }
@@ -100,14 +100,13 @@ public class Drawing extends HashMap<String, Fruit> {
     return this;
   }
 
-   /**
+  /**
    * Get shapeOrNull
    * @return shapeOrNull
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SHAPE_OR_NULL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public ShapeOrNull getShapeOrNull() {
     return shapeOrNull;
   }
@@ -125,13 +124,12 @@ public class Drawing extends HashMap<String, Fruit> {
     return this;
   }
 
-   /**
+  /**
    * Get nullableShape
    * @return nullableShape
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
-
   public NullableShape getNullableShape() {
         return nullableShape.orElse(null);
   }
@@ -166,14 +164,13 @@ public class Drawing extends HashMap<String, Fruit> {
     return this;
   }
 
-   /**
+  /**
    * Get shapes
    * @return shapes
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SHAPES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<Shape> getShapes() {
     return shapes;
   }
@@ -349,5 +346,78 @@ public class Drawing extends HashMap<String, Fruit> {
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private Drawing instance;
+
+    public Builder() {
+      this(new Drawing());
+    }
+
+    protected Builder(Drawing instance) {
+      this.instance = instance;
+    }
+
+    public Drawing.Builder mainShape(Shape mainShape) {
+      this.instance.mainShape = mainShape;
+      return this;
+    }
+    public Drawing.Builder shapeOrNull(ShapeOrNull shapeOrNull) {
+      this.instance.shapeOrNull = shapeOrNull;
+      return this;
+    }
+    public Drawing.Builder nullableShape(NullableShape nullableShape) {
+      this.instance.nullableShape = JsonNullable.<NullableShape>of(nullableShape);
+      return this;
+    }
+    public Drawing.Builder nullableShape(JsonNullable<NullableShape> nullableShape) {
+      this.instance.nullableShape = nullableShape;
+      return this;
+    }
+    public Drawing.Builder shapes(List<Shape> shapes) {
+      this.instance.shapes = shapes;
+      return this;
+    }
+
+
+    /**
+    * returns a built Drawing instance.
+    *
+    * The builder is not reusable.
+    */
+    public Drawing build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Drawing.Builder builder() {
+    return new Drawing.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Drawing.Builder toBuilder() {
+    return new Drawing.Builder()
+      .mainShape(getMainShape())
+      .shapeOrNull(getShapeOrNull())
+      .nullableShape(getNullableShape())
+      .shapes(getShapes());
+  }
+
 }
 

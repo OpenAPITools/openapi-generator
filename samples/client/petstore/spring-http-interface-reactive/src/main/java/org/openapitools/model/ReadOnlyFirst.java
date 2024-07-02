@@ -16,7 +16,7 @@ import jakarta.annotation.Generated;
  * ReadOnlyFirst
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ReadOnlyFirst {
 
   private String bar;
@@ -31,7 +31,7 @@ public class ReadOnlyFirst {
   /**
    * Get bar
    * @return bar
-  */
+   */
   
   @JsonProperty("bar")
   public String getBar() {
@@ -50,7 +50,7 @@ public class ReadOnlyFirst {
   /**
    * Get baz
    * @return baz
-  */
+   */
   
   @JsonProperty("baz")
   public String getBaz() {

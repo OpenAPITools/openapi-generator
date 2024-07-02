@@ -647,6 +647,65 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/HTTPValidationError"
+  "/fake/api/query/enum":
+    post:
+      summary: op3
+      operationId: op3
+      tags:
+        - fake
+      parameters:
+        - name: query_enum
+          in: query
+          description: query enum test
+          required: true
+          schema:
+            type: array
+            items:
+              "$ref": "#/components/schemas/CodesEnum"
+      responses:
+        '200':
+          description: Successful Response
+  "/fake/inline/schema/anyof/path1":
+    get:
+      tags:
+        - fake
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - type: 'null'
+                  - "$ref": "#/components/schemas/myObject"
+  "/fake/inline/schema/anyof/path2":
+    get:
+      tags:
+        - fake
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - "$ref": "#/components/schemas/myObject"
+                  - type: 'null'
+  "/fake/inline/schema/anyof/path3":
+    get:
+      tags:
+        - fake
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - type: array
+                    items:
+                      "$ref": "#/components/schemas/myObject"
+                  - type: 'null'
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -885,15 +944,83 @@ components:
           description: test array in 3.1 spec
           items:
             type: string
+        ref_array_prefix_items:
+          $ref: '#/components/schemas/ArrayPrefixItems'
     HTTPValidationError:
       properties: {}
       type: object
       title: HTTPValidationError
-    AnyOfArray:
-      anyOf:
+    # okhttp-gson doesnot support array of string
+    #AnyOfArray:
+    #  anyOf:
+    #    - type: array
+    #      items:
+    #        type: string
+    #    - type: array
+    #      items:
+    #        type: integer
+    ArrayPrefixItems:
+      type: array
+      description: |
+        An item that was added to the queue.
+      minItems: 3
+      maxItems: 5
+      prefixItems:
+        - type: number
+          description: Queue priority.
+        - type: string
+          description: The hash id of the prompt object. This should be the the prompt ID.
         - type: array
+          description: A list of "good output" node IDs in the prompt.
           items:
             type: string
-        - type: array
+    circular_reference_1:
+      type: object
+      properties:
+        prop1:
+          $ref: '#/components/schemas/circular_reference_2'
+    circular_reference_2:
+      type: object
+      properties:
+        prop1:
+          $ref: '#/components/schemas/circular_reference_3'
+    circular_reference_3:
+      type: object
+      properties:
+        prop1:
+          $ref: '#/components/schemas/circular_reference_1'
+    array_of_same_ref:
+      type: object
+      properties:
+        arrayFooOne:
+          type: array
           items:
-            type: integer
+            $ref: '#/components/schemas/Tag'
+        arrayFooTwo:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        arrayFooThree:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+    CodesEnum:
+      type: string
+      enum:
+        - Code 1
+        - Code 2
+        - Code 3
+    SimpleModelWithArrayProperty:
+      type: object
+      required:
+        - arrayOfStrings
+      properties:
+        arrayOfStrings:
+          type: array
+          items:
+            type: string
+    AllOfSimpleModel:
+      allOf:
+        - $ref: '#/components/schemas/SimpleModelWithArrayProperty'
+    myObject:
+      type: object

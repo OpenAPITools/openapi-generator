@@ -16,7 +16,7 @@ import jakarta.annotation.Generated;
  * User
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class User {
 
   private Long id;
@@ -43,7 +43,7 @@ public class User {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @JsonProperty("id")
   public Long getId() {
@@ -62,7 +62,7 @@ public class User {
   /**
    * Get username
    * @return username
-  */
+   */
   
   @JsonProperty("username")
   public String getUsername() {
@@ -81,7 +81,7 @@ public class User {
   /**
    * Get firstName
    * @return firstName
-  */
+   */
   
   @JsonProperty("firstName")
   public String getFirstName() {
@@ -100,7 +100,7 @@ public class User {
   /**
    * Get lastName
    * @return lastName
-  */
+   */
   
   @JsonProperty("lastName")
   public String getLastName() {
@@ -119,7 +119,7 @@ public class User {
   /**
    * Get email
    * @return email
-  */
+   */
   
   @JsonProperty("email")
   public String getEmail() {
@@ -138,7 +138,7 @@ public class User {
   /**
    * Get password
    * @return password
-  */
+   */
   
   @JsonProperty("password")
   public String getPassword() {
@@ -157,7 +157,7 @@ public class User {
   /**
    * Get phone
    * @return phone
-  */
+   */
   
   @JsonProperty("phone")
   public String getPhone() {
@@ -176,7 +176,7 @@ public class User {
   /**
    * User Status
    * @return userStatus
-  */
+   */
   
   @JsonProperty("userStatus")
   public Integer getUserStatus() {

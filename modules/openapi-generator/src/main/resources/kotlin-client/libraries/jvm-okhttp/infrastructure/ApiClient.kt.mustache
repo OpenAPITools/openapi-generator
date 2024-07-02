@@ -413,33 +413,35 @@ import com.squareup.moshi.adapter
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
         @Suppress("UNNECESSARY_SAFE_CALL")
-        return when {
-            response.isRedirect -> Redirection(
-                response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
-                response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
-            )
-            response.isInformational -> Informational(
-                response.message{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
-                response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
-                response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
-            )
-            response.isSuccessful -> Success(
-                responseBody(response.body{{#jvm-okhttp3}}(){{/jvm-okhttp3}}, accept),
-                response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
-                response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
-            )
-            response.isClientError -> ClientError(
-                response.message{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
-                response.body{{#jvm-okhttp3}}(){{/jvm-okhttp3}}?.string(),
-                response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
-                response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
-            )
-            else -> ServerError(
-                response.message{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
-                response.body{{#jvm-okhttp3}}(){{/jvm-okhttp3}}?.string(),
-                response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
-                response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
-            )
+        return response.use {
+            when {
+                it.isRedirect -> Redirection(
+                    it.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
+                    it.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
+                )
+                it.isInformational -> Informational(
+                    it.message{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
+                    it.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
+                    it.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
+                )
+                it.isSuccessful -> Success(
+                    responseBody(it.body{{#jvm-okhttp3}}(){{/jvm-okhttp3}}, accept),
+                    it.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
+                    it.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
+                )
+                it.isClientError -> ClientError(
+                    it.message{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
+                    it.body{{#jvm-okhttp3}}(){{/jvm-okhttp3}}?.string(),
+                    it.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
+                    it.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
+                )
+                else -> ServerError(
+                    it.message{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
+                    it.body{{#jvm-okhttp3}}(){{/jvm-okhttp3}}?.string(),
+                    it.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
+                    it.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
+                )
+            }
         }
     }
 

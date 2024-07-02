@@ -25,7 +25,7 @@ import javax.annotation.Generated;
  */
 
 @Schema(name = "Pet", description = "A pet for sale in the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Pet {
 
   private Long id;
@@ -39,7 +39,7 @@ public class Pet {
   private List<String> photoUrls = new ArrayList<>();
 
   @Valid
-  private List<@Valid Tag> tags;
+  private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -100,7 +100,7 @@ public class Pet {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
@@ -120,7 +120,7 @@ public class Pet {
   /**
    * Get category
    * @return category
-  */
+   */
   @Valid 
   @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("category")
@@ -140,7 +140,7 @@ public class Pet {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull 
   @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
@@ -169,7 +169,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
    * @deprecated
-  */
+   */
   @NotNull 
   @Schema(name = "photoUrls", deprecated = true, requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("photoUrls")
@@ -180,7 +180,7 @@ public class Pet {
 
   /**
    * @deprecated
-  */
+   */
   @Deprecated
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
@@ -202,7 +202,7 @@ public class Pet {
   /**
    * Get tags
    * @return tags
-  */
+   */
   @Valid 
   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
@@ -222,7 +222,7 @@ public class Pet {
   /**
    * pet status in the store
    * @return status
-  */
+   */
   
   @Schema(name = "status", description = "pet status in the store", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")

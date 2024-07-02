@@ -36,6 +36,7 @@ import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * EnumTest
  */
@@ -50,7 +51,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   EnumTest.JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE,
   EnumTest.JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class EnumTest {
   /**
    * Gets or Sets enumString
@@ -266,14 +267,13 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumString
    * @return enumString
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ENUM_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public EnumStringEnum getEnumString() {
     return enumString;
   }
@@ -291,14 +291,13 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumStringRequired
    * @return enumStringRequired
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
@@ -316,14 +315,13 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumInteger
    * @return enumInteger
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
@@ -341,14 +339,13 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumIntegerOnly
    * @return enumIntegerOnly
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ENUM_INTEGER_ONLY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public EnumIntegerOnlyEnum getEnumIntegerOnly() {
     return enumIntegerOnly;
   }
@@ -366,14 +363,13 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumNumber
    * @return enumNumber
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
@@ -391,13 +387,12 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get outerEnum
    * @return outerEnum
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
-
   public OuterEnum getOuterEnum() {
         return outerEnum.orElse(null);
   }
@@ -424,14 +419,13 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get outerEnumInteger
    * @return outerEnumInteger
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public OuterEnumInteger getOuterEnumInteger() {
     return outerEnumInteger;
   }
@@ -449,14 +443,13 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get outerEnumDefaultValue
    * @return outerEnumDefaultValue
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public OuterEnumDefaultValue getOuterEnumDefaultValue() {
     return outerEnumDefaultValue;
   }
@@ -474,14 +467,13 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get outerEnumIntegerDefaultValue
    * @return outerEnumIntegerDefaultValue
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public OuterEnumIntegerDefaultValue getOuterEnumIntegerDefaultValue() {
     return outerEnumIntegerDefaultValue;
   }
@@ -595,47 +587,47 @@ public class EnumTest {
 
     // add `enum_string` to the URL query string
     if (getEnumString() != null) {
-      joiner.add(String.format("%senum_string%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumString()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%senum_string%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnumString()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `enum_string_required` to the URL query string
     if (getEnumStringRequired() != null) {
-      joiner.add(String.format("%senum_string_required%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumStringRequired()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%senum_string_required%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnumStringRequired()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `enum_integer` to the URL query string
     if (getEnumInteger() != null) {
-      joiner.add(String.format("%senum_integer%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumInteger()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%senum_integer%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnumInteger()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `enum_integer_only` to the URL query string
     if (getEnumIntegerOnly() != null) {
-      joiner.add(String.format("%senum_integer_only%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumIntegerOnly()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%senum_integer_only%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnumIntegerOnly()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `enum_number` to the URL query string
     if (getEnumNumber() != null) {
-      joiner.add(String.format("%senum_number%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%senum_number%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnumNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `outerEnum` to the URL query string
     if (getOuterEnum() != null) {
-      joiner.add(String.format("%souterEnum%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnum()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%souterEnum%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOuterEnum()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `outerEnumInteger` to the URL query string
     if (getOuterEnumInteger() != null) {
-      joiner.add(String.format("%souterEnumInteger%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnumInteger()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%souterEnumInteger%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOuterEnumInteger()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `outerEnumDefaultValue` to the URL query string
     if (getOuterEnumDefaultValue() != null) {
-      joiner.add(String.format("%souterEnumDefaultValue%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnumDefaultValue()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%souterEnumDefaultValue%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOuterEnumDefaultValue()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `outerEnumIntegerDefaultValue` to the URL query string
     if (getOuterEnumIntegerDefaultValue() != null) {
-      joiner.add(String.format("%souterEnumIntegerDefaultValue%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnumIntegerDefaultValue()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%souterEnumIntegerDefaultValue%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOuterEnumIntegerDefaultValue()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

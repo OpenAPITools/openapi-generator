@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   BigCat.JSON_PROPERTY_KIND
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class BigCat extends Cat  {
   /**
    * Gets or Sets kind

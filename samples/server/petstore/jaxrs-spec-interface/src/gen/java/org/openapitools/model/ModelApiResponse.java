@@ -17,11 +17,11 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("ApiResponse")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ModelApiResponse  implements Serializable {
-  private @Valid Integer code;
-  private @Valid String type;
-  private @Valid String message;
+  private Integer code;
+  private String type;
+  private String message;
 
   /**
    **/

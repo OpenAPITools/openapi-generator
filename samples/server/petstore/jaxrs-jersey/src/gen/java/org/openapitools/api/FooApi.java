@@ -29,7 +29,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the foo API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class FooApi  {
    private final FooApiService delegate;
 
@@ -40,7 +40,7 @@ public class FooApi  {
          String implClass = servletContext.getInitParameter("FooApi.implementation");
          if (implClass != null && !"".equals(implClass.trim())) {
             try {
-               delegate = (FooApiService) Class.forName(implClass).newInstance();
+               delegate = (FooApiService) Class.forName(implClass).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                throw new RuntimeException(e);
             }

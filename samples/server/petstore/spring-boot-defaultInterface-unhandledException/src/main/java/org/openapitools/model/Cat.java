@@ -31,7 +31,7 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Cat extends Animal {
 
   private Boolean declawed;
@@ -55,7 +55,7 @@ public class Cat extends Animal {
   /**
    * Get declawed
    * @return declawed
-  */
+   */
   
   @Schema(name = "declawed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("declawed")

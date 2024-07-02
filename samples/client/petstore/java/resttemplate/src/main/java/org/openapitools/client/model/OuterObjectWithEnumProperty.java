@@ -30,12 +30,19 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   OuterObjectWithEnumProperty.JSON_PROPERTY_VALUE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class OuterObjectWithEnumProperty {
   public static final String JSON_PROPERTY_VALUE = "value";
   private OuterEnumInteger value;
 
   public OuterObjectWithEnumProperty() {
+  }
+
+  /**
+   * Constructor with all args parameters
+   */
+  public OuterObjectWithEnumProperty(@JsonProperty(JSON_PROPERTY_VALUE) OuterEnumInteger value) {
+    this.value = value;
   }
 
   public OuterObjectWithEnumProperty value(OuterEnumInteger value) {
@@ -44,10 +51,10 @@ public class OuterObjectWithEnumProperty {
     return this;
   }
 
-   /**
+  /**
    * Get value
    * @return value
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_VALUE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -99,6 +106,60 @@ public class OuterObjectWithEnumProperty {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder {
+
+    private OuterObjectWithEnumProperty instance;
+
+    public Builder() {
+      this(new OuterObjectWithEnumProperty());
+    }
+
+    protected Builder(OuterObjectWithEnumProperty instance) {
+      this.instance = instance;
+    }
+
+    public OuterObjectWithEnumProperty.Builder value(OuterEnumInteger value) {
+      this.instance.value = value;
+      return this;
+    }
+
+
+    /**
+    * returns a built OuterObjectWithEnumProperty instance.
+    *
+    * The builder is not reusable.
+    */
+    public OuterObjectWithEnumProperty build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static OuterObjectWithEnumProperty.Builder builder() {
+    return new OuterObjectWithEnumProperty.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public OuterObjectWithEnumProperty.Builder toBuilder() {
+    return new OuterObjectWithEnumProperty.Builder()
+      .value(getValue());
+  }
+
 
 }
 

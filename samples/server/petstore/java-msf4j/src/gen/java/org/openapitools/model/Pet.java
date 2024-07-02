@@ -18,7 +18,7 @@ import org.openapitools.model.Tag;
 /**
  * Pet
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Pet   {
   @JsonProperty("id")
   private Long id;
@@ -156,7 +156,7 @@ public class Pet   {
 
   public Pet addTagsItem(Tag tagsItem) {
     if (this.tags == null) {
-      this.tags = ;
+      this.tags = new ArrayList<>();
     }
     this.tags.add(tagsItem);
     return this;

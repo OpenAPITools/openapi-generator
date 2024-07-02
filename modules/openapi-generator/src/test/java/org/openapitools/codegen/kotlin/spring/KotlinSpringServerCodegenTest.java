@@ -1,12 +1,13 @@
 package org.openapitools.codegen.kotlin.spring;
 
-import com.google.common.collect.testing.Helpers;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.apache.commons.io.FileUtils;
+import org.assertj.core.api.Assertions;
+import org.jetbrains.annotations.NotNull;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
@@ -22,6 +23,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
@@ -81,7 +83,7 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
-    public void testNoRequestMappingAnnotation() throws IOException {
+    public void testNoRequestMappingAnnotation_spring_cloud_default() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
@@ -102,6 +104,74 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void testNoRequestMappingAnnotationNone() throws IOException {
+        File output = generatePetstoreWithRequestMappingMode(KotlinSpringServerCodegen.RequestMappingMode.none);
+
+        // Check that the @RequestMapping annotation is not generated in the Api file
+        assertFileNotContains(
+                Paths.get(output + "/src/main/kotlin/org/openapitools/api/PetApi.kt"),
+                "@RequestMapping(\"\\${"
+        );
+        // Check that the @RequestMapping annotation is not generated in the ApiController file
+        assertFileNotContains(
+                Paths.get(output + "/src/main/kotlin/org/openapitools/api/PetApiController.kt"),
+                "@RequestMapping(\"\\${"
+        );
+    }
+
+    @Test
+    public void testNoRequestMappingAnnotationController() throws IOException {
+        File output = generatePetstoreWithRequestMappingMode(KotlinSpringServerCodegen.RequestMappingMode.controller);
+
+        // Check that the @RequestMapping annotation is not generated in the Api file
+        assertFileNotContains(
+                Paths.get(output + "/src/main/kotlin/org/openapitools/api/PetApi.kt"),
+                "@RequestMapping(\"\\${"
+        );
+        // Check that the @RequestMapping annotation is generated in the ApiController file
+        assertFileContains(
+                Paths.get(output + "/src/main/kotlin/org/openapitools/api/PetApiController.kt"),
+                "@RequestMapping(\"\\${"
+        );
+    }
+
+    @Test
+    public void testNoRequestMappingAnnotationApiInterface() throws IOException {
+        File output = generatePetstoreWithRequestMappingMode(KotlinSpringServerCodegen.RequestMappingMode.api_interface);
+
+        // Check that the @RequestMapping annotation is generated in the Api file
+        assertFileContains(
+                Paths.get(output + "/src/main/kotlin/org/openapitools/api/PetApi.kt"),
+                "@RequestMapping(\"\\${"
+        );
+        // Check that the @RequestMapping annotation is not generated in the ApiController file
+        assertFileNotContains(
+                Paths.get(output + "/src/main/kotlin/org/openapitools/api/PetApiController.kt"),
+                "@RequestMapping(\"\\${"
+        );
+    }
+
+    private static @NotNull File generatePetstoreWithRequestMappingMode(KotlinSpringServerCodegen.RequestMappingMode requestMappingMode) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_TAGS, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REQUEST_MAPPING_OPTION, requestMappingMode);
+
+        new DefaultGenerator()
+                .opts(
+                        new ClientOptInput()
+                                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore.yaml"))
+                                .config(codegen)
+                )
+                .generate();
+        return output;
+    }
+
+    @Test
     public void testSettersForConfigValues() throws Exception {
         final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setModelPackage("xx.yyyyyyyy.model");
@@ -114,6 +184,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.setServiceImplementation(true);
         codegen.setUseBeanValidation(false);
         codegen.setReactive(false);
+        codegen.setSerializableModel(true);
         codegen.processOpts();
 
         Assert.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
@@ -136,6 +207,8 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.USE_BEANVALIDATION), false);
         Assert.assertFalse(codegen.isReactive());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.REACTIVE), false);
+        Assert.assertTrue(codegen.isSerializableModel());
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL), true);
     }
 
     @Test
@@ -224,7 +297,7 @@ public class KotlinSpringServerCodegenTest {
             )
             .generate();
 
-        Helpers.assertContainsAllOf(files,
+        Assertions.assertThat(files).contains(
             new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
             new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
             new File(output, "src/main/kotlin/org/openapitools/api/TestV2ApiController.kt"),
@@ -249,7 +322,7 @@ public class KotlinSpringServerCodegenTest {
             )
             .generate();
 
-        Helpers.assertContainsAllOf(files,
+        Assertions.assertThat(files).contains(
             new File(output, "src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
             new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
             new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
@@ -435,6 +508,48 @@ public class KotlinSpringServerCodegenTest {
         );
     }
 
+    @Test(description = "test cookie parameter generation on interface apis")
+    public void cookieParameterGenerationApis() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SKIP_DEFAULT_INTERFACE, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore-with-fake-endpoints-for-testing-with-cookie.yaml"))
+                .config(codegen))
+            .generate();
+
+        assertFileContains(
+            Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/FakeApi.kt"),
+            "@CookieValue"
+        );
+    }
+
+    @Test(description = "test cookie parameter generation on controllers")
+    public void cookieParameterGenerationControllers() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore-with-fake-endpoints-for-testing-with-cookie.yaml"))
+                .config(codegen))
+            .generate();
+
+        assertFileContains(
+            Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/FakeApiController.kt"),
+            "@CookieValue"
+        );
+    }
+
     @Test(description = "use Spring boot 3 & jakarta extension")
     public void useSpringBoot3() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -599,6 +714,71 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(
             Paths.get(files.get("AddApi.kt").getAbsolutePath()),
             "@Min(2)"
+        );
+    }
+
+    @Test
+    public void givenMultipartForm_whenGenerateReactiveServer_thenParameterAreCreatedAsRequestPart() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/petstore-with-tags.yaml");
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path outputFilepath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiController.kt");
+
+        assertFileContains(outputFilepath,
+                           "@Parameter(description = \"Additional data to pass to server\") @RequestParam(value = \"additionalMetadata\", required = false) additionalMetadata: kotlin.String?");
+        assertFileContains(outputFilepath,
+                           "@Parameter(description = \"image to upload\") @Valid @RequestPart(\"image\", required = false) image: org.springframework.core.io.Resource?");
+
+    }
+
+    @Test
+    public void generateSerializableModel() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, true);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt"),
+                "import java.io.Serializable",
+                ") : Serializable{",
+                "private const val serialVersionUID: kotlin.Long = 1"
         );
     }
 }

@@ -32,12 +32,16 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = Dog.class, name = "Dog")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Animal {
 
   private String className;
 
   private String color = "red";
+
+  public Animal() {
+    super();
+  }
 
   public Animal className(String className) {
     this.className = className;
@@ -47,7 +51,7 @@ public class Animal {
   /**
    * Get className
    * @return className
-  */
+   */
   @NotNull 
   @Schema(name = "className", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("className")
@@ -67,7 +71,7 @@ public class Animal {
   /**
    * Get color
    * @return color
-  */
+   */
   
   @Schema(name = "color", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("color")

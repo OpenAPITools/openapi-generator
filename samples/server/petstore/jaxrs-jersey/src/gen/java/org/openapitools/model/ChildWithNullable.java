@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   ChildWithNullable.JSON_PROPERTY_OTHER_PROPERTY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ChildWithNullable extends ParentWithNullable  {
   public static final String JSON_PROPERTY_OTHER_PROPERTY = "otherProperty";
   @JsonProperty(JSON_PROPERTY_OTHER_PROPERTY)

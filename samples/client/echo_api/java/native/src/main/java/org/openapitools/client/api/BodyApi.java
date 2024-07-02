@@ -53,7 +53,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class BodyApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -155,6 +155,7 @@ public class BodyApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test body parameter(s)
    * Test body parameter(s)
@@ -236,6 +237,7 @@ public class BodyApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test array of binary in multipart mime
    * Test array of binary in multipart mime
@@ -350,6 +352,7 @@ public class BodyApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test single binary in multipart mime
    * Test single binary in multipart mime
@@ -458,6 +461,7 @@ public class BodyApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test body parameter(s)
    * Test body parameter(s)
@@ -531,6 +535,7 @@ public class BodyApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test free form object
    * Test free form object
@@ -612,6 +617,7 @@ public class BodyApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test body parameter(s)
    * Test body parameter(s)
@@ -685,6 +691,7 @@ public class BodyApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test empty response body
    * Test empty response body
@@ -766,6 +773,7 @@ public class BodyApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test string enum response body
    * Test string enum response body
@@ -839,6 +847,7 @@ public class BodyApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test empty json (request body)
    * Test empty json (request body)
@@ -920,4 +929,5 @@ public class BodyApi {
     }
     return localVarRequestBuilder;
   }
+
 }

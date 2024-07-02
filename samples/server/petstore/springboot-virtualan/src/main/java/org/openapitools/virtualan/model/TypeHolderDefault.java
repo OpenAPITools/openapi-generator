@@ -22,7 +22,7 @@ import javax.annotation.Generated;
  * TypeHolderDefault
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class TypeHolderDefault {
 
   private String stringItem = "what";
@@ -59,7 +59,7 @@ public class TypeHolderDefault {
   /**
    * Get stringItem
    * @return stringItem
-  */
+   */
   @NotNull 
   @Schema(name = "string_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("string_item")
@@ -79,7 +79,7 @@ public class TypeHolderDefault {
   /**
    * Get numberItem
    * @return numberItem
-  */
+   */
   @NotNull @Valid 
   @Schema(name = "number_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("number_item")
@@ -99,7 +99,7 @@ public class TypeHolderDefault {
   /**
    * Get integerItem
    * @return integerItem
-  */
+   */
   @NotNull 
   @Schema(name = "integer_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("integer_item")
@@ -119,7 +119,7 @@ public class TypeHolderDefault {
   /**
    * Get boolItem
    * @return boolItem
-  */
+   */
   @NotNull 
   @Schema(name = "bool_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("bool_item")
@@ -147,7 +147,7 @@ public class TypeHolderDefault {
   /**
    * Get arrayItem
    * @return arrayItem
-  */
+   */
   @NotNull 
   @Schema(name = "array_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("array_item")

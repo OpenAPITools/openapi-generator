@@ -27,6 +27,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -37,7 +39,7 @@ import org.openapitools.client.JSON;
   TestInlineFreeformAdditionalPropertiesRequest.JSON_PROPERTY_SOME_PROPERTY
 })
 @JsonTypeName("testInlineFreeformAdditionalProperties_request")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class TestInlineFreeformAdditionalPropertiesRequest {
   public static final String JSON_PROPERTY_SOME_PROPERTY = "someProperty";
   private String someProperty;
@@ -50,11 +52,12 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
     return this;
   }
 
-   /**
+  /**
    * Get someProperty
    * @return someProperty
-  **/
+   */
   @jakarta.annotation.Nullable
+
   @JsonProperty(JSON_PROPERTY_SOME_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

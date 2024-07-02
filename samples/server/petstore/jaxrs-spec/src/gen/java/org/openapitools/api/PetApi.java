@@ -21,7 +21,7 @@ import javax.validation.Valid;
 */
 @Path("/pet")
 @Api(description = "the pet API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class PetApi {
 
     @POST
@@ -32,10 +32,10 @@ public class PetApi {
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
          }, tags={ "pet" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Void.class),
+        @ApiResponse(code = 200, message = "Successful operation", response = Void.class),
         @ApiResponse(code = 405, message = "Invalid input", response = Void.class)
     })
-    public Response addPet(@Valid @NotNull Pet body) {
+    public Response addPet(@Valid @NotNull Pet pet) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -50,7 +50,7 @@ public class PetApi {
         @io.swagger.annotations.ApiImplicitParam(name = "api_key", value = "",  dataType = "String", paramType = "header")
     })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Void.class),
+        @ApiResponse(code = 200, message = "Successful operation", response = Void.class),
         @ApiResponse(code = 400, message = "Invalid pet value", response = Void.class)
     })
     public Response deletePet(@PathParam("petId") @ApiParam("Pet id to delete") Long petId) {
@@ -113,12 +113,12 @@ public class PetApi {
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
          }, tags={ "pet" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Void.class),
+        @ApiResponse(code = 200, message = "Successful operation", response = Void.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         @ApiResponse(code = 404, message = "Pet not found", response = Void.class),
         @ApiResponse(code = 405, message = "Validation exception", response = Void.class)
     })
-    public Response updatePet(@Valid @NotNull Pet body) {
+    public Response updatePet(@Valid @NotNull Pet pet) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -131,6 +131,7 @@ public class PetApi {
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
          }, tags={ "pet" })
     @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Successful operation", response = Void.class),
         @ApiResponse(code = 405, message = "Invalid input", response = Void.class)
     })
     public Response updatePetWithForm(@PathParam("petId") @ApiParam("ID of pet that needs to be updated") Long petId,@FormParam(value = "name")  String name,@FormParam(value = "status")  String status) {

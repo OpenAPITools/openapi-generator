@@ -19,9 +19,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  **/
 @ApiModel(description = "Model for testing reserved words")
 @JsonTypeName("Return")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ModelReturn  implements Serializable {
-  private @Valid Integer _return;
+  private Integer _return;
 
   protected ModelReturn(ModelReturnBuilder<?, ?> b) {
     this._return = b._return;
@@ -93,7 +93,7 @@ public class ModelReturn  implements Serializable {
     return new ModelReturnBuilderImpl();
   }
 
-  private static final class ModelReturnBuilderImpl extends ModelReturnBuilder<ModelReturn, ModelReturnBuilderImpl> {
+  private static class ModelReturnBuilderImpl extends ModelReturnBuilder<ModelReturn, ModelReturnBuilderImpl> {
 
     @Override
     protected ModelReturnBuilderImpl self() {

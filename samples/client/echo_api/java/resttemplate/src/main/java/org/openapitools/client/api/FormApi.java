@@ -1,7 +1,9 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
+import org.openapitools.client.BaseApi;
 
+import org.openapitools.client.model.TestFormObjectMultipartRequestMarker;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -24,24 +26,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class FormApi {
-    private ApiClient apiClient;
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+public class FormApi extends BaseApi {
 
     public FormApi() {
-        this(new ApiClient());
+        super(new ApiClient());
     }
 
     public FormApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
-    }
-
-    public ApiClient getApiClient() {
-        return apiClient;
-    }
-
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        super(apiClient);
     }
 
     /**
@@ -97,6 +90,57 @@ public class FormApi {
 
         ParameterizedTypeReference<String> localReturnType = new ParameterizedTypeReference<String>() {};
         return apiClient.invokeAPI("/form/integer/boolean/string", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * Test form parameter(s) for multipart schema
+     * Test form parameter(s) for multipart schema
+     * <p><b>200</b> - Successful operation
+     * @param marker  (required)
+     * @return String
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public String testFormObjectMultipart(TestFormObjectMultipartRequestMarker marker) throws RestClientException {
+        return testFormObjectMultipartWithHttpInfo(marker).getBody();
+    }
+
+    /**
+     * Test form parameter(s) for multipart schema
+     * Test form parameter(s) for multipart schema
+     * <p><b>200</b> - Successful operation
+     * @param marker  (required)
+     * @return ResponseEntity&lt;String&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<String> testFormObjectMultipartWithHttpInfo(TestFormObjectMultipartRequestMarker marker) throws RestClientException {
+        Object localVarPostBody = null;
+        
+        // verify the required parameter 'marker' is set
+        if (marker == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'marker' when calling testFormObjectMultipart");
+        }
+        
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        if (marker != null)
+            localVarFormParams.add("marker", marker);
+
+        final String[] localVarAccepts = { 
+            "text/plain"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "multipart/form-data"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<String> localReturnType = new ParameterizedTypeReference<String>() {};
+        return apiClient.invokeAPI("/form/object/multipart", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Test form parameter(s) for oneOf schema
@@ -163,5 +207,30 @@ public class FormApi {
 
         ParameterizedTypeReference<String> localReturnType = new ParameterizedTypeReference<String>() {};
         return apiClient.invokeAPI("/form/oneof", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+
+    @Override
+    public <T> ResponseEntity<T> invokeAPI(String url, HttpMethod method, Object request, ParameterizedTypeReference<T> returnType) throws RestClientException {
+        String localVarPath = url.replace(apiClient.getBasePath(), "");
+        Object localVarPostBody = request;
+
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { 
+            "text/plain"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/x-www-form-urlencoded"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        return apiClient.invokeAPI(localVarPath, method, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType);
     }
 }

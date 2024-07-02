@@ -8,7 +8,7 @@
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
 |**id** | **Long** |  |  [optional] |
-|**category** | [**Category**](Category.md) |  |  [optional] |
+|**category** | [**Category**](Category.md) | multi line description 2nd line last line  |  [optional] |
 |**name** | **String** |  |  |
 |**photoUrls** | **List&lt;String&gt;** |  |  |
 |**tags** | [**List&lt;Tag&gt;**](Tag.md) |  |  [optional] |

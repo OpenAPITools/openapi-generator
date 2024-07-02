@@ -18,12 +18,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("TypeHolderDefault")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class TypeHolderDefault  implements Serializable {
-  private @Valid String stringItem = "what";
-  private @Valid BigDecimal numberItem;
-  private @Valid Integer integerItem;
-  private @Valid Boolean boolItem = true;
+  private String stringItem = "what";
+  private BigDecimal numberItem;
+  private Integer integerItem;
+  private Boolean boolItem = true;
   private @Valid List<Integer> arrayItem = new ArrayList<>();
 
   protected TypeHolderDefault(TypeHolderDefaultBuilder<?, ?> b) {
@@ -47,8 +47,7 @@ public class TypeHolderDefault  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty("string_item")
-  @NotNull
-  public String getStringItem() {
+  @NotNull public String getStringItem() {
     return stringItem;
   }
 
@@ -67,8 +66,7 @@ public class TypeHolderDefault  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty("number_item")
-  @NotNull
-  public BigDecimal getNumberItem() {
+  @NotNull @Valid public BigDecimal getNumberItem() {
     return numberItem;
   }
 
@@ -87,8 +85,7 @@ public class TypeHolderDefault  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty("integer_item")
-  @NotNull
-  public Integer getIntegerItem() {
+  @NotNull public Integer getIntegerItem() {
     return integerItem;
   }
 
@@ -107,8 +104,7 @@ public class TypeHolderDefault  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty("bool_item")
-  @NotNull
-  public Boolean getBoolItem() {
+  @NotNull public Boolean getBoolItem() {
     return boolItem;
   }
 
@@ -127,8 +123,7 @@ public class TypeHolderDefault  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty("array_item")
-  @NotNull
-  public List<Integer> getArrayItem() {
+  @NotNull public List<Integer> getArrayItem() {
     return arrayItem;
   }
 
@@ -205,7 +200,7 @@ public class TypeHolderDefault  implements Serializable {
     return new TypeHolderDefaultBuilderImpl();
   }
 
-  private static final class TypeHolderDefaultBuilderImpl extends TypeHolderDefaultBuilder<TypeHolderDefault, TypeHolderDefaultBuilderImpl> {
+  private static class TypeHolderDefaultBuilderImpl extends TypeHolderDefaultBuilder<TypeHolderDefault, TypeHolderDefaultBuilderImpl> {
 
     @Override
     protected TypeHolderDefaultBuilderImpl self() {

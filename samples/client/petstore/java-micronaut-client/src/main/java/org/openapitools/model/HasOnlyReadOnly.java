@@ -30,7 +30,7 @@ import javax.annotation.Generated;
   HasOnlyReadOnly.JSON_PROPERTY_FOO
 })
 @JsonTypeName("hasOnlyReadOnly")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @Introspected
 public class HasOnlyReadOnly {
     public static final String JSON_PROPERTY_BAR = "bar";
@@ -44,7 +44,7 @@ public class HasOnlyReadOnly {
     /**
      * Get bar
      * @return bar
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_BAR)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -55,7 +55,7 @@ public class HasOnlyReadOnly {
     /**
      * Get foo
      * @return foo
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_FOO)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

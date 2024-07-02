@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class StoreApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -162,6 +162,7 @@ public class StoreApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Returns pet inventories by status
    * Returns a map of status codes to quantities
@@ -227,6 +228,7 @@ public class StoreApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Find purchase order by ID
    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
@@ -299,6 +301,7 @@ public class StoreApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Place an order for a pet
    * 
@@ -376,4 +379,5 @@ public class StoreApi {
     }
     return localVarRequestBuilder;
   }
+
 }

@@ -65,12 +65,12 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.12</version>
                 <configuration>
-                    <systemProperties>
+                    <systemPropertyVariables>
                         <property>
                             <name>loggerPath</name>
                             <value>conf/log4j.properties</value>
                         </property>
-                    </systemProperties>
+                    </systemPropertyVariables>
                     <argLine>-Xms512m -Xmx1500m</argLine>
                     <parallel>methods</parallel>
                     <forkMode>pertest</forkMode>
@@ -211,22 +211,19 @@
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson-databind-version}</version>
-        </dependency>
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
             <version>3.0.2</version>
         </dependency>
+        {{#gson}}
         <dependency>
             <groupId>com.squareup.retrofit2</groupId>
             <artifactId>converter-gson</artifactId>
             <version>${retrofit-version}</version>
         </dependency>
+        {{/gson}}
         <dependency>
             <groupId>com.squareup.retrofit2</groupId>
             <artifactId>retrofit</artifactId>
@@ -248,11 +245,13 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        {{#gson}}
         <dependency>
             <groupId>io.gsonfire</groupId>
             <artifactId>gson-fire</artifactId>
             <version>${gson-fire-version}</version>
         </dependency>
+        {{/gson}}
         {{#joda}}
             <dependency>
                 <groupId>joda-time</groupId>
@@ -284,7 +283,7 @@
                 <version>3.0.0</version>
             </dependency>
         {{/useRxJava3}}
-        {{#usePlayWS}}
+        {{#jackson}}
             <!-- JSON processing: jackson -->
             <dependency>
                 <groupId>com.squareup.retrofit2</groupId>
@@ -300,6 +299,11 @@
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
                 <version>${jackson-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson-databind-version}</version>
             </dependency>
             {{#openApiNullable}}
             <dependency>
@@ -321,6 +325,20 @@
                     <version>${jackson-version}</version>
                 </dependency>
             {{/withXml}}
+            {{#useBeanValidation}}
+            <dependency>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>${beanvalidation-version}</version>
+            </dependency>
+            {{/useBeanValidation}}
+            <dependency>
+                <groupId>javax.ws.rs</groupId>
+                <artifactId>javax.ws.rs-api</artifactId>
+                <version>${javax.ws.rs-api-version}</version>
+            </dependency>
+        {{/jackson}}
+        {{#usePlayWS}}
             <dependency>
                 <groupId>com.typesafe.play</groupId>
                 <artifactId>play-ahc-ws_2.12</artifactId>
@@ -360,15 +378,20 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        {{#gson}}
         <gson-fire-version>1.9.0</gson-fire-version>
+        {{/gson}}
         <swagger-annotations-version>1.6.3</swagger-annotations-version>
-        <jackson-databind-version>2.15.2</jackson-databind-version>
-        {{#usePlayWS}}
-        <jackson-version>2.15.2</jackson-version>
-        <play-version>2.6.7</play-version>
-        {{#openApiNullable}}
+        {{#jackson}}
+        <jackson-databind-version>2.17.1</jackson-databind-version>
+        <jackson-version>2.17.1</jackson-version>
+            {{#openApiNullable}}
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
-        {{/openApiNullable}}
+            {{/openApiNullable}}
+        <javax.ws.rs-api-version>2.1.1</javax.ws.rs-api-version>
+        {{/jackson}}
+        {{#usePlayWS}}
+        <play-version>2.6.7</play-version>
         {{/usePlayWS}}
         <retrofit-version>2.5.0</retrofit-version>
         {{#useRxJava2}}
@@ -386,9 +409,9 @@
         {{^useJakartaEe}}
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         {{/useJakartaEe}}
-{{#useBeanValidation}}
-        <beanvalidation-version>2.0.2</beanvalidation-version>
-{{/useBeanValidation}}
+        {{#useBeanValidation}}
+        <beanvalidation-version>3.0.2</beanvalidation-version>
+        {{/useBeanValidation}}
         <oltu-version>1.0.1</oltu-version>
         <junit-version>4.13.2</junit-version>
     </properties>

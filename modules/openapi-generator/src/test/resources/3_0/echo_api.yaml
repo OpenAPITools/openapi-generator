@@ -27,8 +27,8 @@ servers:
   - url: http://localhost:3000/
 paths:
   # Path usually starts with parameter type such as path, query, header, form
-  # For body/form parameters, path starts with "/echo" so the the echo server
-  # will response with the same body in the HTTP request.
+  # For body/form parameters, path starts with "/echo" so the echo server
+  # will respond with the same body in the HTTP request.
   #
   # path parameter tests
   /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}:
@@ -124,6 +124,33 @@ paths:
                     form4:
                       type: boolean
                 - $ref: '#/components/schemas/Tag'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  /form/object/multipart: 
+    post:
+      tags:
+        - form
+      summary: Test form parameter(s) for multipart schema
+      description: Test form parameter(s) for multipart schema
+      operationId: test/form/object/multipart
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - marker
+              properties:
+                marker:
+                  type: object
+                  properties:
+                    name:
+                      type: string
       responses:
         '200':
           description: Successful operation

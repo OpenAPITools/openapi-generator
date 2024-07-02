@@ -21,7 +21,7 @@ import javax.annotation.Generated;
  * Order
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Order {
 
   private Long id;
@@ -82,7 +82,7 @@ public class Order {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
@@ -102,7 +102,7 @@ public class Order {
   /**
    * Get petId
    * @return petId
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("petId")
@@ -122,7 +122,7 @@ public class Order {
   /**
    * Get quantity
    * @return quantity
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("quantity")
@@ -142,7 +142,7 @@ public class Order {
   /**
    * Get shipDate
    * @return shipDate
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("shipDate")
@@ -162,7 +162,7 @@ public class Order {
   /**
    * Order Status
    * @return status
-  */
+   */
   
   @ApiModelProperty(value = "Order Status")
   @JsonProperty("status")
@@ -182,7 +182,7 @@ public class Order {
   /**
    * Get complete
    * @return complete
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("complete")

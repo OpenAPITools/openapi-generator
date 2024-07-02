@@ -30,7 +30,7 @@ export namespace Order {
     export const StatusEnum = {
         Placed: 'placed' as StatusEnum,
         Approved: 'approved' as StatusEnum,
-        Delivered: 'delivered' as StatusEnum
+        SHIPPED: 'delivered' as StatusEnum
     };
 }
 

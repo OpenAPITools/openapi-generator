@@ -32,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 /**
   * A User who is purchasing from the pet store
- **/
+  */
 
 public class User  {
   
@@ -66,15 +66,15 @@ public class User  {
 
   public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
  /**
-   * User Status
-  **/
+  * User Status
+  */
   
   private Integer userStatus;
 
- /**
+  /**
    * Get id
    * @return id
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Long getId() {
@@ -82,8 +82,8 @@ public class User  {
   }
 
   /**
-    * Set id
-  **/
+   * Set id
+   */
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(Long id) {
@@ -95,10 +95,10 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get username
    * @return username
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getUsername() {
@@ -106,8 +106,8 @@ public class User  {
   }
 
   /**
-    * Set username
-  **/
+   * Set username
+   */
   @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setUsername(String username) {
@@ -119,10 +119,10 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get firstName
    * @return firstName
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_FIRST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getFirstName() {
@@ -130,8 +130,8 @@ public class User  {
   }
 
   /**
-    * Set firstName
-  **/
+   * Set firstName
+   */
   @JsonProperty(JSON_PROPERTY_FIRST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setFirstName(String firstName) {
@@ -143,10 +143,10 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get lastName
    * @return lastName
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_LAST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getLastName() {
@@ -154,8 +154,8 @@ public class User  {
   }
 
   /**
-    * Set lastName
-  **/
+   * Set lastName
+   */
   @JsonProperty(JSON_PROPERTY_LAST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setLastName(String lastName) {
@@ -167,10 +167,10 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get email
    * @return email
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_EMAIL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getEmail() {
@@ -178,8 +178,8 @@ public class User  {
   }
 
   /**
-    * Set email
-  **/
+   * Set email
+   */
   @JsonProperty(JSON_PROPERTY_EMAIL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEmail(String email) {
@@ -191,10 +191,10 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get password
    * @return password
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getPassword() {
@@ -202,8 +202,8 @@ public class User  {
   }
 
   /**
-    * Set password
-  **/
+   * Set password
+   */
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPassword(String password) {
@@ -215,10 +215,10 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get phone
    * @return phone
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_PHONE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getPhone() {
@@ -226,8 +226,8 @@ public class User  {
   }
 
   /**
-    * Set phone
-  **/
+   * Set phone
+   */
   @JsonProperty(JSON_PROPERTY_PHONE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPhone(String phone) {
@@ -239,10 +239,10 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * User Status
    * @return userStatus
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_USER_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer getUserStatus() {
@@ -250,8 +250,8 @@ public class User  {
   }
 
   /**
-    * Set userStatus
-  **/
+   * Set userStatus
+   */
   @JsonProperty(JSON_PROPERTY_USER_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setUserStatus(Integer userStatus) {
@@ -265,8 +265,8 @@ public class User  {
 
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -295,3 +295,4 @@ public class User  {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

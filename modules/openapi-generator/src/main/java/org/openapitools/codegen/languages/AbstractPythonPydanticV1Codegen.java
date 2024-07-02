@@ -18,9 +18,9 @@ package org.openapitools.codegen.languages;
 
 import com.github.curiousoddman.rgxgen.RgxGen;
 import io.swagger.v3.oas.models.examples.Example;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -48,8 +48,8 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
     public static final String MAP_NUMBER_TO = "mapNumberTo";
 
     protected String packageName = "openapi_client";
-    protected String packageVersion = "1.0.0";
-    protected String projectName; // for setup.py, e.g. petstore-api
+    @Setter protected String packageVersion = "1.0.0";
+    @Setter protected String projectName; // for setup.py, e.g. petstore-api
     protected boolean hasModelsToImport = Boolean.FALSE;
     protected String mapNumberTo = "Union[StrictFloat, StrictInt]";
     protected Map<Character, String> regexModifiers;
@@ -454,8 +454,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
                 includedSchemas.add(schema);
             }
-            ArraySchema arrayschema = (ArraySchema) schema;
-            example = "[\n" + indentationString + toExampleValueRecursive(arrayschema.getItems(), includedSchemas, indentation + 1) + "\n" + indentationString + "]";
+            example = "[\n" + indentationString + toExampleValueRecursive(ModelUtils.getSchemaItems(schema), includedSchemas, indentation + 1) + "\n" + indentationString + "]";
         } else if (ModelUtils.isMapSchema(schema)) {
             if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
                 includedSchemas.add(schema);
@@ -643,21 +642,12 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, this.packageName);
     }
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
-    }
-
     @Override
     public String getTypeDeclaration(Schema p) {
         p = ModelUtils.unaliasSchema(openAPI, p);
 
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -879,10 +869,6 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                 // if super class
                 if (model.getDiscriminator() != null && model.getDiscriminator().getMappedModels() != null) {
                     typingImports.add("Union");
-                    Set<CodegenDiscriminator.MappedModel> discriminator = model.getDiscriminator().getMappedModels();
-                    for (CodegenDiscriminator.MappedModel mappedModel : discriminator) {
-                        postponedModelImports.add(mappedModel.getModelName());
-                    }
                 }
             }
 
@@ -960,7 +946,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                 }
 
                 if (!fields.isEmpty()) {
-                    fields.add(0, fieldCustomization);
+                    fields.add(0, "default=" + fieldCustomization);
                     pydanticImports.add("Field");
                     fieldCustomization = String.format(Locale.ROOT, "Field(%s)", StringUtils.join(fields, ", "));
                 }
@@ -1007,6 +993,11 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             model.getVendorExtensions().putIfAbsent("x-py-pydantic-imports", pydanticImports);
             model.getVendorExtensions().putIfAbsent("x-py-datetime-imports", datetimeImports);
             model.getVendorExtensions().putIfAbsent("x-py-readonly", readOnlyFields);
+
+            // remove the items of postponedModelImports in modelImports to avoid circular imports error
+            if (!modelImports.isEmpty() && !postponedModelImports.isEmpty()){
+                modelImports.removeAll(postponedModelImports);
+            }
 
             // import models one by one
             if (!modelImports.isEmpty()) {
@@ -1355,7 +1346,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                     values.add((String) enumVar.get("value"));
                 }
             }
-            return String.format(Locale.ROOT, "%sEnum", cp.nameInCamelCase);
+            return String.format(Locale.ROOT, "%sEnum", cp.nameInPascalCase);
         } else*/
         if (cp.isArray) {
             String constraints = "";

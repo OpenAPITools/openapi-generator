@@ -23,17 +23,17 @@ import javax.annotation.Generated;
  * ArrayTest
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ArrayTest {
 
   @Valid
-  private List<String> arrayOfString;
+  private List<String> arrayOfString = new ArrayList<>();
 
   @Valid
-  private List<List<Long>> arrayArrayOfInteger;
+  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   @Valid
-  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel;
+  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
@@ -51,7 +51,7 @@ public class ArrayTest {
   /**
    * Get arrayOfString
    * @return arrayOfString
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("array_of_string")
@@ -79,7 +79,7 @@ public class ArrayTest {
   /**
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_integer")
@@ -107,7 +107,7 @@ public class ArrayTest {
   /**
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_model")
@@ -159,5 +159,75 @@ public class ArrayTest {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private ArrayTest instance;
+
+    public Builder() {
+      this(new ArrayTest());
+    }
+
+    protected Builder(ArrayTest instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(ArrayTest value) { 
+      this.instance.setArrayOfString(value.arrayOfString);
+      this.instance.setArrayArrayOfInteger(value.arrayArrayOfInteger);
+      this.instance.setArrayArrayOfModel(value.arrayArrayOfModel);
+      return this;
+    }
+
+    public ArrayTest.Builder arrayOfString(List<String> arrayOfString) {
+      this.instance.arrayOfString(arrayOfString);
+      return this;
+    }
+    
+    public ArrayTest.Builder arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+      this.instance.arrayArrayOfInteger(arrayArrayOfInteger);
+      return this;
+    }
+    
+    public ArrayTest.Builder arrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
+      this.instance.arrayArrayOfModel(arrayArrayOfModel);
+      return this;
+    }
+    
+    /**
+    * returns a built ArrayTest instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public ArrayTest build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static ArrayTest.Builder builder() {
+    return new ArrayTest.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ArrayTest.Builder toBuilder() {
+    ArrayTest.Builder builder = new ArrayTest.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

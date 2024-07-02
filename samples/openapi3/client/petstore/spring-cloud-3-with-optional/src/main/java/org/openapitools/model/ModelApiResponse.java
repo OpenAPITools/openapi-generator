@@ -19,7 +19,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ApiResponse")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ModelApiResponse {
 
   private Optional<Integer> code = Optional.empty();
@@ -36,7 +36,7 @@ public class ModelApiResponse {
   /**
    * Get code
    * @return code
-  */
+   */
   
   @JsonProperty("code")
   public Optional<Integer> getCode() {
@@ -55,7 +55,7 @@ public class ModelApiResponse {
   /**
    * Get type
    * @return type
-  */
+   */
   
   @JsonProperty("type")
   public Optional<String> getType() {
@@ -74,7 +74,7 @@ public class ModelApiResponse {
   /**
    * Get message
    * @return message
-  */
+   */
   
   @JsonProperty("message")
   public Optional<String> getMessage() {

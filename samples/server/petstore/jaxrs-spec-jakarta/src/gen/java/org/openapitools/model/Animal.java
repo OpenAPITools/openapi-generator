@@ -25,10 +25,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Animal")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Animal  implements Serializable {
-  private @Valid String className;
-  private @Valid String color = "red";
+  private String className;
+  private String color = "red";
 
   protected Animal(AnimalBuilder<?, ?> b) {
     this.className = b.className;
@@ -48,8 +48,7 @@ public class Animal  implements Serializable {
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("className")
-  @NotNull
-  public String getClassName() {
+  @NotNull public String getClassName() {
     return className;
   }
 
@@ -123,7 +122,7 @@ public class Animal  implements Serializable {
     return new AnimalBuilderImpl();
   }
 
-  private static final class AnimalBuilderImpl extends AnimalBuilder<Animal, AnimalBuilderImpl> {
+  private static class AnimalBuilderImpl extends AnimalBuilder<Animal, AnimalBuilderImpl> {
 
     @Override
     protected AnimalBuilderImpl self() {

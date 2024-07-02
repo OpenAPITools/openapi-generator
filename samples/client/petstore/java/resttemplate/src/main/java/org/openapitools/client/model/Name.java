@@ -32,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Name.JSON_PROPERTY_PROPERTY,
   Name.JSON_PROPERTY_123NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";
   private Integer name;
@@ -48,7 +48,9 @@ public class Name {
 
   public Name() {
   }
-
+  /**
+   * Constructor with only readonly parameters
+   */
   @JsonCreator
   public Name(
     @JsonProperty(JSON_PROPERTY_SNAKE_CASE) Integer snakeCase, 
@@ -59,16 +61,26 @@ public class Name {
     this._123number = _123number;
   }
 
+  /**
+   * Constructor with all args parameters
+   */
+  public Name(@JsonProperty(JSON_PROPERTY_NAME) Integer name, @JsonProperty(JSON_PROPERTY_SNAKE_CASE) Integer snakeCase, @JsonProperty(JSON_PROPERTY_PROPERTY) String property, @JsonProperty(JSON_PROPERTY_123NUMBER) Integer _123number) {
+    this.name = name;
+    this.snakeCase = snakeCase;
+    this.property = property;
+    this._123number = _123number;
+  }
+
   public Name name(Integer name) {
     
     this.name = name;
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -84,11 +96,10 @@ public class Name {
     this.name = name;
   }
 
-
-   /**
+  /**
    * Get snakeCase
    * @return snakeCase
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -99,17 +110,16 @@ public class Name {
 
 
 
-
   public Name property(String property) {
     
     this.property = property;
     return this;
   }
 
-   /**
+  /**
    * Get property
    * @return property
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -125,11 +135,10 @@ public class Name {
     this.property = property;
   }
 
-
-   /**
+  /**
    * Get _123number
    * @return _123number
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_123NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -182,6 +191,75 @@ public class Name {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder {
+
+    private Name instance;
+
+    public Builder() {
+      this(new Name());
+    }
+
+    protected Builder(Name instance) {
+      this.instance = instance;
+    }
+
+    public Name.Builder name(Integer name) {
+      this.instance.name = name;
+      return this;
+    }
+    public Name.Builder snakeCase(Integer snakeCase) {
+      this.instance.snakeCase = snakeCase;
+      return this;
+    }
+    public Name.Builder property(String property) {
+      this.instance.property = property;
+      return this;
+    }
+    public Name.Builder _123number(Integer _123number) {
+      this.instance._123number = _123number;
+      return this;
+    }
+
+
+    /**
+    * returns a built Name instance.
+    *
+    * The builder is not reusable.
+    */
+    public Name build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Name.Builder builder() {
+    return new Name.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Name.Builder toBuilder() {
+    return new Name.Builder()
+      .name(getName())
+      .snakeCase(getSnakeCase())
+      .property(getProperty())
+      ._123number(get123number());
+  }
+
 
 }
 

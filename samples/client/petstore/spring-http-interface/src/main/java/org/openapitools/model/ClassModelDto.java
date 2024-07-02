@@ -18,7 +18,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ClassModel")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ClassModelDto {
 
   private String propertyClass;
@@ -31,7 +31,7 @@ public class ClassModelDto {
   /**
    * Get propertyClass
    * @return propertyClass
-  */
+   */
   
   @JsonProperty("_class")
   public String getPropertyClass() {

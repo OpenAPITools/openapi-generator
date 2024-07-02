@@ -1,16 +1,23 @@
 package org.openapitools.api;
 
 import java.math.BigDecimal;
+import org.openapitools.model.ChildWithNullable;
 import org.openapitools.model.Client;
 import java.util.Date;
+import org.openapitools.model.EnumClass;
+import org.openapitools.model.FakeBigDecimalMap200Response;
+import org.openapitools.model.FakeTestsDefaultsDefaultResponse;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
+import org.openapitools.model.HealthCheckResult;
 import org.joda.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.OuterObjectWithEnumProperty;
+import org.openapitools.model.Pet;
+import org.openapitools.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.model.User;
-import org.openapitools.model.XmlItem;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -28,22 +35,48 @@ import javax.validation.Valid;
 */
 @Path("/fake")
 @Api(description = "the fake API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class FakeApi {
 
-    @POST
-    @Path("/create_xml_item")
-    @Consumes({ "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" })
-    @ApiOperation(value = "creates an XmlItem", notes = "this route creates an XmlItem", response = Void.class, tags={ "fake" })
+    @GET
+    @Path("/BigDecimalMap")
+    @Produces({ "*/*" })
+    @ApiOperation(value = "", notes = "for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys", response = FakeBigDecimalMap200Response.class, tags={ "fake" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Void.class)
+        @ApiResponse(code = 200, message = "successful operation", response = FakeBigDecimalMap200Response.class)
     })
-    public Response createXmlItem(@Valid @NotNull XmlItem xmlItem) {
+    public Response fakeBigDecimalMap() {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @GET
+    @Path("/health")
+    @Produces({ "application/json" })
+    @ApiOperation(value = "Health check endpoint", notes = "", response = HealthCheckResult.class, tags={ "fake" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "The instance started successfully", response = HealthCheckResult.class)
+    })
+    public Response fakeHealthGet() {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @GET
+    @Path("/http-signature-test")
+    @Consumes({ "application/json", "application/xml" })
+    @ApiOperation(value = "test http signature authentication", notes = "", response = Void.class, authorizations = {
+        
+        @Authorization(value = "http_signature_test")
+         }, tags={ "fake" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "The instance started successfully", response = Void.class)
+    })
+    public Response fakeHttpSignatureTest(@Valid @NotNull Pet pet,@QueryParam("query_1")  @ApiParam("query parameter")  String query1,@HeaderParam("header_1")   @ApiParam("header parameter") String header1) {
         return Response.ok().entity("magic!").build();
     }
 
     @POST
     @Path("/outer/boolean")
+    @Consumes({ "application/json" })
     @Produces({ "*/*" })
     @ApiOperation(value = "", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake" })
     @ApiResponses(value = { 
@@ -55,17 +88,19 @@ public class FakeApi {
 
     @POST
     @Path("/outer/composite")
+    @Consumes({ "application/json" })
     @Produces({ "*/*" })
     @ApiOperation(value = "", notes = "Test serialization of object with outer number type", response = OuterComposite.class, tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class)
     })
-    public Response fakeOuterCompositeSerialize(@Valid OuterComposite body) {
+    public Response fakeOuterCompositeSerialize(@Valid OuterComposite outerComposite) {
         return Response.ok().entity("magic!").build();
     }
 
     @POST
     @Path("/outer/number")
+    @Consumes({ "application/json" })
     @Produces({ "*/*" })
     @ApiOperation(value = "", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake" })
     @ApiResponses(value = { 
@@ -77,6 +112,7 @@ public class FakeApi {
 
     @POST
     @Path("/outer/string")
+    @Consumes({ "application/json" })
     @Produces({ "*/*" })
     @ApiOperation(value = "", notes = "Test serialization of outer string types", response = String.class, tags={ "fake" })
     @ApiResponses(value = { 
@@ -86,14 +122,59 @@ public class FakeApi {
         return Response.ok().entity("magic!").build();
     }
 
-    @PUT
-    @Path("/body-with-file-schema")
+    @POST
+    @Path("/property/enum-int")
     @Consumes({ "application/json" })
-    @ApiOperation(value = "", notes = "For this test, the body for this request much reference a schema named `File`.", response = Void.class, tags={ "fake" })
+    @Produces({ "*/*" })
+    @ApiOperation(value = "", notes = "Test serialization of enum (int) properties with examples", response = OuterObjectWithEnumProperty.class, tags={ "fake" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Output enum (int)", response = OuterObjectWithEnumProperty.class)
+    })
+    public Response fakePropertyEnumIntegerSerialize(@Valid @NotNull OuterObjectWithEnumProperty outerObjectWithEnumProperty) {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @GET
+    @Path("/tests/defaults")
+    @Produces({ "application/json" })
+    @ApiOperation(value = "test enum default in request body", notes = "", response = FakeTestsDefaultsDefaultResponse.class, tags={ "fake" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "response", response = FakeTestsDefaultsDefaultResponse.class)
+    })
+    public Response fakeTestsDefaults() {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @POST
+    @Path("/additionalProperties-reference")
+    @Consumes({ "application/json" })
+    @ApiOperation(value = "test referenced additionalProperties", notes = "", response = Void.class, tags={ "fake" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Void.class)
+    })
+    public Response testAdditionalPropertiesReference(@Valid @NotNull Map<String, Object> requestBody) {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @PUT
+    @Path("/body-with-binary")
+    @Consumes({ "image/png" })
+    @ApiOperation(value = "", notes = "For this test, the body has to be a binary file.", response = Void.class, tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class)
     })
-    public Response testBodyWithFileSchema(@Valid @NotNull FileSchemaTestClass body) {
+    public Response testBodyWithBinary(@Valid File body) {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @PUT
+    @Path("/body-with-file-schema")
+    @Consumes({ "application/json" })
+    @ApiOperation(value = "", notes = "For this test, the body for this request must reference a schema named `File`.", response = Void.class, tags={ "fake" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success", response = Void.class)
+    })
+    public Response testBodyWithFileSchema(@Valid @NotNull FileSchemaTestClass fileSchemaTestClass) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -104,7 +185,7 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class)
     })
-    public Response testBodyWithQueryParams(@QueryParam("query") @NotNull   String query,@Valid @NotNull User body) {
+    public Response testBodyWithQueryParams(@QueryParam("query") @NotNull   String query,@Valid @NotNull User user) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -115,13 +196,13 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class)
     })
-    public Response testClientModel(@Valid @NotNull Client body) {
+    public Response testClientModel(@Valid @NotNull Client client) {
         return Response.ok().entity("magic!").build();
     }
 
     @POST
     @Consumes({ "application/x-www-form-urlencoded" })
-    @ApiOperation(value = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", notes = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", response = Void.class, authorizations = {
+    @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", response = Void.class, authorizations = {
         
         @Authorization(value = "http_basic_test")
          }, tags={ "fake" })
@@ -143,12 +224,15 @@ public class FakeApi {
         @ApiResponse(code = 400, message = "Invalid request", response = Void.class),
         @ApiResponse(code = 404, message = "Not found", response = Void.class)
     })
-    public Response testEnumParameters(@HeaderParam("enum_header_string_array")   @ApiParam("Header parameter enum test (string array)") List<String> enumHeaderStringArray,@QueryParam("enum_query_string_array")  @ApiParam("Query parameter enum test (string array)")  List<String> enumQueryStringArray,@QueryParam("enum_query_string") @DefaultValue("-efg")  @ApiParam("Query parameter enum test (string)")  String enumQueryString,@QueryParam("enum_query_integer")  @ApiParam("Query parameter enum test (double)")  Integer enumQueryInteger,@QueryParam("enum_query_double")  @ApiParam("Query parameter enum test (double)")  Double enumQueryDouble,@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString) {
+    public Response testEnumParameters(@HeaderParam("enum_header_string_array")   @ApiParam("Header parameter enum test (string array)") List<String> enumHeaderStringArray,@QueryParam("enum_query_string_array")  @ApiParam("Query parameter enum test (string array)")  List<String> enumQueryStringArray,@QueryParam("enum_query_string") @DefaultValue("-efg")  @ApiParam("Query parameter enum test (string)")  String enumQueryString,@QueryParam("enum_query_integer")  @ApiParam("Query parameter enum test (double)")  Integer enumQueryInteger,@QueryParam("enum_query_double")  @ApiParam("Query parameter enum test (double)")  Double enumQueryDouble,@QueryParam("enum_query_model_array")   List<EnumClass> enumQueryModelArray,@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString) {
         return Response.ok().entity("magic!").build();
     }
 
     @DELETE
-    @ApiOperation(value = "Fake endpoint to test group parameters (optional)", notes = "Fake endpoint to test group parameters (optional)", response = Void.class, tags={ "fake" })
+    @ApiOperation(value = "Fake endpoint to test group parameters (optional)", notes = "Fake endpoint to test group parameters (optional)", response = Void.class, authorizations = {
+        
+        @Authorization(value = "bearer_test")
+         }, tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Something wrong", response = Void.class)
     })
@@ -163,7 +247,18 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response testInlineAdditionalProperties(@Valid @NotNull Map<String, String> param) {
+    public Response testInlineAdditionalProperties(@Valid @NotNull Map<String, String> requestBody) {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @POST
+    @Path("/inline-freeform-additionalProperties")
+    @Consumes({ "application/json" })
+    @ApiOperation(value = "test inline free-form additionalProperties", notes = "", response = Void.class, tags={ "fake" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Void.class)
+    })
+    public Response testInlineFreeformAdditionalProperties(@Valid @NotNull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -178,13 +273,35 @@ public class FakeApi {
         return Response.ok().entity("magic!").build();
     }
 
+    @POST
+    @Path("/nullable")
+    @Consumes({ "application/json" })
+    @ApiOperation(value = "test nullable parent property", notes = "", response = Void.class, tags={ "fake" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Void.class)
+    })
+    public Response testNullable(@Valid @NotNull ChildWithNullable childWithNullable) {
+        return Response.ok().entity("magic!").build();
+    }
+
     @PUT
     @Path("/test-query-parameters")
     @ApiOperation(value = "", notes = "To test the collection format in query parameters", response = Void.class, tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class)
     })
-    public Response testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull   List<String> pipe,@QueryParam("ioutil") @NotNull   List<String> ioutil,@QueryParam("http") @NotNull   List<String> http,@QueryParam("url") @NotNull   List<String> url,@QueryParam("context") @NotNull   List<String> context) {
+    public Response testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull   List<String> pipe,@QueryParam("ioutil") @NotNull   List<String> ioutil,@QueryParam("http") @NotNull   List<String> http,@QueryParam("url") @NotNull   List<String> url,@QueryParam("context") @NotNull   List<String> context,@QueryParam("allowEmpty") @NotNull   String allowEmpty,@QueryParam("language")   Map<String, String> language) {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @POST
+    @Path("/stringMap-reference")
+    @Consumes({ "application/json" })
+    @ApiOperation(value = "test referenced string map", notes = "", response = Void.class, tags={ "fake" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Void.class)
+    })
+    public Response testStringMapReference(@Valid @NotNull Map<String, String> requestBody) {
         return Response.ok().entity("magic!").build();
     }
 

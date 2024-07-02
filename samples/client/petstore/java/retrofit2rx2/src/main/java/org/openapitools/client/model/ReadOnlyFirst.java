@@ -25,7 +25,7 @@ import java.io.IOException;
 /**
  * ReadOnlyFirst
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ReadOnlyFirst {
   public static final String SERIALIZED_NAME_BAR = "bar";
   @SerializedName(SERIALIZED_NAME_BAR)
@@ -37,7 +37,9 @@ public class ReadOnlyFirst {
 
   public ReadOnlyFirst() {
   }
-
+  /**
+   * Constructor with only readonly parameters
+   */
   
   public ReadOnlyFirst(
      String bar
@@ -46,16 +48,15 @@ public class ReadOnlyFirst {
     this.bar = bar;
   }
 
-   /**
+  /**
    * Get bar
    * @return bar
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getBar() {
     return bar;
   }
-
 
 
 
@@ -65,10 +66,10 @@ public class ReadOnlyFirst {
     return this;
   }
 
-   /**
+  /**
    * Get baz
    * @return baz
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getBaz() {

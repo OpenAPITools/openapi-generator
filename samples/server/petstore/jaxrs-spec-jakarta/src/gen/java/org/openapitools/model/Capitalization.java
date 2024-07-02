@@ -16,14 +16,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Capitalization")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Capitalization  implements Serializable {
-  private @Valid String smallCamel;
-  private @Valid String capitalCamel;
-  private @Valid String smallSnake;
-  private @Valid String capitalSnake;
-  private @Valid String scAETHFlowPoints;
-  private @Valid String ATT_NAME;
+  private String smallCamel;
+  private String capitalCamel;
+  private String smallSnake;
+  private String capitalSnake;
+  private String scAETHFlowPoints;
+  private String ATT_NAME;
 
   protected Capitalization(CapitalizationBuilder<?, ?> b) {
     this.smallCamel = b.smallCamel;
@@ -206,7 +206,7 @@ public class Capitalization  implements Serializable {
     return new CapitalizationBuilderImpl();
   }
 
-  private static final class CapitalizationBuilderImpl extends CapitalizationBuilder<Capitalization, CapitalizationBuilderImpl> {
+  private static class CapitalizationBuilderImpl extends CapitalizationBuilder<Capitalization, CapitalizationBuilderImpl> {
 
     @Override
     protected CapitalizationBuilderImpl self() {

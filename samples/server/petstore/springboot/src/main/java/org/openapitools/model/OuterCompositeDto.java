@@ -22,7 +22,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("OuterComposite")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class OuterCompositeDto {
 
   private BigDecimal myNumber;
@@ -39,7 +39,7 @@ public class OuterCompositeDto {
   /**
    * Get myNumber
    * @return myNumber
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("my_number")
@@ -59,7 +59,7 @@ public class OuterCompositeDto {
   /**
    * Get myString
    * @return myString
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("my_string")
@@ -79,7 +79,7 @@ public class OuterCompositeDto {
   /**
    * Get myBoolean
    * @return myBoolean
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("my_boolean")

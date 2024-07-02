@@ -19,7 +19,6 @@ package org.openapitools.codegen.examples;
 
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -37,7 +36,7 @@ public class ExampleGenerator {
     private static final String MIME_TYPE_JSON = "application/json";
     private static final String MIME_TYPE_XML = "application/xml";
 
-    protected final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
+    protected final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
 
     private static final String EXAMPLE = "example";
     private static final String CONTENT_TYPE = "contentType";
@@ -57,7 +56,7 @@ public class ExampleGenerator {
         this.openAPI = openAPI;
         // use a fixed seed to make the "random" numbers reproducible.
         this.random = new Random("ExampleGenerator".hashCode());
-        DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
     public List<Map<String, String>> generateFromResponseSchema(String statusCode, Schema responseSchema, Set<String> producesInfo) {
@@ -84,10 +83,9 @@ public class ExampleGenerator {
         }
 
         if (ModelUtils.isArraySchema(responseSchema)) { // array of schema
-            ArraySchema as = (ArraySchema) responseSchema;
-            if (as.getItems() != null) { // array of primitive types
+            if (ModelUtils.getSchemaItems(responseSchema) != null) { // array of primitive types
                 return generate((Map<String, Object>) responseSchema.getExample(),
-                        new ArrayList<>(producesInfo), as);
+                        new ArrayList<>(producesInfo), responseSchema);
             } else {
                 // TODO log warning message as such case is not handled at the moment
                 return null;
@@ -238,7 +236,7 @@ public class ExampleGenerator {
             // When a property is of type Date, we want to ensure that we're returning a formatted Date.
             // And not returning the Date object directly.
             if (property.getExample() instanceof Date) {
-                return DATE_FORMAT.format(property.getExample());
+                return dateFormat.format(property.getExample());
             }
             return property.getExample();
         } else if (ModelUtils.isBooleanSchema(property)) {
@@ -248,9 +246,9 @@ public class ExampleGenerator {
             }
             return Boolean.TRUE;
         } else if (ModelUtils.isArraySchema(property)) {
-            Schema innerType = ((ArraySchema) property).getItems();
+            Schema innerType = ModelUtils.getSchemaItems(property);
             if (innerType != null) {
-                int arrayLength = null == ((ArraySchema) property).getMaxItems() ? 2 : ((ArraySchema) property).getMaxItems();
+                int arrayLength = null == property.getMaxItems() ? 2 :  property.getMaxItems();
                 // avoid memory issues by limiting to max. 5 items
                 arrayLength = Math.min(arrayLength, 5);
                 Object[] objectProperties = new Object[arrayLength];
@@ -365,17 +363,7 @@ public class ExampleGenerator {
             return schema.getExample();
         } else if (ModelUtils.isAllOf(schema) || ModelUtils.isAllOfWithProperties(schema)) {
             LOGGER.debug("Resolving allOf model '{}' to example", name);
-            List<Schema> interfaces = schema.getAllOf();
-            for (Schema composed : interfaces) {
-                traverseSchemaProperties(mediaType, composed, processedModels, values);
-                if (composed.get$ref() != null) {
-                    String ref = ModelUtils.getSimpleRef(composed.get$ref());
-                    Schema resolved = ModelUtils.getSchema(openAPI, ref);
-                    if (resolved != null) {
-                        traverseSchemaProperties(mediaType, resolved, processedModels, values);
-                    }
-                }
-            }
+            resolveAllOfSchemaProperties(mediaType, schema, processedModels, values);
             schema.setExample(values);
             return schema.getExample();
         } else if (ModelUtils.isAnyOf(schema) || ModelUtils.isOneOf(schema)) {
@@ -389,6 +377,8 @@ public class ExampleGenerator {
                 return null;
             }
             return resolvePropertyToExample(name, mediaType, found.get(), processedModels);
+        } else if (ModelUtils.isArraySchema(schema) || ModelUtils.isEnumSchema(schema)) {
+            return resolvePropertyToExample(schema.getName(), mediaType, schema, processedModels);
         } else {
             // TODO log an error message as the model does not have any properties
             return null;
@@ -400,6 +390,29 @@ public class ExampleGenerator {
             for (Object propertyName : schema.getProperties().keySet()) {
                 Schema property = (Schema) schema.getProperties().get(propertyName.toString());
                 values.put(propertyName.toString(), resolvePropertyToExample(propertyName.toString(), mediaType, property, processedModels));
+            }
+        } else if (ModelUtils.isAllOf(schema) || ModelUtils.isAllOfWithProperties(schema)) {
+            resolveAllOfSchemaProperties(mediaType, schema, processedModels, values);
+        }
+    }
+
+    /**
+     * Transverse and resolves all property examples for `allOf` composed schemas into `values` map object
+     * @param mediaType MIME type
+     * @param schema OAS schema
+     * @param processedModels Set containing all processed models
+     * @param values Example value map
+     */
+    private void resolveAllOfSchemaProperties(String mediaType, Schema schema, Set<String> processedModels, Map<String, Object> values) {
+        List<Schema> interfaces = schema.getAllOf();
+        for (Schema composed : interfaces) {
+            traverseSchemaProperties(mediaType, composed, processedModels, values);
+            if (composed.get$ref() != null) {
+                String ref = ModelUtils.getSimpleRef(composed.get$ref());
+                Schema resolved = ModelUtils.getSchema(openAPI, ref);
+                if (resolved != null) {
+                    traverseSchemaProperties(mediaType, resolved, processedModels, values);
+                }
             }
         }
     }

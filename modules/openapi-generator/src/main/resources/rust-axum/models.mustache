@@ -36,10 +36,10 @@ use crate::{models, types::*};
                 {{/maxLength}}
                 {{#pattern}}
                     {{^isByteArray}}
-                    regex = "RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.uppercase}}",
+                      regex(path = *RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.uppercase}}),
                     {{/isByteArray}}
                     {{#isByteArray}}
-                    custom ="validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.lowercase}}"
+                      custom(function = "validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.lowercase}}"),
                     {{/isByteArray}}
                 {{/pattern}}
                 {{#maximum}}
@@ -128,10 +128,10 @@ use crate::{models, types::*};
                     {{/maxLength}}
                     {{#pattern}}
                         {{^isByteArray}}
-                        regex = "RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.uppercase}}",
+                          regex(path = *RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.uppercase}}),
                         {{/isByteArray}}
                         {{#isByteArray}}
-                        custom ="validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.lowercase}}"
+                          custom(function = "validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.lowercase}}"),
                         {{/isByteArray}}
                     {{/pattern}}
                     {{#maximum}}
@@ -232,10 +232,10 @@ use crate::{models, types::*};
                     {{/maxLength}}
                     {{#pattern}}
                         {{^isByteArray}}
-                        regex = "RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.uppercase}}",
+                          regex(path = *RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.uppercase}}),
                         {{/isByteArray}}
                         {{#isByteArray}}
-                        custom ="validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.lowercase}}"
+                          custom(function = "validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.lowercase}}"),
                         {{/isByteArray}}
                     {{/pattern}}
                     {{#maximum}}
@@ -387,9 +387,9 @@ impl std::convert::From<{{{dataType}}}> for {{{classname}}} {
 }
 {{#vendorExtensions.x-is-string}}
 
-impl std::string::ToString for {{{classname}}} {
-    fn to_string(&self) -> String {
-       self.0.to_string()
+impl std::fmt::Display for {{{classname}}} {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+       write!(f, "{:?}", self.0)
     }
 }
 
@@ -424,10 +424,10 @@ impl std::ops::DerefMut for {{{classname}}} {
 /// Converts the {{{classname}}} value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for {{{classname}}} {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for {{{classname}}} {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         // Skipping additionalProperties in query parameter serialization
-        "".to_string()
+        write!(f, "")
     }
 }
 
@@ -517,9 +517,9 @@ impl std::ops::DerefMut for {{{classname}}} {
 /// Converts the {{{classname}}} value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for {{{classname}}} {
-    fn to_string(&self) -> String {
-        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")
+impl std::fmt::Display for {{{classname}}} {
+   fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+       write!(f, "{}", self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","))
     }
 }
 
@@ -639,10 +639,10 @@ pub struct {{{classname}}} {
         {{/maxLength}}
         {{#pattern}}
           {{^isByteArray}}
-           regex = "RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}",
+            regex(path = *RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}),
           {{/isByteArray}}
           {{#isByteArray}}
-           custom ="validate_byte_{{#lambda.lowercase}}{{{classname}}}_{{{name}}}{{/lambda.lowercase}}"
+            custom(function = "validate_byte_{{#lambda.lowercase}}{{{classname}}}_{{{name}}}{{/lambda.lowercase}}"),
           {{/isByteArray}}
         {{/pattern}}
         {{#maximum}}
@@ -726,8 +726,8 @@ impl {{{classname}}} {
 /// Converts the {{{classname}}} value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for {{{classname}}} {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for {{{classname}}} {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
 {{#vars}}
 {{#isByteArray}}
@@ -789,7 +789,7 @@ impl std::string::ToString for {{{classname}}} {
 {{/vars}}
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
     }
 }
 

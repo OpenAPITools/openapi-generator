@@ -17,7 +17,7 @@ import javax.annotation.Generated;
  * A tag for a pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Tag {
 
   private Long id;
@@ -32,7 +32,7 @@ public class Tag {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @JsonProperty("id")
   public Long getId() {
@@ -51,7 +51,7 @@ public class Tag {
   /**
    * Get name
    * @return name
-  */
+   */
   
   @JsonProperty("name")
   public String getName() {

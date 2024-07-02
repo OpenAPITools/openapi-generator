@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Pasta extends Entity {
 
   private String vendor;
@@ -47,7 +47,7 @@ public class Pasta extends Entity {
   /**
    * Get vendor
    * @return vendor
-  */
+   */
   
   @Schema(name = "vendor", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("vendor")
@@ -122,5 +122,96 @@ public class Pasta extends Entity {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder extends Entity.Builder {
+
+    private Pasta instance;
+
+    public Builder() {
+      this(new Pasta());
+    }
+
+    protected Builder(Pasta instance) {
+      super(instance); // the parent builder shares the same instance
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Pasta value) { 
+      super.copyOf(instance);
+      this.instance.setVendor(value.vendor);
+      return this;
+    }
+
+    public Pasta.Builder vendor(String vendor) {
+      this.instance.vendor(vendor);
+      return this;
+    }
+    
+    @Override
+    public Pasta.Builder href(String href) {
+      this.instance.href(href);
+      return this;
+    }
+    
+    @Override
+    public Pasta.Builder id(String id) {
+      this.instance.id(id);
+      return this;
+    }
+    
+    @Override
+    public Pasta.Builder atSchemaLocation(String atSchemaLocation) {
+      this.instance.atSchemaLocation(atSchemaLocation);
+      return this;
+    }
+    
+    @Override
+    public Pasta.Builder atBaseType(String atBaseType) {
+      this.instance.atBaseType(atBaseType);
+      return this;
+    }
+    
+    @Override
+    public Pasta.Builder atType(String atType) {
+      this.instance.atType(atType);
+      return this;
+    }
+    
+    /**
+    * returns a built Pasta instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Pasta build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        super.build();
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Pasta.Builder builder() {
+    return new Pasta.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Pasta.Builder toBuilder() {
+    Pasta.Builder builder = new Pasta.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

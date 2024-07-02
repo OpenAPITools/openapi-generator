@@ -30,7 +30,7 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = Dog.class, name = "Dog")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Animal {
 
   private String className;
@@ -56,7 +56,7 @@ public class Animal {
   /**
    * Get className
    * @return className
-  */
+   */
   @NotNull
   @JsonProperty("className")
   public String getClassName() {
@@ -75,7 +75,7 @@ public class Animal {
   /**
    * Get color
    * @return color
-  */
+   */
   
   @JsonProperty("color")
   public String getColor() {

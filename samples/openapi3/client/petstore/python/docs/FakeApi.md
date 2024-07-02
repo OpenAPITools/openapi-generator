@@ -14,7 +14,15 @@ Method | HTTP request | Description
 [**fake_outer_string_serialize**](FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
 [**fake_property_enum_integer_serialize**](FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int | 
 [**fake_ref_enum_string**](FakeApi.md#fake_ref_enum_string) | **GET** /fake/ref_enum_string | test ref to enum string
+[**fake_return_boolean**](FakeApi.md#fake_return_boolean) | **GET** /fake/return_boolean | test returning boolean
+[**fake_return_byte_like_json**](FakeApi.md#fake_return_byte_like_json) | **GET** /fake/return_byte_like_json | test byte like json
+[**fake_return_enum**](FakeApi.md#fake_return_enum) | **GET** /fake/return_enum | test returning enum
+[**fake_return_enum_like_json**](FakeApi.md#fake_return_enum_like_json) | **GET** /fake/return_enum_like_json | test enum like json
+[**fake_return_float**](FakeApi.md#fake_return_float) | **GET** /fake/return_float | test returning float
+[**fake_return_int**](FakeApi.md#fake_return_int) | **GET** /fake/return_int | test returning int
 [**fake_return_list_of_objects**](FakeApi.md#fake_return_list_of_objects) | **GET** /fake/return_list_of_object | test returning list of objects
+[**fake_return_str_like_json**](FakeApi.md#fake_return_str_like_json) | **GET** /fake/return_str_like_json | test str like json
+[**fake_return_string**](FakeApi.md#fake_return_string) | **GET** /fake/return_string | test returning string
 [**fake_uuid_example**](FakeApi.md#fake_uuid_example) | **GET** /fake/uuid_example | test uuid example
 [**test_additional_properties_reference**](FakeApi.md#test_additional_properties_reference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 [**test_body_with_binary**](FakeApi.md#test_body_with_binary) | **PUT** /fake/body-with-binary | 
@@ -29,6 +37,7 @@ Method | HTTP request | Description
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_inline_freeform_additional_properties**](FakeApi.md#test_inline_freeform_additional_properties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
+[**test_object_for_multipart_requests**](FakeApi.md#test_object_for_multipart_requests) | **POST** /fake/object_for_multipart_requests | 
 [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 [**test_string_map_reference**](FakeApi.md#test_string_map_reference) | **POST** /fake/stringMap-reference | test referenced string map
 
@@ -121,7 +130,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    enum_ref = petstore_api.EnumClass() # EnumClass | enum reference (optional)
+    enum_ref = -efg # EnumClass | enum reference (optional) (default to -efg)
 
     try:
         # test enum reference query parameter
@@ -137,7 +146,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enum_ref** | [**EnumClass**](.md)| enum reference | [optional] 
+ **enum_ref** | [**EnumClass**](.md)| enum reference | [optional] [default to -efg]
 
 ### Return type
 
@@ -623,7 +632,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_property_enum_integer_serialize**
-> OuterObjectWithEnumProperty fake_property_enum_integer_serialize(outer_object_with_enum_property)
+> OuterObjectWithEnumProperty fake_property_enum_integer_serialize(outer_object_with_enum_property, param=param)
 
 
 
@@ -634,6 +643,7 @@ Test serialization of enum (int) properties with examples
 
 ```python
 import petstore_api
+from petstore_api.models.outer_enum_integer import OuterEnumInteger
 from petstore_api.models.outer_object_with_enum_property import OuterObjectWithEnumProperty
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -650,9 +660,10 @@ with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     outer_object_with_enum_property = petstore_api.OuterObjectWithEnumProperty() # OuterObjectWithEnumProperty | Input enum (int) as post body
+    param = [petstore_api.OuterEnumInteger()] # List[OuterEnumInteger] |  (optional)
 
     try:
-        api_response = api_instance.fake_property_enum_integer_serialize(outer_object_with_enum_property)
+        api_response = api_instance.fake_property_enum_integer_serialize(outer_object_with_enum_property, param=param)
         print("The response of FakeApi->fake_property_enum_integer_serialize:\n")
         pprint(api_response)
     except Exception as e:
@@ -667,6 +678,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **outer_object_with_enum_property** | [**OuterObjectWithEnumProperty**](OuterObjectWithEnumProperty.md)| Input enum (int) as post body | 
+ **param** | [**List[OuterEnumInteger]**](OuterEnumInteger.md)|  | [optional] 
 
 ### Return type
 
@@ -751,6 +763,372 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **fake_return_boolean**
+> bool fake_return_boolean()
+
+test returning boolean
+
+### Example
+
+
+```python
+import petstore_api
+from petstore_api.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+
+    try:
+        # test returning boolean
+        api_response = api_instance.fake_return_boolean()
+        print("The response of FakeApi->fake_return_boolean:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling FakeApi->fake_return_boolean: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**bool**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **fake_return_byte_like_json**
+> bytearray fake_return_byte_like_json()
+
+test byte like json
+
+### Example
+
+
+```python
+import petstore_api
+from petstore_api.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+
+    try:
+        # test byte like json
+        api_response = api_instance.fake_return_byte_like_json()
+        print("The response of FakeApi->fake_return_byte_like_json:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling FakeApi->fake_return_byte_like_json: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**bytearray**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: plain/text
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **fake_return_enum**
+> str fake_return_enum()
+
+test returning enum
+
+### Example
+
+
+```python
+import petstore_api
+from petstore_api.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+
+    try:
+        # test returning enum
+        api_response = api_instance.fake_return_enum()
+        print("The response of FakeApi->fake_return_enum:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling FakeApi->fake_return_enum: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**str**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **fake_return_enum_like_json**
+> str fake_return_enum_like_json()
+
+test enum like json
+
+### Example
+
+
+```python
+import petstore_api
+from petstore_api.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+
+    try:
+        # test enum like json
+        api_response = api_instance.fake_return_enum_like_json()
+        print("The response of FakeApi->fake_return_enum_like_json:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling FakeApi->fake_return_enum_like_json: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**str**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: plain/text
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **fake_return_float**
+> float fake_return_float()
+
+test returning float
+
+### Example
+
+
+```python
+import petstore_api
+from petstore_api.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+
+    try:
+        # test returning float
+        api_response = api_instance.fake_return_float()
+        print("The response of FakeApi->fake_return_float:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling FakeApi->fake_return_float: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**float**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **fake_return_int**
+> int fake_return_int()
+
+test returning int
+
+### Example
+
+
+```python
+import petstore_api
+from petstore_api.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+
+    try:
+        # test returning int
+        api_response = api_instance.fake_return_int()
+        print("The response of FakeApi->fake_return_int:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling FakeApi->fake_return_int: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**int**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **fake_return_list_of_objects**
 > List[List[Tag]] fake_return_list_of_objects()
 
@@ -795,6 +1173,128 @@ This endpoint does not need any parameter.
 ### Return type
 
 **List[List[Tag]]**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **fake_return_str_like_json**
+> str fake_return_str_like_json()
+
+test str like json
+
+### Example
+
+
+```python
+import petstore_api
+from petstore_api.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+
+    try:
+        # test str like json
+        api_response = api_instance.fake_return_str_like_json()
+        print("The response of FakeApi->fake_return_str_like_json:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling FakeApi->fake_return_str_like_json: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**str**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: plain/text
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **fake_return_string**
+> str fake_return_string()
+
+test returning string
+
+### Example
+
+
+```python
+import petstore_api
+from petstore_api.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+
+    try:
+        # test returning string
+        api_response = api_instance.fake_return_string()
+        print("The response of FakeApi->fake_return_string:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling FakeApi->fake_return_string: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**str**
 
 ### Authorization
 
@@ -1775,6 +2275,69 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **test_object_for_multipart_requests**
+> test_object_for_multipart_requests(marker)
+
+
+
+### Example
+
+
+```python
+import petstore_api
+from petstore_api.models.test_object_for_multipart_requests_request_marker import TestObjectForMultipartRequestsRequestMarker
+from petstore_api.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+    marker = petstore_api.TestObjectForMultipartRequestsRequestMarker() # TestObjectForMultipartRequestsRequestMarker | 
+
+    try:
+        api_instance.test_object_for_multipart_requests(marker)
+    except Exception as e:
+        print("Exception when calling FakeApi->test_object_for_multipart_requests: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **marker** | [**TestObjectForMultipartRequestsRequestMarker**](TestObjectForMultipartRequestsRequestMarker.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

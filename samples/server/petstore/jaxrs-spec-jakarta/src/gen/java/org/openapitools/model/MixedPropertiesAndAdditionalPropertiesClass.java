@@ -21,10 +21,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
-  private @Valid UUID uuid;
-  private @Valid Date dateTime;
+  private UUID uuid;
+  private Date dateTime;
   private @Valid Map<String, Animal> map = new HashMap<>();
 
   protected MixedPropertiesAndAdditionalPropertiesClass(MixedPropertiesAndAdditionalPropertiesClassBuilder<?, ?> b) {
@@ -84,7 +84,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   
   @ApiModelProperty(value = "")
   @JsonProperty("map")
-  public Map<String, Animal> getMap() {
+  @Valid public Map<String, Animal> getMap() {
     return map;
   }
 
@@ -102,9 +102,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
     return this;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass removeMapItem(Animal mapItem) {
-    if (mapItem != null && this.map != null) {
-      this.map.remove(mapItem);
+  public MixedPropertiesAndAdditionalPropertiesClass removeMapItem(String key) {
+    if (this.map != null) {
+      this.map.remove(key);
     }
 
     return this;
@@ -157,7 +157,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
     return new MixedPropertiesAndAdditionalPropertiesClassBuilderImpl();
   }
 
-  private static final class MixedPropertiesAndAdditionalPropertiesClassBuilderImpl extends MixedPropertiesAndAdditionalPropertiesClassBuilder<MixedPropertiesAndAdditionalPropertiesClass, MixedPropertiesAndAdditionalPropertiesClassBuilderImpl> {
+  private static class MixedPropertiesAndAdditionalPropertiesClassBuilderImpl extends MixedPropertiesAndAdditionalPropertiesClassBuilder<MixedPropertiesAndAdditionalPropertiesClass, MixedPropertiesAndAdditionalPropertiesClassBuilderImpl> {
 
     @Override
     protected MixedPropertiesAndAdditionalPropertiesClassBuilderImpl self() {

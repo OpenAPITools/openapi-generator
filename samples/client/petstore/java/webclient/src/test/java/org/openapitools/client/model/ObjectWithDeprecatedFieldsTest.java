@@ -20,24 +20,24 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.DeprecatedObject;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for ObjectWithDeprecatedFields
  */
-public class ObjectWithDeprecatedFieldsTest {
+class ObjectWithDeprecatedFieldsTest {
     private final ObjectWithDeprecatedFields model = new ObjectWithDeprecatedFields();
 
     /**
      * Model tests for ObjectWithDeprecatedFields
      */
     @Test
-    public void testObjectWithDeprecatedFields() {
+    void testObjectWithDeprecatedFields() {
         // TODO: test ObjectWithDeprecatedFields
     }
 
@@ -45,7 +45,7 @@ public class ObjectWithDeprecatedFieldsTest {
      * Test the property 'uuid'
      */
     @Test
-    public void uuidTest() {
+    void uuidTest() {
         // TODO: test uuid
     }
 
@@ -53,7 +53,7 @@ public class ObjectWithDeprecatedFieldsTest {
      * Test the property 'id'
      */
     @Test
-    public void idTest() {
+    void idTest() {
         // TODO: test id
     }
 
@@ -61,7 +61,7 @@ public class ObjectWithDeprecatedFieldsTest {
      * Test the property 'deprecatedRef'
      */
     @Test
-    public void deprecatedRefTest() {
+    void deprecatedRefTest() {
         // TODO: test deprecatedRef
     }
 
@@ -69,7 +69,7 @@ public class ObjectWithDeprecatedFieldsTest {
      * Test the property 'bars'
      */
     @Test
-    public void barsTest() {
+    void barsTest() {
         // TODO: test bars
     }
 

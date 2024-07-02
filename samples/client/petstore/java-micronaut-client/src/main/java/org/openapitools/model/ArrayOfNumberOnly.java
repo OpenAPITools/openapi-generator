@@ -32,7 +32,7 @@ import javax.annotation.Generated;
   ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
 })
 @JsonTypeName("ArrayOfNumberOnly")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @Introspected
 public class ArrayOfNumberOnly {
     public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
@@ -56,7 +56,7 @@ public class ArrayOfNumberOnly {
     /**
      * Get arrayNumber
      * @return arrayNumber
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

@@ -35,7 +35,7 @@ import javax.validation.Valid;
   MapTest.JSON_PROPERTY_DIRECT_MAP,
   MapTest.JSON_PROPERTY_INDIRECT_MAP
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class MapTest  implements Serializable {
   public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
   @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
@@ -103,7 +103,7 @@ public class MapTest  implements Serializable {
    **/
   @JsonProperty(value = "map_map_of_string")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }

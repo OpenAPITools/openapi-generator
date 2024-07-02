@@ -23,12 +23,14 @@ import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import jakarta.xml.bind.annotation.*;
 import jakarta.xml.bind.annotation.adapters.*;
 
-@XmlAccessorType(XmlAccessType.FIELD)
- @XmlType(name = "ModelApiResponse", propOrder =
-    { "code", "type", "message"
-})
+@XmlType(name = "ModelApiResponse", propOrder =
+    { "code", "type", "message" }
+)
 
-@XmlRootElement(name="ModelApiResponse")
+
+@XmlRootElement(name = "ModelApiResponse")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "ModelApiResponse")
 @JsonPropertyOrder({
   ModelApiResponse.JSON_PROPERTY_CODE,
   ModelApiResponse.JSON_PROPERTY_TYPE,
@@ -37,26 +39,26 @@ import jakarta.xml.bind.annotation.adapters.*;
 @JsonTypeName("ApiResponse")
 /**
   * Describes the result of uploading an image resource
- **/
+  */
 
 public class ModelApiResponse  {
   
   public static final String JSON_PROPERTY_CODE = "code";
-  @XmlElement(name="code")
+  @XmlElement(name = "code")
   private Integer code;
 
   public static final String JSON_PROPERTY_TYPE = "type";
-  @XmlElement(name="type")
+  @XmlElement(name = "type")
   private String type;
 
   public static final String JSON_PROPERTY_MESSAGE = "message";
-  @XmlElement(name="message")
+  @XmlElement(name = "message")
   private String message;
 
- /**
+  /**
    * Get code
    * @return code
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_CODE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "code")
@@ -65,8 +67,8 @@ public class ModelApiResponse  {
   }
 
   /**
-    * Set code
-  **/
+   * Set code
+   */
   @JsonProperty(JSON_PROPERTY_CODE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "code")
@@ -79,10 +81,10 @@ public class ModelApiResponse  {
     return this;
   }
 
- /**
+  /**
    * Get type
    * @return type
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "type")
@@ -91,8 +93,8 @@ public class ModelApiResponse  {
   }
 
   /**
-    * Set type
-  **/
+   * Set type
+   */
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "type")
@@ -105,10 +107,10 @@ public class ModelApiResponse  {
     return this;
   }
 
- /**
+  /**
    * Get message
    * @return message
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "message")
@@ -117,8 +119,8 @@ public class ModelApiResponse  {
   }
 
   /**
-    * Set message
-  **/
+   * Set message
+   */
   @JsonProperty(JSON_PROPERTY_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "message")
@@ -133,8 +135,8 @@ public class ModelApiResponse  {
 
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -158,3 +160,4 @@ public class ModelApiResponse  {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

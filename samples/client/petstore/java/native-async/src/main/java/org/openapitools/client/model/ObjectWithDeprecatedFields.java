@@ -32,6 +32,7 @@ import org.openapitools.client.model.DeprecatedObject;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * ObjectWithDeprecatedFields
  */
@@ -41,7 +42,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   ObjectWithDeprecatedFields.JSON_PROPERTY_DEPRECATED_REF,
   ObjectWithDeprecatedFields.JSON_PROPERTY_BARS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ObjectWithDeprecatedFields {
   public static final String JSON_PROPERTY_UUID = "uuid";
   private String uuid;
@@ -53,7 +54,7 @@ public class ObjectWithDeprecatedFields {
   private DeprecatedObject deprecatedRef;
 
   public static final String JSON_PROPERTY_BARS = "bars";
-  private List<String> bars;
+  private List<String> bars = new ArrayList<>();
 
   public ObjectWithDeprecatedFields() { 
   }
@@ -63,14 +64,13 @@ public class ObjectWithDeprecatedFields {
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getUuid() {
     return uuid;
   }
@@ -88,16 +88,15 @@ public class ObjectWithDeprecatedFields {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
    * @deprecated
-  **/
+   */
   @Deprecated
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public BigDecimal getId() {
     return id;
   }
@@ -115,16 +114,15 @@ public class ObjectWithDeprecatedFields {
     return this;
   }
 
-   /**
+  /**
    * Get deprecatedRef
    * @return deprecatedRef
    * @deprecated
-  **/
+   */
   @Deprecated
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DEPRECATED_REF)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public DeprecatedObject getDeprecatedRef() {
     return deprecatedRef;
   }
@@ -150,16 +148,15 @@ public class ObjectWithDeprecatedFields {
     return this;
   }
 
-   /**
+  /**
    * Get bars
    * @return bars
    * @deprecated
-  **/
+   */
   @Deprecated
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BARS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<String> getBars() {
     return bars;
   }
@@ -252,12 +249,12 @@ public class ObjectWithDeprecatedFields {
 
     // add `uuid` to the URL query string
     if (getUuid() != null) {
-      joiner.add(String.format("%suuid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUuid()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%suuid%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getUuid()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `id` to the URL query string
     if (getId() != null) {
-      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `deprecatedRef` to the URL query string
@@ -270,7 +267,7 @@ public class ObjectWithDeprecatedFields {
       for (int i = 0; i < getBars().size(); i++) {
         joiner.add(String.format("%sbars%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(String.valueOf(getBars().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            URLEncoder.encode(ApiClient.valueToString(getBars().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 

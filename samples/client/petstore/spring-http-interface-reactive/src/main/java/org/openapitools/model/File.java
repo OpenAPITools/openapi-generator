@@ -16,7 +16,7 @@ import jakarta.annotation.Generated;
  * Must be named &#x60;File&#x60; for test.
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class File {
 
   private String sourceURI;
@@ -29,7 +29,7 @@ public class File {
   /**
    * Test capitalization
    * @return sourceURI
-  */
+   */
   
   @JsonProperty("sourceURI")
   public String getSourceURI() {

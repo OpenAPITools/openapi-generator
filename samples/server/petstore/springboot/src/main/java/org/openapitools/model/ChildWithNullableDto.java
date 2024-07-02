@@ -29,7 +29,7 @@ import javax.annotation.Generated;
 
 
 @JsonTypeName("ChildWithNullable")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ChildWithNullableDto extends ParentWithNullableDto {
 
   private String otherProperty;
@@ -42,7 +42,7 @@ public class ChildWithNullableDto extends ParentWithNullableDto {
   /**
    * Get otherProperty
    * @return otherProperty
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("otherProperty")

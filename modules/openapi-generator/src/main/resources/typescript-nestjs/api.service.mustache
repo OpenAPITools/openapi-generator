@@ -2,23 +2,49 @@
 /* tslint:disable:no-unused-variable member-ordering */
 
 {{#useAxiosHttpModule}}
-import { Inject, Injectable, Optional } from '@nestjs/common';
+import { Injectable, Optional } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 {{/useAxiosHttpModule}}
 {{^useAxiosHttpModule}}
-import { HttpService, Inject, Injectable, Optional } from '@nestjs/common';
+import { HttpService, Injectable, Optional } from '@nestjs/common';
 {{/useAxiosHttpModule}}
 import { AxiosResponse } from 'axios';
-import { Observable } from 'rxjs';
+import { Observable, from, of, switchMap } from 'rxjs';
 {{#imports}}
 import { {{classname}} } from '../{{filename}}';
 {{/imports}}
 import { Configuration } from '../configuration';
+import { COLLECTION_FORMATS } from '../variables';
 {{#withInterfaces}}
 import { {{classname}}Interface } from './{{classFilename}}Interface';
 {{/withInterfaces}}
 
 {{#operations}}
+{{#useSingleRequestParameter}}
+{{#operation}}
+{{#allParams.0}}
+/**
+ * Request parameters for {{nickname}} operation in {{classname}}.
+ * @export
+ * @interface {{classname}}{{operationIdCamelCase}}Request
+ */
+export interface {{classname}}{{operationIdCamelCase}}Request {
+    {{#allParams}}
+    /**
+     * {{description}}
+     * @type {{=<% %>=}}{<%&dataType%>}<%={{ }}=%>
+     * @memberof {{classname}}{{operationIdCamelCase}}
+     */
+    readonly {{paramName}}{{^required}}?{{/required}}: {{{dataType}}}
+    {{^-last}}
+
+    {{/-last}}
+    {{/allParams}}
+}
+
+{{/allParams.0}}
+{{/operation}}
+{{/useSingleRequestParameter}}
 
 {{#description}}
 /**
@@ -55,14 +81,36 @@ export class {{classname}} {
     /**
      * {{summary}}
      * {{notes}}
+     {{#useSingleRequestParameter}}
+     {{#allParams.0}}
+     * @param {{=<% %>=}}{<%& classname %><%& operationIdCamelCase %>Request}<%={{ }}=%> requestParameters Request parameters.
+     {{/allParams.0}}
+     {{/useSingleRequestParameter}}
+     {{^useSingleRequestParameter}}
      {{#allParams}}* @param {{paramName}} {{description}}
      {{/allParams}}* @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
+     {{/useSingleRequestParameter}}
      */
+    {{#useSingleRequestParameter}}
+    public {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}): Observable<AxiosResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
+    public {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}): Observable<any> {
+    {{/useSingleRequestParameter}}
+    {{^useSingleRequestParameter}}
     public {{nickname}}({{#allParams}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/allParams}}): Observable<AxiosResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
     public {{nickname}}({{#allParams}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/allParams}}): Observable<any> {
-{{#allParams}}
+    {{/useSingleRequestParameter}}
+{{#allParams.0}}
+{{#useSingleRequestParameter}}
+        const {
+        {{#allParams}}
+            {{paramName}},
+        {{/allParams}}
+        } = requestParameters;
 
+{{/useSingleRequestParameter}}
+{{/allParams.0}}
+{{#allParams}}
 {{#required}}
         {{#isConstEnumParam}}
         let {{paramName}} = {{{dataType}}};
@@ -71,10 +119,10 @@ export class {{classname}} {
         if ({{paramName}} === null || {{paramName}} === undefined) {
             throw new Error('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
         }
+
         {{/isConstEnumParam}}
 {{/required}}
 {{/allParams}}
-
 {{#hasQueryParams}}
         let queryParameters = new URLSearchParams();
 {{#queryParams}}
@@ -117,6 +165,8 @@ export class {{classname}} {
         {{/isArray}}
 {{/headerParams}}
 
+        let accessTokenObservable: Observable<any> = of(null);
+
 {{#authMethods}}
         // authentication ({{name}}) required
 {{#isApiKey}}
@@ -144,17 +194,16 @@ export class {{classname}} {
 {{/isBasicBasic}}
 {{#isBasicBearer}}
         if (typeof this.configuration.accessToken === 'function') {
-            headers['Authorization'] = `Bearer ${this.configuration.accessToken()}`;
+            accessTokenObservable = from(Promise.resolve(this.configuration.accessToken()));
         } else if (this.configuration.accessToken) {
-            headers['Authorization'] = `Bearer ${this.configuration.accessToken}`;
+            accessTokenObservable = from(Promise.resolve(this.configuration.accessToken));
         }
 {{/isBasicBearer}}
 {{#isOAuth}}
         if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers['Authorization'] = 'Bearer ' + accessToken;
+            accessTokenObservable = typeof this.configuration.accessToken === 'function'
+                ? from(Promise.resolve(this.configuration.accessToken()))
+                : from(Promise.resolve(this.configuration.accessToken))
         }
 
 {{/isOAuth}}
@@ -208,34 +257,42 @@ export class {{classname}} {
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
             {{paramName}}.forEach((element) => {
-                formParams.append('{{baseName}}', <any>element);
+                formParams!.append('{{baseName}}', <any>element);
             })
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
-            formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+            formParams!.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
         {{/isCollectionFormatMulti}}
         }
         {{/isArray}}
         {{^isArray}}
         if ({{paramName}} !== undefined) {
-            formParams.append('{{baseName}}', <any>{{paramName}});
+            formParams!.append('{{baseName}}', <any>{{paramName}});
         }
         {{/isArray}}
 {{/formParams}}
 
 {{/hasFormParams}}
-        return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.basePath}{{{path}}}`,{{#isBodyAllowed}}
-            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
-            {
-{{#hasQueryParams}}
-                params: queryParameters,
-{{/hasQueryParams}}
-{{#isResponseFile}}
-                responseType: "blob",
-{{/isResponseFile}}
-                withCredentials: this.configuration.withCredentials,
-                headers: headers
-            }
+        return accessTokenObservable.pipe(
+            switchMap((accessToken) => {
+                if (accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
+                }
+
+                return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.basePath}{{{path}}}`,{{#isBodyAllowed}}
+                    {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams!.toString() : formParams!{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
+                    {
+        {{#hasQueryParams}}
+                        params: queryParameters,
+        {{/hasQueryParams}}
+        {{#isResponseFile}}
+                        responseType: "blob",
+        {{/isResponseFile}}
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
         );
     }
 {{/operation}}

@@ -185,16 +185,16 @@ public final class CodegenConfiguratorUtils {
         }
     }
 
-    public static void applyOpenAPINormalizerKvpList(List<String> openapiNormalizer, CodegenConfigurator configurator) {
+    public static void applyOpenapiNormalizerKvpList(List<String> openapiNormalizer, CodegenConfigurator configurator) {
         for (String propString : openapiNormalizer) {
-            applyOpenAPINormalizerKvp(propString, configurator);
+            applyOpenapiNormalizerKvp(propString, configurator);
         }
     }
 
-    public static void applyOpenAPINormalizerKvp(String openapiNormalizer, CodegenConfigurator configurator) {
+    public static void applyOpenapiNormalizerKvp(String openapiNormalizer, CodegenConfigurator configurator) {
         final Map<String, String> map = createMapFromKeyValuePairs(openapiNormalizer);
         for (Map.Entry<String, String> entry : map.entrySet()) {
-            configurator.addOpenAPINormalizer(entry.getKey().trim(), entry.getValue().trim());
+            configurator.addOpenapiNormalizer(entry.getKey().trim(), entry.getValue().trim());
         }
     }
 
@@ -250,16 +250,16 @@ public final class CodegenConfiguratorUtils {
         }
     }
 
-    public static void applyOpenAPIGeneratorIgnoreListCsvList(List<String> openapiGeneratorIgnoreList, CodegenConfigurator configurator) {
+    public static void applyOpenapiGeneratorIgnoreListCsvList(List<String> openapiGeneratorIgnoreList, CodegenConfigurator configurator) {
         for (String propString : openapiGeneratorIgnoreList) {
-            applyOpenAPIGeneratorIgnoreListCsv(propString, configurator);
+            applyOpenapiGeneratorIgnoreListCsv(propString, configurator);
         }
     }
 
-    public static void applyOpenAPIGeneratorIgnoreListCsv(String openapiGeneratorIgnoreList, CodegenConfigurator configurator) {
+    public static void applyOpenapiGeneratorIgnoreListCsv(String openapiGeneratorIgnoreList, CodegenConfigurator configurator) {
         final Set<String> set = createSetFromCsvList(openapiGeneratorIgnoreList);
         for (String item : set) {
-            configurator.addOpenAPIGeneratorIgnoreList(item);
+            configurator.addOpenapiGeneratorIgnoreList(item);
         }
     }
 

@@ -33,12 +33,19 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
   private List<BigDecimal> arrayNumber;
 
   public ArrayOfNumberOnly() {
+  }
+
+  /**
+   * Constructor with all args parameters
+   */
+  public ArrayOfNumberOnly(@JsonProperty(JSON_PROPERTY_ARRAY_NUMBER) List<BigDecimal> arrayNumber) {
+    this.arrayNumber = arrayNumber;
   }
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
@@ -55,10 +62,10 @@ public class ArrayOfNumberOnly {
     return this;
   }
 
-   /**
+  /**
    * Get arrayNumber
    * @return arrayNumber
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -110,6 +117,60 @@ public class ArrayOfNumberOnly {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder {
+
+    private ArrayOfNumberOnly instance;
+
+    public Builder() {
+      this(new ArrayOfNumberOnly());
+    }
+
+    protected Builder(ArrayOfNumberOnly instance) {
+      this.instance = instance;
+    }
+
+    public ArrayOfNumberOnly.Builder arrayNumber(List<BigDecimal> arrayNumber) {
+      this.instance.arrayNumber = arrayNumber;
+      return this;
+    }
+
+
+    /**
+    * returns a built ArrayOfNumberOnly instance.
+    *
+    * The builder is not reusable.
+    */
+    public ArrayOfNumberOnly build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ArrayOfNumberOnly.Builder builder() {
+    return new ArrayOfNumberOnly.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ArrayOfNumberOnly.Builder toBuilder() {
+    return new ArrayOfNumberOnly.Builder()
+      .arrayNumber(getArrayNumber());
+  }
+
 
 }
 

@@ -28,7 +28,7 @@ import javax.annotation.Generated;
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Pet {
 
   private Optional<Long> id = Optional.empty();
@@ -41,7 +41,7 @@ public class Pet {
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   @Valid
-  private List<@Valid Tag> tags;
+  private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -103,7 +103,7 @@ public class Pet {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
@@ -123,7 +123,7 @@ public class Pet {
   /**
    * Get category
    * @return category
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("category")
@@ -143,7 +143,7 @@ public class Pet {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull 
   @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty("name")
@@ -171,7 +171,7 @@ public class Pet {
   /**
    * Get photoUrls
    * @return photoUrls
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("photoUrls")
@@ -200,7 +200,7 @@ public class Pet {
   /**
    * Get tags
    * @return tags
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
@@ -221,7 +221,7 @@ public class Pet {
    * pet status in the store
    * @return status
    * @deprecated
-  */
+   */
   
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
@@ -232,7 +232,7 @@ public class Pet {
 
   /**
    * @deprecated
-  */
+   */
   @Deprecated
   public void setStatus(Optional<StatusEnum> status) {
     this.status = status;
@@ -284,5 +284,94 @@ public class Pet {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private Pet instance;
+
+    public Builder() {
+      this(new Pet());
+    }
+
+    protected Builder(Pet instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Pet value) { 
+      this.instance.setId(value.id);
+      this.instance.setCategory(value.category);
+      this.instance.setName(value.name);
+      this.instance.setPhotoUrls(value.photoUrls);
+      this.instance.setTags(value.tags);
+      this.instance.setStatus(value.status);
+      return this;
+    }
+
+    public Pet.Builder id(Long id) {
+      this.instance.id(id);
+      return this;
+    }
+    
+    public Pet.Builder category(Category category) {
+      this.instance.category(category);
+      return this;
+    }
+    
+    public Pet.Builder name(String name) {
+      this.instance.name(name);
+      return this;
+    }
+    
+    public Pet.Builder photoUrls(Set<String> photoUrls) {
+      this.instance.photoUrls(photoUrls);
+      return this;
+    }
+    
+    public Pet.Builder tags(List<@Valid Tag> tags) {
+      this.instance.tags(tags);
+      return this;
+    }
+    
+    @Deprecated
+    public Pet.Builder status(StatusEnum status) {
+      this.instance.status(status);
+      return this;
+    }
+    
+    /**
+    * returns a built Pet instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Pet build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Pet.Builder builder() {
+    return new Pet.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Pet.Builder toBuilder() {
+    Pet.Builder builder = new Pet.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

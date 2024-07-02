@@ -43,7 +43,7 @@ import javax.validation.Valid;
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE2,
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE3
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class AdditionalPropertiesClass  implements Serializable {
   public static final String JSON_PROPERTY_MAP_STRING = "map_string";
   @JsonProperty(JSON_PROPERTY_MAP_STRING)
@@ -220,7 +220,7 @@ public class AdditionalPropertiesClass  implements Serializable {
    **/
   @JsonProperty(value = "map_array_integer")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
   }
@@ -248,7 +248,7 @@ public class AdditionalPropertiesClass  implements Serializable {
    **/
   @JsonProperty(value = "map_array_anytype")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
   }
@@ -276,7 +276,7 @@ public class AdditionalPropertiesClass  implements Serializable {
    **/
   @JsonProperty(value = "map_map_string")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
   }
@@ -304,7 +304,7 @@ public class AdditionalPropertiesClass  implements Serializable {
    **/
   @JsonProperty(value = "map_map_anytype")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
   }

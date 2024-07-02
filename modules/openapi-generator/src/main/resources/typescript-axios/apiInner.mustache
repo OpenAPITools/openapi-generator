@@ -18,10 +18,10 @@ import FormData from 'form-data'
 // @ts-ignore
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from '{{apiRelativeToRoot}}common';
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError, operationServerMap } from '{{apiRelativeToRoot}}base';
+import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '{{apiRelativeToRoot}}base';
 {{#imports}}
 // @ts-ignore
-import { {{classname}} } from '{{apiRelativeToRoot}}{{tsModelPackage}}';
+import type { {{classname}} } from '{{apiRelativeToRoot}}{{tsModelPackage}}';
 {{/imports}}
 {{/withSeparateModelsAndApi}}
 {{^withSeparateModelsAndApi}}
@@ -189,18 +189,24 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             {{#isArray}}
             if ({{paramName}}) {
             {{#isCollectionFormatMulti}}
+              {{#contentType}}
+                localVarFormParams.append('{{baseName}}', new Blob([JSON.stringify({{paramName}})], { type: "{{contentType}}", }));
+              {{/contentType}}
+              {{^contentType}}
                 {{paramName}}.forEach((element) => {
-                    localVarFormParams.{{#multipartFormData}}append{{/multipartFormData}}{{^multipartFormData}}set{{/multipartFormData}}('{{baseName}}', element as any);
+                    localVarFormParams.{{#multipartFormData}}append{{/multipartFormData}}{{^multipartFormData}}set{{/multipartFormData}}('{{baseName}}{{#useSquareBracketsInArrayNames}}[]{{/useSquareBracketsInArrayNames}}', element as any);
                 })
+              {{/contentType}}
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-                localVarFormParams.{{#multipartFormData}}append{{/multipartFormData}}{{^multipartFormData}}set{{/multipartFormData}}('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}}));
+                localVarFormParams.{{#multipartFormData}}append{{/multipartFormData}}{{^multipartFormData}}set{{/multipartFormData}}('{{baseName}}{{#useSquareBracketsInArrayNames}}[]{{/useSquareBracketsInArrayNames}}', {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}}));
             {{/isCollectionFormatMulti}}
             }{{/isArray}}
             {{^isArray}}
             if ({{paramName}} !== undefined) { {{^multipartFormData}}
-                localVarFormParams.set('{{baseName}}', {{paramName}} as any);{{/multipartFormData}}{{#multipartFormData}}{{#isPrimitiveType}}
-                localVarFormParams.append('{{baseName}}', {{paramName}} as any);{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isEnumRef}}
+                localVarFormParams.set('{{baseName}}', {{paramName}} as any);{{/multipartFormData}}{{#multipartFormData}}{{#isPrimitiveType}}{{^isBoolean}}
+                localVarFormParams.append('{{baseName}}', {{paramName}} as any);{{/isBoolean}}{{/isPrimitiveType}}{{#isPrimitiveType}}{{#isBoolean}}
+                localVarFormParams.append('{{baseName}}', String({{paramName}}) as any);{{/isBoolean}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isEnumRef}}
                 localVarFormParams.append('{{baseName}}', {{paramName}} as any);{{/isEnumRef}}{{^isEnumRef}}
                 localVarFormParams.append('{{baseName}}', new Blob([JSON.stringify({{paramName}})], { type: "application/json", }));{{/isEnumRef}}{{/isPrimitiveType}}{{/multipartFormData}}
             }{{/isArray}}
@@ -302,7 +308,7 @@ export const {{classname}}Factory = function (configuration?: Configuration, bas
         },
         {{/useSingleRequestParameter}}
         {{^useSingleRequestParameter}}
-        {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}, {{/allParams}}options?: any): AxiosPromise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
+        {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}, {{/allParams}}options?: RawAxiosRequestConfig): AxiosPromise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
             return localVarFp.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options).then((request) => request(axios, basePath));
         },
         {{/useSingleRequestParameter}}

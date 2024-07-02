@@ -23,6 +23,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -35,7 +37,7 @@ import org.openapitools.client.JSON;
   Whale.JSON_PROPERTY_CLASS_NAME
 })
 @JsonTypeName("whale")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Whale {
   public static final String JSON_PROPERTY_HAS_BALEEN = "hasBaleen";
   private Boolean hasBaleen;
@@ -54,11 +56,12 @@ public class Whale {
     return this;
   }
 
-   /**
+  /**
    * Get hasBaleen
    * @return hasBaleen
-  **/
+   */
   @jakarta.annotation.Nullable
+
   @JsonProperty(JSON_PROPERTY_HAS_BALEEN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -79,11 +82,12 @@ public class Whale {
     return this;
   }
 
-   /**
+  /**
    * Get hasTeeth
    * @return hasTeeth
-  **/
+   */
   @jakarta.annotation.Nullable
+
   @JsonProperty(JSON_PROPERTY_HAS_TEETH)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -104,11 +108,13 @@ public class Whale {
     return this;
   }
 
-   /**
+  /**
    * Get className
    * @return className
-  **/
+   */
   @jakarta.annotation.Nonnull
+  @NotNull
+
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 

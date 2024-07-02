@@ -10,6 +10,7 @@ To see how to make this your own, look here:
 [README]((https://openapi-generator.tech))
 
 - API version: 1.0.0
+- Generator version: 7.8.0-SNAPSHOT
 
 ## QHTTPEngine
 

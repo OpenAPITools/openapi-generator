@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Enum_Test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class EnumTestDto {
 
   /**
@@ -177,6 +177,10 @@ public class EnumTestDto {
 
   private OuterEnumDto outerEnum;
 
+  public EnumTestDto() {
+    super();
+  }
+
   public EnumTestDto enumString(EnumStringEnum enumString) {
     this.enumString = enumString;
     return this;
@@ -185,7 +189,7 @@ public class EnumTestDto {
   /**
    * Get enumString
    * @return enumString
-  */
+   */
   
   @JsonProperty("enum_string")
   public EnumStringEnum getEnumString() {
@@ -204,7 +208,7 @@ public class EnumTestDto {
   /**
    * Get enumStringRequired
    * @return enumStringRequired
-  */
+   */
   @NotNull
   @JsonProperty("enum_string_required")
   public EnumStringRequiredEnum getEnumStringRequired() {
@@ -223,7 +227,7 @@ public class EnumTestDto {
   /**
    * Get enumInteger
    * @return enumInteger
-  */
+   */
   
   @JsonProperty("enum_integer")
   public EnumIntegerEnum getEnumInteger() {
@@ -242,7 +246,7 @@ public class EnumTestDto {
   /**
    * Get enumNumber
    * @return enumNumber
-  */
+   */
   
   @JsonProperty("enum_number")
   public EnumNumberEnum getEnumNumber() {
@@ -261,7 +265,7 @@ public class EnumTestDto {
   /**
    * Get outerEnum
    * @return outerEnum
-  */
+   */
   
   @JsonProperty("outerEnum")
   public OuterEnumDto getOuterEnum() {

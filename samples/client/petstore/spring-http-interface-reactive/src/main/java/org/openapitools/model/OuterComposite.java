@@ -17,7 +17,7 @@ import jakarta.annotation.Generated;
  * OuterComposite
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class OuterComposite {
 
   private BigDecimal myNumber;
@@ -34,7 +34,7 @@ public class OuterComposite {
   /**
    * Get myNumber
    * @return myNumber
-  */
+   */
   
   @JsonProperty("my_number")
   public BigDecimal getMyNumber() {
@@ -53,7 +53,7 @@ public class OuterComposite {
   /**
    * Get myString
    * @return myString
-  */
+   */
   
   @JsonProperty("my_string")
   public String getMyString() {
@@ -72,7 +72,7 @@ public class OuterComposite {
   /**
    * Get myBoolean
    * @return myBoolean
-  */
+   */
   
   @JsonProperty("my_boolean")
   public Boolean getMyBoolean() {

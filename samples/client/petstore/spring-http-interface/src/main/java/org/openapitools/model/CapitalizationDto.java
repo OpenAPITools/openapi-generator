@@ -18,7 +18,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Capitalization")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class CapitalizationDto {
 
   private String smallCamel;
@@ -41,7 +41,7 @@ public class CapitalizationDto {
   /**
    * Get smallCamel
    * @return smallCamel
-  */
+   */
   
   @JsonProperty("smallCamel")
   public String getSmallCamel() {
@@ -60,7 +60,7 @@ public class CapitalizationDto {
   /**
    * Get capitalCamel
    * @return capitalCamel
-  */
+   */
   
   @JsonProperty("CapitalCamel")
   public String getCapitalCamel() {
@@ -79,7 +79,7 @@ public class CapitalizationDto {
   /**
    * Get smallSnake
    * @return smallSnake
-  */
+   */
   
   @JsonProperty("small_Snake")
   public String getSmallSnake() {
@@ -98,7 +98,7 @@ public class CapitalizationDto {
   /**
    * Get capitalSnake
    * @return capitalSnake
-  */
+   */
   
   @JsonProperty("Capital_Snake")
   public String getCapitalSnake() {
@@ -117,7 +117,7 @@ public class CapitalizationDto {
   /**
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
-  */
+   */
   
   @JsonProperty("SCA_ETH_Flow_Points")
   public String getScAETHFlowPoints() {
@@ -136,7 +136,7 @@ public class CapitalizationDto {
   /**
    * Name of the pet 
    * @return ATT_NAME
-  */
+   */
   
   @JsonProperty("ATT_NAME")
   public String getATTNAME() {

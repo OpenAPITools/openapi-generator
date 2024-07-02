@@ -22,7 +22,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("TypeHolderDefault")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class TypeHolderDefaultDto {
 
   private String stringItem = "what";
@@ -36,6 +36,10 @@ public class TypeHolderDefaultDto {
   
   private List<Integer> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
 
+  public TypeHolderDefaultDto() {
+    super();
+  }
+
   public TypeHolderDefaultDto stringItem(String stringItem) {
     this.stringItem = stringItem;
     return this;
@@ -44,7 +48,7 @@ public class TypeHolderDefaultDto {
   /**
    * Get stringItem
    * @return stringItem
-  */
+   */
   @NotNull
   @JsonProperty("string_item")
   public String getStringItem() {
@@ -63,7 +67,7 @@ public class TypeHolderDefaultDto {
   /**
    * Get numberItem
    * @return numberItem
-  */
+   */
   @NotNull
   @JsonProperty("number_item")
   public BigDecimal getNumberItem() {
@@ -82,7 +86,7 @@ public class TypeHolderDefaultDto {
   /**
    * Get integerItem
    * @return integerItem
-  */
+   */
   @NotNull
   @JsonProperty("integer_item")
   public Integer getIntegerItem() {
@@ -101,7 +105,7 @@ public class TypeHolderDefaultDto {
   /**
    * Get boolItem
    * @return boolItem
-  */
+   */
   @NotNull
   @JsonProperty("bool_item")
   public Boolean getBoolItem() {
@@ -128,7 +132,7 @@ public class TypeHolderDefaultDto {
   /**
    * Get arrayItem
    * @return arrayItem
-  */
+   */
   @NotNull
   @JsonProperty("array_item")
   public List<Integer> getArrayItem() {

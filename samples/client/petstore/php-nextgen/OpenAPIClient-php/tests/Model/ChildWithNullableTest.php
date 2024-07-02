@@ -76,7 +76,7 @@ class ChildWithNullableTest extends TestCase
     public function testChildWithNullable()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,6 +85,6 @@ class ChildWithNullableTest extends TestCase
     public function testPropertyOtherProperty()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

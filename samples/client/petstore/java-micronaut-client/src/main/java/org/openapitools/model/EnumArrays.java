@@ -32,7 +32,7 @@ import javax.annotation.Generated;
   EnumArrays.JSON_PROPERTY_ARRAY_ENUM
 })
 @JsonTypeName("EnumArrays")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @Introspected
 public class EnumArrays {
     /**
@@ -117,7 +117,7 @@ public class EnumArrays {
     /**
      * Get justSymbol
      * @return justSymbol
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -147,7 +147,7 @@ public class EnumArrays {
     /**
      * Get arrayEnum
      * @return arrayEnum
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

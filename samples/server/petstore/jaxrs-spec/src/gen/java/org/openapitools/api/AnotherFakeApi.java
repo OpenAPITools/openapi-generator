@@ -1,7 +1,6 @@
 package org.openapitools.api;
 
 import org.openapitools.model.Client;
-import java.util.UUID;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -19,7 +18,7 @@ import javax.validation.Valid;
 */
 @Path("/another-fake/dummy")
 @Api(description = "the another-fake API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class AnotherFakeApi {
 
     @PATCH
@@ -29,7 +28,7 @@ public class AnotherFakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class)
     })
-    public Response call123testSpecialTags(@HeaderParam("uuid_test") @NotNull   @ApiParam("to test uuid example value") UUID uuidTest,@Valid @NotNull Client body) {
+    public Response call123testSpecialTags(@Valid @NotNull Client client) {
         return Response.ok().entity("magic!").build();
     }
 }

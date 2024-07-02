@@ -22,7 +22,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("Enum_Test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class EnumTest {
 
   /**
@@ -179,6 +179,10 @@ public class EnumTest {
 
   private OuterEnum outerEnum;
 
+  public EnumTest() {
+    super();
+  }
+
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = enumString;
     return this;
@@ -187,7 +191,7 @@ public class EnumTest {
   /**
    * Get enumString
    * @return enumString
-  */
+   */
   
   @Schema(name = "enum_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("enum_string")
@@ -207,7 +211,7 @@ public class EnumTest {
   /**
    * Get enumStringRequired
    * @return enumStringRequired
-  */
+   */
   @NotNull 
   @Schema(name = "enum_string_required", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("enum_string_required")
@@ -227,7 +231,7 @@ public class EnumTest {
   /**
    * Get enumInteger
    * @return enumInteger
-  */
+   */
   
   @Schema(name = "enum_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("enum_integer")
@@ -247,7 +251,7 @@ public class EnumTest {
   /**
    * Get enumNumber
    * @return enumNumber
-  */
+   */
   
   @Schema(name = "enum_number", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("enum_number")
@@ -267,7 +271,7 @@ public class EnumTest {
   /**
    * Get outerEnum
    * @return outerEnum
-  */
+   */
   @Valid 
   @Schema(name = "outerEnum", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("outerEnum")

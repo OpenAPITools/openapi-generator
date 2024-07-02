@@ -30,7 +30,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public abstract class FakeApiService {
     public abstract Response fakeBigDecimalMap(SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakeHealthGet(SecurityContext securityContext) throws NotFoundException;
@@ -46,7 +46,7 @@ public abstract class FakeApiService {
     public abstract Response testBodyWithQueryParams( @NotNull String query,User user,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testClientModel(Client client,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testEndpointParameters(BigDecimal number,Double _double,String patternWithoutDelimiter,byte[] _byte,Integer integer,Integer int32,Long int64,Float _float,String string,FormDataBodyPart binaryBodypart,Date date,Date dateTime,String password,String paramCallback,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response testEnumParameters(List<String> enumHeaderStringArray,String enumHeaderString,List<String> enumQueryStringArray,String enumQueryString,Integer enumQueryInteger,Double enumQueryDouble,List<@Valid EnumClass> enumQueryModelArray,List<String> enumFormStringArray,String enumFormString,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response testEnumParameters(List<String> enumHeaderStringArray,String enumHeaderString,List<String> enumQueryStringArray,String enumQueryString,Integer enumQueryInteger,Double enumQueryDouble,List<EnumClass> enumQueryModelArray,List<String> enumFormStringArray,String enumFormString,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testGroupParameters( @NotNull Integer requiredStringGroup, @NotNull Boolean requiredBooleanGroup, @NotNull Long requiredInt64Group,Integer stringGroup,Boolean booleanGroup,Long int64Group,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testInlineAdditionalProperties(Map<String, String> requestBody,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest,SecurityContext securityContext) throws NotFoundException;

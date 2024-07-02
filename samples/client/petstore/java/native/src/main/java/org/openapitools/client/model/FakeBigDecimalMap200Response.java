@@ -31,6 +31,7 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * FakeBigDecimalMap200Response
  */
@@ -38,7 +39,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   FakeBigDecimalMap200Response.JSON_PROPERTY_SOME_ID,
   FakeBigDecimalMap200Response.JSON_PROPERTY_SOME_MAP
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class FakeBigDecimalMap200Response {
   public static final String JSON_PROPERTY_SOME_ID = "someId";
   private BigDecimal someId;
@@ -54,14 +55,13 @@ public class FakeBigDecimalMap200Response {
     return this;
   }
 
-   /**
+  /**
    * Get someId
    * @return someId
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SOME_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public BigDecimal getSomeId() {
     return someId;
   }
@@ -87,14 +87,13 @@ public class FakeBigDecimalMap200Response {
     return this;
   }
 
-   /**
+  /**
    * Get someMap
    * @return someMap
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SOME_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Map<String, BigDecimal> getSomeMap() {
     return someMap;
   }
@@ -183,7 +182,7 @@ public class FakeBigDecimalMap200Response {
 
     // add `someId` to the URL query string
     if (getSomeId() != null) {
-      joiner.add(String.format("%ssomeId%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSomeId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssomeId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSomeId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `someMap` to the URL query string
@@ -191,11 +190,70 @@ public class FakeBigDecimalMap200Response {
       for (String _key : getSomeMap().keySet()) {
         joiner.add(String.format("%ssomeMap%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getSomeMap().get(_key), URLEncoder.encode(String.valueOf(getSomeMap().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            getSomeMap().get(_key), URLEncoder.encode(ApiClient.valueToString(getSomeMap().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private FakeBigDecimalMap200Response instance;
+
+    public Builder() {
+      this(new FakeBigDecimalMap200Response());
+    }
+
+    protected Builder(FakeBigDecimalMap200Response instance) {
+      this.instance = instance;
+    }
+
+    public FakeBigDecimalMap200Response.Builder someId(BigDecimal someId) {
+      this.instance.someId = someId;
+      return this;
+    }
+    public FakeBigDecimalMap200Response.Builder someMap(Map<String, BigDecimal> someMap) {
+      this.instance.someMap = someMap;
+      return this;
+    }
+
+
+    /**
+    * returns a built FakeBigDecimalMap200Response instance.
+    *
+    * The builder is not reusable.
+    */
+    public FakeBigDecimalMap200Response build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static FakeBigDecimalMap200Response.Builder builder() {
+    return new FakeBigDecimalMap200Response.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public FakeBigDecimalMap200Response.Builder toBuilder() {
+    return new FakeBigDecimalMap200Response.Builder()
+      .someId(getSomeId())
+      .someMap(getSomeMap());
+  }
+
 }
 

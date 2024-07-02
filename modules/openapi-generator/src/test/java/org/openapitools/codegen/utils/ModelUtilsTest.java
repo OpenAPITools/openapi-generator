@@ -26,6 +26,7 @@ import org.openapitools.codegen.TestUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 public class ModelUtilsTest {
@@ -295,6 +296,25 @@ public class ModelUtilsTest {
         Assert.assertEquals(decoded, "~1 Hallo/Welt");
     }
 
+    @Test
+    public void testRefToSchemaProperties() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+
+        Schema category = ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, "#/components/schemas/Pet/properties/category");
+        Assert.assertEquals(category.get$ref(), "#/components/schemas/Category");
+
+        Schema name = ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, "#/components/schemas/Pet/properties/name");
+        Assert.assertEquals(name.getType(), "string");
+
+        Schema id = ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, "#/components/schemas/Pet/properties/id");
+        Assert.assertEquals(id.getType(), "integer");
+        Assert.assertEquals(id.getFormat(), "int64");
+
+        Assert.assertEquals(null, ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, "#/components/schemas/Pet/prop/category"));
+        Assert.assertEquals(null, ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, "#/components/schemas/Pet/properties/categoryyyy"));
+        Assert.assertEquals(null, ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, "#/components/schemas/Pet"));
+    }
+
 
     // 3.0 spec tests
     @Test
@@ -365,5 +385,80 @@ public class ModelUtilsTest {
         Assert.assertFalse(anyof2.getAnyOf().isEmpty());
         Assert.assertTrue(ModelUtils.hasAnyOf(anyof2));
         Assert.assertTrue(ModelUtils.isAnyOf(anyof2));
+
+        Schema objectSchema = ModelUtils.getSchema(openAPI, "ObjectSchema");
+        Assert.assertTrue(ModelUtils.isMapSchema(objectSchema));
+
+        Schema complexComposedSchema = ModelUtils.getSchema(openAPI, "ComplexComposedSchema");
+        Assert.assertTrue(ModelUtils.isComplexComposedSchema(complexComposedSchema));
+    }
+
+    @Test
+    public void testCloneNumberSchema() {
+        Schema schema = new NumberSchema()
+                .name("test-schema")
+                .minimum(new BigDecimal(100));
+
+        Schema deepCopy = ModelUtils.cloneSchema(schema, false);
+
+        Assert.assertEquals(deepCopy, schema);
+        Assert.assertNotSame(deepCopy, schema);
+    }
+
+    @Test
+    public void testCloneCustomSchema() {
+        Schema schema = new ObjectSchema().type("money");
+
+        Schema deepCopy = ModelUtils.cloneSchema(schema, false);
+
+        Assert.assertEquals(deepCopy, schema);
+        Assert.assertNotSame(deepCopy, schema);
+    }
+
+    @Test
+    public void testCloneComposedSchema() {
+        Schema base1 = new ObjectSchema()
+                .name("Base1")
+                .addProperty("foo", new StringSchema());
+        Schema base2 = new ObjectSchema()
+                .name("Base2")
+                .addProperty("bar", new StringSchema());
+        Schema composedSchema = new ComposedSchema()
+                .name("Composed")
+                .allOf(List.of(base1, base2))
+                .addProperty("baz", new StringSchema());
+
+        Schema deepCopy = ModelUtils.cloneSchema(composedSchema, false);
+
+        Assert.assertEquals(deepCopy, composedSchema);
+        Assert.assertNotSame(deepCopy, composedSchema);
+    }
+
+    @Test
+    public void testCloneArrayOfEnumsSchema() {
+        Schema schema = new ArraySchema()
+                .name("ArrayType")
+                .type("array")
+                .items(new StringSchema()
+                        .type("string")
+                        ._enum(List.of("SUCCESS", "FAILURE", "SKIPPED"))
+                )
+                ._default(List.of("SUCCESS", "FAILURE"));
+
+        Schema deepCopy = ModelUtils.cloneSchema(schema, false);
+
+        Assert.assertEquals(deepCopy, schema);
+        Assert.assertNotSame(deepCopy, schema);
+    }
+
+    @Test
+    public void testCloneDateTimeSchemaWithExample() {
+        Schema schema = new DateTimeSchema()
+                .example("2020-02-02T20:20:20.000222Z");
+
+        Schema deepCopy = ModelUtils.cloneSchema(schema, false);
+
+        Assert.assertEquals(deepCopy, schema);
+        Assert.assertNotSame(deepCopy, schema);
     }
 }

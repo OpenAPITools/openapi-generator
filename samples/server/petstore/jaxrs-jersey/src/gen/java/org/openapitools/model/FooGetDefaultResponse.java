@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   FooGetDefaultResponse.JSON_PROPERTY_STRING
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class FooGetDefaultResponse   {
   public static final String JSON_PROPERTY_STRING = "string";
   @JsonProperty(JSON_PROPERTY_STRING)

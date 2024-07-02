@@ -10,10 +10,12 @@ Name | Type | Description | Notes
 **enum_integer_default** | **int** |  | [optional] [default to 5]
 **enum_integer** | **int** |  | [optional] 
 **enum_number** | **float** |  | [optional] 
+**enum_number_vendor_ext** | **int** |  | [optional] 
+**enum_string_vendor_ext** | **str** |  | [optional] 
 **outer_enum** | [**OuterEnum**](OuterEnum.md) |  | [optional] 
 **outer_enum_integer** | [**OuterEnumInteger**](OuterEnumInteger.md) |  | [optional] 
-**outer_enum_default_value** | [**OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  | [optional] 
-**outer_enum_integer_default_value** | [**OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  | [optional] 
+**outer_enum_default_value** | [**OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  | [optional] [default to OuterEnumDefaultValue.PLACED]
+**outer_enum_integer_default_value** | [**OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  | [optional] [default to OuterEnumIntegerDefaultValue.NUMBER_0]
 
 ## Example
 
@@ -25,12 +27,12 @@ json = "{}"
 # create an instance of EnumTest from a JSON string
 enum_test_instance = EnumTest.from_json(json)
 # print the JSON string representation of the object
-print EnumTest.to_json()
+print(EnumTest.to_json())
 
 # convert the object into a dict
 enum_test_dict = enum_test_instance.to_dict()
 # create an instance of EnumTest from a dict
-enum_test_form_dict = enum_test.from_dict(enum_test_dict)
+enum_test_from_dict = EnumTest.from_dict(enum_test_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

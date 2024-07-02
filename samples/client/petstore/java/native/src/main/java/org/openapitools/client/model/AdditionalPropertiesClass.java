@@ -34,6 +34,7 @@ import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * AdditionalPropertiesClass
  */
@@ -47,7 +48,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   AdditionalPropertiesClass.JSON_PROPERTY_EMPTY_MAP,
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_STRING
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
   private Map<String, String> mapProperty = new HashMap<>();
@@ -89,14 +90,13 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapProperty
    * @return mapProperty
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Map<String, String> getMapProperty() {
     return mapProperty;
   }
@@ -122,14 +122,13 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapOfMapProperty
    * @return mapOfMapProperty
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Map<String, Map<String, String>> getMapOfMapProperty() {
     return mapOfMapProperty;
   }
@@ -147,13 +146,12 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get anytype1
    * @return anytype1
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
-
   public Object getAnytype1() {
         return anytype1.orElse(null);
   }
@@ -180,14 +178,13 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapWithUndeclaredPropertiesAnytype1
    * @return mapWithUndeclaredPropertiesAnytype1
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE1)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Object getMapWithUndeclaredPropertiesAnytype1() {
     return mapWithUndeclaredPropertiesAnytype1;
   }
@@ -205,14 +202,13 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapWithUndeclaredPropertiesAnytype2
    * @return mapWithUndeclaredPropertiesAnytype2
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE2)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Object getMapWithUndeclaredPropertiesAnytype2() {
     return mapWithUndeclaredPropertiesAnytype2;
   }
@@ -238,14 +234,13 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapWithUndeclaredPropertiesAnytype3
    * @return mapWithUndeclaredPropertiesAnytype3
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
-
   public Map<String, Object> getMapWithUndeclaredPropertiesAnytype3() {
     return mapWithUndeclaredPropertiesAnytype3;
   }
@@ -263,14 +258,13 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.
    * @return emptyMap
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_EMPTY_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Object getEmptyMap() {
     return emptyMap;
   }
@@ -296,14 +290,13 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapWithUndeclaredPropertiesString
    * @return mapWithUndeclaredPropertiesString
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Map<String, String> getMapWithUndeclaredPropertiesString() {
     return mapWithUndeclaredPropertiesString;
   }
@@ -418,7 +411,7 @@ public class AdditionalPropertiesClass {
       for (String _key : getMapProperty().keySet()) {
         joiner.add(String.format("%smap_property%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getMapProperty().get(_key), URLEncoder.encode(String.valueOf(getMapProperty().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            getMapProperty().get(_key), URLEncoder.encode(ApiClient.valueToString(getMapProperty().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
@@ -427,23 +420,23 @@ public class AdditionalPropertiesClass {
       for (String _key : getMapOfMapProperty().keySet()) {
         joiner.add(String.format("%smap_of_map_property%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getMapOfMapProperty().get(_key), URLEncoder.encode(String.valueOf(getMapOfMapProperty().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            getMapOfMapProperty().get(_key), URLEncoder.encode(ApiClient.valueToString(getMapOfMapProperty().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
     // add `anytype_1` to the URL query string
     if (getAnytype1() != null) {
-      joiner.add(String.format("%sanytype_1%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getAnytype1()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sanytype_1%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAnytype1()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `map_with_undeclared_properties_anytype_1` to the URL query string
     if (getMapWithUndeclaredPropertiesAnytype1() != null) {
-      joiner.add(String.format("%smap_with_undeclared_properties_anytype_1%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMapWithUndeclaredPropertiesAnytype1()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%smap_with_undeclared_properties_anytype_1%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMapWithUndeclaredPropertiesAnytype1()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `map_with_undeclared_properties_anytype_2` to the URL query string
     if (getMapWithUndeclaredPropertiesAnytype2() != null) {
-      joiner.add(String.format("%smap_with_undeclared_properties_anytype_2%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMapWithUndeclaredPropertiesAnytype2()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%smap_with_undeclared_properties_anytype_2%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMapWithUndeclaredPropertiesAnytype2()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `map_with_undeclared_properties_anytype_3` to the URL query string
@@ -451,13 +444,13 @@ public class AdditionalPropertiesClass {
       for (String _key : getMapWithUndeclaredPropertiesAnytype3().keySet()) {
         joiner.add(String.format("%smap_with_undeclared_properties_anytype_3%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getMapWithUndeclaredPropertiesAnytype3().get(_key), URLEncoder.encode(String.valueOf(getMapWithUndeclaredPropertiesAnytype3().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            getMapWithUndeclaredPropertiesAnytype3().get(_key), URLEncoder.encode(ApiClient.valueToString(getMapWithUndeclaredPropertiesAnytype3().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
     // add `empty_map` to the URL query string
     if (getEmptyMap() != null) {
-      joiner.add(String.format("%sempty_map%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEmptyMap()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sempty_map%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEmptyMap()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `map_with_undeclared_properties_string` to the URL query string
@@ -465,11 +458,104 @@ public class AdditionalPropertiesClass {
       for (String _key : getMapWithUndeclaredPropertiesString().keySet()) {
         joiner.add(String.format("%smap_with_undeclared_properties_string%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getMapWithUndeclaredPropertiesString().get(_key), URLEncoder.encode(String.valueOf(getMapWithUndeclaredPropertiesString().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            getMapWithUndeclaredPropertiesString().get(_key), URLEncoder.encode(ApiClient.valueToString(getMapWithUndeclaredPropertiesString().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private AdditionalPropertiesClass instance;
+
+    public Builder() {
+      this(new AdditionalPropertiesClass());
+    }
+
+    protected Builder(AdditionalPropertiesClass instance) {
+      this.instance = instance;
+    }
+
+    public AdditionalPropertiesClass.Builder mapProperty(Map<String, String> mapProperty) {
+      this.instance.mapProperty = mapProperty;
+      return this;
+    }
+    public AdditionalPropertiesClass.Builder mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
+      this.instance.mapOfMapProperty = mapOfMapProperty;
+      return this;
+    }
+    public AdditionalPropertiesClass.Builder anytype1(Object anytype1) {
+      this.instance.anytype1 = JsonNullable.<Object>of(anytype1);
+      return this;
+    }
+    public AdditionalPropertiesClass.Builder anytype1(JsonNullable<Object> anytype1) {
+      this.instance.anytype1 = anytype1;
+      return this;
+    }
+    public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesAnytype1(Object mapWithUndeclaredPropertiesAnytype1) {
+      this.instance.mapWithUndeclaredPropertiesAnytype1 = mapWithUndeclaredPropertiesAnytype1;
+      return this;
+    }
+    public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesAnytype2(Object mapWithUndeclaredPropertiesAnytype2) {
+      this.instance.mapWithUndeclaredPropertiesAnytype2 = mapWithUndeclaredPropertiesAnytype2;
+      return this;
+    }
+    public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesAnytype3(Map<String, Object> mapWithUndeclaredPropertiesAnytype3) {
+      this.instance.mapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
+      return this;
+    }
+    public AdditionalPropertiesClass.Builder emptyMap(Object emptyMap) {
+      this.instance.emptyMap = emptyMap;
+      return this;
+    }
+    public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesString(Map<String, String> mapWithUndeclaredPropertiesString) {
+      this.instance.mapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
+      return this;
+    }
+
+
+    /**
+    * returns a built AdditionalPropertiesClass instance.
+    *
+    * The builder is not reusable.
+    */
+    public AdditionalPropertiesClass build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static AdditionalPropertiesClass.Builder builder() {
+    return new AdditionalPropertiesClass.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public AdditionalPropertiesClass.Builder toBuilder() {
+    return new AdditionalPropertiesClass.Builder()
+      .mapProperty(getMapProperty())
+      .mapOfMapProperty(getMapOfMapProperty())
+      .anytype1(getAnytype1())
+      .mapWithUndeclaredPropertiesAnytype1(getMapWithUndeclaredPropertiesAnytype1())
+      .mapWithUndeclaredPropertiesAnytype2(getMapWithUndeclaredPropertiesAnytype2())
+      .mapWithUndeclaredPropertiesAnytype3(getMapWithUndeclaredPropertiesAnytype3())
+      .emptyMap(getEmptyMap())
+      .mapWithUndeclaredPropertiesString(getMapWithUndeclaredPropertiesString());
+  }
+
 }
 

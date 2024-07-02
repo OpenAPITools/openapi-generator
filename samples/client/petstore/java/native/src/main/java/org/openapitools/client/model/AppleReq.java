@@ -28,6 +28,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * AppleReq
  */
@@ -35,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   AppleReq.JSON_PROPERTY_CULTIVAR,
   AppleReq.JSON_PROPERTY_MEALY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class AppleReq {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
   private String cultivar;
@@ -51,14 +52,13 @@ public class AppleReq {
     return this;
   }
 
-   /**
+  /**
    * Get cultivar
    * @return cultivar
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_CULTIVAR)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getCultivar() {
     return cultivar;
   }
@@ -76,14 +76,13 @@ public class AppleReq {
     return this;
   }
 
-   /**
+  /**
    * Get mealy
    * @return mealy
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MEALY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Boolean getMealy() {
     return mealy;
   }
@@ -172,15 +171,74 @@ public class AppleReq {
 
     // add `cultivar` to the URL query string
     if (getCultivar() != null) {
-      joiner.add(String.format("%scultivar%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCultivar()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scultivar%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCultivar()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `mealy` to the URL query string
     if (getMealy() != null) {
-      joiner.add(String.format("%smealy%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMealy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%smealy%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMealy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private AppleReq instance;
+
+    public Builder() {
+      this(new AppleReq());
+    }
+
+    protected Builder(AppleReq instance) {
+      this.instance = instance;
+    }
+
+    public AppleReq.Builder cultivar(String cultivar) {
+      this.instance.cultivar = cultivar;
+      return this;
+    }
+    public AppleReq.Builder mealy(Boolean mealy) {
+      this.instance.mealy = mealy;
+      return this;
+    }
+
+
+    /**
+    * returns a built AppleReq instance.
+    *
+    * The builder is not reusable.
+    */
+    public AppleReq build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static AppleReq.Builder builder() {
+    return new AppleReq.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public AppleReq.Builder toBuilder() {
+    return new AppleReq.Builder()
+      .cultivar(getCultivar())
+      .mealy(getMealy());
+  }
+
 }
 

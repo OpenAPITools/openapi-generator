@@ -28,13 +28,14 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * ShapeInterface
  */
 @JsonPropertyOrder({
   ShapeInterface.JSON_PROPERTY_SHAPE_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ShapeInterface {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
   private String shapeType;
@@ -47,14 +48,13 @@ public class ShapeInterface {
     return this;
   }
 
-   /**
+  /**
    * Get shapeType
    * @return shapeType
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getShapeType() {
     return shapeType;
   }
@@ -141,10 +141,64 @@ public class ShapeInterface {
 
     // add `shapeType` to the URL query string
     if (getShapeType() != null) {
-      joiner.add(String.format("%sshapeType%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getShapeType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sshapeType%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getShapeType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private ShapeInterface instance;
+
+    public Builder() {
+      this(new ShapeInterface());
+    }
+
+    protected Builder(ShapeInterface instance) {
+      this.instance = instance;
+    }
+
+    public ShapeInterface.Builder shapeType(String shapeType) {
+      this.instance.shapeType = shapeType;
+      return this;
+    }
+
+
+    /**
+    * returns a built ShapeInterface instance.
+    *
+    * The builder is not reusable.
+    */
+    public ShapeInterface build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ShapeInterface.Builder builder() {
+    return new ShapeInterface.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ShapeInterface.Builder toBuilder() {
+    return new ShapeInterface.Builder()
+      .shapeType(getShapeType());
+  }
+
 }
 

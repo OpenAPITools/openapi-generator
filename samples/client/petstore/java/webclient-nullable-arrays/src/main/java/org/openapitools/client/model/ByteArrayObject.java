@@ -38,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ByteArrayObject.JSON_PROPERTY_STRING_FIELD,
   ByteArrayObject.JSON_PROPERTY_INT_FIELD
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ByteArrayObject {
   public static final String JSON_PROPERTY_NULLABLE_ARRAY = "nullableArray";
   private JsonNullable<byte[]> nullableArray = JsonNullable.<byte[]>undefined();
@@ -64,10 +64,10 @@ public class ByteArrayObject {
     return this;
   }
 
-   /**
+  /**
    * byte array.
    * @return nullableArray
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
 
@@ -91,17 +91,16 @@ public class ByteArrayObject {
     this.nullableArray = JsonNullable.<byte[]>of(nullableArray);
   }
 
-
   public ByteArrayObject normalArray(byte[] normalArray) {
     
     this.normalArray = normalArray;
     return this;
   }
 
-   /**
+  /**
    * byte array.
    * @return normalArray
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_NORMAL_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -117,17 +116,16 @@ public class ByteArrayObject {
     this.normalArray = normalArray;
   }
 
-
   public ByteArrayObject nullableString(String nullableString) {
     this.nullableString = JsonNullable.<String>of(nullableString);
     
     return this;
   }
 
-   /**
+  /**
    * Get nullableString
    * @return nullableString
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
 
@@ -151,17 +149,16 @@ public class ByteArrayObject {
     this.nullableString = JsonNullable.<String>of(nullableString);
   }
 
-
   public ByteArrayObject stringField(String stringField) {
     
     this.stringField = stringField;
     return this;
   }
 
-   /**
+  /**
    * Get stringField
    * @return stringField
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_STRING_FIELD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -177,17 +174,16 @@ public class ByteArrayObject {
     this.stringField = stringField;
   }
 
-
   public ByteArrayObject intField(BigDecimal intField) {
     
     this.intField = intField;
     return this;
   }
 
-   /**
+  /**
    * Get intField
    * @return intField
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_INT_FIELD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

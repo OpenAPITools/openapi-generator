@@ -56,7 +56,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @JsonDeserialize(using = Pig.PigDeserializer.class)
 @JsonSerialize(using = Pig.PigSerializer.class)
 public class Pig extends AbstractOpenApiSchema {

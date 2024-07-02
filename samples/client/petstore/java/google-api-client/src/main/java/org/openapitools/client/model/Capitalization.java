@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Capitalization.JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS,
   Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Capitalization {
   public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
   private String smallCamel;
@@ -63,10 +63,10 @@ public class Capitalization {
     return this;
   }
 
-   /**
+  /**
    * Get smallCamel
    * @return smallCamel
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -82,17 +82,16 @@ public class Capitalization {
     this.smallCamel = smallCamel;
   }
 
-
   public Capitalization capitalCamel(String capitalCamel) {
     
     this.capitalCamel = capitalCamel;
     return this;
   }
 
-   /**
+  /**
    * Get capitalCamel
    * @return capitalCamel
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -108,17 +107,16 @@ public class Capitalization {
     this.capitalCamel = capitalCamel;
   }
 
-
   public Capitalization smallSnake(String smallSnake) {
     
     this.smallSnake = smallSnake;
     return this;
   }
 
-   /**
+  /**
    * Get smallSnake
    * @return smallSnake
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -134,17 +132,16 @@ public class Capitalization {
     this.smallSnake = smallSnake;
   }
 
-
   public Capitalization capitalSnake(String capitalSnake) {
     
     this.capitalSnake = capitalSnake;
     return this;
   }
 
-   /**
+  /**
    * Get capitalSnake
    * @return capitalSnake
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -160,17 +157,16 @@ public class Capitalization {
     this.capitalSnake = capitalSnake;
   }
 
-
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
     
     this.scAETHFlowPoints = scAETHFlowPoints;
     return this;
   }
 
-   /**
+  /**
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -186,17 +182,16 @@ public class Capitalization {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
 
-
   public Capitalization ATT_NAME(String ATT_NAME) {
     
     this.ATT_NAME = ATT_NAME;
     return this;
   }
 
-   /**
+  /**
    * Name of the pet 
    * @return ATT_NAME
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

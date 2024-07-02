@@ -18,12 +18,12 @@ json = "{}"
 # create an instance of AdditionalPropertiesClass from a JSON string
 additional_properties_class_instance = AdditionalPropertiesClass.from_json(json)
 # print the JSON string representation of the object
-print AdditionalPropertiesClass.to_json()
+print(AdditionalPropertiesClass.to_json())
 
 # convert the object into a dict
 additional_properties_class_dict = additional_properties_class_instance.to_dict()
 # create an instance of AdditionalPropertiesClass from a dict
-additional_properties_class_form_dict = additional_properties_class.from_dict(additional_properties_class_dict)
+additional_properties_class_from_dict = AdditionalPropertiesClass.from_dict(additional_properties_class_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

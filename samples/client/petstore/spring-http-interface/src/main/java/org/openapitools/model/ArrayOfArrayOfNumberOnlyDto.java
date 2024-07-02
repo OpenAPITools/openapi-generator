@@ -22,11 +22,11 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ArrayOfArrayOfNumberOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ArrayOfArrayOfNumberOnlyDto {
 
   
-  private List<List<BigDecimal>> arrayArrayNumber;
+  private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
 
   public ArrayOfArrayOfNumberOnlyDto arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
@@ -44,7 +44,7 @@ public class ArrayOfArrayOfNumberOnlyDto {
   /**
    * Get arrayArrayNumber
    * @return arrayArrayNumber
-  */
+   */
   
   @JsonProperty("ArrayArrayNumber")
   public List<List<BigDecimal>> getArrayArrayNumber() {

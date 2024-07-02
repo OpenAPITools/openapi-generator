@@ -12,7 +12,7 @@ Add to your `build->plugins` section (default phase is `generate-sources` phase)
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator-maven-plugin</artifactId>
     <!-- RELEASE_VERSION -->
-    <version>7.2.0</version>
+    <version>7.7.0</version>
     <!-- /RELEASE_VERSION -->
     <executions>
         <execution>
@@ -54,6 +54,8 @@ mvn clean compile
 | `gitHost` | `openapi.generator.maven.plugin.gitHost` | The git host, e.g. gitlab.com
 | `gitUserId` |  `openapi.generator.maven.plugin.gitUserId` | sets git information of the project
 | `gitRepoId` | `openapi.generator.maven.plugin.gitRepoId` | sets the repo ID (e.g. openapi-generator)
+| `collapsedSpec` | `openapi.generator.maven.plugin.collapsedSpec` | sets the path to the collapsed single-file representation of the OpenAPI spec
+| `includeCollapsedSpecInArtifacts` | `openapi.generator.maven.plugin.publishCollapsedSpec` | includes the collapsed spec in the Maven artifacts (`false` by default)
 | `templateDirectory` |  `openapi.generator.maven.plugin.templateDirectory` | directory with mustache templates
 | `templateResourcePath` |  `openapi.generator.maven.plugin.templateResourcePath` | directory with mustache templates via resource path. This option will overwrite any option defined in `templateDirectory`.
 | `engine` | `openapi.generator.maven.plugin.engine` | The name of templating engine to use, "mustache" (default) or "handlebars" (beta)
@@ -105,7 +107,6 @@ mvn clean compile
 | `generateModelDocumentation` |  `openapi.generator.maven.plugin.generateModelDocumentation` | generate the model documentation (`true` by default. Only available if `generateModels` is `true`)
 | `generateApiTests` |  `openapi.generator.maven.plugin.generateApiTests` | generate the api tests (`true` by default. Only available if `generateApis` is `true`)
 | `generateApiDocumentation` |  `openapi.generator.maven.plugin.generateApiDocumentation` | generate the api documentation (`true` by default. Only available if `generateApis` is `true`)
-| `withXml` |  `openapi.generator.maven.plugin.withXml` | enable XML annotations inside the generated models and API (only works with Java `language` and libraries that provide support for JSON and XML)
 | `skip` |  `codegen.skip` | skip code generation (`false` by default. Can also be set globally through the `codegen.skip` property)
 | `skipIfSpecIsUnchanged` |  `codegen.skipIfSpecIsUnchanged` | Skip the execution if the source file is older than the output folder (`false` by default. Can also be set globally through the `codegen.skipIfSpecIsUnchanged` property)
 | `addCompileSourceRoot` |  `openapi.generator.maven.plugin.addCompileSourceRoot` | Add the output directory to the project as a source root, so that the generated java types are compiled and included in the project artifact (`true` by default). Mutually exclusive with `addTestCompileSourceRoot`.

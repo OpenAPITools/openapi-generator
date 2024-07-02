@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
  * Model for testing model name starting with number
  */
 @ApiModel(description = "Model for testing model name starting with number")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Model200Response   {
   @JsonProperty("name")
   private Integer name;

@@ -28,6 +28,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * ReadOnlyFirst
  */
@@ -35,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   ReadOnlyFirst.JSON_PROPERTY_BAR,
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";
   private String bar;
@@ -54,14 +55,13 @@ public class ReadOnlyFirst {
     this.bar = bar;
   }
 
-   /**
+  /**
    * Get bar
    * @return bar
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getBar() {
     return bar;
   }
@@ -74,14 +74,13 @@ public class ReadOnlyFirst {
     return this;
   }
 
-   /**
+  /**
    * Get baz
    * @return baz
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BAZ)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getBaz() {
     return baz;
   }
@@ -170,15 +169,74 @@ public class ReadOnlyFirst {
 
     // add `bar` to the URL query string
     if (getBar() != null) {
-      joiner.add(String.format("%sbar%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getBar()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sbar%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBar()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `baz` to the URL query string
     if (getBaz() != null) {
-      joiner.add(String.format("%sbaz%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getBaz()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sbaz%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaz()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private ReadOnlyFirst instance;
+
+    public Builder() {
+      this(new ReadOnlyFirst());
+    }
+
+    protected Builder(ReadOnlyFirst instance) {
+      this.instance = instance;
+    }
+
+    public ReadOnlyFirst.Builder bar(String bar) {
+      this.instance.bar = bar;
+      return this;
+    }
+    public ReadOnlyFirst.Builder baz(String baz) {
+      this.instance.baz = baz;
+      return this;
+    }
+
+
+    /**
+    * returns a built ReadOnlyFirst instance.
+    *
+    * The builder is not reusable.
+    */
+    public ReadOnlyFirst build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ReadOnlyFirst.Builder builder() {
+    return new ReadOnlyFirst.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ReadOnlyFirst.Builder toBuilder() {
+    return new ReadOnlyFirst.Builder()
+      .bar(getBar())
+      .baz(getBaz());
+  }
+
 }
 

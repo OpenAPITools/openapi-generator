@@ -24,6 +24,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -35,7 +37,7 @@ import org.openapitools.client.JSON;
   BananaReq.JSON_PROPERTY_SWEET
 })
 @JsonTypeName("bananaReq")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class BananaReq {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
   private BigDecimal lengthCm;
@@ -51,11 +53,14 @@ public class BananaReq {
     return this;
   }
 
-   /**
+  /**
    * Get lengthCm
    * @return lengthCm
-  **/
+   */
   @jakarta.annotation.Nonnull
+  @NotNull
+  @Valid
+
   @JsonProperty(JSON_PROPERTY_LENGTH_CM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -76,11 +81,12 @@ public class BananaReq {
     return this;
   }
 
-   /**
+  /**
    * Get sweet
    * @return sweet
-  **/
+   */
   @jakarta.annotation.Nullable
+
   @JsonProperty(JSON_PROPERTY_SWEET)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

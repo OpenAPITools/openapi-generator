@@ -16,8 +16,8 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -50,17 +50,17 @@ public class CrystalClientCodegen extends DefaultCodegen {
     private static final String NUMERIC_ENUM_PREFIX = "N";
     protected static int emptyMethodNameCounter = 0;
 
-    protected String shardName = "openapi_client";
-    protected String moduleName = "OpenAPIClient";
-    protected String shardVersion = "1.0.0";
+    @Setter protected String shardName = "openapi_client";
+    @Setter protected String moduleName = "OpenAPIClient";
+    @Setter protected String shardVersion = "1.0.0";
     protected String specFolder = "spec";
     protected String srcFolder = "src";
-    protected String shardLicense = "unlicense";
-    protected String shardHomepage = "https://openapitools.org";
-    protected String shardSummary = "A Crystal SDK for the REST API";
-    protected String shardDescription = "This shard maps to a REST API";
-    protected String shardAuthor = "";
-    protected String shardAuthorEmail = "";
+    @Setter protected String shardLicense = "unlicense";
+    @Setter protected String shardHomepage = "https://openapitools.org";
+    @Setter protected String shardSummary = "A Crystal SDK for the REST API";
+    @Setter protected String shardDescription = "This shard maps to a REST API";
+    @Setter protected String shardAuthor = "";
+    @Setter protected String shardAuthorEmail = "";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected List<String> primitiveTypes = new ArrayList<String>();
@@ -547,42 +547,6 @@ public class CrystalClientCodegen extends DefaultCodegen {
         return shardName + "/" + apiPackage() + "/" + toApiFilename(name);
     }
 
-    public void setShardName(String shardName) {
-        this.shardName = shardName;
-    }
-
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
-    }
-
-    public void setShardVersion(String shardVersion) {
-        this.shardVersion = shardVersion;
-    }
-
-    public void setShardDescription(String shardDescription) {
-        this.shardDescription = shardDescription;
-    }
-
-    public void setShardSummary(String shardSummary) {
-        this.shardSummary = shardSummary;
-    }
-
-    public void setShardLicense(String shardLicense) {
-        this.shardLicense = shardLicense;
-    }
-
-    public void setShardHomepage(String shardHomepage) {
-        this.shardHomepage = shardHomepage;
-    }
-
-    public void setShardAuthor(String shardAuthor) {
-        this.shardAuthor = shardAuthor;
-    }
-
-    public void setShardAuthorEmail(String shardAuthorEmail) {
-        this.shardAuthorEmail = shardAuthorEmail;
-    }
-
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
@@ -599,13 +563,8 @@ public class CrystalClientCodegen extends DefaultCodegen {
             return objs;
         }
         OperationMap operations = objs.getOperations();
-        HashMap<String, CodegenModel> modelMaps = new HashMap<>();
+        HashMap<String, CodegenModel> modelMaps = ModelMap.toCodegenModelMap(allModels);
         HashMap<String, Integer> processedModelMaps = new HashMap<>();
-
-        for (ModelMap modelMap : allModels) {
-            CodegenModel m = modelMap.getModel();
-            modelMaps.put(m.classname, m);
-        }
 
         List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
@@ -819,7 +778,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
     @Override
     public String getTypeDeclaration(Schema schema) {
         if (ModelUtils.isArraySchema(schema)) {
-            Schema inner = ((ArraySchema) schema).getItems();
+            Schema inner = ModelUtils.getSchemaItems(schema);
             return getSchemaType(schema) + "(" + getTypeDeclaration(inner) + ")";
         } else if (ModelUtils.isMapSchema(schema)) {
             Schema inner = ModelUtils.getAdditionalProperties(schema);

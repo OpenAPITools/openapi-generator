@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * MapTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class MapTest {
   public static final String SERIALIZED_NAME_MAP_MAP_OF_STRING = "map_map_of_string";
   @SerializedName(SERIALIZED_NAME_MAP_MAP_OF_STRING)
@@ -109,10 +109,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get mapMapOfString
    * @return mapMapOfString
-  **/
+   */
   @javax.annotation.Nullable
 
   public Map<String, Map<String, String>> getMapMapOfString() {
@@ -123,7 +123,6 @@ public class MapTest {
   public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
-
 
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     
@@ -139,10 +138,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get mapOfEnumString
    * @return mapOfEnumString
-  **/
+   */
   @javax.annotation.Nullable
 
   public Map<String, InnerEnum> getMapOfEnumString() {
@@ -153,7 +152,6 @@ public class MapTest {
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
-
 
   public MapTest directMap(Map<String, Boolean> directMap) {
     
@@ -169,10 +167,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get directMap
    * @return directMap
-  **/
+   */
   @javax.annotation.Nullable
 
   public Map<String, Boolean> getDirectMap() {
@@ -183,7 +181,6 @@ public class MapTest {
   public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
   }
-
 
   public MapTest indirectMap(Map<String, Boolean> indirectMap) {
     
@@ -199,10 +196,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get indirectMap
    * @return indirectMap
-  **/
+   */
   @javax.annotation.Nullable
 
   public Map<String, Boolean> getIndirectMap() {

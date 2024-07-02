@@ -17,7 +17,7 @@ import jakarta.annotation.Generated;
  * A category for a pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Category {
 
   private Optional<Long> id = Optional.empty();
@@ -32,7 +32,7 @@ public class Category {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @JsonProperty("id")
   public Optional<Long> getId() {
@@ -51,7 +51,7 @@ public class Category {
   /**
    * Get name
    * @return name
-  */
+   */
   
   @JsonProperty("name")
   public Optional<@Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String> getName() {

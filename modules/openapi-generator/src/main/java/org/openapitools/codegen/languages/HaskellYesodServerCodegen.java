@@ -19,9 +19,10 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -49,35 +50,24 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
 
     private final Logger LOGGER = LoggerFactory.getLogger(HaskellYesodServerCodegen.class);
 
+    @Getter @Setter
     protected String projectName;
+    @Getter @Setter
     protected String apiModuleName;
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "haskell-yesod";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a haskell-yesod server.";
-    }
-
-    public String getProjectName() {
-        return projectName;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public String getApiModuleName() {
-        return apiModuleName;
-    }
-
-    public void setApiModuleName(String apiModuleName) {
-        this.apiModuleName = apiModuleName;
     }
 
     public HaskellYesodServerCodegen() {
@@ -295,8 +285,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -342,8 +331,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
             String inner = getSchemaType(additionalProperties2);
             return "(Map.Map Text " + inner + ")";
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
+            String inner = getSchemaType(ModelUtils.getSchemaItems(p));
             // Return only the inner type; the wrapping with QueryList is done
             // somewhere else, where we have access to the collection format.
             return inner;

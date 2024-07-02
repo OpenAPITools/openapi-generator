@@ -23,17 +23,30 @@ import javax.annotation.Generated;
  * ArrayTest
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ArrayTest {
 
   @Valid
-  private List<String> arrayOfString;
+  private List<String> arrayOfString = new ArrayList<>();
 
   @Valid
-  private List<List<Long>> arrayArrayOfInteger;
+  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   @Valid
-  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel;
+  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
+
+  public ArrayTest() {
+    super();
+  }
+
+  /**
+   * Constructor with all args parameters
+   */
+  public ArrayTest(List<String> arrayOfString, List<List<Long>> arrayArrayOfInteger, List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
+      this.arrayOfString = arrayOfString;
+      this.arrayArrayOfInteger = arrayArrayOfInteger;
+      this.arrayArrayOfModel = arrayArrayOfModel;
+  }
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
@@ -51,7 +64,7 @@ public class ArrayTest {
   /**
    * Get arrayOfString
    * @return arrayOfString
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("array_of_string")
@@ -79,7 +92,7 @@ public class ArrayTest {
   /**
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_integer")
@@ -107,7 +120,7 @@ public class ArrayTest {
   /**
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_model")

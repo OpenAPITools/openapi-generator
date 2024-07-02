@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 
 import software.amazon.awssdk.auth.credentials.AnonymousCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.AwsSessionCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentials;
 import software.amazon.awssdk.auth.signer.Aws4Signer;
 import software.amazon.awssdk.auth.signer.params.Aws4SignerParams;
@@ -37,7 +38,7 @@ import software.amazon.awssdk.regions.Region;
 
 import okio.Buffer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class AWS4Auth implements Authentication {
 
   private AwsCredentials credentials;
@@ -50,6 +51,10 @@ public class AWS4Auth implements Authentication {
 
   public void setCredentials(String accessKey, String secretKey) {
     this.credentials = AwsBasicCredentials.create(accessKey, secretKey);
+  }
+
+  public void setCredentials(String accessKey, String secretKey, String sessionToken) {
+    this.credentials = AwsSessionCredentials.create(accessKey, secretKey, sessionToken);
   }
 
   public void setRegion(String region) {

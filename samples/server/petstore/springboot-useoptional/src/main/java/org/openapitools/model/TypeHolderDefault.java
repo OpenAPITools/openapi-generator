@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  * TypeHolderDefault
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class TypeHolderDefault {
 
   private String stringItem = "what";
@@ -60,7 +60,7 @@ public class TypeHolderDefault {
   /**
    * Get stringItem
    * @return stringItem
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("string_item")
@@ -80,7 +80,7 @@ public class TypeHolderDefault {
   /**
    * Get numberItem
    * @return numberItem
-  */
+   */
   @NotNull @Valid 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("number_item")
@@ -100,7 +100,7 @@ public class TypeHolderDefault {
   /**
    * Get integerItem
    * @return integerItem
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("integer_item")
@@ -120,7 +120,7 @@ public class TypeHolderDefault {
   /**
    * Get boolItem
    * @return boolItem
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("bool_item")
@@ -148,7 +148,7 @@ public class TypeHolderDefault {
   /**
    * Get arrayItem
    * @return arrayItem
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("array_item")
@@ -204,5 +204,87 @@ public class TypeHolderDefault {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private TypeHolderDefault instance;
+
+    public Builder() {
+      this(new TypeHolderDefault());
+    }
+
+    protected Builder(TypeHolderDefault instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(TypeHolderDefault value) { 
+      this.instance.setStringItem(value.stringItem);
+      this.instance.setNumberItem(value.numberItem);
+      this.instance.setIntegerItem(value.integerItem);
+      this.instance.setBoolItem(value.boolItem);
+      this.instance.setArrayItem(value.arrayItem);
+      return this;
+    }
+
+    public TypeHolderDefault.Builder stringItem(String stringItem) {
+      this.instance.stringItem(stringItem);
+      return this;
+    }
+    
+    public TypeHolderDefault.Builder numberItem(BigDecimal numberItem) {
+      this.instance.numberItem(numberItem);
+      return this;
+    }
+    
+    public TypeHolderDefault.Builder integerItem(Integer integerItem) {
+      this.instance.integerItem(integerItem);
+      return this;
+    }
+    
+    public TypeHolderDefault.Builder boolItem(Boolean boolItem) {
+      this.instance.boolItem(boolItem);
+      return this;
+    }
+    
+    public TypeHolderDefault.Builder arrayItem(List<Integer> arrayItem) {
+      this.instance.arrayItem(arrayItem);
+      return this;
+    }
+    
+    /**
+    * returns a built TypeHolderDefault instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public TypeHolderDefault build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static TypeHolderDefault.Builder builder() {
+    return new TypeHolderDefault.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public TypeHolderDefault.Builder toBuilder() {
+    TypeHolderDefault.Builder builder = new TypeHolderDefault.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

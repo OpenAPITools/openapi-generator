@@ -310,7 +310,6 @@ export interface RequestOpts {
     body?: HTTPBody;
 }
 
-
 export function querystring(params: HTTPQuery, prefix: string = ''): string {
     return Object.keys(params)
         .map(key => querystringSingleKey(key, params[key], prefix))

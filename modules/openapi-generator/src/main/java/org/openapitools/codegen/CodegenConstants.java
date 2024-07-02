@@ -25,6 +25,7 @@ public class CodegenConstants {
     // NOTE: We may want to move these to a separate class to avoid confusion or modification.
     public static final String APIS = "apis";
     public static final String MODELS = "models";
+    public static final String GENERATE_RECURSIVE_DEPENDENT_MODELS = "generateRecursiveDependentModels";
     public static final String SUPPORTING_FILES = "supportingFiles";
     public static final String MODEL_TESTS = "modelTests";
     public static final String MODEL_DOCS = "modelDocs";
@@ -32,7 +33,6 @@ public class CodegenConstants {
     public static final String API_TESTS = "apiTests";
     public static final String API_DOCS = "apiDocs";
 
-    public static final String WITH_XML = "withXml";
     public static final String SKIP_FORM_MODEL = "skipFormModel";
     /* /end System Properties */
 
@@ -91,7 +91,7 @@ public class CodegenConstants {
     public static final String ARTIFACT_ID_DESC = "artifactId in generated pom.xml. This also becomes part of the generated library's filename";
 
     public static final String ARTIFACT_VERSION = "artifactVersion";
-    public static final String ARTIFACT_VERSION_DESC = "artifact version in generated pom.xml. This also becomes part of the generated library's filename";
+    public static final String ARTIFACT_VERSION_DESC = "artifact version in generated pom.xml. This also becomes part of the generated library's filename. If not provided, uses the version from the OpenAPI specification file. If that's also not present, uses the default value of the artifactVersion option.";
 
     public static final String ARTIFACT_URL = "artifactUrl";
     public static final String ARTIFACT_URL_DESC = "artifact URL in generated pom.xml";
@@ -231,6 +231,8 @@ public class CodegenConstants {
 
     public static final String TEMPLATING_ENGINE = "templatingEngine";
     public static final String TEMPLATING_ENGINE_DESC = "The templating engine plugin to use: \"mustache\" (default) or \"handlebars\" (beta)";
+
+    public static final String MUSTACHE_PARENT_CONTEXT = "MUSTACHE_PARENT_CONTEXT";
 
     public static enum PARAM_NAMING_TYPE {camelCase, PascalCase, snake_case, original}
 
@@ -437,11 +439,15 @@ public class CodegenConstants {
 
     public static final String FASTAPI_IMPLEMENTATION_PACKAGE = "fastapiImplementationPackage";
 
+    public static final String WITH_XML = "withXml";
+    
     public static final String WITH_GO_MOD = "withGoMod";
 
     public static final String GENERATE_MARSHAL_JSON = "generateMarshalJSON";
     public static final String GENERATE_MARSHAL_JSON_DESC = "Generate MarshalJSON method";
 
+    public static final String GENERATE_UNMARSHAL_JSON = "generateUnmarshalJSON";
+    public static final String GENERATE_UNMARSHAL_JSON_DESC = "Generate UnmarshalJSON method";
     public static final String MAX_ATTEMPTS_FOR_RETRY = "maxAttemptsForRetry";
 
     public static final String WAIT_TIME_OF_THREAD = "waitTimeMillis";

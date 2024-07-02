@@ -28,6 +28,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * HasOnlyReadOnly
  */
@@ -35,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   HasOnlyReadOnly.JSON_PROPERTY_BAR,
   HasOnlyReadOnly.JSON_PROPERTY_FOO
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class HasOnlyReadOnly {
   public static final String JSON_PROPERTY_BAR = "bar";
   private String bar;
@@ -56,14 +57,13 @@ public class HasOnlyReadOnly {
     this.foo = foo;
   }
 
-   /**
+  /**
    * Get bar
    * @return bar
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getBar() {
     return bar;
   }
@@ -71,14 +71,13 @@ public class HasOnlyReadOnly {
 
 
 
-   /**
+  /**
    * Get foo
    * @return foo
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FOO)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getFoo() {
     return foo;
   }
@@ -162,15 +161,74 @@ public class HasOnlyReadOnly {
 
     // add `bar` to the URL query string
     if (getBar() != null) {
-      joiner.add(String.format("%sbar%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getBar()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sbar%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBar()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `foo` to the URL query string
     if (getFoo() != null) {
-      joiner.add(String.format("%sfoo%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getFoo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sfoo%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFoo()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private HasOnlyReadOnly instance;
+
+    public Builder() {
+      this(new HasOnlyReadOnly());
+    }
+
+    protected Builder(HasOnlyReadOnly instance) {
+      this.instance = instance;
+    }
+
+    public HasOnlyReadOnly.Builder bar(String bar) {
+      this.instance.bar = bar;
+      return this;
+    }
+    public HasOnlyReadOnly.Builder foo(String foo) {
+      this.instance.foo = foo;
+      return this;
+    }
+
+
+    /**
+    * returns a built HasOnlyReadOnly instance.
+    *
+    * The builder is not reusable.
+    */
+    public HasOnlyReadOnly build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static HasOnlyReadOnly.Builder builder() {
+    return new HasOnlyReadOnly.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public HasOnlyReadOnly.Builder toBuilder() {
+    return new HasOnlyReadOnly.Builder()
+      .bar(getBar())
+      .foo(getFoo());
+  }
+
 }
 

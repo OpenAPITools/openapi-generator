@@ -29,7 +29,7 @@ import javax.annotation.Generated;
   BigCat.JSON_PROPERTY_KIND
 })
 @JsonTypeName("BigCat")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @Introspected
 public class BigCat extends Cat {
     /**
@@ -81,7 +81,7 @@ public class BigCat extends Cat {
     /**
      * Get kind
      * @return kind
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_KIND)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

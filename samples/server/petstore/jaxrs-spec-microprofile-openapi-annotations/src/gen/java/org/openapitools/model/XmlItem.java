@@ -18,37 +18,37 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("XmlItem")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class XmlItem  implements Serializable {
-  private @Valid String attributeString;
-  private @Valid BigDecimal attributeNumber;
-  private @Valid Integer attributeInteger;
-  private @Valid Boolean attributeBoolean;
-  private @Valid List<Integer> wrappedArray;
-  private @Valid String nameString;
-  private @Valid BigDecimal nameNumber;
-  private @Valid Integer nameInteger;
-  private @Valid Boolean nameBoolean;
-  private @Valid List<Integer> nameArray;
-  private @Valid List<Integer> nameWrappedArray;
-  private @Valid String prefixString;
-  private @Valid BigDecimal prefixNumber;
-  private @Valid Integer prefixInteger;
-  private @Valid Boolean prefixBoolean;
-  private @Valid List<Integer> prefixArray;
-  private @Valid List<Integer> prefixWrappedArray;
-  private @Valid String namespaceString;
-  private @Valid BigDecimal namespaceNumber;
-  private @Valid Integer namespaceInteger;
-  private @Valid Boolean namespaceBoolean;
-  private @Valid List<Integer> namespaceArray;
-  private @Valid List<Integer> namespaceWrappedArray;
-  private @Valid String prefixNsString;
-  private @Valid BigDecimal prefixNsNumber;
-  private @Valid Integer prefixNsInteger;
-  private @Valid Boolean prefixNsBoolean;
-  private @Valid List<Integer> prefixNsArray;
-  private @Valid List<Integer> prefixNsWrappedArray;
+  private String attributeString;
+  private BigDecimal attributeNumber;
+  private Integer attributeInteger;
+  private Boolean attributeBoolean;
+  private @Valid List<Integer> wrappedArray = new ArrayList<>();
+  private String nameString;
+  private BigDecimal nameNumber;
+  private Integer nameInteger;
+  private Boolean nameBoolean;
+  private @Valid List<Integer> nameArray = new ArrayList<>();
+  private @Valid List<Integer> nameWrappedArray = new ArrayList<>();
+  private String prefixString;
+  private BigDecimal prefixNumber;
+  private Integer prefixInteger;
+  private Boolean prefixBoolean;
+  private @Valid List<Integer> prefixArray = new ArrayList<>();
+  private @Valid List<Integer> prefixWrappedArray = new ArrayList<>();
+  private String namespaceString;
+  private BigDecimal namespaceNumber;
+  private Integer namespaceInteger;
+  private Boolean namespaceBoolean;
+  private @Valid List<Integer> namespaceArray = new ArrayList<>();
+  private @Valid List<Integer> namespaceWrappedArray = new ArrayList<>();
+  private String prefixNsString;
+  private BigDecimal prefixNsNumber;
+  private Integer prefixNsInteger;
+  private Boolean prefixNsBoolean;
+  private @Valid List<Integer> prefixNsArray = new ArrayList<>();
+  private @Valid List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   protected XmlItem(XmlItemBuilder<?, ?> b) {
     this.attributeString = b.attributeString;
@@ -114,7 +114,7 @@ public class XmlItem  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "1.234", description = "")
   @JsonProperty("attribute_number")
-  public BigDecimal getAttributeNumber() {
+  @Valid public BigDecimal getAttributeNumber() {
     return attributeNumber;
   }
 
@@ -225,7 +225,7 @@ public class XmlItem  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "1.234", description = "")
   @JsonProperty("name_number")
-  public BigDecimal getNameNumber() {
+  @Valid public BigDecimal getNameNumber() {
     return nameNumber;
   }
 
@@ -371,7 +371,7 @@ public class XmlItem  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "1.234", description = "")
   @JsonProperty("prefix_number")
-  public BigDecimal getPrefixNumber() {
+  @Valid public BigDecimal getPrefixNumber() {
     return prefixNumber;
   }
 
@@ -517,7 +517,7 @@ public class XmlItem  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "1.234", description = "")
   @JsonProperty("namespace_number")
-  public BigDecimal getNamespaceNumber() {
+  @Valid public BigDecimal getNamespaceNumber() {
     return namespaceNumber;
   }
 
@@ -663,7 +663,7 @@ public class XmlItem  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "1.234", description = "")
   @JsonProperty("prefix_ns_number")
-  public BigDecimal getPrefixNsNumber() {
+  @Valid public BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
   }
 
@@ -880,7 +880,7 @@ public class XmlItem  implements Serializable {
     return new XmlItemBuilderImpl();
   }
 
-  private static final class XmlItemBuilderImpl extends XmlItemBuilder<XmlItem, XmlItemBuilderImpl> {
+  private static class XmlItemBuilderImpl extends XmlItemBuilder<XmlItem, XmlItemBuilderImpl> {
 
     @Override
     protected XmlItemBuilderImpl self() {
@@ -898,31 +898,31 @@ public class XmlItem  implements Serializable {
     private BigDecimal attributeNumber;
     private Integer attributeInteger;
     private Boolean attributeBoolean;
-    private List<Integer> wrappedArray;
+    private List<Integer> wrappedArray = new ArrayList<>();
     private String nameString;
     private BigDecimal nameNumber;
     private Integer nameInteger;
     private Boolean nameBoolean;
-    private List<Integer> nameArray;
-    private List<Integer> nameWrappedArray;
+    private List<Integer> nameArray = new ArrayList<>();
+    private List<Integer> nameWrappedArray = new ArrayList<>();
     private String prefixString;
     private BigDecimal prefixNumber;
     private Integer prefixInteger;
     private Boolean prefixBoolean;
-    private List<Integer> prefixArray;
-    private List<Integer> prefixWrappedArray;
+    private List<Integer> prefixArray = new ArrayList<>();
+    private List<Integer> prefixWrappedArray = new ArrayList<>();
     private String namespaceString;
     private BigDecimal namespaceNumber;
     private Integer namespaceInteger;
     private Boolean namespaceBoolean;
-    private List<Integer> namespaceArray;
-    private List<Integer> namespaceWrappedArray;
+    private List<Integer> namespaceArray = new ArrayList<>();
+    private List<Integer> namespaceWrappedArray = new ArrayList<>();
     private String prefixNsString;
     private BigDecimal prefixNsNumber;
     private Integer prefixNsInteger;
     private Boolean prefixNsBoolean;
-    private List<Integer> prefixNsArray;
-    private List<Integer> prefixNsWrappedArray;
+    private List<Integer> prefixNsArray = new ArrayList<>();
+    private List<Integer> prefixNsWrappedArray = new ArrayList<>();
     protected abstract B self();
 
     public abstract C build();

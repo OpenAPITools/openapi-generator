@@ -1,0 +1,29 @@
+openapi: 3.0.1
+paths:
+  /foo:
+    get:
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/test'
+info:
+  title: Title on Properties
+  version: "1.0"
+components:
+  schemas:
+    ModelWithTitledProperties:
+      properties:
+        simpleProperty:
+          type: string
+          title: Simple-Property-Title
+        refProperty:
+          type: string
+          title: Ref-Property-Title
+          allOf:
+            - $ref: '#/components/schemas/RefObject'
+      type: object
+    RefObject:
+      type: string

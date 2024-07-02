@@ -19,10 +19,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  **/
 @ApiModel(description = "Model for testing model name starting with number")
 @JsonTypeName("200_response")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Model200Response  implements Serializable {
-  private @Valid Integer name;
-  private @Valid String propertyClass;
+  private Integer name;
+  private String propertyClass;
 
   /**
    **/

@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { Decimal } from './Decimal';
 import {
     DecimalFromJSON,
@@ -127,14 +127,12 @@ export interface FormatTest {
 /**
  * Check if a given object implements the FormatTest interface.
  */
-export function instanceOfFormatTest(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "number" in value;
-    isInstance = isInstance && "_byte" in value;
-    isInstance = isInstance && "date" in value;
-    isInstance = isInstance && "password" in value;
-
-    return isInstance;
+export function instanceOfFormatTest(value: object): value is FormatTest {
+    if (!('number' in value) || value['number'] === undefined) return false;
+    if (!('_byte' in value) || value['_byte'] === undefined) return false;
+    if (!('date' in value) || value['date'] === undefined) return false;
+    if (!('password' in value) || value['password'] === undefined) return false;
+    return true;
 }
 
 export function FormatTestFromJSON(json: any): FormatTest {
@@ -142,55 +140,52 @@ export function FormatTestFromJSON(json: any): FormatTest {
 }
 
 export function FormatTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): FormatTest {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'integer': !exists(json, 'integer') ? undefined : json['integer'],
-        'int32': !exists(json, 'int32') ? undefined : json['int32'],
-        'int64': !exists(json, 'int64') ? undefined : json['int64'],
+        'integer': json['integer'] == null ? undefined : json['integer'],
+        'int32': json['int32'] == null ? undefined : json['int32'],
+        'int64': json['int64'] == null ? undefined : json['int64'],
         'number': json['number'],
-        '_float': !exists(json, 'float') ? undefined : json['float'],
-        '_double': !exists(json, 'double') ? undefined : json['double'],
-        'decimal': !exists(json, 'decimal') ? undefined : DecimalFromJSON(json['decimal']),
-        'string': !exists(json, 'string') ? undefined : json['string'],
+        '_float': json['float'] == null ? undefined : json['float'],
+        '_double': json['double'] == null ? undefined : json['double'],
+        'decimal': json['decimal'] == null ? undefined : DecimalFromJSON(json['decimal']),
+        'string': json['string'] == null ? undefined : json['string'],
         '_byte': json['byte'],
-        'binary': !exists(json, 'binary') ? undefined : json['binary'],
+        'binary': json['binary'] == null ? undefined : json['binary'],
         'date': (new Date(json['date'])),
-        'dateTime': !exists(json, 'dateTime') ? undefined : (new Date(json['dateTime'])),
-        'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
+        'dateTime': json['dateTime'] == null ? undefined : (new Date(json['dateTime'])),
+        'uuid': json['uuid'] == null ? undefined : json['uuid'],
         'password': json['password'],
-        'patternWithDigits': !exists(json, 'pattern_with_digits') ? undefined : json['pattern_with_digits'],
-        'patternWithDigitsAndDelimiter': !exists(json, 'pattern_with_digits_and_delimiter') ? undefined : json['pattern_with_digits_and_delimiter'],
+        'patternWithDigits': json['pattern_with_digits'] == null ? undefined : json['pattern_with_digits'],
+        'patternWithDigitsAndDelimiter': json['pattern_with_digits_and_delimiter'] == null ? undefined : json['pattern_with_digits_and_delimiter'],
     };
 }
 
 export function FormatTestToJSON(value?: FormatTest | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'integer': value.integer,
-        'int32': value.int32,
-        'int64': value.int64,
-        'number': value.number,
-        'float': value._float,
-        'double': value._double,
-        'decimal': DecimalToJSON(value.decimal),
-        'string': value.string,
-        'byte': value._byte,
-        'binary': value.binary,
-        'date': (value.date.toISOString().substring(0,10)),
-        'dateTime': value.dateTime === undefined ? undefined : (value.dateTime.toISOString()),
-        'uuid': value.uuid,
-        'password': value.password,
-        'pattern_with_digits': value.patternWithDigits,
-        'pattern_with_digits_and_delimiter': value.patternWithDigitsAndDelimiter,
+        'integer': value['integer'],
+        'int32': value['int32'],
+        'int64': value['int64'],
+        'number': value['number'],
+        'float': value['_float'],
+        'double': value['_double'],
+        'decimal': DecimalToJSON(value['decimal']),
+        'string': value['string'],
+        'byte': value['_byte'],
+        'binary': value['binary'],
+        'date': ((value['date']).toISOString().substring(0,10)),
+        'dateTime': value['dateTime'] == null ? undefined : ((value['dateTime']).toISOString()),
+        'uuid': value['uuid'],
+        'password': value['password'],
+        'pattern_with_digits': value['patternWithDigits'],
+        'pattern_with_digits_and_delimiter': value['patternWithDigitsAndDelimiter'],
     };
 }
 

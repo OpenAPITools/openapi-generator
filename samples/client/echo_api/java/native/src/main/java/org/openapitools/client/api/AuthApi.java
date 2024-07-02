@@ -43,7 +43,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class AuthApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -153,6 +153,7 @@ public class AuthApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * To test HTTP bearer authentication
    * To test HTTP bearer authentication
@@ -226,4 +227,5 @@ public class AuthApi {
     }
     return localVarRequestBuilder;
   }
+
 }

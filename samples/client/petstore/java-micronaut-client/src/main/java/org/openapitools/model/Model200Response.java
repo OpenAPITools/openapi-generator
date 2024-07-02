@@ -30,7 +30,7 @@ import javax.annotation.Generated;
   Model200Response.JSON_PROPERTY_PROPERTY_CLASS
 })
 @JsonTypeName("200_response")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @Introspected
 public class Model200Response {
     public static final String JSON_PROPERTY_NAME = "name";
@@ -49,7 +49,7 @@ public class Model200Response {
     /**
      * Get name
      * @return name
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -71,7 +71,7 @@ public class Model200Response {
     /**
      * Get propertyClass
      * @return propertyClass
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

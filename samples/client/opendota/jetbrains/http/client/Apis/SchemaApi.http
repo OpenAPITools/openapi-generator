@@ -1,0 +1,6 @@
+## SchemaApi
+
+### GET /schema
+## GET /schema
+GET https://api.opendota.com/api/schema
+Accept: application/json; charset=utf-8

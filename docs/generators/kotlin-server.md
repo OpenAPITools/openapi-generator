@@ -22,7 +22,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |apiSuffix|suffix for api classes| |Api|
 |artifactId|Generated artifact id (name of jar).| |kotlin-server|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
-|enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |camelCase|
+|enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |original|
 |featureAutoHead|Automatically provide responses to HEAD requests for existing routes that have the GET verb defined.| |true|
 |featureCORS|Ktor by default provides an interceptor for implementing proper support for Cross-Origin Resource Sharing (CORS). See enable-cors.org.| |false|
 |featureCompression|Adds ability to compress outgoing content using gzip, deflate or custom encoder and thus reduce size of the response.| |true|
@@ -32,7 +32,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |featureResources|Generates routes in a typed way, for both: constructing URLs and reading the parameters.| |true|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |interfaceOnly|Whether to generate only API interface stubs without the server files. This option is currently supported only when using jaxrs-spec library.| |false|
-|library|library template (sub-template)|<dl><dt>**ktor**</dt><dd>ktor framework</dd><dt>**jaxrs-spec**</dt><dd>JAX-RS spec only</dd><dt>**javalin5**</dt><dd>Javalin 5</dd></dl>|ktor|
+|library|library template (sub-template)|<dl><dt>**ktor**</dt><dd>ktor framework</dd><dt>**jaxrs-spec**</dt><dd>JAX-RS spec only</dd><dt>**javalin5**</dt><dd>Javalin 5</dd><dt>**javalin6**</dt><dd>Javalin 6</dd></dl>|ktor|
 |modelMutable|Create mutable models| |false|
 |omitGradleWrapper|Whether to omit Gradle wrapper for creating a sub project.| |false|
 |packageName|Generated artifact package name.| |org.openapitools.server|

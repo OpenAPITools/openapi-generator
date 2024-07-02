@@ -78,7 +78,8 @@ paths:
       - '@RequestHeader final HttpHeaders headers'
       - Principal principal
       - '@Qualifier("jacksonObjectMapper") ObjectMapper mapper'
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: user
   /user/logout:
@@ -97,7 +98,8 @@ paths:
       - '@RequestHeader final HttpHeaders headers'
       - Principal principal
       - '@Qualifier("jacksonObjectMapper") ObjectMapper mapper'
-      x-accepts: application/json
+      x-accepts:
+      - application/json
       x-tags:
       - tag: user
 components:

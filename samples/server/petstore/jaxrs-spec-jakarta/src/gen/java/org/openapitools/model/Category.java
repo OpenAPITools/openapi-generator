@@ -16,10 +16,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Category")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Category  implements Serializable {
-  private @Valid Long id;
-  private @Valid String name = "default-name";
+  private Long id;
+  private String name = "default-name";
 
   protected Category(CategoryBuilder<?, ?> b) {
     this.id = b.id;
@@ -58,8 +58,7 @@ public class Category  implements Serializable {
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")
-  @NotNull
-  public String getName() {
+  @NotNull public String getName() {
     return name;
   }
 
@@ -114,7 +113,7 @@ public class Category  implements Serializable {
     return new CategoryBuilderImpl();
   }
 
-  private static final class CategoryBuilderImpl extends CategoryBuilder<Category, CategoryBuilderImpl> {
+  private static class CategoryBuilderImpl extends CategoryBuilder<Category, CategoryBuilderImpl> {
 
     @Override
     protected CategoryBuilderImpl self() {

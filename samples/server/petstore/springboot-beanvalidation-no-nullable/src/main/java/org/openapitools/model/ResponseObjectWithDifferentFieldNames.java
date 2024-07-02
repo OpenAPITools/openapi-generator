@@ -18,7 +18,7 @@ import javax.annotation.Generated;
  * ResponseObjectWithDifferentFieldNames
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ResponseObjectWithDifferentFieldNames {
 
   private String normalPropertyName;
@@ -37,7 +37,7 @@ public class ResponseObjectWithDifferentFieldNames {
   /**
    * Get normalPropertyName
    * @return normalPropertyName
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("normalPropertyName")
@@ -57,7 +57,7 @@ public class ResponseObjectWithDifferentFieldNames {
   /**
    * Get UPPER_CASE_PROPERTY_SNAKE
    * @return UPPER_CASE_PROPERTY_SNAKE
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("UPPER_CASE_PROPERTY_SNAKE")
@@ -77,7 +77,7 @@ public class ResponseObjectWithDifferentFieldNames {
   /**
    * Get lowerCasePropertyDashes
    * @return lowerCasePropertyDashes
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("lower-case-property-dashes")
@@ -97,7 +97,7 @@ public class ResponseObjectWithDifferentFieldNames {
   /**
    * Get propertyNameWithSpaces
    * @return propertyNameWithSpaces
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("property name with spaces")

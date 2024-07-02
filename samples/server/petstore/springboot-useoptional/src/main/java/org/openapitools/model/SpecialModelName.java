@@ -21,7 +21,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("_special_model.name_")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class SpecialModelName {
 
   private Optional<Long> $specialPropertyName = Optional.empty();
@@ -34,7 +34,7 @@ public class SpecialModelName {
   /**
    * Get $specialPropertyName
    * @return $specialPropertyName
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("$special[property.name]")
@@ -82,5 +82,63 @@ public class SpecialModelName {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private SpecialModelName instance;
+
+    public Builder() {
+      this(new SpecialModelName());
+    }
+
+    protected Builder(SpecialModelName instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(SpecialModelName value) { 
+      this.instance.set$SpecialPropertyName(value.$specialPropertyName);
+      return this;
+    }
+
+    public SpecialModelName.Builder $specialPropertyName(Long $specialPropertyName) {
+      this.instance.$specialPropertyName($specialPropertyName);
+      return this;
+    }
+    
+    /**
+    * returns a built SpecialModelName instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public SpecialModelName build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static SpecialModelName.Builder builder() {
+    return new SpecialModelName.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public SpecialModelName.Builder toBuilder() {
+    SpecialModelName.Builder builder = new SpecialModelName.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

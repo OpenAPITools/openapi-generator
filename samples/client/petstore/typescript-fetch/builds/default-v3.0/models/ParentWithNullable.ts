@@ -12,11 +12,8 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
-import {
-     ChildWithNullableFromJSONTyped
-} from './index';
-
+import { mapValues } from '../runtime';
+import { ChildWithNullableFromJSONTyped } from './ChildWithNullable';
 /**
  * 
  * @export
@@ -50,10 +47,8 @@ export type ParentWithNullableTypeEnum = typeof ParentWithNullableTypeEnum[keyof
 /**
  * Check if a given object implements the ParentWithNullable interface.
  */
-export function instanceOfParentWithNullable(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfParentWithNullable(value: object): value is ParentWithNullable {
+    return true;
 }
 
 export function ParentWithNullableFromJSON(json: any): ParentWithNullable {
@@ -61,7 +56,7 @@ export function ParentWithNullableFromJSON(json: any): ParentWithNullable {
 }
 
 export function ParentWithNullableFromJSONTyped(json: any, ignoreDiscriminator: boolean): ParentWithNullable {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     if (!ignoreDiscriminator) {
@@ -71,22 +66,19 @@ export function ParentWithNullableFromJSONTyped(json: any, ignoreDiscriminator: 
     }
     return {
         
-        'type': !exists(json, 'type') ? undefined : json['type'],
-        'nullableProperty': !exists(json, 'nullableProperty') ? undefined : json['nullableProperty'],
+        'type': json['type'] == null ? undefined : json['type'],
+        'nullableProperty': json['nullableProperty'] == null ? undefined : json['nullableProperty'],
     };
 }
 
 export function ParentWithNullableToJSON(value?: ParentWithNullable | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'type': value.type,
-        'nullableProperty': value.nullableProperty,
+        'type': value['type'],
+        'nullableProperty': value['nullableProperty'],
     };
 }
 

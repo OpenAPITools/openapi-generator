@@ -14,8 +14,7 @@ use swagger::auth::Scopes;
 use url::form_urlencoded;
 
 #[allow(unused_imports)]
-use crate::models;
-use crate::header;
+use crate::{models, header, AuthenticationApi};
 
 pub use crate::context;
 
@@ -49,6 +48,8 @@ use crate::{Api,
      CreateRepoResponse,
      GetRepoInfoResponse
 };
+
+mod server_auth;
 
 pub mod callbacks;
 
@@ -122,6 +123,7 @@ mod paths {
     pub(crate) static ID_XML_OTHER: usize = 23;
 }
 
+
 pub struct MakeService<T, C> where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static
@@ -142,6 +144,7 @@ impl<T, C> MakeService<T, C> where
     }
 }
 
+
 impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static
@@ -155,7 +158,7 @@ impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
     }
 
     fn call(&mut self, target: Target) -> Self::Future {
-        futures::future::ok(Service::new(
+        future::ok(Service::new(
             self.api_impl.clone(),
         ))
     }

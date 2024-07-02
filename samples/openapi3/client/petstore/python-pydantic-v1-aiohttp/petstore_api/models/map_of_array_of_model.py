@@ -26,7 +26,7 @@ class MapOfArrayOfModel(BaseModel):
     """
     MapOfArrayOfModel
     """
-    shop_id_to_org_online_lip_map: Optional[Dict[str, conlist(Tag)]] = Field(None, alias="shopIdToOrgOnlineLipMap")
+    shop_id_to_org_online_lip_map: Optional[Dict[str, conlist(Tag)]] = Field(default=None, alias="shopIdToOrgOnlineLipMap")
     __properties = ["shopIdToOrgOnlineLipMap"]
 
     class Config:
@@ -57,7 +57,7 @@ class MapOfArrayOfModel(BaseModel):
         _field_dict_of_array = {}
         if self.shop_id_to_org_online_lip_map:
             for _key in self.shop_id_to_org_online_lip_map:
-                if self.shop_id_to_org_online_lip_map[_key]:
+                if self.shop_id_to_org_online_lip_map[_key] is not None:
                     _field_dict_of_array[_key] = [
                         _item.to_dict() for _item in self.shop_id_to_org_online_lip_map[_key]
                     ]

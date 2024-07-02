@@ -61,7 +61,7 @@ import javax.validation.Valid;
   XmlItem.JSON_PROPERTY_PREFIX_NS_ARRAY,
   XmlItem.JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class XmlItem  implements Serializable {
   public static final String JSON_PROPERTY_ATTRIBUTE_STRING = "attribute_string";
   @JsonProperty(JSON_PROPERTY_ATTRIBUTE_STRING)
@@ -81,7 +81,7 @@ public class XmlItem  implements Serializable {
 
   public static final String JSON_PROPERTY_WRAPPED_ARRAY = "wrapped_array";
   @JsonProperty(JSON_PROPERTY_WRAPPED_ARRAY)
-  private List<Integer> wrappedArray;
+  private List<Integer> wrappedArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_NAME_STRING = "name_string";
   @JsonProperty(JSON_PROPERTY_NAME_STRING)
@@ -101,11 +101,11 @@ public class XmlItem  implements Serializable {
 
   public static final String JSON_PROPERTY_NAME_ARRAY = "name_array";
   @JsonProperty(JSON_PROPERTY_NAME_ARRAY)
-  private List<Integer> nameArray;
+  private List<Integer> nameArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_NAME_WRAPPED_ARRAY = "name_wrapped_array";
   @JsonProperty(JSON_PROPERTY_NAME_WRAPPED_ARRAY)
-  private List<Integer> nameWrappedArray;
+  private List<Integer> nameWrappedArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PREFIX_STRING = "prefix_string";
   @JsonProperty(JSON_PROPERTY_PREFIX_STRING)
@@ -125,11 +125,11 @@ public class XmlItem  implements Serializable {
 
   public static final String JSON_PROPERTY_PREFIX_ARRAY = "prefix_array";
   @JsonProperty(JSON_PROPERTY_PREFIX_ARRAY)
-  private List<Integer> prefixArray;
+  private List<Integer> prefixArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PREFIX_WRAPPED_ARRAY = "prefix_wrapped_array";
   @JsonProperty(JSON_PROPERTY_PREFIX_WRAPPED_ARRAY)
-  private List<Integer> prefixWrappedArray;
+  private List<Integer> prefixWrappedArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_NAMESPACE_STRING = "namespace_string";
   @JsonProperty(JSON_PROPERTY_NAMESPACE_STRING)
@@ -149,11 +149,11 @@ public class XmlItem  implements Serializable {
 
   public static final String JSON_PROPERTY_NAMESPACE_ARRAY = "namespace_array";
   @JsonProperty(JSON_PROPERTY_NAMESPACE_ARRAY)
-  private List<Integer> namespaceArray;
+  private List<Integer> namespaceArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY = "namespace_wrapped_array";
   @JsonProperty(JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY)
-  private List<Integer> namespaceWrappedArray;
+  private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PREFIX_NS_STRING = "prefix_ns_string";
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_STRING)
@@ -173,11 +173,11 @@ public class XmlItem  implements Serializable {
 
   public static final String JSON_PROPERTY_PREFIX_NS_ARRAY = "prefix_ns_array";
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_ARRAY)
-  private List<Integer> prefixNsArray;
+  private List<Integer> prefixNsArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY = "prefix_ns_wrapped_array";
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY)
-  private List<Integer> prefixNsWrappedArray;
+  private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItem attributeString(String attributeString) {
     this.attributeString = attributeString;

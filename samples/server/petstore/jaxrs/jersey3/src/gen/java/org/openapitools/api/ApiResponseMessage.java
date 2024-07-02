@@ -1,7 +1,7 @@
 package org.openapitools.api;
 
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ApiResponseMessage {
     public static final int ERROR = 1;
     public static final int WARNING = 2;

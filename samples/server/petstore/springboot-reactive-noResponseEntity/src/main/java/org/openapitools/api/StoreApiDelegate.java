@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  * A delegate to be called by the {@link StoreApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public interface StoreApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {

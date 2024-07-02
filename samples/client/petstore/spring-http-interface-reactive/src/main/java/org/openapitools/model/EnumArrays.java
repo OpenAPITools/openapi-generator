@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  * EnumArrays
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class EnumArrays {
 
   /**
@@ -96,7 +96,7 @@ public class EnumArrays {
   }
 
   
-  private List<ArrayEnumEnum> arrayEnum;
+  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
@@ -106,7 +106,7 @@ public class EnumArrays {
   /**
    * Get justSymbol
    * @return justSymbol
-  */
+   */
   
   @JsonProperty("just_symbol")
   public JustSymbolEnum getJustSymbol() {
@@ -133,7 +133,7 @@ public class EnumArrays {
   /**
    * Get arrayEnum
    * @return arrayEnum
-  */
+   */
   
   @JsonProperty("array_enum")
   public List<ArrayEnumEnum> getArrayEnum() {

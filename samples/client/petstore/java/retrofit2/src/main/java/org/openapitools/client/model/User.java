@@ -25,7 +25,7 @@ import java.io.IOException;
 /**
  * User
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class User {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -68,10 +68,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
 
   public Long getId() {
@@ -83,17 +83,16 @@ public class User {
     this.id = id;
   }
 
-
   public User username(String username) {
     
     this.username = username;
     return this;
   }
 
-   /**
+  /**
    * Get username
    * @return username
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getUsername() {
@@ -105,17 +104,16 @@ public class User {
     this.username = username;
   }
 
-
   public User firstName(String firstName) {
     
     this.firstName = firstName;
     return this;
   }
 
-   /**
+  /**
    * Get firstName
    * @return firstName
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getFirstName() {
@@ -127,17 +125,16 @@ public class User {
     this.firstName = firstName;
   }
 
-
   public User lastName(String lastName) {
     
     this.lastName = lastName;
     return this;
   }
 
-   /**
+  /**
    * Get lastName
    * @return lastName
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getLastName() {
@@ -149,17 +146,16 @@ public class User {
     this.lastName = lastName;
   }
 
-
   public User email(String email) {
     
     this.email = email;
     return this;
   }
 
-   /**
+  /**
    * Get email
    * @return email
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getEmail() {
@@ -171,17 +167,16 @@ public class User {
     this.email = email;
   }
 
-
   public User password(String password) {
     
     this.password = password;
     return this;
   }
 
-   /**
+  /**
    * Get password
    * @return password
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getPassword() {
@@ -193,17 +188,16 @@ public class User {
     this.password = password;
   }
 
-
   public User phone(String phone) {
     
     this.phone = phone;
     return this;
   }
 
-   /**
+  /**
    * Get phone
    * @return phone
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getPhone() {
@@ -215,17 +209,16 @@ public class User {
     this.phone = phone;
   }
 
-
   public User userStatus(Integer userStatus) {
     
     this.userStatus = userStatus;
     return this;
   }
 
-   /**
+  /**
    * User Status
    * @return userStatus
-  **/
+   */
   @javax.annotation.Nullable
 
   public Integer getUserStatus() {

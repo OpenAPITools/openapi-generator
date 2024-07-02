@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  * TypeHolderDefault
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class TypeHolderDefault {
 
   private String stringItem = "what";
@@ -57,7 +57,7 @@ public class TypeHolderDefault {
   /**
    * Get stringItem
    * @return stringItem
-  */
+   */
   @NotNull
   @JsonProperty("string_item")
   public String getStringItem() {
@@ -76,7 +76,7 @@ public class TypeHolderDefault {
   /**
    * Get numberItem
    * @return numberItem
-  */
+   */
   @NotNull
   @JsonProperty("number_item")
   public BigDecimal getNumberItem() {
@@ -95,7 +95,7 @@ public class TypeHolderDefault {
   /**
    * Get integerItem
    * @return integerItem
-  */
+   */
   @NotNull
   @JsonProperty("integer_item")
   public Integer getIntegerItem() {
@@ -114,7 +114,7 @@ public class TypeHolderDefault {
   /**
    * Get boolItem
    * @return boolItem
-  */
+   */
   @NotNull
   @JsonProperty("bool_item")
   public Boolean getBoolItem() {
@@ -141,7 +141,7 @@ public class TypeHolderDefault {
   /**
    * Get arrayItem
    * @return arrayItem
-  */
+   */
   @NotNull
   @JsonProperty("array_item")
   public List<Integer> getArrayItem() {

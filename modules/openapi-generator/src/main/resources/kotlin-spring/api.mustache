@@ -57,9 +57,11 @@ import kotlin.collections.Map
 {{#swagger1AnnotationLibrary}}
 @Api(value = "{{{baseName}}}", description = "The {{{baseName}}} API")
 {{/swagger1AnnotationLibrary}}
+{{#useRequestMappingOnController}}
 {{=<% %>=}}
 @RequestMapping("\${api.base-path:<%contextPath%>}")
 <%={{ }}=%>
+{{/useRequestMappingOnController}}
 {{#operations}}
 class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) val service: {{classname}}Service{{/serviceInterface}}) {
 {{#operation}}
@@ -85,12 +87,12 @@ class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) v
     @RequestMapping(
         method = [RequestMethod.{{httpMethod}}],
         value = ["{{#lambdaEscapeInNormalString}}{{path}}{{/lambdaEscapeInNormalString}}"]{{#singleContentTypes}}{{#hasProduces}},
-        produces = "{{{vendorExtensions.x-accepts}}}"{{/hasProduces}}{{#hasConsumes}},
+        produces = [{{#vendorExtensions.x-accepts}}"{{.}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-accepts}}]{{/hasProduces}}{{#hasConsumes}},
         consumes = "{{{vendorExtensions.x-content-type}}}"{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}},
         produces = [{{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}]{{/hasProduces}}{{#hasConsumes}},
         consumes = [{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}]{{/hasConsumes}}{{/singleContentTypes}}
     )
-    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>requesObject}}{{^-last}},{{/-last}}{{/allParams}}): ResponseEntity<{{>returnTypes}}> {
+    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{>requesObject}}{{^-last}},{{/-last}}{{/allParams}}): ResponseEntity<{{>returnTypes}}> {
         return {{>returnValue}}
     }
 {{/operation}}

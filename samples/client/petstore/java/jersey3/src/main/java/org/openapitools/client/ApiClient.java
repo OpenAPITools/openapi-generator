@@ -73,7 +73,7 @@ import org.openapitools.client.auth.OAuth;
 /**
  * <p>ApiClient class.</p>
  */
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
   private static final Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
 
@@ -132,7 +132,7 @@ public class ApiClient extends JavaTimeFormatter {
   protected Map<String, List<ServerConfiguration>> operationServers;
 
   {
-    Map<String, List<ServerConfiguration>> operationServers = new LinkedHashMap<>();
+    Map<String, List<ServerConfiguration>> operationServers = new HashMap<>();
     operationServers.put("PetApi.addPet", new ArrayList<>(Arrays.asList(
             new ServerConfiguration(
                     "http://petstore.swagger.io/v2",
@@ -815,9 +815,9 @@ public class ApiClient extends JavaTimeFormatter {
       return formatDate((Date) param);
     } else if (param instanceof OffsetDateTime) {
       return formatOffsetDateTime((OffsetDateTime) param);
-    } else if (param instanceof Collection) {
+    } else if (param instanceof Collection<?>) {
       StringBuilder b = new StringBuilder();
-      for(Object o : (Collection)param) {
+      for(Object o : (Collection<?>)param) {
         if(b.length() > 0) {
           b.append(',');
         }
@@ -843,9 +843,9 @@ public class ApiClient extends JavaTimeFormatter {
     // preconditions
     if (name == null || name.isEmpty() || value == null) return params;
 
-    Collection valueCollection;
-    if (value instanceof Collection) {
-      valueCollection = (Collection) value;
+    Collection<?> valueCollection;
+    if (value instanceof Collection<?>) {
+      valueCollection = (Collection<?>) value;
     } else {
       params.add(new Pair(name, parameterToString(value)));
       return params;
@@ -983,14 +983,14 @@ public class ApiClient extends JavaTimeFormatter {
               .fileName(file.getName()).size(file.length()).build();
 
           // Attempt to probe the content type for the file so that the form part is more correctly
-          // and precisely identified, but fall back to application/octet-stream if that fails.      
+          // and precisely identified, but fall back to application/octet-stream if that fails.
           MediaType type;
           try {
             type = MediaType.valueOf(Files.probeContentType(file.toPath()));
           } catch (IOException | IllegalArgumentException e) {
             type = MediaType.APPLICATION_OCTET_STREAM_TYPE;
           }
-        
+
           multiPart.bodyPart(new FormDataBodyPart(contentDisp, file, type));
         } else {
           FormDataContentDisposition contentDisp = FormDataContentDisposition.name(param.getKey()).build();

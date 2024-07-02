@@ -33,6 +33,7 @@ import org.openapitools.client.model.Animal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
@@ -41,7 +42,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String JSON_PROPERTY_UUID = "uuid";
   private UUID uuid;
@@ -60,14 +61,13 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public UUID getUuid() {
     return uuid;
   }
@@ -85,14 +85,13 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get dateTime
    * @return dateTime
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -118,14 +117,13 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get map
    * @return map
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Map<String, Animal> getMap() {
     return map;
   }
@@ -216,12 +214,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
     // add `uuid` to the URL query string
     if (getUuid() != null) {
-      joiner.add(String.format("%suuid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUuid()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%suuid%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getUuid()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `dateTime` to the URL query string
     if (getDateTime() != null) {
-      joiner.add(String.format("%sdateTime%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDateTime()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdateTime%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDateTime()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `map` to the URL query string
@@ -236,5 +234,69 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private MixedPropertiesAndAdditionalPropertiesClass instance;
+
+    public Builder() {
+      this(new MixedPropertiesAndAdditionalPropertiesClass());
+    }
+
+    protected Builder(MixedPropertiesAndAdditionalPropertiesClass instance) {
+      this.instance = instance;
+    }
+
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder uuid(UUID uuid) {
+      this.instance.uuid = uuid;
+      return this;
+    }
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder dateTime(OffsetDateTime dateTime) {
+      this.instance.dateTime = dateTime;
+      return this;
+    }
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder map(Map<String, Animal> map) {
+      this.instance.map = map;
+      return this;
+    }
+
+
+    /**
+    * returns a built MixedPropertiesAndAdditionalPropertiesClass instance.
+    *
+    * The builder is not reusable.
+    */
+    public MixedPropertiesAndAdditionalPropertiesClass build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static MixedPropertiesAndAdditionalPropertiesClass.Builder builder() {
+    return new MixedPropertiesAndAdditionalPropertiesClass.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public MixedPropertiesAndAdditionalPropertiesClass.Builder toBuilder() {
+    return new MixedPropertiesAndAdditionalPropertiesClass.Builder()
+      .uuid(getUuid())
+      .dateTime(getDateTime())
+      .map(getMap());
+  }
+
 }
 

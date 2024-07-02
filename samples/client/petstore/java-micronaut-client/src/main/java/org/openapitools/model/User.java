@@ -35,7 +35,7 @@ import javax.annotation.Generated;
   User.JSON_PROPERTY_USER_STATUS
 })
 @JsonTypeName("User")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @Introspected
 public class User {
     public static final String JSON_PROPERTY_ID = "id";
@@ -72,7 +72,7 @@ public class User {
     /**
      * Get id
      * @return id
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -94,7 +94,7 @@ public class User {
     /**
      * Get username
      * @return username
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_USERNAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -116,7 +116,7 @@ public class User {
     /**
      * Get firstName
      * @return firstName
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_FIRST_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -138,7 +138,7 @@ public class User {
     /**
      * Get lastName
      * @return lastName
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_LAST_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -160,7 +160,7 @@ public class User {
     /**
      * Get email
      * @return email
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_EMAIL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -182,7 +182,7 @@ public class User {
     /**
      * Get password
      * @return password
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_PASSWORD)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -204,7 +204,7 @@ public class User {
     /**
      * Get phone
      * @return phone
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_PHONE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -226,7 +226,7 @@ public class User {
     /**
      * User Status
      * @return userStatus
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_USER_STATUS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

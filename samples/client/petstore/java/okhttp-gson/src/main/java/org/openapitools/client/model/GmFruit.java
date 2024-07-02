@@ -60,7 +60,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class GmFruit extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(GmFruit.class.getName());
 
@@ -85,17 +85,17 @@ public class GmFruit extends AbstractOpenApiSchema {
 
                     // check if the actual instance is of the type `Apple`
                     if (value.getActualInstance() instanceof Apple) {
-                      JsonElement element = adapterApple.toJsonTree((Apple)value.getActualInstance());
-                      elementAdapter.write(out, element);
-                      return;
+                        JsonElement element = adapterApple.toJsonTree((Apple)value.getActualInstance());
+                        elementAdapter.write(out, element);
+                        return;
                     }
                     // check if the actual instance is of the type `Banana`
                     if (value.getActualInstance() instanceof Banana) {
-                      JsonElement element = adapterBanana.toJsonTree((Banana)value.getActualInstance());
-                      elementAdapter.write(out, element);
-                      return;
+                        JsonElement element = adapterBanana.toJsonTree((Banana)value.getActualInstance());
+                        elementAdapter.write(out, element);
+                        return;
                     }
-                    throw new IOException("Failed to serialize as the type doesn't match anyOf schemae: Apple, Banana");
+                    throw new IOException("Failed to serialize as the type doesn't match anyOf schemas: Apple, Banana");
                 }
 
                 @Override
@@ -108,29 +108,29 @@ public class GmFruit extends AbstractOpenApiSchema {
 
                     // deserialize Apple
                     try {
-                      // validate the JSON object to see if any exception is thrown
-                      Apple.validateJsonElement(jsonElement);
-                      actualAdapter = adapterApple;
-                      GmFruit ret = new GmFruit();
-                      ret.setActualInstance(actualAdapter.fromJsonTree(jsonElement));
-                      return ret;
+                        // validate the JSON object to see if any exception is thrown
+                        Apple.validateJsonElement(jsonElement);
+                        actualAdapter = adapterApple;
+                        GmFruit ret = new GmFruit();
+                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonElement));
+                        return ret;
                     } catch (Exception e) {
-                      // deserialization failed, continue
-                      errorMessages.add(String.format("Deserialization for Apple failed with `%s`.", e.getMessage()));
-                      log.log(Level.FINER, "Input data does not match schema 'Apple'", e);
+                        // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for Apple failed with `%s`.", e.getMessage()));
+                        log.log(Level.FINER, "Input data does not match schema 'Apple'", e);
                     }
                     // deserialize Banana
                     try {
-                      // validate the JSON object to see if any exception is thrown
-                      Banana.validateJsonElement(jsonElement);
-                      actualAdapter = adapterBanana;
-                      GmFruit ret = new GmFruit();
-                      ret.setActualInstance(actualAdapter.fromJsonTree(jsonElement));
-                      return ret;
+                        // validate the JSON object to see if any exception is thrown
+                        Banana.validateJsonElement(jsonElement);
+                        actualAdapter = adapterBanana;
+                        GmFruit ret = new GmFruit();
+                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonElement));
+                        return ret;
                     } catch (Exception e) {
-                      // deserialization failed, continue
-                      errorMessages.add(String.format("Deserialization for Banana failed with `%s`.", e.getMessage()));
-                      log.log(Level.FINER, "Input data does not match schema 'Banana'", e);
+                        // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for Banana failed with `%s`.", e.getMessage()));
+                        log.log(Level.FINER, "Input data does not match schema 'Banana'", e);
                     }
 
                     throw new IOException(String.format("Failed deserialization for GmFruit: no class matches result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
@@ -146,12 +146,7 @@ public class GmFruit extends AbstractOpenApiSchema {
         super("anyOf", Boolean.FALSE);
     }
 
-    public GmFruit(Apple o) {
-        super("anyOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public GmFruit(Banana o) {
+    public GmFruit(Object o) {
         super("anyOf", Boolean.FALSE);
         setActualInstance(o);
     }
@@ -194,6 +189,7 @@ public class GmFruit extends AbstractOpenApiSchema {
      *
      * @return The actual instance (Apple, Banana)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -220,53 +216,52 @@ public class GmFruit extends AbstractOpenApiSchema {
         return (Banana)super.getActualInstance();
     }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to GmFruit
-  */
-  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
-    // validate anyOf schemas one by one
-    ArrayList<String> errorMessages = new ArrayList<>();
-    // validate the json string with Apple
-    try {
-      Apple.validateJsonElement(jsonElement);
-      return;
-    } catch (Exception e) {
-      errorMessages.add(String.format("Deserialization for Apple failed with `%s`.", e.getMessage()));
-      // continue to the next one
+    /**
+     * Validates the JSON Element and throws an exception if issues found
+     *
+     * @param jsonElement JSON Element
+     * @throws IOException if the JSON Element is invalid with respect to GmFruit
+     */
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+        // validate anyOf schemas one by one
+        ArrayList<String> errorMessages = new ArrayList<>();
+        // validate the json string with Apple
+        try {
+            Apple.validateJsonElement(jsonElement);
+            return;
+        } catch (Exception e) {
+            errorMessages.add(String.format("Deserialization for Apple failed with `%s`.", e.getMessage()));
+            // continue to the next one
+        }
+        // validate the json string with Banana
+        try {
+            Banana.validateJsonElement(jsonElement);
+            return;
+        } catch (Exception e) {
+            errorMessages.add(String.format("Deserialization for Banana failed with `%s`.", e.getMessage()));
+            // continue to the next one
+        }
+        throw new IOException(String.format("The JSON string is invalid for GmFruit with anyOf schemas: Apple, Banana. no class match the result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
     }
-    // validate the json string with Banana
-    try {
-      Banana.validateJsonElement(jsonElement);
-      return;
-    } catch (Exception e) {
-      errorMessages.add(String.format("Deserialization for Banana failed with `%s`.", e.getMessage()));
-      // continue to the next one
+
+    /**
+     * Create an instance of GmFruit given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of GmFruit
+     * @throws IOException if the JSON string is invalid with respect to GmFruit
+     */
+    public static GmFruit fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, GmFruit.class);
     }
-    throw new IOException(String.format("The JSON string is invalid for GmFruit with anyOf schemas: Apple, Banana. no class match the result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
-    
-  }
 
- /**
-  * Create an instance of GmFruit given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of GmFruit
-  * @throws IOException if the JSON string is invalid with respect to GmFruit
-  */
-  public static GmFruit fromJson(String jsonString) throws IOException {
-    return JSON.getGson().fromJson(jsonString, GmFruit.class);
-  }
-
- /**
-  * Convert an instance of GmFruit to an JSON string
-  *
-  * @return JSON string
-  */
-  public String toJson() {
-    return JSON.getGson().toJson(this);
-  }
+    /**
+     * Convert an instance of GmFruit to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

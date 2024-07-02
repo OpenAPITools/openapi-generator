@@ -16,7 +16,7 @@ import jakarta.annotation.Generated;
  * Capitalization
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Capitalization {
 
   private String smallCamel;
@@ -39,7 +39,7 @@ public class Capitalization {
   /**
    * Get smallCamel
    * @return smallCamel
-  */
+   */
   
   @JsonProperty("smallCamel")
   public String getSmallCamel() {
@@ -58,7 +58,7 @@ public class Capitalization {
   /**
    * Get capitalCamel
    * @return capitalCamel
-  */
+   */
   
   @JsonProperty("CapitalCamel")
   public String getCapitalCamel() {
@@ -77,7 +77,7 @@ public class Capitalization {
   /**
    * Get smallSnake
    * @return smallSnake
-  */
+   */
   
   @JsonProperty("small_Snake")
   public String getSmallSnake() {
@@ -96,7 +96,7 @@ public class Capitalization {
   /**
    * Get capitalSnake
    * @return capitalSnake
-  */
+   */
   
   @JsonProperty("Capital_Snake")
   public String getCapitalSnake() {
@@ -115,7 +115,7 @@ public class Capitalization {
   /**
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
-  */
+   */
   
   @JsonProperty("SCA_ETH_Flow_Points")
   public String getScAETHFlowPoints() {
@@ -134,7 +134,7 @@ public class Capitalization {
   /**
    * Name of the pet 
    * @return ATT_NAME
-  */
+   */
   
   @JsonProperty("ATT_NAME")
   public String getATTNAME() {

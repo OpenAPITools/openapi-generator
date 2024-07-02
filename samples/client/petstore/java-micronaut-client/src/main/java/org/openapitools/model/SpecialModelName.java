@@ -29,7 +29,7 @@ import javax.annotation.Generated;
   SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME
 })
 @JsonTypeName("$special[model.name]")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @Introspected
 public class SpecialModelName {
     public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
@@ -45,7 +45,7 @@ public class SpecialModelName {
     /**
      * Get $specialPropertyName
      * @return $specialPropertyName
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

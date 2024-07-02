@@ -25,7 +25,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("AdditionalPropertiesClass")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class AdditionalPropertiesClassDto {
 
   
@@ -74,7 +74,7 @@ public class AdditionalPropertiesClassDto {
   /**
    * Get mapString
    * @return mapString
-  */
+   */
   
   @JsonProperty("map_string")
   public Map<String, String> getMapString() {
@@ -101,7 +101,7 @@ public class AdditionalPropertiesClassDto {
   /**
    * Get mapNumber
    * @return mapNumber
-  */
+   */
   
   @JsonProperty("map_number")
   public Map<String, BigDecimal> getMapNumber() {
@@ -128,7 +128,7 @@ public class AdditionalPropertiesClassDto {
   /**
    * Get mapInteger
    * @return mapInteger
-  */
+   */
   
   @JsonProperty("map_integer")
   public Map<String, Integer> getMapInteger() {
@@ -155,7 +155,7 @@ public class AdditionalPropertiesClassDto {
   /**
    * Get mapBoolean
    * @return mapBoolean
-  */
+   */
   
   @JsonProperty("map_boolean")
   public Map<String, Boolean> getMapBoolean() {
@@ -182,7 +182,7 @@ public class AdditionalPropertiesClassDto {
   /**
    * Get mapArrayInteger
    * @return mapArrayInteger
-  */
+   */
   
   @JsonProperty("map_array_integer")
   public Map<String, List<Integer>> getMapArrayInteger() {
@@ -209,7 +209,7 @@ public class AdditionalPropertiesClassDto {
   /**
    * Get mapArrayAnytype
    * @return mapArrayAnytype
-  */
+   */
   
   @JsonProperty("map_array_anytype")
   public Map<String, List<Object>> getMapArrayAnytype() {
@@ -236,7 +236,7 @@ public class AdditionalPropertiesClassDto {
   /**
    * Get mapMapString
    * @return mapMapString
-  */
+   */
   
   @JsonProperty("map_map_string")
   public Map<String, Map<String, String>> getMapMapString() {
@@ -263,7 +263,7 @@ public class AdditionalPropertiesClassDto {
   /**
    * Get mapMapAnytype
    * @return mapMapAnytype
-  */
+   */
   
   @JsonProperty("map_map_anytype")
   public Map<String, Map<String, Object>> getMapMapAnytype() {
@@ -282,7 +282,7 @@ public class AdditionalPropertiesClassDto {
   /**
    * Get anytype1
    * @return anytype1
-  */
+   */
   
   @JsonProperty("anytype_1")
   public Object getAnytype1() {
@@ -301,7 +301,7 @@ public class AdditionalPropertiesClassDto {
   /**
    * Get anytype2
    * @return anytype2
-  */
+   */
   
   @JsonProperty("anytype_2")
   public JsonNullable<Object> getAnytype2() {
@@ -320,7 +320,7 @@ public class AdditionalPropertiesClassDto {
   /**
    * Get anytype3
    * @return anytype3
-  */
+   */
   
   @JsonProperty("anytype_3")
   public Object getAnytype3() {

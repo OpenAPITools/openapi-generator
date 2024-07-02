@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { SingleRefType } from './SingleRefType';
 import {
     SingleRefTypeFromJSON,
@@ -40,13 +40,13 @@ export interface AllOfWithSingleRef {
     singleRefType?: SingleRefType;
 }
 
+
+
 /**
  * Check if a given object implements the AllOfWithSingleRef interface.
  */
-export function instanceOfAllOfWithSingleRef(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfAllOfWithSingleRef(value: object): value is AllOfWithSingleRef {
+    return true;
 }
 
 export function AllOfWithSingleRefFromJSON(json: any): AllOfWithSingleRef {
@@ -54,27 +54,24 @@ export function AllOfWithSingleRefFromJSON(json: any): AllOfWithSingleRef {
 }
 
 export function AllOfWithSingleRefFromJSONTyped(json: any, ignoreDiscriminator: boolean): AllOfWithSingleRef {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'username': !exists(json, 'username') ? undefined : json['username'],
-        'singleRefType': !exists(json, 'SingleRefType') ? undefined : SingleRefTypeFromJSON(json['SingleRefType']),
+        'username': json['username'] == null ? undefined : json['username'],
+        'singleRefType': json['SingleRefType'] == null ? undefined : SingleRefTypeFromJSON(json['SingleRefType']),
     };
 }
 
 export function AllOfWithSingleRefToJSON(value?: AllOfWithSingleRef | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'username': value.username,
-        'SingleRefType': SingleRefTypeToJSON(value.singleRefType),
+        'username': value['username'],
+        'SingleRefType': SingleRefTypeToJSON(value['singleRefType']),
     };
 }
 

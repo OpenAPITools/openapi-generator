@@ -80,7 +80,7 @@ class StoreApiTest extends TestCase
     public function testDeleteOrder()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -92,7 +92,7 @@ class StoreApiTest extends TestCase
     public function testGetInventory()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -104,7 +104,7 @@ class StoreApiTest extends TestCase
     public function testGetOrderById()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -116,6 +116,6 @@ class StoreApiTest extends TestCase
     public function testPlaceOrder()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

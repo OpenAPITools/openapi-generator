@@ -24,7 +24,7 @@ import {
 {{#allParams.0}}
 export interface {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request {
 {{#allParams}}
-    {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
+    {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{#hasReadOnly}}Omit<{{{dataType}}}, {{#readOnlyVars}}'{{baseName}}'{{^-last}}|{{/-last}}{{/readOnlyVars}}>{{/hasReadOnly}}{{^hasReadOnly}}{{{dataType}}}{{/hasReadOnly}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
 {{/allParams}}
 }
 
@@ -107,8 +107,11 @@ export class {{classname}} extends runtime.BaseAPI {
     async {{nickname}}Raw({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
         {{#allParams}}
         {{#required}}
-        if (requestParameters.{{paramName}} === null || requestParameters.{{paramName}} === undefined) {
-            throw new runtime.RequiredError('{{paramName}}','Required parameter requestParameters.{{paramName}} was null or undefined when calling {{nickname}}.');
+        if (requestParameters['{{paramName}}'] == null) {
+            throw new runtime.RequiredError(
+                '{{paramName}}',
+                'Required parameter "{{paramName}}" was null or undefined when calling {{nickname}}().'
+            );
         }
 
         {{/required}}
@@ -117,27 +120,27 @@ export class {{classname}} extends runtime.BaseAPI {
 
         {{#queryParams}}
         {{#isArray}}
-        if (requestParameters.{{paramName}}) {
+        if (requestParameters['{{paramName}}'] != null) {
             {{#isCollectionFormatMulti}}
-            queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
+            queryParameters['{{baseName}}'] = requestParameters['{{paramName}}'];
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-            queryParameters['{{baseName}}'] = {{#uniqueItems}}Array.from({{/uniqueItems}}requestParameters.{{paramName}}{{#uniqueItems}}){{/uniqueItems}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
+            queryParameters['{{baseName}}'] = {{#uniqueItems}}Array.from({{/uniqueItems}}requestParameters['{{paramName}}']{{#uniqueItems}}){{/uniqueItems}}!.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
             {{/isCollectionFormatMulti}}
         }
 
         {{/isArray}}
         {{^isArray}}
-        if (requestParameters.{{paramName}} !== undefined) {
+        if (requestParameters['{{paramName}}'] != null) {
             {{#isDateTimeType}}
-            queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString();
+            queryParameters['{{baseName}}'] = (requestParameters['{{paramName}}'] as any).toISOString();
             {{/isDateTimeType}}
             {{^isDateTimeType}}
             {{#isDateType}}
-            queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString().substring(0,10);
+            queryParameters['{{baseName}}'] = (requestParameters['{{paramName}}'] as any).toISOString().substring(0,10);
             {{/isDateType}}
             {{^isDateType}}
-            queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
+            queryParameters['{{baseName}}'] = requestParameters['{{paramName}}'];
             {{/isDateType}}
             {{/isDateTimeType}}
         }
@@ -158,14 +161,14 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/bodyParam}}
         {{#headerParams}}
         {{#isArray}}
-        if (requestParameters.{{paramName}}) {
-            headerParameters['{{baseName}}'] = {{#uniqueItems}}Array.from({{/uniqueItems}}requestParameters.{{paramName}}{{#uniqueItems}}){{/uniqueItems}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
+        if (requestParameters['{{paramName}}'] != null) {
+            headerParameters['{{baseName}}'] = {{#uniqueItems}}Array.from({{/uniqueItems}}requestParameters['{{paramName}}']{{#uniqueItems}}){{/uniqueItems}}!.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
         }
 
         {{/isArray}}
         {{^isArray}}
-        if (requestParameters.{{paramName}} !== undefined && requestParameters.{{paramName}} !== null) {
-            headerParameters['{{baseName}}'] = String(requestParameters.{{paramName}});
+        if (requestParameters['{{paramName}}'] != null) {
+            headerParameters['{{baseName}}'] = String(requestParameters['{{paramName}}']);
         }
 
         {{/isArray}}
@@ -235,37 +238,47 @@ export class {{classname}} extends runtime.BaseAPI {
 
         {{#formParams}}
         {{#isArray}}
-        if (requestParameters.{{paramName}}) {
+        if (requestParameters['{{paramName}}'] != null) {
             {{#isCollectionFormatMulti}}
-            requestParameters.{{paramName}}.forEach((element) => {
-                formParams.append('{{baseName}}', element as any);
+            requestParameters['{{paramName}}'].forEach((element) => {
+                formParams.append('{{baseName}}{{#useSquareBracketsInArrayNames}}[]{{/useSquareBracketsInArrayNames}}', element as any);
             })
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-            formParams.append('{{baseName}}', {{#uniqueItems}}Array.from({{/uniqueItems}}requestParameters.{{paramName}}{{#uniqueItems}}){{/uniqueItems}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]));
+            formParams.append('{{baseName}}{{#useSquareBracketsInArrayNames}}[]{{/useSquareBracketsInArrayNames}}', {{#uniqueItems}}Array.from({{/uniqueItems}}requestParameters['{{paramName}}']{{#uniqueItems}}){{/uniqueItems}}!.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]));
             {{/isCollectionFormatMulti}}
         }
 
         {{/isArray}}
         {{^isArray}}
-        if (requestParameters.{{paramName}} !== undefined) {
+        if (requestParameters['{{paramName}}'] != null) {
+            {{#isDateTimeType}}
+            formParams.append('{{baseName}}', (requestParameters['{{paramName}}'] as any).toISOString());
+            {{/isDateTimeType}}
+            {{^isDateTimeType}}
             {{#isPrimitiveType}}
-            formParams.append('{{baseName}}', requestParameters.{{paramName}} as any);
+            formParams.append('{{baseName}}', requestParameters['{{paramName}}'] as any);
             {{/isPrimitiveType}}
             {{^isPrimitiveType}}
+            {{#isEnumRef}}
+            formParams.append('{{baseName}}', requestParameters['{{paramName}}'] as any);
+            {{/isEnumRef}}
+            {{^isEnumRef}}
             {{^withoutRuntimeChecks}}
-            formParams.append('{{baseName}}', new Blob([JSON.stringify({{{dataType}}}ToJSON(requestParameters.{{paramName}}))], { type: "application/json", }));
+            formParams.append('{{baseName}}', new Blob([JSON.stringify({{{dataType}}}ToJSON(requestParameters['{{paramName}}']))], { type: "application/json", }));
             {{/withoutRuntimeChecks}}{{#withoutRuntimeChecks}}
-            formParams.append('{{baseName}}', new Blob([JSON.stringify(requestParameters.{{paramName}})], { type: "application/json", }));
+            formParams.append('{{baseName}}', new Blob([JSON.stringify(requestParameters['{{paramName}}'])], { type: "application/json", }));
             {{/withoutRuntimeChecks}}
+            {{/isEnumRef}}
             {{/isPrimitiveType}}
+            {{/isDateTimeType}}
         }
 
         {{/isArray}}
         {{/formParams}}
         {{/hasFormParams}}
         const response = await this.request({
-            path: `{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
+            path: `{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters['{{paramName}}']))){{/pathParams}},
             method: '{{httpMethod}}',
             headers: headerParameters,
             query: queryParameters,
@@ -273,23 +286,23 @@ export class {{classname}} extends runtime.BaseAPI {
             {{#bodyParam}}
             {{#isContainer}}
             {{^withoutRuntimeChecks}}
-            body: requestParameters.{{paramName}}{{#isArray}}{{#items}}{{^isPrimitiveType}}.map({{datatype}}ToJSON){{/isPrimitiveType}}{{/items}}{{/isArray}},
+            body: requestParameters['{{paramName}}']{{#isArray}}{{#items}}{{^isPrimitiveType}}!.map({{datatype}}ToJSON){{/isPrimitiveType}}{{/items}}{{/isArray}},
             {{/withoutRuntimeChecks}}
             {{#withoutRuntimeChecks}}
-            body: requestParameters.{{paramName}},
+            body: requestParameters['{{paramName}}'],
             {{/withoutRuntimeChecks}}
             {{/isContainer}}
             {{^isContainer}}
             {{^isPrimitiveType}}
             {{^withoutRuntimeChecks}}
-            body: {{dataType}}ToJSON(requestParameters.{{paramName}}),
+            body: {{dataType}}ToJSON(requestParameters['{{paramName}}']),
             {{/withoutRuntimeChecks}}
             {{#withoutRuntimeChecks}}
-            body: requestParameters.{{paramName}},
+            body: requestParameters['{{paramName}}'],
             {{/withoutRuntimeChecks}}
             {{/isPrimitiveType}}
             {{#isPrimitiveType}}
-            body: requestParameters.{{paramName}} as any,
+            body: requestParameters['{{paramName}}'] as any,
             {{/isPrimitiveType}}
             {{/isContainer}}
             {{/bodyParam}}

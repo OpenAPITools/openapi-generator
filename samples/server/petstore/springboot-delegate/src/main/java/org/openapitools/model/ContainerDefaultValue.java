@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  * ContainerDefaultValue
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ContainerDefaultValue {
 
   @Valid
@@ -51,6 +51,16 @@ public class ContainerDefaultValue {
     this.requiredArray = requiredArray;
   }
 
+  /**
+   * Constructor with all args parameters
+   */
+  public ContainerDefaultValue(List<String> nullableArray, List<String> nullableRequiredArray, List<String> requiredArray, List<String> nullableArrayWithDefault) {
+      this.nullableArray = JsonNullable.of(nullableArray);
+      this.nullableRequiredArray = JsonNullable.of(nullableRequiredArray);
+      this.requiredArray = requiredArray;
+      this.nullableArrayWithDefault = JsonNullable.of(nullableArrayWithDefault);
+  }
+
   public ContainerDefaultValue nullableArray(List<String> nullableArray) {
     this.nullableArray = JsonNullable.of(nullableArray);
     return this;
@@ -67,7 +77,7 @@ public class ContainerDefaultValue {
   /**
    * Get nullableArray
    * @return nullableArray
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("nullable_array")
@@ -95,7 +105,7 @@ public class ContainerDefaultValue {
   /**
    * Get nullableRequiredArray
    * @return nullableRequiredArray
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("nullable_required_array")
@@ -123,7 +133,7 @@ public class ContainerDefaultValue {
   /**
    * Get requiredArray
    * @return requiredArray
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("required_array")
@@ -151,7 +161,7 @@ public class ContainerDefaultValue {
   /**
    * Get nullableArrayWithDefault
    * @return nullableArrayWithDefault
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("nullable_array_with_default")

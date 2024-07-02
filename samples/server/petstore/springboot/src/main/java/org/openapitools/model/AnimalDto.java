@@ -34,7 +34,7 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = DogDto.class, name = "Dog")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class AnimalDto {
 
   private String className;
@@ -60,7 +60,7 @@ public class AnimalDto {
   /**
    * Get className
    * @return className
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("className")
@@ -80,7 +80,7 @@ public class AnimalDto {
   /**
    * Get color
    * @return color
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("color")

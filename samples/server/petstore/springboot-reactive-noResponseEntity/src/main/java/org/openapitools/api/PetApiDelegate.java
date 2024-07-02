@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  * A delegate to be called by the {@link PetApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public interface PetApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -76,7 +76,7 @@ public interface PetApiDelegate {
      *         or Invalid status value (status code 400)
      * @see PetApi#findPetsByStatus
      */
-    default Mono<Flux<Pet>> findPetsByStatus(List<String> status,
+    default Flux<Pet> findPetsByStatus(List<String> status,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -92,7 +92,7 @@ public interface PetApiDelegate {
                 break;
             }
         }
-        return result.then(Mono.empty());
+        return result.thenMany(Flux.empty());
 
     }
 
@@ -107,7 +107,7 @@ public interface PetApiDelegate {
      * @see PetApi#findPetsByTags
      */
     @Deprecated
-    default Mono<Flux<Pet>> findPetsByTags(Set<String> tags,
+    default Flux<Pet> findPetsByTags(Set<String> tags,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -123,7 +123,7 @@ public interface PetApiDelegate {
                 break;
             }
         }
-        return result.then(Mono.empty());
+        return result.thenMany(Flux.empty());
 
     }
 

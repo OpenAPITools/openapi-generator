@@ -59,7 +59,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Pig extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Pig.class.getName());
 
@@ -84,15 +84,15 @@ public class Pig extends AbstractOpenApiSchema {
 
                     // check if the actual instance is of the type `BasquePig`
                     if (value.getActualInstance() instanceof BasquePig) {
-                      JsonElement element = adapterBasquePig.toJsonTree((BasquePig)value.getActualInstance());
-                      elementAdapter.write(out, element);
-                      return;
+                        JsonElement element = adapterBasquePig.toJsonTree((BasquePig)value.getActualInstance());
+                        elementAdapter.write(out, element);
+                        return;
                     }
                     // check if the actual instance is of the type `DanishPig`
                     if (value.getActualInstance() instanceof DanishPig) {
-                      JsonElement element = adapterDanishPig.toJsonTree((DanishPig)value.getActualInstance());
-                      elementAdapter.write(out, element);
-                      return;
+                        JsonElement element = adapterDanishPig.toJsonTree((DanishPig)value.getActualInstance());
+                        elementAdapter.write(out, element);
+                        return;
                     }
                     throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: BasquePig, DanishPig");
                 }
@@ -130,27 +130,27 @@ public class Pig extends AbstractOpenApiSchema {
 
                     // deserialize BasquePig
                     try {
-                      // validate the JSON object to see if any exception is thrown
-                      BasquePig.validateJsonElement(jsonElement);
-                      actualAdapter = adapterBasquePig;
-                      match++;
-                      log.log(Level.FINER, "Input data matches schema 'BasquePig'");
+                        // validate the JSON object to see if any exception is thrown
+                        BasquePig.validateJsonElement(jsonElement);
+                        actualAdapter = adapterBasquePig;
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'BasquePig'");
                     } catch (Exception e) {
-                      // deserialization failed, continue
-                      errorMessages.add(String.format("Deserialization for BasquePig failed with `%s`.", e.getMessage()));
-                      log.log(Level.FINER, "Input data does not match schema 'BasquePig'", e);
+                        // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for BasquePig failed with `%s`.", e.getMessage()));
+                        log.log(Level.FINER, "Input data does not match schema 'BasquePig'", e);
                     }
                     // deserialize DanishPig
                     try {
-                      // validate the JSON object to see if any exception is thrown
-                      DanishPig.validateJsonElement(jsonElement);
-                      actualAdapter = adapterDanishPig;
-                      match++;
-                      log.log(Level.FINER, "Input data matches schema 'DanishPig'");
+                        // validate the JSON object to see if any exception is thrown
+                        DanishPig.validateJsonElement(jsonElement);
+                        actualAdapter = adapterDanishPig;
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'DanishPig'");
                     } catch (Exception e) {
-                      // deserialization failed, continue
-                      errorMessages.add(String.format("Deserialization for DanishPig failed with `%s`.", e.getMessage()));
-                      log.log(Level.FINER, "Input data does not match schema 'DanishPig'", e);
+                        // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for DanishPig failed with `%s`.", e.getMessage()));
+                        log.log(Level.FINER, "Input data does not match schema 'DanishPig'", e);
                     }
 
                     if (match == 1) {
@@ -172,12 +172,7 @@ public class Pig extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public Pig(BasquePig o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public Pig(DanishPig o) {
+    public Pig(Object o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
@@ -220,6 +215,7 @@ public class Pig extends AbstractOpenApiSchema {
      *
      * @return The actual instance (BasquePig, DanishPig)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -246,55 +242,55 @@ public class Pig extends AbstractOpenApiSchema {
         return (DanishPig)super.getActualInstance();
     }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Pig
-  */
-  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
-    // validate oneOf schemas one by one
-    int validCount = 0;
-    ArrayList<String> errorMessages = new ArrayList<>();
-    // validate the json string with BasquePig
-    try {
-      BasquePig.validateJsonElement(jsonElement);
-      validCount++;
-    } catch (Exception e) {
-      errorMessages.add(String.format("Deserialization for BasquePig failed with `%s`.", e.getMessage()));
-      // continue to the next one
+    /**
+     * Validates the JSON Element and throws an exception if issues found
+     *
+     * @param jsonElement JSON Element
+     * @throws IOException if the JSON Element is invalid with respect to Pig
+     */
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+        // validate oneOf schemas one by one
+        int validCount = 0;
+        ArrayList<String> errorMessages = new ArrayList<>();
+        // validate the json string with BasquePig
+        try {
+            BasquePig.validateJsonElement(jsonElement);
+            validCount++;
+        } catch (Exception e) {
+            errorMessages.add(String.format("Deserialization for BasquePig failed with `%s`.", e.getMessage()));
+            // continue to the next one
+        }
+        // validate the json string with DanishPig
+        try {
+            DanishPig.validateJsonElement(jsonElement);
+            validCount++;
+        } catch (Exception e) {
+            errorMessages.add(String.format("Deserialization for DanishPig failed with `%s`.", e.getMessage()));
+            // continue to the next one
+        }
+        if (validCount != 1) {
+            throw new IOException(String.format("The JSON string is invalid for Pig with oneOf schemas: BasquePig, DanishPig. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
+        }
     }
-    // validate the json string with DanishPig
-    try {
-      DanishPig.validateJsonElement(jsonElement);
-      validCount++;
-    } catch (Exception e) {
-      errorMessages.add(String.format("Deserialization for DanishPig failed with `%s`.", e.getMessage()));
-      // continue to the next one
-    }
-    if (validCount != 1) {
-      throw new IOException(String.format("The JSON string is invalid for Pig with oneOf schemas: BasquePig, DanishPig. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
-    }
-  }
 
- /**
-  * Create an instance of Pig given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Pig
-  * @throws IOException if the JSON string is invalid with respect to Pig
-  */
-  public static Pig fromJson(String jsonString) throws IOException {
-    return JSON.getGson().fromJson(jsonString, Pig.class);
-  }
+    /**
+     * Create an instance of Pig given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of Pig
+     * @throws IOException if the JSON string is invalid with respect to Pig
+     */
+    public static Pig fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, Pig.class);
+    }
 
- /**
-  * Convert an instance of Pig to an JSON string
-  *
-  * @return JSON string
-  */
-  public String toJson() {
-    return JSON.getGson().toJson(this);
-  }
+    /**
+     * Convert an instance of Pig to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

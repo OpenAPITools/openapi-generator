@@ -30,12 +30,19 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ModelFile.JSON_PROPERTY_SOURCE_U_R_I
 })
 @JsonTypeName("File")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ModelFile {
   public static final String JSON_PROPERTY_SOURCE_U_R_I = "sourceURI";
   private String sourceURI;
 
   public ModelFile() {
+  }
+
+  /**
+   * Constructor with all args parameters
+   */
+  public ModelFile(@JsonProperty(JSON_PROPERTY_SOURCE_U_R_I) String sourceURI) {
+    this.sourceURI = sourceURI;
   }
 
   public ModelFile sourceURI(String sourceURI) {
@@ -44,10 +51,10 @@ public class ModelFile {
     return this;
   }
 
-   /**
+  /**
    * Test capitalization
    * @return sourceURI
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -99,6 +106,60 @@ public class ModelFile {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder {
+
+    private ModelFile instance;
+
+    public Builder() {
+      this(new ModelFile());
+    }
+
+    protected Builder(ModelFile instance) {
+      this.instance = instance;
+    }
+
+    public ModelFile.Builder sourceURI(String sourceURI) {
+      this.instance.sourceURI = sourceURI;
+      return this;
+    }
+
+
+    /**
+    * returns a built ModelFile instance.
+    *
+    * The builder is not reusable.
+    */
+    public ModelFile build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ModelFile.Builder builder() {
+    return new ModelFile.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ModelFile.Builder toBuilder() {
+    return new ModelFile.Builder()
+      .sourceURI(getSourceURI());
+  }
+
 
 }
 

@@ -25,7 +25,7 @@ import jakarta.annotation.Generated;
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Pet {
 
   private Long id;
@@ -38,7 +38,7 @@ public class Pet {
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   
-  private List<Tag> tags;
+  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -100,7 +100,7 @@ public class Pet {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @JsonProperty("id")
   public Long getId() {
@@ -119,7 +119,7 @@ public class Pet {
   /**
    * Get category
    * @return category
-  */
+   */
   
   @JsonProperty("category")
   public Category getCategory() {
@@ -138,7 +138,7 @@ public class Pet {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull
   @JsonProperty("name")
   public String getName() {
@@ -165,7 +165,7 @@ public class Pet {
   /**
    * Get photoUrls
    * @return photoUrls
-  */
+   */
   @NotNull
   @JsonProperty("photoUrls")
   public Set<String> getPhotoUrls() {
@@ -193,7 +193,7 @@ public class Pet {
   /**
    * Get tags
    * @return tags
-  */
+   */
   
   @JsonProperty("tags")
   public List<Tag> getTags() {
@@ -213,7 +213,7 @@ public class Pet {
    * pet status in the store
    * @return status
    * @deprecated
-  */
+   */
   
   @JsonProperty("status")
   @Deprecated
@@ -223,7 +223,7 @@ public class Pet {
 
   /**
    * @deprecated
-  */
+   */
   @Deprecated
   public void setStatus(StatusEnum status) {
     this.status = status;

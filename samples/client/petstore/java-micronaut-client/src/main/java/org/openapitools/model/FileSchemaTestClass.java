@@ -33,7 +33,7 @@ import javax.annotation.Generated;
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
 @JsonTypeName("FileSchemaTestClass")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @Introspected
 public class FileSchemaTestClass {
     public static final String JSON_PROPERTY_FILE = "file";
@@ -52,7 +52,7 @@ public class FileSchemaTestClass {
     /**
      * Get _file
      * @return _file
-     **/
+     */
     @Valid
     @Nullable
     @JsonProperty(JSON_PROPERTY_FILE)
@@ -83,7 +83,7 @@ public class FileSchemaTestClass {
     /**
      * Get files
      * @return files
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_FILES)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

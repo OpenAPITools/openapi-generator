@@ -515,7 +515,7 @@
       file_params["{{baseName}}"] <- httr::upload_file(`{{paramName}}`)
       {{/isHttr2}}
       {{#isHttr2}}
-      file_params["{{baseName}}"] <- curl::form_file(`{{paramName}}`)
+      file_params[["{{{baseName}}}"]] <- curl::form_file(`{{paramName}}`)
       {{/isHttr2}}
       {{/isFile}}
       {{/formParams}}

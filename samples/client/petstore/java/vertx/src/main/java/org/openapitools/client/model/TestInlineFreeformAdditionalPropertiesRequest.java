@@ -32,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   TestInlineFreeformAdditionalPropertiesRequest.JSON_PROPERTY_SOME_PROPERTY
 })
 @JsonTypeName("testInlineFreeformAdditionalProperties_request")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, Object> {
   public static final String JSON_PROPERTY_SOME_PROPERTY = "someProperty";
   private String someProperty;
@@ -47,10 +47,10 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
     return this;
   }
 
-   /**
+  /**
    * Get someProperty
    * @return someProperty
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SOME_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

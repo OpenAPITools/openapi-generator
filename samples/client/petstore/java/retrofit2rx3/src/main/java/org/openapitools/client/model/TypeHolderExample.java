@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * TypeHolderExample
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class TypeHolderExample {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)
@@ -64,10 +64,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get stringItem
    * @return stringItem
-  **/
+   */
   @javax.annotation.Nonnull
 
   public String getStringItem() {
@@ -79,17 +79,16 @@ public class TypeHolderExample {
     this.stringItem = stringItem;
   }
 
-
   public TypeHolderExample numberItem(BigDecimal numberItem) {
     
     this.numberItem = numberItem;
     return this;
   }
 
-   /**
+  /**
    * Get numberItem
    * @return numberItem
-  **/
+   */
   @javax.annotation.Nonnull
 
   public BigDecimal getNumberItem() {
@@ -101,17 +100,16 @@ public class TypeHolderExample {
     this.numberItem = numberItem;
   }
 
-
   public TypeHolderExample floatItem(Float floatItem) {
     
     this.floatItem = floatItem;
     return this;
   }
 
-   /**
+  /**
    * Get floatItem
    * @return floatItem
-  **/
+   */
   @javax.annotation.Nonnull
 
   public Float getFloatItem() {
@@ -123,17 +121,16 @@ public class TypeHolderExample {
     this.floatItem = floatItem;
   }
 
-
   public TypeHolderExample integerItem(Integer integerItem) {
     
     this.integerItem = integerItem;
     return this;
   }
 
-   /**
+  /**
    * Get integerItem
    * @return integerItem
-  **/
+   */
   @javax.annotation.Nonnull
 
   public Integer getIntegerItem() {
@@ -145,17 +142,16 @@ public class TypeHolderExample {
     this.integerItem = integerItem;
   }
 
-
   public TypeHolderExample boolItem(Boolean boolItem) {
     
     this.boolItem = boolItem;
     return this;
   }
 
-   /**
+  /**
    * Get boolItem
    * @return boolItem
-  **/
+   */
   @javax.annotation.Nonnull
 
   public Boolean getBoolItem() {
@@ -166,7 +162,6 @@ public class TypeHolderExample {
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
-
 
   public TypeHolderExample arrayItem(List<Integer> arrayItem) {
     
@@ -182,10 +177,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get arrayItem
    * @return arrayItem
-  **/
+   */
   @javax.annotation.Nonnull
 
   public List<Integer> getArrayItem() {

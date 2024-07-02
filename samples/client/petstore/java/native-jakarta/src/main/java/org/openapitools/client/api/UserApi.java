@@ -51,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class UserApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -168,6 +168,7 @@ public class UserApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Creates list of users with given input array
    * 
@@ -248,6 +249,7 @@ public class UserApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Creates list of users with given input array
    * 
@@ -328,6 +330,7 @@ public class UserApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Delete user
    * This can only be done by the logged in user.
@@ -403,6 +406,7 @@ public class UserApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Get user by user name
    * 
@@ -475,6 +479,7 @@ public class UserApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Logs user into the system
    * 
@@ -569,6 +574,7 @@ public class UserApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Logs out current logged in user session
    * 
@@ -637,6 +643,7 @@ public class UserApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Updated user
    * This can only be done by the logged in user.
@@ -724,4 +731,5 @@ public class UserApi {
     }
     return localVarRequestBuilder;
   }
+
 }

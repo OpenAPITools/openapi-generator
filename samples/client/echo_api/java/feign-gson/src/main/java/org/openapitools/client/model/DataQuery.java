@@ -30,7 +30,7 @@ import org.openapitools.client.model.Query;
 /**
  * DataQuery
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class DataQuery extends Query {
   public static final String SERIALIZED_NAME_SUFFIX = "suffix";
   @SerializedName(SERIALIZED_NAME_SUFFIX)
@@ -54,10 +54,10 @@ public class DataQuery extends Query {
     return this;
   }
 
-   /**
+  /**
    * test suffix
    * @return suffix
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getSuffix() {
@@ -76,10 +76,10 @@ public class DataQuery extends Query {
     return this;
   }
 
-   /**
+  /**
    * Some text containing white spaces
    * @return text
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getText() {
@@ -98,10 +98,10 @@ public class DataQuery extends Query {
     return this;
   }
 
-   /**
+  /**
    * A date
    * @return date
-  **/
+   */
   @javax.annotation.Nullable
 
   public OffsetDateTime getDate() {

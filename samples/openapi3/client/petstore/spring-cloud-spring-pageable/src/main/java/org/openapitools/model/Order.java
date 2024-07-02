@@ -22,7 +22,7 @@ import javax.annotation.Generated;
  */
 
 @Schema(name = "Order", description = "An order for a pets from the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Order {
 
   private Long id;
@@ -83,7 +83,7 @@ public class Order {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
@@ -103,7 +103,7 @@ public class Order {
   /**
    * Get petId
    * @return petId
-  */
+   */
   
   @Schema(name = "petId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("petId")
@@ -123,7 +123,7 @@ public class Order {
   /**
    * Get quantity
    * @return quantity
-  */
+   */
   
   @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("quantity")
@@ -143,7 +143,7 @@ public class Order {
   /**
    * Get shipDate
    * @return shipDate
-  */
+   */
   @Valid 
   @Schema(name = "shipDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("shipDate")
@@ -163,7 +163,7 @@ public class Order {
   /**
    * Order Status
    * @return status
-  */
+   */
   
   @Schema(name = "status", description = "Order Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
@@ -183,7 +183,7 @@ public class Order {
   /**
    * Get complete
    * @return complete
-  */
+   */
   
   @Schema(name = "complete", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("complete")

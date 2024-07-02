@@ -30,7 +30,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the Store API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class StoreApi  {
    private final StoreApiService delegate;
 
@@ -41,7 +41,7 @@ public class StoreApi  {
          String implClass = servletContext.getInitParameter("StoreApi.implementation");
          if (implClass != null && !"".equals(implClass.trim())) {
             try {
-               delegate = (StoreApiService) Class.forName(implClass).newInstance();
+               delegate = (StoreApiService) Class.forName(implClass).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                throw new RuntimeException(e);
             }

@@ -20,7 +20,7 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "Model for testing model name same as property name")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Name {
 
   private Integer name;
@@ -50,7 +50,7 @@ public class Name {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")
@@ -70,7 +70,7 @@ public class Name {
   /**
    * Get snakeCase
    * @return snakeCase
-  */
+   */
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("snake_case")
@@ -90,7 +90,7 @@ public class Name {
   /**
    * Get property
    * @return property
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("property")
@@ -110,7 +110,7 @@ public class Name {
   /**
    * Get _123number
    * @return _123number
-  */
+   */
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("123Number")
@@ -164,5 +164,81 @@ public class Name {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private Name instance;
+
+    public Builder() {
+      this(new Name());
+    }
+
+    protected Builder(Name instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Name value) { 
+      this.instance.setName(value.name);
+      this.instance.setSnakeCase(value.snakeCase);
+      this.instance.setProperty(value.property);
+      this.instance.set123number(value._123number);
+      return this;
+    }
+
+    public Name.Builder name(Integer name) {
+      this.instance.name(name);
+      return this;
+    }
+    
+    public Name.Builder snakeCase(Integer snakeCase) {
+      this.instance.snakeCase(snakeCase);
+      return this;
+    }
+    
+    public Name.Builder property(String property) {
+      this.instance.property(property);
+      return this;
+    }
+    
+    public Name.Builder _123number(Integer _123number) {
+      this.instance._123number(_123number);
+      return this;
+    }
+    
+    /**
+    * returns a built Name instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Name build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Name.Builder builder() {
+    return new Name.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Name.Builder toBuilder() {
+    Name.Builder builder = new Name.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

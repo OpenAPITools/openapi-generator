@@ -28,13 +28,14 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * ModelList
  */
 @JsonPropertyOrder({
   ModelList.JSON_PROPERTY_123LIST
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ModelList {
   public static final String JSON_PROPERTY_123LIST = "123-list";
   private String _123list;
@@ -47,14 +48,13 @@ public class ModelList {
     return this;
   }
 
-   /**
+  /**
    * Get _123list
    * @return _123list
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_123LIST)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String get123list() {
     return _123list;
   }
@@ -141,7 +141,7 @@ public class ModelList {
 
     // add `123-list` to the URL query string
     if (get123list() != null) {
-      joiner.add(String.format("%s123-list%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(get123list()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%s123-list%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(get123list()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

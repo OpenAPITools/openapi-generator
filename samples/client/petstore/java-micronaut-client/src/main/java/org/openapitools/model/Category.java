@@ -29,7 +29,7 @@ import javax.annotation.Generated;
   Category.JSON_PROPERTY_NAME
 })
 @JsonTypeName("Category")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @Introspected
 public class Category {
     public static final String JSON_PROPERTY_ID = "id";
@@ -48,7 +48,7 @@ public class Category {
     /**
      * Get id
      * @return id
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -70,7 +70,7 @@ public class Category {
     /**
      * Get name
      * @return name
-     **/
+     */
     @NotNull
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)

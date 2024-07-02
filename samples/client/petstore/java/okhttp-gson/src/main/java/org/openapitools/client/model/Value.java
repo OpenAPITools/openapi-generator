@@ -14,6 +14,7 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
+import java.util.List;
 import org.openapitools.client.model.Scalar;
 
 
@@ -51,7 +52,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Value extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Value.class.getName());
 
@@ -65,8 +66,8 @@ public class Value extends AbstractOpenApiSchema {
             final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
             final TypeAdapter<Scalar> adapterScalar = gson.getDelegateAdapter(this, TypeToken.get(Scalar.class));
 
-            final Type typeInstance = new TypeToken<List<Scalar>>(){}.getType();
-            final TypeAdapter<List<Scalar>> adapterScalarList = (TypeAdapter<List<Scalar>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance));
+            final Type typeInstanceListScalar = new TypeToken<List<Scalar>>(){}.getType();
+            final TypeAdapter<List<Scalar>> adapterListScalar = (TypeAdapter<List<Scalar>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstanceListScalar));
 
             return (TypeAdapter<T>) new TypeAdapter<Value>() {
                 @Override
@@ -78,18 +79,18 @@ public class Value extends AbstractOpenApiSchema {
 
                     // check if the actual instance is of the type `Scalar`
                     if (value.getActualInstance() instanceof Scalar) {
-                      JsonElement element = adapterScalar.toJsonTree((Scalar)value.getActualInstance());
-                      elementAdapter.write(out, element);
-                      return;
+                        JsonElement element = adapterScalar.toJsonTree((Scalar)value.getActualInstance());
+                        elementAdapter.write(out, element);
+                        return;
                     }
                     // check if the actual instance is of the type `List<Scalar>`
                     if (value.getActualInstance() instanceof List<?>) {
-                      List<?> list = (List<?>) value.getActualInstance();
-        	            if(list.get(0) instanceof Scalar) {
-        		            JsonArray array = adapterScalarList.toJsonTree((List<Scalar>)value.getActualInstance()).getAsJsonArray();
-                        elementAdapter.write(out, array);
-                        return;
-        	            }
+                        List<?> list = (List<?>) value.getActualInstance();
+                        if (list.get(0) instanceof Scalar) {
+                            JsonArray array = adapterListScalar.toJsonTree((List<Scalar>)value.getActualInstance()).getAsJsonArray();
+                            elementAdapter.write(out, array);
+                            return;
+                        }
                     }
                     throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: List<Scalar>, Scalar");
                 }
@@ -105,35 +106,35 @@ public class Value extends AbstractOpenApiSchema {
 
                     // deserialize Scalar
                     try {
-                      // validate the JSON object to see if any exception is thrown
-                      Scalar.validateJsonElement(jsonElement);
-                      actualAdapter = adapterScalar;
-                      match++;
-                      log.log(Level.FINER, "Input data matches schema 'Scalar'");
+                        // validate the JSON object to see if any exception is thrown
+                        Scalar.validateJsonElement(jsonElement);
+                        actualAdapter = adapterScalar;
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'Scalar'");
                     } catch (Exception e) {
-                      // deserialization failed, continue
-                      errorMessages.add(String.format("Deserialization for Scalar failed with `%s`.", e.getMessage()));
-                      log.log(Level.FINER, "Input data does not match schema 'Scalar'", e);
+                        // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for Scalar failed with `%s`.", e.getMessage()));
+                        log.log(Level.FINER, "Input data does not match schema 'Scalar'", e);
                     }
                     // deserialize List<Scalar>
                     try {
-                      // validate the JSON object to see if any exception is thrown
-                      if (!jsonElement.isJsonArray()) {
-                        throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
-                      }
+                        // validate the JSON object to see if any exception is thrown
+                        if (!jsonElement.isJsonArray()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+                        }
 
-                      JsonArray array = jsonElement.getAsJsonArray();
-                      // validate array items
-                      for(JsonElement element : array) {
-                        Scalar.validateJsonElement(element);
-                      }
-                      actualAdapter = adapterScalarList;
-                      match++;
-                      log.log(Level.FINER, "Input data matches schema 'List<Scalar>'");
+                        JsonArray array = jsonElement.getAsJsonArray();
+                        // validate array items
+                        for(JsonElement element : array) {
+                            Scalar.validateJsonElement(element);
+                        }
+                        actualAdapter = adapterListScalar;
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'List<Scalar>'");
                     } catch (Exception e) {
-                      // deserialization failed, continue
-                      errorMessages.add(String.format("Deserialization for List<Scalar> failed with `%s`.", e.getMessage()));
-                      log.log(Level.FINER, "Input data does not match schema 'List<Scalar>'", e);
+                        // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for List<Scalar> failed with `%s`.", e.getMessage()));
+                        log.log(Level.FINER, "Input data does not match schema 'List<Scalar>'", e);
                     }
 
                     if (match == 1) {
@@ -155,12 +156,7 @@ public class Value extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public Value(List<Scalar> o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public Value(Scalar o) {
+    public Value(Object o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
@@ -191,10 +187,10 @@ public class Value extends AbstractOpenApiSchema {
 
         if (instance instanceof List<?>) {
             List<?> list = (List<?>) instance;
-        	if(list.get(0) instanceof Scalar) {
-        		super.setActualInstance(instance);
-        		return;
-        	}
+            if (list.get(0) instanceof Scalar) {
+                super.setActualInstance(instance);
+                return;
+            }
         }
 
         throw new RuntimeException("Invalid instance type. Must be List<Scalar>, Scalar");
@@ -206,6 +202,7 @@ public class Value extends AbstractOpenApiSchema {
      *
      * @return The actual instance (List<Scalar>, Scalar)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -228,66 +225,66 @@ public class Value extends AbstractOpenApiSchema {
      * @return The actual instance of `List<Scalar>`
      * @throws ClassCastException if the instance is not `List<Scalar>`
      */
-    public List<Scalar> getScalarList() throws ClassCastException {
+    public List<Scalar> getListScalar() throws ClassCastException {
         return (List<Scalar>)super.getActualInstance();
     }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Value
-  */
-  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
-    // validate oneOf schemas one by one
-    int validCount = 0;
-    ArrayList<String> errorMessages = new ArrayList<>();
-    // validate the json string with Scalar
-    try {
-      Scalar.validateJsonElement(jsonElement);
-      validCount++;
-    } catch (Exception e) {
-      errorMessages.add(String.format("Deserialization for Scalar failed with `%s`.", e.getMessage()));
-      // continue to the next one
+    /**
+     * Validates the JSON Element and throws an exception if issues found
+     *
+     * @param jsonElement JSON Element
+     * @throws IOException if the JSON Element is invalid with respect to Value
+     */
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+        // validate oneOf schemas one by one
+        int validCount = 0;
+        ArrayList<String> errorMessages = new ArrayList<>();
+        // validate the json string with Scalar
+        try {
+            Scalar.validateJsonElement(jsonElement);
+            validCount++;
+        } catch (Exception e) {
+            errorMessages.add(String.format("Deserialization for Scalar failed with `%s`.", e.getMessage()));
+            // continue to the next one
+        }
+        // validate the json string with List<Scalar>
+        try {
+            if (!jsonElement.isJsonArray()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+            }
+            JsonArray array = jsonElement.getAsJsonArray();
+            // validate array items
+            for(JsonElement element : array) {
+                Scalar.validateJsonElement(element);
+            }
+            validCount++;
+        } catch (Exception e) {
+            errorMessages.add(String.format("Deserialization for List<Scalar> failed with `%s`.", e.getMessage()));
+            // continue to the next one
+        }
+        if (validCount != 1) {
+            throw new IOException(String.format("The JSON string is invalid for Value with oneOf schemas: List<Scalar>, Scalar. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
+        }
     }
-    // validate the json string with List<Scalar>
-    try {
-      if (!jsonElement.isJsonArray()) {
-          throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
-      }
-      JsonArray array = jsonElement.getAsJsonArray();
-      // validate array items
-      for(JsonElement element : array) {
-        Scalar.validateJsonElement(element);
-      }
-      validCount++;
-    } catch (Exception e) {
-      errorMessages.add(String.format("Deserialization for List<Scalar> failed with `%s`.", e.getMessage()));
-      // continue to the next one
-    }
-    if (validCount != 1) {
-      throw new IOException(String.format("The JSON string is invalid for Value with oneOf schemas: List<Scalar>, Scalar. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
-    }
-  }
 
- /**
-  * Create an instance of Value given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Value
-  * @throws IOException if the JSON string is invalid with respect to Value
-  */
-  public static Value fromJson(String jsonString) throws IOException {
-    return JSON.getGson().fromJson(jsonString, Value.class);
-  }
+    /**
+     * Create an instance of Value given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of Value
+     * @throws IOException if the JSON string is invalid with respect to Value
+     */
+    public static Value fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, Value.class);
+    }
 
- /**
-  * Convert an instance of Value to an JSON string
-  *
-  * @return JSON string
-  */
-  public String toJson() {
-    return JSON.getGson().toJson(this);
-  }
+    /**
+     * Convert an instance of Value to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

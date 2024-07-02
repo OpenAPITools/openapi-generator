@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Order.JSON_PROPERTY_STATUS,
   Order.JSON_PROPERTY_COMPLETE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -95,16 +95,28 @@ public class Order {
   public Order() {
   }
 
+  /**
+   * Constructor with all args parameters
+   */
+  public Order(@JsonProperty(JSON_PROPERTY_ID) Long id, @JsonProperty(JSON_PROPERTY_PET_ID) Long petId, @JsonProperty(JSON_PROPERTY_QUANTITY) Integer quantity, @JsonProperty(JSON_PROPERTY_SHIP_DATE) OffsetDateTime shipDate, @JsonProperty(JSON_PROPERTY_STATUS) StatusEnum status, @JsonProperty(JSON_PROPERTY_COMPLETE) Boolean complete) {
+    this.id = id;
+    this.petId = petId;
+    this.quantity = quantity;
+    this.shipDate = shipDate;
+    this.status = status;
+    this.complete = complete;
+  }
+
   public Order id(Long id) {
     
     this.id = id;
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -120,17 +132,16 @@ public class Order {
     this.id = id;
   }
 
-
   public Order petId(Long petId) {
     
     this.petId = petId;
     return this;
   }
 
-   /**
+  /**
    * Get petId
    * @return petId
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PET_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -146,17 +157,16 @@ public class Order {
     this.petId = petId;
   }
 
-
   public Order quantity(Integer quantity) {
     
     this.quantity = quantity;
     return this;
   }
 
-   /**
+  /**
    * Get quantity
    * @return quantity
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_QUANTITY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -172,17 +182,16 @@ public class Order {
     this.quantity = quantity;
   }
 
-
   public Order shipDate(OffsetDateTime shipDate) {
     
     this.shipDate = shipDate;
     return this;
   }
 
-   /**
+  /**
    * Get shipDate
    * @return shipDate
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SHIP_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -198,17 +207,16 @@ public class Order {
     this.shipDate = shipDate;
   }
 
-
   public Order status(StatusEnum status) {
     
     this.status = status;
     return this;
   }
 
-   /**
+  /**
    * Order Status
    * @return status
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -224,17 +232,16 @@ public class Order {
     this.status = status;
   }
 
-
   public Order complete(Boolean complete) {
     
     this.complete = complete;
     return this;
   }
 
-   /**
+  /**
    * Get complete
    * @return complete
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_COMPLETE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

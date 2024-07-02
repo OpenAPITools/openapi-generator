@@ -56,7 +56,7 @@
             set
             {
                 {{#oneOf}}
-                {{^-first}}else {{/-first}}if (value.GetType() == typeof({{{.}}}))
+                {{^-first}}else {{/-first}}if (value.GetType() == typeof({{{.}}}) || value is {{{.}}})
                 {
                     this._actualInstance = value;
                 }
@@ -272,11 +272,39 @@
         /// <returns>The object converted from the JSON string</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            if(reader.TokenType != JsonToken.Null)
+            switch(reader.TokenType) 
             {
-                return {{classname}}.FromJson(JObject.Load(reader).ToString(Formatting.None));
+                {{#composedSchemas.oneOf}}
+                {{^vendorExtensions.x-duplicated-data-type}}
+                {{#isInteger}}
+                case JsonToken.Integer: 
+                    return new {{classname}}(Convert.ToInt32(reader.Value));
+                {{/isInteger}}
+                {{#isNumber}}
+                case JsonToken.Float: 
+                    return new {{classname}}(Convert.ToDecimal(reader.Value));
+                {{/isNumber}}
+                {{#isString}}
+                case JsonToken.String: 
+                    return new {{classname}}(Convert.ToString(reader.Value));
+                {{/isString}}
+                {{#isBoolean}}
+                case JsonToken.Boolean: 
+                    return new {{classname}}(Convert.ToBoolean(reader.Value));
+                {{/isBoolean}}
+                {{#isDate}}
+                case JsonToken.Date: 
+                    return new {{classname}}(Convert.ToDateTime(reader.Value));
+                {{/isDate}}
+                {{/vendorExtensions.x-duplicated-data-type}}
+                {{/composedSchemas.oneOf}}
+                case JsonToken.StartObject:
+                    return {{classname}}.FromJson(JObject.Load(reader).ToString(Formatting.None));
+                case JsonToken.StartArray:
+                    return {{classname}}.FromJson(JArray.Load(reader).ToString(Formatting.None));
+                default:
+                    return null;
             }
-            return null;
         }
 
         /// <summary>

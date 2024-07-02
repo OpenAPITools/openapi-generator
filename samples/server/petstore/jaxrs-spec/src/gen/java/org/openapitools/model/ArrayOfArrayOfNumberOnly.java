@@ -20,9 +20,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("ArrayOfArrayOfNumberOnly")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ArrayOfArrayOfNumberOnly  implements Serializable {
-  private @Valid List<List<BigDecimal>> arrayArrayNumber;
+  private @Valid List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
 
   protected ArrayOfArrayOfNumberOnly(ArrayOfArrayOfNumberOnlyBuilder<?, ?> b) {
     this.arrayArrayNumber = b.arrayArrayNumber;
@@ -41,7 +41,7 @@ public class ArrayOfArrayOfNumberOnly  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("ArrayArrayNumber")
-  public List<List<BigDecimal>> getArrayArrayNumber() {
+  @Valid public List<@Valid List<@Valid BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
 
@@ -110,7 +110,7 @@ public class ArrayOfArrayOfNumberOnly  implements Serializable {
     return new ArrayOfArrayOfNumberOnlyBuilderImpl();
   }
 
-  private static final class ArrayOfArrayOfNumberOnlyBuilderImpl extends ArrayOfArrayOfNumberOnlyBuilder<ArrayOfArrayOfNumberOnly, ArrayOfArrayOfNumberOnlyBuilderImpl> {
+  private static class ArrayOfArrayOfNumberOnlyBuilderImpl extends ArrayOfArrayOfNumberOnlyBuilder<ArrayOfArrayOfNumberOnly, ArrayOfArrayOfNumberOnlyBuilderImpl> {
 
     @Override
     protected ArrayOfArrayOfNumberOnlyBuilderImpl self() {
@@ -124,7 +124,7 @@ public class ArrayOfArrayOfNumberOnly  implements Serializable {
   }
 
   public static abstract class ArrayOfArrayOfNumberOnlyBuilder<C extends ArrayOfArrayOfNumberOnly, B extends ArrayOfArrayOfNumberOnlyBuilder<C, B>>  {
-    private List<List<BigDecimal>> arrayArrayNumber;
+    private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
     protected abstract B self();
 
     public abstract C build();

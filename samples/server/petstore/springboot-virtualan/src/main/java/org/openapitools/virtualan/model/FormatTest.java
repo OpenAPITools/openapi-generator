@@ -26,7 +26,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("format_test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class FormatTest {
 
   private Integer integer;
@@ -83,7 +83,7 @@ public class FormatTest {
    * minimum: 10
    * maximum: 100
    * @return integer
-  */
+   */
   @Min(10) @Max(100) 
   @Schema(name = "integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("integer")
@@ -105,7 +105,7 @@ public class FormatTest {
    * minimum: 20
    * maximum: 200
    * @return int32
-  */
+   */
   @Min(20) @Max(200) 
   @Schema(name = "int32", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("int32")
@@ -125,7 +125,7 @@ public class FormatTest {
   /**
    * Get int64
    * @return int64
-  */
+   */
   
   @Schema(name = "int64", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("int64")
@@ -147,7 +147,7 @@ public class FormatTest {
    * minimum: 32.1
    * maximum: 543.2
    * @return number
-  */
+   */
   @NotNull @Valid @DecimalMin("32.1") @DecimalMax("543.2") 
   @Schema(name = "number", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("number")
@@ -169,7 +169,7 @@ public class FormatTest {
    * minimum: 54.3
    * maximum: 987.6
    * @return _float
-  */
+   */
   @DecimalMin("54.3") @DecimalMax("987.6") 
   @Schema(name = "float", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("float")
@@ -191,7 +191,7 @@ public class FormatTest {
    * minimum: 67.8
    * maximum: 123.4
    * @return _double
-  */
+   */
   @DecimalMin("67.8") @DecimalMax("123.4") 
   @Schema(name = "double", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("double")
@@ -211,7 +211,7 @@ public class FormatTest {
   /**
    * Get string
    * @return string
-  */
+   */
   @Pattern(regexp = "/[a-z]/i") 
   @Schema(name = "string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("string")
@@ -231,7 +231,7 @@ public class FormatTest {
   /**
    * Get _byte
    * @return _byte
-  */
+   */
   @NotNull 
   @Schema(name = "byte", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("byte")
@@ -251,7 +251,7 @@ public class FormatTest {
   /**
    * Get binary
    * @return binary
-  */
+   */
   @Valid 
   @Schema(name = "binary", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("binary")
@@ -271,7 +271,7 @@ public class FormatTest {
   /**
    * Get date
    * @return date
-  */
+   */
   @NotNull @Valid 
   @Schema(name = "date", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("date")
@@ -291,7 +291,7 @@ public class FormatTest {
   /**
    * Get dateTime
    * @return dateTime
-  */
+   */
   @Valid 
   @Schema(name = "dateTime", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("dateTime")
@@ -311,7 +311,7 @@ public class FormatTest {
   /**
    * Get uuid
    * @return uuid
-  */
+   */
   @Valid 
   @Schema(name = "uuid", example = "72f98069-206d-4f12-9f12-3d1e525a8e84", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("uuid")
@@ -331,7 +331,7 @@ public class FormatTest {
   /**
    * Get password
    * @return password
-  */
+   */
   @NotNull @Size(min = 10, max = 64) 
   @Schema(name = "password", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("password")
@@ -351,7 +351,7 @@ public class FormatTest {
   /**
    * Get bigDecimal
    * @return bigDecimal
-  */
+   */
   @Valid 
   @Schema(name = "BigDecimal", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("BigDecimal")

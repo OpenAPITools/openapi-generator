@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("EnumArrays")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class EnumArrays  implements Serializable {
   public enum JustSymbolEnum {
 
@@ -68,7 +68,7 @@ public class EnumArrays  implements Serializable {
     }
 }
 
-  private @Valid JustSymbolEnum justSymbol;
+  private JustSymbolEnum justSymbol;
   public enum ArrayEnumEnum {
 
     FISH(String.valueOf("fish")), CRAB(String.valueOf("crab"));
@@ -116,7 +116,7 @@ public class EnumArrays  implements Serializable {
     }
 }
 
-  private @Valid List<ArrayEnumEnum> arrayEnum;
+  private @Valid List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   protected EnumArrays(EnumArraysBuilder<?, ?> b) {
     this.justSymbol = b.justSymbol;
@@ -226,7 +226,7 @@ public class EnumArrays  implements Serializable {
     return new EnumArraysBuilderImpl();
   }
 
-  private static final class EnumArraysBuilderImpl extends EnumArraysBuilder<EnumArrays, EnumArraysBuilderImpl> {
+  private static class EnumArraysBuilderImpl extends EnumArraysBuilder<EnumArrays, EnumArraysBuilderImpl> {
 
     @Override
     protected EnumArraysBuilderImpl self() {
@@ -241,7 +241,7 @@ public class EnumArrays  implements Serializable {
 
   public static abstract class EnumArraysBuilder<C extends EnumArrays, B extends EnumArraysBuilder<C, B>>  {
     private JustSymbolEnum justSymbol;
-    private List<ArrayEnumEnum> arrayEnum;
+    private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
     protected abstract B self();
 
     public abstract C build();

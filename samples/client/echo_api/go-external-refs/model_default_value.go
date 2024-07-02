@@ -228,7 +228,7 @@ func (o *DefaultValue) GetArrayStringNullableOk() ([]string, bool) {
 
 // HasArrayStringNullable returns a boolean if a field has been set.
 func (o *DefaultValue) HasArrayStringNullable() bool {
-	if o != nil && IsNil(o.ArrayStringNullable) {
+	if o != nil && !IsNil(o.ArrayStringNullable) {
 		return true
 	}
 
@@ -261,7 +261,7 @@ func (o *DefaultValue) GetArrayStringExtensionNullableOk() ([]string, bool) {
 
 // HasArrayStringExtensionNullable returns a boolean if a field has been set.
 func (o *DefaultValue) HasArrayStringExtensionNullable() bool {
-	if o != nil && IsNil(o.ArrayStringExtensionNullable) {
+	if o != nil && !IsNil(o.ArrayStringExtensionNullable) {
 		return true
 	}
 

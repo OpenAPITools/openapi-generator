@@ -22,7 +22,7 @@ import javax.annotation.Generated;
 
 @ApiModel(description = "Model for testing model name same as property name")
 @JsonTypeName("Name")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class NameDto {
 
   private Integer name;
@@ -52,7 +52,7 @@ public class NameDto {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")
@@ -72,7 +72,7 @@ public class NameDto {
   /**
    * Get snakeCase
    * @return snakeCase
-  */
+   */
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("snake_case")
@@ -92,7 +92,7 @@ public class NameDto {
   /**
    * Get property
    * @return property
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("property")
@@ -112,7 +112,7 @@ public class NameDto {
   /**
    * Get _123Number
    * @return _123Number
-  */
+   */
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("123Number")

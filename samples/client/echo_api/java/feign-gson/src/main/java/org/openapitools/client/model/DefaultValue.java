@@ -30,7 +30,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 /**
  * to test the default value of properties
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class DefaultValue {
   public static final String SERIALIZED_NAME_ARRAY_STRING_ENUM_REF_DEFAULT = "array_string_enum_ref_default";
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING_ENUM_REF_DEFAULT)
@@ -99,7 +99,7 @@ public class DefaultValue {
 
   public static final String SERIALIZED_NAME_ARRAY_STRING = "array_string";
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING)
-  private List<String> arrayString;
+  private List<String> arrayString = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_ARRAY_STRING_NULLABLE = "array_string_nullable";
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING_NULLABLE)
@@ -130,10 +130,10 @@ public class DefaultValue {
     return this;
   }
 
-   /**
+  /**
    * Get arrayStringEnumRefDefault
    * @return arrayStringEnumRefDefault
-  **/
+   */
   @javax.annotation.Nullable
 
   public List<StringEnumRef> getArrayStringEnumRefDefault() {
@@ -160,10 +160,10 @@ public class DefaultValue {
     return this;
   }
 
-   /**
+  /**
    * Get arrayStringEnumDefault
    * @return arrayStringEnumDefault
-  **/
+   */
   @javax.annotation.Nullable
 
   public List<ArrayStringEnumDefaultEnum> getArrayStringEnumDefault() {
@@ -190,10 +190,10 @@ public class DefaultValue {
     return this;
   }
 
-   /**
+  /**
    * Get arrayStringDefault
    * @return arrayStringDefault
-  **/
+   */
   @javax.annotation.Nullable
 
   public List<String> getArrayStringDefault() {
@@ -220,10 +220,10 @@ public class DefaultValue {
     return this;
   }
 
-   /**
+  /**
    * Get arrayIntegerDefault
    * @return arrayIntegerDefault
-  **/
+   */
   @javax.annotation.Nullable
 
   public List<Integer> getArrayIntegerDefault() {
@@ -250,10 +250,10 @@ public class DefaultValue {
     return this;
   }
 
-   /**
+  /**
    * Get arrayString
    * @return arrayString
-  **/
+   */
   @javax.annotation.Nullable
 
   public List<String> getArrayString() {
@@ -280,10 +280,10 @@ public class DefaultValue {
     return this;
   }
 
-   /**
+  /**
    * Get arrayStringNullable
    * @return arrayStringNullable
-  **/
+   */
   @javax.annotation.Nullable
 
   public List<String> getArrayStringNullable() {
@@ -310,10 +310,10 @@ public class DefaultValue {
     return this;
   }
 
-   /**
+  /**
    * Get arrayStringExtensionNullable
    * @return arrayStringExtensionNullable
-  **/
+   */
   @javax.annotation.Nullable
 
   public List<String> getArrayStringExtensionNullable() {
@@ -332,10 +332,10 @@ public class DefaultValue {
     return this;
   }
 
-   /**
+  /**
    * Get stringNullable
    * @return stringNullable
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getStringNullable() {

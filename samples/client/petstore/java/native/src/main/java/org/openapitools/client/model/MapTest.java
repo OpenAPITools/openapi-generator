@@ -30,6 +30,7 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * MapTest
  */
@@ -39,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   MapTest.JSON_PROPERTY_DIRECT_MAP,
   MapTest.JSON_PROPERTY_INDIRECT_MAP
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class MapTest {
   public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
@@ -104,14 +105,13 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get mapMapOfString
    * @return mapMapOfString
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
@@ -137,14 +137,13 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get mapOfEnumString
    * @return mapOfEnumString
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
@@ -170,14 +169,13 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get directMap
    * @return directMap
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
@@ -203,14 +201,13 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get indirectMap
    * @return indirectMap
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }
@@ -306,7 +303,7 @@ public class MapTest {
       for (String _key : getMapMapOfString().keySet()) {
         joiner.add(String.format("%smap_map_of_string%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getMapMapOfString().get(_key), URLEncoder.encode(String.valueOf(getMapMapOfString().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            getMapMapOfString().get(_key), URLEncoder.encode(ApiClient.valueToString(getMapMapOfString().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
@@ -315,7 +312,7 @@ public class MapTest {
       for (String _key : getMapOfEnumString().keySet()) {
         joiner.add(String.format("%smap_of_enum_string%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getMapOfEnumString().get(_key), URLEncoder.encode(String.valueOf(getMapOfEnumString().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            getMapOfEnumString().get(_key), URLEncoder.encode(ApiClient.valueToString(getMapOfEnumString().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
@@ -324,7 +321,7 @@ public class MapTest {
       for (String _key : getDirectMap().keySet()) {
         joiner.add(String.format("%sdirect_map%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getDirectMap().get(_key), URLEncoder.encode(String.valueOf(getDirectMap().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            getDirectMap().get(_key), URLEncoder.encode(ApiClient.valueToString(getDirectMap().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
@@ -333,11 +330,80 @@ public class MapTest {
       for (String _key : getIndirectMap().keySet()) {
         joiner.add(String.format("%sindirect_map%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getIndirectMap().get(_key), URLEncoder.encode(String.valueOf(getIndirectMap().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            getIndirectMap().get(_key), URLEncoder.encode(ApiClient.valueToString(getIndirectMap().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private MapTest instance;
+
+    public Builder() {
+      this(new MapTest());
+    }
+
+    protected Builder(MapTest instance) {
+      this.instance = instance;
+    }
+
+    public MapTest.Builder mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
+      this.instance.mapMapOfString = mapMapOfString;
+      return this;
+    }
+    public MapTest.Builder mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
+      this.instance.mapOfEnumString = mapOfEnumString;
+      return this;
+    }
+    public MapTest.Builder directMap(Map<String, Boolean> directMap) {
+      this.instance.directMap = directMap;
+      return this;
+    }
+    public MapTest.Builder indirectMap(Map<String, Boolean> indirectMap) {
+      this.instance.indirectMap = indirectMap;
+      return this;
+    }
+
+
+    /**
+    * returns a built MapTest instance.
+    *
+    * The builder is not reusable.
+    */
+    public MapTest build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static MapTest.Builder builder() {
+    return new MapTest.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public MapTest.Builder toBuilder() {
+    return new MapTest.Builder()
+      .mapMapOfString(getMapMapOfString())
+      .mapOfEnumString(getMapOfEnumString())
+      .directMap(getDirectMap())
+      .indirectMap(getIndirectMap());
+  }
+
 }
 

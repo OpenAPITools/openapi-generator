@@ -17,8 +17,8 @@ class ValidateTaskDslTest : TestBase() {
     @DataProvider(name = "gradle_version_provider")
     fun gradleVersionProvider(): Array<Array<String?>> = arrayOf(
         arrayOf(null), // uses the version of Gradle used to build the plugin itself
-        arrayOf("8.1.1"),
-        arrayOf("7.6")
+        arrayOf("8.7"),
+        arrayOf("7.6.4")
     )
 
     private fun getGradleRunner(gradleVersion: String?): GradleRunner {
@@ -113,7 +113,7 @@ class ValidateTaskDslTest : TestBase() {
     fun `openApiValidate should fail on invalid spec`(gradleVersion: String?) {
         // Arrange
         val projectFiles = mapOf(
-            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-invalid.yaml")
+            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-invalid-due-to-missing-info-attribute.yaml")
         )
         withProject(
             """
@@ -138,6 +138,50 @@ class ValidateTaskDslTest : TestBase() {
         assertTrue(
             result.output.contains("Spec is invalid."),
             "Unexpected/no message presented to the user for an invalid spec."
+        )
+        assertTrue(
+            result.output.contains("attribute info is missing"),
+            "Spec validation detail"
+        )
+        assertEquals(
+            FAILED, result.task(":openApiValidate")?.outcome,
+            "Expected a failed run, but found ${result.task(":openApiValidate")?.outcome}"
+        )
+    }
+
+    @Test(dataProvider = "gradle_version_provider")
+    fun `openApiValidate should fail on invalid spec with duplicate 200 status code`(gradleVersion: String?) {
+        // Arrange
+        val projectFiles = mapOf(
+            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-invalid-due-to-duplicate-200-status-code.yaml")
+        )
+        withProject(
+            """
+            | plugins {
+            |   id 'org.openapi.generator'
+            | }
+            |
+            | openApiValidate {
+            |   inputSpec = file('spec.yaml').absolutePath
+            | }
+        """.trimMargin(), projectFiles
+        )
+
+        // Act
+        val result = getGradleRunner(gradleVersion)
+            .withProjectDir(temp)
+            .withArguments("openApiValidate")
+            .withPluginClasspath()
+            .buildAndFail()
+
+        // Assert
+        assertTrue(
+            result.output.contains("Spec is invalid."),
+            "Unexpected/no message presented to the user for an invalid spec."
+        )
+        assertTrue(
+            result.output.contains("Duplicate field 200"),
+            "Spec validation detail"
         )
         assertEquals(
             FAILED, result.task(":openApiValidate")?.outcome,
@@ -186,7 +230,7 @@ class ValidateTaskDslTest : TestBase() {
     fun `validateBadSpec as defined task should fail on invalid spec`(gradleVersion: String?) {
         // Arrange
         val projectFiles = mapOf(
-            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-invalid.yaml")
+            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-invalid-due-to-missing-info-attribute.yaml")
         )
         withProject(
             """
@@ -210,6 +254,10 @@ class ValidateTaskDslTest : TestBase() {
         // Assert
         assertTrue(
             result.output.contains("Spec is invalid."),
+            "Unexpected/no message presented to the user for an invalid spec."
+        )
+        assertTrue(
+            result.output.contains("attribute info is missing"),
             "Unexpected/no message presented to the user for an invalid spec."
         )
         assertEquals(

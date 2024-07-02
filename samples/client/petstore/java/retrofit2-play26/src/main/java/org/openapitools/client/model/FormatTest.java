@@ -27,8 +27,8 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 /**
  * FormatTest
@@ -50,7 +50,7 @@ import javax.validation.Valid;
   FormatTest.JSON_PROPERTY_BIG_DECIMAL
 })
 @JsonTypeName("format_test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class FormatTest {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   private Integer integer;
@@ -103,13 +103,13 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get integer
    * minimum: 10
    * maximum: 100
    * @return integer
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
  @Min(10) @Max(100)
   @JsonProperty(JSON_PROPERTY_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -125,20 +125,19 @@ public class FormatTest {
     this.integer = integer;
   }
 
-
   public FormatTest int32(Integer int32) {
     
     this.int32 = int32;
     return this;
   }
 
-   /**
+  /**
    * Get int32
    * minimum: 20
    * maximum: 200
    * @return int32
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
  @Min(20) @Max(200)
   @JsonProperty(JSON_PROPERTY_INT32)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -154,18 +153,17 @@ public class FormatTest {
     this.int32 = int32;
   }
 
-
   public FormatTest int64(Long int64) {
     
     this.int64 = int64;
     return this;
   }
 
-   /**
+  /**
    * Get int64
    * @return int64
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_INT64)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -181,20 +179,19 @@ public class FormatTest {
     this.int64 = int64;
   }
 
-
   public FormatTest number(BigDecimal number) {
     
     this.number = number;
     return this;
   }
 
-   /**
+  /**
    * Get number
    * minimum: 32.1
    * maximum: 543.2
    * @return number
-  **/
-  @javax.annotation.Nonnull
+   */
+  @jakarta.annotation.Nonnull
   @NotNull
   @Valid
  @DecimalMin("32.1") @DecimalMax("543.2")
@@ -212,20 +209,19 @@ public class FormatTest {
     this.number = number;
   }
 
-
   public FormatTest _float(Float _float) {
     
     this._float = _float;
     return this;
   }
 
-   /**
+  /**
    * Get _float
    * minimum: 54.3
    * maximum: 987.6
    * @return _float
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
  @DecimalMin("54.3") @DecimalMax("987.6")
   @JsonProperty(JSON_PROPERTY_FLOAT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -241,20 +237,19 @@ public class FormatTest {
     this._float = _float;
   }
 
-
   public FormatTest _double(Double _double) {
     
     this._double = _double;
     return this;
   }
 
-   /**
+  /**
    * Get _double
    * minimum: 67.8
    * maximum: 123.4
    * @return _double
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
  @DecimalMin("67.8") @DecimalMax("123.4")
   @JsonProperty(JSON_PROPERTY_DOUBLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -270,18 +265,17 @@ public class FormatTest {
     this._double = _double;
   }
 
-
   public FormatTest string(String string) {
     
     this.string = string;
     return this;
   }
 
-   /**
+  /**
    * Get string
    * @return string
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
  @Pattern(regexp="/[a-z]/i")
   @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -297,18 +291,17 @@ public class FormatTest {
     this.string = string;
   }
 
-
   public FormatTest _byte(byte[] _byte) {
     
     this._byte = _byte;
     return this;
   }
 
-   /**
+  /**
    * Get _byte
    * @return _byte
-  **/
-  @javax.annotation.Nonnull
+   */
+  @jakarta.annotation.Nonnull
   @NotNull
 
   @JsonProperty(JSON_PROPERTY_BYTE)
@@ -325,18 +318,17 @@ public class FormatTest {
     this._byte = _byte;
   }
 
-
   public FormatTest binary(File binary) {
     
     this.binary = binary;
     return this;
   }
 
-   /**
+  /**
    * Get binary
    * @return binary
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
   @Valid
 
   @JsonProperty(JSON_PROPERTY_BINARY)
@@ -353,18 +345,17 @@ public class FormatTest {
     this.binary = binary;
   }
 
-
   public FormatTest date(LocalDate date) {
     
     this.date = date;
     return this;
   }
 
-   /**
+  /**
    * Get date
    * @return date
-  **/
-  @javax.annotation.Nonnull
+   */
+  @jakarta.annotation.Nonnull
   @NotNull
   @Valid
 
@@ -382,18 +373,17 @@ public class FormatTest {
     this.date = date;
   }
 
-
   public FormatTest dateTime(OffsetDateTime dateTime) {
     
     this.dateTime = dateTime;
     return this;
   }
 
-   /**
+  /**
    * Get dateTime
    * @return dateTime
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
   @Valid
 
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
@@ -410,18 +400,17 @@ public class FormatTest {
     this.dateTime = dateTime;
   }
 
-
   public FormatTest uuid(UUID uuid) {
     
     this.uuid = uuid;
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
   @Valid
 
   @JsonProperty(JSON_PROPERTY_UUID)
@@ -438,18 +427,17 @@ public class FormatTest {
     this.uuid = uuid;
   }
 
-
   public FormatTest password(String password) {
     
     this.password = password;
     return this;
   }
 
-   /**
+  /**
    * Get password
    * @return password
-  **/
-  @javax.annotation.Nonnull
+   */
+  @jakarta.annotation.Nonnull
   @NotNull
  @Size(min=10,max=64)
   @JsonProperty(JSON_PROPERTY_PASSWORD)
@@ -466,18 +454,17 @@ public class FormatTest {
     this.password = password;
   }
 
-
   public FormatTest bigDecimal(BigDecimal bigDecimal) {
     
     this.bigDecimal = bigDecimal;
     return this;
   }
 
-   /**
+  /**
    * Get bigDecimal
    * @return bigDecimal
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
   @Valid
 
   @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)

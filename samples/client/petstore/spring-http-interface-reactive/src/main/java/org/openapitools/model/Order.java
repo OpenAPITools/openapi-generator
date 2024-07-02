@@ -19,7 +19,7 @@ import jakarta.annotation.Generated;
  * Order
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Order {
 
   private Long id;
@@ -80,7 +80,7 @@ public class Order {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @JsonProperty("id")
   public Long getId() {
@@ -99,7 +99,7 @@ public class Order {
   /**
    * Get petId
    * @return petId
-  */
+   */
   
   @JsonProperty("petId")
   public Long getPetId() {
@@ -118,7 +118,7 @@ public class Order {
   /**
    * Get quantity
    * @return quantity
-  */
+   */
   
   @JsonProperty("quantity")
   public Integer getQuantity() {
@@ -137,7 +137,7 @@ public class Order {
   /**
    * Get shipDate
    * @return shipDate
-  */
+   */
   
   @JsonProperty("shipDate")
   public OffsetDateTime getShipDate() {
@@ -156,7 +156,7 @@ public class Order {
   /**
    * Order Status
    * @return status
-  */
+   */
   
   @JsonProperty("status")
   public StatusEnum getStatus() {
@@ -175,7 +175,7 @@ public class Order {
   /**
    * Get complete
    * @return complete
-  */
+   */
   
   @JsonProperty("complete")
   public Boolean getComplete() {

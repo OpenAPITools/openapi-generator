@@ -19,7 +19,7 @@ import javax.annotation.Generated;
  * OuterComposite
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class OuterComposite {
 
   private BigDecimal myNumber;
@@ -36,7 +36,7 @@ public class OuterComposite {
   /**
    * Get myNumber
    * @return myNumber
-  */
+   */
   @Valid 
   @Schema(name = "my_number", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("my_number")
@@ -56,7 +56,7 @@ public class OuterComposite {
   /**
    * Get myString
    * @return myString
-  */
+   */
   
   @Schema(name = "my_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("my_string")
@@ -76,7 +76,7 @@ public class OuterComposite {
   /**
    * Get myBoolean
    * @return myBoolean
-  */
+   */
   
   @Schema(name = "my_boolean", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("my_boolean")

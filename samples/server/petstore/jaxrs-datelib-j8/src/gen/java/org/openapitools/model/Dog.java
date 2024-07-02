@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   Dog.JSON_PROPERTY_BREED
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Dog extends Animal implements Serializable {
   public static final String JSON_PROPERTY_BREED = "breed";
   @JsonProperty(JSON_PROPERTY_BREED)

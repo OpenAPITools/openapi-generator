@@ -37,7 +37,7 @@ import jakarta.validation.Valid;
 
 
 @Tag(description = "the pet API", name = "")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class PetApi  {
 
    private final PetApiService delegate;
@@ -104,7 +104,7 @@ public class PetApi  {
             },security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }, tags={ "pet", }) 
-    public Response findPetsByStatus(@Schema(description = "Status values that need to be considered for filter") @QueryParam("status") @NotNull @Valid  List<String> status,@Context SecurityContext securityContext)
+    public Response findPetsByStatus(@Schema(description = "Status values that need to be considered for filter") @QueryParam("status") @NotNull  List<String> status,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.findPetsByStatus(status, securityContext);
     }
@@ -120,7 +120,7 @@ public class PetApi  {
             },security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }, tags={ "pet", }) 
-    public Response findPetsByTags(@Schema(description = "Tags to filter by") @QueryParam("tags") @NotNull @Valid  Set<String> tags,@Context SecurityContext securityContext)
+    public Response findPetsByTags(@Schema(description = "Tags to filter by") @QueryParam("tags") @NotNull  Set<String> tags,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.findPetsByTags(tags, securityContext);
     }

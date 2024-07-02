@@ -57,7 +57,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
             Object deserialized = null;
             {{#discriminator}}
-            Class<?> cls = JSON.getClassForElement(tree, {{classname}}.class);
+            Class<?> cls = JSON.getClassForElement(tree, new {{classname}}().getClass());
             if (cls != null) {
                 // When the OAS schema includes a discriminator, use the discriminator value to
                 // discriminate the anyOf schemas.
@@ -99,7 +99,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     }
 
     // store a list of schema names defined in anyOf
-    public static final Map<String, GenericType> schemas = new HashMap<>();
+    public static final Map<String, GenericType<?>> schemas = new HashMap<>();
 
     public {{classname}}() {
         super("anyOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
@@ -144,7 +144,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, GenericType<?>> getSchemas() {
         return {{classname}}.schemas;
     }
 

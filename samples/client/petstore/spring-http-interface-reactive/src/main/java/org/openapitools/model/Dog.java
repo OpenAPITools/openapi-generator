@@ -21,7 +21,7 @@ import jakarta.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Dog extends Animal {
 
   private String breed;
@@ -45,7 +45,7 @@ public class Dog extends Animal {
   /**
    * Get breed
    * @return breed
-  */
+   */
   
   @JsonProperty("breed")
   public String getBreed() {

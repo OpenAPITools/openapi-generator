@@ -110,7 +110,7 @@ dependencies {
     implementation "io.gsonfire:gson-fire:$gson_fire_version"
     implementation 'com.google.code.gson:gson:$gson_version'
     implementation "com.squareup.okio:okio:$okio_version"
-    implementation "jakarta.validation:jakarta.validation-api:2.0.2"
+    implementation "jakarta.validation:jakarta.validation-api:3.0.2"
     implementation "org.hibernate:hibernate-validator:6.0.19.Final"
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     testImplementation "junit:junit:$junit_version"

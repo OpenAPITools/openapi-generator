@@ -44,7 +44,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   DefaultValue.JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE,
   DefaultValue.JSON_PROPERTY_STRING_NULLABLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class DefaultValue {
   public static final String JSON_PROPERTY_ARRAY_STRING_ENUM_REF_DEFAULT = "array_string_enum_ref_default";
   private List<StringEnumRef> arrayStringEnumRefDefault = new ArrayList<>(Arrays.asList(StringEnumRef.SUCCESS, StringEnumRef.FAILURE));
@@ -124,10 +124,10 @@ public class DefaultValue {
     return this;
   }
 
-   /**
+  /**
    * Get arrayStringEnumRefDefault
    * @return arrayStringEnumRefDefault
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_STRING_ENUM_REF_DEFAULT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -143,7 +143,6 @@ public class DefaultValue {
     this.arrayStringEnumRefDefault = arrayStringEnumRefDefault;
   }
 
-
   public DefaultValue arrayStringEnumDefault(List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault) {
     
     this.arrayStringEnumDefault = arrayStringEnumDefault;
@@ -158,10 +157,10 @@ public class DefaultValue {
     return this;
   }
 
-   /**
+  /**
    * Get arrayStringEnumDefault
    * @return arrayStringEnumDefault
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_STRING_ENUM_DEFAULT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -177,7 +176,6 @@ public class DefaultValue {
     this.arrayStringEnumDefault = arrayStringEnumDefault;
   }
 
-
   public DefaultValue arrayStringDefault(List<String> arrayStringDefault) {
     
     this.arrayStringDefault = arrayStringDefault;
@@ -192,10 +190,10 @@ public class DefaultValue {
     return this;
   }
 
-   /**
+  /**
    * Get arrayStringDefault
    * @return arrayStringDefault
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_STRING_DEFAULT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -211,7 +209,6 @@ public class DefaultValue {
     this.arrayStringDefault = arrayStringDefault;
   }
 
-
   public DefaultValue arrayIntegerDefault(List<Integer> arrayIntegerDefault) {
     
     this.arrayIntegerDefault = arrayIntegerDefault;
@@ -226,10 +223,10 @@ public class DefaultValue {
     return this;
   }
 
-   /**
+  /**
    * Get arrayIntegerDefault
    * @return arrayIntegerDefault
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_INTEGER_DEFAULT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -245,7 +242,6 @@ public class DefaultValue {
     this.arrayIntegerDefault = arrayIntegerDefault;
   }
 
-
   public DefaultValue arrayString(List<String> arrayString) {
     
     this.arrayString = arrayString;
@@ -260,10 +256,10 @@ public class DefaultValue {
     return this;
   }
 
-   /**
+  /**
    * Get arrayString
    * @return arrayString
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -278,7 +274,6 @@ public class DefaultValue {
   public void setArrayString(List<String> arrayString) {
     this.arrayString = arrayString;
   }
-
 
   public DefaultValue arrayStringNullable(List<String> arrayStringNullable) {
     this.arrayStringNullable = JsonNullable.<List<String>>of(arrayStringNullable);
@@ -298,10 +293,10 @@ public class DefaultValue {
     return this;
   }
 
-   /**
+  /**
    * Get arrayStringNullable
    * @return arrayStringNullable
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
 
@@ -325,7 +320,6 @@ public class DefaultValue {
     this.arrayStringNullable = JsonNullable.<List<String>>of(arrayStringNullable);
   }
 
-
   public DefaultValue arrayStringExtensionNullable(List<String> arrayStringExtensionNullable) {
     this.arrayStringExtensionNullable = JsonNullable.<List<String>>of(arrayStringExtensionNullable);
     
@@ -344,10 +338,10 @@ public class DefaultValue {
     return this;
   }
 
-   /**
+  /**
    * Get arrayStringExtensionNullable
    * @return arrayStringExtensionNullable
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
 
@@ -371,17 +365,16 @@ public class DefaultValue {
     this.arrayStringExtensionNullable = JsonNullable.<List<String>>of(arrayStringExtensionNullable);
   }
 
-
   public DefaultValue stringNullable(String stringNullable) {
     this.stringNullable = JsonNullable.<String>of(stringNullable);
     
     return this;
   }
 
-   /**
+  /**
    * Get stringNullable
    * @return stringNullable
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
 

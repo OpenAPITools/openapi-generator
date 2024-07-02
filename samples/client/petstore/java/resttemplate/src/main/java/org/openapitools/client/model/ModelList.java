@@ -30,12 +30,19 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ModelList.JSON_PROPERTY_123LIST
 })
 @JsonTypeName("List")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ModelList {
   public static final String JSON_PROPERTY_123LIST = "123-list";
   private String _123list;
 
   public ModelList() {
+  }
+
+  /**
+   * Constructor with all args parameters
+   */
+  public ModelList(@JsonProperty(JSON_PROPERTY_123LIST) String _123list) {
+    this._123list = _123list;
   }
 
   public ModelList _123list(String _123list) {
@@ -44,10 +51,10 @@ public class ModelList {
     return this;
   }
 
-   /**
+  /**
    * Get _123list
    * @return _123list
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_123LIST)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -99,6 +106,60 @@ public class ModelList {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder {
+
+    private ModelList instance;
+
+    public Builder() {
+      this(new ModelList());
+    }
+
+    protected Builder(ModelList instance) {
+      this.instance = instance;
+    }
+
+    public ModelList.Builder _123list(String _123list) {
+      this.instance._123list = _123list;
+      return this;
+    }
+
+
+    /**
+    * returns a built ModelList instance.
+    *
+    * The builder is not reusable.
+    */
+    public ModelList build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ModelList.Builder builder() {
+    return new ModelList.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ModelList.Builder toBuilder() {
+    return new ModelList.Builder()
+      ._123list(get123list());
+  }
+
 
 }
 

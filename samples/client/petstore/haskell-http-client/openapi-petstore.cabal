@@ -12,6 +12,8 @@ description:    .
                 .
                 OpenAPI version: 3.0.1
                 .
+                Generator version: 7.8.0-SNAPSHOT
+                .
 category:       Web
 homepage:       https://openapi-generator.tech
 author:         Author Name Here

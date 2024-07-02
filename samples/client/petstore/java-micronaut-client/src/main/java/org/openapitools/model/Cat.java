@@ -29,7 +29,7 @@ import javax.annotation.Generated;
   Cat.JSON_PROPERTY_DECLAWED
 })
 @JsonTypeName("Cat")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @Introspected
 public class Cat extends Animal {
     public static final String JSON_PROPERTY_DECLAWED = "declawed";
@@ -46,7 +46,7 @@ public class Cat extends Animal {
     /**
      * Get declawed
      * @return declawed
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_DECLAWED)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

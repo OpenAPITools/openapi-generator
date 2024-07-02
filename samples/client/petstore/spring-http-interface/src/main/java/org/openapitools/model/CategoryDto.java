@@ -18,12 +18,16 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Category")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class CategoryDto {
 
   private Long id;
 
   private String name = "default-name";
+
+  public CategoryDto() {
+    super();
+  }
 
   public CategoryDto id(Long id) {
     this.id = id;
@@ -33,7 +37,7 @@ public class CategoryDto {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @JsonProperty("id")
   public Long getId() {
@@ -52,7 +56,7 @@ public class CategoryDto {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull
   @JsonProperty("name")
   public String getName() {

@@ -31,7 +31,7 @@ import javax.annotation.Generated;
   Name.JSON_PROPERTY_123NUMBER
 })
 @JsonTypeName("Name")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @Introspected
 public class Name {
     public static final String JSON_PROPERTY_NAME = "name";
@@ -56,7 +56,7 @@ public class Name {
     /**
      * Get name
      * @return name
-     **/
+     */
     @NotNull
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -73,7 +73,7 @@ public class Name {
     /**
      * Get snakeCase
      * @return snakeCase
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -89,7 +89,7 @@ public class Name {
     /**
      * Get property
      * @return property
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_PROPERTY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -106,7 +106,7 @@ public class Name {
     /**
      * Get _123number
      * @return _123number
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_123NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

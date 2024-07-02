@@ -54,7 +54,7 @@ import io.github.threetenjaxb.core.*;
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER
 })
 @JsonTypeName("format_test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @XmlRootElement(name = "FormatTest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "FormatTest")
@@ -133,12 +133,12 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get integer
    * minimum: 10
    * maximum: 100
    * @return integer
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -156,19 +156,18 @@ public class FormatTest {
     this.integer = integer;
   }
 
-
   public FormatTest int32(Integer int32) {
     
     this.int32 = int32;
     return this;
   }
 
-   /**
+  /**
    * Get int32
    * minimum: 20
    * maximum: 200
    * @return int32
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_INT32)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -186,17 +185,16 @@ public class FormatTest {
     this.int32 = int32;
   }
 
-
   public FormatTest int64(Long int64) {
     
     this.int64 = int64;
     return this;
   }
 
-   /**
+  /**
    * Get int64
    * @return int64
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_INT64)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -214,19 +212,18 @@ public class FormatTest {
     this.int64 = int64;
   }
 
-
   public FormatTest number(BigDecimal number) {
     
     this.number = number;
     return this;
   }
 
-   /**
+  /**
    * Get number
    * minimum: 32.1
    * maximum: 543.2
    * @return number
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -244,19 +241,18 @@ public class FormatTest {
     this.number = number;
   }
 
-
   public FormatTest _float(Float _float) {
     
     this._float = _float;
     return this;
   }
 
-   /**
+  /**
    * Get _float
    * minimum: 54.3
    * maximum: 987.6
    * @return _float
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FLOAT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -274,19 +270,18 @@ public class FormatTest {
     this._float = _float;
   }
 
-
   public FormatTest _double(Double _double) {
     
     this._double = _double;
     return this;
   }
 
-   /**
+  /**
    * Get _double
    * minimum: 67.8
    * maximum: 123.4
    * @return _double
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DOUBLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -304,17 +299,16 @@ public class FormatTest {
     this._double = _double;
   }
 
-
   public FormatTest decimal(BigDecimal decimal) {
     
     this.decimal = decimal;
     return this;
   }
 
-   /**
+  /**
    * Get decimal
    * @return decimal
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DECIMAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -332,17 +326,16 @@ public class FormatTest {
     this.decimal = decimal;
   }
 
-
   public FormatTest string(String string) {
     
     this.string = string;
     return this;
   }
 
-   /**
+  /**
    * Get string
    * @return string
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -360,17 +353,16 @@ public class FormatTest {
     this.string = string;
   }
 
-
   public FormatTest _byte(byte[] _byte) {
     
     this._byte = _byte;
     return this;
   }
 
-   /**
+  /**
    * Get _byte
    * @return _byte
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_BYTE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -388,17 +380,16 @@ public class FormatTest {
     this._byte = _byte;
   }
 
-
   public FormatTest binary(File binary) {
     
     this.binary = binary;
     return this;
   }
 
-   /**
+  /**
    * Get binary
    * @return binary
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BINARY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -416,17 +407,16 @@ public class FormatTest {
     this.binary = binary;
   }
 
-
   public FormatTest date(LocalDate date) {
     
     this.date = date;
     return this;
   }
 
-   /**
+  /**
    * Get date
    * @return date
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -444,17 +434,16 @@ public class FormatTest {
     this.date = date;
   }
 
-
   public FormatTest dateTime(OffsetDateTime dateTime) {
     
     this.dateTime = dateTime;
     return this;
   }
 
-   /**
+  /**
    * Get dateTime
    * @return dateTime
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -472,17 +461,16 @@ public class FormatTest {
     this.dateTime = dateTime;
   }
 
-
   public FormatTest uuid(UUID uuid) {
     
     this.uuid = uuid;
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -500,17 +488,16 @@ public class FormatTest {
     this.uuid = uuid;
   }
 
-
   public FormatTest password(String password) {
     
     this.password = password;
     return this;
   }
 
-   /**
+  /**
    * Get password
    * @return password
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -528,17 +515,16 @@ public class FormatTest {
     this.password = password;
   }
 
-
   public FormatTest patternWithDigits(String patternWithDigits) {
     
     this.patternWithDigits = patternWithDigits;
     return this;
   }
 
-   /**
+  /**
    * A string that is a 10 digit number. Can have leading zeros.
    * @return patternWithDigits
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -556,17 +542,16 @@ public class FormatTest {
     this.patternWithDigits = patternWithDigits;
   }
 
-
   public FormatTest patternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
     
     this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
     return this;
   }
 
-   /**
+  /**
    * A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
    * @return patternWithDigitsAndDelimiter
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

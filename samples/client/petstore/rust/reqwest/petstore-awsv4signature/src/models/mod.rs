@@ -20,6 +20,8 @@ pub mod pet;
 pub use self::pet::Pet;
 pub mod property_test;
 pub use self::property_test::PropertyTest;
+pub mod model_ref;
+pub use self::model_ref::Ref;
 pub mod model_return;
 pub use self::model_return::Return;
 pub mod tag;

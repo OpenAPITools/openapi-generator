@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
   Drawing.JSON_PROPERTY_NULLABLE_SHAPE,
   Drawing.JSON_PROPERTY_SHAPES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Drawing {
   public static final String JSON_PROPERTY_MAIN_SHAPE = "mainShape";
   private Shape mainShape;
@@ -61,7 +61,7 @@ public class Drawing {
   private JsonNullable<NullableShape> nullableShape = JsonNullable.<NullableShape>undefined();
 
   public static final String JSON_PROPERTY_SHAPES = "shapes";
-  private List<Shape> shapes;
+  private List<Shape> shapes = new ArrayList<>();
 
   public Drawing() { 
   }
@@ -71,10 +71,10 @@ public class Drawing {
     return this;
   }
 
-   /**
+  /**
    * Get mainShape
    * @return mainShape
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAIN_SHAPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -96,10 +96,10 @@ public class Drawing {
     return this;
   }
 
-   /**
+  /**
    * Get shapeOrNull
    * @return shapeOrNull
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
 
@@ -129,10 +129,10 @@ public class Drawing {
     return this;
   }
 
-   /**
+  /**
    * Get nullableShape
    * @return nullableShape
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
 
@@ -170,10 +170,10 @@ public class Drawing {
     return this;
   }
 
-   /**
+  /**
    * Get shapes
    * @return shapes
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SHAPES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

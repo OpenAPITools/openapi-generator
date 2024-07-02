@@ -29,7 +29,7 @@ import javax.annotation.Generated;
   Dog.JSON_PROPERTY_BREED
 })
 @JsonTypeName("Dog")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @Introspected
 public class Dog extends Animal {
     public static final String JSON_PROPERTY_BREED = "breed";
@@ -46,7 +46,7 @@ public class Dog extends Animal {
     /**
      * Get breed
      * @return breed
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_BREED)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

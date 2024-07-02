@@ -56,7 +56,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class QueryApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -187,6 +187,7 @@ public class QueryApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test query parameter(s)
    * Test query parameter(s)
@@ -285,6 +286,7 @@ public class QueryApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test query parameter(s)
    * Test query parameter(s)
@@ -383,6 +385,7 @@ public class QueryApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test query parameter(s)
    * Test query parameter(s)
@@ -450,7 +453,10 @@ public class QueryApi {
     String localVarQueryParameterBaseName;
     localVarQueryParameterBaseName = "query_object";
     if (queryObject != null) {
-      localVarQueryStringJoiner.add(queryObject.toUrlQueryString("query_object"));
+      String queryString = queryObject.toUrlQueryString("query_object");
+      if (!queryString.isBlank()) {
+        localVarQueryStringJoiner.add(queryString);
+      }
     }
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
@@ -475,6 +481,7 @@ public class QueryApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test query parameter(s)
    * Test query parameter(s)
@@ -542,7 +549,10 @@ public class QueryApi {
     String localVarQueryParameterBaseName;
     localVarQueryParameterBaseName = "query_object";
     if (queryObject != null) {
-      localVarQueryStringJoiner.add(queryObject.toUrlQueryString("query_object"));
+      String queryString = queryObject.toUrlQueryString("query_object");
+      if (!queryString.isBlank()) {
+        localVarQueryStringJoiner.add(queryString);
+      }
     }
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
@@ -567,10 +577,11 @@ public class QueryApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test query parameter(s)
    * Test query parameter(s)
-   * @param queryObject  (optional
+   * @param queryObject  (optional)
    * @return String
    * @throws ApiException if fails to make API call
    */
@@ -582,7 +593,7 @@ public class QueryApi {
   /**
    * Test query parameter(s)
    * Test query parameter(s)
-   * @param queryObject  (optional
+   * @param queryObject  (optional)
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
@@ -657,10 +668,11 @@ public class QueryApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test query parameter(s)
    * Test query parameter(s)
-   * @param queryObject  (optional
+   * @param queryObject  (optional)
    * @return String
    * @throws ApiException if fails to make API call
    */
@@ -672,7 +684,7 @@ public class QueryApi {
   /**
    * Test query parameter(s)
    * Test query parameter(s)
-   * @param queryObject  (optional
+   * @param queryObject  (optional)
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
@@ -747,6 +759,7 @@ public class QueryApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test query parameter(s)
    * Test query parameter(s)
@@ -837,6 +850,7 @@ public class QueryApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test query parameter(s)
    * Test query parameter(s)
@@ -932,6 +946,7 @@ public class QueryApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test query parameter(s)
    * Test query parameter(s)
@@ -1022,4 +1037,5 @@ public class QueryApi {
     }
     return localVarRequestBuilder;
   }
+
 }

@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { Animal } from './Animal';
 import {
     AnimalFromJSON,
@@ -49,10 +49,8 @@ export interface MixedPropertiesAndAdditionalPropertiesClass {
 /**
  * Check if a given object implements the MixedPropertiesAndAdditionalPropertiesClass interface.
  */
-export function instanceOfMixedPropertiesAndAdditionalPropertiesClass(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfMixedPropertiesAndAdditionalPropertiesClass(value: object): value is MixedPropertiesAndAdditionalPropertiesClass {
+    return true;
 }
 
 export function MixedPropertiesAndAdditionalPropertiesClassFromJSON(json: any): MixedPropertiesAndAdditionalPropertiesClass {
@@ -60,29 +58,26 @@ export function MixedPropertiesAndAdditionalPropertiesClassFromJSON(json: any): 
 }
 
 export function MixedPropertiesAndAdditionalPropertiesClassFromJSONTyped(json: any, ignoreDiscriminator: boolean): MixedPropertiesAndAdditionalPropertiesClass {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
-        'dateTime': !exists(json, 'dateTime') ? undefined : (new Date(json['dateTime'])),
-        'map': !exists(json, 'map') ? undefined : (mapValues(json['map'], AnimalFromJSON)),
+        'uuid': json['uuid'] == null ? undefined : json['uuid'],
+        'dateTime': json['dateTime'] == null ? undefined : (new Date(json['dateTime'])),
+        'map': json['map'] == null ? undefined : (mapValues(json['map'], AnimalFromJSON)),
     };
 }
 
 export function MixedPropertiesAndAdditionalPropertiesClassToJSON(value?: MixedPropertiesAndAdditionalPropertiesClass | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'uuid': value.uuid,
-        'dateTime': value.dateTime === undefined ? undefined : (value.dateTime.toISOString()),
-        'map': value.map === undefined ? undefined : (mapValues(value.map, AnimalToJSON)),
+        'uuid': value['uuid'],
+        'dateTime': value['dateTime'] == null ? undefined : ((value['dateTime']).toISOString()),
+        'map': value['map'] == null ? undefined : (mapValues(value['map'], AnimalToJSON)),
     };
 }
 

@@ -27,7 +27,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("format_test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class FormatTest {
 
   private Optional<@Min(10) @Max(100) Integer> integer = Optional.empty();
@@ -84,7 +84,7 @@ public class FormatTest {
    * minimum: 10
    * maximum: 100
    * @return integer
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("integer")
@@ -106,7 +106,7 @@ public class FormatTest {
    * minimum: 20
    * maximum: 200
    * @return int32
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("int32")
@@ -126,7 +126,7 @@ public class FormatTest {
   /**
    * Get int64
    * @return int64
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("int64")
@@ -148,7 +148,7 @@ public class FormatTest {
    * minimum: 32.1
    * maximum: 543.2
    * @return number
-  */
+   */
   @NotNull @Valid @DecimalMin("32.1") @DecimalMax("543.2") 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("number")
@@ -170,7 +170,7 @@ public class FormatTest {
    * minimum: 54.3
    * maximum: 987.6
    * @return _float
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("float")
@@ -192,7 +192,7 @@ public class FormatTest {
    * minimum: 67.8
    * maximum: 123.4
    * @return _double
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("double")
@@ -212,7 +212,7 @@ public class FormatTest {
   /**
    * Get string
    * @return string
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("string")
@@ -232,7 +232,7 @@ public class FormatTest {
   /**
    * Get _byte
    * @return _byte
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("byte")
@@ -252,7 +252,7 @@ public class FormatTest {
   /**
    * Get binary
    * @return binary
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("binary")
@@ -272,7 +272,7 @@ public class FormatTest {
   /**
    * Get date
    * @return date
-  */
+   */
   @NotNull @Valid 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("date")
@@ -292,7 +292,7 @@ public class FormatTest {
   /**
    * Get dateTime
    * @return dateTime
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
@@ -312,7 +312,7 @@ public class FormatTest {
   /**
    * Get uuid
    * @return uuid
-  */
+   */
   @Valid 
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
   @JsonProperty("uuid")
@@ -332,7 +332,7 @@ public class FormatTest {
   /**
    * Get password
    * @return password
-  */
+   */
   @NotNull @Size(min = 10, max = 64) 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("password")
@@ -352,7 +352,7 @@ public class FormatTest {
   /**
    * Get bigDecimal
    * @return bigDecimal
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("BigDecimal")
@@ -426,5 +426,141 @@ public class FormatTest {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private FormatTest instance;
+
+    public Builder() {
+      this(new FormatTest());
+    }
+
+    protected Builder(FormatTest instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(FormatTest value) { 
+      this.instance.setInteger(value.integer);
+      this.instance.setInt32(value.int32);
+      this.instance.setInt64(value.int64);
+      this.instance.setNumber(value.number);
+      this.instance.setFloat(value._float);
+      this.instance.setDouble(value._double);
+      this.instance.setString(value.string);
+      this.instance.setByte(value._byte);
+      this.instance.setBinary(value.binary);
+      this.instance.setDate(value.date);
+      this.instance.setDateTime(value.dateTime);
+      this.instance.setUuid(value.uuid);
+      this.instance.setPassword(value.password);
+      this.instance.setBigDecimal(value.bigDecimal);
+      return this;
+    }
+
+    public FormatTest.Builder integer(Integer integer) {
+      this.instance.integer(integer);
+      return this;
+    }
+    
+    public FormatTest.Builder int32(Integer int32) {
+      this.instance.int32(int32);
+      return this;
+    }
+    
+    public FormatTest.Builder int64(Long int64) {
+      this.instance.int64(int64);
+      return this;
+    }
+    
+    public FormatTest.Builder number(BigDecimal number) {
+      this.instance.number(number);
+      return this;
+    }
+    
+    public FormatTest.Builder _float(Float _float) {
+      this.instance._float(_float);
+      return this;
+    }
+    
+    public FormatTest.Builder _double(Double _double) {
+      this.instance._double(_double);
+      return this;
+    }
+    
+    public FormatTest.Builder string(String string) {
+      this.instance.string(string);
+      return this;
+    }
+    
+    public FormatTest.Builder _byte(byte[] _byte) {
+      this.instance._byte(_byte);
+      return this;
+    }
+    
+    public FormatTest.Builder binary(org.springframework.core.io.Resource binary) {
+      this.instance.binary(binary);
+      return this;
+    }
+    
+    public FormatTest.Builder date(LocalDate date) {
+      this.instance.date(date);
+      return this;
+    }
+    
+    public FormatTest.Builder dateTime(OffsetDateTime dateTime) {
+      this.instance.dateTime(dateTime);
+      return this;
+    }
+    
+    public FormatTest.Builder uuid(UUID uuid) {
+      this.instance.uuid(uuid);
+      return this;
+    }
+    
+    public FormatTest.Builder password(String password) {
+      this.instance.password(password);
+      return this;
+    }
+    
+    public FormatTest.Builder bigDecimal(BigDecimal bigDecimal) {
+      this.instance.bigDecimal(bigDecimal);
+      return this;
+    }
+    
+    /**
+    * returns a built FormatTest instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public FormatTest build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static FormatTest.Builder builder() {
+    return new FormatTest.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public FormatTest.Builder toBuilder() {
+    FormatTest.Builder builder = new FormatTest.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

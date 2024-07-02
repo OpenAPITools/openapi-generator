@@ -18,7 +18,7 @@ import javax.annotation.Generated;
  * ReadOnlyFirst
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ReadOnlyFirst {
 
   private String bar;
@@ -33,7 +33,7 @@ public class ReadOnlyFirst {
   /**
    * Get bar
    * @return bar
-  */
+   */
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("bar")
@@ -53,7 +53,7 @@ public class ReadOnlyFirst {
   /**
    * Get baz
    * @return baz
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("baz")

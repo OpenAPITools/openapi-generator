@@ -19,9 +19,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  **/
 @ApiModel(description = "Must be named `File` for test.")
 @JsonTypeName("File")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ModelFile  implements Serializable {
-  private @Valid String sourceURI;
+  private String sourceURI;
 
   protected ModelFile(ModelFileBuilder<?, ?> b) {
     this.sourceURI = b.sourceURI;
@@ -94,7 +94,7 @@ public class ModelFile  implements Serializable {
     return new ModelFileBuilderImpl();
   }
 
-  private static final class ModelFileBuilderImpl extends ModelFileBuilder<ModelFile, ModelFileBuilderImpl> {
+  private static class ModelFileBuilderImpl extends ModelFileBuilder<ModelFile, ModelFileBuilderImpl> {
 
     @Override
     protected ModelFileBuilderImpl self() {

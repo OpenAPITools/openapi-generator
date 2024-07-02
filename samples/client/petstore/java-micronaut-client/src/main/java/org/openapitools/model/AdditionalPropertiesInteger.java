@@ -30,7 +30,7 @@ import javax.annotation.Generated;
   AdditionalPropertiesInteger.JSON_PROPERTY_NAME
 })
 @JsonTypeName("AdditionalPropertiesInteger")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @Introspected
 public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
     public static final String JSON_PROPERTY_NAME = "name";
@@ -47,7 +47,7 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
     /**
      * Get name
      * @return name
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

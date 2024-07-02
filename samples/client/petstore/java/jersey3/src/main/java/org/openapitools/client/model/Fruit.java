@@ -26,6 +26,8 @@ import java.util.Arrays;
 import org.openapitools.client.model.Apple;
 import org.openapitools.client.model.Banana;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -55,7 +57,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @JsonDeserialize(using = Fruit.FruitDeserializer.class)
 @JsonSerialize(using = Fruit.FruitSerializer.class)
 public class Fruit extends AbstractOpenApiSchema {
@@ -92,19 +94,9 @@ public class Fruit extends AbstractOpenApiSchema {
             boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
             int match = 0;
             JsonToken token = tree.traverse(jp.getCodec()).nextToken();
-            // deserialize Apple
+            // deserialize Apple (nullable)
             try {
                 boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if (Apple.class.equals(Integer.class) || Apple.class.equals(Long.class) || Apple.class.equals(Float.class) || Apple.class.equals(Double.class) || Apple.class.equals(Boolean.class) || Apple.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= ((Apple.class.equals(Integer.class) || Apple.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((Apple.class.equals(Float.class) || Apple.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (Apple.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (Apple.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                    }
-                }
                 if (attemptParsing) {
                     deserialized = tree.traverse(jp.getCodec()).readValueAs(Apple.class);
                     // TODO: there is no validation against JSON schema constraints
@@ -121,16 +113,6 @@ public class Fruit extends AbstractOpenApiSchema {
             // deserialize Banana
             try {
                 boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if (Banana.class.equals(Integer.class) || Banana.class.equals(Long.class) || Banana.class.equals(Float.class) || Banana.class.equals(Double.class) || Banana.class.equals(Boolean.class) || Banana.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= ((Banana.class.equals(Integer.class) || Banana.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((Banana.class.equals(Float.class) || Banana.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (Banana.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (Banana.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                    }
-                }
                 if (attemptParsing) {
                     deserialized = tree.traverse(jp.getCodec()).readValueAs(Banana.class);
                     // TODO: there is no validation against JSON schema constraints
@@ -162,14 +144,14 @@ public class Fruit extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<>();
+    public static final Map<String, GenericType<?>> schemas = new HashMap<>();
 
     public Fruit() {
         super("oneOf", Boolean.FALSE);
     }
 
     public Fruit(Apple o) {
-        super("oneOf", Boolean.FALSE);
+        super("oneOf", Boolean.TRUE);
         setActualInstance(o);
     }
 
@@ -187,7 +169,7 @@ public class Fruit extends AbstractOpenApiSchema {
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, GenericType<?>> getSchemas() {
         return Fruit.schemas;
     }
 

@@ -13,7 +13,7 @@ import org.openapitools.model.ModelFile;
 /**
  * FileSchemaTestClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class FileSchemaTestClass   {
   @JsonProperty("file")
   private ModelFile _file;
@@ -46,7 +46,7 @@ public class FileSchemaTestClass   {
 
   public FileSchemaTestClass addFilesItem(ModelFile filesItem) {
     if (this.files == null) {
-      this.files = ;
+      this.files = new ArrayList<>();
     }
     this.files.add(filesItem);
     return this;

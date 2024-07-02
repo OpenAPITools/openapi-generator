@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  * An order for a pets from the pet store
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Order {
 
   private Optional<Long> id = Optional.empty();
@@ -81,7 +81,7 @@ public class Order {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @JsonProperty("id")
   public Optional<Long> getId() {
@@ -100,7 +100,7 @@ public class Order {
   /**
    * Get petId
    * @return petId
-  */
+   */
   
   @JsonProperty("petId")
   public Optional<Long> getPetId() {
@@ -119,7 +119,7 @@ public class Order {
   /**
    * Get quantity
    * @return quantity
-  */
+   */
   
   @JsonProperty("quantity")
   public Optional<Integer> getQuantity() {
@@ -138,7 +138,7 @@ public class Order {
   /**
    * Get shipDate
    * @return shipDate
-  */
+   */
   @Valid 
   @JsonProperty("shipDate")
   public Optional<OffsetDateTime> getShipDate() {
@@ -157,7 +157,7 @@ public class Order {
   /**
    * Order Status
    * @return status
-  */
+   */
   
   @JsonProperty("status")
   public Optional<StatusEnum> getStatus() {
@@ -176,7 +176,7 @@ public class Order {
   /**
    * Get complete
    * @return complete
-  */
+   */
   
   @JsonProperty("complete")
   public Optional<Boolean> getComplete() {

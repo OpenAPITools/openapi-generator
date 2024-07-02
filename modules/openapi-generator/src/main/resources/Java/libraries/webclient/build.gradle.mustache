@@ -142,15 +142,15 @@ ext {
     reactor_version = "3.4.34"
     reactor_netty_version = "1.0.39"
     {{/useJakartaEe}}
-    jackson_version = "2.13.4"
-    jackson_databind_version = "2.13.4.2"
+    jackson_version = "2.17.1"
+    jackson_databind_version = "2.17.1"
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.6"
     {{/openApiNullable}}
     {{#joda}}
     jodatime_version = "2.9.9"
     {{/joda}}
-    junit_version = "4.13.2"
+    junit_version = "5.10.2"
 }
 
 dependencies {
@@ -176,5 +176,5 @@ dependencies {
     {{/joda}}
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
-    testImplementation "junit:junit:$junit_version"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
 }

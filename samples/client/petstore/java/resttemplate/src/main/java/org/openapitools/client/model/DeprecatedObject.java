@@ -31,12 +31,19 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   DeprecatedObject.JSON_PROPERTY_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class DeprecatedObject {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
   public DeprecatedObject() {
+  }
+
+  /**
+   * Constructor with all args parameters
+   */
+  public DeprecatedObject(@JsonProperty(JSON_PROPERTY_NAME) String name) {
+    this.name = name;
   }
 
   public DeprecatedObject name(String name) {
@@ -45,10 +52,10 @@ public class DeprecatedObject {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -100,6 +107,60 @@ public class DeprecatedObject {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder {
+
+    private DeprecatedObject instance;
+
+    public Builder() {
+      this(new DeprecatedObject());
+    }
+
+    protected Builder(DeprecatedObject instance) {
+      this.instance = instance;
+    }
+
+    public DeprecatedObject.Builder name(String name) {
+      this.instance.name = name;
+      return this;
+    }
+
+
+    /**
+    * returns a built DeprecatedObject instance.
+    *
+    * The builder is not reusable.
+    */
+    public DeprecatedObject build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static DeprecatedObject.Builder builder() {
+    return new DeprecatedObject.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public DeprecatedObject.Builder toBuilder() {
+    return new DeprecatedObject.Builder()
+      .name(getName());
+  }
+
 
 }
 

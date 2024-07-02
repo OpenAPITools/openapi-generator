@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
  * Model for testing reserved words
  */
 @ApiModel(description = "Model for testing reserved words")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ModelReturn   {
   @JsonProperty("return")
   private Integer _return;

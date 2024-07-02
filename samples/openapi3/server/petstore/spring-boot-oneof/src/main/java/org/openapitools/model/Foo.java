@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Foo extends Entity implements FooRefOrValue {
 
   private String fooPropA;
@@ -49,7 +49,7 @@ public class Foo extends Entity implements FooRefOrValue {
   /**
    * Get fooPropA
    * @return fooPropA
-  */
+   */
   
   @Schema(name = "fooPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fooPropA")
@@ -69,7 +69,7 @@ public class Foo extends Entity implements FooRefOrValue {
   /**
    * Get fooPropB
    * @return fooPropB
-  */
+   */
   
   @Schema(name = "fooPropB", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fooPropB")
@@ -146,5 +146,102 @@ public class Foo extends Entity implements FooRefOrValue {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder extends Entity.Builder {
+
+    private Foo instance;
+
+    public Builder() {
+      this(new Foo());
+    }
+
+    protected Builder(Foo instance) {
+      super(instance); // the parent builder shares the same instance
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Foo value) { 
+      super.copyOf(instance);
+      this.instance.setFooPropA(value.fooPropA);
+      this.instance.setFooPropB(value.fooPropB);
+      return this;
+    }
+
+    public Foo.Builder fooPropA(String fooPropA) {
+      this.instance.fooPropA(fooPropA);
+      return this;
+    }
+    
+    public Foo.Builder fooPropB(String fooPropB) {
+      this.instance.fooPropB(fooPropB);
+      return this;
+    }
+    
+    @Override
+    public Foo.Builder href(String href) {
+      this.instance.href(href);
+      return this;
+    }
+    
+    @Override
+    public Foo.Builder id(String id) {
+      this.instance.id(id);
+      return this;
+    }
+    
+    @Override
+    public Foo.Builder atSchemaLocation(String atSchemaLocation) {
+      this.instance.atSchemaLocation(atSchemaLocation);
+      return this;
+    }
+    
+    @Override
+    public Foo.Builder atBaseType(String atBaseType) {
+      this.instance.atBaseType(atBaseType);
+      return this;
+    }
+    
+    @Override
+    public Foo.Builder atType(String atType) {
+      this.instance.atType(atType);
+      return this;
+    }
+    
+    /**
+    * returns a built Foo instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Foo build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        super.build();
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Foo.Builder builder() {
+    return new Foo.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Foo.Builder toBuilder() {
+    Foo.Builder builder = new Foo.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

@@ -59,13 +59,17 @@ import kotlinx.serialization.*
 {{/imports}}
 
 {{#operations}}
+{{#x-kotlin-import-models}}
+import {{{modelPackage}}}.*
+
+{{/x-kotlin-import-models}}
 {{#x-kotlin-multipart-import}}
 {{^isMultipart}}
 import okhttp3.MultipartBody
 
 {{/isMultipart}}
 {{/x-kotlin-multipart-import}}
-interface {{classname}} {
+{{#nonPublicApi}}internal {{/nonPublicApi}}interface {{classname}} {
     {{#operation}}
     {{#allParams}}
     {{#isEnum}}

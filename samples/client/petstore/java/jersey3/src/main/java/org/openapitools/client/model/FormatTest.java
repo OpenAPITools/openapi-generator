@@ -28,6 +28,8 @@ import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -53,7 +55,7 @@ import org.openapitools.client.JSON;
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER
 })
 @JsonTypeName("format_test")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class FormatTest {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   private Integer integer;
@@ -111,13 +113,14 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get integer
    * minimum: 10
    * maximum: 100
    * @return integer
-  **/
+   */
   @jakarta.annotation.Nullable
+ @Min(10) @Max(100)
   @JsonProperty(JSON_PROPERTY_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -138,13 +141,14 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get int32
    * minimum: 20
    * maximum: 200
    * @return int32
-  **/
+   */
   @jakarta.annotation.Nullable
+ @Min(20) @Max(200)
   @JsonProperty(JSON_PROPERTY_INT32)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -165,11 +169,12 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get int64
    * @return int64
-  **/
+   */
   @jakarta.annotation.Nullable
+
   @JsonProperty(JSON_PROPERTY_INT64)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -190,13 +195,16 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get number
    * minimum: 32.1
    * maximum: 543.2
    * @return number
-  **/
+   */
   @jakarta.annotation.Nonnull
+  @NotNull
+  @Valid
+ @DecimalMin("32.1") @DecimalMax("543.2")
   @JsonProperty(JSON_PROPERTY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -217,13 +225,14 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get _float
    * minimum: 54.3
    * maximum: 987.6
    * @return _float
-  **/
+   */
   @jakarta.annotation.Nullable
+ @DecimalMin("54.3") @DecimalMax("987.6")
   @JsonProperty(JSON_PROPERTY_FLOAT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -244,13 +253,14 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get _double
    * minimum: 67.8
    * maximum: 123.4
    * @return _double
-  **/
+   */
   @jakarta.annotation.Nullable
+ @DecimalMin("67.8") @DecimalMax("123.4")
   @JsonProperty(JSON_PROPERTY_DOUBLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -271,11 +281,13 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get decimal
    * @return decimal
-  **/
+   */
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonProperty(JSON_PROPERTY_DECIMAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -296,11 +308,12 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get string
    * @return string
-  **/
+   */
   @jakarta.annotation.Nullable
+ @Pattern(regexp="/[a-z]/i")
   @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -321,11 +334,13 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get _byte
    * @return _byte
-  **/
+   */
   @jakarta.annotation.Nonnull
+  @NotNull
+
   @JsonProperty(JSON_PROPERTY_BYTE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -346,11 +361,13 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get binary
    * @return binary
-  **/
+   */
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonProperty(JSON_PROPERTY_BINARY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -371,11 +388,14 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get date
    * @return date
-  **/
+   */
   @jakarta.annotation.Nonnull
+  @NotNull
+  @Valid
+
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -396,11 +416,13 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get dateTime
    * @return dateTime
-  **/
+   */
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -421,11 +443,13 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
+   */
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -446,11 +470,13 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get password
    * @return password
-  **/
+   */
   @jakarta.annotation.Nonnull
+  @NotNull
+ @Size(min=10,max=64)
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -471,11 +497,12 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * A string that is a 10 digit number. Can have leading zeros.
    * @return patternWithDigits
-  **/
+   */
   @jakarta.annotation.Nullable
+ @Pattern(regexp="^\\d{10}$")
   @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -496,11 +523,12 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
    * @return patternWithDigitsAndDelimiter
-  **/
+   */
   @jakarta.annotation.Nullable
+ @Pattern(regexp="/^image_\\d{1,3}$/i")
   @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

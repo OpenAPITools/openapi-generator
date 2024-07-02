@@ -46,6 +46,25 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Person"
+    put:
+      tags:
+        - person
+      parameters:
+        - name: personId
+          in: path
+          required: true
+          description: The id of the person to retrieve
+          schema:
+            type: string
+      operationId: put
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Person"
+
 components:
   schemas:
     Person:

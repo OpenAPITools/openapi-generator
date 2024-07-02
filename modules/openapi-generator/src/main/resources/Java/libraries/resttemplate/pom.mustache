@@ -65,17 +65,25 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
                 <configuration>
-                    <systemProperties>
+                    <systemPropertyVariables>
                         <property>
                             <name>loggerPath</name>
                             <value>conf/log4j.properties</value>
                         </property>
-                    </systemProperties>
+                    </systemPropertyVariables>
                     <argLine>-Xms512m -Xmx1500m</argLine>
                     <parallel>methods</parallel>
                     <forkMode>pertest</forkMode>
                     <useUnlimitedThreads>true</useUnlimitedThreads>
                 </configuration>
+                <dependencies>
+                    <!--Custom provider and engine for Junit 5 to surefire-->
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>${junit-version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -325,9 +333,9 @@
       {{#performBeanValidation}}
         <!-- Bean Validation Impl. used to perform BeanValidation -->
         <dependency>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate-validator</artifactId>
-          <version>${hibernate-validator-version}</version>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator-version}</version>
         </dependency>
       {{/performBeanValidation}}
         <dependency>
@@ -339,9 +347,15 @@
 
         <!-- test dependencies -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <version>${junit-platform-runner.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -354,13 +368,13 @@
         <swagger-annotations-version>2.2.15</swagger-annotations-version>
         {{/swagger2AnnotationLibrary}}
         {{#useJakartaEe}}
-        <spring-web-version>6.0.3</spring-web-version>
+        <spring-web-version>6.1.5</spring-web-version>
         {{/useJakartaEe}}
         {{^useJakartaEe}}
-        <spring-web-version>5.3.24</spring-web-version>
+        <spring-web-version>5.3.33</spring-web-version>
         {{/useJakartaEe}}
-        <jackson-version>2.15.2</jackson-version>
-        <jackson-databind-version>2.15.2</jackson-databind-version>
+        <jackson-version>2.17.1</jackson-version>
+        <jackson-databind-version>2.17.1</jackson-databind-version>
         {{#openApiNullable}}
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
         {{/openApiNullable}}
@@ -374,11 +388,12 @@
         <jodatime-version>2.9.9</jodatime-version>
         {{/joda}}
         {{#useBeanValidation}}
-        <beanvalidation-version>2.0.2</beanvalidation-version>
+        <beanvalidation-version>3.0.2</beanvalidation-version>
         {{/useBeanValidation}}
         {{#performBeanValidation}}
         <hibernate-validator-version>5.4.3.Final</hibernate-validator-version>
         {{/performBeanValidation}}
-        <junit-version>4.13.2</junit-version>
+        <junit-version>5.10.2</junit-version>
+        <junit-platform-runner.version>1.10.0</junit-platform-runner.version>
     </properties>
 </project>

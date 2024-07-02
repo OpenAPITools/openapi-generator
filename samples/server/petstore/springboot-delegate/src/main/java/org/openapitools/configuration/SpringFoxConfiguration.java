@@ -18,7 +18,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import javax.annotation.Generated;
 import javax.servlet.ServletContext;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @Configuration
 @EnableSwagger2
 public class SpringFoxConfiguration {

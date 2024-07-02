@@ -64,7 +64,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(AllOfModelArrayAnyOfAllOfAttributesC.class.getName());
 
@@ -89,15 +89,15 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
 
                     // check if the actual instance is of the type `Pet`
                     if (value.getActualInstance() instanceof Pet) {
-                      JsonElement element = adapterPet.toJsonTree((Pet)value.getActualInstance());
-                      elementAdapter.write(out, element);
-                      return;
+                        JsonElement element = adapterPet.toJsonTree((Pet)value.getActualInstance());
+                        elementAdapter.write(out, element);
+                        return;
                     }
                     // check if the actual instance is of the type `Order`
                     if (value.getActualInstance() instanceof Order) {
-                      JsonElement element = adapterOrder.toJsonTree((Order)value.getActualInstance());
-                      elementAdapter.write(out, element);
-                      return;
+                        JsonElement element = adapterOrder.toJsonTree((Order)value.getActualInstance());
+                        elementAdapter.write(out, element);
+                        return;
                     }
                     throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: Order, Pet");
                 }
@@ -113,27 +113,27 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
 
                     // deserialize Pet
                     try {
-                      // validate the JSON object to see if any exception is thrown
-                      Pet.validateJsonElement(jsonElement);
-                      actualAdapter = adapterPet;
-                      match++;
-                      log.log(Level.FINER, "Input data matches schema 'Pet'");
+                        // validate the JSON object to see if any exception is thrown
+                        Pet.validateJsonElement(jsonElement);
+                        actualAdapter = adapterPet;
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'Pet'");
                     } catch (Exception e) {
-                      // deserialization failed, continue
-                      errorMessages.add(String.format("Deserialization for Pet failed with `%s`.", e.getMessage()));
-                      log.log(Level.FINER, "Input data does not match schema 'Pet'", e);
+                        // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for Pet failed with `%s`.", e.getMessage()));
+                        log.log(Level.FINER, "Input data does not match schema 'Pet'", e);
                     }
                     // deserialize Order
                     try {
-                      // validate the JSON object to see if any exception is thrown
-                      Order.validateJsonElement(jsonElement);
-                      actualAdapter = adapterOrder;
-                      match++;
-                      log.log(Level.FINER, "Input data matches schema 'Order'");
+                        // validate the JSON object to see if any exception is thrown
+                        Order.validateJsonElement(jsonElement);
+                        actualAdapter = adapterOrder;
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'Order'");
                     } catch (Exception e) {
-                      // deserialization failed, continue
-                      errorMessages.add(String.format("Deserialization for Order failed with `%s`.", e.getMessage()));
-                      log.log(Level.FINER, "Input data does not match schema 'Order'", e);
+                        // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for Order failed with `%s`.", e.getMessage()));
+                        log.log(Level.FINER, "Input data does not match schema 'Order'", e);
                     }
 
                     if (match == 1) {
@@ -155,12 +155,7 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
         super("oneOf", Boolean.FALSE);
     }
 
-    public AllOfModelArrayAnyOfAllOfAttributesC(Order o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public AllOfModelArrayAnyOfAllOfAttributesC(Pet o) {
+    public AllOfModelArrayAnyOfAllOfAttributesC(Object o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
@@ -203,6 +198,7 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
      *
      * @return The actual instance (Order, Pet)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -229,55 +225,55 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
         return (Order)super.getActualInstance();
     }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to AllOfModelArrayAnyOfAllOfAttributesC
-  */
-  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
-    // validate oneOf schemas one by one
-    int validCount = 0;
-    ArrayList<String> errorMessages = new ArrayList<>();
-    // validate the json string with Pet
-    try {
-      Pet.validateJsonElement(jsonElement);
-      validCount++;
-    } catch (Exception e) {
-      errorMessages.add(String.format("Deserialization for Pet failed with `%s`.", e.getMessage()));
-      // continue to the next one
+    /**
+     * Validates the JSON Element and throws an exception if issues found
+     *
+     * @param jsonElement JSON Element
+     * @throws IOException if the JSON Element is invalid with respect to AllOfModelArrayAnyOfAllOfAttributesC
+     */
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+        // validate oneOf schemas one by one
+        int validCount = 0;
+        ArrayList<String> errorMessages = new ArrayList<>();
+        // validate the json string with Pet
+        try {
+            Pet.validateJsonElement(jsonElement);
+            validCount++;
+        } catch (Exception e) {
+            errorMessages.add(String.format("Deserialization for Pet failed with `%s`.", e.getMessage()));
+            // continue to the next one
+        }
+        // validate the json string with Order
+        try {
+            Order.validateJsonElement(jsonElement);
+            validCount++;
+        } catch (Exception e) {
+            errorMessages.add(String.format("Deserialization for Order failed with `%s`.", e.getMessage()));
+            // continue to the next one
+        }
+        if (validCount != 1) {
+            throw new IOException(String.format("The JSON string is invalid for AllOfModelArrayAnyOfAllOfAttributesC with oneOf schemas: Order, Pet. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
+        }
     }
-    // validate the json string with Order
-    try {
-      Order.validateJsonElement(jsonElement);
-      validCount++;
-    } catch (Exception e) {
-      errorMessages.add(String.format("Deserialization for Order failed with `%s`.", e.getMessage()));
-      // continue to the next one
-    }
-    if (validCount != 1) {
-      throw new IOException(String.format("The JSON string is invalid for AllOfModelArrayAnyOfAllOfAttributesC with oneOf schemas: Order, Pet. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
-    }
-  }
 
- /**
-  * Create an instance of AllOfModelArrayAnyOfAllOfAttributesC given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of AllOfModelArrayAnyOfAllOfAttributesC
-  * @throws IOException if the JSON string is invalid with respect to AllOfModelArrayAnyOfAllOfAttributesC
-  */
-  public static AllOfModelArrayAnyOfAllOfAttributesC fromJson(String jsonString) throws IOException {
-    return JSON.getGson().fromJson(jsonString, AllOfModelArrayAnyOfAllOfAttributesC.class);
-  }
+    /**
+     * Create an instance of AllOfModelArrayAnyOfAllOfAttributesC given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of AllOfModelArrayAnyOfAllOfAttributesC
+     * @throws IOException if the JSON string is invalid with respect to AllOfModelArrayAnyOfAllOfAttributesC
+     */
+    public static AllOfModelArrayAnyOfAllOfAttributesC fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, AllOfModelArrayAnyOfAllOfAttributesC.class);
+    }
 
- /**
-  * Convert an instance of AllOfModelArrayAnyOfAllOfAttributesC to an JSON string
-  *
-  * @return JSON string
-  */
-  public String toJson() {
-    return JSON.getGson().toJson(this);
-  }
+    /**
+     * Convert an instance of AllOfModelArrayAnyOfAllOfAttributesC to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

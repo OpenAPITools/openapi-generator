@@ -30,7 +30,7 @@ import jakarta.validation.Valid;
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_PROPERTY,
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_OF_MAP_PROPERTY
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class AdditionalPropertiesClass   {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
   @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
@@ -87,7 +87,7 @@ public class AdditionalPropertiesClass   {
    **/
   @JsonProperty(value = "map_of_map_property")
   @Schema(description = "")
-  @Valid 
+  
   public Map<String, Map<String, String>> getMapOfMapProperty() {
     return mapOfMapProperty;
   }

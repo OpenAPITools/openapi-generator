@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * AdditionalPropertiesClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_MAP_STRING = "map_string";
   @SerializedName(SERIALIZED_NAME_MAP_STRING)
@@ -92,10 +92,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapString
    * @return mapString
-  **/
+   */
   @javax.annotation.Nullable
 
   public Map<String, String> getMapString() {
@@ -106,7 +106,6 @@ public class AdditionalPropertiesClass {
   public void setMapString(Map<String, String> mapString) {
     this.mapString = mapString;
   }
-
 
   public AdditionalPropertiesClass mapNumber(Map<String, BigDecimal> mapNumber) {
     
@@ -122,10 +121,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapNumber
    * @return mapNumber
-  **/
+   */
   @javax.annotation.Nullable
 
   public Map<String, BigDecimal> getMapNumber() {
@@ -136,7 +135,6 @@ public class AdditionalPropertiesClass {
   public void setMapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
   }
-
 
   public AdditionalPropertiesClass mapInteger(Map<String, Integer> mapInteger) {
     
@@ -152,10 +150,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapInteger
    * @return mapInteger
-  **/
+   */
   @javax.annotation.Nullable
 
   public Map<String, Integer> getMapInteger() {
@@ -166,7 +164,6 @@ public class AdditionalPropertiesClass {
   public void setMapInteger(Map<String, Integer> mapInteger) {
     this.mapInteger = mapInteger;
   }
-
 
   public AdditionalPropertiesClass mapBoolean(Map<String, Boolean> mapBoolean) {
     
@@ -182,10 +179,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapBoolean
    * @return mapBoolean
-  **/
+   */
   @javax.annotation.Nullable
 
   public Map<String, Boolean> getMapBoolean() {
@@ -196,7 +193,6 @@ public class AdditionalPropertiesClass {
   public void setMapBoolean(Map<String, Boolean> mapBoolean) {
     this.mapBoolean = mapBoolean;
   }
-
 
   public AdditionalPropertiesClass mapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
     
@@ -212,10 +208,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapArrayInteger
    * @return mapArrayInteger
-  **/
+   */
   @javax.annotation.Nullable
 
   public Map<String, List<Integer>> getMapArrayInteger() {
@@ -226,7 +222,6 @@ public class AdditionalPropertiesClass {
   public void setMapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
     this.mapArrayInteger = mapArrayInteger;
   }
-
 
   public AdditionalPropertiesClass mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     
@@ -242,10 +237,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapArrayAnytype
    * @return mapArrayAnytype
-  **/
+   */
   @javax.annotation.Nullable
 
   public Map<String, List<Object>> getMapArrayAnytype() {
@@ -256,7 +251,6 @@ public class AdditionalPropertiesClass {
   public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
   }
-
 
   public AdditionalPropertiesClass mapMapString(Map<String, Map<String, String>> mapMapString) {
     
@@ -272,10 +266,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapMapString
    * @return mapMapString
-  **/
+   */
   @javax.annotation.Nullable
 
   public Map<String, Map<String, String>> getMapMapString() {
@@ -286,7 +280,6 @@ public class AdditionalPropertiesClass {
   public void setMapMapString(Map<String, Map<String, String>> mapMapString) {
     this.mapMapString = mapMapString;
   }
-
 
   public AdditionalPropertiesClass mapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
     
@@ -302,10 +295,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapMapAnytype
    * @return mapMapAnytype
-  **/
+   */
   @javax.annotation.Nullable
 
   public Map<String, Map<String, Object>> getMapMapAnytype() {
@@ -317,17 +310,16 @@ public class AdditionalPropertiesClass {
     this.mapMapAnytype = mapMapAnytype;
   }
 
-
   public AdditionalPropertiesClass anytype1(Object anytype1) {
     
     this.anytype1 = anytype1;
     return this;
   }
 
-   /**
+  /**
    * Get anytype1
    * @return anytype1
-  **/
+   */
   @javax.annotation.Nullable
 
   public Object getAnytype1() {
@@ -339,17 +331,16 @@ public class AdditionalPropertiesClass {
     this.anytype1 = anytype1;
   }
 
-
   public AdditionalPropertiesClass anytype2(Object anytype2) {
     
     this.anytype2 = anytype2;
     return this;
   }
 
-   /**
+  /**
    * Get anytype2
    * @return anytype2
-  **/
+   */
   @javax.annotation.Nullable
 
   public Object getAnytype2() {
@@ -361,17 +352,16 @@ public class AdditionalPropertiesClass {
     this.anytype2 = anytype2;
   }
 
-
   public AdditionalPropertiesClass anytype3(Object anytype3) {
     
     this.anytype3 = anytype3;
     return this;
   }
 
-   /**
+  /**
    * Get anytype3
    * @return anytype3
-  **/
+   */
   @javax.annotation.Nullable
 
   public Object getAnytype3() {

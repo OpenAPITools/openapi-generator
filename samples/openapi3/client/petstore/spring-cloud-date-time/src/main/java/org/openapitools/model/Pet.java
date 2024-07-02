@@ -22,7 +22,7 @@ import javax.annotation.Generated;
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Pet {
 
   private String atType = "Pet";
@@ -58,7 +58,7 @@ public class Pet {
   /**
    * Get atType
    * @return atType
-  */
+   */
   @NotNull 
   @Schema(name = "@type", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("@type")
@@ -78,7 +78,7 @@ public class Pet {
   /**
    * Get age
    * @return age
-  */
+   */
   
   @Schema(name = "age", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("age")
@@ -98,7 +98,7 @@ public class Pet {
   /**
    * Get happy
    * @return happy
-  */
+   */
   
   @Schema(name = "happy", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("happy")
@@ -118,7 +118,7 @@ public class Pet {
   /**
    * Get price
    * @return price
-  */
+   */
   @Valid 
   @Schema(name = "price", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("price")
@@ -138,7 +138,7 @@ public class Pet {
   /**
    * Get lastFeed
    * @return lastFeed
-  */
+   */
   @Valid 
   @Schema(name = "lastFeed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("lastFeed")
@@ -158,7 +158,7 @@ public class Pet {
   /**
    * Get dateOfBirth
    * @return dateOfBirth
-  */
+   */
   @Valid 
   @Schema(name = "dateOfBirth", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("dateOfBirth")

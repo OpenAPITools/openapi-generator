@@ -76,7 +76,7 @@ class ObjectWithDeprecatedFieldsTest extends TestCase
     public function testObjectWithDeprecatedFields()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,7 +85,7 @@ class ObjectWithDeprecatedFieldsTest extends TestCase
     public function testPropertyUuid()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -94,7 +94,7 @@ class ObjectWithDeprecatedFieldsTest extends TestCase
     public function testPropertyId()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -103,7 +103,7 @@ class ObjectWithDeprecatedFieldsTest extends TestCase
     public function testPropertyDeprecatedRef()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -112,6 +112,6 @@ class ObjectWithDeprecatedFieldsTest extends TestCase
     public function testPropertyBars()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

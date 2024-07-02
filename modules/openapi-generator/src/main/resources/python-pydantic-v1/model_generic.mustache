@@ -10,6 +10,18 @@ import json
 {{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
 
+{{#hasChildren}}
+{{#discriminator}}
+{{! If this model is a super class, importlib is used. So import the necessary modules for the type here. }}
+from typing import TYPE_CHECKING
+from importlib import import_module
+if TYPE_CHECKING:
+{{#mappedModels}}
+    from {{packageName}}.models.{{model.classVarName}} import {{modelName}}
+{{/mappedModels}}
+
+{{/discriminator}}
+{{/hasChildren}}
 class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}):
     """
     {{#description}}{{{description}}}  # noqa: E501{{/description}}{{^description}}{{{classname}}}{{/description}}
@@ -162,15 +174,17 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{/isArray}}
         {{#isMap}}
         {{#items.isArray}}
+        {{^items.items.isPrimitiveType}}
         # override the default output from pydantic by calling `to_dict()` of each value in {{{name}}} (dict of array)
         _field_dict_of_array = {}
         if self.{{{name}}}:
             for _key in self.{{{name}}}:
-                if self.{{{name}}}[_key]:
+                if self.{{{name}}}[_key] is not None:
                     _field_dict_of_array[_key] = [
                         _item.to_dict() for _item in self.{{{name}}}[_key]
                     ]
             _dict['{{{baseName}}}'] = _field_dict_of_array
+        {{/items.items.isPrimitiveType}}
         {{/items.isArray}}
         {{^items.isArray}}
         {{^items.isPrimitiveType}}
@@ -222,13 +236,13 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{#discriminator}}
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
-        if object_type:
-            klass = globals()[object_type]
-            return klass.from_dict(obj)
-        else:
-            raise ValueError("{{{classname}}} failed to lookup discriminator value from " +
-                             json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
-                             ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
+        {{#mappedModels}}
+        if object_type ==  '{{{modelName}}}':
+            return import_module("{{packageName}}.models.{{model.classVarName}}").{{modelName}}.from_dict(obj)
+        {{/mappedModels}}
+        raise ValueError("{{{classname}}} failed to lookup discriminator value from " +
+                            json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
+                            ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
         {{/discriminator}}
         {{/hasChildren}}
         {{^hasChildren}}
@@ -329,7 +343,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             "{{{name}}}": {{{dataType}}}.from_dict(obj.get("{{{baseName}}}")) if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
             {{/isEnumOrRef}}
             {{#isEnumOrRef}}
-            "{{{name}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
+            "{{{name}}}": obj.get("{{{baseName}}}"){{#defaultValue}} if obj.get("{{baseName}}") is not None else {{defaultValue}}{{/defaultValue}}{{^-last}},{{/-last}}
             {{/isEnumOrRef}}
             {{/isPrimitiveType}}
             {{#isPrimitiveType}}

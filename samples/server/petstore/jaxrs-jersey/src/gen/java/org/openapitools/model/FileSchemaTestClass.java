@@ -33,7 +33,7 @@ import javax.validation.Valid;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class FileSchemaTestClass   {
   public static final String JSON_PROPERTY_FILE = "file";
   @JsonProperty(JSON_PROPERTY_FILE)
@@ -41,7 +41,7 @@ public class FileSchemaTestClass   {
 
   public static final String JSON_PROPERTY_FILES = "files";
   @JsonProperty(JSON_PROPERTY_FILES)
-  private List<@Valid ModelFile> files;
+  private List<@Valid ModelFile> files = new ArrayList<>();
 
   public FileSchemaTestClass _file(ModelFile _file) {
     this._file = _file;

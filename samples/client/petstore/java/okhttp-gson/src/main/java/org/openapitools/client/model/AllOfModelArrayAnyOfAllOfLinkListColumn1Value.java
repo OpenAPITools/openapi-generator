@@ -60,7 +60,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(AllOfModelArrayAnyOfAllOfLinkListColumn1Value.class.getName());
 
@@ -85,17 +85,17 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
 
                     // check if the actual instance is of the type `User`
                     if (value.getActualInstance() instanceof User) {
-                      JsonElement element = adapterUser.toJsonTree((User)value.getActualInstance());
-                      elementAdapter.write(out, element);
-                      return;
+                        JsonElement element = adapterUser.toJsonTree((User)value.getActualInstance());
+                        elementAdapter.write(out, element);
+                        return;
                     }
                     // check if the actual instance is of the type `Tag`
                     if (value.getActualInstance() instanceof Tag) {
-                      JsonElement element = adapterTag.toJsonTree((Tag)value.getActualInstance());
-                      elementAdapter.write(out, element);
-                      return;
+                        JsonElement element = adapterTag.toJsonTree((Tag)value.getActualInstance());
+                        elementAdapter.write(out, element);
+                        return;
                     }
-                    throw new IOException("Failed to serialize as the type doesn't match anyOf schemae: Tag, User");
+                    throw new IOException("Failed to serialize as the type doesn't match anyOf schemas: Tag, User");
                 }
 
                 @Override
@@ -108,29 +108,29 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
 
                     // deserialize User
                     try {
-                      // validate the JSON object to see if any exception is thrown
-                      User.validateJsonElement(jsonElement);
-                      actualAdapter = adapterUser;
-                      AllOfModelArrayAnyOfAllOfLinkListColumn1Value ret = new AllOfModelArrayAnyOfAllOfLinkListColumn1Value();
-                      ret.setActualInstance(actualAdapter.fromJsonTree(jsonElement));
-                      return ret;
+                        // validate the JSON object to see if any exception is thrown
+                        User.validateJsonElement(jsonElement);
+                        actualAdapter = adapterUser;
+                        AllOfModelArrayAnyOfAllOfLinkListColumn1Value ret = new AllOfModelArrayAnyOfAllOfLinkListColumn1Value();
+                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonElement));
+                        return ret;
                     } catch (Exception e) {
-                      // deserialization failed, continue
-                      errorMessages.add(String.format("Deserialization for User failed with `%s`.", e.getMessage()));
-                      log.log(Level.FINER, "Input data does not match schema 'User'", e);
+                        // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for User failed with `%s`.", e.getMessage()));
+                        log.log(Level.FINER, "Input data does not match schema 'User'", e);
                     }
                     // deserialize Tag
                     try {
-                      // validate the JSON object to see if any exception is thrown
-                      Tag.validateJsonElement(jsonElement);
-                      actualAdapter = adapterTag;
-                      AllOfModelArrayAnyOfAllOfLinkListColumn1Value ret = new AllOfModelArrayAnyOfAllOfLinkListColumn1Value();
-                      ret.setActualInstance(actualAdapter.fromJsonTree(jsonElement));
-                      return ret;
+                        // validate the JSON object to see if any exception is thrown
+                        Tag.validateJsonElement(jsonElement);
+                        actualAdapter = adapterTag;
+                        AllOfModelArrayAnyOfAllOfLinkListColumn1Value ret = new AllOfModelArrayAnyOfAllOfLinkListColumn1Value();
+                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonElement));
+                        return ret;
                     } catch (Exception e) {
-                      // deserialization failed, continue
-                      errorMessages.add(String.format("Deserialization for Tag failed with `%s`.", e.getMessage()));
-                      log.log(Level.FINER, "Input data does not match schema 'Tag'", e);
+                        // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for Tag failed with `%s`.", e.getMessage()));
+                        log.log(Level.FINER, "Input data does not match schema 'Tag'", e);
                     }
 
                     throw new IOException(String.format("Failed deserialization for AllOfModelArrayAnyOfAllOfLinkListColumn1Value: no class matches result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
@@ -146,12 +146,7 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
         super("anyOf", Boolean.FALSE);
     }
 
-    public AllOfModelArrayAnyOfAllOfLinkListColumn1Value(Tag o) {
-        super("anyOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public AllOfModelArrayAnyOfAllOfLinkListColumn1Value(User o) {
+    public AllOfModelArrayAnyOfAllOfLinkListColumn1Value(Object o) {
         super("anyOf", Boolean.FALSE);
         setActualInstance(o);
     }
@@ -194,6 +189,7 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
      *
      * @return The actual instance (Tag, User)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -220,53 +216,52 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
         return (Tag)super.getActualInstance();
     }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to AllOfModelArrayAnyOfAllOfLinkListColumn1Value
-  */
-  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
-    // validate anyOf schemas one by one
-    ArrayList<String> errorMessages = new ArrayList<>();
-    // validate the json string with User
-    try {
-      User.validateJsonElement(jsonElement);
-      return;
-    } catch (Exception e) {
-      errorMessages.add(String.format("Deserialization for User failed with `%s`.", e.getMessage()));
-      // continue to the next one
+    /**
+     * Validates the JSON Element and throws an exception if issues found
+     *
+     * @param jsonElement JSON Element
+     * @throws IOException if the JSON Element is invalid with respect to AllOfModelArrayAnyOfAllOfLinkListColumn1Value
+     */
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+        // validate anyOf schemas one by one
+        ArrayList<String> errorMessages = new ArrayList<>();
+        // validate the json string with User
+        try {
+            User.validateJsonElement(jsonElement);
+            return;
+        } catch (Exception e) {
+            errorMessages.add(String.format("Deserialization for User failed with `%s`.", e.getMessage()));
+            // continue to the next one
+        }
+        // validate the json string with Tag
+        try {
+            Tag.validateJsonElement(jsonElement);
+            return;
+        } catch (Exception e) {
+            errorMessages.add(String.format("Deserialization for Tag failed with `%s`.", e.getMessage()));
+            // continue to the next one
+        }
+        throw new IOException(String.format("The JSON string is invalid for AllOfModelArrayAnyOfAllOfLinkListColumn1Value with anyOf schemas: Tag, User. no class match the result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
     }
-    // validate the json string with Tag
-    try {
-      Tag.validateJsonElement(jsonElement);
-      return;
-    } catch (Exception e) {
-      errorMessages.add(String.format("Deserialization for Tag failed with `%s`.", e.getMessage()));
-      // continue to the next one
+
+    /**
+     * Create an instance of AllOfModelArrayAnyOfAllOfLinkListColumn1Value given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of AllOfModelArrayAnyOfAllOfLinkListColumn1Value
+     * @throws IOException if the JSON string is invalid with respect to AllOfModelArrayAnyOfAllOfLinkListColumn1Value
+     */
+    public static AllOfModelArrayAnyOfAllOfLinkListColumn1Value fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, AllOfModelArrayAnyOfAllOfLinkListColumn1Value.class);
     }
-    throw new IOException(String.format("The JSON string is invalid for AllOfModelArrayAnyOfAllOfLinkListColumn1Value with anyOf schemas: Tag, User. no class match the result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
-    
-  }
 
- /**
-  * Create an instance of AllOfModelArrayAnyOfAllOfLinkListColumn1Value given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of AllOfModelArrayAnyOfAllOfLinkListColumn1Value
-  * @throws IOException if the JSON string is invalid with respect to AllOfModelArrayAnyOfAllOfLinkListColumn1Value
-  */
-  public static AllOfModelArrayAnyOfAllOfLinkListColumn1Value fromJson(String jsonString) throws IOException {
-    return JSON.getGson().fromJson(jsonString, AllOfModelArrayAnyOfAllOfLinkListColumn1Value.class);
-  }
-
- /**
-  * Convert an instance of AllOfModelArrayAnyOfAllOfLinkListColumn1Value to an JSON string
-  *
-  * @return JSON string
-  */
-  public String toJson() {
-    return JSON.getGson().toJson(this);
-  }
+    /**
+     * Convert an instance of AllOfModelArrayAnyOfAllOfLinkListColumn1Value to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

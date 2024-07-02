@@ -10,8 +10,8 @@
 
 
 use reqwest;
-
-use crate::apis::ResponseContent;
+use serde::{Deserialize, Serialize};
+use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
 /// struct for passing parameters to the method [`delete_order`]
@@ -32,7 +32,7 @@ pub struct GetOrderByIdParams {
 #[derive(Clone, Debug)]
 pub struct PlaceOrderParams {
     /// order placed for purchasing the pet
-    pub order: crate::models::Order
+    pub order: models::Order
 }
 
 
@@ -47,7 +47,7 @@ pub enum DeleteOrderSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetInventorySuccess {
-    Status200(::std::collections::HashMap<String, i32>),
+    Status200(std::collections::HashMap<String, i32>),
     UnknownValue(serde_json::Value),
 }
 
@@ -55,7 +55,7 @@ pub enum GetInventorySuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetOrderByIdSuccess {
-    Status200(crate::models::Order),
+    Status200(models::Order),
     UnknownValue(serde_json::Value),
 }
 
@@ -63,7 +63,7 @@ pub enum GetOrderByIdSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum PlaceOrderSuccess {
-    Status200(crate::models::Order),
+    Status200(models::Order),
     UnknownValue(serde_json::Value),
 }
 

@@ -42,7 +42,7 @@ import javax.annotation.Generated;
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE3
 })
 @JsonTypeName("AdditionalPropertiesClass")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @Introspected
 public class AdditionalPropertiesClass {
     public static final String JSON_PROPERTY_MAP_STRING = "map_string";
@@ -96,7 +96,7 @@ public class AdditionalPropertiesClass {
     /**
      * Get mapString
      * @return mapString
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_MAP_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -126,7 +126,7 @@ public class AdditionalPropertiesClass {
     /**
      * Get mapNumber
      * @return mapNumber
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_MAP_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -156,7 +156,7 @@ public class AdditionalPropertiesClass {
     /**
      * Get mapInteger
      * @return mapInteger
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -186,7 +186,7 @@ public class AdditionalPropertiesClass {
     /**
      * Get mapBoolean
      * @return mapBoolean
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_MAP_BOOLEAN)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -216,7 +216,7 @@ public class AdditionalPropertiesClass {
     /**
      * Get mapArrayInteger
      * @return mapArrayInteger
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_MAP_ARRAY_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -246,7 +246,7 @@ public class AdditionalPropertiesClass {
     /**
      * Get mapArrayAnytype
      * @return mapArrayAnytype
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -276,7 +276,7 @@ public class AdditionalPropertiesClass {
     /**
      * Get mapMapString
      * @return mapMapString
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_MAP_MAP_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -306,7 +306,7 @@ public class AdditionalPropertiesClass {
     /**
      * Get mapMapAnytype
      * @return mapMapAnytype
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_MAP_MAP_ANYTYPE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -328,7 +328,7 @@ public class AdditionalPropertiesClass {
     /**
      * Get anytype1
      * @return anytype1
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ANYTYPE1)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -350,7 +350,7 @@ public class AdditionalPropertiesClass {
     /**
      * Get anytype2
      * @return anytype2
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ANYTYPE2)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -372,7 +372,7 @@ public class AdditionalPropertiesClass {
     /**
      * Get anytype3
      * @return anytype3
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ANYTYPE3)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

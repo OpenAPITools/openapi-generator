@@ -51,14 +51,18 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{#gson}}
   @SerializedName("{{baseName}}")
   {{/gson}}
-  {{#lombok}}
+  {{#lombok.RequiredArgsConstructor}}
+  {{^useBeanValidation}}
   {{#required}}
   @lombok.NonNull
   {{/required}}
+  {{/useBeanValidation}}
+  {{/lombok.RequiredArgsConstructor}}
+  {{#lombok.ToString}}
   {{#isPassword}}
   @lombok.ToString.Exclude
   {{/isPassword}}
-  {{/lombok}}
+  {{/lombok.ToString}}
   {{#vendorExtensions.x-field-extra-annotation}}
   {{{vendorExtensions.x-field-extra-annotation}}}
   {{/vendorExtensions.x-field-extra-annotation}}
@@ -89,19 +93,19 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{/openApiNullable}}
   {{/isContainer}}
   {{/vars}}
+  {{#vendorExtensions.x-java-no-args-constructor}}
+
+  public {{classname}}() {
+    super();
+  }
+  {{/vendorExtensions.x-java-no-args-constructor}}
   {{^lombok.Data}}
   {{^lombok.RequiredArgsConstructor}}
   {{#generatedConstructorWithRequiredArgs}}
   {{#hasRequired}}
 
-  {{^lombok.NoArgsConstructor}}
-  public {{classname}}() {
-    super();
-  }
-
-  {{/lombok.NoArgsConstructor}}
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters{{#generateConstructorWithAllArgs}}{{^vendorExtensions.x-java-all-args-constructor}} and all parameters{{/vendorExtensions.x-java-all-args-constructor}}{{/generateConstructorWithAllArgs}}
    */
   public {{classname}}({{#requiredVars}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/requiredVars}}) {
     {{#parent}}
@@ -121,6 +125,25 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{/hasRequired}}
   {{/generatedConstructorWithRequiredArgs}}
   {{/lombok.RequiredArgsConstructor}}
+  {{#vendorExtensions.x-java-all-args-constructor}}
+
+  /**
+   * Constructor with all args parameters
+   */
+  public {{classname}}({{#vendorExtensions.x-java-all-args-constructor-vars}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-java-all-args-constructor-vars}}) {
+  {{#parent}}
+      super({{#parentVars}}{{name}}{{^-last}}, {{/-last}}{{/parentVars}});
+  {{/parent}}
+  {{#vars}}
+  {{#openApiNullable}}
+      this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}Optional.ofNullable({{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}}{{name}}{{#isNullable}}){{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}){{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}};
+  {{/openApiNullable}}
+  {{^openApiNullable}}
+      this.{{name}} = {{name}};
+  {{/openApiNullable}}
+  {{/vars}}
+  }
+  {{/vendorExtensions.x-java-all-args-constructor}}
   {{/lombok.Data}}
   {{#vars}}
   {{^lombok.Data}}
@@ -137,7 +160,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   }
   {{#isArray}}
 
-  public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+  public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#openApiNullable}}
     if (this.{{name}} == null{{#isNullable}} || !this.{{name}}.isPresent(){{/isNullable}}) {
       this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}{{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}}{{#isNullable}}){{/isNullable}};
@@ -155,7 +178,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{/isArray}}
   {{#isMap}}
 
-  public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+  public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#openApiNullable}}
     if (this.{{name}} == null{{#isNullable}} || !this.{{name}}.isPresent(){{/isNullable}}) {
       this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}{{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}HashMap{{/uniqueItems}}<>(){{/defaultValue}}{{#isNullable}}){{/isNullable}};
@@ -192,7 +215,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{#deprecated}}
    * @deprecated
   {{/deprecated}}
-  */
+   */
   {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
   {{/vendorExtensions.x-extra-annotation}}
@@ -211,9 +234,18 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{#jackson}}
   @JsonProperty("{{baseName}}")
   {{#withXml}}
-  @JacksonXmlProperty({{#isXmlAttribute}}isAttribute = true, {{/isXmlAttribute}}{{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}localName = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+  @JacksonXmlProperty(localName = "{{items.xmlName}}{{^items.xmlName}}{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}{{/items.xmlName}}"{{#isXmlAttribute}}, isAttribute = true{{/isXmlAttribute}}{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+    {{#isContainer}}
+  @JacksonXmlElementWrapper({{#isXmlWrapped}}localName = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}", {{#xmlNamespace}}namespace = "{{.}}", {{/xmlNamespace}}{{/isXmlWrapped}}useWrapping = {{isXmlWrapped}})
+    {{/isContainer}}
   {{/withXml}}
   {{/jackson}}
+  {{#withXml}}
+  @Xml{{#isXmlAttribute}}Attribute{{/isXmlAttribute}}{{^isXmlAttribute}}Element{{/isXmlAttribute}}(name = "{{items.xmlName}}{{^items.xmlName}}{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}{{/items.xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+    {{#isXmlWrapped}}
+  @XmlElementWrapper(name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+    {{/isXmlWrapped}}
+  {{/withXml}}
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}
@@ -226,7 +258,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{#deprecated}}
   /**
    * @deprecated
-  */
+   */
   {{/deprecated}}
   {{#vendorExtensions.x-setter-extra-annotation}}
   {{{vendorExtensions.x-setter-extra-annotation}}}
@@ -253,15 +285,15 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   }
   {{#isArray}}
 
-  public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
-    super.add{{nameInCamelCase}}Item({{name}}Item);
+  public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+    super.add{{nameInPascalCase}}Item({{name}}Item);
     return this;
   }
   {{/isArray}}
   {{#isMap}}
 
-  public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
-    super.put{{nameInCamelCase}}Item(key, {{name}}Item);
+  public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+    super.put{{nameInPascalCase}}Item(key, {{name}}Item);
     return this;
   }
   {{/isMap}}
@@ -282,7 +314,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
         {{/-last}}{{/vars}}{{#additionalPropertiesType}} &&
     Objects.equals(this.additionalProperties, {{classVarName}}.additionalProperties){{/additionalPropertiesType}}{{#parent}} &&
         super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
-    return true;{{/hasVars}}
+    return {{#parent}}super.equals(o){{/parent}}{{^parent}}true{{/parent}};{{/hasVars}}
   }{{#vendorExtensions.x-jackson-optional-nullable-helpers}}
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -328,5 +360,8 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
     return o.toString().replace("\n", "\n    ");
   }
   {{/lombok.ToString}}
+  {{#generateBuilders}}
+  {{>javaBuilder}}
+  {{/generateBuilders}}
   {{/lombok.Data}}
 }

@@ -74,7 +74,7 @@ class PetApiTest extends TestCase
      */
     public function testAddPet()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "addPet" method has not been implemented yet.'
         );
     }
@@ -88,7 +88,7 @@ class PetApiTest extends TestCase
      */
     public function testDeletePet()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "deletePet" method has not been implemented yet.'
         );
     }
@@ -102,7 +102,7 @@ class PetApiTest extends TestCase
      */
     public function testFindPetsByStatus()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "findPetsByStatus" method has not been implemented yet.'
         );
     }
@@ -116,7 +116,7 @@ class PetApiTest extends TestCase
      */
     public function testFindPetsByTags()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "findPetsByTags" method has not been implemented yet.'
         );
     }
@@ -130,7 +130,7 @@ class PetApiTest extends TestCase
      */
     public function testGetPetById()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "getPetById" method has not been implemented yet.'
         );
     }
@@ -144,7 +144,7 @@ class PetApiTest extends TestCase
      */
     public function testUpdatePet()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "updatePet" method has not been implemented yet.'
         );
     }
@@ -158,7 +158,7 @@ class PetApiTest extends TestCase
      */
     public function testUpdatePetWithForm()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "updatePetWithForm" method has not been implemented yet.'
         );
     }
@@ -172,7 +172,7 @@ class PetApiTest extends TestCase
      */
     public function testUploadFile()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "uploadFile" method has not been implemented yet.'
         );
     }

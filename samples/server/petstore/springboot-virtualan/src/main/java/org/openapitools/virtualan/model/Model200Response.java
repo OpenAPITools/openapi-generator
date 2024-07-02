@@ -21,7 +21,7 @@ import javax.annotation.Generated;
 
 @Schema(name = "200_response", description = "Model for testing model name starting with number")
 @JsonTypeName("200_response")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Model200Response {
 
   private Integer name;
@@ -36,7 +36,7 @@ public class Model200Response {
   /**
    * Get name
    * @return name
-  */
+   */
   
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
@@ -56,7 +56,7 @@ public class Model200Response {
   /**
    * Get propertyClass
    * @return propertyClass
-  */
+   */
   
   @Schema(name = "class", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("class")

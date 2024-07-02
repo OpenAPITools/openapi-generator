@@ -15,6 +15,7 @@ docs/AdditionalPropertiesClass.md
 docs/AllOfPrimitiveTypes.md
 docs/Animal.md
 docs/AnotherFakeAPI.md
+docs/AnyOfPrimitiveType.md
 docs/ApiResponse.md
 docs/Apple.md
 docs/AppleReq.md
@@ -47,6 +48,7 @@ docs/FruitReq.md
 docs/GmFruit.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
+docs/IDsWrapper.md
 docs/IncidentData.md
 docs/List.md
 docs/Mammal.md
@@ -74,6 +76,7 @@ docs/PropertyNameMapping.md
 docs/ReadOnlyFirst.md
 docs/ReadOnlyWithDefault.md
 docs/Return.md
+docs/SomeOpsRequiringRefIntRequest.md
 docs/SpecialModelName.md
 docs/StoreAPI.md
 docs/Tag.md
@@ -91,6 +94,7 @@ model__special_model_name_.go
 model_additional_properties_class.go
 model_all_of_primitive_types.go
 model_animal.go
+model_any_of_primitive_type.go
 model_api_response.go
 model_apple.go
 model_apple_req.go
@@ -119,6 +123,7 @@ model_fruit_req.go
 model_gm_fruit.go
 model_has_only_read_only.go
 model_health_check_result.go
+model_ids_wrapper.go
 model_incident_data.go
 model_list.go
 model_mammal.go
@@ -144,6 +149,7 @@ model_property_name_mapping.go
 model_read_only_first.go
 model_read_only_with_default.go
 model_return.go
+model_some_ops_requiring_ref_int_request.go
 model_tag.go
 model_test_inline_freeform_additional_properties_request.go
 model_user.go

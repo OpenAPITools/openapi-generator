@@ -180,11 +180,11 @@ class TestManual(unittest.TestCase):
         api_response = api_instance.test_echo_body_tag_response_string(t)
         self.assertEqual(api_response, "{}") # assertion to ensure {} is sent in the body
 
-        api_response = api_instance.test_echo_body_tag_response_string(None)
-        self.assertEqual(api_response, "") # assertion to ensure emtpy string is sent in the body
-
         api_response = api_instance.test_echo_body_free_form_object_response_string({})
         self.assertEqual(api_response, "{}") # assertion to ensure {} is sent in the body
+        
+        api_response = api_instance.test_echo_body_tag_response_string(None)
+        self.assertEqual(api_response, "") # assertion to ensure emtpy string is sent in the body
 
     def testAuthHttpBasic(self):
         api_instance = openapi_client.AuthApi()
@@ -264,6 +264,19 @@ User-Agent: OpenAPI-Generator/1.0.0/python
         self.assertEqual(e.path, '/echo/body/Pet/response_string')
         self.assertEqual(e.headers["Accept"], 'text/plain')
         self.assertEqual(e.method, 'POST')
+
+    def test_form_object_multipart(self):
+        api_instance = openapi_client.FormApi()
+        marker = openapi_client.TestFormObjectMultipartRequestMarker(
+            name="name",
+        )
+        api_response = api_instance.test_form_object_multipart(
+            marker=marker,
+        )
+        e = EchoServerResponseParser(api_response)
+        self.assertEqual(e.path, "/form/object/multipart")
+        self.assertTrue(e.headers["Content-Type"].startswith("multipart/form-data"))
+        self.assertTrue("boundary=" in e.headers["Content-Type"])
 
 class EchoServerResponseParser():
     def __init__(self, http_response):

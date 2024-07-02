@@ -35,7 +35,7 @@ import javax.validation.Valid;
   EnumTest.JSON_PROPERTY_ENUM_NUMBER,
   EnumTest.JSON_PROPERTY_OUTER_ENUM
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class EnumTest   {
   /**
    * Gets or Sets enumString
@@ -276,7 +276,7 @@ public class EnumTest   {
    **/
   @JsonProperty(value = "outerEnum")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }

@@ -16,16 +16,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("User")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class User  implements Serializable {
-  private @Valid Long id;
-  private @Valid String username;
-  private @Valid String firstName;
-  private @Valid String lastName;
-  private @Valid String email;
-  private @Valid String password;
-  private @Valid String phone;
-  private @Valid Integer userStatus;
+  private Long id;
+  private String username;
+  private String firstName;
+  private String lastName;
+  private String email;
+  private String password;
+  private String phone;
+  private Integer userStatus;
 
   /**
    **/

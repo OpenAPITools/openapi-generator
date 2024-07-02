@@ -28,6 +28,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * Apple
  */
@@ -35,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Apple.JSON_PROPERTY_CULTIVAR,
   Apple.JSON_PROPERTY_ORIGIN
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Apple {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
   private String cultivar;
@@ -51,14 +52,13 @@ public class Apple {
     return this;
   }
 
-   /**
+  /**
    * Get cultivar
    * @return cultivar
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CULTIVAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getCultivar() {
     return cultivar;
   }
@@ -76,14 +76,13 @@ public class Apple {
     return this;
   }
 
-   /**
+  /**
    * Get origin
    * @return origin
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ORIGIN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getOrigin() {
     return origin;
   }
@@ -172,15 +171,74 @@ public class Apple {
 
     // add `cultivar` to the URL query string
     if (getCultivar() != null) {
-      joiner.add(String.format("%scultivar%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCultivar()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scultivar%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCultivar()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `origin` to the URL query string
     if (getOrigin() != null) {
-      joiner.add(String.format("%sorigin%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOrigin()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sorigin%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOrigin()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private Apple instance;
+
+    public Builder() {
+      this(new Apple());
+    }
+
+    protected Builder(Apple instance) {
+      this.instance = instance;
+    }
+
+    public Apple.Builder cultivar(String cultivar) {
+      this.instance.cultivar = cultivar;
+      return this;
+    }
+    public Apple.Builder origin(String origin) {
+      this.instance.origin = origin;
+      return this;
+    }
+
+
+    /**
+    * returns a built Apple instance.
+    *
+    * The builder is not reusable.
+    */
+    public Apple build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Apple.Builder builder() {
+    return new Apple.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Apple.Builder toBuilder() {
+    return new Apple.Builder()
+      .cultivar(getCultivar())
+      .origin(getOrigin());
+  }
+
 }
 

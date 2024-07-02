@@ -29,7 +29,7 @@ import javax.annotation.Generated;
   ModelReturn.JSON_PROPERTY_RETURN
 })
 @JsonTypeName("Return")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @Introspected
 public class ModelReturn {
     public static final String JSON_PROPERTY_RETURN = "return";
@@ -45,7 +45,7 @@ public class ModelReturn {
     /**
      * Get _return
      * @return _return
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_RETURN)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

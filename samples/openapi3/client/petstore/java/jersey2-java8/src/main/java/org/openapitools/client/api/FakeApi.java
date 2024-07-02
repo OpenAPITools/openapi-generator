@@ -26,7 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class FakeApi {
   private ApiClient apiClient;
 
@@ -267,6 +267,40 @@ public class FakeApi {
     return apiClient.invokeAPI("FakeApi.getArrayOfEnums", "/fake/array-of-enums", "GET", new ArrayList<>(), null,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
                                null, localVarReturnType, false);
+  }
+  /**
+   * Array of string
+   * 
+   * @param requestBody  (optional)
+   * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> ok </td><td>  -  </td></tr>
+     </table>
+   */
+  public void postArrayOfString(List<String> requestBody) throws ApiException {
+    postArrayOfStringWithHttpInfo(requestBody);
+  }
+
+  /**
+   * Array of string
+   * 
+   * @param requestBody  (optional)
+   * @return ApiResponse&lt;Void&gt;
+   * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> ok </td><td>  -  </td></tr>
+     </table>
+   */
+  public ApiResponse<Void> postArrayOfStringWithHttpInfo(List<String> requestBody) throws ApiException {
+    String localVarAccept = apiClient.selectHeaderAccept();
+    String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    return apiClient.invokeAPI("FakeApi.postArrayOfString", "/fake/request-array-string", "POST", new ArrayList<>(), requestBody,
+                               new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
+                               null, null, false);
   }
   /**
    * test referenced additionalProperties

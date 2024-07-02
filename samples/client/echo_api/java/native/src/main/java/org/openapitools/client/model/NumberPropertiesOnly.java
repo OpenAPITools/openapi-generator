@@ -29,6 +29,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * NumberPropertiesOnly
  */
@@ -37,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   NumberPropertiesOnly.JSON_PROPERTY_FLOAT,
   NumberPropertiesOnly.JSON_PROPERTY_DOUBLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class NumberPropertiesOnly {
   public static final String JSON_PROPERTY_NUMBER = "number";
   private BigDecimal number;
@@ -56,14 +57,13 @@ public class NumberPropertiesOnly {
     return this;
   }
 
-   /**
+  /**
    * Get number
    * @return number
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public BigDecimal getNumber() {
     return number;
   }
@@ -81,14 +81,13 @@ public class NumberPropertiesOnly {
     return this;
   }
 
-   /**
+  /**
    * Get _float
    * @return _float
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FLOAT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Float getFloat() {
     return _float;
   }
@@ -106,16 +105,15 @@ public class NumberPropertiesOnly {
     return this;
   }
 
-   /**
+  /**
    * Get _double
    * minimum: 0.8
    * maximum: 50.2
    * @return _double
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DOUBLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Double getDouble() {
     return _double;
   }
@@ -206,17 +204,17 @@ public class NumberPropertiesOnly {
 
     // add `number` to the URL query string
     if (getNumber() != null) {
-      joiner.add(String.format("%snumber%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%snumber%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `float` to the URL query string
     if (getFloat() != null) {
-      joiner.add(String.format("%sfloat%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getFloat()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sfloat%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFloat()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `double` to the URL query string
     if (getDouble() != null) {
-      joiner.add(String.format("%sdouble%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDouble()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdouble%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDouble()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();
