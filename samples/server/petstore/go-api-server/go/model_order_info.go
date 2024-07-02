@@ -27,6 +27,14 @@ type OrderInfo struct {
 	ShipDate time.Time `json:"shipDate,omitempty"`
 }
 
+// NewOrderInfoWithDefaults instantiates a new OrderInfo object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewOrderInfoWithDefaults() OrderInfo {
+	this := OrderInfo{}
+	return this
+}
+
 // AssertOrderInfoRequired checks if the required fields are not zero-ed
 func AssertOrderInfoRequired(obj OrderInfo) error {
 	return nil

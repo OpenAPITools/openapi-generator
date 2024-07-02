@@ -8,9 +8,10 @@ import (
 	"strings"
 	"testing"
 
+	petstoreserver "go-petstore/go"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	petstoreserver "go-petstore/go"
 )
 
 type StoreAPITestService struct {
@@ -61,9 +62,7 @@ func TestPlaceOrderOK(t *testing.T) {
 	}
 
 	// Create the controller with the service
-	router := petstoreserver.NewStoreAPIController(service)
-	controller, ok := router.(*petstoreserver.StoreAPIController)
-	require.True(t, ok)
+	controller := petstoreserver.NewStoreAPIController(service)
 
 	// Call the method of controller we are testing
 	controller.PlaceOrder(w, req)
@@ -107,9 +106,7 @@ func TestPlaceOrderFailEmbeddedRequired(t *testing.T) {
 	}
 
 	// Create the controller with the service
-	router := petstoreserver.NewStoreAPIController(service)
-	controller, ok := router.(*petstoreserver.StoreAPIController)
-	require.True(t, ok)
+	controller := petstoreserver.NewStoreAPIController(service)
 
 	// Call the method of controller we are testing
 	controller.PlaceOrder(w, req)

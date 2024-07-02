@@ -64,7 +64,6 @@ func NewSpeciesFromValue(v string) (Species, error) {
 }
 
 
-
 // AssertSpeciesRequired checks if the required fields are not zero-ed
 func AssertSpeciesRequired(obj Species) error {
 	return nil

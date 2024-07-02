@@ -128,7 +128,7 @@ func (c *PetAPIController) Routes() Routes {
 
 // AddPet - Add a new pet to the store
 func (c *PetAPIController) AddPet(w http.ResponseWriter, r *http.Request) {
-	petParam := Pet{}
+	petParam := NewPetWithDefaults()
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(&petParam); err != nil {
@@ -543,7 +543,7 @@ func (c *PetAPIController) SearchPet(w http.ResponseWriter, r *http.Request) {
 
 // UpdatePet - Update an existing pet
 func (c *PetAPIController) UpdatePet(w http.ResponseWriter, r *http.Request) {
-	petParam := Pet{}
+	petParam := NewPetWithDefaults()
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(&petParam); err != nil {

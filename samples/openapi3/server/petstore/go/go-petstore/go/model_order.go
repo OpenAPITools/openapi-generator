@@ -25,8 +25,6 @@ type Order struct {
 
 	PetId int64 `json:"petId,omitempty"`
 
-	Quantity int32 `json:"quantity,omitempty"`
-
 	ShipDate time.Time `json:"shipDate,omitempty"`
 
 	// Order Status
@@ -35,6 +33,20 @@ type Order struct {
 	Complete bool `json:"complete,omitempty"`
 
 	Comment *string `json:"comment"`
+
+	Quantity int32 `json:"quantity,omitempty"`
+}
+
+// NewOrderWithDefaults instantiates a new Order object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewOrderWithDefaults() Order {
+	this := Order{}
+	this.SpecialInfo = NewSpecialInfoWithDefaults()
+	this.Status = "placed"
+	this.Complete = false
+	this.Quantity = 1
+	return this
 }
 
 // AssertOrderRequired checks if the required fields are not zero-ed

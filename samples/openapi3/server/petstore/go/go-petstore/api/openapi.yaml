@@ -662,6 +662,7 @@ components:
           format: int64
           type: integer
         quantity:
+          default: 1
           format: int32
           type: integer
         shipDate:
@@ -681,6 +682,7 @@ components:
         requireTest:
           type: string
         type:
+          default: dog
           type: string
       required:
       - requireTest
@@ -695,7 +697,6 @@ components:
       description: An order for a pets from the pet store
       example:
         petId: 6
-        quantity: 1
         comment: comment
         id: 0
         shipDate: 2000-01-23T04:56:07.000+00:00
@@ -708,13 +709,11 @@ components:
         petId:
           format: int64
           type: integer
-        quantity:
-          format: int32
-          type: integer
         shipDate:
           format: date-time
           type: string
         status:
+          default: placed
           description: Order Status
           enum:
           - placed
