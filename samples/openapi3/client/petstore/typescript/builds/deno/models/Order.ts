@@ -74,7 +74,6 @@ export class Order {
     }
 }
 
-
 export enum OrderStatusEnum {
     Placed = 'placed',
     Approved = 'approved',

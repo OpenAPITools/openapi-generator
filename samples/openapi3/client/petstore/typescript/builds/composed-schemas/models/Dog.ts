@@ -40,7 +40,6 @@ export class Dog {
     }
 }
 
-
 export enum DogBreedEnum {
     Dingo = 'Dingo',
     Husky = 'Husky',

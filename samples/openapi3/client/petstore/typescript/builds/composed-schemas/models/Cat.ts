@@ -39,4 +39,3 @@ export class Cat {
     public constructor() {
     }
 }
-
