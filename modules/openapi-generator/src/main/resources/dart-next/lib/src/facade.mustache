@@ -1,0 +1,24 @@
+import 'package:openapi_infrastructure/openapi_infrastructure.dart';
+
+import 'apis/_exports.dart';
+
+/// A facade class as an entry point to the generated APIs
+class {{clientName}} {
+  static final defaultBaseUrl = Uri.parse(r'{{{basePath}}}');
+
+  final NetworkingClientBase networkingClient;
+  final Uri baseUrl;
+
+  {{clientName}}({
+    required this.networkingClient,
+    Uri? baseUrl,
+  }) : baseUrl = defaultBaseUrl;
+
+
+  {{#apiInfo}}{{#apis}}
+  late final {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}} = {{classname}}(
+    networkingClient: networkingClient,
+    baseUrl: baseUrl,
+  );
+  {{/apis}}{{/apiInfo}}
+}

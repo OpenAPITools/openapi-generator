@@ -1,0 +1,31 @@
+{{#isModel}}{{{dataType}}}.deserialize{{#isNullable}}OrNull{{/isNullable}}{{/isModel}}
+(
+{{#isAnyType}}v{{/isAnyType}}
+{{^isAnyType}}
+    {{#isFreeFormObject}}v as Map<String, dynamic>{{#isNullable}}?{{/isNullable}}{{/isFreeFormObject}}
+    {{^isFreeFormObject}}
+        {{#isContainer}}
+            {{#isMap}}v as Map<String, dynamic>{{/isMap}}
+            {{#isArray}}v as List{{/isArray}}
+            {{#isNullable}}?{{/isNullable}}
+        {{/isContainer}}
+        {{^isContainer}}
+            {{#isModel}}v{{/isModel}}
+            {{^isModel}}
+                {{#isEnum}}
+                    {{datatypeWithEnum}}.$safe(v as {{dataType}})
+                {{/isEnum}}
+                {{^isEnum}}
+                    v as {{dataType}}
+                {{/isEnum}}
+            {{#isNullable}}?{{/isNullable}}{{/isModel}}
+        {{/isContainer}}
+    {{/isFreeFormObject}}
+{{/isAnyType}}
+{{!TODO: handle enums}}
+
+)
+{{^isAnyType}}
+{{#isMap}}{{#isNullable}}?{{/isNullable}}.map((k,v) => MapEntry(k, {{#items}}{{>types/deserialize_recursive}}{{/items}})){{/isMap}}
+{{#isArray}}{{#isNullable}}?{{/isNullable}}.map((v) => {{#items}}{{>types/deserialize_recursive}}{{/items}}).toList(){{/isArray}}
+{{/isAnyType}}
