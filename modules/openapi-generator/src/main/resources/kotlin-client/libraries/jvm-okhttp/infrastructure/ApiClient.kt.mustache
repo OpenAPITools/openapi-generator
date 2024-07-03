@@ -31,6 +31,7 @@ import java.time.OffsetDateTime
 import java.time.OffsetTime
 {{/threetenbp}}
 import java.util.Locale
+import java.util.regex.Pattern
 {{#useCoroutines}}
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -57,7 +58,7 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.squareup.moshi.adapter
 {{/moshi}}
 
-{{#nonPublicApi}}internal {{/nonPublicApi}} val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
+{{#nonPublicApi}}internal {{/nonPublicApi}}val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
     {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
@@ -163,7 +164,8 @@ import com.squareup.moshi.adapter
     @OptIn(ExperimentalStdlibApi::class)
     {{/moshi}}
     protected inline fun <reified T: Any?> responseBody(response: Response, mediaType: String? = JsonMediaType): T? {
-        if(response.body == null) {
+        val body = response.body
+        if(body == null) {
             return null
         }
         if (T::class.java == File::class.java) {
@@ -218,7 +220,7 @@ import com.squareup.moshi.adapter
             }
             {{/supportAndroidApiLevel25AndBelow}}
             tempFile.deleteOnExit()
-            response.body.byteStream().use { inputStream ->
+            body.byteStream().use { inputStream ->
                 tempFile.outputStream().use { tempFileOutputStream ->
                     inputStream.copyTo(tempFileOutputStream)
                 }
@@ -228,7 +230,7 @@ import com.squareup.moshi.adapter
 
         return when {
             mediaType == null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) -> {
-                val bodyContent = response.body.string()
+                val bodyContent = body.string()
                 if (bodyContent.isEmpty()) {
                     return null
                 }
@@ -237,7 +239,7 @@ import com.squareup.moshi.adapter
                 }}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, object: TypeReference<T>() {}){{/jackson}}{{!
                 }}{{#kotlinx_serialization}}Serializer.kotlinxSerializationJson.decodeFromString<T>(bodyContent){{/kotlinx_serialization}}
             }
-            mediaType == OctetMediaType -> response.body.bytes() as? T
+            mediaType == OctetMediaType -> body.bytes() as? T
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }

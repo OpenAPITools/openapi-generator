@@ -21,6 +21,7 @@ import java.io.FileWriter
 import java.io.IOException
 import java.net.URLConnection
 import java.util.Locale
+import java.util.regex.Pattern
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
@@ -28,7 +29,7 @@ import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.OffsetTime
 import com.squareup.moshi.adapter
 
- val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
+val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 
 open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
     companion object {
@@ -121,7 +122,8 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
 
     @OptIn(ExperimentalStdlibApi::class)
     protected inline fun <reified T: Any?> responseBody(response: Response, mediaType: String? = JsonMediaType): T? {
-        if(response.body == null) {
+        val body = response.body
+        if(body == null) {
             return null
         }
         if (T::class.java == File::class.java) {
@@ -166,7 +168,7 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
             // Attention: if you are developing an android app that supports API Level 25 and bellow, please check flag supportAndroidApiLevel25AndBelow in https://openapi-generator.tech/docs/generators/kotlin#config-options
             val tempFile = java.nio.file.Files.createTempFile(prefix, suffix).toFile()
             tempFile.deleteOnExit()
-            response.body.byteStream().use { inputStream ->
+            body.byteStream().use { inputStream ->
                 tempFile.outputStream().use { tempFileOutputStream ->
                     inputStream.copyTo(tempFileOutputStream)
                 }
@@ -176,13 +178,13 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
 
         return when {
             mediaType == null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) -> {
-                val bodyContent = response.body.string()
+                val bodyContent = body.string()
                 if (bodyContent.isEmpty()) {
                     return null
                 }
                 Serializer.moshi.adapter<T>().fromJson(bodyContent)
             }
-            mediaType == OctetMediaType -> response.body.bytes() as? T
+            mediaType == OctetMediaType -> body.bytes() as? T
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
