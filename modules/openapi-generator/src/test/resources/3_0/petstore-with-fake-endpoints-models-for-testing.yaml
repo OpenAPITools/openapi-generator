@@ -16,6 +16,9 @@ tags:
     description: Access to Petstore orders
   - name: user
     description: Operations about user
+security:
+  - global_api_key_header: []
+  - global_api_key_cookie: []
 paths:
   /foo:
     get:
@@ -1365,6 +1368,14 @@ components:
           scopes:
             'write:pets': modify pets in your account
             'read:pets': read your pets
+    global_api_key_header:
+      type: apiKey
+      name: global_api_key_header
+      in: header
+    global_api_key_cookie:
+      type: apiKey
+      name: global_api_key_cookie
+      in: cookie
     api_key:
       type: apiKey
       name: api_key
