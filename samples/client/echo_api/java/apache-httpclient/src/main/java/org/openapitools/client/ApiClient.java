@@ -245,7 +245,7 @@ public class ApiClient extends JavaTimeFormatter {
     this.serverVariables = serverVariables;
     return this;
   }
-  
+
   /**
    * Gets the status code of the previous request
    *
