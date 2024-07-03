@@ -58,7 +58,10 @@ public class FooApi  {
     
     
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "", notes = "", response = FooGetDefaultResponse.class, tags={  })
+    @io.swagger.annotations.ApiOperation(value = "", notes = "", response = FooGetDefaultResponse.class, authorizations = {
+        @io.swagger.annotations.Authorization(value = "global_api_key_cookie"),
+        @io.swagger.annotations.Authorization(value = "global_api_key_header")
+    }, tags={  })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "response", response = FooGetDefaultResponse.class)
     })

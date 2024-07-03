@@ -85,7 +85,7 @@ public class UserApiImpl implements UserApi {
         
         String[] localVarAccepts = {  };
         String[] localVarContentTypes = { "application/json" };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
@@ -133,7 +133,7 @@ public class UserApiImpl implements UserApi {
         
         String[] localVarAccepts = {  };
         String[] localVarContentTypes = { "application/json" };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
@@ -181,7 +181,7 @@ public class UserApiImpl implements UserApi {
         
         String[] localVarAccepts = {  };
         String[] localVarContentTypes = { "application/json" };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
@@ -229,7 +229,7 @@ public class UserApiImpl implements UserApi {
         
         String[] localVarAccepts = {  };
         String[] localVarContentTypes = {  };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
         apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
@@ -277,7 +277,7 @@ public class UserApiImpl implements UserApi {
         
         String[] localVarAccepts = { "application/xml", "application/json" };
         String[] localVarContentTypes = {  };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
         TypeReference<User> localVarReturnType = new TypeReference<User>() {};
         apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
@@ -335,7 +335,7 @@ public class UserApiImpl implements UserApi {
         
         String[] localVarAccepts = { "application/xml", "application/json" };
         String[] localVarContentTypes = {  };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
         TypeReference<String> localVarReturnType = new TypeReference<String>() {};
         apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
@@ -375,7 +375,7 @@ public class UserApiImpl implements UserApi {
         
         String[] localVarAccepts = {  };
         String[] localVarContentTypes = {  };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
         apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
@@ -431,7 +431,7 @@ public class UserApiImpl implements UserApi {
         
         String[] localVarAccepts = {  };
         String[] localVarContentTypes = { "application/json" };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
         apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }

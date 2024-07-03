@@ -34,6 +34,10 @@ export class DefaultApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
+
         const response = await this.request({
             path: `/foo`,
             method: 'GET',

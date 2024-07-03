@@ -36,6 +36,18 @@ import javax.validation.Valid;
                 @org.eclipse.microprofile.openapi.annotations.security.OAuthScope(name = "read:pets", description = "read your pets")
                  })) 
     ), @org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
+         securitySchemeName = "global_api_key_header",
+         type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.APIKEY,
+         description = "",
+         apiKeyName = "global_api_key_header",
+         in = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeIn.HEADER
+    ), @org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
+         securitySchemeName = "global_api_key_cookie",
+         type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.APIKEY,
+         description = "",
+         apiKeyName = "global_api_key_cookie",
+         in = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeIn.COOKIE
+    ), @org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
          securitySchemeName = "api_key",
          type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.APIKEY,
          description = "",
@@ -66,7 +78,10 @@ public class AnotherFakeApi {
     @PATCH
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "call123testSpecialTags", summary = "To test special tags", description = "To test special tags and operation ID starting with number")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="$another-fake?")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 

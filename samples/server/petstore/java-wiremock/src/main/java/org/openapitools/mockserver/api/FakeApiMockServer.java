@@ -14,6 +14,7 @@ public class FakeApiMockServer {
     public static MappingBuilder stubFakeBigDecimalMap200(String response) {
         MappingBuilder stub = get(urlPathEqualTo("/fake/BigDecimalMap"))
             .withHeader("Accept", havingExactly("*/*"))
+            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withStatus(200)
                 .withHeader("Content-Type", "*/*")
@@ -27,6 +28,7 @@ public class FakeApiMockServer {
     public static MappingBuilder stubFakeBigDecimalMapFault(Fault fault) {
         MappingBuilder stub = get(urlPathEqualTo("/fake/BigDecimalMap"))
             .withHeader("Accept", havingExactly("*/*"))
+            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withFault(fault)
             );
@@ -44,6 +46,7 @@ public class FakeApiMockServer {
     public static MappingBuilder stubFakeHealthGet200(String response) {
         MappingBuilder stub = get(urlPathEqualTo("/fake/health"))
             .withHeader("Accept", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json")
@@ -57,6 +60,7 @@ public class FakeApiMockServer {
     public static MappingBuilder stubFakeHealthGetFault(Fault fault) {
         MappingBuilder stub = get(urlPathEqualTo("/fake/health"))
             .withHeader("Accept", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withFault(fault)
             );
@@ -121,6 +125,8 @@ public class FakeApiMockServer {
     public static MappingBuilder stubFakeOuterBooleanSerialize200(@javax.annotation.Nullable String body, String response) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/outer/boolean"))
             .withHeader("Accept", havingExactly("*/*"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withStatus(200)
@@ -135,6 +141,8 @@ public class FakeApiMockServer {
     public static MappingBuilder stubFakeOuterBooleanSerializeFault(@javax.annotation.Nullable String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/outer/boolean"))
             .withHeader("Accept", havingExactly("*/*"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withFault(fault)
@@ -153,6 +161,8 @@ public class FakeApiMockServer {
     public static MappingBuilder stubFakeOuterCompositeSerialize200(@javax.annotation.Nullable String body, String response) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/outer/composite"))
             .withHeader("Accept", havingExactly("*/*"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withStatus(200)
@@ -167,6 +177,8 @@ public class FakeApiMockServer {
     public static MappingBuilder stubFakeOuterCompositeSerializeFault(@javax.annotation.Nullable String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/outer/composite"))
             .withHeader("Accept", havingExactly("*/*"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withFault(fault)
@@ -188,6 +200,8 @@ public class FakeApiMockServer {
     public static MappingBuilder stubFakeOuterNumberSerialize200(@javax.annotation.Nullable String body, String response) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/outer/number"))
             .withHeader("Accept", havingExactly("*/*"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withStatus(200)
@@ -202,6 +216,8 @@ public class FakeApiMockServer {
     public static MappingBuilder stubFakeOuterNumberSerializeFault(@javax.annotation.Nullable String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/outer/number"))
             .withHeader("Accept", havingExactly("*/*"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withFault(fault)
@@ -220,6 +236,8 @@ public class FakeApiMockServer {
     public static MappingBuilder stubFakeOuterStringSerialize200(@javax.annotation.Nullable String body, String response) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/outer/string"))
             .withHeader("Accept", havingExactly("*/*"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withStatus(200)
@@ -234,6 +252,8 @@ public class FakeApiMockServer {
     public static MappingBuilder stubFakeOuterStringSerializeFault(@javax.annotation.Nullable String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/outer/string"))
             .withHeader("Accept", havingExactly("*/*"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withFault(fault)
@@ -252,6 +272,8 @@ public class FakeApiMockServer {
     public static MappingBuilder stubFakePropertyEnumIntegerSerialize200(@javax.annotation.Nonnull String body, String response) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/property/enum-int"))
             .withHeader("Accept", havingExactly("*/*"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withStatus(200)
@@ -266,6 +288,8 @@ public class FakeApiMockServer {
     public static MappingBuilder stubFakePropertyEnumIntegerSerializeFault(@javax.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/property/enum-int"))
             .withHeader("Accept", havingExactly("*/*"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withFault(fault)
@@ -286,6 +310,8 @@ public class FakeApiMockServer {
 
     public static MappingBuilder stubTestAdditionalPropertiesReference200(@javax.annotation.Nonnull String body) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/additionalProperties-reference"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withStatus(200)
@@ -297,6 +323,8 @@ public class FakeApiMockServer {
 
     public static MappingBuilder stubTestAdditionalPropertiesReferenceFault(@javax.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/additionalProperties-reference"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withFault(fault)
@@ -314,6 +342,8 @@ public class FakeApiMockServer {
 
     public static MappingBuilder stubTestBodyWithBinary200(@javax.annotation.Nullable String body) {
         MappingBuilder stub = put(urlPathEqualTo("/fake/body-with-binary"))
+            .withHeader("Content-Type", havingExactly("image/png"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withStatus(200)
@@ -325,6 +355,8 @@ public class FakeApiMockServer {
 
     public static MappingBuilder stubTestBodyWithBinaryFault(@javax.annotation.Nullable String body, Fault fault) {
         MappingBuilder stub = put(urlPathEqualTo("/fake/body-with-binary"))
+            .withHeader("Content-Type", havingExactly("image/png"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withFault(fault)
@@ -342,6 +374,8 @@ public class FakeApiMockServer {
 
     public static MappingBuilder stubTestBodyWithFileSchema200(@javax.annotation.Nonnull String body) {
         MappingBuilder stub = put(urlPathEqualTo("/fake/body-with-file-schema"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withStatus(200)
@@ -353,6 +387,8 @@ public class FakeApiMockServer {
 
     public static MappingBuilder stubTestBodyWithFileSchemaFault(@javax.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = put(urlPathEqualTo("/fake/body-with-file-schema"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withFault(fault)
@@ -370,6 +406,8 @@ public class FakeApiMockServer {
 
     public static MappingBuilder stubTestBodyWithQueryParams200(@javax.annotation.Nonnull String query, @javax.annotation.Nonnull String body) {
         MappingBuilder stub = put(urlPathEqualTo("/fake/body-with-query-params"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withStatus(200)
@@ -382,6 +420,8 @@ public class FakeApiMockServer {
 
     public static MappingBuilder stubTestBodyWithQueryParamsFault(@javax.annotation.Nonnull String query, @javax.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = put(urlPathEqualTo("/fake/body-with-query-params"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withFault(fault)
@@ -401,6 +441,8 @@ public class FakeApiMockServer {
     public static MappingBuilder stubTestClientModel200(@javax.annotation.Nonnull String body, String response) {
         MappingBuilder stub = patch(urlPathEqualTo("/fake"))
             .withHeader("Accept", havingExactly("application/json"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withStatus(200)
@@ -415,6 +457,8 @@ public class FakeApiMockServer {
     public static MappingBuilder stubTestClientModelFault(@javax.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = patch(urlPathEqualTo("/fake"))
             .withHeader("Accept", havingExactly("application/json"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withFault(fault)
@@ -576,6 +620,8 @@ public class FakeApiMockServer {
 
     public static MappingBuilder stubTestEnumParameters400(@javax.annotation.Nullable String enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable String enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable String enumQueryInteger, @javax.annotation.Nullable String enumQueryDouble, @javax.annotation.Nullable String enumQueryModelArray, @javax.annotation.Nullable String enumFormStringArray, @javax.annotation.Nullable String enumFormString) {
         MappingBuilder stub = get(urlPathEqualTo("/fake"))
+            .withHeader("Content-Type", havingExactly("application/x-www-form-urlencoded"))
+            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withStatus(400)
             );
@@ -613,6 +659,8 @@ public class FakeApiMockServer {
 
     public static MappingBuilder stubTestEnumParameters404(@javax.annotation.Nullable String enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable String enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable String enumQueryInteger, @javax.annotation.Nullable String enumQueryDouble, @javax.annotation.Nullable String enumQueryModelArray, @javax.annotation.Nullable String enumFormStringArray, @javax.annotation.Nullable String enumFormString) {
         MappingBuilder stub = get(urlPathEqualTo("/fake"))
+            .withHeader("Content-Type", havingExactly("application/x-www-form-urlencoded"))
+            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withStatus(404)
             );
@@ -650,6 +698,8 @@ public class FakeApiMockServer {
 
     public static MappingBuilder stubTestEnumParametersFault(@javax.annotation.Nullable String enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable String enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable String enumQueryInteger, @javax.annotation.Nullable String enumQueryDouble, @javax.annotation.Nullable String enumQueryModelArray, @javax.annotation.Nullable String enumFormStringArray, @javax.annotation.Nullable String enumFormString, Fault fault) {
         MappingBuilder stub = get(urlPathEqualTo("/fake"))
+            .withHeader("Content-Type", havingExactly("application/x-www-form-urlencoded"))
+            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withFault(fault)
             );
@@ -739,6 +789,8 @@ public class FakeApiMockServer {
 
     public static MappingBuilder stubTestInlineAdditionalProperties200(@javax.annotation.Nonnull String body) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/inline-additionalProperties"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withStatus(200)
@@ -750,6 +802,8 @@ public class FakeApiMockServer {
 
     public static MappingBuilder stubTestInlineAdditionalPropertiesFault(@javax.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/inline-additionalProperties"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withFault(fault)
@@ -767,6 +821,8 @@ public class FakeApiMockServer {
 
     public static MappingBuilder stubTestInlineFreeformAdditionalProperties200(@javax.annotation.Nonnull String body) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/inline-freeform-additionalProperties"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withStatus(200)
@@ -778,6 +834,8 @@ public class FakeApiMockServer {
 
     public static MappingBuilder stubTestInlineFreeformAdditionalPropertiesFault(@javax.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/inline-freeform-additionalProperties"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withFault(fault)
@@ -795,6 +853,8 @@ public class FakeApiMockServer {
 
     public static MappingBuilder stubTestJsonFormData200(@javax.annotation.Nonnull String param, @javax.annotation.Nonnull String param2) {
         MappingBuilder stub = get(urlPathEqualTo("/fake/jsonFormData"))
+            .withHeader("Content-Type", havingExactly("application/x-www-form-urlencoded"))
+            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withStatus(200)
             );
@@ -807,6 +867,8 @@ public class FakeApiMockServer {
 
     public static MappingBuilder stubTestJsonFormDataFault(@javax.annotation.Nonnull String param, @javax.annotation.Nonnull String param2, Fault fault) {
         MappingBuilder stub = get(urlPathEqualTo("/fake/jsonFormData"))
+            .withHeader("Content-Type", havingExactly("application/x-www-form-urlencoded"))
+            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withFault(fault)
             );
@@ -822,6 +884,8 @@ public class FakeApiMockServer {
 
     public static MappingBuilder stubTestNullable200(@javax.annotation.Nonnull String body) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/nullable"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withStatus(200)
@@ -833,6 +897,8 @@ public class FakeApiMockServer {
 
     public static MappingBuilder stubTestNullableFault(@javax.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/nullable"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withFault(fault)
@@ -850,6 +916,7 @@ public class FakeApiMockServer {
 
     public static MappingBuilder stubTestQueryParameterCollectionFormat200(@javax.annotation.Nonnull String pipe, @javax.annotation.Nonnull String ioutil, @javax.annotation.Nonnull String http, @javax.annotation.Nonnull String url, @javax.annotation.Nonnull String context, @javax.annotation.Nonnull String allowEmpty, @javax.annotation.Nullable String language) {
         MappingBuilder stub = put(urlPathEqualTo("/fake/test-query-parameters"))
+            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withStatus(200)
             );
@@ -869,6 +936,7 @@ public class FakeApiMockServer {
 
     public static MappingBuilder stubTestQueryParameterCollectionFormatFault(@javax.annotation.Nonnull String pipe, @javax.annotation.Nonnull String ioutil, @javax.annotation.Nonnull String http, @javax.annotation.Nonnull String url, @javax.annotation.Nonnull String context, @javax.annotation.Nonnull String allowEmpty, @javax.annotation.Nullable String language, Fault fault) {
         MappingBuilder stub = put(urlPathEqualTo("/fake/test-query-parameters"))
+            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withFault(fault)
             );
@@ -891,6 +959,8 @@ public class FakeApiMockServer {
 
     public static MappingBuilder stubTestStringMapReference200(@javax.annotation.Nonnull String body) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/stringMap-reference"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withStatus(200)
@@ -902,6 +972,8 @@ public class FakeApiMockServer {
 
     public static MappingBuilder stubTestStringMapReferenceFault(@javax.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/stringMap-reference"))
+            .withHeader("Content-Type", havingExactly("application/json"))
+            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withFault(fault)

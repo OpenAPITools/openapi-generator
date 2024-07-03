@@ -66,7 +66,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
 
       new_options = opts.merge(
         :operation => :"UserApi.create_user",
@@ -132,7 +132,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
 
       new_options = opts.merge(
         :operation => :"UserApi.create_users_with_array_input",
@@ -198,7 +198,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
 
       new_options = opts.merge(
         :operation => :"UserApi.create_users_with_list_input",
@@ -259,7 +259,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
 
       new_options = opts.merge(
         :operation => :"UserApi.delete_user",
@@ -322,7 +322,7 @@ module Petstore
       return_type = opts[:debug_return_type] || 'User'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
 
       new_options = opts.merge(
         :operation => :"UserApi.get_user_by_name",
@@ -393,7 +393,7 @@ module Petstore
       return_type = opts[:debug_return_type] || 'String'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
 
       new_options = opts.merge(
         :operation => :"UserApi.login_user",
@@ -448,7 +448,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
 
       new_options = opts.merge(
         :operation => :"UserApi.logout_user",
@@ -520,7 +520,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
 
       new_options = opts.merge(
         :operation => :"UserApi.update_user",

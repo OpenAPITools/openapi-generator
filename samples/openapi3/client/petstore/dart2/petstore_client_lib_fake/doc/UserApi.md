@@ -29,6 +29,14 @@ This can only be done by the logged in user.
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api_instance = UserApi();
 final user = User(); // User | Created user object
@@ -52,7 +60,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -71,6 +79,14 @@ Creates list of users with given input array
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api_instance = UserApi();
 final user = [List<User>()]; // List<User> | List of user object
@@ -94,7 +110,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -113,6 +129,14 @@ Creates list of users with given input array
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api_instance = UserApi();
 final user = [List<User>()]; // List<User> | List of user object
@@ -136,7 +160,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -155,6 +179,14 @@ This can only be done by the logged in user.
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api_instance = UserApi();
 final username = username_example; // String | The name that needs to be deleted
@@ -178,7 +210,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -197,6 +229,14 @@ Get user by user name
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api_instance = UserApi();
 final username = username_example; // String | The name that needs to be fetched. Use user1 for testing.
@@ -221,7 +261,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -240,6 +280,14 @@ Logs user into the system
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api_instance = UserApi();
 final username = username_example; // String | The user name for login
@@ -266,7 +314,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -285,6 +333,14 @@ Logs out current logged in user session
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api_instance = UserApi();
 
@@ -304,7 +360,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -323,6 +379,14 @@ This can only be done by the logged in user.
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api_instance = UserApi();
 final username = username_example; // String | name that need to be deleted
@@ -348,7 +412,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 

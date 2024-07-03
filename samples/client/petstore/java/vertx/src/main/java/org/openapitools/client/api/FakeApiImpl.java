@@ -90,7 +90,7 @@ public class FakeApiImpl implements FakeApi {
         
         String[] localVarAccepts = { "*/*" };
         String[] localVarContentTypes = {  };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
         TypeReference<FakeBigDecimalMap200Response> localVarReturnType = new TypeReference<FakeBigDecimalMap200Response>() {};
         apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
@@ -130,7 +130,7 @@ public class FakeApiImpl implements FakeApi {
         
         String[] localVarAccepts = { "application/json" };
         String[] localVarContentTypes = {  };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
         TypeReference<HealthCheckResult> localVarReturnType = new TypeReference<HealthCheckResult>() {};
         apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
@@ -227,7 +227,7 @@ public class FakeApiImpl implements FakeApi {
         
         String[] localVarAccepts = { "*/*" };
         String[] localVarContentTypes = { "application/json" };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
         TypeReference<Boolean> localVarReturnType = new TypeReference<Boolean>() {};
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
@@ -269,7 +269,7 @@ public class FakeApiImpl implements FakeApi {
         
         String[] localVarAccepts = { "*/*" };
         String[] localVarContentTypes = { "application/json" };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
         TypeReference<OuterComposite> localVarReturnType = new TypeReference<OuterComposite>() {};
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
@@ -311,7 +311,7 @@ public class FakeApiImpl implements FakeApi {
         
         String[] localVarAccepts = { "*/*" };
         String[] localVarContentTypes = { "application/json" };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
         TypeReference<BigDecimal> localVarReturnType = new TypeReference<BigDecimal>() {};
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
@@ -353,7 +353,7 @@ public class FakeApiImpl implements FakeApi {
         
         String[] localVarAccepts = { "*/*" };
         String[] localVarContentTypes = { "application/json" };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
         TypeReference<String> localVarReturnType = new TypeReference<String>() {};
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
@@ -401,7 +401,7 @@ public class FakeApiImpl implements FakeApi {
         
         String[] localVarAccepts = { "*/*" };
         String[] localVarContentTypes = { "application/json" };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
         TypeReference<OuterObjectWithEnumProperty> localVarReturnType = new TypeReference<OuterObjectWithEnumProperty>() {};
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
@@ -449,7 +449,7 @@ public class FakeApiImpl implements FakeApi {
         
         String[] localVarAccepts = {  };
         String[] localVarContentTypes = { "application/json" };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
@@ -497,7 +497,7 @@ public class FakeApiImpl implements FakeApi {
         
         String[] localVarAccepts = {  };
         String[] localVarContentTypes = { "image/png" };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
         apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
@@ -545,7 +545,7 @@ public class FakeApiImpl implements FakeApi {
         
         String[] localVarAccepts = {  };
         String[] localVarContentTypes = { "application/json" };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
         apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
@@ -602,7 +602,7 @@ public class FakeApiImpl implements FakeApi {
         
         String[] localVarAccepts = {  };
         String[] localVarContentTypes = { "application/json" };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
         apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
@@ -650,7 +650,7 @@ public class FakeApiImpl implements FakeApi {
         
         String[] localVarAccepts = { "application/json" };
         String[] localVarContentTypes = { "application/json" };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
         TypeReference<Client> localVarReturnType = new TypeReference<Client>() {};
         apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
@@ -825,7 +825,7 @@ if (enumFormString != null) localVarFormParams.put("enum_form_string", enumFormS
 
         String[] localVarAccepts = {  };
         String[] localVarContentTypes = { "application/x-www-form-urlencoded" };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
         apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
@@ -951,7 +951,7 @@ if (booleanGroup != null)
         
         String[] localVarAccepts = {  };
         String[] localVarContentTypes = { "application/json" };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
@@ -999,7 +999,7 @@ if (booleanGroup != null)
         
         String[] localVarAccepts = {  };
         String[] localVarContentTypes = { "application/json" };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
@@ -1057,7 +1057,7 @@ if (param2 != null) localVarFormParams.put("param2", param2);
 
         String[] localVarAccepts = {  };
         String[] localVarContentTypes = { "application/x-www-form-urlencoded" };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
         apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
@@ -1105,7 +1105,7 @@ if (param2 != null) localVarFormParams.put("param2", param2);
         
         String[] localVarAccepts = {  };
         String[] localVarContentTypes = { "application/json" };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
@@ -1202,7 +1202,7 @@ if (param2 != null) localVarFormParams.put("param2", param2);
         
         String[] localVarAccepts = {  };
         String[] localVarContentTypes = {  };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
         apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
@@ -1250,7 +1250,7 @@ if (param2 != null) localVarFormParams.put("param2", param2);
         
         String[] localVarAccepts = {  };
         String[] localVarContentTypes = { "application/json" };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }

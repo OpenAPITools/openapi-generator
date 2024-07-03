@@ -75,6 +75,10 @@ export class UserApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
+
         const response = await this.request({
             path: `/user`,
             method: 'POST',
@@ -111,6 +115,10 @@ export class UserApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
 
         const response = await this.request({
             path: `/user/createWithArray`,
@@ -149,6 +157,10 @@ export class UserApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
+
         const response = await this.request({
             path: `/user/createWithList`,
             method: 'POST',
@@ -184,6 +196,10 @@ export class UserApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
+
         const response = await this.request({
             path: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username']))),
             method: 'DELETE',
@@ -217,6 +233,10 @@ export class UserApi extends runtime.BaseAPI {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
 
         const response = await this.request({
             path: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username']))),
@@ -268,6 +288,10 @@ export class UserApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
+
         const response = await this.request({
             path: `/user/login`,
             method: 'GET',
@@ -299,6 +323,10 @@ export class UserApi extends runtime.BaseAPI {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
 
         const response = await this.request({
             path: `/user/logout`,
@@ -342,6 +370,10 @@ export class UserApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
 
         const response = await this.request({
             path: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters['username']))),

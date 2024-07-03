@@ -37,6 +37,18 @@ import javax.validation.Valid;
                 @org.eclipse.microprofile.openapi.annotations.security.OAuthScope(name = "read:pets", description = "read your pets")
                  })) 
     ), @org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
+         securitySchemeName = "global_api_key_header",
+         type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.APIKEY,
+         description = "",
+         apiKeyName = "global_api_key_header",
+         in = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeIn.HEADER
+    ), @org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
+         securitySchemeName = "global_api_key_cookie",
+         type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.APIKEY,
+         description = "",
+         apiKeyName = "global_api_key_cookie",
+         in = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeIn.COOKIE
+    ), @org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
          securitySchemeName = "api_key",
          type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.APIKEY,
          description = "",
@@ -66,7 +78,10 @@ public class UserApi {
 
     @POST
     @Consumes({ "application/json" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "createUser", summary = "Create user", description = "This can only be done by the logged in user.")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="user")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -81,7 +96,10 @@ public class UserApi {
     @POST
     @Path("/createWithArray")
     @Consumes({ "application/json" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "createUsersWithArrayInput", summary = "Creates list of users with given input array", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="user")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -96,7 +114,10 @@ public class UserApi {
     @POST
     @Path("/createWithList")
     @Consumes({ "application/json" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "createUsersWithListInput", summary = "Creates list of users with given input array", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="user")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -110,7 +131,10 @@ public class UserApi {
 
     @DELETE
     @Path("/{username}")
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "deleteUser", summary = "Delete user", description = "This can only be done by the logged in user.")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="user")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -128,7 +152,10 @@ public class UserApi {
     @GET
     @Path("/{username}")
     @Produces({ "application/xml", "application/json" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "getUserByName", summary = "Get user by user name", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="user")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -152,7 +179,10 @@ public class UserApi {
     @GET
     @Path("/login")
     @Produces({ "application/xml", "application/json" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "loginUser", summary = "Logs user into the system", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="user")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -174,7 +204,10 @@ public class UserApi {
 
     @GET
     @Path("/logout")
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "logoutUser", summary = "Logs out current logged in user session", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="user")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -189,7 +222,10 @@ public class UserApi {
     @PUT
     @Path("/{username}")
     @Consumes({ "application/json" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "updateUser", summary = "Updated user", description = "This can only be done by the logged in user.")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="user")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 

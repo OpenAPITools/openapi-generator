@@ -70,7 +70,7 @@ public class DefaultApi {
         final String[] localVarContentTypes = { };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
         ParameterizedTypeReference<FooGetDefaultResponse> localVarReturnType = new ParameterizedTypeReference<FooGetDefaultResponse>() {};
         return apiClient.invokeAPI("/foo", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);

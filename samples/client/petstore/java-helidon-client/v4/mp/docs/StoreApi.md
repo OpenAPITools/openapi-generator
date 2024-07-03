@@ -32,7 +32,7 @@ For valid response try integer IDs with value &lt; 1000. Anything above 1000 or 
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -100,7 +100,7 @@ For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other val
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -137,7 +137,7 @@ Place an order for a pet
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 

@@ -37,6 +37,18 @@ import javax.validation.Valid;
                 @org.eclipse.microprofile.openapi.annotations.security.OAuthScope(name = "read:pets", description = "read your pets")
                  })) 
     ), @org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
+         securitySchemeName = "global_api_key_header",
+         type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.APIKEY,
+         description = "",
+         apiKeyName = "global_api_key_header",
+         in = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeIn.HEADER
+    ), @org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
+         securitySchemeName = "global_api_key_cookie",
+         type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.APIKEY,
+         description = "",
+         apiKeyName = "global_api_key_cookie",
+         in = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeIn.COOKIE
+    ), @org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
          securitySchemeName = "api_key",
          type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.APIKEY,
          description = "",
@@ -66,7 +78,10 @@ public class StoreApi {
 
     @DELETE
     @Path("/order/{order_id}")
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "deleteOrder", summary = "Delete purchase order by ID", description = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="store")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -101,7 +116,10 @@ public class StoreApi {
     @GET
     @Path("/order/{order_id}")
     @Produces({ "application/xml", "application/json" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "getOrderById", summary = "Find purchase order by ID", description = "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="store")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -126,7 +144,10 @@ public class StoreApi {
     @Path("/order")
     @Consumes({ "application/json" })
     @Produces({ "application/xml", "application/json" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "placeOrder", summary = "Place an order for a pet", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="store")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 

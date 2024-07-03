@@ -52,6 +52,18 @@ import javax.validation.Valid;
                 @org.eclipse.microprofile.openapi.annotations.security.OAuthScope(name = "read:pets", description = "read your pets")
                  })) 
     ), @org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
+         securitySchemeName = "global_api_key_header",
+         type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.APIKEY,
+         description = "",
+         apiKeyName = "global_api_key_header",
+         in = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeIn.HEADER
+    ), @org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
+         securitySchemeName = "global_api_key_cookie",
+         type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.APIKEY,
+         description = "",
+         apiKeyName = "global_api_key_cookie",
+         in = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeIn.COOKIE
+    ), @org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
          securitySchemeName = "api_key",
          type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.APIKEY,
          description = "",
@@ -82,7 +94,10 @@ public class FakeApi {
     @GET
     @Path("/BigDecimalMap")
     @Produces({ "*/*" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "fakeBigDecimalMap", summary = "", description = "for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -97,7 +112,10 @@ public class FakeApi {
     @GET
     @Path("/health")
     @Produces({ "application/json" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "fakeHealthGet", summary = "Health check endpoint", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -130,7 +148,10 @@ public class FakeApi {
     @Path("/outer/boolean")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "fakeOuterBooleanSerialize", summary = "", description = "Test serialization of outer boolean types")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -146,7 +167,10 @@ public class FakeApi {
     @Path("/outer/composite")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "fakeOuterCompositeSerialize", summary = "", description = "Test serialization of object with outer number type")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -162,7 +186,10 @@ public class FakeApi {
     @Path("/outer/number")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "fakeOuterNumberSerialize", summary = "", description = "Test serialization of outer number types")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -178,7 +205,10 @@ public class FakeApi {
     @Path("/outer/string")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "fakeOuterStringSerialize", summary = "", description = "Test serialization of outer string types")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -194,7 +224,10 @@ public class FakeApi {
     @Path("/property/enum-int")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "fakePropertyEnumIntegerSerialize", summary = "", description = "Test serialization of enum (int) properties with examples")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -209,7 +242,10 @@ public class FakeApi {
     @POST
     @Path("/additionalProperties-reference")
     @Consumes({ "application/json" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "testAdditionalPropertiesReference", summary = "test referenced additionalProperties", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -224,7 +260,10 @@ public class FakeApi {
     @PUT
     @Path("/body-with-binary")
     @Consumes({ "image/png" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "testBodyWithBinary", summary = "", description = "For this test, the body has to be a binary file.")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -239,7 +278,10 @@ public class FakeApi {
     @PUT
     @Path("/body-with-file-schema")
     @Consumes({ "application/json" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "testBodyWithFileSchema", summary = "", description = "For this test, the body for this request must reference a schema named `File`.")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -254,7 +296,10 @@ public class FakeApi {
     @PUT
     @Path("/body-with-query-params")
     @Consumes({ "application/json" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "testBodyWithQueryParams", summary = "", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -269,7 +314,10 @@ public class FakeApi {
     @PATCH
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "testClientModel", summary = "To test \"client\" model", description = "To test \"client\" model")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -302,7 +350,10 @@ public class FakeApi {
 
     @GET
     @Consumes({ "application/x-www-form-urlencoded" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "testEnumParameters", summary = "To test enum parameters", description = "To test enum parameters")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -335,7 +386,10 @@ public class FakeApi {
     @POST
     @Path("/inline-additionalProperties")
     @Consumes({ "application/json" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "testInlineAdditionalProperties", summary = "test inline additionalProperties", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -350,7 +404,10 @@ public class FakeApi {
     @POST
     @Path("/inline-freeform-additionalProperties")
     @Consumes({ "application/json" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "testInlineFreeformAdditionalProperties", summary = "test inline free-form additionalProperties", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -365,7 +422,10 @@ public class FakeApi {
     @GET
     @Path("/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "testJsonFormData", summary = "test json serialization of form data", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -380,7 +440,10 @@ public class FakeApi {
     @POST
     @Path("/nullable")
     @Consumes({ "application/json" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "testNullable", summary = "test nullable parent property", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -394,7 +457,10 @@ public class FakeApi {
 
     @PUT
     @Path("/test-query-parameters")
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "testQueryParameterCollectionFormat", summary = "", description = "To test the collection format in query parameters")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -409,7 +475,10 @@ public class FakeApi {
     @POST
     @Path("/stringMap-reference")
     @Consumes({ "application/json" })
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_cookie"),
+        @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "global_api_key_header")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "testStringMapReference", summary = "test referenced string map", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 

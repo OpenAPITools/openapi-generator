@@ -20,6 +20,14 @@ Method | HTTP request | Description
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api = Openapi().getDefaultApi();
 
@@ -40,7 +48,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 

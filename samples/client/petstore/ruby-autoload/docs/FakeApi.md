@@ -41,6 +41,18 @@ for Java apache and Java native, test toUrlQueryString for maps with BegDecimal 
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::FakeApi.new
 
@@ -81,7 +93,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -100,6 +112,18 @@ Health check endpoint
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::FakeApi.new
 
@@ -140,7 +164,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -231,6 +255,18 @@ Test serialization of outer boolean types
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::FakeApi.new
 opts = {
@@ -276,7 +312,7 @@ end
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -297,6 +333,18 @@ Test serialization of object with outer number type
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::FakeApi.new
 opts = {
@@ -342,7 +390,7 @@ end
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -363,6 +411,18 @@ Test serialization of outer number types
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::FakeApi.new
 opts = {
@@ -408,7 +468,7 @@ end
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -429,6 +489,18 @@ Test serialization of outer string types
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::FakeApi.new
 opts = {
@@ -474,7 +546,7 @@ end
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -495,6 +567,18 @@ Test serialization of enum (int) properties with examples
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::FakeApi.new
 outer_object_with_enum_property = Petstore::OuterObjectWithEnumProperty.new({value: Petstore::OuterEnumInteger::N0}) # OuterObjectWithEnumProperty | Input enum (int) as post body
@@ -538,7 +622,7 @@ end
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -559,6 +643,18 @@ test referenced additionalProperties
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::FakeApi.new
 request_body = { key: 3.56} # Hash<String, Object> | request body
@@ -601,7 +697,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -622,6 +718,18 @@ For this test, the body has to be a binary file.
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::FakeApi.new
 body = File.new('/path/to/some/file') # File | image to upload
@@ -664,7 +772,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -685,6 +793,18 @@ For this test, the body for this request must reference a schema named `File`.
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::FakeApi.new
 file_schema_test_class = Petstore::FileSchemaTestClass.new # FileSchemaTestClass | 
@@ -727,7 +847,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -746,6 +866,18 @@ No authorization required
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::FakeApi.new
 query = 'query_example' # String | 
@@ -790,7 +922,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -811,6 +943,18 @@ To test \"client\" model
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::FakeApi.new
 client = Petstore::Client.new # Client | client model
@@ -854,7 +998,7 @@ end
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -972,6 +1116,18 @@ To test enum parameters
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::FakeApi.new
 opts = {
@@ -1032,7 +1188,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -1133,6 +1289,18 @@ test inline additionalProperties
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::FakeApi.new
 request_body = { key: 'inner_example'} # Hash<String, String> | request body
@@ -1175,7 +1343,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -1196,6 +1364,18 @@ test inline free-form additionalProperties
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::FakeApi.new
 test_inline_freeform_additional_properties_request = Petstore::TestInlineFreeformAdditionalPropertiesRequest.new # TestInlineFreeformAdditionalPropertiesRequest | request body
@@ -1238,7 +1418,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -1259,6 +1439,18 @@ test json serialization of form data
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::FakeApi.new
 param = 'param_example' # String | field1
@@ -1303,7 +1495,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -1324,6 +1516,18 @@ test nullable parent property
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::FakeApi.new
 child_with_nullable = Petstore::ChildWithNullable.new # ChildWithNullable | request body
@@ -1366,7 +1570,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -1387,6 +1591,18 @@ To test the collection format in query parameters
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::FakeApi.new
 pipe = ['inner_example'] # Array<String> | 
@@ -1443,7 +1659,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -1464,6 +1680,18 @@ test referenced string map
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::FakeApi.new
 request_body = { key: 'inner_example'} # Hash<String, String> | request body
@@ -1506,7 +1734,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 

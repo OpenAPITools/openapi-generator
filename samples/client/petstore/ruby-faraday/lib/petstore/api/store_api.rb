@@ -61,7 +61,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
 
       new_options = opts.merge(
         :operation => :"StoreApi.delete_order",
@@ -189,7 +189,7 @@ module Petstore
       return_type = opts[:debug_return_type] || 'Order'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
 
       new_options = opts.merge(
         :operation => :"StoreApi.get_order_by_id",
@@ -257,7 +257,7 @@ module Petstore
       return_type = opts[:debug_return_type] || 'Order'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || []
+      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
 
       new_options = opts.merge(
         :operation => :"StoreApi.place_order",

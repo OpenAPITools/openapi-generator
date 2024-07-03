@@ -181,6 +181,10 @@ export class FakeApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
+
         const response = await this.request({
             path: `/fake/BigDecimalMap`,
             method: 'GET',
@@ -206,6 +210,10 @@ export class FakeApi extends runtime.BaseAPI {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
 
         const response = await this.request({
             path: `/fake/health`,
@@ -278,6 +286,10 @@ export class FakeApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
+
         const response = await this.request({
             path: `/fake/outer/boolean`,
             method: 'POST',
@@ -311,6 +323,10 @@ export class FakeApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
+
         const response = await this.request({
             path: `/fake/outer/composite`,
             method: 'POST',
@@ -339,6 +355,10 @@ export class FakeApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
 
         const response = await this.request({
             path: `/fake/outer/number`,
@@ -372,6 +392,10 @@ export class FakeApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
 
         const response = await this.request({
             path: `/fake/outer/string`,
@@ -413,6 +437,10 @@ export class FakeApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
+
         const response = await this.request({
             path: `/fake/property/enum-int`,
             method: 'POST',
@@ -450,6 +478,10 @@ export class FakeApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
+
         const response = await this.request({
             path: `/fake/additionalProperties-reference`,
             method: 'POST',
@@ -486,6 +518,10 @@ export class FakeApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'image/png';
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
+
         const response = await this.request({
             path: `/fake/body-with-binary`,
             method: 'PUT',
@@ -520,6 +556,10 @@ export class FakeApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
 
         const response = await this.request({
             path: `/fake/body-with-file-schema`,
@@ -566,6 +606,10 @@ export class FakeApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
+
         const response = await this.request({
             path: `/fake/body-with-query-params`,
             method: 'PUT',
@@ -600,6 +644,10 @@ export class FakeApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
 
         const response = await this.request({
             path: `/fake`,
@@ -789,6 +837,10 @@ export class FakeApi extends runtime.BaseAPI {
             headerParameters['enum_header_string'] = String(requestParameters['enumHeaderString']);
         }
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
+
         const consumes: runtime.Consume[] = [
             { contentType: 'application/x-www-form-urlencoded' },
         ];
@@ -928,6 +980,10 @@ export class FakeApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
+
         const response = await this.request({
             path: `/fake/inline-additionalProperties`,
             method: 'POST',
@@ -964,6 +1020,10 @@ export class FakeApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
 
         const response = await this.request({
             path: `/fake/inline-freeform-additionalProperties`,
@@ -1006,6 +1066,10 @@ export class FakeApi extends runtime.BaseAPI {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
 
         const consumes: runtime.Consume[] = [
             { contentType: 'application/x-www-form-urlencoded' },
@@ -1065,6 +1129,10 @@ export class FakeApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
 
         const response = await this.request({
             path: `/fake/nullable`,
@@ -1163,6 +1231,10 @@ export class FakeApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
+
         const response = await this.request({
             path: `/fake/test-query-parameters`,
             method: 'PUT',
@@ -1197,6 +1269,10 @@ export class FakeApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
+        }
 
         const response = await this.request({
             path: `/fake/stringMap-reference`,

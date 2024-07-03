@@ -88,7 +88,7 @@ public class DefaultApi extends BaseApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
     TypeReference<FooGetDefaultResponse> localVarReturnType = new TypeReference<FooGetDefaultResponse>() {};
     return apiClient.invokeAPI(
@@ -130,7 +130,7 @@ public class DefaultApi extends BaseApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
     return apiClient.invokeAPI(
       localVarPath,

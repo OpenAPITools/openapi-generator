@@ -80,7 +80,7 @@ public class StoreApi extends BaseApi {
         final String[] localVarContentTypes = {  };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
         ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
         return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.DELETE, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
@@ -172,7 +172,7 @@ public class StoreApi extends BaseApi {
         final String[] localVarContentTypes = {  };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
         ParameterizedTypeReference<Order> localReturnType = new ParameterizedTypeReference<Order>() {};
         return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
@@ -222,7 +222,7 @@ public class StoreApi extends BaseApi {
          };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
         ParameterizedTypeReference<Order> localReturnType = new ParameterizedTypeReference<Order>() {};
         return apiClient.invokeAPI("/store/order", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
@@ -248,7 +248,7 @@ public class StoreApi extends BaseApi {
          };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
         return apiClient.invokeAPI(localVarPath, method, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType);
     }

@@ -58,7 +58,10 @@ public class AnotherFakeApi  {
     
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "To test special tags", notes = "To test special tags and operation ID starting with number", response = Client.class, tags={ "$another-fake?", })
+    @io.swagger.annotations.ApiOperation(value = "To test special tags", notes = "To test special tags and operation ID starting with number", response = Client.class, authorizations = {
+        @io.swagger.annotations.Authorization(value = "global_api_key_cookie"),
+        @io.swagger.annotations.Authorization(value = "global_api_key_header")
+    }, tags={ "$another-fake?", })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class)
     })

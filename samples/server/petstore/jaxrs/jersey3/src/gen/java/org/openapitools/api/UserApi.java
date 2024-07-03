@@ -66,7 +66,10 @@ public class UserApi  {
     @Operation(summary = "Create user", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
-            }, tags={ "user", }) 
+            },security = {
+            @SecurityRequirement(name = "global_api_key_cookie"),
+            @SecurityRequirement(name = "global_api_key_header")
+        }, tags={ "user", }) 
     public Response createUser(@Schema(description = "Created user object", required = true) @NotNull @Valid  User user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.createUser(user, securityContext);
@@ -78,7 +81,10 @@ public class UserApi  {
     @Operation(summary = "Creates list of users with given input array", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
-            }, tags={ "user", }) 
+            },security = {
+            @SecurityRequirement(name = "global_api_key_cookie"),
+            @SecurityRequirement(name = "global_api_key_header")
+        }, tags={ "user", }) 
     public Response createUsersWithArrayInput(@Schema(description = "List of user object", required = true) @NotNull @Valid  List<@Valid User> user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.createUsersWithArrayInput(user, securityContext);
@@ -90,7 +96,10 @@ public class UserApi  {
     @Operation(summary = "Creates list of users with given input array", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
-            }, tags={ "user", }) 
+            },security = {
+            @SecurityRequirement(name = "global_api_key_cookie"),
+            @SecurityRequirement(name = "global_api_key_header")
+        }, tags={ "user", }) 
     public Response createUsersWithListInput(@Schema(description = "List of user object", required = true) @NotNull @Valid  List<@Valid User> user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.createUsersWithListInput(user, securityContext);
@@ -103,7 +112,10 @@ public class UserApi  {
                 @Content(schema = @Schema(implementation = Void.class))),
             @ApiResponse(responseCode = "404", description = "User not found", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
-            }, tags={ "user", }) 
+            },security = {
+            @SecurityRequirement(name = "global_api_key_cookie"),
+            @SecurityRequirement(name = "global_api_key_header")
+        }, tags={ "user", }) 
     public Response deleteUser(@Schema(description= "The name that needs to be deleted", required = true) @PathParam("username") @NotNull  String username,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.deleteUser(username, securityContext);
@@ -119,7 +131,10 @@ public class UserApi  {
                 @Content(schema = @Schema(implementation = Void.class))),
             @ApiResponse(responseCode = "404", description = "User not found", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
-            }, tags={ "user", }) 
+            },security = {
+            @SecurityRequirement(name = "global_api_key_cookie"),
+            @SecurityRequirement(name = "global_api_key_header")
+        }, tags={ "user", }) 
     public Response getUserByName(@Schema(description= "The name that needs to be fetched. Use user1 for testing.", required = true) @PathParam("username") @NotNull  String username,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.getUserByName(username, securityContext);
@@ -133,7 +148,10 @@ public class UserApi  {
                 @Content(schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "400", description = "Invalid username/password supplied", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
-            }, tags={ "user", }) 
+            },security = {
+            @SecurityRequirement(name = "global_api_key_cookie"),
+            @SecurityRequirement(name = "global_api_key_header")
+        }, tags={ "user", }) 
     public Response loginUser(@Schema(description = "The user name for login") @QueryParam("username") @NotNull  String username,@Schema(description = "The password for login in clear text") @QueryParam("password") @NotNull  String password,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.loginUser(username, password, securityContext);
@@ -144,7 +162,10 @@ public class UserApi  {
     @Operation(summary = "Logs out current logged in user session", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
-            }, tags={ "user", }) 
+            },security = {
+            @SecurityRequirement(name = "global_api_key_cookie"),
+            @SecurityRequirement(name = "global_api_key_header")
+        }, tags={ "user", }) 
     public Response logoutUser(@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.logoutUser(securityContext);
@@ -158,7 +179,10 @@ public class UserApi  {
                 @Content(schema = @Schema(implementation = Void.class))),
             @ApiResponse(responseCode = "404", description = "User not found", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
-            }, tags={ "user", }) 
+            },security = {
+            @SecurityRequirement(name = "global_api_key_cookie"),
+            @SecurityRequirement(name = "global_api_key_header")
+        }, tags={ "user", }) 
     public Response updateUser(@Schema(description= "name that need to be deleted", required = true) @PathParam("username") @NotNull  String username,@Schema(description = "Updated user object", required = true) @NotNull @Valid  User user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.updateUser(username, user, securityContext);

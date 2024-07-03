@@ -55,7 +55,19 @@ class FakeApi {
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[],
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'global_api_key_cookie',
+            'keyName': 'global_api_key_cookie',
+            'where': '',
+          },{
+            'type': 'apiKey',
+            'name': 'global_api_key_header',
+            'keyName': 'global_api_key_header',
+            'where': 'header',
+          },
+        ],
         ...?extra,
       },
       validateStatus: validateStatus,
@@ -124,7 +136,19 @@ _responseData = rawData == null ? null : deserialize<FakeBigDecimalMap200Respons
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[],
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'global_api_key_cookie',
+            'keyName': 'global_api_key_cookie',
+            'where': '',
+          },{
+            'type': 'apiKey',
+            'name': 'global_api_key_header',
+            'keyName': 'global_api_key_header',
+            'where': 'header',
+          },
+        ],
         ...?extra,
       },
       validateStatus: validateStatus,
@@ -277,7 +301,19 @@ _bodyData=jsonEncode(pet);
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[],
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'global_api_key_cookie',
+            'keyName': 'global_api_key_cookie',
+            'where': '',
+          },{
+            'type': 'apiKey',
+            'name': 'global_api_key_header',
+            'keyName': 'global_api_key_header',
+            'where': 'header',
+          },
+        ],
         ...?extra,
       },
       contentType: 'application/json',
@@ -366,7 +402,19 @@ _responseData = rawData == null ? null : deserialize<bool, bool>(rawData, 'bool'
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[],
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'global_api_key_cookie',
+            'keyName': 'global_api_key_cookie',
+            'where': '',
+          },{
+            'type': 'apiKey',
+            'name': 'global_api_key_header',
+            'keyName': 'global_api_key_header',
+            'where': 'header',
+          },
+        ],
         ...?extra,
       },
       contentType: 'application/json',
@@ -455,7 +503,19 @@ _responseData = rawData == null ? null : deserialize<OuterComposite, OuterCompos
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[],
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'global_api_key_cookie',
+            'keyName': 'global_api_key_cookie',
+            'where': '',
+          },{
+            'type': 'apiKey',
+            'name': 'global_api_key_header',
+            'keyName': 'global_api_key_header',
+            'where': 'header',
+          },
+        ],
         ...?extra,
       },
       contentType: 'application/json',
@@ -544,7 +604,19 @@ _responseData = rawData == null ? null : deserialize<num, num>(rawData, 'num', g
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[],
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'global_api_key_cookie',
+            'keyName': 'global_api_key_cookie',
+            'where': '',
+          },{
+            'type': 'apiKey',
+            'name': 'global_api_key_header',
+            'keyName': 'global_api_key_header',
+            'where': 'header',
+          },
+        ],
         ...?extra,
       },
       contentType: 'application/json',
@@ -633,7 +705,19 @@ _responseData = rawData == null ? null : deserialize<String, String>(rawData, 'S
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[],
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'global_api_key_cookie',
+            'keyName': 'global_api_key_cookie',
+            'where': '',
+          },{
+            'type': 'apiKey',
+            'name': 'global_api_key_header',
+            'keyName': 'global_api_key_header',
+            'where': 'header',
+          },
+        ],
         ...?extra,
       },
       contentType: 'application/json',
@@ -722,7 +806,19 @@ _responseData = rawData == null ? null : deserialize<OuterObjectWithEnumProperty
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[],
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'global_api_key_cookie',
+            'keyName': 'global_api_key_cookie',
+            'where': '',
+          },{
+            'type': 'apiKey',
+            'name': 'global_api_key_header',
+            'keyName': 'global_api_key_header',
+            'where': 'header',
+          },
+        ],
         ...?extra,
       },
       contentType: 'application/json',
@@ -787,7 +883,19 @@ _bodyData=jsonEncode(requestBody);
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[],
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'global_api_key_cookie',
+            'keyName': 'global_api_key_cookie',
+            'where': '',
+          },{
+            'type': 'apiKey',
+            'name': 'global_api_key_header',
+            'keyName': 'global_api_key_header',
+            'where': 'header',
+          },
+        ],
         ...?extra,
       },
       contentType: 'image/png',
@@ -852,7 +960,19 @@ _bodyData=jsonEncode(body);
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[],
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'global_api_key_cookie',
+            'keyName': 'global_api_key_cookie',
+            'where': '',
+          },{
+            'type': 'apiKey',
+            'name': 'global_api_key_header',
+            'keyName': 'global_api_key_header',
+            'where': 'header',
+          },
+        ],
         ...?extra,
       },
       contentType: 'application/json',
@@ -919,7 +1039,19 @@ _bodyData=jsonEncode(fileSchemaTestClass);
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[],
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'global_api_key_cookie',
+            'keyName': 'global_api_key_cookie',
+            'where': '',
+          },{
+            'type': 'apiKey',
+            'name': 'global_api_key_header',
+            'keyName': 'global_api_key_header',
+            'where': 'header',
+          },
+        ],
         ...?extra,
       },
       contentType: 'application/json',
@@ -990,7 +1122,19 @@ _bodyData=jsonEncode(user);
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[],
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'global_api_key_cookie',
+            'keyName': 'global_api_key_cookie',
+            'where': '',
+          },{
+            'type': 'apiKey',
+            'name': 'global_api_key_header',
+            'keyName': 'global_api_key_header',
+            'where': 'header',
+          },
+        ],
         ...?extra,
       },
       contentType: 'application/json',
@@ -1194,7 +1338,19 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[],
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'global_api_key_cookie',
+            'keyName': 'global_api_key_cookie',
+            'where': '',
+          },{
+            'type': 'apiKey',
+            'name': 'global_api_key_header',
+            'keyName': 'global_api_key_header',
+            'where': 'header',
+          },
+        ],
         ...?extra,
       },
       contentType: 'application/x-www-form-urlencoded',
@@ -1342,7 +1498,19 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[],
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'global_api_key_cookie',
+            'keyName': 'global_api_key_cookie',
+            'where': '',
+          },{
+            'type': 'apiKey',
+            'name': 'global_api_key_header',
+            'keyName': 'global_api_key_header',
+            'where': 'header',
+          },
+        ],
         ...?extra,
       },
       contentType: 'application/json',
@@ -1407,7 +1575,19 @@ _bodyData=jsonEncode(requestBody);
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[],
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'global_api_key_cookie',
+            'keyName': 'global_api_key_cookie',
+            'where': '',
+          },{
+            'type': 'apiKey',
+            'name': 'global_api_key_header',
+            'keyName': 'global_api_key_header',
+            'where': 'header',
+          },
+        ],
         ...?extra,
       },
       contentType: 'application/json',
@@ -1474,7 +1654,19 @@ _bodyData=jsonEncode(testInlineFreeformAdditionalPropertiesRequest);
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[],
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'global_api_key_cookie',
+            'keyName': 'global_api_key_cookie',
+            'where': '',
+          },{
+            'type': 'apiKey',
+            'name': 'global_api_key_header',
+            'keyName': 'global_api_key_header',
+            'where': 'header',
+          },
+        ],
         ...?extra,
       },
       contentType: 'application/x-www-form-urlencoded',
@@ -1539,7 +1731,19 @@ _bodyData=jsonEncode(testInlineFreeformAdditionalPropertiesRequest);
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[],
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'global_api_key_cookie',
+            'keyName': 'global_api_key_cookie',
+            'where': '',
+          },{
+            'type': 'apiKey',
+            'name': 'global_api_key_header',
+            'keyName': 'global_api_key_header',
+            'where': 'header',
+          },
+        ],
         ...?extra,
       },
       contentType: 'application/json',
@@ -1616,7 +1820,19 @@ _bodyData=jsonEncode(childWithNullable);
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[],
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'global_api_key_cookie',
+            'keyName': 'global_api_key_cookie',
+            'where': '',
+          },{
+            'type': 'apiKey',
+            'name': 'global_api_key_header',
+            'keyName': 'global_api_key_header',
+            'where': 'header',
+          },
+        ],
         ...?extra,
       },
       validateStatus: validateStatus,
@@ -1674,7 +1890,19 @@ _bodyData=jsonEncode(childWithNullable);
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[],
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'global_api_key_cookie',
+            'keyName': 'global_api_key_cookie',
+            'where': '',
+          },{
+            'type': 'apiKey',
+            'name': 'global_api_key_header',
+            'keyName': 'global_api_key_header',
+            'where': 'header',
+          },
+        ],
         ...?extra,
       },
       contentType: 'application/json',

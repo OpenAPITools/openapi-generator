@@ -23,6 +23,18 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::StoreApi.new
 order_id = 'order_id_example' # String | ID of the order that needs to be deleted
@@ -65,7 +77,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -154,6 +166,18 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::StoreApi.new
 order_id = 789 # Integer | ID of pet that needs to be fetched
@@ -197,7 +221,7 @@ end
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -218,6 +242,18 @@ Place an order for a pet
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::StoreApi.new
 order = Petstore::Order.new # Order | order placed for purchasing the pet
@@ -261,7 +297,7 @@ end
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 

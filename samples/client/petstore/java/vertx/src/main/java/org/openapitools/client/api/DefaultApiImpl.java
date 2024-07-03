@@ -76,7 +76,7 @@ public class DefaultApiImpl implements DefaultApi {
         
         String[] localVarAccepts = { "application/json" };
         String[] localVarContentTypes = {  };
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
         TypeReference<FooGetDefaultResponse> localVarReturnType = new TypeReference<FooGetDefaultResponse>() {};
         apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }

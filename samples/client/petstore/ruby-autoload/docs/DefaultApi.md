@@ -18,6 +18,18 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::DefaultApi.new
 
@@ -58,7 +70,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 

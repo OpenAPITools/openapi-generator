@@ -66,7 +66,10 @@ public class AnotherFakeApi  {
     @Operation(summary = "To test special tags", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Client.class))),
-            }, tags={ "$another-fake?", }) 
+            },security = {
+            @SecurityRequirement(name = "global_api_key_cookie"),
+            @SecurityRequirement(name = "global_api_key_header")
+        }, tags={ "$another-fake?", }) 
     public Response call123testSpecialTags(@Schema(description = "client model", required = true) @NotNull @Valid  Client client,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.call123testSpecialTags(client, securityContext);

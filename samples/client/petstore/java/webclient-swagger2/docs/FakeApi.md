@@ -44,6 +44,7 @@ for Java apache and Java native, test toUrlQueryString for maps with BegDecimal 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
 
@@ -51,6 +52,18 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure API key authorization: global_api_key_cookie
+        ApiKeyAuth global_api_key_cookie = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_cookie");
+        global_api_key_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_cookie.setApiKeyPrefix("Token");
+
+        // Configure API key authorization: global_api_key_header
+        ApiKeyAuth global_api_key_header = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_header");
+        global_api_key_header.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_header.setApiKeyPrefix("Token");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         try {
@@ -77,7 +90,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -104,6 +117,7 @@ Health check endpoint
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
 
@@ -111,6 +125,18 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure API key authorization: global_api_key_cookie
+        ApiKeyAuth global_api_key_cookie = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_cookie");
+        global_api_key_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_cookie.setApiKeyPrefix("Token");
+
+        // Configure API key authorization: global_api_key_header
+        ApiKeyAuth global_api_key_header = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_header");
+        global_api_key_header.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_header.setApiKeyPrefix("Token");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         try {
@@ -137,7 +163,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -235,6 +261,7 @@ Test serialization of outer boolean types
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
 
@@ -242,6 +269,18 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure API key authorization: global_api_key_cookie
+        ApiKeyAuth global_api_key_cookie = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_cookie");
+        global_api_key_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_cookie.setApiKeyPrefix("Token");
+
+        // Configure API key authorization: global_api_key_header
+        ApiKeyAuth global_api_key_header = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_header");
+        global_api_key_header.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_header.setApiKeyPrefix("Token");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         Boolean body = true; // Boolean | Input boolean as post body
@@ -272,7 +311,7 @@ public class Example {
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -301,6 +340,7 @@ Test serialization of object with outer number type
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
 
@@ -308,6 +348,18 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure API key authorization: global_api_key_cookie
+        ApiKeyAuth global_api_key_cookie = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_cookie");
+        global_api_key_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_cookie.setApiKeyPrefix("Token");
+
+        // Configure API key authorization: global_api_key_header
+        ApiKeyAuth global_api_key_header = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_header");
+        global_api_key_header.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_header.setApiKeyPrefix("Token");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         OuterComposite outerComposite = new OuterComposite(); // OuterComposite | Input composite as post body
@@ -338,7 +390,7 @@ public class Example {
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -367,6 +419,7 @@ Test serialization of outer number types
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
 
@@ -374,6 +427,18 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure API key authorization: global_api_key_cookie
+        ApiKeyAuth global_api_key_cookie = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_cookie");
+        global_api_key_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_cookie.setApiKeyPrefix("Token");
+
+        // Configure API key authorization: global_api_key_header
+        ApiKeyAuth global_api_key_header = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_header");
+        global_api_key_header.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_header.setApiKeyPrefix("Token");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         BigDecimal body = new BigDecimal(78); // BigDecimal | Input number as post body
@@ -404,7 +469,7 @@ public class Example {
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -433,6 +498,7 @@ Test serialization of outer string types
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
 
@@ -440,6 +506,18 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure API key authorization: global_api_key_cookie
+        ApiKeyAuth global_api_key_cookie = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_cookie");
+        global_api_key_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_cookie.setApiKeyPrefix("Token");
+
+        // Configure API key authorization: global_api_key_header
+        ApiKeyAuth global_api_key_header = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_header");
+        global_api_key_header.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_header.setApiKeyPrefix("Token");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         String body = "body_example"; // String | Input string as post body
@@ -470,7 +548,7 @@ public class Example {
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -499,6 +577,7 @@ Test serialization of enum (int) properties with examples
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
 
@@ -506,6 +585,18 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure API key authorization: global_api_key_cookie
+        ApiKeyAuth global_api_key_cookie = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_cookie");
+        global_api_key_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_cookie.setApiKeyPrefix("Token");
+
+        // Configure API key authorization: global_api_key_header
+        ApiKeyAuth global_api_key_header = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_header");
+        global_api_key_header.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_header.setApiKeyPrefix("Token");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         OuterObjectWithEnumProperty outerObjectWithEnumProperty = new OuterObjectWithEnumProperty(); // OuterObjectWithEnumProperty | Input enum (int) as post body
@@ -536,7 +627,7 @@ public class Example {
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -565,6 +656,7 @@ test referenced additionalProperties
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
 
@@ -572,6 +664,18 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure API key authorization: global_api_key_cookie
+        ApiKeyAuth global_api_key_cookie = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_cookie");
+        global_api_key_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_cookie.setApiKeyPrefix("Token");
+
+        // Configure API key authorization: global_api_key_header
+        ApiKeyAuth global_api_key_header = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_header");
+        global_api_key_header.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_header.setApiKeyPrefix("Token");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         Map<String, Object> requestBody = null; // Map<String, Object> | request body
@@ -601,7 +705,7 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -630,6 +734,7 @@ For this test, the body has to be a binary file.
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
 
@@ -637,6 +742,18 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure API key authorization: global_api_key_cookie
+        ApiKeyAuth global_api_key_cookie = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_cookie");
+        global_api_key_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_cookie.setApiKeyPrefix("Token");
+
+        // Configure API key authorization: global_api_key_header
+        ApiKeyAuth global_api_key_header = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_header");
+        global_api_key_header.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_header.setApiKeyPrefix("Token");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         File body = new File("/path/to/file"); // File | image to upload
@@ -666,7 +783,7 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -695,6 +812,7 @@ For this test, the body for this request must reference a schema named &#x60;Fil
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
 
@@ -702,6 +820,18 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure API key authorization: global_api_key_cookie
+        ApiKeyAuth global_api_key_cookie = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_cookie");
+        global_api_key_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_cookie.setApiKeyPrefix("Token");
+
+        // Configure API key authorization: global_api_key_header
+        ApiKeyAuth global_api_key_header = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_header");
+        global_api_key_header.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_header.setApiKeyPrefix("Token");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         FileSchemaTestClass fileSchemaTestClass = new FileSchemaTestClass(); // FileSchemaTestClass | 
@@ -731,7 +861,7 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -758,6 +888,7 @@ No authorization required
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
 
@@ -765,6 +896,18 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure API key authorization: global_api_key_cookie
+        ApiKeyAuth global_api_key_cookie = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_cookie");
+        global_api_key_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_cookie.setApiKeyPrefix("Token");
+
+        // Configure API key authorization: global_api_key_header
+        ApiKeyAuth global_api_key_header = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_header");
+        global_api_key_header.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_header.setApiKeyPrefix("Token");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         String query = "query_example"; // String | 
@@ -796,7 +939,7 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -825,6 +968,7 @@ To test \&quot;client\&quot; model
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
 
@@ -832,6 +976,18 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure API key authorization: global_api_key_cookie
+        ApiKeyAuth global_api_key_cookie = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_cookie");
+        global_api_key_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_cookie.setApiKeyPrefix("Token");
+
+        // Configure API key authorization: global_api_key_header
+        ApiKeyAuth global_api_key_header = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_header");
+        global_api_key_header.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_header.setApiKeyPrefix("Token");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         Client client = new Client(); // Client | client model
@@ -862,7 +1018,7 @@ public class Example {
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -989,6 +1145,7 @@ To test enum parameters
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
 
@@ -996,6 +1153,18 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure API key authorization: global_api_key_cookie
+        ApiKeyAuth global_api_key_cookie = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_cookie");
+        global_api_key_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_cookie.setApiKeyPrefix("Token");
+
+        // Configure API key authorization: global_api_key_header
+        ApiKeyAuth global_api_key_header = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_header");
+        global_api_key_header.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_header.setApiKeyPrefix("Token");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         List<String> enumHeaderStringArray = Arrays.asList("$"); // List<String> | Header parameter enum test (string array)
@@ -1041,7 +1210,7 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -1151,6 +1320,7 @@ test inline additionalProperties
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
 
@@ -1158,6 +1328,18 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure API key authorization: global_api_key_cookie
+        ApiKeyAuth global_api_key_cookie = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_cookie");
+        global_api_key_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_cookie.setApiKeyPrefix("Token");
+
+        // Configure API key authorization: global_api_key_header
+        ApiKeyAuth global_api_key_header = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_header");
+        global_api_key_header.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_header.setApiKeyPrefix("Token");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         Map<String, String> requestBody = new HashMap(); // Map<String, String> | request body
@@ -1187,7 +1369,7 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -1216,6 +1398,7 @@ test inline free-form additionalProperties
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
 
@@ -1223,6 +1406,18 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure API key authorization: global_api_key_cookie
+        ApiKeyAuth global_api_key_cookie = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_cookie");
+        global_api_key_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_cookie.setApiKeyPrefix("Token");
+
+        // Configure API key authorization: global_api_key_header
+        ApiKeyAuth global_api_key_header = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_header");
+        global_api_key_header.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_header.setApiKeyPrefix("Token");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = new TestInlineFreeformAdditionalPropertiesRequest(); // TestInlineFreeformAdditionalPropertiesRequest | request body
@@ -1252,7 +1447,7 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -1281,6 +1476,7 @@ test json serialization of form data
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
 
@@ -1288,6 +1484,18 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure API key authorization: global_api_key_cookie
+        ApiKeyAuth global_api_key_cookie = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_cookie");
+        global_api_key_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_cookie.setApiKeyPrefix("Token");
+
+        // Configure API key authorization: global_api_key_header
+        ApiKeyAuth global_api_key_header = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_header");
+        global_api_key_header.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_header.setApiKeyPrefix("Token");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         String param = "param_example"; // String | field1
@@ -1319,7 +1527,7 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -1348,6 +1556,7 @@ test nullable parent property
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
 
@@ -1355,6 +1564,18 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure API key authorization: global_api_key_cookie
+        ApiKeyAuth global_api_key_cookie = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_cookie");
+        global_api_key_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_cookie.setApiKeyPrefix("Token");
+
+        // Configure API key authorization: global_api_key_header
+        ApiKeyAuth global_api_key_header = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_header");
+        global_api_key_header.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_header.setApiKeyPrefix("Token");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         ChildWithNullable childWithNullable = new ChildWithNullable(); // ChildWithNullable | request body
@@ -1384,7 +1605,7 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -1413,6 +1634,7 @@ To test the collection format in query parameters
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
 
@@ -1420,6 +1642,18 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure API key authorization: global_api_key_cookie
+        ApiKeyAuth global_api_key_cookie = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_cookie");
+        global_api_key_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_cookie.setApiKeyPrefix("Token");
+
+        // Configure API key authorization: global_api_key_header
+        ApiKeyAuth global_api_key_header = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_header");
+        global_api_key_header.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_header.setApiKeyPrefix("Token");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         List<String> pipe = Arrays.asList(); // List<String> | 
@@ -1461,7 +1695,7 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -1490,6 +1724,7 @@ test referenced string map
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
 
@@ -1497,6 +1732,18 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        
+        // Configure API key authorization: global_api_key_cookie
+        ApiKeyAuth global_api_key_cookie = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_cookie");
+        global_api_key_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_cookie.setApiKeyPrefix("Token");
+
+        // Configure API key authorization: global_api_key_header
+        ApiKeyAuth global_api_key_header = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_header");
+        global_api_key_header.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //global_api_key_header.setApiKeyPrefix("Token");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         Map<String, String> requestBody = new HashMap(); // Map<String, String> | request body
@@ -1526,7 +1773,7 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 

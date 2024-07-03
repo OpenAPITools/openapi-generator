@@ -43,6 +43,14 @@ for Java apache and Java native, test toUrlQueryString for maps with BegDecimal 
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api = Openapi().getFakeApi();
 
@@ -63,7 +71,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -80,6 +88,14 @@ Health check endpoint
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api = Openapi().getFakeApi();
 
@@ -100,7 +116,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -163,6 +179,14 @@ Test serialization of outer boolean types
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api = Openapi().getFakeApi();
 final bool body = true; // bool | Input boolean as post body
@@ -187,7 +211,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -206,6 +230,14 @@ Test serialization of object with outer number type
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api = Openapi().getFakeApi();
 final OuterComposite outerComposite = ; // OuterComposite | Input composite as post body
@@ -230,7 +262,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -249,6 +281,14 @@ Test serialization of outer number types
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api = Openapi().getFakeApi();
 final num body = 8.14; // num | Input number as post body
@@ -273,7 +313,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -292,6 +332,14 @@ Test serialization of outer string types
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api = Openapi().getFakeApi();
 final String body = body_example; // String | Input string as post body
@@ -316,7 +364,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -335,6 +383,14 @@ Test serialization of enum (int) properties with examples
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api = Openapi().getFakeApi();
 final OuterObjectWithEnumProperty outerObjectWithEnumProperty = ; // OuterObjectWithEnumProperty | Input enum (int) as post body
@@ -359,7 +415,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -378,6 +434,14 @@ test referenced additionalProperties
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api = Openapi().getFakeApi();
 final BuiltMap<String, JsonObject> requestBody = Object; // BuiltMap<String, JsonObject> | request body
@@ -401,7 +465,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -420,6 +484,14 @@ For this test, the body has to be a binary file.
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api = Openapi().getFakeApi();
 final MultipartFile body = BINARY_DATA_HERE; // MultipartFile | image to upload
@@ -443,7 +515,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -462,6 +534,14 @@ For this test, the body for this request must reference a schema named `File`.
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api = Openapi().getFakeApi();
 final FileSchemaTestClass fileSchemaTestClass = ; // FileSchemaTestClass | 
@@ -485,7 +565,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -502,6 +582,14 @@ No authorization required
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api = Openapi().getFakeApi();
 final String query = query_example; // String | 
@@ -527,7 +615,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -546,6 +634,14 @@ To test \"client\" model
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api = Openapi().getFakeApi();
 final ModelClient modelClient = ; // ModelClient | client model
@@ -570,7 +666,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -660,6 +756,14 @@ To test enum parameters
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api = Openapi().getFakeApi();
 final BuiltList<String> enumHeaderStringArray = ; // BuiltList<String> | Header parameter enum test (string array)
@@ -699,7 +803,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -770,6 +874,14 @@ test inline additionalProperties
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api = Openapi().getFakeApi();
 final BuiltMap<String, String> requestBody = ; // BuiltMap<String, String> | request body
@@ -793,7 +905,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -812,6 +924,14 @@ test inline free-form additionalProperties
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api = Openapi().getFakeApi();
 final TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = ; // TestInlineFreeformAdditionalPropertiesRequest | request body
@@ -835,7 +955,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -854,6 +974,14 @@ test json serialization of form data
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api = Openapi().getFakeApi();
 final String param = param_example; // String | field1
@@ -879,7 +1007,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -898,6 +1026,14 @@ test nullable parent property
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api = Openapi().getFakeApi();
 final ChildWithNullable childWithNullable = ; // ChildWithNullable | request body
@@ -921,7 +1057,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -940,6 +1076,14 @@ To test the collection format in query parameters
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api = Openapi().getFakeApi();
 final BuiltList<String> pipe = ; // BuiltList<String> | 
@@ -975,7 +1119,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -994,6 +1138,14 @@ test referenced string map
 ### Example
 ```dart
 import 'package:openapi/api.dart';
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api = Openapi().getFakeApi();
 final BuiltMap<String, String> requestBody = ; // BuiltMap<String, String> | request body
@@ -1017,7 +1169,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 

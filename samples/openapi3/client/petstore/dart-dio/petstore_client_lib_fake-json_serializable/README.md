@@ -181,6 +181,18 @@ Authentication schemes defined for the API:
  - **write:pets**: modify pets in your account
  - **read:pets**: read your pets
 
+### global_api_key_header
+
+- **Type**: API key
+- **API key parameter name**: global_api_key_header
+- **Location**: HTTP header
+
+### global_api_key_cookie
+
+- **Type**: API key
+- **API key parameter name**: global_api_key_cookie
+- **Location**: 
+
 ### api_key
 
 - **Type**: API key

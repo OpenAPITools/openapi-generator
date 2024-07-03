@@ -40,6 +40,14 @@ Please follow the [installation procedure](#installation--usage) and then run th
 ```dart
 import 'package:openapi/api.dart';
 
+// TODO Configure API key authorization: global_api_key_cookie
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
+// TODO Configure API key authorization: global_api_key_header
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
+// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api_instance = AnotherFakeApi();
 final modelClient = ModelClient(); // ModelClient | client model
@@ -173,6 +181,18 @@ Authentication schemes defined for the API:
 - **Scopes**: 
  - **write:pets**: modify pets in your account
  - **read:pets**: read your pets
+
+### global_api_key_header
+
+- **Type**: API key
+- **API key parameter name**: global_api_key_header
+- **Location**: HTTP header
+
+### global_api_key_cookie
+
+- **Type**: API key
+- **API key parameter name**: global_api_key_cookie
+- **Location**: 
 
 ### api_key
 

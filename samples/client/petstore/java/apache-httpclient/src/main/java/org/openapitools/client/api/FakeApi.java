@@ -102,7 +102,7 @@ public class FakeApi extends BaseApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
     TypeReference<FakeBigDecimalMap200Response> localVarReturnType = new TypeReference<FakeBigDecimalMap200Response>() {};
     return apiClient.invokeAPI(
@@ -169,7 +169,7 @@ public class FakeApi extends BaseApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
     TypeReference<HealthCheckResult> localVarReturnType = new TypeReference<HealthCheckResult>() {};
     return apiClient.invokeAPI(
@@ -316,7 +316,7 @@ public class FakeApi extends BaseApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
     TypeReference<Boolean> localVarReturnType = new TypeReference<Boolean>() {};
     return apiClient.invokeAPI(
@@ -385,7 +385,7 @@ public class FakeApi extends BaseApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
     TypeReference<OuterComposite> localVarReturnType = new TypeReference<OuterComposite>() {};
     return apiClient.invokeAPI(
@@ -454,7 +454,7 @@ public class FakeApi extends BaseApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
     TypeReference<BigDecimal> localVarReturnType = new TypeReference<BigDecimal>() {};
     return apiClient.invokeAPI(
@@ -523,7 +523,7 @@ public class FakeApi extends BaseApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
     TypeReference<String> localVarReturnType = new TypeReference<String>() {};
     return apiClient.invokeAPI(
@@ -597,7 +597,7 @@ public class FakeApi extends BaseApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
     TypeReference<OuterObjectWithEnumProperty> localVarReturnType = new TypeReference<OuterObjectWithEnumProperty>() {};
     return apiClient.invokeAPI(
@@ -669,7 +669,7 @@ public class FakeApi extends BaseApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
     apiClient.invokeAPI(
         localVarPath,
@@ -740,7 +740,7 @@ public class FakeApi extends BaseApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
     apiClient.invokeAPI(
         localVarPath,
@@ -811,7 +811,7 @@ public class FakeApi extends BaseApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
     apiClient.invokeAPI(
         localVarPath,
@@ -890,7 +890,7 @@ public class FakeApi extends BaseApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
     apiClient.invokeAPI(
         localVarPath,
@@ -963,7 +963,7 @@ public class FakeApi extends BaseApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
     TypeReference<Client> localVarReturnType = new TypeReference<Client>() {};
     return apiClient.invokeAPI(
@@ -1199,7 +1199,7 @@ if (enumFormString != null)
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
     apiClient.invokeAPI(
         localVarPath,
@@ -1369,7 +1369,7 @@ if (booleanGroup != null)
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
     apiClient.invokeAPI(
         localVarPath,
@@ -1440,7 +1440,7 @@ if (booleanGroup != null)
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
     apiClient.invokeAPI(
         localVarPath,
@@ -1522,7 +1522,7 @@ if (param2 != null)
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
     apiClient.invokeAPI(
         localVarPath,
@@ -1593,7 +1593,7 @@ if (param2 != null)
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
     apiClient.invokeAPI(
         localVarPath,
@@ -1708,7 +1708,7 @@ if (param2 != null)
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
     apiClient.invokeAPI(
         localVarPath,
@@ -1779,7 +1779,7 @@ if (param2 != null)
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
     apiClient.invokeAPI(
         localVarPath,
@@ -1820,7 +1820,7 @@ if (param2 != null)
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
 
     return apiClient.invokeAPI(
       localVarPath,

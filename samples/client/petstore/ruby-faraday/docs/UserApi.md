@@ -27,6 +27,18 @@ This can only be done by the logged in user.
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::UserApi.new
 user = Petstore::User.new # User | Created user object
@@ -69,7 +81,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -90,6 +102,18 @@ Creates list of users with given input array
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::UserApi.new
 user = [Petstore::User.new] # Array<User> | List of user object
@@ -132,7 +156,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -153,6 +177,18 @@ Creates list of users with given input array
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::UserApi.new
 user = [Petstore::User.new] # Array<User> | List of user object
@@ -195,7 +231,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -216,6 +252,18 @@ This can only be done by the logged in user.
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::UserApi.new
 username = 'username_example' # String | The name that needs to be deleted
@@ -258,7 +306,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -279,6 +327,18 @@ Get user by user name
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::UserApi.new
 username = 'username_example' # String | The name that needs to be fetched. Use user1 for testing.
@@ -322,7 +382,7 @@ end
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -343,6 +403,18 @@ Logs user into the system
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::UserApi.new
 username = 'username_example' # String | The user name for login
@@ -388,7 +460,7 @@ end
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -409,6 +481,18 @@ Logs out current logged in user session
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::UserApi.new
 
@@ -448,7 +532,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
@@ -469,6 +553,18 @@ This can only be done by the logged in user.
 ```ruby
 require 'time'
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure API key authorization: global_api_key_cookie
+  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
+
+  # Configure API key authorization: global_api_key_header
+  config.api_key['global_api_key_header'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
+end
 
 api_instance = Petstore::UserApi.new
 username = 'username_example' # String | name that need to be deleted
@@ -513,7 +609,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
 
 ### HTTP request headers
 
