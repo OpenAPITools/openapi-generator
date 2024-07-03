@@ -3,10 +3,10 @@ name: Samples PHP 7.x
 on:
   push:
     paths:
-      - samples/server/petstore/php-laravel/lib/
+      - samples/server/petstore/php-laravel/**
   pull_request:
     paths:
-      - samples/server/petstore/php-laravel/lib/
+      - samples/server/petstore/php-laravel/**
 jobs:
   build:
     name: Build PHP projects
