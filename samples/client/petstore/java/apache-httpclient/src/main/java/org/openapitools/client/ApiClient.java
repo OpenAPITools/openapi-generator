@@ -301,7 +301,7 @@ public class ApiClient extends JavaTimeFormatter {
    */
   @Deprecated
   public int getStatusCode() {
-    return lastStatusCodeByThread.get(Thread.currentThread().threadId());
+    return lastStatusCodeByThread.get(Thread.currentThread().getId());
   }
 
   /**
@@ -310,7 +310,7 @@ public class ApiClient extends JavaTimeFormatter {
    */
   @Deprecated
   public Map<String, List<String>> getResponseHeaders() {
-    return lastResponseHeadersByThread.get(Thread.currentThread().threadId());
+    return lastResponseHeadersByThread.get(Thread.currentThread().getId());
   }
 
   /**
@@ -1024,13 +1024,13 @@ public class ApiClient extends JavaTimeFormatter {
 
   protected <T> T processResponse(CloseableHttpResponse response, TypeReference<T> returnType) throws ApiException, IOException, ParseException {
     int statusCode = response.getCode();
-    lastStatusCodeByThread.put(Thread.currentThread().threadId(), statusCode);
+    lastStatusCodeByThread.put(Thread.currentThread().getId(), statusCode);
     if (statusCode == HttpStatus.SC_NO_CONTENT) {
       return null;
     }
 
     Map<String, List<String>> responseHeaders = transformResponseHeaders(response.getHeaders());
-    lastResponseHeadersByThread.put(Thread.currentThread().threadId(), responseHeaders);
+    lastResponseHeadersByThread.put(Thread.currentThread().getId(), responseHeaders);
 
     if (isSuccessfulStatus(statusCode)) {
       return this.deserialize(response, returnType);
