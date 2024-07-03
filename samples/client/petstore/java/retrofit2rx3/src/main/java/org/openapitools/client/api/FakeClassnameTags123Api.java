@@ -28,7 +28,7 @@ public interface FakeClassnameTags123Api {
   @Headers({
     "Content-Type:application/json"
   })
-  @PATCH("fake_classname_test")
+  @HTTP(method = "PATCH", path = "fake_classname_test", hasBody = true)
   Observable<Client> testClassname(
     @retrofit2.http.Body Client body
   );
