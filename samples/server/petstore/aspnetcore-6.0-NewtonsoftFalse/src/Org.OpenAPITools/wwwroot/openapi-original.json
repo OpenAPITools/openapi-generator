@@ -812,6 +812,26 @@
         "summary" : "fake endpoint to test parameter example (object)",
         "tags" : [ "fake" ]
       }
+    },
+    "/fake/nullable_example_test" : {
+      "get" : {
+        "description" : "",
+        "operationId" : "fake_nullable_example_test",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TestNullable"
+                }
+              }
+            },
+            "description" : "Successful operation"
+          }
+        },
+        "summary" : "Fake endpoint to test nullable example (object)",
+        "tags" : [ "fake" ]
+      }
     }
   },
   "components" : {
@@ -851,6 +871,22 @@
       "TestEnum" : {
         "enum" : [ "A", "B" ],
         "type" : "string"
+      },
+      "TestNullable" : {
+        "example" : {
+          "nullableName" : "nullableName",
+          "name" : "name"
+        },
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "nullableName" : {
+            "nullable" : true,
+            "type" : "string"
+          }
+        },
+        "type" : "object"
       },
       "Order" : {
         "description" : "An order for a pets from the pet store",

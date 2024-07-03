@@ -26,6 +26,16 @@ namespace Org.OpenAPITools.Controllers
     public abstract class FakeApiController : ControllerBase
     { 
         /// <summary>
+        /// Fake endpoint to test nullable example (object)
+        /// </summary>
+        /// <response code="200">Successful operation</response>
+        [HttpGet]
+        [Route("/v2/fake/nullable_example_test")]
+        [ValidateModelState]
+        [ProducesResponseType(statusCode: 200, type: typeof(TestNullable))]
+        public abstract IActionResult FakeNullableExampleTest();
+
+        /// <summary>
         /// fake endpoint to test parameter example (object)
         /// </summary>
         /// <param name="data"></param>
