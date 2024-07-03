@@ -124,6 +124,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   protected String tempFolderPath = null;
 
   private Map<String, Authentication> authentications;
+  
+  private Map<Long, Integer> lastStatusCodeByThread = new ConcurrentHashMap<>();
+  private Map<Long, Map<String, List<String>>> lastResponseHeadersByThread = new ConcurrentHashMap<>();
 
   private DateFormat dateFormat;
 
@@ -269,6 +272,25 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   public ApiClient setServerVariables(Map<String, String> serverVariables) {
     this.serverVariables = serverVariables;
     return this;
+  }
+  
+  /**
+   * Gets the status code of the previous request
+   *
+   * @return Status code
+   */
+  @Deprecated
+  public int getStatusCode() {
+    return lastStatusCodeByThread.get(Thread.currentThread().threadId());
+  }
+
+  /**
+   * Gets the response headers of the previous request
+   * @return Response headers
+   */
+  @Deprecated
+  public Map<String, List<String>> getResponseHeaders() {
+    return lastResponseHeadersByThread.get(Thread.currentThread().threadId());
   }
 
   /**
@@ -990,15 +1012,18 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
   protected <T> T processResponse(CloseableHttpResponse response, TypeReference<T> returnType) throws ApiException, IOException, ParseException {
     int statusCode = response.getCode();
+    lastStatusCodeByThread.put(Thread.currentThread().threadId(), statusCode);
     if (statusCode == HttpStatus.SC_NO_CONTENT) {
       return null;
     }
+
+    Map<String, List<String>> responseHeaders = transformResponseHeaders(response.getHeaders());
+    lastResponseHeadersByThread.put(Thread.currentThread().threadId(), responseHeaders);
 
     if (isSuccessfulStatus(statusCode)) {
       return this.deserialize(response, returnType);
     } else {
       String message = EntityUtils.toString(response.getEntity());
-      Map<String, List<String>> responseHeaders = transformResponseHeaders(response.getHeaders());
       throw new ApiException(message, statusCode, responseHeaders, message);
     }
   }
