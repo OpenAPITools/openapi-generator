@@ -371,19 +371,12 @@ class ApiClient:
             )
         elif isinstance(obj, (datetime.datetime, datetime.date)):
             return obj.isoformat()
-
         elif isinstance(obj, dict):
             obj_dict = obj
+        elif hasattr(obj, "model_dump") and callable(obj.model_dump):
+            obj_dict = obj.model_dump(by_alias=True, exclude_unset=True)
         else:
-            # Convert model obj to dict except
-            # attributes `openapi_types`, `attribute_map`
-            # and attributes which value is not None.
-            # Convert attribute name to json key in
-            # model definition for request.
-            if hasattr(obj, 'to_dict') and callable(getattr(obj, 'to_dict')):
-                obj_dict = obj.to_dict()
-            else:
-                obj_dict = obj.__dict__
+            raise TypeError(f"Can't serialize obj: {obj}")
 
         return {
             key: self.sanitize_for_serialization(val)
