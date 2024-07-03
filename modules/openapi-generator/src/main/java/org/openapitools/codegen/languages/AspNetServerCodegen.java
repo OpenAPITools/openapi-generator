@@ -794,7 +794,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
                     aspnetCoreVersion.getOptValue());
             useFrameworkReference = true;
             additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
-            additionalProperties.put(TARGET_FRAMEWORK, "nett8.0");
+            additionalProperties.put(TARGET_FRAMEWORK, "net8.0");
         } else {
             if (additionalProperties.containsKey(USE_FRAMEWORK_REFERENCE)) {
                 useFrameworkReference = convertPropertyToBooleanAndWriteBack(USE_FRAMEWORK_REFERENCE);
