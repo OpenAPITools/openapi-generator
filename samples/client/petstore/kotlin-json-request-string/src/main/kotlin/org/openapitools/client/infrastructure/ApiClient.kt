@@ -121,20 +121,57 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body, byte body and File body.")
         }
 
-    protected inline fun <reified T: Any?> responseBody(body: ResponseBody?, mediaType: String? = JsonMediaType): T? {
-        if(body == null) {
+    protected inline fun <reified T: Any?> responseBody(response: Response, mediaType: String? = JsonMediaType): T? {
+        if(response.body == null) {
             return null
         }
         if (T::class.java == File::class.java) {
             // return tempFile
+            val contentDisposition = response.header("Content-Disposition")
+
+            val fileName = if (contentDisposition != null) {
+                // Get filename from the Content-Disposition header.
+                val pattern = Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?")
+                val matcher = pattern.matcher(contentDisposition)
+                if (matcher.find()) {
+                    matcher.group(1)
+                        ?.replace(".*[/\\\\]", "")
+                        ?.replace(";", "")
+                } else {
+                    null
+                }
+            } else {
+                null
+            }
+
+            var prefix: String?
+            val suffix: String?
+            if (fileName == null) {
+                prefix = "download"
+                suffix = ""
+            } else {
+                val pos = fileName.lastIndexOf(".")
+                if (pos == -1) {
+                    prefix = fileName
+                    suffix = null
+                } else {
+                    prefix = fileName.substring(0, pos)
+                    suffix = fileName.substring(pos)
+                }
+                // Files.createTempFile requires the prefix to be at least three characters long
+                if (prefix.length < 3) {
+                    prefix = "download"
+                }
+            }
+
             val tempFile = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                java.nio.file.Files.createTempFile("tmp.net.medicineone.teleconsultationandroid.openapi.openapicommon", null).toFile()
+                java.nio.file.Files.createTempFile(prefix, suffix).toFile()
             } else {
                 @Suppress("DEPRECATION")
-                createTempFile("tmp.net.medicineone.teleconsultationandroid.openapi.openapicommon", null)
+                createTempFile(prefix, suffix)
             }
             tempFile.deleteOnExit()
-            body.byteStream().use { inputStream ->
+            response.body.byteStream().use { inputStream ->
                 tempFile.outputStream().use { tempFileOutputStream ->
                     inputStream.copyTo(tempFileOutputStream)
                 }
@@ -144,13 +181,13 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
 
         return when {
             mediaType == null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) -> {
-                val bodyContent = body.string()
+                val bodyContent = response.body.string()
                 if (bodyContent.isEmpty()) {
                     return null
                 }
                 Serializer.kotlinxSerializationJson.decodeFromString<T>(bodyContent)
             }
-            mediaType == OctetMediaType -> body.bytes() as? T
+            mediaType == OctetMediaType -> response.body.bytes() as? T
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
@@ -238,7 +275,7 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
                     it.headers.toMultimap()
                 )
                 it.isSuccessful -> Success(
-                    responseBody(it.body, accept),
+                    responseBody(it, accept),
                     it.code,
                     it.headers.toMultimap()
                 )

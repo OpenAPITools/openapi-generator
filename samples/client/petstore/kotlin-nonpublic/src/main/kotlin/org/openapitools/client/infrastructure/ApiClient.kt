@@ -120,16 +120,53 @@ internal open class ApiClient(val baseUrl: String, val client: OkHttpClient = de
         }
 
     @OptIn(ExperimentalStdlibApi::class)
-    protected inline fun <reified T: Any?> responseBody(body: ResponseBody?, mediaType: String? = JsonMediaType): T? {
-        if(body == null) {
+    protected inline fun <reified T: Any?> responseBody(response: Response, mediaType: String? = JsonMediaType): T? {
+        if(response.body == null) {
             return null
         }
         if (T::class.java == File::class.java) {
             // return tempFile
+            val contentDisposition = response.header("Content-Disposition")
+
+            val fileName = if (contentDisposition != null) {
+                // Get filename from the Content-Disposition header.
+                val pattern = Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?")
+                val matcher = pattern.matcher(contentDisposition)
+                if (matcher.find()) {
+                    matcher.group(1)
+                        ?.replace(".*[/\\\\]", "")
+                        ?.replace(";", "")
+                } else {
+                    null
+                }
+            } else {
+                null
+            }
+
+            var prefix: String?
+            val suffix: String?
+            if (fileName == null) {
+                prefix = "download"
+                suffix = ""
+            } else {
+                val pos = fileName.lastIndexOf(".")
+                if (pos == -1) {
+                    prefix = fileName
+                    suffix = null
+                } else {
+                    prefix = fileName.substring(0, pos)
+                    suffix = fileName.substring(pos)
+                }
+                // Files.createTempFile requires the prefix to be at least three characters long
+                if (prefix.length < 3) {
+                    prefix = "download"
+                }
+            }
+
             // Attention: if you are developing an android app that supports API Level 25 and bellow, please check flag supportAndroidApiLevel25AndBelow in https://openapi-generator.tech/docs/generators/kotlin#config-options
-            val tempFile = java.nio.file.Files.createTempFile("tmp.org.openapitools.client", null).toFile()
+            val tempFile = java.nio.file.Files.createTempFile(prefix, suffix).toFile()
             tempFile.deleteOnExit()
-            body.byteStream().use { inputStream ->
+            response.body.byteStream().use { inputStream ->
                 tempFile.outputStream().use { tempFileOutputStream ->
                     inputStream.copyTo(tempFileOutputStream)
                 }
@@ -139,13 +176,13 @@ internal open class ApiClient(val baseUrl: String, val client: OkHttpClient = de
 
         return when {
             mediaType == null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) -> {
-                val bodyContent = body.string()
+                val bodyContent = response.body.string()
                 if (bodyContent.isEmpty()) {
                     return null
                 }
                 Serializer.moshi.adapter<T>().fromJson(bodyContent)
             }
-            mediaType == OctetMediaType -> body.bytes() as? T
+            mediaType == OctetMediaType -> response.body.bytes() as? T
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
@@ -233,7 +270,7 @@ internal open class ApiClient(val baseUrl: String, val client: OkHttpClient = de
                     it.headers.toMultimap()
                 )
                 it.isSuccessful -> Success(
-                    responseBody(it.body, accept),
+                    responseBody(it, accept),
                     it.code,
                     it.headers.toMultimap()
                 )
