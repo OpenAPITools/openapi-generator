@@ -6751,33 +6751,33 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * reads propertyKey from additionalProperties, converts it to a boolean and
-     * writes it back to additionalProperties to be usable as a boolean in
-     * mustache files.
-     *
-     * @param propertyKey property key
-     * @param stringSetter the setter function reference
-     * @return property value as String or default if not found
-     */
-    public String convertPropertyToStringAndWriteBack(String propertyKey, Consumer<String> stringSetter) {
-        return convertPropertyToTypeAndWriteBack(propertyKey, Function.identity(), stringSetter);
-    }
-
-    /**
-     * reads propertyKey from additionalProperties, converts it to a boolean and
-     * writes it back to additionalProperties to be usable as a boolean in
+     * reads propertyKey from additionalProperties, converts it to a string and
+     * writes it back to additionalProperties to be usable as a string in
      * mustache files.
      *
      * @param propertyKey property key
      * @param stringSetter the setter function reference
      * @return property value as String or null if not found
      */
-    public <T> T convertPropertyToTypeAndWriteBack(String propertyKey, Function<String, T> converter, Consumer<T> stringSetter) {
+    public String convertPropertyToStringAndWriteBack(String propertyKey, Consumer<String> stringSetter) {
+        return convertPropertyToTypeAndWriteBack(propertyKey, Function.identity(), stringSetter);
+    }
+
+    /**
+     * reads propertyKey from additionalProperties, converts it to T and
+     * writes it back to additionalProperties to be usable as T in
+     * mustache files.
+     *
+     * @param propertyKey property key
+     * @param genericTypeSetter the setter function reference
+     * @return property value as instance of type T or null if not found
+     */
+    public <T> T convertPropertyToTypeAndWriteBack(String propertyKey, Function<String, T> converter, Consumer<T> genericTypeSetter) {
         if (additionalProperties.containsKey(propertyKey)) {
             String value = additionalProperties.get(propertyKey).toString();
             T result = converter.apply(value);
             writePropertyBack(propertyKey, result);
-            stringSetter.accept(result);
+            genericTypeSetter.accept(result);
             return result;
         }
         return null;
