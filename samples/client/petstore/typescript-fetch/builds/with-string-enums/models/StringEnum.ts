@@ -27,7 +27,7 @@ export enum StringEnum {
 export function instanceOfStringEnum(value: any): boolean {
     for (const key in StringEnum) {
         if (Object.prototype.hasOwnProperty.call(StringEnum, key)) {
-            if ((StringEnum as Record<string, StringEnum>)[key] === value) {
+            if (StringEnum[key as keyof typeof StringEnum] === value) {
                 return true;
             }
         }
