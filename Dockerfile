@@ -27,7 +27,6 @@ COPY ./modules/openapi-generator-online ${GEN_DIR}/modules/openapi-generator-onl
 COPY ./modules/openapi-generator-cli ${GEN_DIR}/modules/openapi-generator-cli
 COPY ./modules/openapi-generator-core ${GEN_DIR}/modules/openapi-generator-core
 COPY ./modules/openapi-generator ${GEN_DIR}/modules/openapi-generator
-COPY ./pom.xml ${GEN_DIR}
 
 # Pre-compile openapi-generator-cli
 RUN mvn -B -am -pl "modules/openapi-generator-cli" package
