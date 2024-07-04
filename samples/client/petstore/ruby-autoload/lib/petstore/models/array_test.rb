@@ -89,7 +89,7 @@ module Petstore
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
-      if ^@array_of_string.nil?
+      if !@array_of_string.nil?
         if !@array_of_string.nil? && @array_of_string.length > 3
           invalid_properties.push('invalid value for "array_of_string", number of items must be less than or equal to 3.')
         end
