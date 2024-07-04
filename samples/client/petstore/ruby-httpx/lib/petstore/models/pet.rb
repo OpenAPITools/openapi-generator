@@ -146,8 +146,8 @@ module Petstore
         invalid_properties.push('invalid value for "photo_urls", photo_urls cannot be nil.')
       end
 
-      {{^@photo_urls.nil?}}
-      {{/@photo_urls.nil?}}
+      if ^@photo_urls.nil?
+        end
       invalid_properties
     end
 

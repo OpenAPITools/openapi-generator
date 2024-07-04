@@ -83,16 +83,16 @@ module OpenapiClient
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
-      {{^@double.nil?}}
-      if !@double.nil? && @double > 50.2
-        invalid_properties.push('invalid value for "double", must be smaller than or equal to 50.2.')
-      end
+      if ^@double.nil?
+        if !@double.nil? && @double > 50.2
+          invalid_properties.push('invalid value for "double", must be smaller than or equal to 50.2.')
+        end
 
-      if !@double.nil? && @double < 0.8
-        invalid_properties.push('invalid value for "double", must be greater than or equal to 0.8.')
-      end
+        if !@double.nil? && @double < 0.8
+          invalid_properties.push('invalid value for "double", must be greater than or equal to 0.8.')
+        end
 
-      {{/@double.nil?}}
+        end
       invalid_properties
     end
 
