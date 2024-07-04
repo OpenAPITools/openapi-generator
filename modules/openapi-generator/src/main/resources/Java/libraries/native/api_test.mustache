@@ -5,24 +5,28 @@ package {{package}};
 import {{invokerPackage}}.ApiException;
 {{#imports}}import {{import}};
 {{/imports}}
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-{{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-{{/fullJavaUtil}}
+import java.util.Set;
 
 {{#asyncNative}}
 import java.util.concurrent.CompletableFuture;
 {{/asyncNative}}
 
+{{#useBeanValidation}}
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+
+{{/useBeanValidation}}
 /**
  * API tests for {{classname}}
  */
-@Ignore
+@Disabled
 public class {{classname}}Test {
 
     private final {{classname}} api = new {{classname}}();

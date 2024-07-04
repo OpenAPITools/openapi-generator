@@ -9,7 +9,7 @@
 
 input {{operationId}}Input {
     {{#allParams}}
-    {{#description}}# {{description}}{{/description}}
+    {{#description}}# {{.}}{{/description}}
     {{paramName}}: {{#isContainer}}[{{/isContainer}}{{dataType}}{{#isArray}}Input{{/isArray}}{{#isModel}}Input{{/isModel}}{{#isContainer}}]{{/isContainer}}{{^-last}}, {{/-last}}
     {{/allParams}}
 }{{/hasParams}}{{/vendorExtensions.x-is-mutation}}{{/operation}}
@@ -18,16 +18,16 @@ type Mutation {
 {{#operation}}
 {{#vendorExtensions.x-is-mutation}}
   {{#summary}}
-  # {{summary}}
+  # {{.}}
   {{/summary}}
   {{#notes}}
-  # {{notes}}
+  # {{.}}
   {{/notes}}
   {{#allParams}}
   # @param {{dataType}} {{paramName}} {{description}}
   {{/allParams}}
-  # @return [{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Boolean{{/returnType}}]
-  {{operationId}}{{#hasParams}}(input: {{operationId}}Input!){{/hasParams}}: {{#returnType}}{{.}}{{/returnType}}{{^returnType}}Boolean{{/returnType}}
+  # @return [{{returnType}}{{^returnType}}Boolean{{/returnType}}]
+  {{operationId}}{{#hasParams}}(input: {{operationId}}Input!){{/hasParams}}: {{returnType}}{{^returnType}}Boolean{{/returnType}}
 {{/vendorExtensions.x-is-mutation}}
 {{/operation}}
 }
@@ -38,16 +38,16 @@ type Query {
 {{#operation}}
 {{^vendorExtensions.x-is-mutation}}
   {{#summary}}
-  # {{summary}}
+  # {{.}}
   {{/summary}}
   {{#notes}}
-  # {{notes}}
+  # {{.}}
   {{/notes}}
   {{#allParams}}
   # @param {{dataType}} {{paramName}} {{description}}
   {{/allParams}}
-  # @return [{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Boolean{{/returnType}}]
-  {{operationId}}{{#hasParams}}({{#allParams}}{{paramName}}: {{dataType}}{{^-last}}, {{/-last}}{{/allParams}}){{/hasParams}}: {{#returnType}}{{.}}{{/returnType}}{{^returnType}}Boolean{{/returnType}}
+  # @return [{{returnType}}{{^returnType}}Boolean{{/returnType}}]
+  {{operationId}}{{#hasParams}}({{#allParams}}{{paramName}}: {{dataType}}{{^-last}}, {{/-last}}{{/allParams}}){{/hasParams}}: {{returnType}}{{^returnType}}Boolean{{/returnType}}
 {{/vendorExtensions.x-is-mutation}}
 {{/operation}}
 }

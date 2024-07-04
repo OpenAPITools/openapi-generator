@@ -8,13 +8,6 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -22,33 +15,33 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class AdditionalPropertiesClass  {
   
   @ApiModelProperty(value = "")
-  private Map<String, String> mapString = null;
+  private Map<String, String> mapString = new HashMap<>();
 
   @ApiModelProperty(value = "")
   @Valid
-  private Map<String, BigDecimal> mapNumber = null;
+  private Map<String, BigDecimal> mapNumber = new HashMap<>();
 
   @ApiModelProperty(value = "")
-  private Map<String, Integer> mapInteger = null;
+  private Map<String, Integer> mapInteger = new HashMap<>();
 
   @ApiModelProperty(value = "")
-  private Map<String, Boolean> mapBoolean = null;
-
-  @ApiModelProperty(value = "")
-  @Valid
-  private Map<String, List<Integer>> mapArrayInteger = null;
+  private Map<String, Boolean> mapBoolean = new HashMap<>();
 
   @ApiModelProperty(value = "")
   @Valid
-  private Map<String, List<Object>> mapArrayAnytype = null;
+  private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
   @ApiModelProperty(value = "")
   @Valid
-  private Map<String, Map<String, String>> mapMapString = null;
+  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
   @ApiModelProperty(value = "")
   @Valid
-  private Map<String, Map<String, Object>> mapMapAnytype = null;
+  private Map<String, Map<String, String>> mapMapString = new HashMap<>();
+
+  @ApiModelProperty(value = "")
+  @Valid
+  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
   @ApiModelProperty(value = "")
   private Object anytype1;
@@ -70,7 +63,7 @@ public class AdditionalPropertiesClass  {
   /**
    * Sets the <code>mapString</code> property.
    */
-  public void setMapString(Map<String, String> mapString) {
+ public void setMapString(Map<String, String> mapString) {
     this.mapString = mapString;
   }
 
@@ -102,7 +95,7 @@ public class AdditionalPropertiesClass  {
   /**
    * Sets the <code>mapNumber</code> property.
    */
-  public void setMapNumber(Map<String, BigDecimal> mapNumber) {
+ public void setMapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
   }
 
@@ -134,7 +127,7 @@ public class AdditionalPropertiesClass  {
   /**
    * Sets the <code>mapInteger</code> property.
    */
-  public void setMapInteger(Map<String, Integer> mapInteger) {
+ public void setMapInteger(Map<String, Integer> mapInteger) {
     this.mapInteger = mapInteger;
   }
 
@@ -166,7 +159,7 @@ public class AdditionalPropertiesClass  {
   /**
    * Sets the <code>mapBoolean</code> property.
    */
-  public void setMapBoolean(Map<String, Boolean> mapBoolean) {
+ public void setMapBoolean(Map<String, Boolean> mapBoolean) {
     this.mapBoolean = mapBoolean;
   }
 
@@ -198,7 +191,7 @@ public class AdditionalPropertiesClass  {
   /**
    * Sets the <code>mapArrayInteger</code> property.
    */
-  public void setMapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
+ public void setMapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
     this.mapArrayInteger = mapArrayInteger;
   }
 
@@ -230,7 +223,7 @@ public class AdditionalPropertiesClass  {
   /**
    * Sets the <code>mapArrayAnytype</code> property.
    */
-  public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
+ public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
   }
 
@@ -262,7 +255,7 @@ public class AdditionalPropertiesClass  {
   /**
    * Sets the <code>mapMapString</code> property.
    */
-  public void setMapMapString(Map<String, Map<String, String>> mapMapString) {
+ public void setMapMapString(Map<String, Map<String, String>> mapMapString) {
     this.mapMapString = mapMapString;
   }
 
@@ -294,7 +287,7 @@ public class AdditionalPropertiesClass  {
   /**
    * Sets the <code>mapMapAnytype</code> property.
    */
-  public void setMapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
+ public void setMapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
     this.mapMapAnytype = mapMapAnytype;
   }
 
@@ -326,7 +319,7 @@ public class AdditionalPropertiesClass  {
   /**
    * Sets the <code>anytype1</code> property.
    */
-  public void setAnytype1(Object anytype1) {
+ public void setAnytype1(Object anytype1) {
     this.anytype1 = anytype1;
   }
 
@@ -350,7 +343,7 @@ public class AdditionalPropertiesClass  {
   /**
    * Sets the <code>anytype2</code> property.
    */
-  public void setAnytype2(Object anytype2) {
+ public void setAnytype2(Object anytype2) {
     this.anytype2 = anytype2;
   }
 
@@ -374,7 +367,7 @@ public class AdditionalPropertiesClass  {
   /**
    * Sets the <code>anytype3</code> property.
    */
-  public void setAnytype3(Object anytype3) {
+ public void setAnytype3(Object anytype3) {
     this.anytype3 = anytype3;
   }
 
@@ -386,6 +379,33 @@ public class AdditionalPropertiesClass  {
     return this;
   }
 
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    AdditionalPropertiesClass additionalPropertiesClass = (AdditionalPropertiesClass) o;
+    return Objects.equals(mapString, additionalPropertiesClass.mapString) &&
+        Objects.equals(mapNumber, additionalPropertiesClass.mapNumber) &&
+        Objects.equals(mapInteger, additionalPropertiesClass.mapInteger) &&
+        Objects.equals(mapBoolean, additionalPropertiesClass.mapBoolean) &&
+        Objects.equals(mapArrayInteger, additionalPropertiesClass.mapArrayInteger) &&
+        Objects.equals(mapArrayAnytype, additionalPropertiesClass.mapArrayAnytype) &&
+        Objects.equals(mapMapString, additionalPropertiesClass.mapMapString) &&
+        Objects.equals(mapMapAnytype, additionalPropertiesClass.mapMapAnytype) &&
+        Objects.equals(anytype1, additionalPropertiesClass.anytype1) &&
+        Objects.equals(anytype2, additionalPropertiesClass.anytype2) &&
+        Objects.equals(anytype3, additionalPropertiesClass.anytype3);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(mapString, mapNumber, mapInteger, mapBoolean, mapArrayInteger, mapArrayAnytype, mapMapString, mapMapAnytype, anytype1, anytype2, anytype3);
+  }
 
   @Override
   public String toString() {

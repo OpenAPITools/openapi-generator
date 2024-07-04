@@ -11,7 +11,7 @@ paths: {}
 components:
   schemas:
     FreeForm:
-      description: this will not be generated because a map will be used when othe componenets or endpoints ref this schema
+      description: this will not be generated because a map will be used when other components or endpoints ref this schema
       type: object
     FreeFormInterface:
       type: object

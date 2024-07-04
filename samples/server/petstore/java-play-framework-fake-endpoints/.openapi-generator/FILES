@@ -14,15 +14,12 @@ app/apimodels/ArrayOfArrayOfNumberOnly.java
 app/apimodels/ArrayOfNumberOnly.java
 app/apimodels/ArrayTest.java
 app/apimodels/BigCat.java
-app/apimodels/BigCatAllOf.java
 app/apimodels/Capitalization.java
 app/apimodels/Cat.java
-app/apimodels/CatAllOf.java
 app/apimodels/Category.java
 app/apimodels/ClassModel.java
 app/apimodels/Client.java
 app/apimodels/Dog.java
-app/apimodels/DogAllOf.java
 app/apimodels/EnumArrays.java
 app/apimodels/EnumClass.java
 app/apimodels/EnumTest.java
@@ -33,6 +30,8 @@ app/apimodels/MapTest.java
 app/apimodels/MixedPropertiesAndAdditionalPropertiesClass.java
 app/apimodels/Model200Response.java
 app/apimodels/ModelApiResponse.java
+app/apimodels/ModelFile.java
+app/apimodels/ModelList.java
 app/apimodels/ModelReturn.java
 app/apimodels/Name.java
 app/apimodels/NumberOnly.java
@@ -69,6 +68,7 @@ app/controllers/UserApiControllerImpInterface.java
 app/openapitools/ApiCall.java
 app/openapitools/ErrorHandler.java
 app/openapitools/OpenAPIUtils.java
+app/openapitools/SecurityAPIUtils.java
 build.sbt
 conf/application.conf
 conf/logback.xml

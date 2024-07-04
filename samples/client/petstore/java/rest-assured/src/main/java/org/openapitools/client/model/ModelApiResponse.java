@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -30,7 +28,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * ModelApiResponse
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ModelApiResponse {
   public static final String SERIALIZED_NAME_CODE = "code";
   @SerializedName(SERIALIZED_NAME_CODE)
@@ -44,6 +42,8 @@ public class ModelApiResponse {
   @SerializedName(SERIALIZED_NAME_MESSAGE)
   private String message;
 
+  public ModelApiResponse() {
+  }
 
   public ModelApiResponse code(Integer code) {
     
@@ -51,12 +51,12 @@ public class ModelApiResponse {
     return this;
   }
 
-   /**
+  /**
    * Get code
    * @return code
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public Integer getCode() {
     return code;
@@ -67,19 +67,18 @@ public class ModelApiResponse {
     this.code = code;
   }
 
-
   public ModelApiResponse type(String type) {
     
     this.type = type;
     return this;
   }
 
-   /**
+  /**
    * Get type
    * @return type
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public String getType() {
     return type;
@@ -90,19 +89,18 @@ public class ModelApiResponse {
     this.type = type;
   }
 
-
   public ModelApiResponse message(String message) {
     
     this.message = message;
     return this;
   }
 
-   /**
+  /**
    * Get message
    * @return message
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public String getMessage() {
     return message;
@@ -112,7 +110,6 @@ public class ModelApiResponse {
   public void setMessage(String message) {
     this.message = message;
   }
-
 
   @Override
   public boolean equals(Object o) {

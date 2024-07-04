@@ -22,7 +22,7 @@ Delete purchase order by ID
 
 For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::StoreApi;
@@ -31,7 +31,7 @@ my $api_instance = WWW::OpenAPIClient::StoreApi->new(
 
 my $order_id = "order_id_example"; # string | ID of the order that needs to be deleted
 
-eval { 
+eval {
     $api_instance->delete_order(order_id => $order_id);
 };
 if ($@) {
@@ -67,7 +67,7 @@ Returns pet inventories by status
 
 Returns a map of status codes to quantities
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::StoreApi;
@@ -80,7 +80,7 @@ my $api_instance = WWW::OpenAPIClient::StoreApi->new(
 );
 
 
-eval { 
+eval {
     my $result = $api_instance->get_inventory();
     print Dumper($result);
 };
@@ -112,9 +112,9 @@ This endpoint does not need any parameter.
 
 Find purchase order by ID
 
-For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::StoreApi;
@@ -123,7 +123,7 @@ my $api_instance = WWW::OpenAPIClient::StoreApi->new(
 
 my $order_id = 789; # int | ID of pet that needs to be fetched
 
-eval { 
+eval {
     my $result = $api_instance->get_order_by_id(order_id => $order_id);
     print Dumper($result);
 };
@@ -158,7 +158,9 @@ No authorization required
 
 Place an order for a pet
 
-### Example 
+
+
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::StoreApi;
@@ -167,7 +169,7 @@ my $api_instance = WWW::OpenAPIClient::StoreApi->new(
 
 my $order = WWW::OpenAPIClient::Object::Order->new(); # Order | order placed for purchasing the pet
 
-eval { 
+eval {
     my $result = $api_instance->place_order(order => $order);
     print Dumper($result);
 };

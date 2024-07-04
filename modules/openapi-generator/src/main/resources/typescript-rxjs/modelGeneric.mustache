@@ -1,5 +1,5 @@
 {{#hasImports}}
-import {
+import type {
     {{#imports}}
     {{{.}}},
     {{/imports}}
@@ -7,17 +7,17 @@ import {
 
 {{/hasImports}}
 /**{{#description}}
- * {{{description}}}{{/description}}
+ * {{{.}}}{{/description}}
  * @export
  * @interface {{classname}}
  */
-export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
+export interface {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#additionalPropertiesType}}
     [key: string]: {{{additionalPropertiesType}}}{{#hasVars}} | any{{/hasVars}};
 {{/additionalPropertiesType}}
 {{#vars}}
     /**{{#description}}
-     * {{{description}}}{{/description}}
+     * {{{.}}}{{/description}}
      * @type {{=<% %>=}}{<%&datatype%>}<%={{ }}=%>
      * @memberof {{classname}}
      */

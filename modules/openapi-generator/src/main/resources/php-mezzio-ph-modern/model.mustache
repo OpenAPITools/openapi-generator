@@ -1,0 +1,13 @@
+<?php
+declare(strict_types=1);
+{{#models}}{{#model}}
+namespace {{package}};
+
+use Articus\DataTransfer\PhpAttribute as DTA;
+
+{{#vendorExtensions
+}}{{#internal.ze-ph.fromContainer}}{{>model_container}}{{/internal.ze-ph.fromContainer
+}}{{^internal.ze-ph.fromContainer}}{{>model_object}}{{/internal.ze-ph.fromContainer
+}}{{/vendorExtensions
+}}{{^vendorExtensions}}{{>model_object}}{{/vendorExtensions
+}}{{/model}}{{/models}}

@@ -2,16 +2,16 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**deleteOrder**](StoreApi.md#deleteOrder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
-[**deleteOrderWithHttpInfo**](StoreApi.md#deleteOrderWithHttpInfo) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
-[**getInventory**](StoreApi.md#getInventory) | **GET** /store/inventory | Returns pet inventories by status
-[**getInventoryWithHttpInfo**](StoreApi.md#getInventoryWithHttpInfo) | **GET** /store/inventory | Returns pet inventories by status
-[**getOrderById**](StoreApi.md#getOrderById) | **GET** /store/order/{order_id} | Find purchase order by ID
-[**getOrderByIdWithHttpInfo**](StoreApi.md#getOrderByIdWithHttpInfo) | **GET** /store/order/{order_id} | Find purchase order by ID
-[**placeOrder**](StoreApi.md#placeOrder) | **POST** /store/order | Place an order for a pet
-[**placeOrderWithHttpInfo**](StoreApi.md#placeOrderWithHttpInfo) | **POST** /store/order | Place an order for a pet
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**deleteOrder**](StoreApi.md#deleteOrder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID |
+| [**deleteOrderWithHttpInfo**](StoreApi.md#deleteOrderWithHttpInfo) | **DELETE** /store/order/{order_id} | Delete purchase order by ID |
+| [**getInventory**](StoreApi.md#getInventory) | **GET** /store/inventory | Returns pet inventories by status |
+| [**getInventoryWithHttpInfo**](StoreApi.md#getInventoryWithHttpInfo) | **GET** /store/inventory | Returns pet inventories by status |
+| [**getOrderById**](StoreApi.md#getOrderById) | **GET** /store/order/{order_id} | Find purchase order by ID |
+| [**getOrderByIdWithHttpInfo**](StoreApi.md#getOrderByIdWithHttpInfo) | **GET** /store/order/{order_id} | Find purchase order by ID |
+| [**placeOrder**](StoreApi.md#placeOrder) | **POST** /store/order | Place an order for a pet |
+| [**placeOrderWithHttpInfo**](StoreApi.md#placeOrderWithHttpInfo) | **POST** /store/order | Place an order for a pet |
 
 
 
@@ -56,9 +56,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **orderId** | **String**| ID of the order that needs to be deleted |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **orderId** | **String**| ID of the order that needs to be deleted | |
 
 ### Return type
 
@@ -124,9 +124,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **orderId** | **String**| ID of the order that needs to be deleted |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **orderId** | **String**| ID of the order that needs to be deleted | |
 
 ### Return type
 
@@ -295,7 +295,7 @@ ApiResponse<**Map&lt;String, Integer&gt;**>
 
 Find purchase order by ID
 
-For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
 
 ### Example
 
@@ -331,9 +331,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **orderId** | **Long**| ID of pet that needs to be fetched |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **orderId** | **Long**| ID of pet that needs to be fetched | |
 
 ### Return type
 
@@ -362,7 +362,7 @@ No authorization required
 
 Find purchase order by ID
 
-For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
 
 ### Example
 
@@ -401,9 +401,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **orderId** | **Long**| ID of pet that needs to be fetched |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **orderId** | **Long**| ID of pet that needs to be fetched | |
 
 ### Return type
 
@@ -429,9 +429,11 @@ No authorization required
 
 ## placeOrder
 
-> Order placeOrder(body)
+> Order placeOrder(order)
 
 Place an order for a pet
+
+
 
 ### Example
 
@@ -449,9 +451,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         StoreApi apiInstance = new StoreApi(defaultClient);
-        Order body = new Order(); // Order | order placed for purchasing the pet
+        Order order = new Order(); // Order | order placed for purchasing the pet
         try {
-            Order result = apiInstance.placeOrder(body);
+            Order result = apiInstance.placeOrder(order);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling StoreApi#placeOrder");
@@ -467,9 +469,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **order** | [**Order**](Order.md)| order placed for purchasing the pet | |
 
 ### Return type
 
@@ -482,7 +484,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: application/xml, application/json
 
 ### HTTP response details
@@ -493,9 +495,11 @@ No authorization required
 
 ## placeOrderWithHttpInfo
 
-> ApiResponse<Order> placeOrder placeOrderWithHttpInfo(body)
+> ApiResponse<Order> placeOrder placeOrderWithHttpInfo(order)
 
 Place an order for a pet
+
+
 
 ### Example
 
@@ -514,9 +518,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         StoreApi apiInstance = new StoreApi(defaultClient);
-        Order body = new Order(); // Order | order placed for purchasing the pet
+        Order order = new Order(); // Order | order placed for purchasing the pet
         try {
-            ApiResponse<Order> response = apiInstance.placeOrderWithHttpInfo(body);
+            ApiResponse<Order> response = apiInstance.placeOrderWithHttpInfo(order);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -534,9 +538,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **order** | [**Order**](Order.md)| order placed for purchasing the pet | |
 
 ### Return type
 
@@ -549,7 +553,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: application/xml, application/json
 
 ### HTTP response details

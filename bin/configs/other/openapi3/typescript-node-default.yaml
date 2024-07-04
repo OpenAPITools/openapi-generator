@@ -1,3 +1,0 @@
-generatorName: typescript-node
-outputDir: samples/client/petstore/typescript-node/default
-inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml

@@ -1,7 +1,7 @@
 package {{invokerPackage}};
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import {{javaxPackage}}.ws.rs.ApplicationPath;
+import {{javaxPackage}}.ws.rs.core.Application;
 
 import java.util.Set;
 import java.util.HashSet;
@@ -13,7 +13,7 @@ import io.swagger.jaxrs.config.BeanConfig;
 {{#apis}}
 import {{package}}.impl.{{classname}}ServiceImpl;
 {{/apis}}
-{{/apiInfo}}   
+{{/apiInfo}}
 
 @ApplicationPath("{{{contextPath}}}")
 public class RestApplication extends Application {
@@ -40,12 +40,12 @@ public class RestApplication extends Application {
 {{#apis}}
         resources.add({{classname}}ServiceImpl.class);
 {{/apis}}
-{{/apiInfo}}        
+{{/apiInfo}}
 
-{{#useSwaggerFeature}}      
+{{#useSwaggerFeature}}
         resources.add(io.swagger.jaxrs.listing.ApiListingResource.class);
         resources.add(io.swagger.jaxrs.listing.SwaggerSerializers.class);
-{{/useSwaggerFeature}}       
+{{/useSwaggerFeature}}
         return resources;
     }
 

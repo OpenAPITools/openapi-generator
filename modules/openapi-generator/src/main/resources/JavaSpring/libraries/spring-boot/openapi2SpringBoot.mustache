@@ -1,80 +1,31 @@
 package {{basePackage}};
 
-import com.fasterxml.jackson.databind.Module;
 {{#openApiNullable}}
+import com.fasterxml.jackson.databind.Module;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 {{/openApiNullable}}
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-{{^reactive}}
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-    {{^useSpringfox}}
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-    {{/useSpringfox}}
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-    {{^java8}}
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-    {{/java8}}
-{{/reactive}}
-{{#reactive}}
-import org.springframework.web.reactive.config.CorsRegistry;
-    {{^useSpringfox}}
-import org.springframework.web.reactive.config.ResourceHandlerRegistry;
-    {{/useSpringfox}}
-import org.springframework.web.reactive.config.WebFluxConfigurer;
-{{/reactive}}
+import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;
 
-@SpringBootApplication
-@ComponentScan(basePackages = {"{{basePackage}}", "{{apiPackage}}" , "{{configPackage}}"})
-public class OpenAPI2SpringBoot implements CommandLineRunner {
+@SpringBootApplication(
+    nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
+)
+@ComponentScan(
+    basePackages = {"{{basePackage}}", "{{apiPackage}}" , "{{configPackage}}"},
+    nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
+)
+public class OpenApiGeneratorApplication {
 
-    @Override
-    public void run(String... arg0) throws Exception {
-        if (arg0.length > 0 && arg0[0].equals("exitcode")) {
-            throw new ExitException();
-        }
-    }
-
-    public static void main(String[] args) throws Exception {
-        new SpringApplication(OpenAPI2SpringBoot.class).run(args);
-    }
-
-    static class ExitException extends RuntimeException implements ExitCodeGenerator {
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public int getExitCode() {
-            return 10;
-        }
-
-    }
-
-    @Bean
-    public Web{{^reactive}}Mvc{{/reactive}}{{#reactive}}Flux{{/reactive}}Configurer webConfigurer() {
-        return new Web{{^reactive}}Mvc{{/reactive}}{{#reactive}}Flux{{/reactive}}Configurer{{^java8}}Adapter{{/java8}}() {
-            /*@Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("*")
-                        .allowedMethods("*")
-                        .allowedHeaders("Content-Type");
-            }*/
-{{^useSpringfox}}
-
-            @Override
-            public void addResourceHandlers(ResourceHandlerRegistry registry) {
-                registry.addResourceHandler("/swagger-ui/**").addResourceLocations("classpath:/META-INF/resources/webjars/swagger-ui/3.14.2/");
-            }
-{{/useSpringfox}}
-        };
+    public static void main(String[] args) {
+        SpringApplication.run(OpenApiGeneratorApplication.class, args);
     }
 
 {{#openApiNullable}}
-    @Bean
+    @Bean(name = "{{basePackage}}.OpenApiGeneratorApplication.jsonNullableModule")
     public Module jsonNullableModule() {
         return new JsonNullableModule();
     }

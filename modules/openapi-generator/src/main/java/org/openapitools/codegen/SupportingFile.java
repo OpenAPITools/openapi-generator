@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen;
 
+import lombok.Getter;
 import org.openapitools.codegen.api.TemplateDefinition;
 import org.openapitools.codegen.api.TemplateFileType;
 
@@ -30,7 +31,7 @@ import java.util.StringJoiner;
  * Supporting files are generated once for an entire application while api/model bound definitions are generated multiple
  * times according to their target use.
  */
-public class SupportingFile extends TemplateDefinition {
+@Getter public class SupportingFile extends TemplateDefinition {
     private boolean canOverwrite = true;
 
     public SupportingFile(String templateFile, String destinationFilename) {
@@ -78,10 +79,6 @@ public class SupportingFile extends TemplateDefinition {
         if (!super.equals(o)) return false;
         SupportingFile that = (SupportingFile) o;
         return isCanOverwrite() == that.isCanOverwrite();
-    }
-
-    public boolean isCanOverwrite() {
-        return canOverwrite;
     }
 
     @Override

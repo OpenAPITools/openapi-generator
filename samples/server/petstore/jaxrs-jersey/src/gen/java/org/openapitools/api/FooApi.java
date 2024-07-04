@@ -1,13 +1,12 @@
 package org.openapitools.api;
 
-import org.openapitools.model.*;
 import org.openapitools.api.FooApiService;
 import org.openapitools.api.factories.FooApiServiceFactory;
 
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
-import org.openapitools.model.InlineResponseDefault;
+import org.openapitools.model.FooGetDefaultResponse;
 
 import java.util.Map;
 import java.util.List;
@@ -30,7 +29,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the foo API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class FooApi  {
    private final FooApiService delegate;
 
@@ -41,11 +40,11 @@ public class FooApi  {
          String implClass = servletContext.getInitParameter("FooApi.implementation");
          if (implClass != null && !"".equals(implClass.trim())) {
             try {
-               delegate = (FooApiService) Class.forName(implClass).newInstance();
+               delegate = (FooApiService) Class.forName(implClass).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                throw new RuntimeException(e);
             }
-         } 
+         }
       }
 
       if (delegate == null) {
@@ -55,13 +54,13 @@ public class FooApi  {
       this.delegate = delegate;
    }
 
-    @GET
+    @javax.ws.rs.GET
     
     
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "", notes = "", response = InlineResponseDefault.class, tags={  })
+    @io.swagger.annotations.ApiOperation(value = "", notes = "", response = FooGetDefaultResponse.class, tags={  })
     @io.swagger.annotations.ApiResponses(value = {
-        @io.swagger.annotations.ApiResponse(code = 200, message = "response", response = InlineResponseDefault.class)
+        @io.swagger.annotations.ApiResponse(code = 200, message = "response", response = FooGetDefaultResponse.class)
     })
     public Response fooGet(@Context SecurityContext securityContext)
     throws NotFoundException {

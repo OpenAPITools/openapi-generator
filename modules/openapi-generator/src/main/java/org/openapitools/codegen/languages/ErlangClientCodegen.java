@@ -20,8 +20,13 @@ package org.openapitools.codegen.languages;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.JoinWithCommaLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,18 +44,21 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ErlangClientCodegen.class);
 
-    protected String packageName = "openapi";
-    protected String packageVersion = "1.0.0";
+    @Setter protected String packageName = "openapi";
+    @Setter protected String packageVersion = "1.0.0";
     protected String sourceFolder = "src";
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "erlang-client";
     }
 
+    @Override
     public String getHelp() {
         return "Generates an Erlang client library (beta).";
     }
@@ -243,6 +251,10 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toVarName(String name) {
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name.replaceAll("-", "_"));
         // for reserved word or word starting with number, append _
@@ -254,6 +266,10 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toParamName(String name) {
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         return camelize(toVarName(name));
     }
 
@@ -300,7 +316,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. if
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)).replaceAll("\\.", "_"));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)).replaceAll("\\.", "_"));
             operationId = "call_" + operationId;
         }
 
@@ -308,10 +324,10 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> os = (List<CodegenOperation>) operations.get("operation");
-        List<ExtendedCodegenOperation> newOs = new ArrayList<ExtendedCodegenOperation>();
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> os = operations.getOperation();
+        List<ExtendedCodegenOperation> newOs = new ArrayList<>();
         Pattern pattern = Pattern.compile("\\{([^\\}]+)\\}");
         for (CodegenOperation o : os) {
             // force http method to lower case
@@ -321,7 +337,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
                 o.returnType = "[" + o.returnBaseType + "]";
             }
 
-            ArrayList<String> pathTemplateNames = new ArrayList<String>();
+            ArrayList<String> pathTemplateNames = new ArrayList<>();
             Matcher matcher = pattern.matcher(o.path);
             StringBuffer buffer = new StringBuffer();
             while (matcher.find()) {
@@ -340,23 +356,15 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
             eco.setPathTemplateNames(pathTemplateNames);
             newOs.add(eco);
         }
-        operations.put("operation", newOs);
+        operations.setOperation(newOs);
         return objs;
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
     }
 
     /**
      * Returns the number of required parameters plus 1.
      *
      * @param os List of Codegen Parameters
-     * @return the string representation of the number of required paramters plus 1
+     * @return the string representation of the number of required parameters plus 1
      */
     String length(Object os) {
         int l = 1;
@@ -371,7 +379,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
      * Returns the number of required parameters or body parameters.
      *
      * @param os List of Codegen Parameters
-     * @return the number of required paramters or body parameters
+     * @return the number of required parameters or body parameters
      */
     int lengthRequired(List<CodegenParameter> allParams) {
         int l = 0;
@@ -394,7 +402,9 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     class ExtendedCodegenOperation extends CodegenOperation {
+        @Getter @Setter
         private List<String> pathTemplateNames = new ArrayList<String>();
+        @Getter @Setter
         private String replacedPathName;
         String arityRequired;
         String arityOptional;
@@ -416,6 +426,8 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
             this.isArray = o.isArray;
             this.isMultipart = o.isMultipart;
             this.isResponseBinary = o.isResponseBinary;
+            this.isResponseFile = o.isResponseFile;
+            this.isResponseOptional = o.isResponseOptional;
             this.hasReference = o.hasReference;
             this.isRestfulIndex = o.isRestfulIndex;
             this.isRestfulShow = o.isRestfulShow;
@@ -458,20 +470,13 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
             this.operationIdCamelCase = o.operationIdCamelCase;
         }
 
-        public List<String> getPathTemplateNames() {
-            return pathTemplateNames;
-        }
-
-        public void setPathTemplateNames(List<String> pathTemplateNames) {
-            this.pathTemplateNames = pathTemplateNames;
-        }
-
-        public String getReplacedPathName() {
-            return replacedPathName;
-        }
-
-        public void setReplacedPathName(String replacedPathName) {
-            this.replacedPathName = replacedPathName;
-        }
     }
+
+    @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        return pattern;
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ERLANG; }
 }

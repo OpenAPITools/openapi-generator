@@ -15,20 +15,21 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
 import org.openapitools.client.model.Order;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import java.util.concurrent.CompletableFuture;
 
 /**
  * API tests for StoreApi
  */
-@Ignore
+@Disabled
 public class StoreApiTest {
 
     private final StoreApi api = new StoreApi();
@@ -70,7 +71,7 @@ public class StoreApiTest {
     /**
      * Find purchase order by ID
      *
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      *
      * @throws ApiException
      *          if the Api call fails
@@ -94,9 +95,9 @@ public class StoreApiTest {
      */
     @Test
     public void placeOrderTest() throws ApiException {
-        Order body = null;
+        Order order = null;
         CompletableFuture<Order> response = 
-        api.placeOrder(body);
+        api.placeOrder(order);
         
         // TODO: test validations
     }

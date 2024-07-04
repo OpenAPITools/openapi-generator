@@ -32,7 +32,7 @@ import javax.validation.Valid;
   Name.JSON_PROPERTY_PROPERTY,
   Name.JSON_PROPERTY_123NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Name   {
   public static final String JSON_PROPERTY_NAME = "name";
   @JsonProperty(JSON_PROPERTY_NAME)
@@ -59,7 +59,7 @@ public class Name   {
    * Get name
    * @return name
    **/
-  @JsonProperty("name")
+  @JsonProperty(value = "name")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
   public Integer getName() {
@@ -79,7 +79,7 @@ public class Name   {
    * Get snakeCase
    * @return snakeCase
    **/
-  @JsonProperty("snake_case")
+  @JsonProperty(value = "snake_case", access = JsonProperty.Access.READ_ONLY)
   @ApiModelProperty(value = "")
   
   public Integer getSnakeCase() {
@@ -99,7 +99,7 @@ public class Name   {
    * Get property
    * @return property
    **/
-  @JsonProperty("property")
+  @JsonProperty(value = "property")
   @ApiModelProperty(value = "")
   
   public String getProperty() {
@@ -119,7 +119,7 @@ public class Name   {
    * Get _123number
    * @return _123number
    **/
-  @JsonProperty("123Number")
+  @JsonProperty(value = "123Number", access = JsonProperty.Access.READ_ONLY)
   @ApiModelProperty(value = "")
   
   public Integer get123number() {
@@ -150,7 +150,6 @@ public class Name   {
   public int hashCode() {
     return Objects.hash(name, snakeCase, property, _123number);
   }
-
 
   @Override
   public String toString() {

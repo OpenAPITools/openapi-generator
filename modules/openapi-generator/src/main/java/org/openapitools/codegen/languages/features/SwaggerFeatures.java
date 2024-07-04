@@ -19,8 +19,8 @@ package org.openapitools.codegen.languages.features;
 
 public interface SwaggerFeatures {
 
-    public static final String USE_SWAGGER_FEATURE = "useSwaggerFeature";
+    String USE_SWAGGER_FEATURE = "useSwaggerFeature";
 
-    public void setUseSwaggerFeature(boolean useSwaggerFeature);
+    void setUseSwaggerFeature(boolean useSwaggerFeature);
 
 }

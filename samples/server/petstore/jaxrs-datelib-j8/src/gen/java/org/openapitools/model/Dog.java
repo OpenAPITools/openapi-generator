@@ -19,7 +19,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
-import org.openapitools.model.DogAllOf;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
@@ -31,7 +30,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   Dog.JSON_PROPERTY_BREED
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Dog extends Animal implements Serializable {
   public static final String JSON_PROPERTY_BREED = "breed";
   @JsonProperty(JSON_PROPERTY_BREED)
@@ -46,7 +45,7 @@ public class Dog extends Animal implements Serializable {
    * Get breed
    * @return breed
    **/
-  @JsonProperty("breed")
+  @JsonProperty(value = "breed")
   @ApiModelProperty(value = "")
   
   public String getBreed() {
@@ -67,15 +66,13 @@ public class Dog extends Animal implements Serializable {
       return false;
     }
     Dog dog = (Dog) o;
-    return Objects.equals(this.breed, dog.breed) &&
-        super.equals(o);
+    return super.equals(o) && Objects.equals(this.breed, dog.breed);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(breed, super.hashCode());
+    return Objects.hash(super.hashCode(), breed);
   }
-
 
   @Override
   public String toString() {

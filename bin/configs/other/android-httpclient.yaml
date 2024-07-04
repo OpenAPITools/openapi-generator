@@ -1,6 +1,0 @@
-generatorName: android
-outputDir: samples/client/petstore/android/httpclient
-inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
-templateDir: modules/openapi-generator/src/main/resources/android
-additionalProperties:
-  library: httpclient

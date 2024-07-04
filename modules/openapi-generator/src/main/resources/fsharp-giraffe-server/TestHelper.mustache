@@ -12,7 +12,7 @@ open FSharp.Control.Tasks.V2.ContextInsensitive
 open Xunit
 open System.Text
 
-module TestHelper = 
+module TestHelper =
   // ---------------------------------
   // Test server/client setup
   // ---------------------------------
@@ -70,14 +70,14 @@ module TestHelper =
 
   let readText (response : HttpResponseMessage) =
       response.Content.ReadAsStringAsync()
-      |> Async.AwaitTask            
+      |> Async.AwaitTask
       |> Async.RunSynchronously
 
   let shouldEqual expected actual =
       Assert.Equal(expected, actual)
 
-  let getConverter mediaType = 
-    (fun (x:string) -> 
+  let getConverter mediaType =
+    (fun (x:string) ->
       match mediaType with
       | "application/x-www-form-urlencoded" -> raise (NotSupportedException()) // TODO - implement FormUrlEncodedContent
       | _ -> x |> Encoding.UTF8.GetBytes |> MemoryStream |> StreamContent)

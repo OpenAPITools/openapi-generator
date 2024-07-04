@@ -16,6 +16,7 @@ Name | Type | Description | Notes
 **dateTime** | **Date** |  | [optional] 
 **uuid** | **UUID** |  | [optional] 
 **password** | **String** |  | 
+**bigDecimal** | **Decimal** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

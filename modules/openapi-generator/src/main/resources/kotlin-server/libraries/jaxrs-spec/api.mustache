@@ -1,0 +1,30 @@
+package {{package}};
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+import {{javaxPackage}}.ws.rs.*
+import {{javaxPackage}}.ws.rs.core.Response
+
+{{#useSwaggerAnnotations}}
+import io.swagger.annotations.*
+{{/useSwaggerAnnotations}}
+
+import java.io.InputStream
+{{#useBeanValidation}}import {{javaxPackage}}.validation.constraints.*
+import {{javaxPackage}}.validation.Valid{{/useBeanValidation}}
+
+{{#useSwaggerAnnotations}}
+@Api(description = "the {{{baseName}}} API"){{/useSwaggerAnnotations}}{{#hasConsumes}}
+@Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}{{#hasProduces}}
+@Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
+@Path("/")
+{{>generatedAnnotation}}
+{{#interfaceOnly}}interface{{/interfaceOnly}}{{^interfaceOnly}}class{{/interfaceOnly}} {{classname}} {
+{{#operations}}
+{{#operation}}
+
+{{#interfaceOnly}}{{>apiInterface}}{{/interfaceOnly}}{{^interfaceOnly}}{{>apiMethod}}{{/interfaceOnly}}
+{{/operation}}
+}
+{{/operations}}

@@ -2,7 +2,7 @@
 
 /**
  * OpenAPI Petstore
- * PHP version 7.2
+ * PHP version 7.4
  *
  * @package OpenAPIServer
  * @author  OpenAPI Generator team
@@ -22,9 +22,8 @@
  */
 namespace OpenAPIServer\Auth;
 
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Dyorg\TokenAuthentication;
+use Psr\Http\Message\ResponseInterface;
 use Dyorg\TokenAuthentication\TokenSearch;
 use Dyorg\TokenAuthentication\Exceptions\UnauthorizedExceptionInterface;
 
@@ -37,12 +36,6 @@ use Dyorg\TokenAuthentication\Exceptions\UnauthorizedExceptionInterface;
  */
 abstract class AbstractAuthenticator
 {
-
-    /**
-     * @var ContainerInterface|null Slim app container instance
-     */
-    protected $container;
-
     /**
      * @var string[]|null List of required scopes
      */
@@ -60,14 +53,38 @@ abstract class AbstractAuthenticator
     abstract protected function getUserByToken(string $token);
 
     /**
+     * Handles the response for unauthorized access attempts.
+     * 
+     * This method is called when an access token is either not provided, invalid, or expired.
+     * It constructs a response that includes an error message, the status code, and any other relevant information.
+     * 
+     * @param ServerRequestInterface         $request The HTTP request that led to the unauthorized access attempt.
+     * @param ResponseInterface              $response The response object that will be modified to reflect the unauthorized status.
+     * @param UnauthorizedExceptionInterface $exception The exception triggered due to unauthorized access, containing details such as the error message.
+     *
+     * @return ResponseInterface The modified response object with the unauthorized access error information, including a 401 status code and a JSON body with the error message and token information.
+     */
+    public static function handleUnauthorized(ServerRequestInterface $request, ResponseInterface $response, UnauthorizedExceptionInterface $exception)
+    {
+        $output = [
+            'message' => $exception->getMessage(),
+            'token' => $request->getAttribute('authorization_token'),
+            'success' => false
+        ];
+    
+        $response->getBody()->write(json_encode($output));
+        return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus(401);
+    }
+
+    /**
      * Authenticator constructor
      *
-     * @param ContainerInterface|null $container     Slim app container instance
-     * @param string[]|null           $requiredScope List of required scopes
+     * @param string[]|null $requiredScope List of required scopes
      */
-    public function __construct(ContainerInterface $container = null, $requiredScope = null)
+    public function __construct($requiredScope = null)
     {
-        $this->container = $container;
         $this->requiredScope = $requiredScope;
     }
 

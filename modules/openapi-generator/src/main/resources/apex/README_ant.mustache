@@ -2,7 +2,7 @@
 
 {{#appDescription}}
 
-{{{appDescription}}}
+{{{.}}}
 {{/appDescription}}
 
 ## Requirements
@@ -52,7 +52,7 @@ For more information, see <https://developer.salesforce.com/docs/atlas.en-us.daa
 {{/gitUserId}}{{/gitRepoId}}
 
 2. Set the `SF_USERNAME` and `SF_PASSWORD` environment variables to your Salesforce username and password. Alternatively, they may be set in `build.properties`. Environment variables will override the values in `build.properties` if set. `SF_SESSIONID` may also be set instead of `SF_USERNAME` and `SF_PASSWORD` (more info in `build.properties`)
-3. Open up a command prompt in the root project directory {{#gitRepoId}}`{{gitRepoId}}` {{/gitRepoId}}(the same directory as this README and `build.xml`)
+3. Open up a command prompt in the root project directory {{#gitRepoId}}`{{.}}` {{/gitRepoId}}(the same directory as this README and `build.xml`)
 4. Deploy to your Salesforce org
 
     ```bash
@@ -104,14 +104,14 @@ Please follow the [installation](#installation) instruction and execute the foll
 {{classname}} api = new {{classname}}();
 {{#hasAuthMethods}}
 {{classPrefix}}Client client = api.getClient();
-{{#authMethods}}{{#isBasic}}
+{{#authMethods}}{{#isBasicBasic}}
 // Configure HTTP basic authorization: {{{name}}}
 HttpBasicAuth {{{name}}} = (HttpBasicAuth) client.getAuthentication('{{{name}}}');
 {{{name}}}.setUsername('YOUR USERNAME');
 {{{name}}}.setPassword('YOUR PASSWORD');
 
 // You can also set your username and password in one line
-{{{name}}}.setCredentials('YOUR USERNAME', 'YOUR PASSWORD');{{/isBasic}}{{#isApiKey}}
+{{{name}}}.setCredentials('YOUR USERNAME', 'YOUR PASSWORD');{{/isBasicBasic}}{{#isApiKey}}
 // Configure API key authorization: {{{name}}}
 ApiKeyAuth {{{name}}} = (ApiKeyAuth) client.getAuthentication('{{{name}}}');
 {{{name}}}.setApiKey('YOUR API KEY');{{/isApiKey}}{{#isOAuth}}
@@ -131,7 +131,7 @@ Map<String, Object> params = new Map<String, Object>{
 
 try {
     // cross your fingers
-    {{#returnType}}{{{returnType}}} result = {{/returnType}}api.{{{operationId}}}({{#hasParams}}params{{/hasParams}});
+    {{#returnType}}{{{.}}} result = {{/returnType}}api.{{{operationId}}}({{#hasParams}}params{{/hasParams}});
   {{#returnType}}
     System.debug(result);
   {{/returnType}}
@@ -146,7 +146,7 @@ All URIs are relative to *{{basePath}}*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{summary}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
 ## Documentation for Models
@@ -156,21 +156,24 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Authorization
 
-{{^authMethods}}All endpoints do not require authorization.
-{{/authMethods}}Authentication schemes defined for the API:
-{{#authMethods}}### {{name}}
+{{^authMethods}}Endpoints do not require authorization.{{/authMethods}}
+{{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
+{{#authMethods}}
+### {{name}}
 
-{{#isApiKey}}
-
-- **Type**: API key
+{{#isApiKey}}- **Type**: API key
 - **API key parameter name**: {{keyParamName}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
-{{#isBasic}}- **Type**: HTTP basic authentication
-{{/isBasic}}
+{{#isBasicBasic}}- **Type**: HTTP basic authentication
+{{/isBasicBasic}}
+{{#isBasicBearer}}- **Type**: HTTP Bearer Token authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
+{{/isBasicBearer}}
+{{#isHttpSignature}}- **Type**: HTTP signature authentication
+{{/isHttpSignature}}
 {{#isOAuth}}- **Type**: OAuth
 - **Flow**: {{flow}}
-- **Authorizatoin URL**: {{authorizationUrl}}
+- **Authorization URL**: {{authorizationUrl}}
 - **Scopes**: {{^scopes}}N/A{{/scopes}}
 {{#scopes}}  - {{scope}}: {{description}}
 {{/scopes}}

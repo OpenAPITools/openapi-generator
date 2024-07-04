@@ -1,22 +1,33 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.model.BigCatAllOf;
 import org.openapitools.model.Cat;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * BigCat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class BigCat extends Cat  {
+
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+public class BigCat extends Cat {
+
   /**
    * Gets or Sets kind
    */
@@ -56,8 +67,26 @@ public class BigCat extends Cat  {
     }
   }
 
-  @JsonProperty("kind")
   private KindEnum kind;
+
+  public BigCat() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public BigCat(String className) {
+    super(className);
+  }
+
+  /**
+   * Constructor with all args parameters
+   */
+  public BigCat(KindEnum kind, Boolean declawed, String className, String color) {
+      super(declawed, className, color);
+      this.kind = kind;
+  }
 
   public BigCat kind(KindEnum kind) {
     this.kind = kind;
@@ -67,10 +96,10 @@ public class BigCat extends Cat  {
   /**
    * Get kind
    * @return kind
-  */
+   */
+  
   @ApiModelProperty(value = "")
-
-
+  @JsonProperty("kind")
   public KindEnum getKind() {
     return kind;
   }
@@ -80,6 +109,20 @@ public class BigCat extends Cat  {
   }
 
 
+  public BigCat declawed(Boolean declawed) {
+    super.declawed(declawed);
+    return this;
+  }
+
+  public BigCat className(String className) {
+    super.className(className);
+    return this;
+  }
+
+  public BigCat color(String color) {
+    super.color(color);
+    return this;
+  }
   @Override
   public boolean equals(Object o) {
     if (this == o) {

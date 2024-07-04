@@ -8,8 +8,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
+import {{javaxPackage}}.ws.rs.*;
+import {{javaxPackage}}.ws.rs.core.Response;
 import org.apache.cxf.jaxrs.model.wadl.Description;
 import org.apache.cxf.jaxrs.model.wadl.DocTarget;
 
@@ -30,7 +30,7 @@ import org.springframework.stereotype.Service;
  * {{{appName}}}
  *
  {{#appDescription}}
- * <p>{{{appDescription}}}
+ * <p>{{{.}}}
  {{/appDescription}}
  *
  */
@@ -43,18 +43,17 @@ public class {{classname}}ServiceImpl implements {{classname}} {
      * {{summary}}
      *
      {{#notes}}
-     * {{notes}}
+     * {{.}}
      *
      {{/notes}}
      */
     {{/summary}}
     public {{>returnTypes}} {{nickname}}({{#allParams}}{{>queryParamsImpl}}{{>pathParamsImpl}}{{>headerParamsImpl}}{{>bodyParamsImpl}}{{>formParamsImpl}}{{^-last}}, {{/-last}}{{/allParams}}) {
         // TODO: Implement...
-        
+
         {{#useGenericResponse}}return Response.ok().entity("magic!").build();{{/useGenericResponse}}{{^useGenericResponse}}{{^vendorExtensions.x-java-is-response-void}}return null;{{/vendorExtensions.x-java-is-response-void}}{{/useGenericResponse}}
     }
-    
+
 {{/operation}}
 }
 {{/operations}}
-

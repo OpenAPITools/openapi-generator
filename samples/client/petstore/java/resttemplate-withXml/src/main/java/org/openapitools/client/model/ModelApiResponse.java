@@ -20,11 +20,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * ModelApiResponse
@@ -35,7 +36,7 @@ import javax.xml.bind.annotation.*;
   ModelApiResponse.JSON_PROPERTY_MESSAGE
 })
 @JsonTypeName("ApiResponse")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @XmlRootElement(name = "ModelApiResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ModelApiResponse")
@@ -52,6 +53,8 @@ public class ModelApiResponse {
   @XmlElement(name = "message")
   private String message;
 
+  public ModelApiResponse() {
+  }
 
   public ModelApiResponse code(Integer code) {
     
@@ -59,12 +62,11 @@ public class ModelApiResponse {
     return this;
   }
 
-   /**
+  /**
    * Get code
    * @return code
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_CODE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "code")
@@ -74,10 +76,12 @@ public class ModelApiResponse {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CODE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "code")
   public void setCode(Integer code) {
     this.code = code;
   }
-
 
   public ModelApiResponse type(String type) {
     
@@ -85,12 +89,11 @@ public class ModelApiResponse {
     return this;
   }
 
-   /**
+  /**
    * Get type
    * @return type
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "type")
@@ -100,10 +103,12 @@ public class ModelApiResponse {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "type")
   public void setType(String type) {
     this.type = type;
   }
-
 
   public ModelApiResponse message(String message) {
     
@@ -111,12 +116,11 @@ public class ModelApiResponse {
     return this;
   }
 
-   /**
+  /**
    * Get message
    * @return message
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "message")
@@ -126,10 +130,12 @@ public class ModelApiResponse {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MESSAGE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "message")
   public void setMessage(String message) {
     this.message = message;
   }
-
 
   @Override
   public boolean equals(Object o) {

@@ -1,21 +1,20 @@
 # {{apiPackage}}\{{classname}}{{#description}}
-{{description}}{{/description}}
+{{.}}{{/description}}
 
 All URIs are relative to *{{basePath}}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{summary}}
 {{/operation}}{{/operations}}
 
 {{#operations}}
 ## Service Declaration
 ```yaml
-# src/Acme/MyBundle/Resources/services.yml
+# config/services.yaml
 services:
     # ...
-    acme.my_bundle.api.{{pathPrefix}}:
-        class: Acme\MyBundle\Api\{{baseName}}Api
+    Acme\MyBundle\Api\{{baseName}}Api:
         tags:
             - { name: "{{bundleAlias}}.api", api: "{{pathPrefix}}" }
     # ...
@@ -23,11 +22,11 @@ services:
 
 {{#operation}}
 ## **{{{operationId}}}**
-> {{#returnType}}{{{returnType}}} {{/returnType}}{{{operationId}}}({{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
+> {{#returnType}}{{{.}}} {{/returnType}}{{{operationId}}}({{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
 
 {{{summary}}}{{#notes}}
 
-{{{notes}}}{{/notes}}
+{{{.}}}{{/notes}}
 
 ### Example Implementation
 ```php
@@ -62,7 +61,7 @@ class {{baseName}}Api implements {{classname}}
     /**
      * Implementation of {{classname}}#{{operationId}}
      */
-    public function {{operationId}}({{#allParams}}{{#vendorExtensions.x-parameter-type}}{{vendorExtensions.x-parameter-type}} {{/vendorExtensions.x-parameter-type}}${{paramName}}{{^required}} = {{#defaultValue}}'{{{.}}}'{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+    public function {{operationId}}({{#allParams}}{{^required}}{{^defaultValue}}?{{/defaultValue}}{{/required}}{{#vendorExtensions.x-parameter-type}}{{vendorExtensions.x-parameter-type}} {{/vendorExtensions.x-parameter-type}}${{paramName}}, {{/allParams}}int &$responseCode, array &$responseHeaders): {{{vendorExtensions.x-return-type}}}
     {
         // Implement the operation ...
     }
@@ -75,7 +74,7 @@ class {{baseName}}Api implements {{classname}}
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
-{{#allParams}} **{{paramName}}** | {{#isFile}}**{{dataType}}**{{/isFile}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isFile}}[**{{dataType}}**](../Model/{{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} |{{^required}} [optional]{{/required}}{{#defaultValue}} [default to {{defaultValue}}]{{/defaultValue}}
+{{#allParams}} **{{paramName}}** | {{#isFile}}**{{dataType}}**{{/isFile}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isFile}}[**{{dataType}}**](../Model/{{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} |{{^required}} [optional]{{/required}}{{#defaultValue}} [default to {{.}}]{{/defaultValue}}
 {{/allParams}}
 
 ### Return type

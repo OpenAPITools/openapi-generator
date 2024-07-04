@@ -2,7 +2,7 @@
 
 /**
  * PetController
- * PHP version 7.1.3
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  OpenAPI\Server\Controller
@@ -67,20 +67,29 @@ class PetController extends Controller
             return new Response('', 415);
         }
 
+        // Figure out what data format to return to the client
+        $produces = ['application/xml', 'application/json'];
+        // Figure out what the client accepts
+        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
+        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
+        if ($responseFormat === null) {
+            return new Response('', 406);
+        }
+
         // Handle authentication
         // Authentication 'petstore_auth' required
         // Oauth required
         $securitypetstore_auth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
-        $body = $request->getContent();
+        $pet = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
         try {
-            $inputFormat = $request->getMimeType($request->getContentType());
-            $body = $this->deserialize($body, 'OpenAPI\Server\Model\Pet', $inputFormat);
+            $inputFormat = $request->getMimeType($request->getContentTypeFormat());
+            $pet = $this->deserialize($pet, 'OpenAPI\Server\Model\Pet', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
         }
@@ -90,7 +99,7 @@ class PetController extends Controller
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("OpenAPI\Server\Model\Pet");
         $asserts[] = new Assert\Valid();
-        $response = $this->validate($body, $asserts);
+        $response = $this->validate($pet, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -101,33 +110,31 @@ class PetController extends Controller
 
             // Set authentication method 'petstore_auth'
             $handler->setpetstore_auth($securitypetstore_auth);
-            
+
             // Make the call to the business logic
-            $responseCode = 204;
+            $responseCode = 200;
             $responseHeaders = [];
-            $result = $handler->addPet($body, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
+            $result = $handler->addPet($pet, $responseCode, $responseHeaders);
 
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 405:
-                    $message = 'Invalid input';
-                    break;
-            }
+            $message = match($responseCode) {
+                200 => 'successful operation',
+                405 => 'Invalid input',
+                default => '',
+            };
 
             return new Response(
-                '',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
+                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -181,21 +188,17 @@ class PetController extends Controller
 
             // Set authentication method 'petstore_auth'
             $handler->setpetstore_auth($securitypetstore_auth);
-            
+
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->deletePet($petId, $apiKey, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
+            $handler->deletePet($petId, $apiKey, $responseCode, $responseHeaders);
 
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 400:
-                    $message = 'Invalid pet value';
-                    break;
-            }
+            $message = match($responseCode) {
+                400 => 'Invalid pet value',
+                default => '',
+            };
 
             return new Response(
                 '',
@@ -207,7 +210,7 @@ class PetController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -257,6 +260,7 @@ class PetController extends Controller
         $asserts[] = new Assert\All([
             new Assert\Type("string"),
         ]);
+        $asserts[] = new Assert\Valid();
         $response = $this->validate($status, $asserts);
         if ($response instanceof Response) {
             return $response;
@@ -268,24 +272,18 @@ class PetController extends Controller
 
             // Set authentication method 'petstore_auth'
             $handler->setpetstore_auth($securitypetstore_auth);
-            
+
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
+
             $result = $handler->findPetsByStatus($status, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
-
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 200:
-                    $message = 'successful operation';
-                    break;
-                case 400:
-                    $message = 'Invalid status value';
-                    break;
-            }
+            $message = match($responseCode) {
+                200 => 'successful operation',
+                400 => 'Invalid status value',
+                default => '',
+            };
 
             return new Response(
                 $result !== null ?$this->serialize($result, $responseFormat):'',
@@ -298,7 +296,7 @@ class PetController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -310,6 +308,7 @@ class PetController extends Controller
      *
      * @param Request $request The Symfony request to handle.
      * @return Response The Symfony response.
+     * @deprecated
      */
     public function findPetsByTagsAction(Request $request)
     {
@@ -345,6 +344,7 @@ class PetController extends Controller
         $asserts[] = new Assert\All([
             new Assert\Type("string"),
         ]);
+        $asserts[] = new Assert\Valid();
         $response = $this->validate($tags, $asserts);
         if ($response instanceof Response) {
             return $response;
@@ -356,24 +356,18 @@ class PetController extends Controller
 
             // Set authentication method 'petstore_auth'
             $handler->setpetstore_auth($securitypetstore_auth);
-            
+
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
+
             $result = $handler->findPetsByTags($tags, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
-
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 200:
-                    $message = 'successful operation';
-                    break;
-                case 400:
-                    $message = 'Invalid tag value';
-                    break;
-            }
+            $message = match($responseCode) {
+                200 => 'successful operation',
+                400 => 'Invalid tag value',
+                default => '',
+            };
 
             return new Response(
                 $result !== null ?$this->serialize($result, $responseFormat):'',
@@ -386,7 +380,7 @@ class PetController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -441,27 +435,19 @@ class PetController extends Controller
 
             // Set authentication method 'api_key'
             $handler->setapi_key($securityapi_key);
-            
+
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
+
             $result = $handler->getPetById($petId, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
-
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 200:
-                    $message = 'successful operation';
-                    break;
-                case 400:
-                    $message = 'Invalid ID supplied';
-                    break;
-                case 404:
-                    $message = 'Pet not found';
-                    break;
-            }
+            $message = match($responseCode) {
+                200 => 'successful operation',
+                400 => 'Invalid ID supplied',
+                404 => 'Pet not found',
+                default => '',
+            };
 
             return new Response(
                 $result !== null ?$this->serialize($result, $responseFormat):'',
@@ -474,7 +460,7 @@ class PetController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -496,20 +482,29 @@ class PetController extends Controller
             return new Response('', 415);
         }
 
+        // Figure out what data format to return to the client
+        $produces = ['application/xml', 'application/json'];
+        // Figure out what the client accepts
+        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
+        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
+        if ($responseFormat === null) {
+            return new Response('', 406);
+        }
+
         // Handle authentication
         // Authentication 'petstore_auth' required
         // Oauth required
         $securitypetstore_auth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
-        $body = $request->getContent();
+        $pet = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
         try {
-            $inputFormat = $request->getMimeType($request->getContentType());
-            $body = $this->deserialize($body, 'OpenAPI\Server\Model\Pet', $inputFormat);
+            $inputFormat = $request->getMimeType($request->getContentTypeFormat());
+            $pet = $this->deserialize($pet, 'OpenAPI\Server\Model\Pet', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
         }
@@ -519,7 +514,7 @@ class PetController extends Controller
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("OpenAPI\Server\Model\Pet");
         $asserts[] = new Assert\Valid();
-        $response = $this->validate($body, $asserts);
+        $response = $this->validate($pet, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -530,39 +525,33 @@ class PetController extends Controller
 
             // Set authentication method 'petstore_auth'
             $handler->setpetstore_auth($securitypetstore_auth);
-            
+
             // Make the call to the business logic
-            $responseCode = 204;
+            $responseCode = 200;
             $responseHeaders = [];
-            $result = $handler->updatePet($body, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
+            $result = $handler->updatePet($pet, $responseCode, $responseHeaders);
 
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 400:
-                    $message = 'Invalid ID supplied';
-                    break;
-                case 404:
-                    $message = 'Pet not found';
-                    break;
-                case 405:
-                    $message = 'Validation exception';
-                    break;
-            }
+            $message = match($responseCode) {
+                200 => 'successful operation',
+                400 => 'Invalid ID supplied',
+                404 => 'Pet not found',
+                405 => 'Validation exception',
+                default => '',
+            };
 
             return new Response(
-                '',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
+                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -624,21 +613,17 @@ class PetController extends Controller
 
             // Set authentication method 'petstore_auth'
             $handler->setpetstore_auth($securitypetstore_auth);
-            
+
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->updatePetWithForm($petId, $name, $status, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
+            $handler->updatePetWithForm($petId, $name, $status, $responseCode, $responseHeaders);
 
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 405:
-                    $message = 'Invalid input';
-                    break;
-            }
+            $message = match($responseCode) {
+                405 => 'Invalid input',
+                default => '',
+            };
 
             return new Response(
                 '',
@@ -650,7 +635,7 @@ class PetController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -720,21 +705,17 @@ class PetController extends Controller
 
             // Set authentication method 'petstore_auth'
             $handler->setpetstore_auth($securitypetstore_auth);
-            
+
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
+
             $result = $handler->uploadFile($petId, $additionalMetadata, $file, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
-
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 200:
-                    $message = 'successful operation';
-                    break;
-            }
+            $message = match($responseCode) {
+                200 => 'successful operation',
+                default => '',
+            };
 
             return new Response(
                 $result !== null ?$this->serialize($result, $responseFormat):'',
@@ -747,7 +728,7 @@ class PetController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }

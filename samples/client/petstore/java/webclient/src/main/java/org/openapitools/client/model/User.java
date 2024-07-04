@@ -20,9 +20,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * User
@@ -37,8 +36,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   User.JSON_PROPERTY_PHONE,
   User.JSON_PROPERTY_USER_STATUS
 })
-@JsonTypeName("User")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -64,6 +62,8 @@ public class User {
   public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
   private Integer userStatus;
 
+  public User() {
+  }
 
   public User id(Long id) {
     
@@ -71,12 +71,11 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -85,10 +84,11 @@ public class User {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(Long id) {
     this.id = id;
   }
-
 
   public User username(String username) {
     
@@ -96,12 +96,11 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get username
    * @return username
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -110,10 +109,11 @@ public class User {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_USERNAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setUsername(String username) {
     this.username = username;
   }
-
 
   public User firstName(String firstName) {
     
@@ -121,12 +121,11 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get firstName
    * @return firstName
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_FIRST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -135,10 +134,11 @@ public class User {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_FIRST_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
-
 
   public User lastName(String lastName) {
     
@@ -146,12 +146,11 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get lastName
    * @return lastName
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_LAST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -160,10 +159,11 @@ public class User {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_LAST_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
-
 
   public User email(String email) {
     
@@ -171,12 +171,11 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get email
    * @return email
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_EMAIL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -185,10 +184,11 @@ public class User {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_EMAIL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEmail(String email) {
     this.email = email;
   }
-
 
   public User password(String password) {
     
@@ -196,12 +196,11 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get password
    * @return password
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -210,10 +209,11 @@ public class User {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_PASSWORD)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPassword(String password) {
     this.password = password;
   }
-
 
   public User phone(String phone) {
     
@@ -221,12 +221,11 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get phone
    * @return phone
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PHONE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -235,10 +234,11 @@ public class User {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_PHONE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPhone(String phone) {
     this.phone = phone;
   }
-
 
   public User userStatus(Integer userStatus) {
     
@@ -246,12 +246,11 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * User Status
    * @return userStatus
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "User Status")
   @JsonProperty(JSON_PROPERTY_USER_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -260,10 +259,11 @@ public class User {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_USER_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
   }
-
 
   @Override
   public boolean equals(Object o) {

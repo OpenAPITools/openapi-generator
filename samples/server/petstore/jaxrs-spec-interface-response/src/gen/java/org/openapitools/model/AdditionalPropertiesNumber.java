@@ -14,12 +14,14 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> implements Serializable {
-  
-  private @Valid String name;
+@JsonTypeName("AdditionalPropertiesNumber")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> implements Serializable {
+  private String name;
 
   /**
    **/
@@ -29,17 +31,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(String name) {
     this.name = name;
   }
+
 
   @Override
   public boolean equals(Object o) {

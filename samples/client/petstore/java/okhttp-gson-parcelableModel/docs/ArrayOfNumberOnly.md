@@ -5,9 +5,9 @@
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**arrayNumber** | **List&lt;BigDecimal&gt;** |  |  [optional]
+| Name | Type | Description | Notes |
+|------------ | ------------- | ------------- | -------------|
+|**arrayNumber** | **List&lt;BigDecimal&gt;** |  |  [optional] |
 
 
 ## Implemented Interfaces

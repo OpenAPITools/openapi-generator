@@ -13,8 +13,10 @@
 
 package org.openapitools.client.model;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 import java.util.Objects;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -22,12 +24,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import java.util.Arrays;
 import org.openapitools.client.model.OuterEnum;
+import org.openapitools.client.model.OuterEnumDefaultValue;
+import org.openapitools.client.model.OuterEnumInteger;
+import org.openapitools.client.model.OuterEnumIntegerDefaultValue;
+import org.openapitools.jackson.nullable.JsonNullable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.openapitools.jackson.nullable.JsonNullable;
+import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * EnumTest
  */
@@ -35,10 +44,14 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   EnumTest.JSON_PROPERTY_ENUM_STRING,
   EnumTest.JSON_PROPERTY_ENUM_STRING_REQUIRED,
   EnumTest.JSON_PROPERTY_ENUM_INTEGER,
+  EnumTest.JSON_PROPERTY_ENUM_INTEGER_ONLY,
   EnumTest.JSON_PROPERTY_ENUM_NUMBER,
-  EnumTest.JSON_PROPERTY_OUTER_ENUM
+  EnumTest.JSON_PROPERTY_OUTER_ENUM,
+  EnumTest.JSON_PROPERTY_OUTER_ENUM_INTEGER,
+  EnumTest.JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE,
+  EnumTest.JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE
 })
-@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class EnumTest {
   /**
    * Gets or Sets enumString
@@ -159,6 +172,44 @@ public class EnumTest {
   private EnumIntegerEnum enumInteger;
 
   /**
+   * Gets or Sets enumIntegerOnly
+   */
+  public enum EnumIntegerOnlyEnum {
+    NUMBER_2(2),
+    
+    NUMBER_MINUS_2(-2);
+
+    private Integer value;
+
+    EnumIntegerOnlyEnum(Integer value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public Integer getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static EnumIntegerOnlyEnum fromValue(Integer value) {
+      for (EnumIntegerOnlyEnum b : EnumIntegerOnlyEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_ENUM_INTEGER_ONLY = "enum_integer_only";
+  private EnumIntegerOnlyEnum enumIntegerOnly;
+
+  /**
    * Gets or Sets enumNumber
    */
   public enum EnumNumberEnum {
@@ -197,28 +248,39 @@ public class EnumTest {
   private EnumNumberEnum enumNumber;
 
   public static final String JSON_PROPERTY_OUTER_ENUM = "outerEnum";
-  private OuterEnum outerEnum;
+  private JsonNullable<OuterEnum> outerEnum = JsonNullable.<OuterEnum>undefined();
 
+  public static final String JSON_PROPERTY_OUTER_ENUM_INTEGER = "outerEnumInteger";
+  private OuterEnumInteger outerEnumInteger;
+
+  public static final String JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE = "outerEnumDefaultValue";
+  private OuterEnumDefaultValue outerEnumDefaultValue = OuterEnumDefaultValue.PLACED;
+
+  public static final String JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE = "outerEnumIntegerDefaultValue";
+  private OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.NUMBER_0;
+
+  public EnumTest() { 
+  }
 
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = enumString;
     return this;
   }
 
-   /**
+  /**
    * Get enumString
    * @return enumString
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ENUM_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public EnumStringEnum getEnumString() {
     return enumString;
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ENUM_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEnumString(EnumStringEnum enumString) {
     this.enumString = enumString;
   }
@@ -229,19 +291,20 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumStringRequired
    * @return enumStringRequired
-  **/
-  @ApiModelProperty(required = true, value = "")
+   */
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
   }
@@ -252,22 +315,46 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumInteger
    * @return enumInteger
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEnumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
+  }
+
+
+  public EnumTest enumIntegerOnly(EnumIntegerOnlyEnum enumIntegerOnly) {
+    this.enumIntegerOnly = enumIntegerOnly;
+    return this;
+  }
+
+  /**
+   * Get enumIntegerOnly
+   * @return enumIntegerOnly
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ENUM_INTEGER_ONLY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public EnumIntegerOnlyEnum getEnumIntegerOnly() {
+    return enumIntegerOnly;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ENUM_INTEGER_ONLY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setEnumIntegerOnly(EnumIntegerOnlyEnum enumIntegerOnly) {
+    this.enumIntegerOnly = enumIntegerOnly;
   }
 
 
@@ -276,46 +363,126 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumNumber
    * @return enumNumber
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEnumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
   }
 
 
   public EnumTest outerEnum(OuterEnum outerEnum) {
-    this.outerEnum = outerEnum;
+    this.outerEnum = JsonNullable.<OuterEnum>of(outerEnum);
     return this;
   }
 
-   /**
+  /**
    * Get outerEnum
    * @return outerEnum
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @JsonIgnore
+  public OuterEnum getOuterEnum() {
+        return outerEnum.orElse(null);
+  }
+
   @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public OuterEnum getOuterEnum() {
+  public JsonNullable<OuterEnum> getOuterEnum_JsonNullable() {
     return outerEnum;
+  }
+  
+  @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
+  public void setOuterEnum_JsonNullable(JsonNullable<OuterEnum> outerEnum) {
+    this.outerEnum = outerEnum;
+  }
+
+  public void setOuterEnum(OuterEnum outerEnum) {
+    this.outerEnum = JsonNullable.<OuterEnum>of(outerEnum);
   }
 
 
-  public void setOuterEnum(OuterEnum outerEnum) {
-    this.outerEnum = outerEnum;
+  public EnumTest outerEnumInteger(OuterEnumInteger outerEnumInteger) {
+    this.outerEnumInteger = outerEnumInteger;
+    return this;
+  }
+
+  /**
+   * Get outerEnumInteger
+   * @return outerEnumInteger
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public OuterEnumInteger getOuterEnumInteger() {
+    return outerEnumInteger;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setOuterEnumInteger(OuterEnumInteger outerEnumInteger) {
+    this.outerEnumInteger = outerEnumInteger;
+  }
+
+
+  public EnumTest outerEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
+    this.outerEnumDefaultValue = outerEnumDefaultValue;
+    return this;
+  }
+
+  /**
+   * Get outerEnumDefaultValue
+   * @return outerEnumDefaultValue
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public OuterEnumDefaultValue getOuterEnumDefaultValue() {
+    return outerEnumDefaultValue;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setOuterEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
+    this.outerEnumDefaultValue = outerEnumDefaultValue;
+  }
+
+
+  public EnumTest outerEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
+    this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
+    return this;
+  }
+
+  /**
+   * Get outerEnumIntegerDefaultValue
+   * @return outerEnumIntegerDefaultValue
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public OuterEnumIntegerDefaultValue getOuterEnumIntegerDefaultValue() {
+    return outerEnumIntegerDefaultValue;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setOuterEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
+    this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
   }
 
 
@@ -334,13 +501,28 @@ public class EnumTest {
     return Objects.equals(this.enumString, enumTest.enumString) &&
         Objects.equals(this.enumStringRequired, enumTest.enumStringRequired) &&
         Objects.equals(this.enumInteger, enumTest.enumInteger) &&
+        Objects.equals(this.enumIntegerOnly, enumTest.enumIntegerOnly) &&
         Objects.equals(this.enumNumber, enumTest.enumNumber) &&
-        Objects.equals(this.outerEnum, enumTest.outerEnum);
+        equalsNullable(this.outerEnum, enumTest.outerEnum) &&
+        Objects.equals(this.outerEnumInteger, enumTest.outerEnumInteger) &&
+        Objects.equals(this.outerEnumDefaultValue, enumTest.outerEnumDefaultValue) &&
+        Objects.equals(this.outerEnumIntegerDefaultValue, enumTest.outerEnumIntegerDefaultValue);
+  }
+
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(enumString, enumStringRequired, enumInteger, enumNumber, outerEnum);
+    return Objects.hash(enumString, enumStringRequired, enumInteger, enumIntegerOnly, enumNumber, hashCodeNullable(outerEnum), outerEnumInteger, outerEnumDefaultValue, outerEnumIntegerDefaultValue);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
@@ -350,8 +532,12 @@ public class EnumTest {
     sb.append("    enumString: ").append(toIndentedString(enumString)).append("\n");
     sb.append("    enumStringRequired: ").append(toIndentedString(enumStringRequired)).append("\n");
     sb.append("    enumInteger: ").append(toIndentedString(enumInteger)).append("\n");
+    sb.append("    enumIntegerOnly: ").append(toIndentedString(enumIntegerOnly)).append("\n");
     sb.append("    enumNumber: ").append(toIndentedString(enumNumber)).append("\n");
     sb.append("    outerEnum: ").append(toIndentedString(outerEnum)).append("\n");
+    sb.append("    outerEnumInteger: ").append(toIndentedString(outerEnumInteger)).append("\n");
+    sb.append("    outerEnumDefaultValue: ").append(toIndentedString(outerEnumDefaultValue)).append("\n");
+    sb.append("    outerEnumIntegerDefaultValue: ").append(toIndentedString(outerEnumIntegerDefaultValue)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -365,6 +551,183 @@ public class EnumTest {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
+    if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
+      prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
+    }
+
+    StringJoiner joiner = new StringJoiner("&");
+
+    // add `enum_string` to the URL query string
+    if (getEnumString() != null) {
+      joiner.add(String.format("%senum_string%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnumString()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `enum_string_required` to the URL query string
+    if (getEnumStringRequired() != null) {
+      joiner.add(String.format("%senum_string_required%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnumStringRequired()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `enum_integer` to the URL query string
+    if (getEnumInteger() != null) {
+      joiner.add(String.format("%senum_integer%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnumInteger()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `enum_integer_only` to the URL query string
+    if (getEnumIntegerOnly() != null) {
+      joiner.add(String.format("%senum_integer_only%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnumIntegerOnly()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `enum_number` to the URL query string
+    if (getEnumNumber() != null) {
+      joiner.add(String.format("%senum_number%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnumNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `outerEnum` to the URL query string
+    if (getOuterEnum() != null) {
+      joiner.add(String.format("%souterEnum%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOuterEnum()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `outerEnumInteger` to the URL query string
+    if (getOuterEnumInteger() != null) {
+      joiner.add(String.format("%souterEnumInteger%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOuterEnumInteger()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `outerEnumDefaultValue` to the URL query string
+    if (getOuterEnumDefaultValue() != null) {
+      joiner.add(String.format("%souterEnumDefaultValue%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOuterEnumDefaultValue()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `outerEnumIntegerDefaultValue` to the URL query string
+    if (getOuterEnumIntegerDefaultValue() != null) {
+      joiner.add(String.format("%souterEnumIntegerDefaultValue%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOuterEnumIntegerDefaultValue()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    return joiner.toString();
+  }
+
+    public static class Builder {
+
+    private EnumTest instance;
+
+    public Builder() {
+      this(new EnumTest());
+    }
+
+    protected Builder(EnumTest instance) {
+      this.instance = instance;
+    }
+
+    public EnumTest.Builder enumString(EnumStringEnum enumString) {
+      this.instance.enumString = enumString;
+      return this;
+    }
+    public EnumTest.Builder enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
+      this.instance.enumStringRequired = enumStringRequired;
+      return this;
+    }
+    public EnumTest.Builder enumInteger(EnumIntegerEnum enumInteger) {
+      this.instance.enumInteger = enumInteger;
+      return this;
+    }
+    public EnumTest.Builder enumIntegerOnly(EnumIntegerOnlyEnum enumIntegerOnly) {
+      this.instance.enumIntegerOnly = enumIntegerOnly;
+      return this;
+    }
+    public EnumTest.Builder enumNumber(EnumNumberEnum enumNumber) {
+      this.instance.enumNumber = enumNumber;
+      return this;
+    }
+    public EnumTest.Builder outerEnum(OuterEnum outerEnum) {
+      this.instance.outerEnum = JsonNullable.<OuterEnum>of(outerEnum);
+      return this;
+    }
+    public EnumTest.Builder outerEnum(JsonNullable<OuterEnum> outerEnum) {
+      this.instance.outerEnum = outerEnum;
+      return this;
+    }
+    public EnumTest.Builder outerEnumInteger(OuterEnumInteger outerEnumInteger) {
+      this.instance.outerEnumInteger = outerEnumInteger;
+      return this;
+    }
+    public EnumTest.Builder outerEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
+      this.instance.outerEnumDefaultValue = outerEnumDefaultValue;
+      return this;
+    }
+    public EnumTest.Builder outerEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
+      this.instance.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
+      return this;
+    }
+
+
+    /**
+    * returns a built EnumTest instance.
+    *
+    * The builder is not reusable.
+    */
+    public EnumTest build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static EnumTest.Builder builder() {
+    return new EnumTest.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public EnumTest.Builder toBuilder() {
+    return new EnumTest.Builder()
+      .enumString(getEnumString())
+      .enumStringRequired(getEnumStringRequired())
+      .enumInteger(getEnumInteger())
+      .enumIntegerOnly(getEnumIntegerOnly())
+      .enumNumber(getEnumNumber())
+      .outerEnum(getOuterEnum())
+      .outerEnumInteger(getOuterEnumInteger())
+      .outerEnumDefaultValue(getOuterEnumDefaultValue())
+      .outerEnumIntegerDefaultValue(getOuterEnumIntegerDefaultValue());
   }
 
 }

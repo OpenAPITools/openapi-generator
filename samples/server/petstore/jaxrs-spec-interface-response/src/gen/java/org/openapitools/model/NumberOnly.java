@@ -12,12 +12,14 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class NumberOnly  implements Serializable {
-  
-  private @Valid BigDecimal justNumber;
+@JsonTypeName("NumberOnly")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+public class NumberOnly  implements Serializable {
+  private BigDecimal justNumber;
 
   /**
    **/
@@ -27,17 +29,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("JustNumber")
-  public BigDecimal getJustNumber() {
+  @Valid public BigDecimal getJustNumber() {
     return justNumber;
   }
 
+  @JsonProperty("JustNumber")
   public void setJustNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
+
 
   @Override
   public boolean equals(Object o) {

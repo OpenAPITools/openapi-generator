@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.model.ModelMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,14 +32,17 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
 
      final Logger LOGGER = LoggerFactory.getLogger(PlantumlDocumentationCodegen.class);
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.DOCUMENTATION;
     }
 
+    @Override
     public String getName() {
         return "plantuml";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a plantuml documentation.";
     }
@@ -58,11 +62,9 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
     @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        Object models = objs.get("models");
-        List<Object> modelsList = (List<Object>) models;
-        List<CodegenModel> codegenModelList = modelsList.stream()
-                .filter(listItem -> listItem instanceof HashMap<?, ?>)
-                .map(listItem -> (CodegenModel) ((HashMap<?, ?>) listItem).get("model"))
+        List<ModelMap> models = (List<ModelMap>) objs.get("models");
+        List<CodegenModel> codegenModelList = models.stream()
+                .map(ModelMap::getModel)
                 .collect(Collectors.toList());
 
         List<CodegenModel> inlineAllOfCodegenModelList = codegenModelList.stream()
@@ -206,13 +208,16 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
 
     @Override
     public String escapeQuotationMark(String input) {
-        // to surpress the warning message
+        // to suppress the warning message
         return input;
     }
 
     @Override
     public String escapeUnsafeCharacters(String input) {
-        // to surpress the warning message
+        // to suppress the warning message
         return input;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return null; }
 }

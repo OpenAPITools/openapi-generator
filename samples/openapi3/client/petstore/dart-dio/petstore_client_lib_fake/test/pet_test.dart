@@ -1,5 +1,5 @@
-import 'package:openapi/model/pet.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 // tests for Pet
 void main() {
@@ -38,7 +38,5 @@ void main() {
       // TODO
     });
 
-
   });
-
 }

@@ -6,8 +6,11 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
-@objc public class SpecialModelName: NSObject, Codable {
+@objcMembers public class SpecialModelName: NSObject, Codable, JSONEncodable {
 
     public var specialPropertyName: Int64?
     public var specialPropertyNameNum: NSNumber? {
@@ -24,4 +27,11 @@ import Foundation
         case specialPropertyName = "$special[property.name]"
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(specialPropertyName, forKey: .specialPropertyName)
+    }
 }
+

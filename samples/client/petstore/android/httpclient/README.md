@@ -49,8 +49,8 @@ At first generate the JAR by executing:
 
 Then manually install the following JARs:
 
-* target/openapi-android-client-1.0.0.jar
-* target/lib/*.jar
+- target/openapi-android-client-1.0.0.jar
+- target/lib/*.jar
 
 ## Getting Started
 
@@ -64,9 +64,9 @@ public class PetApiExample {
 
     public static void main(String[] args) {
         PetApi apiInstance = new PetApi();
-        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
+        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
-            apiInstance.addPet(pet);
+            apiInstance.addPet(body);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#addPet");
             e.printStackTrace();
@@ -117,13 +117,8 @@ Class | Method | HTTP request | Description
 ## Documentation for Authorization
 
 Authentication schemes defined for the API:
-### api_key
-
-- **Type**: API key
-- **API key parameter name**: api_key
-- **Location**: HTTP header
-
 ### petstore_auth
+
 
 - **Type**: OAuth
 - **Flow**: implicit
@@ -131,6 +126,13 @@ Authentication schemes defined for the API:
 - **Scopes**: 
   - write:pets: modify pets in your account
   - read:pets: read your pets
+
+### api_key
+
+- **Type**: API key
+
+- **API key parameter name**: api_key
+- **Location**: HTTP header
 
 
 ## Recommendation

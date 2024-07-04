@@ -1,18 +1,17 @@
 <?php
-{{#models}}{{#model}}/**
+{{#models}}
+{{#model}}
+/**
  * {{classname}}
  */
 namespace {{modelPackage}};
 
 /**
  * {{classname}}
+{{#description}}
+ * @description {{{.}}}
+{{/description}}
  */
-class {{classname}} {
-
-    {{#vars}}
-    /** @var {{{dataType}}} ${{name}} {{#description}}{{description}}{{/description}}*/
-    private ${{name}};
-
-    {{/vars}}
-}
-{{/model}}{{/models}}
+{{#isEnum}}{{>model_enum}}{{/isEnum}}{{^isEnum}}{{>model_generic}}{{/isEnum}}
+{{/model}}
+{{/models}}

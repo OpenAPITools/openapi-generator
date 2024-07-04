@@ -19,30 +19,29 @@
 #define StoreApi_H_
 
 
+#include "ApiBase.h"
+
 #include <pistache/http.h>
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
-#include <pistache/optional.h>
 
+#include <optional>
+#include <utility>
 
 #include "Order.h"
 #include <map>
 #include <string>
 
-namespace org {
-namespace openapitools {
-namespace server {
-namespace api {
+namespace org::openapitools::server::api
+{
 
-using namespace org::openapitools::server::model;
-
-class  StoreApi {
+class  StoreApi : public ApiBase {
 public:
-    StoreApi(std::shared_ptr<Pistache::Rest::Router>);
-    virtual ~StoreApi() {}
-    void init();
+    explicit StoreApi(const std::shared_ptr<Pistache::Rest::Router>& rtr);
+    ~StoreApi() override = default;
+    void init() override;
 
-    const std::string base = "/v2";
+    static const std::string base;
 
 private:
     void setupRoutes();
@@ -53,7 +52,19 @@ private:
     void place_order_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void store_api_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
 
-    std::shared_ptr<Pistache::Rest::Router> router;
+    /// <summary>
+    /// Helper function to handle unexpected Exceptions during Parameter parsing and validation.
+    /// May be overridden to return custom error formats. This is called inside a catch block.
+    /// Important: When overriding, do not call `throw ex;`, but instead use `throw;`.
+    /// </summary>
+    virtual std::pair<Pistache::Http::Code, std::string> handleParsingException(const std::exception& ex) const noexcept;
+
+    /// <summary>
+    /// Helper function to handle unexpected Exceptions during processing of the request in handler functions.
+    /// May be overridden to return custom error formats. This is called inside a catch block.
+    /// Important: When overriding, do not call `throw ex;`, but instead use `throw;`.
+    /// </summary>
+    virtual std::pair<Pistache::Http::Code, std::string> handleOperationException(const std::exception& ex) const noexcept;
 
     /// <summary>
     /// Delete purchase order by ID
@@ -63,7 +74,6 @@ private:
     /// </remarks>
     /// <param name="orderId">ID of the order that needs to be deleted</param>
     virtual void delete_order(const std::string &orderId, Pistache::Http::ResponseWriter &response) = 0;
-
     /// <summary>
     /// Returns pet inventories by status
     /// </summary>
@@ -71,16 +81,14 @@ private:
     /// Returns a map of status codes to quantities
     /// </remarks>
     virtual void get_inventory(Pistache::Http::ResponseWriter &response) = 0;
-
     /// <summary>
     /// Find purchase order by ID
     /// </summary>
     /// <remarks>
-    /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+    /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
     /// </remarks>
     /// <param name="orderId">ID of pet that needs to be fetched</param>
     virtual void get_order_by_id(const int64_t &orderId, Pistache::Http::ResponseWriter &response) = 0;
-
     /// <summary>
     /// Place an order for a pet
     /// </summary>
@@ -88,14 +96,11 @@ private:
     /// 
     /// </remarks>
     /// <param name="body">order placed for purchasing the pet</param>
-    virtual void place_order(const Order &body, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void place_order(const org::openapitools::server::model::Order &body, Pistache::Http::ResponseWriter &response) = 0;
 
 };
 
-}
-}
-}
-}
+} // namespace org::openapitools::server::api
 
 #endif /* StoreApi_H_ */
 

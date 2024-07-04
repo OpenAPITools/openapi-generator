@@ -1,3 +1,0 @@
-generatorName: cpp-restbed-server
-outputDir: samples/server/petstore/cpp-restbed
-inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml

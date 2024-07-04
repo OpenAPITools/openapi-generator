@@ -3,6 +3,7 @@ package org.openapitools.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.ReadOnlyFirst;
 import java.io.Serializable;
@@ -14,14 +15,16 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ArrayTest  implements Serializable {
-  
-  private @Valid List<String> arrayOfString = new ArrayList<String>();
-  private @Valid List<List<Long>> arrayArrayOfInteger = new ArrayList<List<Long>>();
-  private @Valid List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
+@JsonTypeName("ArrayTest")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+public class ArrayTest  implements Serializable {
+  private @Valid List<String> arrayOfString = new ArrayList<>();
+  private @Valid List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
+  private @Valid List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
   /**
    **/
@@ -31,24 +34,39 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("array_of_string")
   public List<String> getArrayOfString() {
     return arrayOfString;
   }
 
+  @JsonProperty("array_of_string")
   public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
-  }/**
+  }
+
+  public ArrayTest addArrayOfStringItem(String arrayOfStringItem) {
+    if (this.arrayOfString == null) {
+      this.arrayOfString = new ArrayList<>();
+    }
+
+    this.arrayOfString.add(arrayOfStringItem);
+    return this;
+  }
+
+  public ArrayTest removeArrayOfStringItem(String arrayOfStringItem) {
+    if (arrayOfStringItem != null && this.arrayOfString != null) {
+      this.arrayOfString.remove(arrayOfStringItem);
+    }
+
+    return this;
+  }
+  /**
    **/
   public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -57,26 +75,61 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return arrayArrayOfInteger;
   }
 
+  @JsonProperty("array_array_of_integer")
   public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
-  }/**
+  }
+
+  public ArrayTest addArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
+    if (this.arrayArrayOfInteger == null) {
+      this.arrayArrayOfInteger = new ArrayList<>();
+    }
+
+    this.arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
+    return this;
+  }
+
+  public ArrayTest removeArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
+    if (arrayArrayOfIntegerItem != null && this.arrayArrayOfInteger != null) {
+      this.arrayArrayOfInteger.remove(arrayArrayOfIntegerItem);
+    }
+
+    return this;
+  }
+  /**
    **/
-  public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  public ArrayTest arrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_model")
-  public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
+  @Valid public List<@Valid List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 
-  public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  @JsonProperty("array_array_of_model")
+  public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
+  }
+
+  public ArrayTest addArrayArrayOfModelItem(List<@Valid ReadOnlyFirst> arrayArrayOfModelItem) {
+    if (this.arrayArrayOfModel == null) {
+      this.arrayArrayOfModel = new ArrayList<>();
+    }
+
+    this.arrayArrayOfModel.add(arrayArrayOfModelItem);
+    return this;
+  }
+
+  public ArrayTest removeArrayArrayOfModelItem(List<@Valid ReadOnlyFirst> arrayArrayOfModelItem) {
+    if (arrayArrayOfModelItem != null && this.arrayArrayOfModel != null) {
+      this.arrayArrayOfModel.remove(arrayArrayOfModelItem);
+    }
+
+    return this;
   }
 
   @Override

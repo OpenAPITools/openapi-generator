@@ -6,10 +6,14 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 /** A category for a pet */
-public struct Category: Codable {
+public struct Category: Codable, JSONEncodable, Hashable {
 
+    static let nameRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/")
     public var id: Int64?
     public var name: String?
 
@@ -18,4 +22,17 @@ public struct Category: Codable {
         self.name = name
     }
 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case id
+        case name
+    }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(name, forKey: .name)
+    }
 }
+

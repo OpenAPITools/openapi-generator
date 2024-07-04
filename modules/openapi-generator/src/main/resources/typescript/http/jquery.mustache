@@ -24,7 +24,7 @@ export class JQueryHttpLibrary implements HttpLibrary {
         // If we want a blob, we have to set the xhrFields' responseType AND add a
         // custom converter to overwrite the default deserialization of JQuery...
         requestOptions["xhrFields"] = { responseType: 'blob' };
-        requestOptions["converters"] = {} 
+        requestOptions["converters"] = {}
         requestOptions["converters"]["* blob"] = (result:any) => result;
         requestOptions["dataType"] = "blob";
 

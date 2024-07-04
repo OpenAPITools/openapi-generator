@@ -10,8 +10,8 @@
  * Do not edit the class manually.
  */
 
-import { Category } from './Category';
-import { Tag } from './Tag';
+import { Category } from '../models/Category';
+import { Tag } from '../models/Tag';
 import { HttpFile } from '../http/http';
 
 /**
@@ -71,11 +71,15 @@ export class Pet {
     static getAttributeTypeMap() {
         return Pet.attributeTypeMap;
     }
-    
+
     public constructor() {
     }
 }
 
 
-export type PetStatusEnum = "available" | "pending" | "sold" ;
+export enum PetStatusEnum {
+    Available = 'available',
+    Pending = 'pending',
+    Sold = 'sold'
+}
 

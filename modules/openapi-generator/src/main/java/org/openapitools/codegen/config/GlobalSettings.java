@@ -16,6 +16,11 @@
 
 package org.openapitools.codegen.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Properties;
 
 /**
@@ -25,17 +30,22 @@ import java.util.Properties;
  *
  * This provides a set of properties specific to the executing thread, such that the generator may not modify system properties
  * consumed by other threads.
- * 
+ *
  * @author gndrm
  * @since 2018
  */
 public class GlobalSettings {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalSettings.class);
+
     private static ThreadLocal<Properties> properties = new InheritableThreadLocal<Properties>() {
         @Override
         protected Properties initialValue() {
-            return (Properties) System.getProperties().clone();
-        };
+            // avoid using System.getProperties().clone() which is broken in Gradle - see https://github.com/gradle/gradle/issues/17344
+            Properties copy = new Properties();
+            copy.putAll(System.getProperties());
+            return copy;
+        }
     };
 
     public static String getProperty(String key, String defaultValue) {
@@ -56,5 +66,11 @@ public class GlobalSettings {
 
     public static void reset() {
         properties.remove();
+    }
+
+    public static void log() {
+        StringWriter stringWriter = new StringWriter();
+        properties.get().list(new PrintWriter(stringWriter));
+        LOGGER.debug("GlobalSettings: {}", stringWriter);
     }
 }

@@ -1,10 +1,10 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
-    <artifactId>KotlinPetstoreThreetenbpTests</artifactId>
+    <artifactId>kotlin-petstore-threetenbp</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <name>kotlin-threetenbp</name>
+    <version>1.0.0</version>
+    <name>OpenAPI Petstore</name>
     <build>
         <plugins>
             <plugin>

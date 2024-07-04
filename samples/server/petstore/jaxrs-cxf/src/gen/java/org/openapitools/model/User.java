@@ -4,14 +4,9 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class User  {
   
@@ -185,6 +180,29 @@ public class User  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    User user = (User) o;
+    return Objects.equals(this.id, user.id) &&
+        Objects.equals(this.username, user.username) &&
+        Objects.equals(this.firstName, user.firstName) &&
+        Objects.equals(this.lastName, user.lastName) &&
+        Objects.equals(this.email, user.email) &&
+        Objects.equals(this.password, user.password) &&
+        Objects.equals(this.phone, user.phone) &&
+        Objects.equals(this.userStatus, user.userStatus);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus);
+  }
 
   @Override
   public String toString() {

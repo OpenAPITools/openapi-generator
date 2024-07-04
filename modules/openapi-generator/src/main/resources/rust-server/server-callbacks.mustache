@@ -100,7 +100,7 @@ impl<C> Client<DropContextService<hyper::client::Client<hyper::client::HttpConne
 }
 
 #[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
-type HttpConnector = hyper_tls::HttpsConnector<hyper::client::HttpConnector>;
+type HttpsConnector = hyper_tls::HttpsConnector<hyper::client::HttpConnector>;
 
 #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
 type HttpsConnector = hyper_openssl::HttpsConnector<hyper::client::HttpConnector>;

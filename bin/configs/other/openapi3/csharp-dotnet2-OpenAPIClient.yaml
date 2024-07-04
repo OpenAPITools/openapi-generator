@@ -1,5 +1,0 @@
-generatorName: csharp-dotnet2
-outputDir: samples/client/petstore/csharp-dotnet2/OpenAPIClientTest/Lib/OpenAPIClient
-inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
-additionalProperties:
-  hideGenerationTimestamp: "true"

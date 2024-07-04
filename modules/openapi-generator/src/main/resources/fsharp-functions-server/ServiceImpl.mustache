@@ -1,7 +1,7 @@
 namespace {{packageName}}
 {{#imports}}
 {{#import}}
-open {{import}}
+open {{.}}
 {{/import}}
 {{/imports}}
 open {{classname}}HandlerParams
@@ -10,23 +10,23 @@ open System.Collections.Generic
 open System
 
 module {{classname}}ServiceImplementation =
-    
+
     //#region Service implementation
-    type {{classname}}ServiceImpl() = 
+    type {{classname}}ServiceImpl() =
       interface I{{classname}}Service with
-      
+
       {{#operations}}
       {{#operation}}
         member this.{{operationId}} {{^hasBodyParam}}(){{/hasBodyParam}}{{#hasBodyParam}}(parameters:{{operationId}}BodyParams){{/hasBodyParam}} =
           {{#responses}}
           {{#-first}}
           {{^-last}}
-          if true then 
+          if true then
           {{/-last}}
           {{/-first}}
           {{^-first}}
           {{^-last}}
-          else if true then 
+          else if true then
           {{/-last}}
           {{#-last}}
           else

@@ -21,7 +21,7 @@
 
 class IHttpRequest;
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 typedef TSharedRef<TJsonWriter<>> JsonWriter;
@@ -31,8 +31,8 @@ typedef TSharedRef<TJsonWriter<>> JsonWriter;
 class OPENAPI_API HttpFileInput
 {
 public:
-	HttpFileInput(const TCHAR* InFilePath);
-	HttpFileInput(const FString& InFilePath);
+	explicit HttpFileInput(const TCHAR* InFilePath);
+	explicit HttpFileInput(const FString& InFilePath);
 
 	// This will automatically set the content type if not already set
     void SetFilePath(const TCHAR* InFilePath);
@@ -62,7 +62,7 @@ class HttpMultipartFormData
 {
 public:
 	void SetBoundary(const TCHAR* InBoundary);
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest);
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest);
 
 	void AddStringPart(const TCHAR* Name, const TCHAR* Data);
 	void AddJsonPart(const TCHAR* Name, const FString& JsonString);
@@ -104,35 +104,17 @@ FString Base64UrlEncode(const T& Value)
 }
 
 template<typename T>
-inline FStringFormatArg ToStringFormatArg(const T& Value)
+inline auto ToString(const T& Value)
+	-> typename std::enable_if<std::is_same<decltype(::LexToString(Value)), FString>::value, FString>::type
 {
-	return FStringFormatArg(Value);
+	return ::LexToString(Value);
 }
 
-inline FStringFormatArg ToStringFormatArg(const FDateTime& Value)
+template<typename T>
+inline auto ToString(const T& EnumModelValue)
+	-> typename std::enable_if<std::is_same<decltype(T::EnumToString(EnumModelValue.Value)), FString>::value, FString>::type
 {
-	return FStringFormatArg(Value.ToIso8601());
-}
-
-inline FStringFormatArg ToStringFormatArg(const TArray<uint8>& Value)
-{
-	return FStringFormatArg(Base64UrlEncode(Value));
-}
-
-template<typename T, typename std::enable_if<!std::is_base_of<Model, T>::value, int>::type = 0>
-inline FString ToString(const T& Value)
-{
-	return FString::Format(TEXT("{0}"), { ToStringFormatArg(Value) });
-}
-
-inline FString ToString(const FString& Value)
-{
-	return Value;
-}
-
-inline FString ToString(const TArray<uint8>& Value)
-{
-	return Base64UrlEncode(Value);
+	return T::EnumToString(EnumModelValue.Value);
 }
 
 inline FString ToString(const Model& Value)
@@ -144,10 +126,30 @@ inline FString ToString(const Model& Value)
 	return String;
 }
 
+inline FString ToString(const FDateTime& Value)
+{
+	return Value.ToIso8601();
+}
+
+inline FString ToString(const FGuid& Value)
+{
+	return Value.ToString(EGuidFormats::DigitsWithHyphens);
+}
+
+inline FString ToString(const TArray<uint8>& Value)
+{
+	return FBase64::Encode(Value);
+}
+
 template<typename T>
 inline FString ToUrlString(const T& Value)
 {
 	return FPlatformHttp::UrlEncode(ToString(Value));
+}
+
+inline FString ToUrlString(const TArray<uint8>& Value)
+{
+	return Base64UrlEncode(Value);
 }
 
 template<typename T>
@@ -204,7 +206,44 @@ inline FString CollectionToUrlString_multi(const TArray<T>& Collection, const TC
 	return Output;
 }
 
+
+template <typename T>
+inline FString CollectionToUrlString_multi(const TSet<T>& Collection, const TCHAR* BaseName)
+{
+	FString Output;
+	if (Collection.Num() == 0)
+	{
+		return Output;
+	}
+
+	int32 Index = 0;
+	for (typename TSet<T>::TConstIterator Iter = Collection.CreateConstIterator(); Iter; ++Iter)
+	{
+		if (Index == 0)
+		{
+			Output += FString::Format(TEXT("{0}={1}"), { FStringFormatArg(BaseName), ToUrlString(*Iter) });
+			Index++;
+			continue;
+		}
+		Output += FString::Format(TEXT("&{0}={1}"), { FStringFormatArg(BaseName), ToUrlString(*Iter) });
+	}
+	return Output;
+}
+	
 //////////////////////////////////////////////////////////////////////////
+
+inline void WriteJsonValue(JsonWriter& Writer, const TSharedPtr<FJsonValue>& Value)
+{
+	if (Value.IsValid())
+	{
+		FJsonSerializer::Serialize(Value.ToSharedRef(), "", Writer, false);
+	}
+	else
+	{
+		Writer->WriteObjectStart();
+		Writer->WriteObjectEnd();
+	}
+}
 
 inline void WriteJsonValue(JsonWriter& Writer, const TSharedPtr<FJsonObject>& Value)
 {
@@ -221,12 +260,17 @@ inline void WriteJsonValue(JsonWriter& Writer, const TSharedPtr<FJsonObject>& Va
 
 inline void WriteJsonValue(JsonWriter& Writer, const TArray<uint8>& Value)
 {
-	Writer->WriteValue(ToString(Value));
+	Writer->WriteValue(FBase64::Encode(Value));
 }
 
 inline void WriteJsonValue(JsonWriter& Writer, const FDateTime& Value)
 {
 	Writer->WriteValue(Value.ToIso8601());
+}
+
+inline void WriteJsonValue(JsonWriter& Writer, const FGuid& Value)
+{
+	Writer->WriteValue(Value.ToString(EGuidFormats::DigitsWithHyphens));
 }
 
 inline void WriteJsonValue(JsonWriter& Writer, const Model& Value)
@@ -277,11 +321,26 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, FString& Va
 		return false;
 }
 
+OPENAPI_API bool ParseDateTime(const FString& DateTimeString, FDateTime& OutDateTime);
+
 inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, FDateTime& Value)
 {
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
-		return FDateTime::Parse(TmpValue, Value);
+	{
+		return ParseDateTime(TmpValue, Value);
+	}
+	else
+		return false;
+}
+
+inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, FGuid& Value)
+{
+	FString TmpValue;
+	if (JsonValue->TryGetString(TmpValue))
+	{
+		return FGuid::Parse(TmpValue, Value);
+	}
 	else
 		return false;
 }
@@ -296,6 +355,12 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, bool& Value
 	}
 	else
 		return false;
+}
+
+inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, TSharedPtr<FJsonValue>& JsonObjectValue)
+{
+	JsonObjectValue = JsonValue;
+	return true;
 }
 
 inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, TSharedPtr<FJsonObject>& JsonObjectValue)
@@ -314,7 +379,7 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, TArray<uint
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
 	{
-		Base64UrlDecode(TmpValue, Value);
+		FBase64::Decode(TmpValue, Value);
 		return true;
 	}
 	else
@@ -392,10 +457,11 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonObject>& JsonObject, const FSt
 template<typename T>
 inline bool TryGetJsonValue(const TSharedPtr<FJsonObject>& JsonObject, const FString& Key, TOptional<T>& OptionalValue)
 {
-	if(JsonObject->HasField(Key))
+	const TSharedPtr<FJsonValue> JsonValue = JsonObject->TryGetField(Key);
+	if (JsonValue.IsValid() && !JsonValue->IsNull())
 	{
 		T Value;
-		if (TryGetJsonValue(JsonObject, Key, Value))
+		if (TryGetJsonValue(JsonValue, Value))
 		{
 			OptionalValue = Value;
 			return true;
@@ -403,7 +469,9 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonObject>& JsonObject, const FSt
 		else
 			return false;
 	}
-	return true; // Absence of optional value is not a parsing error
+	// Absence of optional value is not a parsing error.
+	// Nullable is handled like optional.
+	return true;
 }
 
 }

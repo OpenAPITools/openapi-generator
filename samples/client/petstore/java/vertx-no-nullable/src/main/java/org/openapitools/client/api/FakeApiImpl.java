@@ -4,8 +4,8 @@ import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.FileSchemaTestClass;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
@@ -27,7 +27,7 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class FakeApiImpl implements FakeApi {
 
     private ApiClient apiClient;
@@ -526,9 +526,9 @@ if (paramCallback != null) localVarFormParams.put("callback", paramCallback);
     /**
     * To test enum parameters
     * To test enum parameters
-        * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
+        * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
         * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-        * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
+        * @param enumQueryStringArray Query parameter enum test (string array) (optional)
         * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
         * @param enumQueryInteger Query parameter enum test (double) (optional)
         * @param enumQueryDouble Query parameter enum test (double) (optional)
@@ -543,9 +543,9 @@ if (paramCallback != null) localVarFormParams.put("callback", paramCallback);
     /**
     * To test enum parameters
     * To test enum parameters
-    * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
+    * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
     * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-    * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
+    * @param enumQueryStringArray Query parameter enum test (string array) (optional)
     * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
     * @param enumQueryInteger Query parameter enum test (double) (optional)
     * @param enumQueryDouble Query parameter enum test (double) (optional)
@@ -832,7 +832,7 @@ if (param2 != null) localVarFormParams.put("param2", param2);
         }
         
         // create path and map variables
-        String localVarPath = "/fake/test-query-paramters";
+        String localVarPath = "/fake/test-query-parameters";
 
         // query params
         List<Pair> localVarQueryParams = new ArrayList<>();

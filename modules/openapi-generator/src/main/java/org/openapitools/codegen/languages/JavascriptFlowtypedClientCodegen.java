@@ -20,15 +20,21 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.dashize;
 
+@Getter @Setter
 public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCodegen {
     public static final String NPM_REPOSITORY = "npmRepository";
 
@@ -37,7 +43,12 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
     public JavascriptFlowtypedClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        modifyFeatureSet(features -> features
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.ApiKey))
+                .includeDocumentationFeatures(DocumentationFeature.Readme));
 
         // clear import mapping (from default generator) as TS does not use it
         // at the moment
@@ -66,7 +77,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
                 "Math", "NaN", "Number", "Object",
                 "prototype", "String", "toString", "undefined", "valueOf"));
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("string", "boolean", "number", "Array", "Object", "Date", "File", "Blob")
         );
 
@@ -97,7 +108,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
         typeMapping.put("UUID", "string");
         typeMapping.put("URI", "string");
 
-        defaultIncludes = new HashSet<String>(languageSpecificPrimitives);
+        defaultIncludes = new HashSet<>(languageSpecificPrimitives);
         outputFolder = "generated-code/javascript-flowtyped";
         embeddedTemplateDir = templateDir = "Javascript-Flowtyped";
 
@@ -107,7 +118,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -165,24 +176,23 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         // process enum in models
-        List<Object> models = (List<Object>) postProcessModelsEnum(objs).get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
-            cm.imports = new TreeSet(cm.imports);
+        List<ModelMap> models = postProcessModelsEnum(objs).getModels();
+        for (ModelMap mo : models) {
+            CodegenModel cm = mo.getModel();
+            cm.imports = new TreeSet<>(cm.imports);
             // name enum with model name, e.g. StatusEnum => Pet.StatusEnum
             for (CodegenProperty var : cm.vars) {
                 if (Boolean.TRUE.equals(var.isEnum)) {
-                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + "" + var.enumName);
+                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
                 }
             }
             if (cm.parent != null) {
                 for (CodegenProperty var : cm.allVars) {
                     if (Boolean.TRUE.equals(var.isEnum)) {
                         var.datatypeWithEnum = var.datatypeWithEnum
-                                .replace(var.enumName, cm.classname + "" + var.enumName);
+                                .replace(var.enumName, cm.classname + var.enumName);
                     }
                 }
             }
@@ -201,28 +211,6 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
         return "Generates a Javascript client library (beta) using Flow types and Fetch API.";
     }
 
-    public String getNpmName() {
-        return npmName;
-    }
-
-    public void setNpmName(String npmName) {
-        this.npmName = npmName;
-    }
-
-    public String getNpmVersion() {
-        return npmVersion;
-    }
-
-    public void setNpmVersion(String npmVersion) {
-        this.npmVersion = npmVersion;
-    }
-
-    public String getNpmRepository() {
-        return npmRepository;
-    }
-
-    public void setNpmRepository(String npmRepository) {
-        this.npmRepository = npmRepository;
-    }
-
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
 }

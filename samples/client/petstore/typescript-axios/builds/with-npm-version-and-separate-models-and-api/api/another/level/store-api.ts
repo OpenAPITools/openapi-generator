@@ -13,15 +13,16 @@
  */
 
 
-import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
-import { Configuration } from '../../../configuration';
+import type { Configuration } from '../../../configuration';
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
+import globalAxios from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from '../../../common';
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../../../base';
+import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../../../base';
 // @ts-ignore
-import { Order } from '../../../model/some/levels/deep';
+import type { Order } from '../../../model/some/levels/deep';
 /**
  * StoreApi - axios parameter creator
  * @export
@@ -35,7 +36,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteOrder: async (orderId: string, options: any = {}): Promise<RequestArgs> => {
+        deleteOrder: async (orderId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'orderId' is not null or undefined
             assertParamExists('deleteOrder', 'orderId', orderId)
             const localVarPath = `/store/order/{orderId}`
@@ -53,7 +54,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -68,7 +69,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getInventory: async (options: any = {}): Promise<RequestArgs> => {
+        getInventory: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/store/inventory`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -86,7 +87,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -96,13 +97,13 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             };
         },
         /**
-         * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+         * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
          * @summary Find purchase order by ID
          * @param {number} orderId ID of pet that needs to be fetched
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrderById: async (orderId: number, options: any = {}): Promise<RequestArgs> => {
+        getOrderById: async (orderId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'orderId' is not null or undefined
             assertParamExists('getOrderById', 'orderId', orderId)
             const localVarPath = `/store/order/{orderId}`
@@ -120,7 +121,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
 
 
     
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -136,7 +137,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        placeOrder: async (body: Order, options: any = {}): Promise<RequestArgs> => {
+        placeOrder: async (body: Order, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
             assertParamExists('placeOrder', 'body', body)
             const localVarPath = `/store/order`;
@@ -155,7 +156,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
@@ -182,9 +183,11 @@ export const StoreApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteOrder(orderId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async deleteOrder(orderId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteOrder(orderId, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['StoreApi.deleteOrder']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * Returns a map of status codes to quantities
@@ -192,20 +195,24 @@ export const StoreApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getInventory(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: number; }>> {
+        async getInventory(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: number; }>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getInventory(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['StoreApi.getInventory']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+         * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
          * @summary Find purchase order by ID
          * @param {number} orderId ID of pet that needs to be fetched
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getOrderById(orderId: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
+        async getOrderById(orderId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getOrderById(orderId, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['StoreApi.getOrderById']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -214,9 +221,11 @@ export const StoreApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async placeOrder(body: Order, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
+        async placeOrder(body: Order, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.placeOrder(body, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['StoreApi.placeOrder']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
@@ -235,7 +244,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteOrder(orderId: string, options?: any): AxiosPromise<void> {
+        deleteOrder(orderId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.deleteOrder(orderId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -244,17 +253,17 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getInventory(options?: any): AxiosPromise<{ [key: string]: number; }> {
+        getInventory(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: number; }> {
             return localVarFp.getInventory(options).then((request) => request(axios, basePath));
         },
         /**
-         * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+         * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
          * @summary Find purchase order by ID
          * @param {number} orderId ID of pet that needs to be fetched
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrderById(orderId: number, options?: any): AxiosPromise<Order> {
+        getOrderById(orderId: number, options?: RawAxiosRequestConfig): AxiosPromise<Order> {
             return localVarFp.getOrderById(orderId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -264,7 +273,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        placeOrder(body: Order, options?: any): AxiosPromise<Order> {
+        placeOrder(body: Order, options?: RawAxiosRequestConfig): AxiosPromise<Order> {
             return localVarFp.placeOrder(body, options).then((request) => request(axios, basePath));
         },
     };
@@ -285,7 +294,7 @@ export class StoreApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof StoreApi
      */
-    public deleteOrder(orderId: string, options?: any) {
+    public deleteOrder(orderId: string, options?: RawAxiosRequestConfig) {
         return StoreApiFp(this.configuration).deleteOrder(orderId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -296,19 +305,19 @@ export class StoreApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof StoreApi
      */
-    public getInventory(options?: any) {
+    public getInventory(options?: RawAxiosRequestConfig) {
         return StoreApiFp(this.configuration).getInventory(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      * @summary Find purchase order by ID
      * @param {number} orderId ID of pet that needs to be fetched
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof StoreApi
      */
-    public getOrderById(orderId: number, options?: any) {
+    public getOrderById(orderId: number, options?: RawAxiosRequestConfig) {
         return StoreApiFp(this.configuration).getOrderById(orderId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -320,7 +329,8 @@ export class StoreApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof StoreApi
      */
-    public placeOrder(body: Order, options?: any) {
+    public placeOrder(body: Order, options?: RawAxiosRequestConfig) {
         return StoreApiFp(this.configuration).placeOrder(body, options).then((request) => request(this.axios, this.basePath));
     }
 }
+

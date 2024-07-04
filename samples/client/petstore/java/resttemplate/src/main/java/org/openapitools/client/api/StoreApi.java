@@ -1,6 +1,7 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
+import org.openapitools.client.BaseApi;
 
 import org.openapitools.client.model.Order;
 
@@ -25,26 +26,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-@Component("org.openapitools.client.api.StoreApi")
-public class StoreApi {
-    private ApiClient apiClient;
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+public class StoreApi extends BaseApi {
 
     public StoreApi() {
-        this(new ApiClient());
+        super(new ApiClient());
     }
 
-    @Autowired
     public StoreApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
-    }
-
-    public ApiClient getApiClient() {
-        return apiClient;
-    }
-
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        super(apiClient);
     }
 
     /**
@@ -69,7 +59,7 @@ public class StoreApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<Void> deleteOrderWithHttpInfo(String orderId) throws RestClientException {
-        Object postBody = null;
+        Object localVarPostBody = null;
         
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
@@ -79,22 +69,21 @@ public class StoreApi {
         // create path and map variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("order_id", orderId);
-        String path = apiClient.expandPath("/store/order/{order_id}", uriVariables);
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] contentTypes = {  };
-        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] authNames = new String[] {  };
+        String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI(path, HttpMethod.DELETE, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, contentType, authNames, returnType);
+        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.DELETE, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Returns pet inventories by status
@@ -115,30 +104,29 @@ public class StoreApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<Map<String, Integer>> getInventoryWithHttpInfo() throws RestClientException {
-        Object postBody = null;
+        Object localVarPostBody = null;
         
-        String path = apiClient.expandPath("/store/inventory", Collections.<String, Object>emptyMap());
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         final String[] localVarAccepts = { 
             "application/json"
          };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] contentTypes = {  };
-        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] authNames = new String[] { "api_key" };
+        String[] localVarAuthNames = new String[] { "api_key" };
 
-        ParameterizedTypeReference<Map<String, Integer>> returnType = new ParameterizedTypeReference<Map<String, Integer>>() {};
-        return apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, contentType, authNames, returnType);
+        ParameterizedTypeReference<Map<String, Integer>> localReturnType = new ParameterizedTypeReference<Map<String, Integer>>() {};
+        return apiClient.invokeAPI("/store/inventory", HttpMethod.GET, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Find purchase order by ID
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid ID supplied
      * <p><b>404</b> - Order not found
@@ -152,7 +140,7 @@ public class StoreApi {
 
     /**
      * Find purchase order by ID
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid ID supplied
      * <p><b>404</b> - Order not found
@@ -161,7 +149,7 @@ public class StoreApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<Order> getOrderByIdWithHttpInfo(Long orderId) throws RestClientException {
-        Object postBody = null;
+        Object localVarPostBody = null;
         
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
@@ -171,36 +159,35 @@ public class StoreApi {
         // create path and map variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("order_id", orderId);
-        String path = apiClient.expandPath("/store/order/{order_id}", uriVariables);
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
          };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] contentTypes = {  };
-        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] authNames = new String[] {  };
+        String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Order> returnType = new ParameterizedTypeReference<Order>() {};
-        return apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, contentType, authNames, returnType);
+        ParameterizedTypeReference<Order> localReturnType = new ParameterizedTypeReference<Order>() {};
+        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Place an order for a pet
      * 
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid Order
-     * @param body order placed for purchasing the pet (required)
+     * @param order order placed for purchasing the pet (required)
      * @return Order
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Order placeOrder(Order body) throws RestClientException {
-        return placeOrderWithHttpInfo(body).getBody();
+    public Order placeOrder(Order order) throws RestClientException {
+        return placeOrderWithHttpInfo(order).getBody();
     }
 
     /**
@@ -208,35 +195,61 @@ public class StoreApi {
      * 
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid Order
-     * @param body order placed for purchasing the pet (required)
+     * @param order order placed for purchasing the pet (required)
      * @return ResponseEntity&lt;Order&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Order> placeOrderWithHttpInfo(Order body) throws RestClientException {
-        Object postBody = body;
+    public ResponseEntity<Order> placeOrderWithHttpInfo(Order order) throws RestClientException {
+        Object localVarPostBody = order;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling placeOrder");
+        // verify the required parameter 'order' is set
+        if (order == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'order' when calling placeOrder");
         }
         
-        String path = apiClient.expandPath("/store/order", Collections.<String, Object>emptyMap());
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
          };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] contentTypes = {  };
-        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] authNames = new String[] {  };
+        String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Order> returnType = new ParameterizedTypeReference<Order>() {};
-        return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, contentType, authNames, returnType);
+        ParameterizedTypeReference<Order> localReturnType = new ParameterizedTypeReference<Order>() {};
+        return apiClient.invokeAPI("/store/order", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+
+    @Override
+    public <T> ResponseEntity<T> invokeAPI(String url, HttpMethod method, Object request, ParameterizedTypeReference<T> returnType) throws RestClientException {
+        String localVarPath = url.replace(apiClient.getBasePath(), "");
+        Object localVarPostBody = request;
+
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { 
+            "application/xml", "application/json"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        return apiClient.invokeAPI(localVarPath, method, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType);
     }
 }

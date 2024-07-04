@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import javax.validation.constraints.*;
@@ -31,7 +29,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * OuterComposite
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class OuterComposite {
   public static final String SERIALIZED_NAME_MY_NUMBER = "my_number";
   @SerializedName(SERIALIZED_NAME_MY_NUMBER)
@@ -45,6 +43,8 @@ public class OuterComposite {
   @SerializedName(SERIALIZED_NAME_MY_BOOLEAN)
   private Boolean myBoolean;
 
+  public OuterComposite() {
+  }
 
   public OuterComposite myNumber(BigDecimal myNumber) {
     
@@ -52,13 +52,13 @@ public class OuterComposite {
     return this;
   }
 
-   /**
+  /**
    * Get myNumber
    * @return myNumber
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
-  @ApiModelProperty(value = "")
+
 
   public BigDecimal getMyNumber() {
     return myNumber;
@@ -69,19 +69,18 @@ public class OuterComposite {
     this.myNumber = myNumber;
   }
 
-
   public OuterComposite myString(String myString) {
     
     this.myString = myString;
     return this;
   }
 
-   /**
+  /**
    * Get myString
    * @return myString
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public String getMyString() {
     return myString;
@@ -92,19 +91,18 @@ public class OuterComposite {
     this.myString = myString;
   }
 
-
   public OuterComposite myBoolean(Boolean myBoolean) {
     
     this.myBoolean = myBoolean;
     return this;
   }
 
-   /**
+  /**
    * Get myBoolean
    * @return myBoolean
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public Boolean isMyBoolean() {
     return myBoolean;
@@ -114,7 +112,6 @@ public class OuterComposite {
   public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
-
 
   @Override
   public boolean equals(Object o) {

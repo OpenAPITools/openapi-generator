@@ -2,7 +2,7 @@
 /**
  * ApiResponse
  *
- * PHP version 7.1.3
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  OpenAPI\Server\Model
@@ -31,6 +31,7 @@ namespace OpenAPI\Server\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\Accessor;
 use JMS\Serializer\Annotation\SerializedName;
 
 /**
@@ -41,41 +42,44 @@ use JMS\Serializer\Annotation\SerializedName;
  * @package OpenAPI\Server\Model
  * @author  OpenAPI Generator team
  */
+
 class ApiResponse 
 {
         /**
      * @var int|null
      * @SerializedName("code")
-     * @Assert\Type("int")
      * @Type("int")
-     */
-    protected $code;
+    */
+    #[Assert\Type("int")]
+    protected ?int $code = null;
 
     /**
      * @var string|null
      * @SerializedName("type")
-     * @Assert\Type("string")
      * @Type("string")
-     */
-    protected $type;
+    */
+    #[Assert\Type("string")]
+    protected ?string $type = null;
 
     /**
      * @var string|null
      * @SerializedName("message")
-     * @Assert\Type("string")
      * @Type("string")
-     */
-    protected $message;
+    */
+    #[Assert\Type("string")]
+    protected ?string $message = null;
 
     /**
      * Constructor
-     * @param mixed[] $data Associated array of property values initializing the model
+     * @param array|null $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
-        $this->code = isset($data['code']) ? $data['code'] : null;
-        $this->type = isset($data['type']) ? $data['type'] : null;
-        $this->message = isset($data['message']) ? $data['message'] : null;
+        if (is_array($data)) {
+            $this->code = array_key_exists('code', $data) ? $data['code'] : $this->code;
+            $this->type = array_key_exists('type', $data) ? $data['type'] : $this->type;
+            $this->message = array_key_exists('message', $data) ? $data['message'] : $this->message;
+        }
     }
 
     /**
@@ -83,72 +87,81 @@ class ApiResponse
      *
      * @return int|null
      */
-    public function getCode()
+    public function getCode(): ?int
     {
         return $this->code;
     }
 
     /**
-     * Sets code.
-     *
-     * @param int|null $code
-     *
-     * @return $this
-     */
-    public function setCode($code = null)
+    * Sets code.
+    *
+    * @param int|null $code
+    *
+    * @return $this
+    */
+    public function setCode(?int $code = null): self
     {
         $this->code = $code;
 
         return $this;
     }
 
+
+
+
     /**
      * Gets type.
      *
      * @return string|null
      */
-    public function getType()
+    public function getType(): ?string
     {
         return $this->type;
     }
 
     /**
-     * Sets type.
-     *
-     * @param string|null $type
-     *
-     * @return $this
-     */
-    public function setType($type = null)
+    * Sets type.
+    *
+    * @param string|null $type
+    *
+    * @return $this
+    */
+    public function setType(?string $type = null): self
     {
         $this->type = $type;
 
         return $this;
     }
 
+
+
+
     /**
      * Gets message.
      *
      * @return string|null
      */
-    public function getMessage()
+    public function getMessage(): ?string
     {
         return $this->message;
     }
 
     /**
-     * Sets message.
-     *
-     * @param string|null $message
-     *
-     * @return $this
-     */
-    public function setMessage($message = null)
+    * Sets message.
+    *
+    * @param string|null $message
+    *
+    * @return $this
+    */
+    public function setMessage(?string $message = null): self
     {
         $this->message = $message;
 
         return $this;
     }
+
+
+
 }
 
 

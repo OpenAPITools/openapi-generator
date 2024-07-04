@@ -16,10 +16,12 @@ class Tag
      * @var int|null
      */
     public $id;
+
     /**
      * @DTA\Data(field="name", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"string"})
      * @var string|null
      */
     public $name;
+
 }

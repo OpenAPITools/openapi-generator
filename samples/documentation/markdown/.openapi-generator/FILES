@@ -3,8 +3,6 @@ Apis/StoreApi.md
 Apis/UserApi.md
 Models/ApiResponse.md
 Models/Category.md
-Models/InlineObject.md
-Models/InlineObject1.md
 Models/Order.md
 Models/Pet.md
 Models/Tag.md

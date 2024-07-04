@@ -14,7 +14,7 @@ import org.openapitools.model.Client;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class AnotherFakeController  {
-  /** 
+  /**
    * Uncomment and implement as you see fit.  These operations will map
    * Directly to operation calls from the routing logic.  Because the inflector
    * Code allows you to implement logic incrementally, they are disabled.
@@ -27,4 +27,3 @@ public class AnotherFakeController  {
   */
 
 }
-

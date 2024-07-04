@@ -20,7 +20,7 @@ Delete purchase order by ID
 
 For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
-### Example 
+### Example
 ```objc
 
 NSString* orderId = @"orderId_example"; // ID of the order that needs to be deleted
@@ -67,7 +67,7 @@ Returns pet inventories by status
 
 Returns a map of status codes to quantities
 
-### Example 
+### Example
 ```objc
 SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 
@@ -118,9 +118,9 @@ This endpoint does not need any parameter.
 
 Find purchase order by ID
 
-For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
 
-### Example 
+### Example
 ```objc
 
 NSString* orderId = @"orderId_example"; // ID of pet that needs to be fetched
@@ -168,7 +168,9 @@ No authorization required
 
 Place an order for a pet
 
-### Example 
+
+
+### Example
 ```objc
 
 SWGOrder* order = [[SWGOrder alloc] init]; // order placed for purchasing the pet (optional)

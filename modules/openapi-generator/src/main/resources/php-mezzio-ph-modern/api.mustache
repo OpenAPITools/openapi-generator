@@ -1,0 +1,73 @@
+<?php
+declare(strict_types=1);
+
+namespace {{package}};
+
+use Articus\PathHandler\PhpAttribute as PHA;
+use Articus\PathHandler\Consumer as PHConsumer;
+use Articus\PathHandler\Producer as PHProducer;
+use Articus\PathHandler\Attribute as PHAttribute;
+use Articus\PathHandler\Exception as PHException;
+use Psr\Http\Message\ServerRequestInterface;
+
+{{#operations}}
+{{#description}}
+/**
+ * {{&description}}
+ */
+{{/description}}
+#[PHA\Route("{{pathPattern}}")]
+class {{classname}}
+{
+{{#operation}}
+    /**
+{{#summary}}
+     * {{.}}
+{{/summary}}
+{{#description}}
+     * {{.}}
+{{/description}}
+     */
+    #[PHA\{{httpMethod}}]
+{{#vendorExtensions}}
+{{#internal.ze-ph.hasQueryData}}
+    #[PHA\Attribute(PHAttribute\Transfer::class, [
+        "type" => {{internal.ze-ph.queryDataType}}::class,
+        "objectAttr" => "queryData",
+        "source" => PHAttribute\Transfer::SOURCE_GET
+    ])]
+{{/internal.ze-ph.hasQueryData}}
+{{/vendorExtensions}}
+{{#bodyParam}}
+{{#consumes}}
+    // TODO check if consumer is valid, if it has correct priority and if it can be moved to class annotation
+    #[PHA\Consumer("{{{mediaType}}}", PHConsumer\Json::class)]
+{{/consumes}}
+{{^isPrimitiveType}}
+    #[PHA\Attribute(PHAttribute\Transfer::class, ["type" => {{dataType}}::class, "objectAttr" => "bodyData"])]
+{{/isPrimitiveType}}
+{{/bodyParam}}
+{{#produces}}
+    // TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
+    #[PHA\Producer("{{{mediaType}}}", PHProducer\Transfer::class)]
+{{/produces}}
+    public function {{operationId}}(ServerRequestInterface $request){{#returnType}}: {{.}}{{/returnType}}
+    {
+        //TODO implement method
+{{#vendorExtensions}}
+{{#internal.ze-ph.hasQueryData}}
+        /** @var {{internal.ze-ph.queryDataType}} $queryData */
+        $queryData = $request->getAttribute("queryData");
+{{/internal.ze-ph.hasQueryData}}
+{{/vendorExtensions}}
+{{#bodyParam}}
+{{^isPrimitiveType}}
+        /** @var {{dataType}} $bodyData */
+        $bodyData = $request->getAttribute("bodyData");
+{{/isPrimitiveType}}
+{{/bodyParam}}
+        throw new PHException\HttpCode(501, "Not implemented");
+    }
+{{/operation}}
+}
+{{/operations}}

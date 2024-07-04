@@ -17,21 +17,43 @@
 
 package org.openapitools.codegen.php;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
+
+import org.mockito.Answers;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.languages.AbstractPhpCodegen;
+import org.openapitools.codegen.TestUtils;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
 import java.util.HashMap;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.withSettings;
+
 public class AbstractPhpCodegenTest {
 
+    private AbstractPhpCodegen codegen;
+
+    /**
+     * In TEST-NG, test class (and its fields) is only constructed once (vs. for every test in Jupiter),
+     * using @BeforeMethod to have a fresh codegen mock for each test
+     */
+    @BeforeMethod void mockAbstractCodegen() {
+        codegen = mock(
+            AbstractPhpCodegen.class, withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()
+        );
+    }
+    
     @Test
     public void testInitialConfigValues() throws Exception {
-        final AbstractPhpCodegen codegen = new P_AbstractPhpCodegen();
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
@@ -46,7 +68,6 @@ public class AbstractPhpCodegenTest {
 
     @Test
     public void testSettersForConfigValues() throws Exception {
-        final AbstractPhpCodegen codegen = new P_AbstractPhpCodegen();
         codegen.setHideGenerationTimestamp(false);
         codegen.setModelPackage("My\\Client\\Model");
         codegen.setApiPackage("My\\Client\\Api");
@@ -65,7 +86,6 @@ public class AbstractPhpCodegenTest {
 
     @Test
     public void testAdditionalPropertiesPutForConfigValues() throws Exception {
-        final AbstractPhpCodegen codegen = new P_AbstractPhpCodegen();
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "PHPmodel");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "PHPapi");
@@ -93,27 +113,67 @@ public class AbstractPhpCodegenTest {
         codegenOperation.hasProduces = true;
         codegenOperation.produces = Arrays.asList(all, applicationJson);
 
-        final AbstractPhpCodegen codegen = new P_AbstractPhpCodegen();
         codegen.escapeMediaType(Arrays.asList(codegenOperation));
 
         Assert.assertEquals(codegenOperation.produces.get(0).get("mediaType"), "*_/_*");
         Assert.assertEquals(codegenOperation.produces.get(1).get("mediaType"), "application/json");
     }
 
-    private static class P_AbstractPhpCodegen extends AbstractPhpCodegen {
-        @Override
-        public CodegenType getTag() {
-            return null;
-        }
+    @Test(dataProvider = "composerNames", description = "Issue #9998")
+    public void testGetComposerPackageName(String gitUserId, String gitRepoId, String result) {
+        codegen.processOpts();
 
-        @Override
-        public String getName() {
-            return null;
-        }
+        codegen.setGitUserId(gitUserId);
+        codegen.setGitRepoId(gitRepoId);
+        Assert.assertEquals(codegen.getComposerPackageName(), result);
+    }
 
-        @Override
-        public String getHelp() {
-            return null;
-        }
+    @DataProvider(name = "composerNames")
+    public static Object[][] composerNames() {
+        return new Object[][] {
+            {"", "", ""},
+            {"null", "null", ""},
+            {"GIT_REPO_ID", "GIT_USER_ID", ""},
+            {"git_repo_id", "git_user_id", "git_repo_id/git_user_id"},
+            {"foo", "bar", "foo/bar"},
+        };
+    }
+
+    @Test(description = "Issue #8945")
+    public void testArrayOfArrays() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_8945.yaml");
+        codegen.setOpenAPI(openAPI);
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("MyResponse");
+        CodegenModel cm1 = codegen.fromModel("MyResponse", test1);
+
+        // Make sure we got the container object.
+        Assert.assertEquals(cm1.getDataType(), "object");
+        Assert.assertEquals(codegen.getTypeDeclaration("MyResponse"), "\\php\\Model\\MyResponse");
+
+        // Assert the array type is properly detected.
+        CodegenProperty cp1 = cm1.vars.get(0);
+        cp1 = codegen.fromProperty("ArrayProp", test1);
+        Assert.assertTrue(cp1.isPrimitiveType);
+    }
+
+    @Test(description = "Issue #10244")
+    public void testEnumPropertyWithDefaultValue() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/php/issue_10244.yaml");
+        codegen.setOpenAPI(openAPI);
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("ModelWithEnumPropertyHavingDefault");
+        CodegenModel cm1 = codegen.fromModel("ModelWithEnumPropertyHavingDefault", test1);
+
+        // Make sure we got the container object.
+        Assert.assertEquals(cm1.getDataType(), "object");
+        Assert.assertEquals(codegen.getTypeDeclaration("MyResponse"), "\\php\\Model\\MyResponse");
+
+        // We need to postProcess the model for enums to be processed
+        codegen.postProcessModels(TestUtils.createCodegenModelWrapper(cm1));
+
+        // Assert the enum default value is properly generated
+        CodegenProperty cp1 = cm1.vars.get(0);
+        Assert.assertEquals(cp1.getDefaultValue(), "'VALUE'");
     }
 }

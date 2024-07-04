@@ -18,9 +18,9 @@ import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import java.util.Objects;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -28,8 +28,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import java.util.Arrays;
 import org.openapitools.client.model.EquilateralTriangle;
 import org.openapitools.client.model.IsoscelesTriangle;
 import org.openapitools.client.model.ScaleneTriangle;
@@ -63,7 +62,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @JsonDeserialize(using = Triangle.TriangleDeserializer.class)
 @JsonSerialize(using = Triangle.TriangleSerializer.class)
 public class Triangle extends AbstractOpenApiSchema {
@@ -98,7 +97,7 @@ public class Triangle extends AbstractOpenApiSchema {
             JsonNode tree = jp.readValueAsTree();
             Object deserialized = null;
             Triangle newTriangle = new Triangle();
-            Map<String,Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
+            Map<String, Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
             String discriminatorValue = (String)result2.get("triangleType");
             switch (discriminatorValue) {
                 case "EquilateralTriangle":
@@ -123,16 +122,6 @@ public class Triangle extends AbstractOpenApiSchema {
             // deserialize EquilateralTriangle
             try {
                 boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if (EquilateralTriangle.class.equals(Integer.class) || EquilateralTriangle.class.equals(Long.class) || EquilateralTriangle.class.equals(Float.class) || EquilateralTriangle.class.equals(Double.class) || EquilateralTriangle.class.equals(Boolean.class) || EquilateralTriangle.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= ((EquilateralTriangle.class.equals(Integer.class) || EquilateralTriangle.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((EquilateralTriangle.class.equals(Float.class) || EquilateralTriangle.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (EquilateralTriangle.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (EquilateralTriangle.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                    }
-                }
                 if (attemptParsing) {
                     deserialized = tree.traverse(jp.getCodec()).readValueAs(EquilateralTriangle.class);
                     // TODO: there is no validation against JSON schema constraints
@@ -149,16 +138,6 @@ public class Triangle extends AbstractOpenApiSchema {
             // deserialize IsoscelesTriangle
             try {
                 boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if (IsoscelesTriangle.class.equals(Integer.class) || IsoscelesTriangle.class.equals(Long.class) || IsoscelesTriangle.class.equals(Float.class) || IsoscelesTriangle.class.equals(Double.class) || IsoscelesTriangle.class.equals(Boolean.class) || IsoscelesTriangle.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= ((IsoscelesTriangle.class.equals(Integer.class) || IsoscelesTriangle.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((IsoscelesTriangle.class.equals(Float.class) || IsoscelesTriangle.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (IsoscelesTriangle.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (IsoscelesTriangle.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                    }
-                }
                 if (attemptParsing) {
                     deserialized = tree.traverse(jp.getCodec()).readValueAs(IsoscelesTriangle.class);
                     // TODO: there is no validation against JSON schema constraints
@@ -175,16 +154,6 @@ public class Triangle extends AbstractOpenApiSchema {
             // deserialize ScaleneTriangle
             try {
                 boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if (ScaleneTriangle.class.equals(Integer.class) || ScaleneTriangle.class.equals(Long.class) || ScaleneTriangle.class.equals(Float.class) || ScaleneTriangle.class.equals(Double.class) || ScaleneTriangle.class.equals(Boolean.class) || ScaleneTriangle.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= ((ScaleneTriangle.class.equals(Integer.class) || ScaleneTriangle.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((ScaleneTriangle.class.equals(Float.class) || ScaleneTriangle.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (ScaleneTriangle.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (ScaleneTriangle.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                    }
-                }
                 if (attemptParsing) {
                     deserialized = tree.traverse(jp.getCodec()).readValueAs(ScaleneTriangle.class);
                     // TODO: there is no validation against JSON schema constraints
@@ -216,7 +185,7 @@ public class Triangle extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, GenericType<?>> schemas = new HashMap<>();
 
     public Triangle() {
         super("oneOf", Boolean.FALSE);
@@ -235,7 +204,7 @@ public class Triangle extends AbstractOpenApiSchema {
   @JsonAnySetter
   public Triangle putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, Object>();
+        this.additionalProperties = new HashMap<>();
     }
     this.additionalProperties.put(key, value);
     return this;
@@ -295,7 +264,7 @@ public class Triangle extends AbstractOpenApiSchema {
         });
         JSON.registerDescendants(Triangle.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
-        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+        Map<String, Class<?>> mappings = new HashMap<>();
         mappings.put("EquilateralTriangle", EquilateralTriangle.class);
         mappings.put("IsoscelesTriangle", IsoscelesTriangle.class);
         mappings.put("ScaleneTriangle", ScaleneTriangle.class);
@@ -304,7 +273,7 @@ public class Triangle extends AbstractOpenApiSchema {
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, GenericType<?>> getSchemas() {
         return Triangle.schemas;
     }
 
@@ -318,17 +287,17 @@ public class Triangle extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(EquilateralTriangle.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(EquilateralTriangle.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(IsoscelesTriangle.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(IsoscelesTriangle.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(ScaleneTriangle.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(ScaleneTriangle.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -348,7 +317,7 @@ public class Triangle extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `EquilateralTriangle`. If the actual instanct is not `EquilateralTriangle`,
+     * Get the actual instance of `EquilateralTriangle`. If the actual instance is not `EquilateralTriangle`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `EquilateralTriangle`
@@ -359,7 +328,7 @@ public class Triangle extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `IsoscelesTriangle`. If the actual instanct is not `IsoscelesTriangle`,
+     * Get the actual instance of `IsoscelesTriangle`. If the actual instance is not `IsoscelesTriangle`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `IsoscelesTriangle`
@@ -370,7 +339,7 @@ public class Triangle extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `ScaleneTriangle`. If the actual instanct is not `ScaleneTriangle`,
+     * Get the actual instance of `ScaleneTriangle`. If the actual instance is not `ScaleneTriangle`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `ScaleneTriangle`

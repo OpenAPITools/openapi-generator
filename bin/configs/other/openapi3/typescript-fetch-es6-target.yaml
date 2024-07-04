@@ -1,9 +1,0 @@
-generatorName: typescript-fetch
-outputDir: samples/client/petstore/typescript-fetch/builds/es6-target
-inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
-additionalProperties:
-  npmVersion: 1.0.0
-  supportsES6: true
-  npmName: '@openapitools/typescript-fetch-petstore'
-  npmRepository: https://skimdb.npmjs.com/registry
-  snapshot: false

@@ -21,7 +21,9 @@ Method | HTTP request | Description
 
 Add a new pet to the store
 
-### Example 
+
+
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -69,7 +71,9 @@ Void (empty response body)
 
 Deletes a pet
 
-### Example 
+
+
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -114,14 +118,14 @@ Void (empty response body)
 
 # **findPetsByStatus**
 ```swift
-    open class func findPetsByStatus(status: [String], completion: @escaping (_ data: [Pet]?, _ error: Error?) -> Void)
+    open class func findPetsByStatus(status: [Status_findPetsByStatus], completion: @escaping (_ data: [Pet]?, _ error: Error?) -> Void)
 ```
 
 Finds Pets by status
 
 Multiple status values can be provided with comma separated strings
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -171,7 +175,7 @@ Finds Pets by tags
 
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -221,7 +225,7 @@ Find pet by ID
 
 Returns a single pet
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -269,7 +273,9 @@ Name | Type | Description  | Notes
 
 Update an existing pet
 
-### Example 
+
+
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -317,7 +323,9 @@ Void (empty response body)
 
 Updates a pet in the store with form data
 
-### Example 
+
+
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -369,7 +377,9 @@ Void (empty response body)
 
 uploads an image
 
-### Example 
+
+
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient

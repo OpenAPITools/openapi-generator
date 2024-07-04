@@ -10,6 +10,6 @@ namespace app\Models;
 class SpecialModelName {
 
     /** @var int $specialPropertyName */
-    private $specialPropertyName;
+    public $specialPropertyName = 0;
 
 }

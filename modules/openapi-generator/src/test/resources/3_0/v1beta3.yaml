@@ -1,0 +1,375 @@
+openapi: 3.0.1
+info:
+  version: v1beta3
+servers:
+- url: https://127.0.0.1:6443/
+paths:
+  /api/v1beta3/namespaces/{namespaces}/bindings:
+    post:
+      operationId: createBinding
+      parameters:
+      - description: "object name and auth scope, such as for teams and projects"
+        in: path
+        name: namespaces
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/v1beta3.Binding'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1beta3.Binding'
+          description: success
+      summary: create a Binding
+      tags:
+      - apiv1beta3
+      x-codegen-request-body-name: body
+      x-content-type: '*/*'
+      x-accepts: application/json
+  /api/v1beta3/namespaces/{namespaces}/componentstatuses/{name}:
+    get:
+      operationId: readComponentStatus
+      parameters:
+      - description: name of the ComponentStatus
+        in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      - description: "object name and auth scope, such as for teams and projects"
+        in: path
+        name: namespaces
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1beta3.ComponentStatus'
+          description: success
+      summary: read the specified ComponentStatus
+      tags:
+      - apiv1beta3
+      x-accepts: application/json
+  /api/v1beta3/namespaces/{namespaces}/componentstatuses:
+    get:
+      operationId: listComponentStatus
+      parameters:
+      - description: "object name and auth scope, such as for teams and projects"
+        in: path
+        name: namespaces
+        required: true
+        schema:
+          type: string
+      - description: a selector to restrict the list of returned objects by their
+          fields; defaults to everything
+        in: query
+        name: fieldSelector
+        schema:
+          type: string
+      - description: a selector to restrict the list of returned objects by their
+          labels; defaults to everything
+        in: query
+        name: labelSelector
+        schema:
+          type: string
+      - description: "when specified with a watch call, shows changes that occur after\
+          \ that particular version of a resource; defaults to changes from the beginning\
+          \ of history"
+        in: query
+        name: resourceVersion
+        schema:
+          type: string
+      - description: "watch for changes to the described resources and return them\
+          \ as a stream of add, update, and remove notifications; specify resourceVersion"
+        in: query
+        name: watch
+        schema:
+          type: boolean
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1beta3.ComponentStatusList'
+          description: success
+      summary: list objects of kind ComponentStatus
+      tags:
+      - apiv1beta3
+      x-accepts: application/json
+components:
+  schemas:
+    v1beta3.ComponentStatus:
+      example:
+        metadata:
+          uid: uid
+          resourceVersion: resourceVersion
+          creationTimestamp: creationTimestamp
+          name: name
+          namespace: namespace
+          annotations: "{}"
+          generateName: generateName
+          deletionTimestamp: deletionTimestamp
+          labels: "{}"
+          selfLink: selfLink
+        apiVersion: apiVersion
+        kind: kind
+        conditions:
+        - uid: uid
+          apiVersion: apiVersion
+          kind: kind
+          resourceVersion: resourceVersion
+          fieldPath: fieldPath
+          name: name
+          namespace: namespace
+        - uid: uid
+          apiVersion: apiVersion
+          kind: kind
+          resourceVersion: resourceVersion
+          fieldPath: fieldPath
+          name: name
+          namespace: namespace
+      properties:
+        apiVersion:
+          description: version of the schema the object should have
+          type: string
+        conditions:
+          description: list of component conditions observed
+          items:
+            $ref: '#/components/schemas/v1beta3.ObjectReference'
+          type: array
+        kind:
+          description: "kind of object, in CamelCase; cannot be updated"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/v1beta3.ObjectMeta'
+      type: object
+    v1beta3.ObjectMeta:
+      example:
+        uid: uid
+        resourceVersion: resourceVersion
+        creationTimestamp: creationTimestamp
+        name: name
+        namespace: namespace
+        annotations: "{}"
+        generateName: generateName
+        deletionTimestamp: deletionTimestamp
+        labels: "{}"
+        selfLink: selfLink
+      properties:
+        annotations:
+          description: map model with key property names to any type
+          type: object
+        creationTimestamp:
+          description: "RFC 3339 date and time at which the object was created; populated\
+            \ by the system, read-only; null for lists"
+          type: string
+        deletionTimestamp:
+          description: "RFC 3339 date and time at which the object will be deleted;\
+            \ populated by the system when a graceful deletion is requested, read-only;\
+            \ if not set, graceful deletion of the object has not been requested"
+          type: string
+        generateName:
+          description: "an optional prefix to use to generate a unique name; has the\
+            \ same validation rules as name; optional, and is applied only name if\
+            \ is not specified"
+          type: string
+        labels:
+          description: map model with key property names to any type
+          type: object
+        name:
+          description: string that identifies an object. Must be unique within a namespace;
+            cannot be updated
+          type: string
+        namespace:
+          description: namespace of the object; cannot be updated
+          type: string
+        resourceVersion:
+          description: "string that identifies the internal version of this object\
+            \ that can be used by clients to determine when objects have changed;\
+            \ populated by the system, read-only; value must be treated as opaque\
+            \ by clients and passed unmodified back to the server: http://docs.k8s.io/api-conventions.md#concurrency-control-and-consistency"
+          type: string
+        selfLink:
+          description: "URL for the object; populated by the system, read-only"
+          type: string
+        uid:
+          description: unique UUID across space and time; populated by the system;
+            read-only
+          type: string
+      type: object
+    v1beta3.ComponentStatusList:
+      example:
+        metadata:
+          uid: uid
+          resourceVersion: resourceVersion
+          creationTimestamp: creationTimestamp
+          name: name
+          namespace: namespace
+          annotations: "{}"
+          generateName: generateName
+          deletionTimestamp: deletionTimestamp
+          labels: "{}"
+          selfLink: selfLink
+        apiVersion: apiVersion
+        kind: kind
+        items:
+        - metadata:
+            uid: uid
+            resourceVersion: resourceVersion
+            creationTimestamp: creationTimestamp
+            name: name
+            namespace: namespace
+            annotations: "{}"
+            generateName: generateName
+            deletionTimestamp: deletionTimestamp
+            labels: "{}"
+            selfLink: selfLink
+          apiVersion: apiVersion
+          kind: kind
+          conditions:
+          - uid: uid
+            apiVersion: apiVersion
+            kind: kind
+            resourceVersion: resourceVersion
+            fieldPath: fieldPath
+            name: name
+            namespace: namespace
+          - uid: uid
+            apiVersion: apiVersion
+            kind: kind
+            resourceVersion: resourceVersion
+            fieldPath: fieldPath
+            name: name
+            namespace: namespace
+        - metadata:
+            uid: uid
+            resourceVersion: resourceVersion
+            creationTimestamp: creationTimestamp
+            name: name
+            namespace: namespace
+            annotations: "{}"
+            generateName: generateName
+            deletionTimestamp: deletionTimestamp
+            labels: "{}"
+            selfLink: selfLink
+          apiVersion: apiVersion
+          kind: kind
+          conditions:
+          - uid: uid
+            apiVersion: apiVersion
+            kind: kind
+            resourceVersion: resourceVersion
+            fieldPath: fieldPath
+            name: name
+            namespace: namespace
+          - uid: uid
+            apiVersion: apiVersion
+            kind: kind
+            resourceVersion: resourceVersion
+            fieldPath: fieldPath
+            name: name
+            namespace: namespace
+      properties:
+        apiVersion:
+          description: version of the schema the object should have
+          type: string
+        items:
+          description: list of component status objects
+          items:
+            $ref: '#/components/schemas/v1beta3.ComponentStatus'
+          type: array
+        kind:
+          description: "kind of object, in CamelCase; cannot be updated"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/v1beta3.ObjectMeta'
+      required:
+      - items
+      type: object
+    v1beta3.Binding:
+      example:
+        metadata:
+          uid: uid
+          resourceVersion: resourceVersion
+          creationTimestamp: creationTimestamp
+          name: name
+          namespace: namespace
+          annotations: "{}"
+          generateName: generateName
+          deletionTimestamp: deletionTimestamp
+          labels: "{}"
+          selfLink: selfLink
+        apiVersion: apiVersion
+        kind: kind
+        target:
+          uid: uid
+          apiVersion: apiVersion
+          kind: kind
+          resourceVersion: resourceVersion
+          fieldPath: fieldPath
+          name: name
+          namespace: namespace
+      properties:
+        apiVersion:
+          description: version of the schema the object should have
+          type: string
+        kind:
+          description: "kind of object, in CamelCase; cannot be updated"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/v1beta3.ObjectMeta'
+        target:
+          $ref: '#/components/schemas/v1beta3.ObjectReference'
+      required:
+      - target
+      type: object
+    v1beta3.ObjectReference:
+      example:
+        uid: uid
+        apiVersion: apiVersion
+        kind: kind
+        resourceVersion: resourceVersion
+        fieldPath: fieldPath
+        name: name
+        namespace: namespace
+      properties:
+        apiVersion:
+          description: API version of the referent
+          type: string
+        fieldPath:
+          description: "if referring to a piece of an object instead of an entire\
+            \ object, this string should contain a valid JSON/Go field access statement,\
+            \ such as desiredState.manifest.containers[2]"
+          type: string
+        kind:
+          description: kind of the referent
+          type: string
+        name:
+          description: name of the referent
+          type: string
+        namespace:
+          description: namespace of the referent
+          type: string
+        resourceVersion:
+          description: "specific resourceVersion to which this reference is made,\
+            \ if any: http://docs.k8s.io/api-conventions.md#concurrency-control-and-consistency"
+          type: string
+        uid:
+          description: uid of the referent
+          type: string
+      type: object
+    any:
+      description: map model with key property names to any type
+      type: object
+x-original-swagger-version: "2.0"
+

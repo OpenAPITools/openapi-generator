@@ -16,6 +16,7 @@ class Category
      * @var int|null
      */
     public $id;
+
     /**
      * @DTA\Data(field="name", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"string"})
@@ -23,4 +24,5 @@ class Category
      * @var string|null
      */
     public $name;
+
 }

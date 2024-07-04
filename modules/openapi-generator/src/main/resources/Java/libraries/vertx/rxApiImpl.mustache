@@ -33,7 +33,7 @@ public class {{classname}} {
     {{/allParams}}
     * @param resultHandler Asynchronous result handler
     */
-    public void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}Handler<AsyncResult<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>> resultHandler) {
+    public void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}Handler<AsyncResult<{{{returnType}}}{{^returnType}}Void{{/returnType}}>> resultHandler) {
         delegate.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}resultHandler);
     }
 
@@ -46,7 +46,7 @@ public class {{classname}} {
     * @param authInfo call specific auth overrides
     * @param resultHandler Asynchronous result handler
     */
-    public void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}ApiClient.AuthInfo authInfo, Handler<AsyncResult<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>> resultHandler) {
+    public void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}ApiClient.AuthInfo authInfo, Handler<AsyncResult<{{{returnType}}}{{^returnType}}Void{{/returnType}}>> resultHandler) {
         delegate.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}authInfo, resultHandler);
     }
 
@@ -58,7 +58,7 @@ public class {{classname}} {
     {{/allParams}}
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> rx{{operationIdCamelCase}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
+    public Single<{{{returnType}}}{{^returnType}}Void{{/returnType}}> rx{{operationIdCamelCase}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}fut)
         ));
@@ -73,7 +73,7 @@ public class {{classname}} {
     * @param authInfo call specific auth overrides
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> rx{{operationIdCamelCase}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}ApiClient.AuthInfo authInfo) {
+    public Single<{{{returnType}}}{{^returnType}}Void{{/returnType}}> rx{{operationIdCamelCase}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}ApiClient.AuthInfo authInfo) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}authInfo, fut)
         ));

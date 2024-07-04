@@ -19,7 +19,6 @@ package org.openapitools.codegen.online.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
 import io.swagger.v3.parser.core.models.ParseOptions;
@@ -119,14 +118,9 @@ public class Generator {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The OpenAPI specification supplied was not valid");
         }
 
-        String destPath = null;
-
-        if (opts.getOptions() != null) {
-            destPath = opts.getOptions().get("outputFolder");
-        }
-        if (destPath == null) {
-            destPath = language + "-" + type.getTypeName();
-        }
+        // do not use opts.getOptions().get("outputFolder") as the input can contain ../../
+        // to access other folders in the server
+        String destPath = language + "-" + type.getTypeName();
 
         ClientOptInput clientOptInput = new ClientOptInput();
         String outputFolder = getTmpFolder().getAbsolutePath() + File.separator + destPath;
@@ -154,7 +148,7 @@ public class Generator {
             List<File> files = new DefaultGenerator().opts(clientOptInput).generate();
             if (files.size() > 0) {
                 List<File> filesToAdd = new ArrayList<>();
-                LOGGER.debug("adding to " + outputFolder);
+                LOGGER.debug("adding to {}", outputFolder);
                 filesToAdd.add(new File(outputFolder));
                 ZipUtil zip = new ZipUtil();
                 zip.compressFiles(filesToAdd, outputFilename);

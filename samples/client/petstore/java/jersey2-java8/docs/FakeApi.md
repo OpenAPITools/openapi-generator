@@ -2,22 +2,22 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**createXmlItem**](FakeApi.md#createXmlItem) | **POST** /fake/create_xml_item | creates an XmlItem
-[**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
-[**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
-[**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
-[**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
-[**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
-[**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
-[**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
-[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-[**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
-[**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
-[**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
-[**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
-[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**createXmlItem**](FakeApi.md#createXmlItem) | **POST** /fake/create_xml_item | creates an XmlItem |
+| [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean |  |
+| [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite |  |
+| [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number |  |
+| [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string |  |
+| [**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema |  |
+| [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params |  |
+| [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model |
+| [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트 |
+| [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters |
+| [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional) |
+| [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties |
+| [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data |
+| [**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters |  |
 
 
 
@@ -62,9 +62,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xmlItem** | [**XmlItem**](XmlItem.md)| XmlItem Body |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xmlItem** | [**XmlItem**](XmlItem.md)| XmlItem Body | |
 
 ### Return type
 
@@ -127,9 +127,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **Boolean**| Input boolean as post body | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **body** | **Boolean**| Input boolean as post body | [optional] |
 
 ### Return type
 
@@ -192,9 +192,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] |
 
 ### Return type
 
@@ -258,9 +258,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **BigDecimal**| Input number as post body | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **body** | **BigDecimal**| Input number as post body | [optional] |
 
 ### Return type
 
@@ -323,9 +323,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **String**| Input string as post body | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **body** | **String**| Input string as post body | [optional] |
 
 ### Return type
 
@@ -387,9 +387,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | |
 
 ### Return type
 
@@ -450,10 +450,10 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **query** | **String**|  |
- **body** | [**User**](User.md)|  |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **query** | **String**|  | |
+| **body** | [**User**](User.md)|  | |
 
 ### Return type
 
@@ -516,9 +516,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **body** | [**Client**](Client.md)| client model | |
 
 ### Return type
 
@@ -586,7 +586,7 @@ public class Example {
         Float _float = 3.4F; // Float | None
         String string = "string_example"; // String | None
         File binary = new File("/path/to/file"); // File | None
-        LocalDate date = new LocalDate(); // LocalDate | None
+        LocalDate date = LocalDate.now(); // LocalDate | None
         OffsetDateTime dateTime = OffsetDateTime.now(); // OffsetDateTime | None
         String password = "password_example"; // String | None
         String paramCallback = "paramCallback_example"; // String | None
@@ -606,22 +606,22 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **number** | **BigDecimal**| None |
- **_double** | **Double**| None |
- **patternWithoutDelimiter** | **String**| None |
- **_byte** | **byte[]**| None |
- **integer** | **Integer**| None | [optional]
- **int32** | **Integer**| None | [optional]
- **int64** | **Long**| None | [optional]
- **_float** | **Float**| None | [optional]
- **string** | **String**| None | [optional]
- **binary** | **File**| None | [optional]
- **date** | **LocalDate**| None | [optional]
- **dateTime** | **OffsetDateTime**| None | [optional]
- **password** | **String**| None | [optional]
- **paramCallback** | **String**| None | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **number** | **BigDecimal**| None | |
+| **_double** | **Double**| None | |
+| **patternWithoutDelimiter** | **String**| None | |
+| **_byte** | **byte[]**| None | |
+| **integer** | **Integer**| None | [optional] |
+| **int32** | **Integer**| None | [optional] |
+| **int64** | **Long**| None | [optional] |
+| **_float** | **Float**| None | [optional] |
+| **string** | **String**| None | [optional] |
+| **binary** | **File**| None | [optional] |
+| **date** | **LocalDate**| None | [optional] |
+| **dateTime** | **OffsetDateTime**| None | [optional] |
+| **password** | **String**| None | [optional] |
+| **paramCallback** | **String**| None | [optional] |
 
 ### Return type
 
@@ -668,13 +668,13 @@ public class Example {
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         List<String> enumHeaderStringArray = Arrays.asList("$"); // List<String> | Header parameter enum test (string array)
-        String enumHeaderString = "-efg"; // String | Header parameter enum test (string)
+        String enumHeaderString = "_abc"; // String | Header parameter enum test (string)
         List<String> enumQueryStringArray = Arrays.asList("$"); // List<String> | Query parameter enum test (string array)
-        String enumQueryString = "-efg"; // String | Query parameter enum test (string)
-        Integer enumQueryInteger = 56; // Integer | Query parameter enum test (double)
-        Double enumQueryDouble = 3.4D; // Double | Query parameter enum test (double)
-        List<String> enumFormStringArray = "$"; // List<String> | Form parameter enum test (string array)
-        String enumFormString = "-efg"; // String | Form parameter enum test (string)
+        String enumQueryString = "_abc"; // String | Query parameter enum test (string)
+        Integer enumQueryInteger = 1; // Integer | Query parameter enum test (double)
+        Double enumQueryDouble = 1.1D; // Double | Query parameter enum test (double)
+        List<String> enumFormStringArray = Arrays.asList("$"); // List<String> | Form parameter enum test (string array)
+        String enumFormString = "_abc"; // String | Form parameter enum test (string)
         try {
             apiInstance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
         } catch (ApiException e) {
@@ -691,16 +691,16 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | **List&lt;String&gt;**| Header parameter enum test (string array) | [optional] [enum: >, $]
- **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
- **enumQueryStringArray** | **List&lt;String&gt;**| Query parameter enum test (string array) | [optional] [enum: >, $]
- **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
- **enumQueryInteger** | **Integer**| Query parameter enum test (double) | [optional] [enum: 1, -2]
- **enumQueryDouble** | **Double**| Query parameter enum test (double) | [optional] [enum: 1.1, -1.2]
- **enumFormStringArray** | **List&lt;String&gt;**| Form parameter enum test (string array) | [optional] [enum: >, $]
- **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **enumHeaderStringArray** | **List&lt;String&gt;**| Header parameter enum test (string array) | [optional] [enum: >, $] |
+| **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)] |
+| **enumQueryStringArray** | **List&lt;String&gt;**| Query parameter enum test (string array) | [optional] [enum: >, $] |
+| **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)] |
+| **enumQueryInteger** | **Integer**| Query parameter enum test (double) | [optional] [enum: 1, -2] |
+| **enumQueryDouble** | **Double**| Query parameter enum test (double) | [optional] [enum: 1.1, -1.2] |
+| **enumFormStringArray** | **List&lt;String&gt;**| Form parameter enum test (string array) | [optional] [enum: >, $] |
+| **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)] |
 
 ### Return type
 
@@ -775,14 +775,14 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **requiredStringGroup** | **Integer**| Required String in group parameters |
- **requiredBooleanGroup** | **Boolean**| Required Boolean in group parameters |
- **requiredInt64Group** | **Long**| Required Integer in group parameters |
- **stringGroup** | **Integer**| String in group parameters | [optional]
- **booleanGroup** | **Boolean**| Boolean in group parameters | [optional]
- **int64Group** | **Long**| Integer in group parameters | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **requiredStringGroup** | **Integer**| Required String in group parameters | |
+| **requiredBooleanGroup** | **Boolean**| Required Boolean in group parameters | |
+| **requiredInt64Group** | **Long**| Required Integer in group parameters | |
+| **stringGroup** | **Integer**| String in group parameters | [optional] |
+| **booleanGroup** | **Boolean**| Boolean in group parameters | [optional] |
+| **int64Group** | **Long**| Integer in group parameters | [optional] |
 
 ### Return type
 
@@ -800,7 +800,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **400** | Someting wrong |  -  |
+| **400** | Something wrong |  -  |
 
 
 ## testInlineAdditionalProperties
@@ -842,9 +842,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **param** | **Map&lt;String,String&gt;**| request body |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **param** | **Map&lt;String,String&gt;**| request body | |
 
 ### Return type
 
@@ -905,10 +905,10 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **param** | **String**| field1 |
- **param2** | **String**| field2 |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **param** | **String**| field1 | |
+| **param2** | **String**| field2 | |
 
 ### Return type
 
@@ -974,13 +974,13 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pipe** | **List&lt;String&gt;**|  |
- **ioutil** | **List&lt;String&gt;**|  |
- **http** | **List&lt;String&gt;**|  |
- **url** | **List&lt;String&gt;**|  |
- **context** | **List&lt;String&gt;**|  |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **pipe** | **List&lt;String&gt;**|  | |
+| **ioutil** | **List&lt;String&gt;**|  | |
+| **http** | **List&lt;String&gt;**|  | |
+| **url** | **List&lt;String&gt;**|  | |
+| **context** | **List&lt;String&gt;**|  | |
 
 ### Return type
 

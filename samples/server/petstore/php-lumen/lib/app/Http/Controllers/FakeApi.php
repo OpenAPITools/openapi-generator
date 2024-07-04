@@ -177,6 +177,8 @@ class FakeApi extends Controller
 
         $enum_query_double = $input['enum_query_double'];
 
+        $enum_query_model_array = $input['enum_query_model_array'];
+
         $enum_form_string_array = $input['enum_form_string_array'];
 
         $enum_form_string = $input['enum_form_string'];
@@ -223,6 +225,73 @@ class FakeApi extends Controller
 
 
         return response('How about implementing testGroupParameters as a delete method ?');
+    }
+    /**
+     * Operation fakeBigDecimalMap
+     *
+     * .
+     *
+     *
+     * @return Http response
+     */
+    public function fakeBigDecimalMap()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+
+        return response('How about implementing fakeBigDecimalMap as a get method ?');
+    }
+    /**
+     * Operation testAdditionalPropertiesReference
+     *
+     * test referenced additionalProperties.
+     *
+     *
+     * @return Http response
+     */
+    public function testAdditionalPropertiesReference()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['request_body'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $request_body when calling testAdditionalPropertiesReference');
+        }
+        $request_body = $input['request_body'];
+
+
+        return response('How about implementing testAdditionalPropertiesReference as a post method ?');
+    }
+    /**
+     * Operation testBodyWithBinary
+     *
+     * .
+     *
+     *
+     * @return Http response
+     */
+    public function testBodyWithBinary()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['body'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $body when calling testBodyWithBinary');
+        }
+        $body = $input['body'];
+
+
+        return response('How about implementing testBodyWithBinary as a put method ?');
     }
     /**
      * Operation testBodyWithFileSchema
@@ -349,6 +418,30 @@ class FakeApi extends Controller
         return response('How about implementing testInlineAdditionalProperties as a post method ?');
     }
     /**
+     * Operation testInlineFreeformAdditionalProperties
+     *
+     * test inline free-form additionalProperties.
+     *
+     *
+     * @return Http response
+     */
+    public function testInlineFreeformAdditionalProperties()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['test_inline_freeform_additional_properties_request'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $test_inline_freeform_additional_properties_request when calling testInlineFreeformAdditionalProperties');
+        }
+        $test_inline_freeform_additional_properties_request = $input['test_inline_freeform_additional_properties_request'];
+
+
+        return response('How about implementing testInlineFreeformAdditionalProperties as a post method ?');
+    }
+    /**
      * Operation testJsonFormData
      *
      * test json serialization of form data.
@@ -376,6 +469,30 @@ class FakeApi extends Controller
 
 
         return response('How about implementing testJsonFormData as a get method ?');
+    }
+    /**
+     * Operation testNullable
+     *
+     * test nullable parent property.
+     *
+     *
+     * @return Http response
+     */
+    public function testNullable()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['child_with_nullable'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $child_with_nullable when calling testNullable');
+        }
+        $child_with_nullable = $input['child_with_nullable'];
+
+
+        return response('How about implementing testNullable as a post method ?');
     }
     /**
      * Operation fakeOuterBooleanSerialize
@@ -486,6 +603,30 @@ class FakeApi extends Controller
         return response('How about implementing fakePropertyEnumIntegerSerialize as a post method ?');
     }
     /**
+     * Operation testStringMapReference
+     *
+     * test referenced string map.
+     *
+     *
+     * @return Http response
+     */
+    public function testStringMapReference()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['request_body'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $request_body when calling testStringMapReference');
+        }
+        $request_body = $input['request_body'];
+
+
+        return response('How about implementing testStringMapReference as a post method ?');
+    }
+    /**
      * Operation testQueryParameterCollectionFormat
      *
      * .
@@ -525,6 +666,13 @@ class FakeApi extends Controller
             throw new \InvalidArgumentException('Missing the required parameter $context when calling testQueryParameterCollectionFormat');
         }
         $context = $input['context'];
+
+        if (!isset($input['allow_empty'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $allow_empty when calling testQueryParameterCollectionFormat');
+        }
+        $allow_empty = $input['allow_empty'];
+
+        $language = $input['language'];
 
 
         return response('How about implementing testQueryParameterCollectionFormat as a put method ?');

@@ -64,9 +64,30 @@ Route::get('/v2/fake', 'FakeController@testEnumParameters');
  */
 Route::delete('/v2/fake', 'FakeController@testGroupParameters');
 /**
+ * get fakeBigDecimalMap
+ * Summary: 
+ * Notes: for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+ * Output-Formats: [*_/_*]
+ */
+Route::get('/v2/fake/BigDecimalMap', 'FakeController@fakeBigDecimalMap');
+/**
+ * post testAdditionalPropertiesReference
+ * Summary: test referenced additionalProperties
+ * Notes: 
+
+ */
+Route::post('/v2/fake/additionalProperties-reference', 'FakeController@testAdditionalPropertiesReference');
+/**
+ * put testBodyWithBinary
+ * Summary: 
+ * Notes: For this test, the body has to be a binary file.
+
+ */
+Route::put('/v2/fake/body-with-binary', 'FakeController@testBodyWithBinary');
+/**
  * put testBodyWithFileSchema
  * Summary: 
- * Notes: For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+ * Notes: For this test, the body for this request must reference a schema named &#x60;File&#x60;.
 
  */
 Route::put('/v2/fake/body-with-file-schema', 'FakeController@testBodyWithFileSchema');
@@ -99,12 +120,26 @@ Route::get('/v2/fake/http-signature-test', 'FakeController@fakeHttpSignatureTest
  */
 Route::post('/v2/fake/inline-additionalProperties', 'FakeController@testInlineAdditionalProperties');
 /**
+ * post testInlineFreeformAdditionalProperties
+ * Summary: test inline free-form additionalProperties
+ * Notes: 
+
+ */
+Route::post('/v2/fake/inline-freeform-additionalProperties', 'FakeController@testInlineFreeformAdditionalProperties');
+/**
  * get testJsonFormData
  * Summary: test json serialization of form data
  * Notes: 
 
  */
 Route::get('/v2/fake/jsonFormData', 'FakeController@testJsonFormData');
+/**
+ * post testNullable
+ * Summary: test nullable parent property
+ * Notes: 
+
+ */
+Route::post('/v2/fake/nullable', 'FakeController@testNullable');
 /**
  * post fakeOuterBooleanSerialize
  * Summary: 
@@ -141,12 +176,19 @@ Route::post('/v2/fake/outer/string', 'FakeController@fakeOuterStringSerialize');
  */
 Route::post('/v2/fake/property/enum-int', 'FakeController@fakePropertyEnumIntegerSerialize');
 /**
+ * post testStringMapReference
+ * Summary: test referenced string map
+ * Notes: 
+
+ */
+Route::post('/v2/fake/stringMap-reference', 'FakeController@testStringMapReference');
+/**
  * put testQueryParameterCollectionFormat
  * Summary: 
  * Notes: To test the collection format in query parameters
 
  */
-Route::put('/v2/fake/test-query-paramters', 'FakeController@testQueryParameterCollectionFormat');
+Route::put('/v2/fake/test-query-parameters', 'FakeController@testQueryParameterCollectionFormat');
 /**
  * patch testClassname
  * Summary: To test class name in snake case
@@ -241,7 +283,7 @@ Route::delete('/v2/store/order/{order_id}', 'StoreController@deleteOrder');
 /**
  * get getOrderById
  * Summary: Find purchase order by ID
- * Notes: For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+ * Notes: For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
  * Output-Formats: [application/xml, application/json]
  */
 Route::get('/v2/store/order/{order_id}', 'StoreController@getOrderById');

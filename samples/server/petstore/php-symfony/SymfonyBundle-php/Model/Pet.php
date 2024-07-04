@@ -2,7 +2,7 @@
 /**
  * Pet
  *
- * PHP version 7.1.3
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  OpenAPI\Server\Model
@@ -31,6 +31,7 @@ namespace OpenAPI\Server\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\Accessor;
 use JMS\Serializer\Annotation\SerializedName;
 
 /**
@@ -41,77 +42,80 @@ use JMS\Serializer\Annotation\SerializedName;
  * @package OpenAPI\Server\Model
  * @author  OpenAPI Generator team
  */
+
 class Pet 
 {
         /**
      * @var int|null
      * @SerializedName("id")
-     * @Assert\Type("int")
      * @Type("int")
-     */
-    protected $id;
+    */
+    #[Assert\Type("int")]
+    protected ?int $id = null;
 
     /**
-     * @var OpenAPI\Server\Model\Category|null
+     * @var Category|null
      * @SerializedName("category")
-     * @Assert\Type("OpenAPI\Server\Model\Category")
      * @Type("OpenAPI\Server\Model\Category")
-     */
-    protected $category;
+    */
+    #[Assert\Type("OpenAPI\Server\Model\Category")]
+    protected ?Category $category = null;
 
     /**
-     * @var string
+     * @var string|null
      * @SerializedName("name")
-     * @Assert\NotNull()
-     * @Assert\Type("string")
      * @Type("string")
-     */
-    protected $name;
+    */
+    #[Assert\NotNull]
+    #[Assert\Type("string")]
+    protected ?string $name = null;
 
     /**
-     * @var string[]
+     * @var string[]|null
      * @SerializedName("photoUrls")
-     * @Assert\NotNull()
-     * @Assert\All({
-     *   @Assert\Type("string")
-     * })
      * @Type("array<string>")
-     */
-    protected $photoUrls;
+    */
+    #[Assert\NotNull]
+    #[Assert\All([
+        new Assert\Type("string"),
+    ])]
+    protected ?array $photoUrls = null;
 
     /**
-     * @var OpenAPI\Server\Model\Tag[]|null
+     * @var Tag[]|null
      * @SerializedName("tags")
-     * @Assert\All({
-     *   @Assert\Type("OpenAPI\Server\Model\Tag")
-     * })
      * @Type("array<OpenAPI\Server\Model\Tag>")
-     */
-    protected $tags;
+    */
+    #[Assert\All([
+        new Assert\Type("OpenAPI\Server\Model\Tag"),
+    ])]
+    protected ?array $tags = null;
 
     /**
      * pet status in the store
      *
      * @var string|null
      * @SerializedName("status")
-     * @Assert\Choice({ "available", "pending", "sold" })
-     * @Assert\Type("string")
      * @Type("string")
-     */
-    protected $status;
+    */
+    #[Assert\Choice(["available", "pending", "sold"])]
+    #[Assert\Type("string")]
+    protected ?string $status = null;
 
     /**
      * Constructor
-     * @param mixed[] $data Associated array of property values initializing the model
+     * @param array|null $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
-        $this->id = isset($data['id']) ? $data['id'] : null;
-        $this->category = isset($data['category']) ? $data['category'] : null;
-        $this->name = isset($data['name']) ? $data['name'] : null;
-        $this->photoUrls = isset($data['photoUrls']) ? $data['photoUrls'] : null;
-        $this->tags = isset($data['tags']) ? $data['tags'] : null;
-        $this->status = isset($data['status']) ? $data['status'] : null;
+        if (is_array($data)) {
+            $this->id = array_key_exists('id', $data) ? $data['id'] : $this->id;
+            $this->category = array_key_exists('category', $data) ? $data['category'] : $this->category;
+            $this->name = array_key_exists('name', $data) ? $data['name'] : $this->name;
+            $this->photoUrls = array_key_exists('photoUrls', $data) ? $data['photoUrls'] : $this->photoUrls;
+            $this->tags = array_key_exists('tags', $data) ? $data['tags'] : $this->tags;
+            $this->status = array_key_exists('status', $data) ? $data['status'] : $this->status;
+        }
     }
 
     /**
@@ -119,29 +123,32 @@ class Pet
      *
      * @return int|null
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * Sets id.
-     *
-     * @param int|null $id
-     *
-     * @return $this
-     */
-    public function setId($id = null)
+    * Sets id.
+    *
+    * @param int|null $id
+    *
+    * @return $this
+    */
+    public function setId(?int $id = null): self
     {
         $this->id = $id;
 
         return $this;
     }
 
+
+
+
     /**
      * Gets category.
      *
-     * @return OpenAPI\Server\Model\Category|null
+     * @return Category|null
      */
     public function getCategory(): ?Category
     {
@@ -149,71 +156,80 @@ class Pet
     }
 
     /**
-     * Sets category.
-     *
-     * @param OpenAPI\Server\Model\Category|null $category
-     *
-     * @return $this
-     */
-    public function setCategory(Category $category = null)
+    * Sets category.
+    *
+    * @param Category|null $category
+    *
+    * @return $this
+    */
+    public function setCategory(?Category $category = null): self
     {
         $this->category = $category;
 
         return $this;
     }
 
+
+
+
     /**
      * Gets name.
      *
-     * @return string
+     * @return string|null
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
     /**
-     * Sets name.
-     *
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function setName($name)
+    * Sets name.
+    *
+    * @param string|null $name
+    *
+    * @return $this
+    */
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
+
+
+
     /**
      * Gets photoUrls.
      *
-     * @return string[]
+     * @return string[]|null
      */
-    public function getPhotoUrls(): array
+    public function getPhotoUrls(): ?array
     {
         return $this->photoUrls;
     }
 
     /**
-     * Sets photoUrls.
-     *
-     * @param string[] $photoUrls
-     *
-     * @return $this
-     */
-    public function setPhotoUrls(array $photoUrls)
+    * Sets photoUrls.
+    *
+    * @param string[]|null $photoUrls
+    *
+    * @return $this
+    */
+    public function setPhotoUrls(?array $photoUrls): self
     {
         $this->photoUrls = $photoUrls;
 
         return $this;
     }
 
+
+
+
     /**
      * Gets tags.
      *
-     * @return OpenAPI\Server\Model\Tag[]|null
+     * @return Tag[]|null
      */
     public function getTags(): ?array
     {
@@ -221,42 +237,48 @@ class Pet
     }
 
     /**
-     * Sets tags.
-     *
-     * @param OpenAPI\Server\Model\Tag[]|null $tags
-     *
-     * @return $this
-     */
-    public function setTags(array $tags = null)
+    * Sets tags.
+    *
+    * @param Tag[]|null $tags
+    *
+    * @return $this
+    */
+    public function setTags(?array $tags = null): self
     {
         $this->tags = $tags;
 
         return $this;
     }
 
+
+
+
     /**
      * Gets status.
      *
      * @return string|null
      */
-    public function getStatus()
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
     /**
-     * Sets status.
-     *
-     * @param string|null $status  pet status in the store
-     *
-     * @return $this
-     */
-    public function setStatus($status = null)
+    * Sets status.
+    *
+    * @param string|null $status  pet status in the store
+    *
+    * @return $this
+    */
+    public function setStatus(?string $status = null): self
     {
         $this->status = $status;
 
         return $this;
     }
+
+
+
 }
 
 

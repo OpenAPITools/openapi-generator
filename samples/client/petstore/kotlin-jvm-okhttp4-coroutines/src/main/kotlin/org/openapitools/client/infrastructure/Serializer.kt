@@ -6,7 +6,6 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.util.UUID
-import java.util.Date
 
 object Serializer {
     @JvmStatic
@@ -15,7 +14,7 @@ object Serializer {
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
         .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
-    
+
     @JvmStatic
     val gson: Gson by lazy {
         gsonBuilder.create()

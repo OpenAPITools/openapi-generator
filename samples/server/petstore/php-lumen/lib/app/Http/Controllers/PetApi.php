@@ -126,6 +126,7 @@ class PetApi extends Controller
      *
      *
      * @return Http response
+     * @deprecated
      */
     public function findPetsByTags()
     {

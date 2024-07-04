@@ -6,19 +6,14 @@ import io.swagger.annotations.ApiModel;
 import java.util.Date;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
   * An order for a pets from the pet store
  **/
 @ApiModel(description="An order for a pets from the pet store")
+
 public class Order  {
   
   @ApiModelProperty(value = "")
@@ -33,11 +28,9 @@ public class Order  {
   @ApiModelProperty(value = "")
   private Date shipDate;
 
-@XmlType(name="StatusEnum")
-@XmlEnum(String.class)
 public enum StatusEnum {
 
-@XmlEnumValue("placed") PLACED(String.valueOf("placed")), @XmlEnumValue("approved") APPROVED(String.valueOf("approved")), @XmlEnumValue("delivered") DELIVERED(String.valueOf("delivered"));
+PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));
 
 
     private String value;
@@ -186,6 +179,27 @@ public enum StatusEnum {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Order order = (Order) o;
+    return Objects.equals(this.id, order.id) &&
+        Objects.equals(this.petId, order.petId) &&
+        Objects.equals(this.quantity, order.quantity) &&
+        Objects.equals(this.shipDate, order.shipDate) &&
+        Objects.equals(this.status, order.status) &&
+        Objects.equals(this.complete, order.complete);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, petId, quantity, shipDate, status, complete);
+  }
 
   @Override
   public String toString() {

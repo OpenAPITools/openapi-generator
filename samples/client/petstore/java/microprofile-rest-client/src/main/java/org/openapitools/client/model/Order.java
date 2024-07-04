@@ -13,7 +13,6 @@
 package org.openapitools.client.model;
 
 import java.util.Date;
-
 import java.lang.reflect.Type;
 import javax.json.bind.annotation.JsonbTypeDeserializer;
 import javax.json.bind.annotation.JsonbTypeSerializer;
@@ -27,23 +26,27 @@ import javax.json.bind.annotation.JsonbProperty;
 
 /**
   * An order for a pets from the pet store
- **/
+  */
 
 public class Order  {
   
+  @JsonbProperty("id")
   private Long id;
 
+  @JsonbProperty("petId")
   private Long petId;
 
+  @JsonbProperty("quantity")
   private Integer quantity;
 
+  @JsonbProperty("shipDate")
   private Date shipDate;
 
   @JsonbTypeSerializer(StatusEnum.Serializer.class)
   @JsonbTypeDeserializer(StatusEnum.Deserializer.class)
   public enum StatusEnum {
 
-    PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));    
+    PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));
 
 
     String value;
@@ -82,24 +85,25 @@ public class Order  {
   }
 
  /**
-   * Order Status
-  **/
+  * Order Status
+  */
+  @JsonbProperty("status")
   private StatusEnum status;
 
+  @JsonbProperty("complete")
   private Boolean complete = false;
-  
- /**
+
+  /**
    * Get id
    * @return id
-  **/
-  @JsonbProperty("id")
+   **/
   public Long getId() {
     return id;
   }
 
   /**
-    * Set id
-  **/
+   * Set id
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -109,18 +113,17 @@ public class Order  {
     return this;
   }
 
- /**
+  /**
    * Get petId
    * @return petId
-  **/
-  @JsonbProperty("petId")
+   **/
   public Long getPetId() {
     return petId;
   }
 
   /**
-    * Set petId
-  **/
+   * Set petId
+   */
   public void setPetId(Long petId) {
     this.petId = petId;
   }
@@ -130,18 +133,17 @@ public class Order  {
     return this;
   }
 
- /**
+  /**
    * Get quantity
    * @return quantity
-  **/
-  @JsonbProperty("quantity")
+   **/
   public Integer getQuantity() {
     return quantity;
   }
 
   /**
-    * Set quantity
-  **/
+   * Set quantity
+   */
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
@@ -151,18 +153,17 @@ public class Order  {
     return this;
   }
 
- /**
+  /**
    * Get shipDate
    * @return shipDate
-  **/
-  @JsonbProperty("shipDate")
+   **/
   public Date getShipDate() {
     return shipDate;
   }
 
   /**
-    * Set shipDate
-  **/
+   * Set shipDate
+   */
   public void setShipDate(Date shipDate) {
     this.shipDate = shipDate;
   }
@@ -172,18 +173,17 @@ public class Order  {
     return this;
   }
 
- /**
+  /**
    * Order Status
    * @return status
-  **/
-  @JsonbProperty("status")
+   **/
   public StatusEnum getStatus() {
     return status;
   }
 
   /**
-    * Set status
-  **/
+   * Set status
+   */
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
@@ -193,18 +193,17 @@ public class Order  {
     return this;
   }
 
- /**
+  /**
    * Get complete
    * @return complete
-  **/
-  @JsonbProperty("complete")
+   **/
   public Boolean getComplete() {
     return complete;
   }
 
   /**
-    * Set complete
-  **/
+   * Set complete
+   */
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
@@ -216,8 +215,8 @@ public class Order  {
 
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

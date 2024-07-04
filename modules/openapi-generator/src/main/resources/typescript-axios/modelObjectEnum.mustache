@@ -1,0 +1,14 @@
+export const {{classname}} = {
+{{#allowableValues}}
+    {{#enumVars}}
+    {{#enumDescription}}
+    /**
+    * {{.}}
+    */
+    {{/enumDescription}}
+    {{{name}}}: {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+{{/allowableValues}}
+} as const;
+
+export type {{classname}} = typeof {{classname}}[keyof typeof {{classname}}];

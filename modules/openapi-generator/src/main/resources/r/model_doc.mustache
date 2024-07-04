@@ -6,7 +6,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-{{#vars}}**{{name}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional] {{/required}}{{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
+{{#vars}}**{{name}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional] {{/required}}{{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}}[default to {{.}}] {{/defaultValue}}{{#maximum}}[Max: {{{.}}}] {{/maximum}}{{#minimum}}[Min: {{{.}}}] {{/minimum}}{{#isEnumOrRef}}[Enum: {{_enum}}] {{/isEnumOrRef}}{{#pattern}}[Pattern: {{.}}] {{/pattern}}{{#maxItems}}[Max. items: {{.}}] {{/maxItems}}{{#minItems}}[Min. items: {{.}}] {{/minItems}}{{#maxLength}}[Max. length: {{.}}] {{/maxLength}}{{#minLength}}[Min. length: {{.}}] {{/minLength}}
 {{/vars}}
 
 {{/model}}{{/models}}

@@ -1,7 +1,11 @@
 import io.swagger.annotations.*;
+{{#useBeanValidation}}import javax.validation.Valid;{{/useBeanValidation}}
 
-{{#description}}@ApiModel(description="{{{description}}}"){{/description}}{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}
-public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
+{{#description}}@ApiModel(description="{{{.}}}"){{/description}}{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
 {{#serializableModel}}
   private static final long serialVersionUID = 1L;
 {{/serializableModel}}
@@ -10,27 +14,32 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
 
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
-  private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}};{{/vars}}
+  {{#vendorExtensions.x-field-extra-annotation}}
+  {{{vendorExtensions.x-field-extra-annotation}}}
+  {{/vendorExtensions.x-field-extra-annotation}}
+  private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vars}}
 
   {{#vars}}
   /**
    {{#description}}
-   * {{description}}
+   * {{.}}
    {{/description}}
    {{#minimum}}
-   * minimum: {{minimum}}
+   * minimum: {{.}}
    {{/minimum}}
    {{#maximum}}
-   * maximum: {{maximum}}
+   * maximum: {{.}}
    {{/maximum}}
    **/
   {{#vendorExtensions.x-extra-annotation}}{{{vendorExtensions.x-extra-annotation}}}{{/vendorExtensions.x-extra-annotation}}
-  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+  @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
   @JsonProperty("{{baseName}}")
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{getter}}() {
+{{#useBeanValidation}}{{>beanValidation}}{{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}  @Valid
+{{/isFile}}{{/isString}}{{/isDateTime}}{{/isDate}}{{/isPrimitiveType}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }
-  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+  {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
+  {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
 
@@ -45,14 +54,13 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
       return false;
     }
     {{classname}} {{classVarName}} = ({{classname}}) o;{{#hasVars}}
-    return {{#vars}}Objects.equals({{name}}, {{classVarName}}.{{name}}){{^-last}} &&
-        {{/-last}}{{#-last}};{{/-last}}{{/vars}}{{/hasVars}}{{^hasVars}}
-    return true;{{/hasVars}}
+    return {{#parent}}super.equals(o) && {{/parent}}{{#vars}}Objects.equals(this.{{name}}, {{classVarName}}.{{name}}){{^-last}} &&
+        {{/-last}}{{#-last}};{{/-last}}{{/vars}}{{/hasVars}}{{^hasVars}}{{#parent}}return super.equals(o);{{/parent}}{{^parent}}return true;{{/parent}}{{/hasVars}}
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}});
+    return {{^hasVars}}{{#parent}}super.hashCode(){{/parent}}{{^parent}}1{{/parent}}{{/hasVars}}{{#hasVars}}Objects.hash({{#vars}}{{#parent}}super.hashCode(), {{/parent}}{{name}}{{^-last}}, {{/-last}}{{/vars}}){{/hasVars}};
   }
 
   @Override
@@ -60,7 +68,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
     StringBuilder sb = new StringBuilder();
     sb.append("class {{classname}} {\n");
     {{#parent}}sb.append("    ").append(toIndentedString(super.toString())).append("\n");{{/parent}}
-    {{#vars}}sb.append("    {{name}}: ").append(toIndentedString({{name}})).append("\n");
+    {{#vars}}sb.append("    {{name}}: ").append({{#isPassword}}"*"{{/isPassword}}{{^isPassword}}toIndentedString({{name}}){{/isPassword}}).append("\n");
     {{/vars}}sb.append("}");
     return sb.toString();
   }

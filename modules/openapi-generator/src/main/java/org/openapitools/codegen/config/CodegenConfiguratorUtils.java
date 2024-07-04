@@ -27,8 +27,8 @@ import java.util.*;
  * to specific settings in CodegenConfigurator.
  *
  * <p>
- *     This class exists to facilitate testing. These methods could be applied
- *     to CodegenConfigurator, but this complicates things when mocking CodegenConfigurator.
+ * This class exists to facilitate testing. These methods could be applied
+ * to CodegenConfigurator, but this complicates things when mocking CodegenConfigurator.
  * </p>
  * <ul>
  *     <li>The methods named {@code apply...Kvp} take a string of comma-separated key-value pairs.</li>
@@ -38,12 +38,12 @@ import java.util.*;
  * </ul>
  * <p>
  *     The corresponding {@code add...} method on the passed configurator is called for each key-value pair (or value).
- * </p>  
+ * </p>
  */
 public final class CodegenConfiguratorUtils {
 
     public static void applyGlobalPropertiesKvpList(List<String> globalProperties, CodegenConfigurator configurator) {
-        for(String propString : globalProperties) {
+        for (String propString : globalProperties) {
             applyGlobalPropertiesKvp(propString, configurator);
         }
     }
@@ -51,16 +51,16 @@ public final class CodegenConfiguratorUtils {
     public static void applyGlobalPropertiesKvp(String globalProperties, CodegenConfigurator configurator) {
         final Map<String, String> map = createMapFromKeyValuePairs(globalProperties);
         for (Map.Entry<String, String> entry : map.entrySet()) {
-            configurator.addGlobalProperty(entry.getKey(), entry.getValue().replace(":",","));
+            configurator.addGlobalProperty(entry.getKey(), entry.getValue().replace(":", ","));
         }
     }
 
     public static void applyInstantiationTypesKvpList(List<String> instantiationTypes, CodegenConfigurator configurator) {
-        for(String propString : instantiationTypes) {
+        for (String propString : instantiationTypes) {
             applyInstantiationTypesKvp(propString, configurator);
         }
     }
-    
+
     public static void applyInstantiationTypesKvp(String instantiationTypes, CodegenConfigurator configurator) {
         final Map<String, String> map = createMapFromKeyValuePairs(instantiationTypes);
         for (Map.Entry<String, String> entry : map.entrySet()) {
@@ -69,7 +69,7 @@ public final class CodegenConfiguratorUtils {
     }
 
     public static void applyImportMappingsKvpList(List<String> importMappings, CodegenConfigurator configurator) {
-        for(String propString : importMappings) {
+        for (String propString : importMappings) {
             applyImportMappingsKvp(propString, configurator);
         }
     }
@@ -81,8 +81,125 @@ public final class CodegenConfiguratorUtils {
         }
     }
 
+    public static void applySchemaMappingsKvpList(List<String> schemaMappings, CodegenConfigurator configurator) {
+        for (String propString : schemaMappings) {
+            applySchemaMappingsKvp(propString, configurator);
+        }
+    }
+
+    public static void applySchemaMappingsKvp(String schemaMappings, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(schemaMappings);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addSchemaMapping(entry.getKey().trim(), entry.getValue().trim());
+        }
+    }
+
+    public static void applyInlineSchemaNameMappingsKvpList(List<String> inlineSchemaNameMappings, CodegenConfigurator configurator) {
+        for (String propString : inlineSchemaNameMappings) {
+            applyInlineSchemaNameMappingsKvp(propString, configurator);
+        }
+    }
+
+    public static void applyInlineSchemaNameMappingsKvp(String inlineSchemaNameMappings, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(inlineSchemaNameMappings);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addInlineSchemaNameMapping(entry.getKey().trim(), entry.getValue().trim());
+        }
+    }
+
+    public static void applyInlineSchemaOptionsKvpList(List<String> inlineSchemaOptions, CodegenConfigurator configurator) {
+        for (String propString : inlineSchemaOptions) {
+            applyInlineSchemaOptionsKvp(propString, configurator);
+        }
+    }
+
+    public static void applyInlineSchemaOptionsKvp(String inlineSchemaOptions, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(inlineSchemaOptions);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addInlineSchemaOption(entry.getKey().trim(), entry.getValue().trim());
+        }
+    }
+
+    public static void applyNameMappingsKvpList(List<String> nameMappings, CodegenConfigurator configurator) {
+        for (String propString : nameMappings) {
+            applyNameMappingsKvp(propString, configurator);
+        }
+    }
+
+    public static void applyNameMappingsKvp(String nameMappings, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(nameMappings);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addNameMapping(entry.getKey().trim(), entry.getValue().trim());
+        }
+    }
+
+    public static void applyParameterNameMappingsKvpList(List<String> parameterNameMappings, CodegenConfigurator configurator) {
+        for (String propString : parameterNameMappings) {
+            applyParameterNameMappingsKvp(propString, configurator);
+        }
+    }
+
+    public static void applyParameterNameMappingsKvp(String parameterNameMappings, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(parameterNameMappings);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addParameterNameMapping(entry.getKey().trim(), entry.getValue().trim());
+        }
+    }
+
+    public static void applyModelNameMappingsKvpList(List<String> modelNameMappings, CodegenConfigurator configurator) {
+        for (String propString : modelNameMappings) {
+            applyModelNameMappingsKvp(propString, configurator);
+        }
+    }
+
+    public static void applyModelNameMappingsKvp(String modelNameMappings, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(modelNameMappings);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addModelNameMapping(entry.getKey().trim(), entry.getValue().trim());
+        }
+    }
+
+    public static void applyEnumNameMappingsKvpList(List<String> enumNameMappings, CodegenConfigurator configurator) {
+        for (String propString : enumNameMappings) {
+            applyEnumNameMappingsKvp(propString, configurator);
+        }
+    }
+
+    public static void applyEnumNameMappingsKvp(String enumNameMappings, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(enumNameMappings);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addEnumNameMapping(entry.getKey().trim(), entry.getValue().trim());
+        }
+    }
+
+    public static void applyOperationIdNameMappingsKvpList(List<String> operationIdNameMappings, CodegenConfigurator configurator) {
+        for (String propString : operationIdNameMappings) {
+            applyOperationIdNameMappingsKvp(propString, configurator);
+        }
+    }
+
+    public static void applyOperationIdNameMappingsKvp(String operationIdNameMappings, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(operationIdNameMappings);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addOperationIdNameMapping(entry.getKey().trim(), entry.getValue().trim());
+        }
+    }
+
+    public static void applyOpenapiNormalizerKvpList(List<String> openapiNormalizer, CodegenConfigurator configurator) {
+        for (String propString : openapiNormalizer) {
+            applyOpenapiNormalizerKvp(propString, configurator);
+        }
+    }
+
+    public static void applyOpenapiNormalizerKvp(String openapiNormalizer, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(openapiNormalizer);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addOpenapiNormalizer(entry.getKey().trim(), entry.getValue().trim());
+        }
+    }
+
     public static void applyTypeMappingsKvpList(List<String> typeMappings, CodegenConfigurator configurator) {
-        for(String propString : typeMappings) {
+        for (String propString : typeMappings) {
             applyTypeMappingsKvp(propString, configurator);
         }
     }
@@ -95,7 +212,7 @@ public final class CodegenConfiguratorUtils {
     }
 
     public static void applyAdditionalPropertiesKvpList(List<String> additionalProperties, CodegenConfigurator configurator) {
-        for(String propString : additionalProperties) {
+        for (String propString : additionalProperties) {
             applyAdditionalPropertiesKvp(propString, configurator);
         }
     }
@@ -108,7 +225,7 @@ public final class CodegenConfiguratorUtils {
     }
 
     public static void applyServerVariablesKvpList(List<String> values, CodegenConfigurator configurator) {
-        for(String value : values) {
+        for (String value : values) {
             applyServerVariablesKvp(value, configurator);
         }
     }
@@ -121,7 +238,7 @@ public final class CodegenConfiguratorUtils {
     }
 
     public static void applyLanguageSpecificPrimitivesCsvList(List<String> languageSpecificPrimitives, CodegenConfigurator configurator) {
-        for(String propString : languageSpecificPrimitives) {
+        for (String propString : languageSpecificPrimitives) {
             applyLanguageSpecificPrimitivesCsv(propString, configurator);
         }
     }
@@ -133,19 +250,32 @@ public final class CodegenConfiguratorUtils {
         }
     }
 
-    public static void applyReservedWordsMappingsKvpList(List<String> reservedWordMappings, CodegenConfigurator configurator) {
-        for(String propString : reservedWordMappings) {
+    public static void applyOpenapiGeneratorIgnoreListCsvList(List<String> openapiGeneratorIgnoreList, CodegenConfigurator configurator) {
+        for (String propString : openapiGeneratorIgnoreList) {
+            applyOpenapiGeneratorIgnoreListCsv(propString, configurator);
+        }
+    }
+
+    public static void applyOpenapiGeneratorIgnoreListCsv(String openapiGeneratorIgnoreList, CodegenConfigurator configurator) {
+        final Set<String> set = createSetFromCsvList(openapiGeneratorIgnoreList);
+        for (String item : set) {
+            configurator.addOpenapiGeneratorIgnoreList(item);
+        }
+    }
+
+    public static void applyReservedWordsMappingsKvpList(List<String> reservedWordsMappings, CodegenConfigurator configurator) {
+        for (String propString : reservedWordsMappings) {
             applyReservedWordsMappingsKvp(propString, configurator);
         }
     }
 
-    public static void applyReservedWordsMappingsKvp(String reservedWordMappings, CodegenConfigurator configurator) {
-        final Map<String, String> map = createMapFromKeyValuePairs(reservedWordMappings);
+    public static void applyReservedWordsMappingsKvp(String reservedWordsMappings, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(reservedWordsMappings);
         for (Map.Entry<String, String> entry : map.entrySet()) {
             configurator.addAdditionalReservedWordMapping(entry.getKey(), entry.getValue());
-        }        
+        }
     }
-        
+
     private static Set<String> createSetFromCsvList(String csvProperty) {
         final List<String> values = OptionUtils.splitCommaSeparatedList(csvProperty);
         return new HashSet<String>(values);

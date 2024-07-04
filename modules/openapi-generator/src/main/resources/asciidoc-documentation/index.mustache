@@ -1,12 +1,12 @@
 = {{{appName}}}
-{{#headerAttributes}} 
+{{#headerAttributes}}
 {{infoEmail}}
-{{#version}}{{{version}}}{{/version}}
+{{{version}}}
 :toc: left
 :numbered:
-:toclevels: 3
+:toclevels: 4
 :source-highlighter: highlightjs
-:keywords: openapi, rest, {{appName}} 
+:keywords: openapi, rest, {{appName}}
 :specDir: {{specDir}}
 :snippetDir: {{snippetDir}}
 :generator-template: v1 2019-12-20
@@ -32,6 +32,7 @@
 {{#isBasic}}
 {{#isBasicBasic}}* *HTTP Basic* Authentication _{{{name}}}_{{/isBasicBasic}}
 {{#isBasicBearer}}* *Bearer* Authentication {{/isBasicBearer}}
+{{#isHttpSignature}}* *HTTP signature* Authentication{{/isHttpSignature}}
 {{/isBasic}}
 {{#isOAuth}}* *OAuth*  AuthorizationUrl: _{{authorizationUrl}}_, TokenUrl:   _{{tokenUrl}}_ {{/isOAuth}}
 {{#isApiKey}}* *APIKey* KeyParamName:     _{{keyParamName}}_,     KeyInQuery: _{{isKeyInQuery}}_, KeyInHeader: _{{isKeyInHeader}}_{{/isApiKey}}
@@ -59,13 +60,13 @@ Operation Id:: {{nickname}}
 {{/useMethodAndPath}}
 {{^useMethodAndPath}}
 ==== {{nickname}}
-    
+
 `{{httpMethod}} {{path}}`
 {{/useMethodAndPath}}
 
 {{{summary}}}
 
-===== Description 
+===== Description
 
 {{{notes}}}
 
@@ -81,7 +82,7 @@ Operation Id:: {{nickname}}
 {{/hasReference}}
 
 {{^hasReference}}
-{{#returnType}}<<{{returnType}}>>{{/returnType}}
+{{#returnType}}<<{{.}}>>{{/returnType}}
 {{^returnType}}-{{/returnType}}
 {{/hasReference}}
 
@@ -95,19 +96,19 @@ Operation Id:: {{nickname}}
 
 ===== Responses
 
-.http response codes
+.HTTP Response Codes
 [cols="2,3,1"]
-|===         
-| Code | Message | Datatype 
+|===
+| Code | Message | Datatype
 
 {{#responses}}
 
 | {{code}}
 | {{message}}
-| {{^simpleType}}{{dataType}}[<<{{baseType}}>>]{{/simpleType}} {{#simpleType}}<<{{dataType}}>>{{/simpleType}}
+| {{#containerType}}{{dataType}}[<<{{baseType}}>>]{{/containerType}} {{^containerType}}<<{{dataType}}>>{{/containerType}}
 
 {{/responses}}
-|===         
+|===
 
 {{^skipExamples}}
 ===== Samples

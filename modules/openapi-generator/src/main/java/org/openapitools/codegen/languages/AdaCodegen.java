@@ -29,12 +29,39 @@ import org.openapitools.codegen.meta.features.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.EnumSet;
 import java.util.Locale;
 
 public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
 
     public AdaCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .excludeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.OAuth2_Password,
+                        SecurityFeature.OAuth2_AuthorizationCode,
+                        SecurityFeature.OAuth2_ClientCredentials,
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.BearerToken
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Header,
+                        ParameterFeature.Cookie
+                )
+                .includeClientModificationFeatures(ClientModificationFeature.BasePath)
+        );
     }
 
     @Override
@@ -56,51 +83,20 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
     public void processOpts() {
         super.processOpts();
 
-        // TODO: Ada maintainer review.
-        modifyFeatureSet(features -> features
-                .excludeDocumentationFeatures(DocumentationFeature.Readme)
-                .excludeWireFormatFeatures(
-                        WireFormatFeature.XML,
-                        WireFormatFeature.PROTOBUF
-                )
-                .excludeSecurityFeatures(
-                        SecurityFeature.OpenIDConnect,
-                        SecurityFeature.OAuth2_Password,
-                        SecurityFeature.OAuth2_AuthorizationCode,
-                        SecurityFeature.OAuth2_ClientCredentials,
-                        SecurityFeature.OAuth2_Implicit,
-                        SecurityFeature.BearerToken,
-                        SecurityFeature.ApiKey
-                )
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Header,
-                        ParameterFeature.Cookie
-                )
-                .includeClientModificationFeatures(ClientModificationFeature.BasePath)
-        );
-
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             packageName = (String) additionalProperties.get(CodegenConstants.PACKAGE_NAME);
         }
         if (StringUtils.isEmpty(packageName)) {
             packageName = modelPackage;
         }
-        String srcPrefix = "src" + File.separator;
-        String modelPrefix = srcPrefix + "model" + File.separator + toFilename(modelPackage);
-        String clientPrefix = srcPrefix + "client" + File.separator + toFilename(modelPackage);
-        supportingFiles.add(new SupportingFile("model-spec.mustache", "", modelPrefix + "-models.ads"));
-        supportingFiles.add(new SupportingFile("model-body.mustache", "", modelPrefix + "-models.adb"));
-        supportingFiles.add(new SupportingFile("client-spec.mustache", "", clientPrefix + "-clients.ads"));
-        supportingFiles.add(new SupportingFile("client-body.mustache", "", clientPrefix + "-clients.adb"));
+        String srcDir = "src" + File.separator;
+        String clientDir = srcDir + "client";
+        String modelDir = srcDir + "model";
+        String modelPrefix = toFilename(modelPackage);
+        supportingFiles.add(new SupportingFile("model-spec.mustache", modelDir, modelPrefix + "-models.ads"));
+        supportingFiles.add(new SupportingFile("model-body.mustache", modelDir, modelPrefix + "-models.adb"));
+        supportingFiles.add(new SupportingFile("client-spec.mustache", clientDir, modelPrefix + "-clients.ads"));
+        supportingFiles.add(new SupportingFile("client-body.mustache", clientDir, modelPrefix + "-clients.adb"));
 
         if (additionalProperties.containsKey(CodegenConstants.PROJECT_NAME)) {
             projectName = (String) additionalProperties.get(CodegenConstants.PROJECT_NAME);
@@ -123,23 +119,26 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
         additionalProperties.put("packageDir", "client");
         additionalProperties.put("mainName", "client");
         additionalProperties.put("isServer", false);
+        additionalProperties.put("httpClientPackageName", httpClientPackageName);
+        additionalProperties.put("openApiPackageName", openApiPackageName);
+        additionalProperties.put("openApiGprName", openApiPackageName.toLowerCase(Locale.ROOT));
+        additionalProperties.put("httpClientGprName", httpClientPackageName.toLowerCase(Locale.ROOT));
         additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
 
         String[] names = this.modelPackage.split("\\.");
         String pkgName = names[0];
         additionalProperties.put("packageLevel1", pkgName);
-        supportingFiles.add(new SupportingFile("package-spec-level1.mustache", "",
-                "src" + File.separator + toFilename(names[0]) + ".ads"));
+        supportingFiles.add(new SupportingFile("package-spec-level1.mustache", "src",
+                toFilename(names[0]) + ".ads"));
         if (names.length > 1) {
             String fileName = toFilename(names[0]) + "-" + toFilename(names[1]) + ".ads";
             pkgName = names[0] + "." + names[1];
             additionalProperties.put("packageLevel2", pkgName);
-            supportingFiles.add(new SupportingFile("package-spec-level2.mustache", "",
-                    "src" + File.separator + fileName));
+            supportingFiles.add(new SupportingFile("package-spec-level2.mustache", "src", fileName));
         }
         pkgName = this.modelPackage;
-        supportingFiles.add(new SupportingFile("client.mustache", "",
-                "src" + File.separator + toFilename(pkgName) + "-client.adb"));
+        supportingFiles.add(new SupportingFile("client.mustache", "src",
+                toFilename(pkgName) + "-client.adb"));
         additionalProperties.put("packageName", toFilename(pkgName));
 
         // add lambda for mustache templates

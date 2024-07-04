@@ -1,16 +1,18 @@
 package apimodels;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
 import java.util.Objects;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 /**
  * EnumArrays
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class EnumArrays   {
   /**
@@ -78,7 +80,7 @@ public class EnumArrays   {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
- 
+
   @JsonProperty("array_enum")
   
   private List<ArrayEnumEnum> arrayEnum = null;
@@ -106,10 +108,10 @@ public class EnumArrays   {
   }
 
   public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
-    if (arrayEnum == null) {
-      arrayEnum = new ArrayList<>();
+    if (this.arrayEnum == null) {
+      this.arrayEnum = new ArrayList<>();
     }
-    arrayEnum.add(arrayEnumItem);
+    this.arrayEnum.add(arrayEnumItem);
     return this;
   }
 

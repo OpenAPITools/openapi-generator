@@ -10,12 +10,14 @@
 """
 
 
-import sys
+from __future__ import absolute_import
+
 import unittest
+import datetime
 
 import petstore_api
-from petstore_api.model.file import File
-
+from petstore_api.models.file import File  # noqa: E501
+from petstore_api.rest import ApiException
 
 class TestFile(unittest.TestCase):
     """File unit test stubs"""
@@ -26,12 +28,24 @@ class TestFile(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def make_instance(self, include_optional):
+        """Test File
+            include_option is a boolean, when False only required
+            params are included, when True both required and
+            optional params are included """
+        # model = petstore_api.models.file.File()  # noqa: E501
+        if include_optional :
+            return File(
+                source_uri = ''
+            )
+        else :
+            return File(
+        )
+
     def testFile(self):
         """Test File"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = File()  # noqa: E501
-        pass
-
+        inst_req_only = self.make_instance(include_optional=False)
+        inst_req_and_optional = self.make_instance(include_optional=True)
 
 if __name__ == '__main__':
     unittest.main()

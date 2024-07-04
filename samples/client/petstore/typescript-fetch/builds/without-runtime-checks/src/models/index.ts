@@ -1,4 +1,5 @@
-
+/* tslint:disable */
+/* eslint-disable */
 /**
  * A category for a pet
  * @export
@@ -18,7 +19,6 @@ export interface Category {
      */
     name?: string;
 }
-
 /**
  * Describes the result of uploading an image resource
  * @export
@@ -44,7 +44,6 @@ export interface ModelApiResponse {
      */
     message?: string;
 }
-
 /**
  * An order for a pets from the pet store
  * @export
@@ -71,10 +70,10 @@ export interface Order {
     quantity?: number;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof Order
      */
-    shipDate?: Date;
+    shipDate?: string;
     /**
      * Order Status
      * @type {string}
@@ -89,15 +88,16 @@ export interface Order {
     complete?: boolean;
 }
 
+
 /**
-* @export
-* @enum {string}
-*/
-export enum OrderStatusEnum {
-    Placed = 'placed',
-    Approved = 'approved',
-    Delivered = 'delivered'
-}
+ * @export
+ */
+export const OrderStatusEnum = {
+    Placed: 'placed',
+    Approved: 'approved',
+    Delivered: 'delivered'
+} as const;
+export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
 
 /**
  * A pet for sale in the pet store
@@ -143,15 +143,16 @@ export interface Pet {
     status?: PetStatusEnum;
 }
 
+
 /**
-* @export
-* @enum {string}
-*/
-export enum PetStatusEnum {
-    Available = 'available',
-    Pending = 'pending',
-    Sold = 'sold'
-}
+ * @export
+ */
+export const PetStatusEnum = {
+    Available: 'available',
+    Pending: 'pending',
+    Sold: 'sold'
+} as const;
+export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 
 /**
  * A tag for a pet
@@ -172,7 +173,6 @@ export interface Tag {
      */
     name?: string;
 }
-
 /**
  * A User who is purchasing from the pet store
  * @export

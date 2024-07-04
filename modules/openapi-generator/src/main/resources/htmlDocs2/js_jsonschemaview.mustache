@@ -125,7 +125,7 @@ var JSONSchemaView = (function () {
     this.options = options;
     this.isCollapsed = open <= 0;
 
-    // if schema is an empty object which means any JOSN
+    // if schema is an empty object which means any JSON
     this.isAny = typeof schema === 'object' && !Array.isArray(schema) && !Object.keys(schema).filter(function (k) {
       return ['title', 'description'].indexOf(k) === -1;
     }).length;
@@ -133,7 +133,7 @@ var JSONSchemaView = (function () {
     // Determine if a schema is an array
     this.isArray = !this.isAny && this.schema && this.schema.type === 'array';
 
-    this.isObject = this.schema && (this.schema.type === 'object' || this.schema.properties || this.schema.anyOf || this.schema.oneof || this.schema.allOf);
+    this.isObject = this.schema && (this.schema.type === 'object' || this.schema.properties || this.schema.anyOf || this.schema.oneOf || this.schema.allOf);
 
     // Determine if a schema is a primitive
     this.isPrimitive = !this.isAny && !this.isArray && !this.isObject;

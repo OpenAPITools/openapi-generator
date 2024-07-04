@@ -28,13 +28,13 @@ import com.fasterxml.jackson.annotation.JsonInclude
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Order (
-    var id: kotlin.Long? = null,
-    var petId: kotlin.Long? = null,
-    var quantity: kotlin.Int? = null,
-    var shipDate: java.time.OffsetDateTime? = null,
+    val id: kotlin.Long? = null,
+    val petId: kotlin.Long? = null,
+    val quantity: kotlin.Int? = null,
+    val shipDate: java.time.OffsetDateTime? = null,
     /* Order Status */
-    var status: Order.Status? = null,
-    var complete: kotlin.Boolean? = null
+    val status: Order.Status? = null,
+    val complete: kotlin.Boolean? = false
 ) {
 
     /**

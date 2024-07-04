@@ -14,7 +14,7 @@ To see how to make this your own, look here:
 [README]((https://openapi-generator.tech))
 
 - API version: 0.0.1
-
+- Generator version: 7.8.0-SNAPSHOT
 
 
 
@@ -99,11 +99,11 @@ Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [InlineObject](docs/InlineObject.md)
+ - [OpGetRequest](docs/OpGetRequest.md)
 
 
 ## Documentation For Authorization
- Endpoints do not require authorization.
+Endpoints do not require authorization.
 
 
 ## Author

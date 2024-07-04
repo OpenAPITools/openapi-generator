@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -30,7 +28,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * HasOnlyReadOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class HasOnlyReadOnly {
   public static final String SERIALIZED_NAME_BAR = "bar";
   @SerializedName(SERIALIZED_NAME_BAR)
@@ -40,13 +38,27 @@ public class HasOnlyReadOnly {
   @SerializedName(SERIALIZED_NAME_FOO)
   private String foo;
 
+  public HasOnlyReadOnly() {
+  }
+  /**
+   * Constructor with only readonly parameters
+   */
+  
+  public HasOnlyReadOnly(
+     String bar, 
+     String foo
+  ) {
+    this();
+    this.bar = bar;
+    this.foo = foo;
+  }
 
-   /**
+  /**
    * Get bar
    * @return bar
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public String getBar() {
     return bar;
@@ -54,18 +66,16 @@ public class HasOnlyReadOnly {
 
 
 
-
-   /**
+  /**
    * Get foo
    * @return foo
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public String getFoo() {
     return foo;
   }
-
 
 
 

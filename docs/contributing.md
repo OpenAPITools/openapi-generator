@@ -35,7 +35,7 @@ Please file the pull request against the correct branch, e.g. `master` for non-b
 
 All the code generators can be found in [modules/openapi-generator/src/main/java/org/openapitools/codegen/languages](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages)
 
-If you want to add a new generator, follow the [new-generator](https://openapi-generator.tech/docs/new-generator) guide. 
+If you want to add a new generator, follow the [new-generator](https://openapi-generator.tech/docs/new-generator) guide.
 
 ### Templates
 
@@ -52,18 +52,20 @@ Code change should conform to the programming style guide of the respective lang
 - C#: https://msdn.microsoft.com/en-us/library/vstudio/ff926074.aspx
 - C++: https://google.github.io/styleguide/cppguide.html
 - C++ (Tizen): https://wiki.tizen.org/Native_Platform_Coding_Idiom_and_Style_Guide#C.2B.2B_Coding_Style
+- C++ (Unreal Engine 4): https://docs.unrealengine.com/en-US/ProductionPipelines/DevelopmentSetup/CodingStandard/index.html
 - Clojure: https://github.com/bbatsov/clojure-style-guide
 - Crystal: https://crystal-lang.org/reference/conventions/coding_style.html
 - Dart: https://www.dartlang.org/guides/language/effective-dart/style
-- Elixir: https://github.com/christopheradams/elixir_style_guide
 - Eiffel: https://www.eiffel.org/doc/eiffel/Coding%20Standards
+- Elixir: https://github.com/christopheradams/elixir_style_guide
 - Erlang: https://github.com/inaka/erlang_guidelines
+- Go: https://github.com/golang/go/wiki/CodeReviewComments
+- Groovy: http://groovy-lang.org/style-guide.html
 - Haskell: https://github.com/tibbe/haskell-style-guide/blob/master/haskell-style.md
 - Java: https://google.github.io/styleguide/javaguide.html
 - JavaScript: https://github.com/airbnb/javascript/
+- Julia: https://docs.julialang.org/en/v1/manual/style-guide/
 - Kotlin: https://kotlinlang.org/docs/reference/coding-conventions.html
-- Groovy: http://groovy-lang.org/style-guide.html
-- Go: https://github.com/golang/go/wiki/CodeReviewComments
 - ObjC: https://github.com/NYTimes/objective-c-style-guide
 - Perl: http://perldoc.perl.org/perlstyle.html
 - PHP: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-12-extended-coding-style-guide.md
@@ -75,6 +77,7 @@ Code change should conform to the programming style guide of the respective lang
 - Scala: http://docs.scala-lang.org/style/
 - Swift: [Apple Developer](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html)
 - TypeScript: https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines
+- Xojo: https://documentation.xojo.com/topics/code_management/coding_guidelines.html
 
 For other languages, feel free to suggest.
 
@@ -85,18 +88,36 @@ For [Vendor Extensions](https://github.com/OAI/OpenAPI-Specification/blob/master
 - For language-specified vendor extension, put it in the form of `x-{lang}-{extension-name}`. e.g. `x-objc-operation-id`, `x-java-feign-retry-limit`
 - For a list of existing vendor extensions in use, please refer to https://github.com/openapitools/openapi-generator/wiki/Vendor-Extensions. If you've added new vendor extensions as part of your PR, please update the wiki page.
 
+### Building
+
+The `openapi-generator-cli` can be built using the following command. This will generate the `openapi-generator-cli.jar` in the `modules/openapi-generator-cli/target` directory without running the tests and generating the Javadocs.
+
+```shell
+./mvnw clean install -DskipTests -Dmaven.javadoc.skip=true
+```
+
+Or on Windows:
+
+```shell
+mvnw.cmd clean install -DskipTests -Dmaven.javadoc.skip=true
+```
+
+The binary can run via `java -jar`. For example:
+
+```shell
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar help
+```
+
 ### Testing
 
 To add test cases (optional) covering the change in the code generator, please refer to [modules/openapi-generator/src/test/java/org/openapitools/codegen](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/test/java/org/openapitools/codegen)
 
 To test the templates, please perform the following:
 
-- Update the Petstore sample by running the shell scripts under the `bin` folder. For example, run `./bin/generate-samples.sh .
-/bin/configs/python*` to update the Python-related samples under [`samples`](https://github.com/openapitools/openapi-generator/tree/master/samples). For Windows, please install [GIT bash](https://gitforwindows.org/). (If you find that there are new files generated or unexpected changes as a result of the update, that's not unusual as the test cases are added to the OpenAPI spec from time to time. If you've questions or concerns, please open a ticket to start a discussion)
-- During development it can be helpful to quickly regenerate the samples without recompiling all of openapi-generator, e.g. when you have only updated the mustache templates. This can be done by passing the `-t` parameter: `-t modules/openapi-generator/src/main/resources/python`.
-- Run the tests in the sample folder using maven `mvn integration-test -f /path/to/pom.xml`, e.g. `mvn integration-test -f samples/client/petstore/python/pom.xml`. (some languages may not contain unit testing for Petstore and we're looking for contribution from the community to implement those tests)
-- Finally, git commit the updated samples files: `git commit -a`
-  (`git add -A` if added files with new test cases)
+- Update the Petstore sample by running the shell scripts under the `bin` folder. For example, run `./bin/generate-samples.sh ./bin/configs/python*` to update the Python-related samples under [`samples`](https://github.com/openapitools/openapi-generator/tree/master/samples). For Windows, please install [GIT bash](https://gitforwindows.org/). (If you find that there are new files generated or unexpected changes as a result of the update, that's not unusual as the test cases are added to the OpenAPI spec from time to time. If you've questions or concerns, please open a ticket to start a discussion)
+- During development, it can be helpful to quickly regenerate the samples without recompiling all of openapi-generator, e.g. when you have only updated the mustache templates. This can be done by passing the `-t` parameter: `-t modules/openapi-generator/src/main/resources/python`.
+- Run the tests in the sample folder using maven `mvn integration-test -f /path/to/pom.xml`, e.g. `mvn integration-test -f samples/client/petstore/python/pom.xml`. (some languages may not contain unit testing for Petstore and we're looking for contribution from the community to implement those tests). __Please notice:__ you must run a local instance of the Petstore server in order to perform the tests, as running them against petstore.swagger.io is not supported anymore. Please refer to item 3 of [Integration Tests - How to add integration tests for new Petstore samples](https://github.com/OpenAPITools/openapi-generator/wiki/Integration-Tests#how-to-add-integration-tests-for-new-petstore-samples) to learn how to quickly configure and run it.
+- Finally, git commit the updated samples files: `git commit -a` (`git add -A` if added files with new test cases)
 - For new test cases, please add to the [Fake Petstore spec](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml)
 
 To start the CI tests, you can:
@@ -115,5 +136,5 @@ See [OpenAPI Tools wiki](https://github.com/OpenAPITools/openapi-generator/wiki/
 - File a PR with meaningful title, description and commit messages
 - Make sure the option "Allow edits from maintainers" in the PR is selected so that the maintainers can update your PRs with minor fixes, if needed.
 - Recommended git settings
-   - `git config core.autocrlf input` to tell Git convert CRLF to LF on commit but not the other way around 
+   - `git config core.autocrlf input` to tell Git convert CRLF to LF on commit but not the other way around
 - To close an issue (e.g. issue 1542) automatically after a PR is merged, use keywords "fix", "close", "resolve" in the PR description, e.g. `fix #1542`. (Ref: [closing issues using keywords](https://help.github.com/articles/closing-issues-using-keywords/))

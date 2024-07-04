@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -30,7 +28,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * Category
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Category {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -40,6 +38,8 @@ public class Category {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name = "default-name";
 
+  public Category() {
+  }
 
   public Category id(Long id) {
     
@@ -47,12 +47,12 @@ public class Category {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public Long getId() {
     return id;
@@ -63,19 +63,19 @@ public class Category {
     this.id = id;
   }
 
-
   public Category name(String name) {
     
     this.name = name;
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
+  @javax.annotation.Nonnull
   @NotNull
-  @ApiModelProperty(required = true, value = "")
+
 
   public String getName() {
     return name;
@@ -85,7 +85,6 @@ public class Category {
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(Object o) {

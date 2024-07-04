@@ -1,10 +1,10 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.swagger</groupId>
-    <artifactId>KotlinMoshiPetstoreClientTests</artifactId>
+    <groupId>org.openapitools</groupId>
+    <artifactId>kotlin-petstore-moshi-codegen</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <name>Kotlin Moshi Petstore Client</name>
+    <version>1.0.0</version>
+    <name>OpenAPI Petstore</name>
     <build>
         <plugins>
             <plugin>

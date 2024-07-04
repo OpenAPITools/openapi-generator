@@ -1,6 +1,6 @@
 {application, {{packageName}},
- [{description, {{#appDescription}}"{{appDescription}}"{{/appDescription}}{{^appDescription}}"OpenAPI client library"{{/appDescription}}},
-  {vsn, "{{#apiVersion}}{{apiVersion}}{{/apiVersion}}{{^apiVersion}}0.1.0{{/apiVersion}}"},
+ [{description, {{#appDescription}}"{{.}}"{{/appDescription}}{{^appDescription}}"OpenAPI client library"{{/appDescription}}},
+  {vsn, "{{apiVersion}}{{^apiVersion}}0.1.0{{/apiVersion}}"},
   {registered, []},
   {applications,
     [kernel,
@@ -9,10 +9,10 @@
      hackney,
      ctx
     ]},
-  {env, [{host, "{{#host}}{{{host}}}{{/host}}{{^host}}localhost{{/host}}"}]},
+  {env, [{host, "{{{host}}}{{^host}}localhost{{/host}}"}]},
   {modules, []},
 
   {maintainers, []},
-  {licenses, [{{#licenseInfo}}"{{licenseInfo}}"{{/licenseInfo}}]},
-  {links, [{{#infoUrl}}"{{infoUrl}}"{{/infoUrl}}]}
+  {licenses, [{{#licenseInfo}}"{{.}}"{{/licenseInfo}}]},
+  {links, [{{#infoUrl}}"{{.}}"{{/infoUrl}}]}
 ]}.

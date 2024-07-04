@@ -1,11 +1,11 @@
 # {{classname}}{{#description}}
-{{description}}{{/description}}
+{{.}}{{/description}}
 
 All URIs are relative to *{{basePath}}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{summary}}
 {{/operation}}{{/operations}}
 
 {{#operations}}
@@ -19,16 +19,16 @@ Method | HTTP request | Description
 
 {{{summary}}}{{#notes}}
 
-{{{notes}}}{{/notes}}
+{{{.}}}{{/notes}}
 
-### Example 
+### Example
 ```objc
 {{#hasAuthMethods}}
 {{classPrefix}}DefaultConfiguration *apiConfig = [{{classPrefix}}DefaultConfiguration sharedConfig];
-{{#authMethods}}{{#isBasic}}// Configure HTTP basic authorization (authentication scheme: {{{name}}})
+{{#authMethods}}{{#isBasicBasic}}// Configure HTTP basic authorization (authentication scheme: {{{name}}})
 [apiConfig setUsername:@"YOUR_USERNAME"];
 [apiConfig setPassword:@"YOUR_PASSWORD"];
-{{/isBasic}}{{#isApiKey}}
+{{/isBasicBasic}}{{#isApiKey}}
 // Configure API key authorization: (authentication scheme: {{{name}}})
 [apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"{{{keyParamName}}}"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -63,7 +63,7 @@ Method | HTTP request | Description
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
-{{#allParams}} **{{paramName}}** | {{#isFile}}**{{dataType}}**{{/isFile}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
+{{#allParams}} **{{paramName}}** | {{#isFile}}**{{dataType}}**{{/isFile}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{.}}]{{/defaultValue}}
 {{/allParams}}
 
 ### Return type

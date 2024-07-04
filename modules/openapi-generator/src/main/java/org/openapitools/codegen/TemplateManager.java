@@ -103,7 +103,7 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
      * @param name The location of the template
      * @return The raw template contents
      */
-    @SuppressWarnings({"java:S112"})
+    @SuppressWarnings("java:S112")
     // ignored rule java:S112 as RuntimeException is used to match previous exception type
     public String readTemplate(String name) {
         if (name == null || name.contains("..")) {
@@ -206,6 +206,7 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
      * @return File representing the written file.
      * @throws IOException If file cannot be written.
      */
+    @Override
     public File writeToFile(String filename, byte[] contents) throws IOException {
         // Use Paths.get here to normalize path (for Windows file separator, space escaping on Linux/Mac, etc)
         File outputFile = Paths.get(filename).toFile();

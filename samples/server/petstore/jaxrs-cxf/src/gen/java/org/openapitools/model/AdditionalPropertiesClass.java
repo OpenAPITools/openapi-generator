@@ -8,45 +8,40 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class AdditionalPropertiesClass  {
   
   @ApiModelProperty(value = "")
-  private Map<String, String> mapString = null;
+  private Map<String, String> mapString = new HashMap<>();
 
   @ApiModelProperty(value = "")
   @Valid
-  private Map<String, BigDecimal> mapNumber = null;
+  private Map<String, BigDecimal> mapNumber = new HashMap<>();
 
   @ApiModelProperty(value = "")
-  private Map<String, Integer> mapInteger = null;
+  private Map<String, Integer> mapInteger = new HashMap<>();
 
   @ApiModelProperty(value = "")
-  private Map<String, Boolean> mapBoolean = null;
-
-  @ApiModelProperty(value = "")
-  @Valid
-  private Map<String, List<Integer>> mapArrayInteger = null;
+  private Map<String, Boolean> mapBoolean = new HashMap<>();
 
   @ApiModelProperty(value = "")
   @Valid
-  private Map<String, List<Object>> mapArrayAnytype = null;
+  private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
   @ApiModelProperty(value = "")
   @Valid
-  private Map<String, Map<String, String>> mapMapString = null;
+  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
   @ApiModelProperty(value = "")
   @Valid
-  private Map<String, Map<String, Object>> mapMapAnytype = null;
+  private Map<String, Map<String, String>> mapMapString = new HashMap<>();
+
+  @ApiModelProperty(value = "")
+  @Valid
+  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
   @ApiModelProperty(value = "")
   private Object anytype1;
@@ -294,6 +289,32 @@ public class AdditionalPropertiesClass  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    AdditionalPropertiesClass additionalPropertiesClass = (AdditionalPropertiesClass) o;
+    return Objects.equals(this.mapString, additionalPropertiesClass.mapString) &&
+        Objects.equals(this.mapNumber, additionalPropertiesClass.mapNumber) &&
+        Objects.equals(this.mapInteger, additionalPropertiesClass.mapInteger) &&
+        Objects.equals(this.mapBoolean, additionalPropertiesClass.mapBoolean) &&
+        Objects.equals(this.mapArrayInteger, additionalPropertiesClass.mapArrayInteger) &&
+        Objects.equals(this.mapArrayAnytype, additionalPropertiesClass.mapArrayAnytype) &&
+        Objects.equals(this.mapMapString, additionalPropertiesClass.mapMapString) &&
+        Objects.equals(this.mapMapAnytype, additionalPropertiesClass.mapMapAnytype) &&
+        Objects.equals(this.anytype1, additionalPropertiesClass.anytype1) &&
+        Objects.equals(this.anytype2, additionalPropertiesClass.anytype2) &&
+        Objects.equals(this.anytype3, additionalPropertiesClass.anytype3);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(mapString, mapNumber, mapInteger, mapBoolean, mapArrayInteger, mapArrayAnytype, mapMapString, mapMapAnytype, anytype1, anytype2, anytype3);
+  }
 
   @Override
   public String toString() {

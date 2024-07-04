@@ -1,0 +1,6 @@
+generatorName: jaxrs-cxf-client
+outputDir: samples/openapi3/client/petstore/jaxrs-cxf-client-jackson-nullable
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaJaxRS/cxf
+additionalProperties:
+  jackson: "true"

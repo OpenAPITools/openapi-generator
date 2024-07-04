@@ -36,7 +36,10 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
 
     $Configuration = Get-{{{apiNamePrefix}}}Configuration
     $RequestUri = $Configuration["BaseUrl"] + $Uri
+    $DefaultHeaders = $Configuration["DefaultHeaders"]
+    # should make sure that SkipCertificateCheck is not set for PowerShell 5
     $SkipCertificateCheck = $Configuration["SkipCertificateCheck"]
+    $Proxy = $Configuration["Proxy"]
 
     # cookie parameters
     foreach ($Parameter in $CookieParameters.GetEnumerator()) {
@@ -47,27 +50,30 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
         }
     }
     if ($CookieParameters -and $CookieParameters.Count -gt 1) {
-        Write-Warning "Multipe cookie parameters found. Curently only the first one is supported/used"
+        Write-Warning "Multiple cookie parameters found. Currently only the first one is supported/used"
     }
 
     # accept, content-type headers
-    $Accept = SelectHeaders -Headers $Accepts
+    $Accept = SelectHeaders -Headers $Accepts -Multiple -JsonFirst
     if ($Accept) {
         $HeaderParameters['Accept'] = $Accept
     }
 
-    $ContentType= SelectHeaders -Headers $ContentTypes
+    # Content-Type and multipart handling
+    $ContentType = SelectHeaders -Headers $ContentTypes
     if ($ContentType) {
         $HeaderParameters['Content-Type'] = $ContentType
+        if ($ContentType -eq 'multipart/form-data') {
+            $MultiPart = $true
+        }
     }
 
     # add default headers if any
-    foreach ($header in $Configuration["DefaultHeaders"].GetEnumerator()) {
+    foreach ($header in $DefaultHeaders.GetEnumerator()) {
         $HeaderParameters[$header.Name] = $header.Value
     }
 
-
-    # constrcut URL query string
+    # construct URL query string
     $HttpValues = [System.Web.HttpUtility]::ParseQueryString([String]::Empty)
     foreach ($Parameter in $QueryParameters.GetEnumerator()) {
         if ($Parameter.Value.Count -gt 1) { // array
@@ -84,7 +90,7 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
 
     # include form parameters in the request body
     if ($FormParameters -and $FormParameters.Count -gt 0) {
-        $RequestBody = $FormParameters
+       $RequestBody = $FormParameters
     }
 
     if ($Body -or $IsBodyNullable) {
@@ -113,75 +119,98 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
     }
 
     {{/hasHttpSignatureMethods}}
+    # use splatting to pass parameters
+    $Params = @{}
+    $Params.Uri = $UriBuilder.Uri
+    $Params.Method = $Method
+    $Params.Headers = $HeaderParameters
+    $Params.ErrorAction = 'Stop'
+
     if ($SkipCertificateCheck -eq $true) {
-        if ($Configuration["Proxy"] -eq $null) {
-            # skip certification check, no proxy
-            $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
-                                      -Method $Method `
-                                      -Headers $HeaderParameters `
-                                      -Body $RequestBody `
-                                      -ErrorAction Stop `
-                                      -UseBasicParsing `
-                                      -SkipCertificateCheck
-        } else {
-            # skip certification check, use proxy
-            $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
-                                      -Method $Method `
-                                      -Headers $HeaderParameters `
-                                      -Body $RequestBody `
-                                      -ErrorAction Stop `
-                                      -UseBasicParsing `
-                                      -SkipCertificateCheck `
-                                      -Proxy $Configuration["Proxy"].GetProxy($UriBuilder.Uri) `
-                                      -ProxyUseDefaultCredentials
-        }
-    } else {
-        if ($Configuration["Proxy"] -eq $null) {
-            # perform certification check, no proxy
-            $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
-                                      -Method $Method `
-                                      -Headers $HeaderParameters `
-                                      -Body $RequestBody `
-                                      -ErrorAction Stop `
-                                      -UseBasicParsing
-        } else {
-            # perform certification check, use proxy
-            $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
-                                      -Method $Method `
-                                      -Headers $HeaderParameters `
-                                      -Body $RequestBody `
-                                      -ErrorAction Stop `
-                                      -UseBasicParsing `
-                                      -Proxy $Configuration["Proxy"].GetProxy($UriBuilder.Uri) `
-                                      -ProxyUseDefaultCredentials
+        $Params.SkipCertificateCheck = $true
+    }
+
+    if ($null -ne $Proxy) {
+        $effectiveProxy = $Proxy.GetProxy($UriBuilder.Uri)
+        # do not set proxy if it is null or same as target Uri
+        if ($null -ne $effectiveProxy -and $effectiveProxy.AbsoluteUri -ne $UriBuilder.Uri) {
+            $Params.Proxy = $effectiveProxy.AbsoluteUri
+            $Params.ProxyUseDefaultCredentials = $true
         }
     }
 
-    return @{
-        Response = DeserializeResponse -Response $Response -ReturnType $ReturnType -ContentTypes $Response.Headers["Content-Type"]
-        StatusCode = $Response.StatusCode
-        Headers = $Response.Headers
+    # use Invoke-RestApi if Content-Type is 'multipart/form-data', Invoke-WebRequest otherwise
+    if ($MultiPart) {
+        if ($PSVersionTable.PSVersion.Major -eq 5) {
+            # preset null return values as not supported by Invoke-RestMethod on PS5
+            $ResponseHeaders = $null
+            $ResponseStatusCode = $null
+        } else {
+            # preset return variables
+            $Params.ResponseHeadersVariable = "ResponseHeaders"
+            $Params.StatusCodeVariable = "ResponseStatusCode"
+        }
+        $Params.Form = $FormParameters
+        $Response = Invoke-RestMethod @Params
+
+        return @{
+            Response = $Response
+            StatusCode = $ResponseStatusCode
+            Headers = $ResponseHeaders
+        }
+   } else {
+        $Params.Body = $RequestBody
+        $Params.UseBasicParsing = $true
+        $Response = Invoke-WebRequest @Params
+
+        return @{
+            Response = DeserializeResponse -Response $Response.Content -ReturnType $ReturnType -ContentTypes $Response.Headers["Content-Type"]
+            StatusCode = $Response.StatusCode
+            Headers = $Response.Headers
+        }
     }
 }
 
-# Select JSON MIME if present, otherwise choose the first one if available
+# Filter MIME types for Accept:/Content-Type: headers
 function SelectHeaders {
     Param(
         [Parameter(Mandatory)]
         [AllowEmptyCollection()]
-        [String[]]$Headers
+        [String[]]$Headers,
+        [Parameter(Mandatory=$false)]
+        [switch]$Multiple,
+        [Parameter(Mandatory=$false)]
+        [switch]$JsonFirst
     )
 
-    foreach ($Header in $Headers) {
-        if (IsJsonMIME -MIME $Header) {
-            return $Header
-        }
-    }
-
+    # if no MIME type is provided return null
     if (!($Headers) -or $Headers.Count -eq 0) {
         return $null
+    }
+
+    if ($Multiple) {
+        # return multiple MIME types (for Accept: header)
+        if ($JsonFirst) {
+            # sort input to return JSON MIME types first
+            $mimeHeaders = @()
+            $otherHeaders = @()
+            foreach ($Header in $Headers) {
+                if (IsJsonMIME -MIME $Header) {
+                    $mimeHeaders += $Header
+                } else {
+                    $otherHeaders += $Header
+                }
+            }
+            $Headers = $($mimeHeaders; $otherHeaders)
+        }
+        return [string]::Join(', ', $Headers) # join multiple types if they are provided
     } else {
-        return $Headers[0] # return the first one
+        foreach ($Header in $Headers) {
+            if (IsJsonMIME -MIME $Header) {
+                return $Header # return the first type matching a JSON MIME
+            }
+        }
+        return $Headers[0] # else return the first one
     }
 }
 
@@ -210,6 +239,10 @@ function DeserializeResponse {
         [AllowEmptyCollection()]
         [string[]]$ContentTypes
     )
+
+    If ($null -eq $ContentTypes) {
+        $ContentTypes = [string[]]@()
+    }
 
     If ([string]::IsNullOrEmpty($ReturnType) -and $ContentTypes.Count -eq 0) { # void response
         return $Response

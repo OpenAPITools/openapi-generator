@@ -16,6 +16,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -29,7 +30,7 @@ import javax.validation.Valid;
   HasOnlyReadOnly.JSON_PROPERTY_BAR,
   HasOnlyReadOnly.JSON_PROPERTY_FOO
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class HasOnlyReadOnly   {
   public static final String JSON_PROPERTY_BAR = "bar";
   @JsonProperty(JSON_PROPERTY_BAR)
@@ -48,7 +49,7 @@ public class HasOnlyReadOnly   {
    * Get bar
    * @return bar
    **/
-  @JsonProperty("bar")
+  @JsonProperty(value = "bar", access = JsonProperty.Access.READ_ONLY)
   @ApiModelProperty(value = "")
   
   public String getBar() {
@@ -68,7 +69,7 @@ public class HasOnlyReadOnly   {
    * Get foo
    * @return foo
    **/
-  @JsonProperty("foo")
+  @JsonProperty(value = "foo", access = JsonProperty.Access.READ_ONLY)
   @ApiModelProperty(value = "")
   
   public String getFoo() {
@@ -97,7 +98,6 @@ public class HasOnlyReadOnly   {
   public int hashCode() {
     return Objects.hash(bar, foo);
   }
-
 
   @Override
   public String toString() {

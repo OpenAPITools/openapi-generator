@@ -15,7 +15,8 @@ import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 {{/supportAsync}}
 {{#useBeanValidation}}
-import javax.validation.constraints.*;
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
 {{/useBeanValidation}}
 {{>generatedAnnotation}}
 {{#operations}}

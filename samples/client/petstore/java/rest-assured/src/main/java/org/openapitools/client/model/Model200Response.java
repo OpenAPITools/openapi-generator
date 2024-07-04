@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -30,8 +28,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * Model for testing model name starting with number
  */
-@ApiModel(description = "Model for testing model name starting with number")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Model200Response {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -41,6 +38,8 @@ public class Model200Response {
   @SerializedName(SERIALIZED_NAME_PROPERTY_CLASS)
   private String propertyClass;
 
+  public Model200Response() {
+  }
 
   public Model200Response name(Integer name) {
     
@@ -48,12 +47,12 @@ public class Model200Response {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public Integer getName() {
     return name;
@@ -64,19 +63,18 @@ public class Model200Response {
     this.name = name;
   }
 
-
   public Model200Response propertyClass(String propertyClass) {
     
     this.propertyClass = propertyClass;
     return this;
   }
 
-   /**
+  /**
    * Get propertyClass
    * @return propertyClass
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public String getPropertyClass() {
     return propertyClass;
@@ -86,7 +84,6 @@ public class Model200Response {
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
-
 
   @Override
   public boolean equals(Object o) {

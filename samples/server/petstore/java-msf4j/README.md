@@ -11,12 +11,12 @@ Before you build/run service replace .deploy(new PetApi()) with your actual serv
                 .start();
 ```
 
-To Use-it : in the generated folder try 
+To Use-it : in the generated folder try
 ```
-mvn package 
+mvn package
 ```
 
-for build jar, then start your server: 
+for build jar, then start your server:
 ```
 java -jar target/java-msf4j-server-1.0.0.jar
 ```

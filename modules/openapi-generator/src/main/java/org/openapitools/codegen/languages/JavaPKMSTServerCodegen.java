@@ -21,19 +21,27 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.tags.Tag;
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.URLPathUtils;
 
 import java.io.File;
 import java.net.URL;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 /**
  * Created by prokarma on 04/09/17.
  */
+@Setter
 public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
 
     public static final String CONFIG_PACKAGE = "configPackage";
@@ -42,11 +50,10 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
     public static final String EUREKA_URI = "eurekaUri";
     public static final String ZIPKIN_URI = "zipkinUri";
     public static final String SPRINGADMIN_URI = "springBootAdminUri";
-    protected String basePackage = "com.prokarma.pkmst";
-    protected String serviceName = "Pkmst";
-    protected String configPackage = "com.prokarma.pkmst.config";
-    protected boolean implicitHeaders = false;
-    protected String title;
+    @Getter protected String basePackage = "com.prokarma.pkmst";
+    @Getter protected String serviceName = "Pkmst";
+    @Getter protected String configPackage = "com.prokarma.pkmst.config";
+    @Getter protected String title;
     protected String eurekaUri;
     protected String zipkinUri;
     protected String springBootAdminUri;
@@ -63,14 +70,14 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         modelPackage = "com.prokarma.pkmst.model";
         invokerPackage = "com.prokarma.pkmst.controller";
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.GROUP_ID, this.getGroupId());
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
-        additionalProperties.put("jackson", "true");
+        this.jackson = true;
 
         this.cliOptions.add(new CliOption("basePackage", "base package for java source code"));
         this.cliOptions.add(new CliOption("serviceName", "Service Name"));
@@ -91,19 +98,23 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         }
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "java-pkmst";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a PKMST SpringBoot Server application using the SpringFox integration."
                 + " Also enables EurekaServerClient / Zipkin / Spring-Boot admin";
     }
 
+    @Override
     public void processOpts() {
         super.processOpts();
         if (this.additionalProperties.containsKey("basePackage")) {
@@ -119,66 +130,22 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
             this.additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
             this.additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         }
-        if (this.additionalProperties.containsKey("groupId")) {
-            this.setGroupId((String) this.additionalProperties.get("groupId"));
-        } else {
-            // not set, use to be passed to template
-            additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
-        }
-        if (this.additionalProperties.containsKey("artifactId")) {
-            this.setArtifactId((String) this.additionalProperties.get("artifactId"));
-        } else {
-            // not set, use to be passed to template
-            additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
-        }
-        if (this.additionalProperties.containsKey("artifactVersion")) {
-            this.setArtifactVersion((String) this.additionalProperties.get("artifactVersion"));
-        } else {
-            // not set, use to be passed to template
-            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
-        }
-        if (this.additionalProperties.containsKey("serviceName")) {
-            this.setServiceName((String) this.additionalProperties.get("serviceName"));
-        } else {
-            // not set, use to be passed to template
-            additionalProperties.put("serviceName", serviceName);
-        }
+        convertPropertyToStringAndWriteBack("groupId", this::setGroupId);
 
-        if (this.additionalProperties.containsKey(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING)) {
-            this.setSerializeBigDecimalAsString(Boolean.valueOf(
-                    this.additionalProperties.get(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING).toString()));
-        }
-        if (this.additionalProperties.containsKey(CodegenConstants.SERIALIZABLE_MODEL)) {
-            this.setSerializableModel(
-                    Boolean.valueOf(this.additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL).toString()));
-        }
-        if (this.additionalProperties.containsKey(TITLE)) {
-            this.setTitle((String) this.additionalProperties.get(TITLE));
-        }
+        convertPropertyToStringAndWriteBack("artifactId", this::setArtifactId);
+        convertPropertyToStringAndWriteBack("artifactVersion", this::setArtifactVersion);
+        convertPropertyToStringAndWriteBack("serviceName", this::setServiceName);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, this::setSerializeBigDecimalAsString);
+        convertPropertyToStringAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL, this::setTitle);
         this.additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
-        if (this.additionalProperties.containsKey(FULL_JAVA_UTIL)) {
-            this.setFullJavaUtil(Boolean.valueOf(this.additionalProperties.get(FULL_JAVA_UTIL).toString()));
-        }
 
-        if (this.additionalProperties.containsKey(EUREKA_URI)) {
-            this.setEurekaUri((String) this.additionalProperties.get(EUREKA_URI));
-        }
-        if (this.additionalProperties.containsKey(ZIPKIN_URI)) {
-            this.setZipkinUri((String) this.additionalProperties.get(ZIPKIN_URI));
-        }
-        if (this.additionalProperties.containsKey(SPRINGADMIN_URI)) {
-            this.setSpringBootAdminUri((String) this.additionalProperties.get(SPRINGADMIN_URI));
-        }
-        if (fullJavaUtil) {
-            javaUtilPrefix = "java.util.";
-        }
-        this.additionalProperties.put(FULL_JAVA_UTIL, fullJavaUtil);
-        this.additionalProperties.put("javaUtilPrefix", javaUtilPrefix);
-        this.additionalProperties.put(SUPPORT_JAVA6, false);
+        convertPropertyToStringAndWriteBack(EUREKA_URI, this::setEurekaUri);
+        convertPropertyToStringAndWriteBack(ZIPKIN_URI, this::setZipkinUri);
+        convertPropertyToStringAndWriteBack(SPRINGADMIN_URI, this::setSpringBootAdminUri);
         this.additionalProperties.put("java8", true);
 
         if (this.additionalProperties.containsKey(WITH_XML)) {
-            this.setWithXml(Boolean.valueOf(additionalProperties.get(WITH_XML).toString()));
+            this.setWithXml(Boolean.parseBoolean(additionalProperties.get(WITH_XML).toString()));
         }
         this.additionalProperties.put(WITH_XML, withXml);
 
@@ -310,12 +277,11 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
                 serviceName + "IT.java"));
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
         if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            List<CodegenOperation> ops = operations.getOperation();
             for (final CodegenOperation operation : ops) {
                 List<CodegenResponse> responses = operation.responses;
                 if (responses != null) {
@@ -325,10 +291,12 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
                         }
                         doDataTypeAssignment(resp.dataType, new DataTypeAssigner() {
 
+                            @Override
                             public void setReturnType(final String returnType) {
                                 resp.dataType = returnType;
                             }
 
+                            @Override
                             public void setReturnContainer(final String returnContainer) {
                                 resp.containerType = returnContainer;
                             }
@@ -338,41 +306,22 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
 
                 doDataTypeAssignment(operation.returnType, new DataTypeAssigner() {
 
+                    @Override
                     public void setReturnType(final String returnType) {
                         operation.returnType = returnType;
                     }
 
+                    @Override
                     public void setReturnContainer(final String returnContainer) {
                         operation.returnContainer = returnContainer;
                     }
                 });
 
-                if (implicitHeaders) {
-                    removeHeadersFromAllParams(operation.allParams);
-                }
+                handleImplicitHeaders(operation);
             }
         }
 
         return objs;
-    }
-
-    /**
-     * This method removes header parameters from the list of parameters
-     *
-     * @param allParams list of all parameters
-     */
-    private void removeHeadersFromAllParams(List<CodegenParameter> allParams) {
-        if (allParams.isEmpty()) {
-            return;
-        }
-        final ArrayList<CodegenParameter> copy = new ArrayList<>(allParams);
-        allParams.clear();
-
-        for (CodegenParameter p : copy) {
-            if (!p.isHeaderParam) {
-                allParams.add(p);
-            }
-        }
     }
 
     /**
@@ -422,28 +371,25 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
             }
         } else { // enum class
             // Needed imports for Jackson's JsonCreator
-            if (this.additionalProperties.containsKey("jackson")) {
+            if (isJackson()) {
                 model.imports.add("JsonCreator");
             }
         }
 
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
+    public ModelsMap postProcessModelsEnum(ModelsMap objs) {
         objs = super.postProcessModelsEnum(objs);
 
         // Add imports for Jackson
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+        List<Map<String, String>> imports = objs.getImports();
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
             // for enum model
             if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
                 cm.imports.add(this.importMapping.get("JsonValue"));
-                Map<String, String> item = new HashMap<String, String>();
+                Map<String, String> item = new HashMap<>();
                 item.put("import", this.importMapping.get("JsonValue"));
                 imports.add(item);
             }
@@ -471,7 +417,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         // get vendor extensions
 
         Map<String, Object> vendorExt = openAPI.getInfo().getExtensions();
-        if (vendorExt != null && !vendorExt.toString().equals("")) {
+        if (vendorExt != null && !vendorExt.toString().isEmpty()) {
             if (vendorExt.containsKey("x-codegen")) {
 
                 Map<String, String> uris = (Map<String, String>) vendorExt.get("x-codegen");
@@ -534,7 +480,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
                     title = title.substring(0, title.length() - 3);
                 }
 
-                this.title = camelize(sanitizeName(title), true);
+                this.title = camelize(sanitizeName(title), LOWERCASE_FIRST_LETTER);
             }
             additionalProperties.put(TITLE, this.title);
         }
@@ -543,8 +489,9 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         this.additionalProperties.put("serverPort", URLPathUtils.getPort(url, 8080));
 
         if (openAPI.getPaths() != null) {
-            for (String pathname : openAPI.getPaths().keySet()) {
-                PathItem path = openAPI.getPaths().get(pathname);
+            for (Map.Entry<String, PathItem> openAPIGetPathsEntry : openAPI.getPaths().entrySet()) {
+                String pathname = openAPIGetPathsEntry.getKey();
+                PathItem path = openAPIGetPathsEntry.getValue();
                 if (path.readOperations() != null) {
                     for (Operation operation : path.readOperations()) {
                         if (operation.getTags() != null) {
@@ -607,50 +554,6 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         return (this.outputFolder + "/" + this.modelDocPath).replace("/", File.separator);
     }
 
-    public void setEurekaUri(String eurekaUri) {
-        this.eurekaUri = eurekaUri;
-    }
-
-    public void setZipkinUri(String zipkinUri) {
-        this.zipkinUri = zipkinUri;
-    }
-
-    public void setSpringBootAdminUri(String springBootAdminUri) {
-        this.springBootAdminUri = springBootAdminUri;
-    }
-
-    public String getBasePackage() {
-        return basePackage;
-    }
-
-    public void setBasePackage(String basePackage) {
-        this.basePackage = basePackage;
-    }
-
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
-    }
-
-    public String getConfigPackage() {
-        return configPackage;
-    }
-
-    public void setConfigPackage(String configPackage) {
-        this.configPackage = configPackage;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     private interface DataTypeAssigner {
 
         void setReturnType(String returnType);
@@ -658,17 +561,10 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         void setReturnContainer(String returnContainer);
     }
 
-    private class ResourcePath {
+    @Getter @Setter
+    private static class ResourcePath {
 
         private String path;
-
-        public String getPath() {
-            return path;
-        }
-
-        public void setPath(String path) {
-            this.path = path;
-        }
 
         @Override
         public String toString() {

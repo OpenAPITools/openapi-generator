@@ -20,10 +20,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * OuterComposite
@@ -33,8 +32,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   OuterComposite.JSON_PROPERTY_MY_STRING,
   OuterComposite.JSON_PROPERTY_MY_BOOLEAN
 })
-@JsonTypeName("OuterComposite")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class OuterComposite {
   public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
   private BigDecimal myNumber;
@@ -45,6 +43,17 @@ public class OuterComposite {
   public static final String JSON_PROPERTY_MY_BOOLEAN = "my_boolean";
   private Boolean myBoolean;
 
+  public OuterComposite() {
+  }
+
+  /**
+   * Constructor with all args parameters
+   */
+  public OuterComposite(@JsonProperty(JSON_PROPERTY_MY_NUMBER) BigDecimal myNumber, @JsonProperty(JSON_PROPERTY_MY_STRING) String myString, @JsonProperty(JSON_PROPERTY_MY_BOOLEAN) Boolean myBoolean) {
+    this.myNumber = myNumber;
+    this.myString = myString;
+    this.myBoolean = myBoolean;
+  }
 
   public OuterComposite myNumber(BigDecimal myNumber) {
     
@@ -52,12 +61,11 @@ public class OuterComposite {
     return this;
   }
 
-   /**
+  /**
    * Get myNumber
    * @return myNumber
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -66,10 +74,11 @@ public class OuterComposite {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MY_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
-
 
   public OuterComposite myString(String myString) {
     
@@ -77,12 +86,11 @@ public class OuterComposite {
     return this;
   }
 
-   /**
+  /**
    * Get myString
    * @return myString
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -91,10 +99,11 @@ public class OuterComposite {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MY_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMyString(String myString) {
     this.myString = myString;
   }
-
 
   public OuterComposite myBoolean(Boolean myBoolean) {
     
@@ -102,12 +111,11 @@ public class OuterComposite {
     return this;
   }
 
-   /**
+  /**
    * Get myBoolean
    * @return myBoolean
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -116,10 +124,11 @@ public class OuterComposite {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -161,6 +170,70 @@ public class OuterComposite {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder {
+
+    private OuterComposite instance;
+
+    public Builder() {
+      this(new OuterComposite());
+    }
+
+    protected Builder(OuterComposite instance) {
+      this.instance = instance;
+    }
+
+    public OuterComposite.Builder myNumber(BigDecimal myNumber) {
+      this.instance.myNumber = myNumber;
+      return this;
+    }
+    public OuterComposite.Builder myString(String myString) {
+      this.instance.myString = myString;
+      return this;
+    }
+    public OuterComposite.Builder myBoolean(Boolean myBoolean) {
+      this.instance.myBoolean = myBoolean;
+      return this;
+    }
+
+
+    /**
+    * returns a built OuterComposite instance.
+    *
+    * The builder is not reusable.
+    */
+    public OuterComposite build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static OuterComposite.Builder builder() {
+    return new OuterComposite.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public OuterComposite.Builder toBuilder() {
+    return new OuterComposite.Builder()
+      .myNumber(getMyNumber())
+      .myString(getMyString())
+      .myBoolean(getMyBoolean());
+  }
+
 
 }
 

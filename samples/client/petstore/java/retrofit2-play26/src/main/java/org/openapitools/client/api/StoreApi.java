@@ -2,8 +2,6 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.CollectionFormats.*;
 
-
-
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -12,6 +10,9 @@ import okhttp3.ResponseBody;
 import okhttp3.MultipartBody;
 
 import org.openapitools.client.model.Order;
+
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +45,7 @@ public interface StoreApi {
 
   /**
    * Find purchase order by ID
-   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
    * @param orderId ID of pet that needs to be fetched (required)
    * @return Call&lt;Order&gt;
    */

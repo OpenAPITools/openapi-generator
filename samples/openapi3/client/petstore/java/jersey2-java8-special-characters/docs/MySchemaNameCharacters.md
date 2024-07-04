@@ -6,9 +6,9 @@ A schema name that has letters, numbers, punctuation and non-ASCII characters. T
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**prop2** | **String** |  |  [optional]
+| Name | Type | Description | Notes |
+|------------ | ------------- | ------------- | -------------|
+|**prop2** | **String** |  |  [optional] |
 
 
 

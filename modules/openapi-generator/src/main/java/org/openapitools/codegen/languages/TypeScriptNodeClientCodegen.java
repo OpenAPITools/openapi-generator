@@ -18,11 +18,17 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +36,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen {
@@ -39,11 +47,14 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     private static final String DEFAULT_MODEL_FILENAME_DIRECTORY_PREFIX = "./";
     private static final String DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX = "../";
 
+    @Getter @Setter
     protected String npmRepository = null;
     protected String apiSuffix = "Api";
 
     public TypeScriptNodeClientCodegen() {
         super();
+
+        modifyFeatureSet(features -> features.includeSecurityFeatures(SecurityFeature.BearerToken));
 
         typeMapping.put("file", "RequestFile");
         // RequestFile is defined as: `type RequestFile = string | Buffer | ReadStream | RequestDetailedFile;`
@@ -82,7 +93,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     public boolean isDataTypeFile(final String dataType) {
-        return dataType != null && dataType.equals("RequestFile");
+        return "RequestFile".equals(dataType);
     }
 
     @Override
@@ -103,7 +114,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     @Override
     protected void handleMethodResponse(Operation operation, Map<String, Schema> schemas, CodegenOperation op,
                                         ApiResponse methodResponse) {
-        handleMethodResponse(operation, schemas, op, methodResponse, Collections.<String, String>emptyMap());
+        handleMethodResponse(operation, schemas, op, methodResponse, Collections.emptyMap());
     }
 
     @Override
@@ -136,7 +147,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         }
-        return camelize(name, true) + apiSuffix;
+        return camelize(name, LOWERCASE_FIRST_LETTER) + apiSuffix;
     }
 
     @Override
@@ -154,7 +165,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
             return importMapping.get(name);
         }
 
-        return DEFAULT_MODEL_FILENAME_DIRECTORY_PREFIX + camelize(toModelName(name), true);
+        return DEFAULT_MODEL_FILENAME_DIRECTORY_PREFIX + camelize(toModelName(name), LOWERCASE_FIRST_LETTER);
     }
 
     @Override
@@ -163,18 +174,16 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
             return importMapping.get(name);
         }
 
-        return DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX + modelPackage() + "/" + camelize(toModelName(name), true);
+        return DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX + modelPackage() + "/" + camelize(toModelName(name), LOWERCASE_FIRST_LETTER);
     }
 
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        Map<String, Object> result = super.postProcessAllModels(objs);
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        Map<String, ModelsMap> result = super.postProcessAllModels(objs);
 
-        for (Map.Entry<String, Object> entry : result.entrySet()) {
-            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
-            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-            for (Map<String, Object> mo : models) {
-                CodegenModel cm = (CodegenModel) mo.get("model");
+        for (ModelsMap entry : result.values()) {
+            for (ModelMap mo : entry.getModels()) {
+                CodegenModel cm = mo.getModel();
 
                 // Add additional filename information for imports
                 mo.put("tsImports", toTsImports(cm, cm.imports));
@@ -189,7 +198,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
             if (!im.equals(cm.classname)) {
                 HashMap<String, String> tsImport = new HashMap<>();
                 tsImport.put("classname", im);
-                tsImport.put("filename", toModelFilename(im));
+                tsImport.put("filename", toModelFilename(removeModelPrefixSuffix(im)));
                 tsImports.add(tsImport);
             }
         }
@@ -197,13 +206,13 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
-        Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
+        OperationMap objs = operations.getOperations();
 
         // The api.mustache template requires all of the auth methods for the whole api
         // Loop over all the operations and pick out each unique auth method
         Map<String, CodegenSecurity> authMethodsMap = new HashMap<>();
-        for (CodegenOperation op : (List<CodegenOperation>) objs.get("operation")) {
+        for (CodegenOperation op : objs.getOperation()) {
             if (op.hasAuthMethods) {
                 for (CodegenSecurity sec : op.authMethods) {
                     authMethodsMap.put(sec.name, sec);
@@ -218,23 +227,15 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         }
 
         // Add filename information for api imports
-        objs.put("apiFilename", getApiFilenameFromClassname(objs.get("classname").toString()));
+        objs.put("apiFilename", getApiFilenameFromClassname(objs.getClassname()));
 
         // Add additional filename information for model imports in the apis
-        List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
-        for (Map<String, Object> im : imports) {
-            im.put("filename", im.get("import").toString());
+        List<Map<String, String>> imports = operations.getImports();
+        for (Map<String, String> im : imports) {
+            im.put("filename", im.get("import"));
         }
 
         return operations;
-    }
-
-    public String getNpmRepository() {
-        return npmRepository;
-    }
-
-    public void setNpmRepository(String npmRepository) {
-        this.npmRepository = npmRepository;
     }
 
     @Override
@@ -309,14 +310,42 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         return toApiFilename(name);
     }
 
-@Override
+    private String removeModelPrefixSuffix(String name) {
+        String result = name;
+        final String prefix = capitalize(this.modelNamePrefix);
+        final String suffix = capitalize(this.modelNameSuffix);
+
+        if (prefix.length() > 0 && result.startsWith(prefix)) {
+            result = result.substring(prefix.length());
+        }
+        if (suffix.length() > 0 && result.endsWith(suffix)) {
+            result = result.substring(0, result.length() - suffix.length());
+        }
+        return result;
+    }
+
+    @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);
-        Schema additionalProperties = getAdditionalProperties(schema);
+        Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
         codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
         if ("array".equalsIgnoreCase(codegenModel.additionalPropertiesType)) {
-            codegenModel.additionalPropertiesType += '<' + getSchemaType(((ArraySchema) additionalProperties).getItems()) + '>';
+            codegenModel.additionalPropertiesType += '<' + getSchemaType((ModelUtils.getSchemaItems(additionalProperties))) + '>';
         }
         addImport(codegenModel, codegenModel.additionalPropertiesType);
+    }
+
+    @Override
+    public String toDefaultValue(Schema p) {
+        String def = super.toDefaultValue(p);
+        if ("undefined".equals(def)) {
+            return null;
+        }
+        return def;
+    }
+
+    @Override
+    public String toEnumDefaultValue(String value, String datatype) {
+        return datatype + "." + value;
     }
 }

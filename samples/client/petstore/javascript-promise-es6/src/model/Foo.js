@@ -54,8 +54,24 @@ class Foo {
         return obj;
     }
 
+    /**
+     * Validates the JSON data with respect to <code>Foo</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Foo</code>.
+     */
+    static validateJSON(data) {
+        // ensure the json data is a string
+        if (data['bar'] && !(typeof data['bar'] === 'string' || data['bar'] instanceof String)) {
+            throw new Error("Expected the field `bar` to be a primitive type in the JSON string but got " + data['bar']);
+        }
+
+        return true;
+    }
+
 
 }
+
+
 
 /**
  * @member {String} bar

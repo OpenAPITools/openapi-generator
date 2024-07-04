@@ -15,11 +15,12 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.*;
 import org.openapitools.client.auth.*;
+import java.time.LocalDateTime;
 import org.openapitools.client.model.User;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,8 +39,7 @@ public class UserApiTest {
      *
      * This can only be done by the logged in user.
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void createUserTest() throws ApiException {
@@ -51,10 +51,7 @@ public class UserApiTest {
     /**
      * Creates list of users with given input array
      *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void createUsersWithArrayInputTest() throws ApiException {
@@ -66,10 +63,7 @@ public class UserApiTest {
     /**
      * Creates list of users with given input array
      *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void createUsersWithListInputTest() throws ApiException {
@@ -83,8 +77,7 @@ public class UserApiTest {
      *
      * This can only be done by the logged in user.
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void deleteUserTest() throws ApiException {
@@ -96,10 +89,7 @@ public class UserApiTest {
     /**
      * Get user by user name
      *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void getUserByNameTest() throws ApiException {
@@ -111,10 +101,7 @@ public class UserApiTest {
     /**
      * Logs user into the system
      *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void loginUserTest() throws ApiException {
@@ -127,10 +114,7 @@ public class UserApiTest {
     /**
      * Logs out current logged in user session
      *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void logoutUserTest() throws ApiException {
@@ -143,8 +127,7 @@ public class UserApiTest {
      *
      * This can only be done by the logged in user.
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void updateUserTest() throws ApiException {

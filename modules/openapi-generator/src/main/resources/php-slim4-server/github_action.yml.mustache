@@ -1,0 +1,50 @@
+# GitHub Action for Slim Framework
+{{! based on example from link https://github.com/shivammathur/setup-php/blob/master/examples/slim-framework.yml }}
+{{! Since GitHub actions config contains variables with double braces }}
+{{! may conflict with mustache declarations, switch to different tags then }}
+{{=<% %>=}}
+name: Testing Slim Framework
+on: [push, pull_request]
+jobs:
+  build:
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest, windows-latest, macos-latest]
+        php-versions: ['7.4', '8.0', '8.1']
+    runs-on: ${{ matrix.operating-system }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Docs: https://github.com/shivammathur/setup-php
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, simplexml, dom
+          coverage: xdebug
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          # Use composer.json for key, if composer.lock is not committed.
+          # key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Check PHP syntax
+        run: vendor/bin/phplint ./ --exclude=vendor
+
+      - name: Test with PHPUnit
+        run: vendor/bin/phpunit --coverage-text
+
+      - name: Check coding style
+        run: vendor/bin/phpcs

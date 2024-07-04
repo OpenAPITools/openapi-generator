@@ -6,13 +6,18 @@ import {{invokerPackage}}.ApiClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
-{{^fullJavaUtil}}
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-{{/fullJavaUtil}}
 
+{{#useBeanValidation}}
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+
+{{/useBeanValidation}}
 /**
  * API tests for {{classname}}
  */
@@ -36,7 +41,7 @@ class {{classname}}Test {
         {{#allParams}}
         {{{dataType}}} {{paramName}} = null;
         {{/allParams}}
-        // {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        // {{#returnType}}{{{.}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
 
         // TODO: test validations
     }
@@ -61,7 +66,7 @@ class {{classname}}Test {
           {{#queryParams}}
             .{{paramName}}(null){{#-last}};{{/-last}}
           {{/queryParams}}
-        // {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{^isQueryParam}}{{paramName}}, {{/isQueryParam}}{{/allParams}}queryParams);
+        // {{#returnType}}{{{.}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{^isQueryParam}}{{paramName}}, {{/isQueryParam}}{{/allParams}}queryParams);
 
     // TODO: test validations
     }

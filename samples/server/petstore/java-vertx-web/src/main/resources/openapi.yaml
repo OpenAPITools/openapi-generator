@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  description: This is a sample server Petstore server. For this sample, you can use
-    the api key `special-key` to test the authorization filters.
+  description: "This is a sample server Petstore server. For this sample, you can\
+    \ use the api key `special-key` to test the authorization filters."
   license:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -22,6 +22,7 @@ tags:
 paths:
   /pet:
     post:
+      description: ""
       operationId: addPet
       requestBody:
         $ref: '#/components/requestBodies/Pet'
@@ -44,9 +45,15 @@ paths:
       summary: Add a new pet to the store
       tags:
       - pet
-      x-contentType: application/json
-      x-accepts: application/json
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      - application/xml
     put:
+      description: ""
+      externalDocs:
+        description: API documentation for the updatePet operation
+        url: http://petstore.swagger.io/v2/doc/updatePet
       operationId: updatePet
       requestBody:
         $ref: '#/components/requestBodies/Pet'
@@ -73,14 +80,17 @@ paths:
       summary: Update an existing pet
       tags:
       - pet
-      x-contentType: application/json
-      x-accepts: application/json
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      - application/xml
   /pet/findByStatus:
     get:
       description: Multiple status values can be provided with comma separated strings
       operationId: findPetsByStatus
       parameters:
-      - description: Status values that need to be considered for filter
+      - deprecated: true
+        description: Status values that need to be considered for filter
         explode: false
         in: query
         name: status
@@ -117,12 +127,14 @@ paths:
       summary: Finds Pets by status
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
   /pet/findByTags:
     get:
       deprecated: true
-      description: Multiple tags can be provided with comma separated strings. Use
-        tag1, tag2, tag3 for testing.
+      description: "Multiple tags can be provided with comma separated strings. Use\
+        \ tag1, tag2, tag3 for testing."
       operationId: findPetsByTags
       parameters:
       - description: Tags to filter by
@@ -157,9 +169,12 @@ paths:
       summary: Finds Pets by tags
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
   /pet/{petId}:
     delete:
+      description: ""
       operationId: deletePet
       parameters:
       - explode: false
@@ -188,7 +203,8 @@ paths:
       summary: Deletes a pet
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     get:
       description: Returns a single pet
       operationId: getPetById
@@ -221,8 +237,11 @@ paths:
       summary: Find pet by ID
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
     post:
+      description: ""
       operationId: updatePetWithForm
       parameters:
       - description: ID of pet that needs to be updated
@@ -235,18 +254,10 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object'
         content:
           application/x-www-form-urlencoded:
             schema:
-              properties:
-                name:
-                  description: Updated name of the pet
-                  type: string
-                status:
-                  description: Updated status of the pet
-                  type: string
-              type: object
+              $ref: '#/components/schemas/updatePetWithForm_request'
       responses:
         "405":
           description: Invalid input
@@ -257,10 +268,12 @@ paths:
       summary: Updates a pet in the store with form data
       tags:
       - pet
-      x-contentType: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-content-type: application/x-www-form-urlencoded
+      x-accepts:
+      - application/json
   /pet/{petId}/uploadImage:
     post:
+      description: ""
       operationId: uploadFile
       parameters:
       - description: ID of pet to update
@@ -273,19 +286,10 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_1'
         content:
           multipart/form-data:
             schema:
-              properties:
-                additionalMetadata:
-                  description: Additional data to pass to server
-                  type: string
-                file:
-                  description: file to upload
-                  format: binary
-                  type: string
-              type: object
+              $ref: '#/components/schemas/uploadFile_request'
       responses:
         "200":
           content:
@@ -300,8 +304,9 @@ paths:
       summary: uploads an image
       tags:
       - pet
-      x-contentType: multipart/form-data
-      x-accepts: application/json
+      x-content-type: multipart/form-data
+      x-accepts:
+      - application/json
   /store/inventory:
     get:
       description: Returns a map of status codes to quantities
@@ -321,9 +326,11 @@ paths:
       summary: Returns pet inventories by status
       tags:
       - store
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /store/order:
     post:
+      description: ""
       operationId: placeOrder
       requestBody:
         content:
@@ -347,8 +354,10 @@ paths:
       summary: Place an order for a pet
       tags:
       - store
-      x-contentType: application/json
-      x-accepts: application/json
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      - application/xml
   /store/order/{orderId}:
     delete:
       description: For valid response try integer IDs with value < 1000. Anything
@@ -371,10 +380,11 @@ paths:
       summary: Delete purchase order by ID
       tags:
       - store
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
-        values will generated exceptions
+        values will generate exceptions
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
@@ -405,7 +415,9 @@ paths:
       summary: Find purchase order by ID
       tags:
       - store
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
   /user:
     post:
       description: This can only be done by the logged in user.
@@ -425,10 +437,12 @@ paths:
       summary: Create user
       tags:
       - user
-      x-contentType: application/json
-      x-accepts: application/json
+      x-content-type: application/json
+      x-accepts:
+      - application/json
   /user/createWithArray:
     post:
+      description: ""
       operationId: createUsersWithArrayInput
       requestBody:
         $ref: '#/components/requestBodies/UserArray'
@@ -440,10 +454,12 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
-      x-contentType: application/json
-      x-accepts: application/json
+      x-content-type: application/json
+      x-accepts:
+      - application/json
   /user/createWithList:
     post:
+      description: ""
       operationId: createUsersWithListInput
       requestBody:
         $ref: '#/components/requestBodies/UserArray'
@@ -455,10 +471,12 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
-      x-contentType: application/json
-      x-accepts: application/json
+      x-content-type: application/json
+      x-accepts:
+      - application/json
   /user/login:
     get:
+      description: ""
       operationId: loginUser
       parameters:
       - description: The user name for login
@@ -467,7 +485,7 @@ paths:
         name: username
         required: true
         schema:
-          pattern: ^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$
+          pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"
           type: string
         style: form
       - description: The password for login in clear text
@@ -505,7 +523,7 @@ paths:
                 type: integer
               style: simple
             X-Expires-After:
-              description: date in UTC when toekn expires
+              description: date in UTC when token expires
               explode: false
               schema:
                 format: date-time
@@ -516,9 +534,12 @@ paths:
       summary: Logs user into the system
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
   /user/logout:
     get:
+      description: ""
       operationId: logoutUser
       responses:
         default:
@@ -528,7 +549,8 @@ paths:
       summary: Logs out current logged in user session
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /user/{username}:
     delete:
       description: This can only be done by the logged in user.
@@ -552,8 +574,10 @@ paths:
       summary: Delete user
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     get:
+      description: ""
       operationId: getUserByName
       parameters:
       - description: The name that needs to be fetched. Use user1 for testing.
@@ -581,7 +605,9 @@ paths:
       summary: Get user by user name
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
     put:
       description: This can only be done by the logged in user.
       operationId: updateUser
@@ -611,8 +637,9 @@ paths:
       summary: Updated user
       tags:
       - user
-      x-contentType: application/json
-      x-accepts: application/json
+      x-content-type: application/json
+      x-accepts:
+      - application/json
 components:
   requestBodies:
     UserArray:
@@ -634,16 +661,6 @@ components:
             $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
       required: true
-    inline_object:
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/inline_object'
-    inline_object_1:
-      content:
-        multipart/form-data:
-          schema:
-            $ref: '#/components/schemas/inline_object_1'
   schemas:
     Order:
       description: An order for a pets from the pet store
@@ -691,7 +708,7 @@ components:
           format: int64
           type: integer
         name:
-          pattern: ^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$
+          pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"
           type: string
       title: Pet category
       type: object
@@ -788,6 +805,7 @@ components:
             name: tag
             wrapped: true
         status:
+          deprecated: true
           description: pet status in the store
           enum:
           - available
@@ -817,7 +835,7 @@ components:
           type: string
       title: An uploaded response
       type: object
-    inline_object:
+    updatePetWithForm_request:
       properties:
         name:
           description: Updated name of the pet
@@ -826,7 +844,7 @@ components:
           description: Updated status of the pet
           type: string
       type: object
-    inline_object_1:
+    uploadFile_request:
       properties:
         additionalMetadata:
           description: Additional data to pass to server

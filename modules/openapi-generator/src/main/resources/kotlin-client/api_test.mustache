@@ -1,0 +1,33 @@
+{{>licenseInfo}}
+package {{apiPackage}}
+
+import io.kotlintest.shouldBe
+import io.kotlintest.specs.ShouldSpec
+
+import {{apiPackage}}.{{{classname}}}
+{{#imports}}import {{import}}
+{{/imports}}
+
+{{#operations}}
+class {{{classname}}}Test : ShouldSpec() {
+    init {
+        // uncomment below to create an instance of {{{classname}}}
+        //val apiInstance = {{{classname}}}()
+
+        {{#operation}}
+        // to test {{{operationId}}}{{#description}} - {{{.}}}{{/description}}
+        should("test {{{operationId}}}") {
+            // uncomment below to test {{{operationId}}}
+            {{#allParams}}
+            //val {{{paramName}}} : {{{dataType}}} = {{{example}}} // {{{dataType}}} | {{{description}}}
+            {{/allParams}}
+            //{{#returnType}}val result : {{{returnType}}}{{#nullableReturnType}}?{{/nullableReturnType}} = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+            {{#returnType}}
+            //result shouldBe ("TODO")
+            {{/returnType}}
+        }
+
+        {{/operation}}
+    }
+}
+{{/operations}}

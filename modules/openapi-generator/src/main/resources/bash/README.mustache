@@ -38,6 +38,9 @@ $ echo '<body_content>' | {{scriptName}} --host <hostname> --content-type json <
 # }
 $ echo '<body_content>' | {{scriptName}} --host <hostname> --content-type json <operationId> key1==value1 key2=value2 key3:=23 -
 
+# Make POST request with form data
+$ {{scriptName}} --host <hostname> <operationId> key1:=value1 key2:=value2 key3:=23
+
 # Preview the cURL command without actually executing it
 $ {{scriptName}} --host http://<hostname>:<port> --dry-run <operationid>
 
@@ -100,7 +103,7 @@ All URIs are relative to *{{basePathWithoutHost}}*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{summary}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
 ## Documentation For Models
@@ -120,14 +123,24 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: {{{keyParamName}}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
-{{#isBasic}}- **Type**: HTTP basic authentication
-{{/isBasic}}
+{{#isBasicBasic}}
+
+- **Type**: HTTP basic authentication
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+
+- **Type**: HTTP Bearer Token authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
+{{/isBasicBearer}}
+{{#isHttpSignature}}
+
+- **Type**: HTTP signature authentication
+{{/isHttpSignature}}
 {{#isOAuth}}
 
 - **Type**: OAuth
 - **Flow**: {{{flow}}}{{#authorizationUrl}}
-- **Authorization URL**: {{{authorizationUrl}}}{{/authorizationUrl}}{{#tokenUrl}}
-- **Token URL**: {{{tokenUrl}}}{{/tokenUrl}}
+- **Authorization URL**: {{{.}}}{{/authorizationUrl}}{{#tokenUrl}}
+- **Token URL**: {{{.}}}{{/tokenUrl}}
 - **Scopes**:{{^scopes}} N/A{{/scopes}}
 {{#scopes}}  - **{{{scope}}}**: {{{description}}}
 {{/scopes}}

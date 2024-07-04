@@ -20,9 +20,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Client
@@ -30,12 +29,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   Client.JSON_PROPERTY_CLIENT
 })
-@JsonTypeName("Client")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Client {
   public static final String JSON_PROPERTY_CLIENT = "client";
   private String client;
 
+  public Client() {
+  }
 
   public Client client(String client) {
     
@@ -43,12 +43,11 @@ public class Client {
     return this;
   }
 
-   /**
+  /**
    * Get client
    * @return client
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_CLIENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -57,6 +56,8 @@ public class Client {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CLIENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setClient(String client) {
     this.client = client;
   }

@@ -4,15 +4,15 @@
 <#
 .SYNOPSIS
 
-{{#summary}}{{{.}}}{{/summary}}{{^summary}}No summary available.{{/summary}}
+{{{summary}}}{{^summary}}No summary available.{{/summary}}
 
 .DESCRIPTION
 
-{{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
+{{{description}}}{{^description}}No description available.{{/description}}
 
 {{#allParams}}
 .PARAMETER {{{paramName}}}
-{{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
+{{{description}}}{{^description}}No description available.{{/description}}
 
 {{/allParams}}
 {{#vendorExtensions.x-powershell-select-accept}}
@@ -27,7 +27,7 @@ A switch when turned on will return a hash table of Response, StatusCode and Hea
 
 .OUTPUTS
 
-{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}None{{/returnType}}
+{{{returnType}}}{{^returnType}}None{{/returnType}}
 #>
 function {{{vendorExtensions.x-powershell-method-name}}} {
     [CmdletBinding()]
@@ -90,7 +90,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         if (!$<paramName>) {
             throw "Error! The required parameter `<paramName>` missing when calling <operationId>."
         }
-        $LocalVarUri = $LocalVarUri.replace('{<baseName>}', $<paramName>)
+        $LocalVarUri = $LocalVarUri.replace('{<baseName>}', [System.Web.HTTPUtility]::UrlEncode($<paramName>))
         </pathParams>
         <={{ }}=>
 
@@ -178,15 +178,15 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         {{#authMethods}}
         {{#isApiKey}}
         {{#isKeyInHeader}}
-        if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["{{{name}}}"]) {
-            $LocalVarHeaderParameters['{{{name}}}'] = $Configuration["ApiKey"]["{{{name}}}"]
-            Write-Verbose ("Using API key '{{{name}}}' in the header for authentication in {0}" -f $MyInvocation.MyCommand)
+        if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["{{{keyParamName}}}"]) {
+            $LocalVarHeaderParameters['{{{keyParamName}}}'] = $Configuration["ApiKey"]["{{{keyParamName}}}"]
+            Write-Verbose ("Using API key '{{{keyParamName}}}' in the header for authentication in {0}" -f $MyInvocation.MyCommand)
         }
         {{/isKeyInHeader}}
         {{#isKeyInQuery}}
-        if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["{{{name}}}"]) {
-            $LocalVarQueryParameters['{{{name}}}'] = $Configuration["ApiKey"]["{{{name}}}"]
-            Write-Verbose ("Using API key `{{{name}}}` in the URL query for authentication in {0}" -f $MyInvocation.MyCommand)
+        if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["{{{keyParamName}}}"]) {
+            $LocalVarQueryParameters['{{{keyParamName}}}'] = $Configuration["ApiKey"]["{{{keyParamName}}}"]
+            Write-Verbose ("Using API key `{{{keyParamName}}}` in the URL query for authentication in {0}" -f $MyInvocation.MyCommand)
         }
         {{/isKeyInQuery}}
         {{#isKeyInCookie}}
@@ -221,7 +221,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "{{#returnType}}{{{.}}}{{/returnType}}" `
+                                -ReturnType "{{{returnType}}}" `
                                 -IsBodyNullable {{#bodyParam}}{{#isNullable}}$true{{/isNullable}}{{^isNullable}}$false{{/isNullable}}{{/bodyParam}}{{^bodyParam}}$false{{/bodyParam}}
 
         {{#vendorExtensions.x-ps-return-type-one-of}}

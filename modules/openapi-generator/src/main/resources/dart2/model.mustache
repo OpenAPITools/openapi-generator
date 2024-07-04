@@ -3,10 +3,14 @@
 {{#models}}
 {{#model}}
 {{#isEnum}}
-{{>enum}}
+{{#native_serialization}}
+{{>serialization/native/native_enum}}
+{{/native_serialization}}
 {{/isEnum}}
 {{^isEnum}}
-{{>class}}
+{{#native_serialization}}
+{{>serialization/native/native_class}}
+{{/native_serialization}}
 {{/isEnum}}
 {{/model}}
 {{/models}}

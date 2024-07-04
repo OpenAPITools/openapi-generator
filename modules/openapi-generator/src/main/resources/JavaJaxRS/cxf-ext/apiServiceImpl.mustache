@@ -17,8 +17,8 @@ import org.openapitools.codegen.utils.JsonCache;
 import org.openapitools.codegen.utils.JsonCache.CacheException;
 {{/loadTestDataFromFile}}
 {{/generateOperationBody}}
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
+import {{javaxPackage}}.ws.rs.*;
+import {{javaxPackage}}.ws.rs.core.Response;
 import org.apache.cxf.jaxrs.model.wadl.Description;
 import org.apache.cxf.jaxrs.model.wadl.DocTarget;
 
@@ -39,7 +39,7 @@ import org.springframework.stereotype.Service;
  * {{{appName}}}
  *
  {{#appDescription}}
- * <p>{{{appDescription}}}
+ * <p>{{{.}}}
  {{/appDescription}}
  *
  */
@@ -68,7 +68,7 @@ public class {{classname}}ServiceImpl implements {{classname}} {
      * {{summary}}
      *
      {{#notes}}
-     * {{notes}}
+     * {{.}}
      *
      {{/notes}}
      */

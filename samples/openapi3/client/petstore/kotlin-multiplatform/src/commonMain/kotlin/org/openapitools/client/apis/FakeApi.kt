@@ -597,7 +597,7 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
 
         val localVariableConfig = RequestConfig(
             RequestMethod.PUT,
-            "/fake/test-query-paramters",
+            "/fake/test-query-parameters",
             query = localVariableQuery,
             headers = localVariableHeaders
         )

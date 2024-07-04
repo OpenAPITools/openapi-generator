@@ -26,7 +26,7 @@ Create user
 
 This can only be done by the logged in user.
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::UserApi;
@@ -35,7 +35,7 @@ my $api_instance = WWW::OpenAPIClient::UserApi->new(
 
 my $user = WWW::OpenAPIClient::Object::User->new(); # User | Created user object
 
-eval { 
+eval {
     $api_instance->create_user(user => $user);
 };
 if ($@) {
@@ -69,7 +69,9 @@ No authorization required
 
 Creates list of users with given input array
 
-### Example 
+
+
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::UserApi;
@@ -78,7 +80,7 @@ my $api_instance = WWW::OpenAPIClient::UserApi->new(
 
 my $user = [WWW::OpenAPIClient::Object::ARRAY[User]->new()]; # ARRAY[User] | List of user object
 
-eval { 
+eval {
     $api_instance->create_users_with_array_input(user => $user);
 };
 if ($@) {
@@ -112,7 +114,9 @@ No authorization required
 
 Creates list of users with given input array
 
-### Example 
+
+
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::UserApi;
@@ -121,7 +125,7 @@ my $api_instance = WWW::OpenAPIClient::UserApi->new(
 
 my $user = [WWW::OpenAPIClient::Object::ARRAY[User]->new()]; # ARRAY[User] | List of user object
 
-eval { 
+eval {
     $api_instance->create_users_with_list_input(user => $user);
 };
 if ($@) {
@@ -157,7 +161,7 @@ Delete user
 
 This can only be done by the logged in user.
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::UserApi;
@@ -166,7 +170,7 @@ my $api_instance = WWW::OpenAPIClient::UserApi->new(
 
 my $username = "username_example"; # string | The name that needs to be deleted
 
-eval { 
+eval {
     $api_instance->delete_user(username => $username);
 };
 if ($@) {
@@ -200,7 +204,9 @@ No authorization required
 
 Get user by user name
 
-### Example 
+
+
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::UserApi;
@@ -209,7 +215,7 @@ my $api_instance = WWW::OpenAPIClient::UserApi->new(
 
 my $username = "username_example"; # string | The name that needs to be fetched. Use user1 for testing.
 
-eval { 
+eval {
     my $result = $api_instance->get_user_by_name(username => $username);
     print Dumper($result);
 };
@@ -244,7 +250,9 @@ No authorization required
 
 Logs user into the system
 
-### Example 
+
+
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::UserApi;
@@ -254,7 +262,7 @@ my $api_instance = WWW::OpenAPIClient::UserApi->new(
 my $username = "username_example"; # string | The user name for login
 my $password = "password_example"; # string | The password for login in clear text
 
-eval { 
+eval {
     my $result = $api_instance->login_user(username => $username, password => $password);
     print Dumper($result);
 };
@@ -290,7 +298,9 @@ No authorization required
 
 Logs out current logged in user session
 
-### Example 
+
+
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::UserApi;
@@ -298,7 +308,7 @@ my $api_instance = WWW::OpenAPIClient::UserApi->new(
 );
 
 
-eval { 
+eval {
     $api_instance->logout_user();
 };
 if ($@) {
@@ -331,7 +341,7 @@ Updated user
 
 This can only be done by the logged in user.
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::UserApi;
@@ -341,7 +351,7 @@ my $api_instance = WWW::OpenAPIClient::UserApi->new(
 my $username = "username_example"; # string | name that need to be deleted
 my $user = WWW::OpenAPIClient::Object::User->new(); # User | Updated user object
 
-eval { 
+eval {
     $api_instance->update_user(username => $username, user => $user);
 };
 if ($@) {

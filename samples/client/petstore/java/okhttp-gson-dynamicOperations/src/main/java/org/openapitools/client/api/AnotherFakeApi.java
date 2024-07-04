@@ -31,6 +31,7 @@ import java.io.IOException;
 
 
 import org.openapitools.client.model.Client;
+import java.util.UUID;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -40,6 +41,8 @@ import java.util.Map;
 
 public class AnotherFakeApi {
     private ApiClient localVarApiClient;
+    private int localHostIndex;
+    private String localCustomBaseUrl;
 
     public AnotherFakeApi() {
         this(Configuration.getDefaultApiClient());
@@ -57,8 +60,25 @@ public class AnotherFakeApi {
         this.localVarApiClient = apiClient;
     }
 
+    public int getHostIndex() {
+        return localHostIndex;
+    }
+
+    public void setHostIndex(int hostIndex) {
+        this.localHostIndex = hostIndex;
+    }
+
+    public String getCustomBaseUrl() {
+        return localCustomBaseUrl;
+    }
+
+    public void setCustomBaseUrl(String customBaseUrl) {
+        this.localCustomBaseUrl = customBaseUrl;
+    }
+
     /**
      * Build call for call123testSpecialTags
+     * @param uuidTest to test uuid example value (required)
      * @param body client model (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
@@ -69,7 +89,20 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call call123testSpecialTagsCall(Client body, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call call123testSpecialTagsCall(UUID uuidTest, Client body, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
         Object localVarPostBody = body;
 
         // create path and map variables
@@ -80,6 +113,7 @@ public class AnotherFakeApi {
         Operation operation = apiOperation.getOperation();
         String localVarPath = apiOperation.getPath();
         Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("uuid_test", uuidTest);
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -101,29 +135,34 @@ public class AnotherFakeApi {
             "application/json"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
 
         String[] localVarAuthNames = new String[] {  };
-        return localVarApiClient.buildCall(localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(basePath, localVarPath, apiOperation.getMethod(), localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call call123testSpecialTagsValidateBeforeCall(Client body, final ApiCallback _callback) throws ApiException {
-        
+    private okhttp3.Call call123testSpecialTagsValidateBeforeCall(UUID uuidTest, Client body, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'uuidTest' is set
+        if (uuidTest == null) {
+            throw new ApiException("Missing the required parameter 'uuidTest' when calling call123testSpecialTags(Async)");
+        }
+
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new ApiException("Missing the required parameter 'body' when calling call123testSpecialTags(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = call123testSpecialTagsCall(body, _callback);
-        return localVarCall;
+        return call123testSpecialTagsCall(uuidTest, body, _callback);
 
     }
 
     /**
      * To test special tags
      * To test special tags and operation ID starting with number
+     * @param uuidTest to test uuid example value (required)
      * @param body client model (required)
      * @return Client
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -133,14 +172,15 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public Client call123testSpecialTags(Client body) throws ApiException {
-        ApiResponse<Client> localVarResp = call123testSpecialTagsWithHttpInfo(body);
+    public Client call123testSpecialTags(UUID uuidTest, Client body) throws ApiException {
+        ApiResponse<Client> localVarResp = call123testSpecialTagsWithHttpInfo(uuidTest, body);
         return localVarResp.getData();
     }
 
     /**
      * To test special tags
      * To test special tags and operation ID starting with number
+     * @param uuidTest to test uuid example value (required)
      * @param body client model (required)
      * @return ApiResponse&lt;Client&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -150,8 +190,8 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(Client body) throws ApiException {
-        okhttp3.Call localVarCall = call123testSpecialTagsValidateBeforeCall(body, null);
+    public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(UUID uuidTest, Client body) throws ApiException {
+        okhttp3.Call localVarCall = call123testSpecialTagsValidateBeforeCall(uuidTest, body, null);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -159,6 +199,7 @@ public class AnotherFakeApi {
     /**
      * To test special tags (asynchronously)
      * To test special tags and operation ID starting with number
+     * @param uuidTest to test uuid example value (required)
      * @param body client model (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
@@ -169,9 +210,9 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call call123testSpecialTagsAsync(Client body, final ApiCallback<Client> _callback) throws ApiException {
+    public okhttp3.Call call123testSpecialTagsAsync(UUID uuidTest, Client body, final ApiCallback<Client> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = call123testSpecialTagsValidateBeforeCall(body, _callback);
+        okhttp3.Call localVarCall = call123testSpecialTagsValidateBeforeCall(uuidTest, body, _callback);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

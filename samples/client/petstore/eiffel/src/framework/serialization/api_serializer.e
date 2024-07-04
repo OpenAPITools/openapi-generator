@@ -22,7 +22,7 @@ feature -- Access
 	serializer (f: FUNCTION [TUPLE [content_type:READABLE_STRING_8; type:ANY],READABLE_STRING_8]; a_content_type: READABLE_STRING_8; a_type: ANY): STRING_8
 			-- Serialize an object of type `a_type' using the content type `a_content_type'.
 		do
-				-- TODO check if this convertion it's ok.
+				-- TODO check if this conversion it's ok.
 			Result := f.item ([a_content_type, a_type]).to_string_8
 		end
 end

@@ -13,9 +13,15 @@ public interface {{classname}} {
 
     {{#operations}}
     {{#operation}}
-    void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}Handler<AsyncResult<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>> handler);
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
+    void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}Handler<AsyncResult<{{{returnType}}}{{^returnType}}Void{{/returnType}}>> handler);
 
-    void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}ApiClient.AuthInfo authInfo, Handler<AsyncResult<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>> handler);
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
+    void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}ApiClient.AuthInfo authInfo, Handler<AsyncResult<{{{returnType}}}{{^returnType}}Void{{/returnType}}>> handler);
 
     {{/operation}}
     {{/operations}}

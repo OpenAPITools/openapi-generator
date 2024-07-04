@@ -5,11 +5,11 @@
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**myNumber** | **BigDecimal** |  |  [optional]
-**myString** | **String** |  |  [optional]
-**myBoolean** | **Boolean** |  |  [optional]
+| Name | Type | Description | Notes |
+|------------ | ------------- | ------------- | -------------|
+|**myNumber** | **BigDecimal** |  |  [optional] |
+|**myString** | **String** |  |  [optional] |
+|**myBoolean** | **Boolean** |  |  [optional] |
 
 
 

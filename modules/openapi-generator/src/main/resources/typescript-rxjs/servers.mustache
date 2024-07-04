@@ -17,11 +17,11 @@ export class ServerConfiguration<T extends { [key: string]: string }> {
     }
 
     public getConfiguration(): T {
-        return this.variableConfiguration
+        return this.variableConfiguration;
     }
 
     public getDescription(): string {
-        return this.description
+        return this.description;
     }
 
     /**
@@ -31,15 +31,17 @@ export class ServerConfiguration<T extends { [key: string]: string }> {
     public getUrl(): string {
         let replacedUrl = this.url;
         for (const key in this.variableConfiguration) {
-            var re = new RegExp("{" + key + "}","g");
-            replacedUrl = replacedUrl.replace(re, this.variableConfiguration[key]);
+            if (this.variableConfiguration.hasOwnProperty(key)) {
+                 const re = new RegExp("{" + key + "}","g");
+                 replacedUrl = replacedUrl.replace(re, this.variableConfiguration[key]);
+            }
         }
-        return replacedUrl
+        return replacedUrl;
     }
 }
 
 {{#servers}}
-const server{{-index}} = new ServerConfiguration<{ {{#variables}} "{{name}}": {{#enumValues}}"{{.}}"{{^-last}} | {{/-last}}{{/enumValues}}{{^enumValues}}string{{/enumValues}}{{^-last}},{{/-last}} {{/variables}} }>("{{url}}", { {{#variables}} "{{name}}": "{{defaultValue}}" {{^-last}},{{/-last}}{{/variables}} }, "{{description}}")
+const server{{-index}} = new ServerConfiguration<{ {{#variables}} "{{name}}": {{#enumValues}}"{{.}}"{{^-last}} | {{/-last}}{{/enumValues}}{{^enumValues}}string{{/enumValues}}{{^-last}},{{/-last}} {{/variables}} }>("{{url}}", { {{#variables}} "{{name}}": "{{defaultValue}}" {{^-last}},{{/-last}}{{/variables}} }, "{{description}}");
 {{/servers}}
 
 export const servers = [{{#servers}}server{{-index}}{{^-last}}, {{/-last}}{{/servers}}];

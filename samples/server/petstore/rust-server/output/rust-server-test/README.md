@@ -14,7 +14,7 @@ To see how to make this your own, look here:
 [README]((https://openapi-generator.tech))
 
 - API version: 2.3.4
-
+- Generator version: 7.8.0-SNAPSHOT
 
 
 
@@ -118,14 +118,14 @@ Method | HTTP request | Description
  - [AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
  - [AllOfObject](docs/AllOfObject.md)
  - [BaseAllOf](docs/BaseAllOf.md)
+ - [DummyPutRequest](docs/DummyPutRequest.md)
  - [GetYamlResponse](docs/GetYamlResponse.md)
- - [InlineObject](docs/InlineObject.md)
  - [ObjectOfObjects](docs/ObjectOfObjects.md)
  - [ObjectOfObjectsInner](docs/ObjectOfObjectsInner.md)
 
 
 ## Documentation For Authorization
- Endpoints do not require authorization.
+Endpoints do not require authorization.
 
 
 ## Author

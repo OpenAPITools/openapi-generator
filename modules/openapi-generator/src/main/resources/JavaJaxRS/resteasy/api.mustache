@@ -15,15 +15,15 @@ import {{package}}.NotFoundException;
 
 import java.io.InputStream;
 
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.*;
-import javax.inject.Inject;
+import {{javaxPackage}}.ws.rs.core.Context;
+import {{javaxPackage}}.ws.rs.core.Response;
+import {{javaxPackage}}.ws.rs.core.SecurityContext;
+import {{javaxPackage}}.ws.rs.*;
+import {{javaxPackage}}.inject.Inject;
 
 {{#useBeanValidation}}
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
 {{/useBeanValidation}}
 {{#operations}}{{#operation}}{{#isMultipart}}import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 {{/isMultipart}}{{/operation}}{{/operations}}
@@ -42,15 +42,22 @@ public class {{classname}}  {
     {{#subresourceOperation}}@Path("{{{path}}}"){{/subresourceOperation}}
     {{#hasConsumes}}@Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}
     {{#hasProduces}}@Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
-    @io.swagger.annotations.ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnBaseType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}{{#hasAuthMethods}}, authorizations = {
+    @io.swagger.annotations.ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnBaseType}}}.class{{#returnContainer}}, responseContainer = "{{{.}}}"{{/returnContainer}}{{#hasAuthMethods}}, authorizations = {
         {{#authMethods}}@io.swagger.annotations.Authorization(value = "{{name}}"{{#isOAuth}}, scopes = {
             {{#scopes}}@io.swagger.annotations.AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{^-last}},
             {{/-last}}{{/scopes}}
         }{{/isOAuth}}){{^-last}},
         {{/-last}}{{/authMethods}}
     }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} })
+    {{#implicitHeadersParams.0}}
+    @io.swagger.annotations.ApiImplicitParams({
+        {{#implicitHeadersParams}}
+        @io.swagger.annotations.ApiImplicitParam(name = "{{{baseName}}}", value = "{{{description}}}", {{#required}}required = true,{{/required}} dataType = "{{{dataType}}}", paramType = "header"){{^-last}},{{/-last}}
+        {{/implicitHeadersParams}}
+    })
+    {{/implicitHeadersParams.0}}
     @io.swagger.annotations.ApiResponses(value = { {{#responses}}
-        @io.swagger.annotations.ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#containerType}}, responseContainer = "{{{containerType}}}"{{/containerType}}){{^-last}},
+        @io.swagger.annotations.ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}},
         {{/-last}}{{/responses}} })
     public Response {{nickname}}({{#isMultipart}}MultipartFormDataInput input,{{/isMultipart}}{{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{^isMultipart}}{{>formParams}},{{/isMultipart}}{{#isMultipart}}{{^isFormParam}},{{/isFormParam}}{{/isMultipart}}{{/allParams}}@Context SecurityContext securityContext)
     throws NotFoundException {

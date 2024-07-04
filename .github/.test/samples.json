@@ -146,12 +146,6 @@
       ]
     },
     {
-      "input": "dart-jaguar-petstore.sh",
-      "matches": [
-        "Client: Dart"
-      ]
-    },
-    {
       "input": "dart-dio-petstore.sh",
       "matches": [
         "Client: Dart"
@@ -221,12 +215,6 @@
       "input": "scala-finch-petstore-server.sh",
       "matches": [
         "Server: Scala"
-      ]
-    },
-    {
-      "input": "flash-petstore.sh",
-      "matches": [
-        "Client: Flash/ActionScript"
       ]
     },
     {
@@ -327,12 +315,6 @@
     },
     {
       "input": "java-petstore-google-api-client.sh",
-      "matches": [
-        "Client: Java"
-      ]
-    },
-    {
-      "input": "java-petstore-jersey1.sh",
       "matches": [
         "Client: Java"
       ]
@@ -597,18 +579,6 @@
       ]
     },
     {
-      "input": "jaxrs-jersey1-petstore-server.sh",
-      "matches": [
-        "Server: Java"
-      ]
-    },
-    {
-      "input": "jaxrs-jersey1-usetags-petstore-server.sh",
-      "matches": [
-        "Server: Java"
-      ]
-    },
-    {
       "input": "jaxrs-petstore-server-datelib-j8.sh",
       "matches": [
         "Server: Java"
@@ -723,18 +693,6 @@
       ]
     },
     {
-      "input": "nancyfx-petstore-server-async.sh",
-      "matches": [
-        "Server: C-Sharp"
-      ]
-    },
-    {
-      "input": "nancyfx-petstore-server.sh",
-      "matches": [
-        "Server: C-Sharp"
-      ]
-    },
-    {
       "input": "nodejs-petstore-google-cloud-functions.sh",
       "matches": [
         "Server: Nodejs"
@@ -822,12 +780,6 @@
       "input": "python-asyncio-petstore.sh",
       "matches": [
         "Client: Python"
-      ]
-    },
-    {
-      "input": "python-server-flask-petstore-python2.sh",
-      "matches": [
-        "Server: Python"
       ]
     },
     {
@@ -940,24 +892,6 @@
     },
     {
       "input": "spring-delegate.sh",
-      "matches": [
-        "Server: Spring"
-      ]
-    },
-    {
-      "input": "spring-mvc-petstore-j8-async-server.sh",
-      "matches": [
-        "Server: Spring"
-      ]
-    },
-    {
-      "input": "spring-mvc-petstore-j8-localdatetime.sh",
-      "matches": [
-        "Server: Spring"
-      ]
-    },
-    {
-      "input": "spring-mvc-petstore-server.sh",
       "matches": [
         "Server: Spring"
       ]
@@ -1264,6 +1198,12 @@
     },
     {
       "input": "typescript-nestjs-v6-petstore-provided-in-root.sh",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "typescript-nestjs-v8-petstore-provided-in-root.sh",
       "matches": [
         "Client: TypeScript"
       ]

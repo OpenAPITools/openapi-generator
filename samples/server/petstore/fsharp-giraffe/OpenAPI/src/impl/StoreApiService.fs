@@ -23,12 +23,12 @@ module StoreApiServiceImplementation =
 
         member this.GetInventory ctx  =
             let content = "successful operation" :> obj :?> IDictionary<string, int> // this cast is obviously wrong, and is only intended to allow generated project to compile   
-            GetInventoryDefaultStatusCode { content = content }
+            GetInventoryStatusCode200 { content = content }
 
         member this.GetOrderById ctx args =
           if true then 
             let content = "successful operation" :> obj :?> Order // this cast is obviously wrong, and is only intended to allow generated project to compile   
-            GetOrderByIdDefaultStatusCode { content = content }
+            GetOrderByIdStatusCode200 { content = content }
           else if true then 
             let content = "Invalid ID supplied" 
             GetOrderByIdStatusCode400 { content = content }
@@ -39,7 +39,7 @@ module StoreApiServiceImplementation =
         member this.PlaceOrder ctx args =
           if true then 
             let content = "successful operation" :> obj :?> Order // this cast is obviously wrong, and is only intended to allow generated project to compile   
-            PlaceOrderDefaultStatusCode { content = content }
+            PlaceOrderStatusCode200 { content = content }
           else
             let content = "Invalid Order" 
             PlaceOrderStatusCode400 { content = content }

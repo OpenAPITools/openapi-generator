@@ -2,7 +2,7 @@
 
 /**
  * StoreController
- * PHP version 7.1.3
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  OpenAPI\Server\Controller
@@ -85,24 +85,18 @@ class StoreController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            
+
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->deleteOrder($orderId, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
+            $handler->deleteOrder($orderId, $responseCode, $responseHeaders);
 
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 400:
-                    $message = 'Invalid ID supplied';
-                    break;
-                case 404:
-                    $message = 'Order not found';
-                    break;
-            }
+            $message = match($responseCode) {
+                400 => 'Invalid ID supplied',
+                404 => 'Order not found',
+                default => '',
+            };
 
             return new Response(
                 '',
@@ -114,7 +108,7 @@ class StoreController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -155,21 +149,17 @@ class StoreController extends Controller
 
             // Set authentication method 'api_key'
             $handler->setapi_key($securityapi_key);
-            
+
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
+
             $result = $handler->getInventory($responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
-
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 200:
-                    $message = 'successful operation';
-                    break;
-            }
+            $message = match($responseCode) {
+                200 => 'successful operation',
+                default => '',
+            };
 
             return new Response(
                 $result !== null ?$this->serialize($result, $responseFormat):'',
@@ -182,7 +172,7 @@ class StoreController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -234,27 +224,19 @@ class StoreController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            
+
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
+
             $result = $handler->getOrderById($orderId, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
-
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 200:
-                    $message = 'successful operation';
-                    break;
-                case 400:
-                    $message = 'Invalid ID supplied';
-                    break;
-                case 404:
-                    $message = 'Order not found';
-                    break;
-            }
+            $message = match($responseCode) {
+                200 => 'successful operation',
+                400 => 'Invalid ID supplied',
+                404 => 'Order not found',
+                default => '',
+            };
 
             return new Response(
                 $result !== null ?$this->serialize($result, $responseFormat):'',
@@ -267,7 +249,7 @@ class StoreController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -283,7 +265,7 @@ class StoreController extends Controller
     public function placeOrderAction(Request $request)
     {
         // Make sure that the client is providing something that we can consume
-        $consumes = [];
+        $consumes = ['application/json'];
         if (!static::isContentTypeAllowed($request, $consumes)) {
             // We can't consume the content that the client is sending us
             return new Response('', 415);
@@ -301,14 +283,14 @@ class StoreController extends Controller
         // Handle authentication
 
         // Read out all input parameter values into variables
-        $body = $request->getContent();
+        $order = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
         try {
-            $inputFormat = $request->getMimeType($request->getContentType());
-            $body = $this->deserialize($body, 'OpenAPI\Server\Model\Order', $inputFormat);
+            $inputFormat = $request->getMimeType($request->getContentTypeFormat());
+            $order = $this->deserialize($order, 'OpenAPI\Server\Model\Order', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
         }
@@ -318,7 +300,7 @@ class StoreController extends Controller
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("OpenAPI\Server\Model\Order");
         $asserts[] = new Assert\Valid();
-        $response = $this->validate($body, $asserts);
+        $response = $this->validate($order, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -327,24 +309,18 @@ class StoreController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            
+
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
-            $result = $handler->placeOrder($body, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
+            $result = $handler->placeOrder($order, $responseCode, $responseHeaders);
 
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 200:
-                    $message = 'successful operation';
-                    break;
-                case 400:
-                    $message = 'Invalid Order';
-                    break;
-            }
+            $message = match($responseCode) {
+                200 => 'successful operation',
+                400 => 'Invalid Order',
+                default => '',
+            };
 
             return new Response(
                 $result !== null ?$this->serialize($result, $responseFormat):'',
@@ -357,7 +333,7 @@ class StoreController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }

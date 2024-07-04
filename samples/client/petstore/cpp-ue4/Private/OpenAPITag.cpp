@@ -17,7 +17,7 @@
 
 #include "Templates/SharedPointer.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 void OpenAPITag::WriteJson(JsonWriter& Writer) const
@@ -25,11 +25,11 @@ void OpenAPITag::WriteJson(JsonWriter& Writer) const
 	Writer->WriteObjectStart();
 	if (Id.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("id")); WriteJsonValue(Writer, Id.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("id")); WriteJsonValue(Writer, Id.GetValue());
 	}
 	if (Name.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("name")); WriteJsonValue(Writer, Name.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("name")); WriteJsonValue(Writer, Name.GetValue());
 	}
 	Writer->WriteObjectEnd();
 }

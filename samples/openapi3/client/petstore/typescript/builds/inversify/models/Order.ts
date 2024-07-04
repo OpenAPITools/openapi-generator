@@ -69,11 +69,15 @@ export class Order {
     static getAttributeTypeMap() {
         return Order.attributeTypeMap;
     }
-    
+
     public constructor() {
     }
 }
 
 
-export type OrderStatusEnum = "placed" | "approved" | "delivered" ;
+export enum OrderStatusEnum {
+    Placed = 'placed',
+    Approved = 'approved',
+    Delivered = 'delivered'
+}
 

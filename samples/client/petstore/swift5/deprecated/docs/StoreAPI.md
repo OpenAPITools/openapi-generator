@@ -19,7 +19,7 @@ Delete purchase order by ID
 
 For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -69,7 +69,7 @@ Returns pet inventories by status
 
 Returns a map of status codes to quantities
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -113,9 +113,9 @@ This endpoint does not need any parameter.
 
 Find purchase order by ID
 
-For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -163,7 +163,9 @@ No authorization required
 
 Place an order for a pet
 
-### Example 
+
+
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient

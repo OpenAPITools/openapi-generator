@@ -12,12 +12,9 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
-import {
-     CatFromJSONTyped,
-     DogFromJSONTyped
-} from './';
-
+import { mapValues } from '../runtime';
+import { CatFromJSONTyped } from './Cat';
+import { DogFromJSONTyped } from './Dog';
 /**
  * 
  * @export
@@ -38,41 +35,45 @@ export interface Animal {
     color?: string;
 }
 
+/**
+ * Check if a given object implements the Animal interface.
+ */
+export function instanceOfAnimal(value: object): value is Animal {
+    if (!('className' in value) || value['className'] === undefined) return false;
+    return true;
+}
+
 export function AnimalFromJSON(json: any): Animal {
     return AnimalFromJSONTyped(json, false);
 }
 
 export function AnimalFromJSONTyped(json: any, ignoreDiscriminator: boolean): Animal {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     if (!ignoreDiscriminator) {
-        if (json['className'] === 'Cat') {
+        if (json['className'] === 'CAT') {
             return CatFromJSONTyped(json, true);
         }
-        if (json['className'] === 'Dog') {
+        if (json['className'] === 'DOG') {
             return DogFromJSONTyped(json, true);
         }
     }
     return {
         
         'className': json['className'],
-        'color': !exists(json, 'color') ? undefined : json['color'],
+        'color': json['color'] == null ? undefined : json['color'],
     };
 }
 
 export function AnimalToJSON(value?: Animal | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'className': value.className,
-        'color': value.color,
+        'className': value['className'],
+        'color': value['color'],
     };
 }
-
 

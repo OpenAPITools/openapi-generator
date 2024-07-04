@@ -26,7 +26,7 @@ namespace Org.OpenAPITools.Attributes
                 {
                     object args = null;
                     if (context.ActionArguments.ContainsKey(parameter.Name))
-                    { 
+                    {
                         args = context.ActionArguments[parameter.Name];
                     }
 

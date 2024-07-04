@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	sw "../go-petstore"
+	sw "github.com/OpenAPITools/openapi-generator/samples/client/petstore/go/go-petstore"
 )
 
 // MockPetApi is a mock of the PetApi interface
@@ -21,7 +21,7 @@ func (m *MockPetApi) AddPet(ctx context.Context) sw.ApiAddPetRequest {
 }
 
 func (m *MockPetApi) AddPetExecute(r sw.ApiAddPetRequest) (*http.Response, error) {
-	return &http.Response{StatusCode:200}, nil
+	return &http.Response{StatusCode: 200}, nil
 }
 
 func (m *MockPetApi) DeletePet(ctx context.Context, petId int64) sw.ApiDeletePetRequest {
@@ -29,7 +29,7 @@ func (m *MockPetApi) DeletePet(ctx context.Context, petId int64) sw.ApiDeletePet
 }
 
 func (m *MockPetApi) DeletePetExecute(r sw.ApiDeletePetRequest) (*http.Response, error) {
-	return &http.Response{StatusCode:200}, nil
+	return &http.Response{StatusCode: 200}, nil
 }
 
 func (m *MockPetApi) FindPetsByStatus(ctx context.Context) sw.ApiFindPetsByStatusRequest {
@@ -37,7 +37,7 @@ func (m *MockPetApi) FindPetsByStatus(ctx context.Context) sw.ApiFindPetsByStatu
 }
 
 func (m *MockPetApi) FindPetsByStatusExecute(r sw.ApiFindPetsByStatusRequest) ([]sw.Pet, *http.Response, error) {
-	return []sw.Pet{}, &http.Response{StatusCode:200}, nil
+	return []sw.Pet{}, &http.Response{StatusCode: 200}, nil
 }
 
 func (m *MockPetApi) FindPetsByTags(ctx context.Context) sw.ApiFindPetsByTagsRequest {
@@ -45,15 +45,15 @@ func (m *MockPetApi) FindPetsByTags(ctx context.Context) sw.ApiFindPetsByTagsReq
 }
 
 func (m *MockPetApi) FindPetsByTagsExecute(r sw.ApiFindPetsByTagsRequest) ([]sw.Pet, *http.Response, error) {
-	return []sw.Pet{}, &http.Response{StatusCode:200}, nil
+	return []sw.Pet{}, &http.Response{StatusCode: 200}, nil
 }
 
 func (m *MockPetApi) GetPetById(ctx context.Context, petId int64) sw.ApiGetPetByIdRequest {
 	return sw.ApiGetPetByIdRequest{ApiService: m}
 }
 
-func (m *MockPetApi) GetPetByIdExecute(r sw.ApiGetPetByIdRequest) (sw.Pet, *http.Response, error) {
-	return sw.Pet{}, &http.Response{StatusCode:200}, nil
+func (m *MockPetApi) GetPetByIdExecute(r sw.ApiGetPetByIdRequest) (*sw.Pet, *http.Response, error) {
+	return &sw.Pet{}, &http.Response{StatusCode: 200}, nil
 }
 
 func (m *MockPetApi) UpdatePet(ctx context.Context) sw.ApiUpdatePetRequest {
@@ -61,7 +61,7 @@ func (m *MockPetApi) UpdatePet(ctx context.Context) sw.ApiUpdatePetRequest {
 }
 
 func (m *MockPetApi) UpdatePetExecute(r sw.ApiUpdatePetRequest) (*http.Response, error) {
-	return &http.Response{StatusCode:200}, nil
+	return &http.Response{StatusCode: 200}, nil
 }
 
 func (m *MockPetApi) UpdatePetWithForm(ctx context.Context, petId int64) sw.ApiUpdatePetWithFormRequest {
@@ -69,21 +69,21 @@ func (m *MockPetApi) UpdatePetWithForm(ctx context.Context, petId int64) sw.ApiU
 }
 
 func (m *MockPetApi) UpdatePetWithFormExecute(r sw.ApiUpdatePetWithFormRequest) (*http.Response, error) {
-	return &http.Response{StatusCode:200}, nil
+	return &http.Response{StatusCode: 200}, nil
 }
 
 func (m *MockPetApi) UploadFile(ctx context.Context, petId int64) sw.ApiUploadFileRequest {
 	return sw.ApiUploadFileRequest{ApiService: m}
 }
 
-func (m *MockPetApi) UploadFileExecute(r sw.ApiUploadFileRequest) (sw.ApiResponse, *http.Response, error) {
-	return sw.ApiResponse{}, &http.Response{StatusCode:200}, nil
+func (m *MockPetApi) UploadFileExecute(r sw.ApiUploadFileRequest) (*sw.ApiResponse, *http.Response, error) {
+	return &sw.ApiResponse{}, &http.Response{StatusCode: 200}, nil
 }
 
 func (m *MockPetApi) UploadFileWithRequiredFile(ctx context.Context, petId int64) sw.ApiUploadFileWithRequiredFileRequest {
 	return sw.ApiUploadFileWithRequiredFileRequest{ApiService: m}
 }
 
-func (m *MockPetApi) UploadFileWithRequiredFileExecute(r sw.ApiUploadFileWithRequiredFileRequest) (sw.ApiResponse, *http.Response, error) {
-	return sw.ApiResponse{}, &http.Response{StatusCode:200}, nil
+func (m *MockPetApi) UploadFileWithRequiredFileExecute(r sw.ApiUploadFileWithRequiredFileRequest) (*sw.ApiResponse, *http.Response, error) {
+	return &sw.ApiResponse{}, &http.Response{StatusCode: 200}, nil
 }

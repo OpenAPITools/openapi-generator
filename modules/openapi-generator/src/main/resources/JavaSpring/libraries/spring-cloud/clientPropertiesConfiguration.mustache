@@ -1,0 +1,43 @@
+package {{configPackage}};
+
+
+import java.util.Properties;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.PropertiesPropertySource;
+
+@Configuration(value = "{{configPackage}}.clientPropertiesConfiguration")
+public class ClientPropertiesConfiguration {
+
+    public ClientPropertiesConfiguration( final ConfigurableEnvironment configurableEnvironment ) {
+{{#authMethods}}
+    {{#isOAuth}}
+        final Properties {{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}} = new Properties();
+        {{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.put("spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.client-id", "set-{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}-client-id" );
+        {{#hasScopes}}
+        {{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.put("{{#scopes}}{{#-first}}spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.scope", "{{/-first}}{{scope}}{{^-last}},{{/-last}}{{/scopes}}" );
+        {{/hasScopes}}
+        {{#isCode}}
+        {{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.put("spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.authorization-grant-type", "authorization_code" );
+        {{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.put("spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.redirect-uri", "set-{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}-redirect-uri" );
+        {{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.put("spring.security.oauth2.client.provider.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.token-uri", "{{{tokenUrl}}}" );
+        {{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.put("spring.security.oauth2.client.provider.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.authorization-uri", "{{{authorizationUrl}}}" );
+        {{/isCode}}
+        {{#isPassword}}
+        {{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.put("spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.authorization-grant-type", "password" );
+        {{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.put("spring.security.oauth2.client.provider.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.token-uri", "{{{tokenUrl}}}" );
+        {{/isPassword}}
+        {{#isApplication}}
+        {{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.put("spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.authorization-grant-type", "client_credentials" );
+        {{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.put("spring.security.oauth2.client.provider.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.token-uri", "{{{tokenUrl}}}" );
+        {{/isApplication}}
+        {{#isImplicit}}
+        {{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.put("spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.authorization-grant-type", "implicit" );
+        {{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.put("spring.security.oauth2.client.provider.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.authorization-uri", "{{{authorizationUrl}}}" );
+        {{/isImplicit}}
+        configurableEnvironment.getPropertySources().addLast( new PropertiesPropertySource("{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}", {{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}} ) );
+    {{/isOAuth}}
+{{/authMethods}}
+    }
+
+}

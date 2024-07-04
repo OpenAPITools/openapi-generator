@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * A tag for a pet
@@ -13,7 +14,6 @@ import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 import java.util.Objects;
 
-import javax.xml.bind.annotation.*;
 
 @ApiModel(description = "A tag for a pet")
 public class Tag   {
@@ -21,7 +21,6 @@ public class Tag   {
   private Long id;
 
   private String name;
-
 
   /**
    **/
@@ -69,8 +68,8 @@ public class Tag   {
       return false;
     }
     Tag tag = (Tag) o;
-    return Objects.equals(id, tag.id) &&
-        Objects.equals(name, tag.name);
+    return Objects.equals(this.id, tag.id) &&
+        Objects.equals(this.name, tag.name);
   }
 
   @Override

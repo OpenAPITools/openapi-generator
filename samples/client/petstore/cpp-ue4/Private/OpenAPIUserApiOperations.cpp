@@ -20,7 +20,7 @@
 #include "HttpModule.h"
 #include "PlatformHttp.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 FString OpenAPIUserApi::CreateUserRequest::ComputePath() const
@@ -29,7 +29,7 @@ FString OpenAPIUserApi::CreateUserRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIUserApi::CreateUserRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIUserApi::CreateUserRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };
@@ -86,7 +86,7 @@ FString OpenAPIUserApi::CreateUsersWithArrayInputRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIUserApi::CreateUsersWithArrayInputRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIUserApi::CreateUsersWithArrayInputRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };
@@ -143,7 +143,7 @@ FString OpenAPIUserApi::CreateUsersWithListInputRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIUserApi::CreateUsersWithListInputRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIUserApi::CreateUsersWithListInputRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };
@@ -197,34 +197,20 @@ bool OpenAPIUserApi::CreateUsersWithListInputResponse::FromJson(const TSharedPtr
 FString OpenAPIUserApi::DeleteUserRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
-	{ TEXT("username"), ToStringFormatArg(Username) } };
+	{ TEXT("username"), FStringFormatArg(ToUrlString(Username)) } };
 
 	FString Path = FString::Format(TEXT("/user/{username}"), PathParams);
-	
+
 	return Path;
 }
 
-void OpenAPIUserApi::DeleteUserRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIUserApi::DeleteUserRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };
 
 	HttpRequest->SetVerb(TEXT("DELETE"));
 
-	// Default to Json Body request
-	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("multipart/form-data")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
-	{
-	}
-	else
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
-	}
 }
 
 void OpenAPIUserApi::DeleteUserResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
@@ -249,34 +235,20 @@ bool OpenAPIUserApi::DeleteUserResponse::FromJson(const TSharedPtr<FJsonValue>& 
 FString OpenAPIUserApi::GetUserByNameRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
-	{ TEXT("username"), ToStringFormatArg(Username) } };
+	{ TEXT("username"), FStringFormatArg(ToUrlString(Username)) } };
 
 	FString Path = FString::Format(TEXT("/user/{username}"), PathParams);
-	
+
 	return Path;
 }
 
-void OpenAPIUserApi::GetUserByNameRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIUserApi::GetUserByNameRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
 
 	HttpRequest->SetVerb(TEXT("GET"));
 
-	// Default to Json Body request
-	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("multipart/form-data")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
-	{
-	}
-	else
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
-	}
 }
 
 void OpenAPIUserApi::GetUserByNameResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
@@ -313,27 +285,13 @@ FString OpenAPIUserApi::LoginUserRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIUserApi::LoginUserRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIUserApi::LoginUserRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
 
 	HttpRequest->SetVerb(TEXT("GET"));
 
-	// Default to Json Body request
-	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("multipart/form-data")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
-	{
-	}
-	else
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
-	}
 }
 
 void OpenAPIUserApi::LoginUserResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
@@ -361,27 +319,13 @@ FString OpenAPIUserApi::LogoutUserRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIUserApi::LogoutUserRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIUserApi::LogoutUserRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };
 
 	HttpRequest->SetVerb(TEXT("GET"));
 
-	// Default to Json Body request
-	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("multipart/form-data")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
-	{
-	}
-	else
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
-	}
 }
 
 void OpenAPIUserApi::LogoutUserResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
@@ -404,14 +348,14 @@ bool OpenAPIUserApi::LogoutUserResponse::FromJson(const TSharedPtr<FJsonValue>& 
 FString OpenAPIUserApi::UpdateUserRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
-	{ TEXT("username"), ToStringFormatArg(Username) } };
+	{ TEXT("username"), FStringFormatArg(ToUrlString(Username)) } };
 
 	FString Path = FString::Format(TEXT("/user/{username}"), PathParams);
-	
+
 	return Path;
 }
 
-void OpenAPIUserApi::UpdateUserRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIUserApi::UpdateUserRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };

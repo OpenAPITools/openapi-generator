@@ -20,17 +20,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import java.time.OffsetDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.openapitools.client.model.Animal;
-import org.threeten.bp.OffsetDateTime;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
@@ -40,8 +40,7 @@ import javax.xml.bind.annotation.*;
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
 })
-@JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @XmlRootElement(name = "MixedPropertiesAndAdditionalPropertiesClass")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "MixedPropertiesAndAdditionalPropertiesClass")
@@ -52,15 +51,15 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
   @XmlElement(name = "dateTime")
+  @XmlJavaTypeAdapter(OffsetDateTimeXmlAdapter.class)
   private OffsetDateTime dateTime;
 
   public static final String JSON_PROPERTY_MAP = "map";
-  // Is a container wrapped=false
-  // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
-  // items.example= items.type=Animal
-  @XmlElement(name = "inner")
-  private Map<String, Animal> map = null;
+  @XmlElement(name = "map")
+  private Map<String, Animal> map = new HashMap<>();
 
+  public MixedPropertiesAndAdditionalPropertiesClass() {
+  }
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
     
@@ -68,12 +67,11 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "uuid")
@@ -83,10 +81,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "uuid")
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
-
 
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
     
@@ -94,12 +94,11 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get dateTime
    * @return dateTime
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "dateTime")
@@ -109,10 +108,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_DATE_TIME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "dateTime")
   public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
-
 
   public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
     
@@ -122,30 +123,34 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
   public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
     if (this.map == null) {
-      this.map = new HashMap<String, Animal>();
+      this.map = new HashMap<>();
     }
     this.map.put(key, mapItem);
     return this;
   }
 
-   /**
+  /**
    * Get map
    * @return map
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "map")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, Animal> getMap() {
     return map;
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "map")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setMap(Map<String, Animal> map) {
     this.map = map;
   }
-
 
   @Override
   public boolean equals(Object o) {

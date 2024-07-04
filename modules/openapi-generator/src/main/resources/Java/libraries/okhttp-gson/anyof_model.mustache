@@ -1,0 +1,398 @@
+
+
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParseException;
+
+import {{invokerPackage}}.JSON;
+
+{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{>xmlAnnotation}}
+public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-implements}} implements {{{.}}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-implements}} {
+    private static final Logger log = Logger.getLogger({{classname}}.class.getName());
+
+    public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+        @SuppressWarnings("unchecked")
+        @Override
+        public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+            if (!{{classname}}.class.isAssignableFrom(type.getRawType())) {
+                return null; // this class only serializes '{{classname}}' and its subtypes
+            }
+            final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+            {{#composedSchemas}}
+            {{#anyOf}}
+            {{^isArray}}
+            {{^vendorExtensions.x-duplicated-data-type}}
+            final TypeAdapter<{{{dataType}}}> adapter{{{dataType}}} = gson.getDelegateAdapter(this, TypeToken.get({{{dataType}}}.class));
+            {{/vendorExtensions.x-duplicated-data-type}}
+            {{/isArray}}
+            {{#isArray}}
+
+            final Type typeInstance{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}} = new TypeToken<{{{dataType}}}>(){}.getType();
+            final TypeAdapter<{{{dataType}}}> adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}} = (TypeAdapter<{{{dataType}}}>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}));
+            {{/isArray}}
+            {{/anyOf}}
+            {{/composedSchemas}}
+
+            return (TypeAdapter<T>) new TypeAdapter<{{classname}}>() {
+                @Override
+                public void write(JsonWriter out, {{classname}} value) throws IOException {
+                    if (value == null || value.getActualInstance() == null) {
+                        elementAdapter.write(out, null);
+                        return;
+                    }
+
+                    {{#composedSchemas}}
+                    {{#anyOf}}
+                    {{^vendorExtensions.x-duplicated-data-type}}
+                    // check if the actual instance is of the type `{{{dataType}}}`
+                    if (value.getActualInstance() instanceof {{#isArray}}List<?>{{/isArray}}{{^isArray}}{{{dataType}}}{{/isArray}}) {
+                    {{#isPrimitiveType}}
+                        JsonPrimitive primitive = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}.toJsonTree(({{{dataType}}})value.getActualInstance()).getAsJsonPrimitive();
+                        elementAdapter.write(out, primitive);
+                        return;
+                    {{/isPrimitiveType}}
+                    {{^isPrimitiveType}}
+                    {{#isArray}}
+                        List<?> list = (List<?>) value.getActualInstance();
+                        if (list.get(0) instanceof {{{items.dataType}}}) {
+                            JsonArray array = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}.toJsonTree(({{{dataType}}})value.getActualInstance()).getAsJsonArray();
+                            elementAdapter.write(out, array);
+                            return;
+                        }
+                    {{/isArray}}
+                    {{/isPrimitiveType}}
+                    {{^isArray}}
+                    {{^isPrimitiveType}}
+                        JsonElement element = adapter{{{dataType}}}.toJsonTree(({{{dataType}}})value.getActualInstance());
+                        elementAdapter.write(out, element);
+                        return;
+                    {{/isPrimitiveType}}
+                    {{/isArray}}
+                    }
+                    {{/vendorExtensions.x-duplicated-data-type}}
+                    {{/anyOf}}
+                    {{/composedSchemas}}
+                    throw new IOException("Failed to serialize as the type doesn't match anyOf schemas: {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}");
+                }
+
+                @Override
+                public {{classname}} read(JsonReader in) throws IOException {
+                    Object deserialized = null;
+                    JsonElement jsonElement = elementAdapter.read(in);
+
+                    ArrayList<String> errorMessages = new ArrayList<>();
+                    TypeAdapter actualAdapter = elementAdapter;
+
+                    {{#composedSchemas}}
+                    {{#anyOf}}
+                    {{^vendorExtensions.x-duplicated-data-type}}
+                    {{^hasVars}}
+                    // deserialize {{{dataType}}}
+                    try {
+                        // validate the JSON object to see if any exception is thrown
+                    {{^isArray}}
+                    {{#isNumber}}
+                        if (!jsonElement.getAsJsonPrimitive().isNumber()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+                        }
+                        actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}};
+                    {{/isNumber}}
+                    {{^isNumber}}
+                    {{#isPrimitiveType}}
+                        if (!jsonElement.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
+                        }
+                        actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}};
+                    {{/isPrimitiveType}}
+                    {{/isNumber}}
+                    {{^isNumber}}
+                    {{^isPrimitiveType}}
+                        {{{dataType}}}.validateJsonElement(jsonElement);
+                        actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}};
+                    {{/isPrimitiveType}}
+                    {{/isNumber}}
+                    {{/isArray}}
+                    {{#isArray}}
+                        if (!jsonElement.isJsonArray()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+                        }
+
+                        JsonArray array = jsonElement.getAsJsonArray();
+                        // validate array items
+                        for(JsonElement element : array) {
+                        {{#items}}
+                        {{#isNumber}}
+                            if (!jsonElement.getAsJsonPrimitive().isNumber()) {
+                                throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+                            }
+                        {{/isNumber}}
+                        {{^isNumber}}
+                        {{#isPrimitiveType}}
+                            if (!element.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                                throw new IllegalArgumentException(String.format("Expected array items to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
+                            }
+                        {{/isPrimitiveType}}
+                        {{/isNumber}}
+                        {{^isNumber}}
+                        {{^isPrimitiveType}}
+                            {{{dataType}}}.validateJsonElement(element);
+                        {{/isPrimitiveType}}
+                        {{/isNumber}}
+                        {{/items}}
+                        }
+                        actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}};
+                    {{/isArray}}
+                        {{classname}} ret = new {{classname}}();
+                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonElement));
+                        return ret;
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for {{{dataType}}} failed with `%s`.", e.getMessage()));
+                        log.log(Level.FINER, "Input data does not match schema '{{{dataType}}}'", e);
+                    }
+                    {{/hasVars}}
+                    {{#hasVars}}
+                    // deserialize {{{.}}}
+                    try {
+                        // validate the JSON object to see if any exception is thrown
+                        {{.}}.validateJsonElement(jsonElement);
+                        actualAdapter = adapter{{.}};
+                        {{classname}} ret = new {{classname}}();
+                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonElement));
+                        return ret;
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for {{{.}}} failed with `%s`.", e.getMessage()));
+                        log.log(Level.FINER, "Input data does not match schema '{{{.}}}'", e);
+                    }
+                    {{/hasVars}}
+                    {{/vendorExtensions.x-duplicated-data-type}}
+                    {{/anyOf}}
+                    {{/composedSchemas}}
+
+                    throw new IOException(String.format("Failed deserialization for {{classname}}: no class matches result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
+                }
+            }.nullSafe();
+        }
+    }
+
+    // store a list of schema names defined in anyOf
+    public static final Map<String, Class<?>> schemas = new HashMap<String, Class<?>>();
+
+    public {{classname}}() {
+        super("anyOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
+    }
+
+    public {{classname}}(Object o) {
+        super("anyOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
+        setActualInstance(o);
+    }
+
+    static {
+        {{#composedSchemas}}
+        {{#anyOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
+        schemas.put("{{{dataType}}}", {{{baseType}}}.class);
+        {{/vendorExtensions.x-duplicated-data-type}}
+        {{/anyOf}}
+        {{/composedSchemas}}
+    }
+
+    @Override
+    public Map<String, Class<?>> getSchemas() {
+        return {{classname}}.schemas;
+    }
+
+    /**
+     * Set the instance that matches the anyOf child schema, check
+     * the instance parameter is valid against the anyOf child schemas:
+     * {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}
+     *
+     * It could be an instance of the 'anyOf' schemas.
+     */
+    @Override
+    public void setActualInstance(Object instance) {
+        {{#isNullable}}
+        if (instance == null) {
+           super.setActualInstance(instance);
+           return;
+        }
+
+        {{/isNullable}}
+        {{#composedSchemas}}
+        {{#anyOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
+        if (instance instanceof {{#isArray}}List<?>{{/isArray}}{{^isArray}}{{{dataType}}}{{/isArray}}) {
+        {{#isArray}}
+            List<?> list = (List<?>) instance;
+            if (list.get(0) instanceof {{{items.dataType}}}) {
+                super.setActualInstance(instance);
+                return;
+            }
+            {{/isArray}}
+            {{^isArray}}
+            super.setActualInstance(instance);
+            return;
+        {{/isArray}}
+        }
+
+        {{/vendorExtensions.x-duplicated-data-type}}
+        {{/anyOf}}
+        {{/composedSchemas}}
+        throw new RuntimeException("Invalid instance type. Must be {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}");
+    }
+
+    /**
+     * Get the actual instance, which can be the following:
+     * {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}
+     *
+     * @return The actual instance ({{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}})
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public Object getActualInstance() {
+        return super.getActualInstance();
+    }
+
+    {{#composedSchemas}}
+    {{#anyOf}}
+    {{^vendorExtensions.x-duplicated-data-type}}
+    /**
+     * Get the actual instance of `{{{dataType}}}`. If the actual instance is not `{{{dataType}}}`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `{{{dataType}}}`
+     * @throws ClassCastException if the instance is not `{{{dataType}}}`
+     */
+    public {{{dataType}}} get{{#isArray}}{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}{{/isArray}}{{^isArray}}{{{dataType}}}{{/isArray}}() throws ClassCastException {
+        return ({{{dataType}}})super.getActualInstance();
+    }
+    {{/vendorExtensions.x-duplicated-data-type}}
+    {{/anyOf}}
+    {{/composedSchemas}}
+
+    /**
+     * Validates the JSON Element and throws an exception if issues found
+     *
+     * @param jsonElement JSON Element
+     * @throws IOException if the JSON Element is invalid with respect to {{classname}}
+     */
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+        // validate anyOf schemas one by one
+        ArrayList<String> errorMessages = new ArrayList<>();
+        {{#composedSchemas}}
+        {{#anyOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
+        // validate the json string with {{{dataType}}}
+        try {
+        {{^hasVars}}
+        {{^isArray}}
+        {{#isNumber}}
+            if (!jsonElement.getAsJsonPrimitive().isNumber()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+            }
+        {{/isNumber}}
+        {{^isNumber}}
+        {{#isPrimitiveType}}
+            if (!jsonElement.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
+            }
+        {{/isPrimitiveType}}
+        {{/isNumber}}
+        {{^isNumber}}
+        {{^isPrimitiveType}}
+            {{{dataType}}}.validateJsonElement(jsonElement);
+        {{/isPrimitiveType}}
+        {{/isNumber}}
+        {{/isArray}}
+        {{#isArray}}
+            if (!jsonElement.isJsonArray()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+            }
+            JsonArray array = jsonElement.getAsJsonArray();
+            // validate array items
+            for(JsonElement element : array) {
+            {{#items}}
+            {{#isNumber}}
+                if (!jsonElement.getAsJsonPrimitive().isNumber()) {
+                    throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+                }
+            {{/isNumber}}
+            {{^isNumber}}
+            {{#isPrimitiveType}}
+                if (!element.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                    throw new IllegalArgumentException(String.format("Expected array items to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
+                }
+            {{/isPrimitiveType}}
+            {{/isNumber}}
+            {{^isNumber}}
+            {{^isPrimitiveType}}
+                {{{dataType}}}.validateJsonElement(element);
+            {{/isPrimitiveType}}
+            {{/isNumber}}
+            {{/items}}
+            }
+        {{/isArray}}
+        {{/hasVars}}
+        {{#hasVars}}
+            {{{.}}}.validateJsonElement(jsonElement);
+            return;
+        {{/hasVars}}
+            return;
+        } catch (Exception e) {
+            errorMessages.add(String.format("Deserialization for {{{dataType}}} failed with `%s`.", e.getMessage()));
+            // continue to the next one
+        }
+        {{/vendorExtensions.x-duplicated-data-type}}
+        {{/anyOf}}
+        {{/composedSchemas}}
+        throw new IOException(String.format("The JSON string is invalid for {{classname}} with anyOf schemas: {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}. no class match the result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
+    }
+
+    /**
+     * Create an instance of {{classname}} given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of {{classname}}
+     * @throws IOException if the JSON string is invalid with respect to {{classname}}
+     */
+    public static {{{classname}}} fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, {{{classname}}}.class);
+    }
+
+    /**
+     * Convert an instance of {{classname}} to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
+}

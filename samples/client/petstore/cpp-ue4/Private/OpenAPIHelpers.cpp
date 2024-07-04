@@ -19,7 +19,7 @@
 #include "Misc/FileHelper.h"
 #include "Misc/Paths.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 HttpFileInput::HttpFileInput(const TCHAR* InFilePath)
@@ -71,7 +71,7 @@ const FString& HttpMultipartFormData::GetBoundary() const
 {
 	if (Boundary.IsEmpty())
 	{
-		// Generate a random boundary with enough entropy, should avoid occurences of the boundary in the data.
+		// Generate a random boundary with enough entropy, should avoid occurrences of the boundary in the data.
 		// Since the boundary is generated at every request, in case of failure, retries should succeed.
 		Boundary = FGuid::NewGuid().ToString(EGuidFormats::Short);
 	}
@@ -79,7 +79,7 @@ const FString& HttpMultipartFormData::GetBoundary() const
 	return Boundary;
 }
 
-void HttpMultipartFormData::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest)
+void HttpMultipartFormData::SetupHttpRequest(const FHttpRequestRef& HttpRequest)
 {
 	if(HttpRequest->GetVerb() != TEXT("POST"))
 	{
@@ -190,6 +190,44 @@ void HttpMultipartFormData::AppendString(const TCHAR* Str)
 {
 	FTCHARToUTF8 utf8Str(Str);
 	FormData.Append((uint8*)utf8Str.Get(), utf8Str.Length());
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+bool ParseDateTime(const FString& DateTimeString, FDateTime& OutDateTime)
+{
+	// Iso8601 Format: 	DateTime: YYYY-mm-ddTHH:MM:SS(.sss)(Z|+hh:mm|+hhmm|-hh:mm|-hhmm)
+	{
+		// We cannot call directly FDateTime::ParseIso8601 because it does not allow for precision beyond the millisecond, but DateTimeString might have more digits
+		int32 DotIndex;
+		FString StringToParse = DateTimeString;
+		if (DateTimeString.FindChar('.', DotIndex))
+		{
+			int32 TimeZoneIndex;
+			if (DateTimeString.FindChar('Z', TimeZoneIndex) || DateTimeString.FindChar('+', TimeZoneIndex) || DateTimeString.FindChar('-', TimeZoneIndex))
+			{
+				// The string contains a time zone designator starting at TimeZoneIndex
+				if (TimeZoneIndex > DotIndex + 4)
+				{
+					// Trim to millisecond
+					StringToParse = DateTimeString.Left(DotIndex + 4) + DateTimeString.RightChop(TimeZoneIndex);
+				}
+			}
+			else
+			{
+				// the string does not contain a time zone designator, trim it to the millisecond
+				StringToParse = DateTimeString.Left(DotIndex + 4);
+			}
+		}
+
+		if (FDateTime::ParseIso8601(*StringToParse, OutDateTime))
+			return true;
+	}
+
+	if (FDateTime::ParseHttpDate(DateTimeString, OutDateTime))
+		return true;
+
+	return FDateTime::Parse(DateTimeString, OutDateTime);
 }
 
 }

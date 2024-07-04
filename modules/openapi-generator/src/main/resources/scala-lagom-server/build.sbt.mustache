@@ -12,5 +12,3 @@ libraryDependencies ++= Seq(
 lagomScaladslApi,
 playJsonDerivedCodecs
 )
-
-

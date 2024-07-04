@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 
 @ApiModel(description = "A category for a pet")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Category   {
   
   private Long id;

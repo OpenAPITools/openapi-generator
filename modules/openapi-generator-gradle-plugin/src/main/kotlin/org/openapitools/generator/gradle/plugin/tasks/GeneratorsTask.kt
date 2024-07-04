@@ -43,7 +43,6 @@ open class GeneratorsTask : DefaultTask() {
     @get:Internal
     val include = project.objects.listProperty<String>()
 
-    @Suppress("unused")
     @TaskAction
     fun doWork() {
         val generators = CodegenConfigLoader.getAll()

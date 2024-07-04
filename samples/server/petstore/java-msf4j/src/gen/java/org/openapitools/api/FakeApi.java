@@ -12,6 +12,7 @@ import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
+import java.util.List;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
@@ -35,7 +36,7 @@ import javax.ws.rs.*;
 
 
 @io.swagger.annotations.Api(description = "the fake API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class FakeApi  {
    private final FakeApiService delegate = FakeApiServiceFactory.getFakeApi();
 
@@ -176,9 +177,9 @@ public class FakeApi  {
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid request", response = Void.class),
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Not found", response = Void.class) })
-    public Response testEnumParameters(@ApiParam(value = "Header parameter enum test (string array)" , allowableValues=">, $", defaultValue="new ArrayList<String>()")@HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray
+    public Response testEnumParameters(@ApiParam(value = "Header parameter enum test (string array)" , allowableValues=">, $")@HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray
 ,@ApiParam(value = "Header parameter enum test (string)" , allowableValues="_abc, -efg, (xyz)", defaultValue="-efg")@HeaderParam("enum_header_string") String enumHeaderString
-,@ApiParam(value = "Query parameter enum test (string array)", allowableValues=">, $", defaultValue="new ArrayList<String>()") @DefaultValue("new ArrayList<String>()") @QueryParam("enum_query_string_array") List<String> enumQueryStringArray
+,@ApiParam(value = "Query parameter enum test (string array)", allowableValues=">, $") @QueryParam("enum_query_string_array") List<String> enumQueryStringArray
 ,@ApiParam(value = "Query parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @DefaultValue("-efg") @QueryParam("enum_query_string") String enumQueryString
 ,@ApiParam(value = "Query parameter enum test (double)", allowableValues="1, -2") @QueryParam("enum_query_integer") Integer enumQueryInteger
 ,@ApiParam(value = "Query parameter enum test (double)", allowableValues="1.1, -1.2") @QueryParam("enum_query_double") Double enumQueryDouble
@@ -194,7 +195,7 @@ public class FakeApi  {
     
     @io.swagger.annotations.ApiOperation(value = "Fake endpoint to test group parameters (optional)", notes = "Fake endpoint to test group parameters (optional)", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 400, message = "Someting wrong", response = Void.class) })
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Something wrong", response = Void.class) })
     public Response testGroupParameters(@ApiParam(value = "Required String in group parameters",required=true) @QueryParam("required_string_group") Integer requiredStringGroup
 ,@ApiParam(value = "Required Boolean in group parameters" ,required=true)@HeaderParam("required_boolean_group") Boolean requiredBooleanGroup
 ,@ApiParam(value = "Required Integer in group parameters",required=true) @QueryParam("required_int64_group") Long requiredInt64Group
@@ -231,17 +232,17 @@ public class FakeApi  {
         return delegate.testJsonFormData(param,param2);
     }
     @PUT
-    @Path("/test-query-paramters")
+    @Path("/test-query-parameters")
     
     
     @io.swagger.annotations.ApiOperation(value = "", notes = "To test the collection format in query parameters", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class) })
-    public Response testQueryParameterCollectionFormat(@ApiParam(value = "",required=true, defaultValue="new ArrayList<String>()") @DefaultValue("new ArrayList<String>()") @QueryParam("pipe") List<String> pipe
-,@ApiParam(value = "",required=true, defaultValue="new ArrayList<String>()") @DefaultValue("new ArrayList<String>()") @QueryParam("ioutil") List<String> ioutil
-,@ApiParam(value = "",required=true, defaultValue="new ArrayList<String>()") @DefaultValue("new ArrayList<String>()") @QueryParam("http") List<String> http
-,@ApiParam(value = "",required=true, defaultValue="new ArrayList<String>()") @DefaultValue("new ArrayList<String>()") @QueryParam("url") List<String> url
-,@ApiParam(value = "",required=true, defaultValue="new ArrayList<String>()") @DefaultValue("new ArrayList<String>()") @QueryParam("context") List<String> context
+    public Response testQueryParameterCollectionFormat(@ApiParam(value = "",required=true) @QueryParam("pipe") List<String> pipe
+,@ApiParam(value = "",required=true) @QueryParam("ioutil") List<String> ioutil
+,@ApiParam(value = "",required=true) @QueryParam("http") List<String> http
+,@ApiParam(value = "",required=true) @QueryParam("url") List<String> url
+,@ApiParam(value = "",required=true) @QueryParam("context") List<String> context
 )
     throws NotFoundException {
         return delegate.testQueryParameterCollectionFormat(pipe,ioutil,http,url,context);

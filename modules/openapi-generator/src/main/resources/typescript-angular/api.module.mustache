@@ -2,11 +2,13 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { {{configurationClassName}} } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
+{{#isProvidedInNone}}
 {{#apiInfo}}
 {{#apis}}
 import { {{classname}} } from './{{importPath}}';
 {{/apis}}
 {{/apiInfo}}
+{{/isProvidedInNone}}
 
 @NgModule({
   imports:      [],

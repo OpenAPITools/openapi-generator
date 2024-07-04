@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -7,27 +8,31 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * Order
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class Order   {
-  @JsonProperty("id")
-  private Long id;
 
-  @JsonProperty("petId")
-  private Long petId;
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+public class Order {
 
-  @JsonProperty("quantity")
-  private Integer quantity;
+  private Optional<Long> id = Optional.empty();
 
-  @JsonProperty("shipDate")
-  @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime shipDate;
+  private Optional<Long> petId = Optional.empty();
+
+  private Optional<Integer> quantity = Optional.empty();
+
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+  private Optional<OffsetDateTime> shipDate = Optional.empty();
 
   /**
    * Order Status
@@ -66,133 +71,129 @@ public class Order   {
     }
   }
 
-  @JsonProperty("status")
-  private StatusEnum status;
+  private Optional<StatusEnum> status = Optional.empty();
 
-  @JsonProperty("complete")
-  private Boolean complete = false;
+  private Optional<Boolean> complete = Optional.of(false);
 
   public Order id(Long id) {
-    this.id = id;
+    this.id = Optional.of(id);
     return this;
   }
 
   /**
    * Get id
    * @return id
-  */
+   */
+  
   @ApiModelProperty(value = "")
-
-
-  public Long getId() {
+  @JsonProperty("id")
+  public Optional<Long> getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(Optional<Long> id) {
     this.id = id;
   }
 
   public Order petId(Long petId) {
-    this.petId = petId;
+    this.petId = Optional.of(petId);
     return this;
   }
 
   /**
    * Get petId
    * @return petId
-  */
+   */
+  
   @ApiModelProperty(value = "")
-
-
-  public Long getPetId() {
+  @JsonProperty("petId")
+  public Optional<Long> getPetId() {
     return petId;
   }
 
-  public void setPetId(Long petId) {
+  public void setPetId(Optional<Long> petId) {
     this.petId = petId;
   }
 
   public Order quantity(Integer quantity) {
-    this.quantity = quantity;
+    this.quantity = Optional.of(quantity);
     return this;
   }
 
   /**
    * Get quantity
    * @return quantity
-  */
+   */
+  
   @ApiModelProperty(value = "")
-
-
-  public Integer getQuantity() {
+  @JsonProperty("quantity")
+  public Optional<Integer> getQuantity() {
     return quantity;
   }
 
-  public void setQuantity(Integer quantity) {
+  public void setQuantity(Optional<Integer> quantity) {
     this.quantity = quantity;
   }
 
   public Order shipDate(OffsetDateTime shipDate) {
-    this.shipDate = shipDate;
+    this.shipDate = Optional.of(shipDate);
     return this;
   }
 
   /**
    * Get shipDate
    * @return shipDate
-  */
+   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
-  public OffsetDateTime getShipDate() {
+  @JsonProperty("shipDate")
+  public Optional<OffsetDateTime> getShipDate() {
     return shipDate;
   }
 
-  public void setShipDate(OffsetDateTime shipDate) {
+  public void setShipDate(Optional<OffsetDateTime> shipDate) {
     this.shipDate = shipDate;
   }
 
   public Order status(StatusEnum status) {
-    this.status = status;
+    this.status = Optional.of(status);
     return this;
   }
 
   /**
    * Order Status
    * @return status
-  */
+   */
+  
   @ApiModelProperty(value = "Order Status")
-
-
-  public StatusEnum getStatus() {
+  @JsonProperty("status")
+  public Optional<StatusEnum> getStatus() {
     return status;
   }
 
-  public void setStatus(StatusEnum status) {
+  public void setStatus(Optional<StatusEnum> status) {
     this.status = status;
   }
 
   public Order complete(Boolean complete) {
-    this.complete = complete;
+    this.complete = Optional.of(complete);
     return this;
   }
 
   /**
    * Get complete
    * @return complete
-  */
+   */
+  
   @ApiModelProperty(value = "")
-
-
-  public Boolean getComplete() {
+  @JsonProperty("complete")
+  public Optional<Boolean> getComplete() {
     return complete;
   }
 
-  public void setComplete(Boolean complete) {
+  public void setComplete(Optional<Boolean> complete) {
     this.complete = complete;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -220,7 +221,6 @@ public class Order   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Order {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    petId: ").append(toIndentedString(petId)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
@@ -241,5 +241,93 @@ public class Order   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private Order instance;
+
+    public Builder() {
+      this(new Order());
+    }
+
+    protected Builder(Order instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Order value) { 
+      this.instance.setId(value.id);
+      this.instance.setPetId(value.petId);
+      this.instance.setQuantity(value.quantity);
+      this.instance.setShipDate(value.shipDate);
+      this.instance.setStatus(value.status);
+      this.instance.setComplete(value.complete);
+      return this;
+    }
+
+    public Order.Builder id(Long id) {
+      this.instance.id(id);
+      return this;
+    }
+    
+    public Order.Builder petId(Long petId) {
+      this.instance.petId(petId);
+      return this;
+    }
+    
+    public Order.Builder quantity(Integer quantity) {
+      this.instance.quantity(quantity);
+      return this;
+    }
+    
+    public Order.Builder shipDate(OffsetDateTime shipDate) {
+      this.instance.shipDate(shipDate);
+      return this;
+    }
+    
+    public Order.Builder status(StatusEnum status) {
+      this.instance.status(status);
+      return this;
+    }
+    
+    public Order.Builder complete(Boolean complete) {
+      this.instance.complete(complete);
+      return this;
+    }
+    
+    /**
+    * returns a built Order instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Order build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Order.Builder builder() {
+    return new Order.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Order.Builder toBuilder() {
+    Order.Builder builder = new Order.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

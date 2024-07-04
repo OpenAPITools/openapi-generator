@@ -83,6 +83,7 @@ paths:
           required: true
           style: form
           explode: false
+          deprecated: true
           schema:
             type: array
             items:
@@ -336,7 +337,7 @@ paths:
       summary: Find purchase order by ID
       description: >-
         For valid response try integer IDs with value <= 5 or > 10. Other values
-        will generated exceptions
+        will generate exceptions
       operationId: getOrderById
       parameters:
         - name: order_id
@@ -821,7 +822,7 @@ paths:
             format: int64
       responses:
         '400':
-          description: Someting wrong
+          description: Something wrong
   /fake/outer/number:
     post:
       tags:
@@ -923,6 +924,40 @@ paths:
               required:
                 - param
                 - param2
+  /fake/additionalProperties-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced additionalProperties
+      description: ''
+      operationId: testAdditionalPropertiesReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
+  /fake/stringMap-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced string map
+      description: ''
+      operationId: testStringMapReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -940,6 +975,27 @@ paths:
               type: object
               additionalProperties:
                 type: string
+        description: request body
+        required: true
+  /fake/inline-freeform-additionalProperties:
+    post:
+      tags:
+        - fake
+      summary: test inline free-form additionalProperties
+      description: ''
+      operationId: testInlineFreeformAdditionalProperties
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                someProperty:
+                  type: string
+              additionalProperties: true
         description: request body
         required: true
   /fake/body-with-query-params:
@@ -995,7 +1051,7 @@ paths:
             schema:
               $ref: '#/components/schemas/FileSchemaTestClass'
         required: true
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       tags:
         - fake
@@ -1112,6 +1168,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArrayOfEnums'
+  /fake/request-array-string:
+    post:
+      tags:
+        - fake
+      summary: Array of string
+      operationId: postArrayOfString
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: array
+              items:
+                type: string
+                pattern: "[A-Z0-9]+"
+      responses:
+        200:
+          description: ok
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1146,6 +1219,13 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/User'
+          examples:
+            simple-list:
+              summary: Simple list example
+              description: Should not get into code examples
+              value:
+                - username: foo
+                - username: bar
       description: List of user object
       required: true
     Client:
@@ -1539,6 +1619,11 @@ components:
           enum:
             - 1
             - -1
+        enum_integer_only:
+          type: integer
+          enum:
+            - 2
+            - -2
         enum_number:
           type: number
           format: double
@@ -1719,6 +1804,15 @@ components:
             enum:
               - fish
               - crab
+    FreeFormObject:
+      type: object
+      description: A schema consisting only of additional properties
+      additionalProperties: true
+    MapOfString:
+      type: object
+      description: A schema consisting only of additional properties of type string
+      additionalProperties:
+        type: string
     OuterEnum:
       nullable: true
       type: string
@@ -1786,6 +1880,8 @@ components:
         '$special[property.name]':
           type: integer
           format: int64
+        '_special_model.name_':
+          type: string
       xml:
         name: '$special[model.name]'
     HealthCheckResult:
@@ -1880,6 +1976,13 @@ components:
           type: number
     mammal:
       oneOf:
+        - $ref: '#/components/schemas/whale'
+        - $ref: '#/components/schemas/zebra'
+        - $ref: '#/components/schemas/Pig'
+      discriminator:
+        propertyName: className
+    mammal_anyof:
+      anyOf:
         - $ref: '#/components/schemas/whale'
         - $ref: '#/components/schemas/zebra'
         - $ref: '#/components/schemas/Pig'
@@ -2107,3 +2210,24 @@ components:
       default: '2010-01-01T10:10:10.000111+01:00'
       example: '2010-01-01T10:10:10.000111+01:00'
       format: date-time
+    DeprecatedObject:
+      type: object
+      deprecated: true
+      properties:
+        name:
+          type: string
+    ObjectWithDeprecatedFields:
+      type: object
+      properties:
+        uuid:
+          type: string
+        id:
+          type: number
+          deprecated: true
+        deprecatedRef:
+          $ref: '#/components/schemas/DeprecatedObject'
+        bars:
+          type: array
+          deprecated: true
+          items:
+            $ref: '#/components/schemas/Bar'

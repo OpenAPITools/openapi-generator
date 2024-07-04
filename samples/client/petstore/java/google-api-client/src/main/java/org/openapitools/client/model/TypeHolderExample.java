@@ -20,12 +20,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * TypeHolderExample
@@ -38,8 +38,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   TypeHolderExample.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderExample.JSON_PROPERTY_ARRAY_ITEM
 })
-@JsonTypeName("TypeHolderExample")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class TypeHolderExample {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
   private String stringItem;
@@ -57,8 +56,10 @@ public class TypeHolderExample {
   private Boolean boolItem;
 
   public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
-  private List<Integer> arrayItem = new ArrayList<Integer>();
+  private List<Integer> arrayItem = new ArrayList<>();
 
+  public TypeHolderExample() {
+  }
 
   public TypeHolderExample stringItem(String stringItem) {
     
@@ -66,11 +67,11 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get stringItem
    * @return stringItem
-  **/
-  @ApiModelProperty(example = "what", required = true, value = "")
+   */
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_STRING_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -79,10 +80,11 @@ public class TypeHolderExample {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_STRING_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
   }
-
 
   public TypeHolderExample numberItem(BigDecimal numberItem) {
     
@@ -90,11 +92,11 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get numberItem
    * @return numberItem
-  **/
-  @ApiModelProperty(example = "1.234", required = true, value = "")
+   */
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -103,10 +105,11 @@ public class TypeHolderExample {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
-
 
   public TypeHolderExample floatItem(Float floatItem) {
     
@@ -114,11 +117,11 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get floatItem
    * @return floatItem
-  **/
-  @ApiModelProperty(example = "1.234", required = true, value = "")
+   */
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_FLOAT_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -127,10 +130,11 @@ public class TypeHolderExample {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_FLOAT_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setFloatItem(Float floatItem) {
     this.floatItem = floatItem;
   }
-
 
   public TypeHolderExample integerItem(Integer integerItem) {
     
@@ -138,11 +142,11 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get integerItem
    * @return integerItem
-  **/
-  @ApiModelProperty(example = "-2", required = true, value = "")
+   */
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -151,10 +155,11 @@ public class TypeHolderExample {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
-
 
   public TypeHolderExample boolItem(Boolean boolItem) {
     
@@ -162,11 +167,11 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get boolItem
    * @return boolItem
-  **/
-  @ApiModelProperty(example = "true", required = true, value = "")
+   */
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -175,10 +180,11 @@ public class TypeHolderExample {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
-
 
   public TypeHolderExample arrayItem(List<Integer> arrayItem) {
     
@@ -187,15 +193,18 @@ public class TypeHolderExample {
   }
 
   public TypeHolderExample addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }
 
-   /**
+  /**
    * Get arrayItem
    * @return arrayItem
-  **/
-  @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
+   */
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -204,10 +213,11 @@ public class TypeHolderExample {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
-
 
   @Override
   public boolean equals(Object o) {

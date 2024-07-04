@@ -2,6 +2,7 @@
 
 OpenAPI Petstore
 - API version: 1.0.0
+  - Generator version: 7.8.0-SNAPSHOT
 
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
@@ -12,8 +13,8 @@ This spec is mainly for testing Petstore server and contains fake endpoints, mod
 ## Requirements
 
 Building the API client library requires:
-1. Java 1.7+
-2. Maven/Gradle
+1. Java 1.8+
+2. Maven (3.8.3+)/Gradle (7.2+)
 
 ## Installation
 
@@ -49,7 +50,14 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "org.openapitools:petstore-okhttp-gson:1.0.0"
+  repositories {
+    mavenCentral()     // Needed if the 'petstore-okhttp-gson' jar has been published to maven central.
+    mavenLocal()       // Needed if the 'petstore-okhttp-gson' jar has been published to the local maven repo.
+  }
+
+  dependencies {
+     implementation "org.openapitools:petstore-okhttp-gson:1.0.0"
+  }
 ```
 
 ### Others
@@ -84,9 +92,9 @@ public class Example {
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
     AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
-    Client body = new Client(); // Client | client model
+    Client client = new Client(); // Client | client model
     try {
-      Client result = apiInstance.call123testSpecialTags(body);
+      Client result = apiInstance.call123testSpecialTags(client);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling AnotherFakeApi#call123testSpecialTags");
@@ -107,20 +115,33 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call123testSpecialTags**](docs/AnotherFakeApi.md#call123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
-*FakeApi* | [**createXmlItem**](docs/FakeApi.md#createXmlItem) | **POST** /fake/create_xml_item | creates an XmlItem
+*AnotherFakeApi* | [**getParameterArrayNumber**](docs/AnotherFakeApi.md#getParameterArrayNumber) | **GET** /fake/parameter-array-number | parameter array number default value
+*AnotherFakeApi* | [**getParameterStringNumber**](docs/AnotherFakeApi.md#getParameterStringNumber) | **GET** /fake/parameter-string-number | parameter string number
+*AnotherFakeApi* | [**nullRequestBody**](docs/AnotherFakeApi.md#nullRequestBody) | **GET** /fake/null-request-body | null request body
+*DefaultApi* | [**fakeAnyOfWIthSameErasureGet**](docs/DefaultApi.md#fakeAnyOfWIthSameErasureGet) | **GET** /fake/anyOfWIthSameErasure | 
+*DefaultApi* | [**fakeOneOfWIthSameErasureGet**](docs/DefaultApi.md#fakeOneOfWIthSameErasureGet) | **GET** /fake/oneOfWIthSameErasure | 
+*DefaultApi* | [**fooGet**](docs/DefaultApi.md#fooGet) | **GET** /foo | 
+*FakeApi* | [**fakeGetFreeFormObjectGet**](docs/FakeApi.md#fakeGetFreeFormObjectGet) | **GET** /fake/get-free-form-object | 
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**fakeUploadRefRequestBodies**](docs/FakeApi.md#fakeUploadRefRequestBodies) | **POST** /fake/pet/{petId}/uploadImage | fake uploads an image with ref request bodies
+*FakeApi* | [**getFakeArrayofenums**](docs/FakeApi.md#getFakeArrayofenums) | **GET** /fake/array-of-enums | Array of Enums
+*FakeApi* | [**getFakeHealth**](docs/FakeApi.md#getFakeHealth) | **GET** /fake/health | Health check endpoint
+*FakeApi* | [**getParameterNameMapping**](docs/FakeApi.md#getParameterNameMapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test
+*FakeApi* | [**testAdditionalPropertiesReference**](docs/FakeApi.md#testAdditionalPropertiesReference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeApi* | [**testBodyWithFileSchema**](docs/FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](docs/FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**testClientModel**](docs/FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
-*FakeApi* | [**testEndpointParameters**](docs/FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+*FakeApi* | [**testEndpointParameters**](docs/FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *FakeApi* | [**testEnumParameters**](docs/FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
 *FakeApi* | [**testGroupParameters**](docs/FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**testInlineAdditionalProperties**](docs/FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*FakeApi* | [**testInlineFreeformAdditionalProperties**](docs/FakeApi.md#testInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
-*FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
+*FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
+*FakeApi* | [**testStringMapReference**](docs/FakeApi.md#testStringMapReference) | **POST** /fake/stringMap-reference | test referenced string map
 *FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**addPet**](docs/PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**deletePet**](docs/PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -143,77 +164,121 @@ Class | Method | HTTP request | Description
 *UserApi* | [**loginUser**](docs/UserApi.md#loginUser) | **GET** /user/login | Logs user into the system
 *UserApi* | [**logoutUser**](docs/UserApi.md#logoutUser) | **GET** /user/logout | Logs out current logged in user session
 *UserApi* | [**updateUser**](docs/UserApi.md#updateUser) | **PUT** /user/{username} | Updated user
+*ValuesApi* | [**getSomeValues**](docs/ValuesApi.md#getSomeValues) | **GET** /values | Get some primitive variable values
 
 
 ## Documentation for Models
 
- - [AdditionalPropertiesAnyType](docs/AdditionalPropertiesAnyType.md)
- - [AdditionalPropertiesArray](docs/AdditionalPropertiesArray.md)
- - [AdditionalPropertiesBoolean](docs/AdditionalPropertiesBoolean.md)
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
- - [AdditionalPropertiesInteger](docs/AdditionalPropertiesInteger.md)
- - [AdditionalPropertiesNumber](docs/AdditionalPropertiesNumber.md)
- - [AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
- - [AdditionalPropertiesString](docs/AdditionalPropertiesString.md)
+ - [AllOfModelArrayAnyOf](docs/AllOfModelArrayAnyOf.md)
+ - [AllOfModelArrayAnyOfAllOfAttributes](docs/AllOfModelArrayAnyOfAllOfAttributes.md)
+ - [AllOfModelArrayAnyOfAllOfAttributesC](docs/AllOfModelArrayAnyOfAllOfAttributesC.md)
+ - [AllOfModelArrayAnyOfAllOfLinkListColumn1](docs/AllOfModelArrayAnyOfAllOfLinkListColumn1.md)
+ - [AllOfModelArrayAnyOfAllOfLinkListColumn1Value](docs/AllOfModelArrayAnyOfAllOfLinkListColumn1Value.md)
  - [Animal](docs/Animal.md)
+ - [Apple](docs/Apple.md)
+ - [AppleReq](docs/AppleReq.md)
+ - [ArrayAnyOf](docs/ArrayAnyOf.md)
+ - [ArrayDefault](docs/ArrayDefault.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
+ - [ArrayOfInlineAllOf](docs/ArrayOfInlineAllOf.md)
+ - [ArrayOfInlineAllOfArrayAllofDogPropertyInner](docs/ArrayOfInlineAllOfArrayAllofDogPropertyInner.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
+ - [ArrayOneOf](docs/ArrayOneOf.md)
  - [ArrayTest](docs/ArrayTest.md)
- - [BigCat](docs/BigCat.md)
- - [BigCatAllOf](docs/BigCatAllOf.md)
+ - [Banana](docs/Banana.md)
+ - [BananaReq](docs/BananaReq.md)
+ - [BasquePig](docs/BasquePig.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
- - [CatAllOf](docs/CatAllOf.md)
  - [Category](docs/Category.md)
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
+ - [ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
+ - [DanishPig](docs/DanishPig.md)
+ - [DeprecatedObject](docs/DeprecatedObject.md)
  - [Dog](docs/Dog.md)
- - [DogAllOf](docs/DogAllOf.md)
+ - [Drawing](docs/Drawing.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
+ - [EnumStringDiscriminator](docs/EnumStringDiscriminator.md)
  - [EnumTest](docs/EnumTest.md)
+ - [EquilateralTriangle](docs/EquilateralTriangle.md)
+ - [FakeAnyOfWIthSameErasureGet200Response](docs/FakeAnyOfWIthSameErasureGet200Response.md)
+ - [FakeOneOfWIthSameErasureGet200Response](docs/FakeOneOfWIthSameErasureGet200Response.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
+ - [Foo](docs/Foo.md)
+ - [FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
  - [FormatTest](docs/FormatTest.md)
+ - [FreeFormObjectTestClass](docs/FreeFormObjectTestClass.md)
+ - [FreeFormObjectTestClassProperties](docs/FreeFormObjectTestClassProperties.md)
+ - [Fruit](docs/Fruit.md)
+ - [FruitReq](docs/FruitReq.md)
+ - [GmFruit](docs/GmFruit.md)
+ - [GrandparentAnimal](docs/GrandparentAnimal.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
+ - [HealthCheckResult](docs/HealthCheckResult.md)
+ - [IsoscelesTriangle](docs/IsoscelesTriangle.md)
+ - [Mammal](docs/Mammal.md)
+ - [MammalAnyof](docs/MammalAnyof.md)
  - [MapTest](docs/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](docs/Model200Response.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
+ - [ModelFile](docs/ModelFile.md)
+ - [ModelList](docs/ModelList.md)
  - [ModelReturn](docs/ModelReturn.md)
+ - [ModelWithOneOfAnyOfProperties](docs/ModelWithOneOfAnyOfProperties.md)
  - [Name](docs/Name.md)
+ - [NewPet](docs/NewPet.md)
+ - [NewPetCategoryInlineAllof](docs/NewPetCategoryInlineAllof.md)
+ - [NewPetCategoryInlineAllofAllOfCategoryTag](docs/NewPetCategoryInlineAllofAllOfCategoryTag.md)
+ - [NullableClass](docs/NullableClass.md)
+ - [NullableShape](docs/NullableShape.md)
  - [NumberOnly](docs/NumberOnly.md)
+ - [ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
  - [Order](docs/Order.md)
  - [OuterComposite](docs/OuterComposite.md)
  - [OuterEnum](docs/OuterEnum.md)
+ - [OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
+ - [OuterEnumInteger](docs/OuterEnumInteger.md)
+ - [OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
+ - [ParentPet](docs/ParentPet.md)
  - [Pet](docs/Pet.md)
+ - [PetComposition](docs/PetComposition.md)
+ - [PetRef](docs/PetRef.md)
+ - [PetUsingAllOf](docs/PetUsingAllOf.md)
+ - [PetWithRequiredTags](docs/PetWithRequiredTags.md)
+ - [Pig](docs/Pig.md)
+ - [PropertyNameCollision](docs/PropertyNameCollision.md)
+ - [Quadrilateral](docs/Quadrilateral.md)
+ - [QuadrilateralInterface](docs/QuadrilateralInterface.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [Scalar](docs/Scalar.md)
+ - [ScalarAnyOf](docs/ScalarAnyOf.md)
+ - [ScaleneTriangle](docs/ScaleneTriangle.md)
+ - [Shape](docs/Shape.md)
+ - [ShapeInterface](docs/ShapeInterface.md)
+ - [ShapeOrNull](docs/ShapeOrNull.md)
+ - [SimpleQuadrilateral](docs/SimpleQuadrilateral.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [Tag](docs/Tag.md)
- - [TypeHolderDefault](docs/TypeHolderDefault.md)
- - [TypeHolderExample](docs/TypeHolderExample.md)
+ - [TestInlineFreeformAdditionalPropertiesRequest](docs/TestInlineFreeformAdditionalPropertiesRequest.md)
+ - [Triangle](docs/Triangle.md)
+ - [TriangleInterface](docs/TriangleInterface.md)
  - [User](docs/User.md)
- - [XmlItem](docs/XmlItem.md)
+ - [Value](docs/Value.md)
+ - [Variable](docs/Variable.md)
+ - [Whale](docs/Whale.md)
+ - [Zebra](docs/Zebra.md)
 
 
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
+
 Authentication schemes defined for the API:
-### api_key
-
-- **Type**: API key
-- **API key parameter name**: api_key
-- **Location**: HTTP header
-
-### api_key_query
-
-- **Type**: API key
-- **API key parameter name**: api_key_query
-- **Location**: URL query string
-
-### http_basic_test
-
-- **Type**: HTTP basic authentication
-
+<a id="petstore_auth"></a>
 ### petstore_auth
 
 - **Type**: OAuth
@@ -222,6 +287,30 @@ Authentication schemes defined for the API:
 - **Scopes**: 
   - write:pets: modify pets in your account
   - read:pets: read your pets
+
+<a id="api_key"></a>
+### api_key
+
+- **Type**: API key
+- **API key parameter name**: api_key
+- **Location**: HTTP header
+
+<a id="api_key_query"></a>
+### api_key_query
+
+- **Type**: API key
+- **API key parameter name**: api_key_query
+- **Location**: URL query string
+
+<a id="http_basic_test"></a>
+### http_basic_test
+
+- **Type**: HTTP basic authentication
+
+<a id="bearer_test"></a>
+### bearer_test
+
+- **Type**: HTTP Bearer Token authentication (JWT)
 
 
 ## Recommendation

@@ -21,10 +21,11 @@ import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 import com.typesafe.config.Config;
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class PetApiController extends Controller {
     private final PetApiControllerImpInterface imp;
     private final ObjectMapper mapper;
@@ -54,7 +55,7 @@ public class PetApiController extends Controller {
 
     
     public Result deletePet(Http.Request request, Long petId) throws Exception {
-        String valueapiKey = request.header("api_key").get();
+        String valueapiKey = request.header("api_key").orElse(null);
         String apiKey;
         if (valueapiKey != null) {
             apiKey = valueapiKey;
@@ -120,17 +121,17 @@ public class PetApiController extends Controller {
 
     
     public Result updatePetWithForm(Http.Request request, Long petId) throws Exception {
-        String valuename = (request.body().asMultipartFormData().asFormUrlEncoded().get("name"))[0];
+        String[] valuename = request.body().asMultipartFormData().asFormUrlEncoded().get("name");
         String name;
         if (valuename != null) {
-            name = valuename;
+            name = valuename[0];
         } else {
             name = null;
         }
-        String valuestatus = (request.body().asMultipartFormData().asFormUrlEncoded().get("status"))[0];
+        String[] valuestatus = request.body().asMultipartFormData().asFormUrlEncoded().get("status");
         String status;
         if (valuestatus != null) {
-            status = valuestatus;
+            status = valuestatus[0];
         } else {
             status = null;
         }
@@ -139,16 +140,16 @@ public class PetApiController extends Controller {
 
     
     public Result uploadFile(Http.Request request, Long petId) throws Exception {
-        String valueadditionalMetadata = (request.body().asMultipartFormData().asFormUrlEncoded().get("additionalMetadata"))[0];
+        String[] valueadditionalMetadata = request.body().asMultipartFormData().asFormUrlEncoded().get("additionalMetadata");
         String additionalMetadata;
         if (valueadditionalMetadata != null) {
-            additionalMetadata = valueadditionalMetadata;
+            additionalMetadata = valueadditionalMetadata[0];
         } else {
             additionalMetadata = null;
         }
-        Http.MultipartFormData<TemporaryFile> bodyfile = request.body().asMultipartFormData();
-        Http.MultipartFormData.FilePart<TemporaryFile> file = bodyfile.getFile("file");
-        return imp.uploadFileHttp(request, petId, additionalMetadata, file);
+        Http.MultipartFormData<TemporaryFile> body_file = request.body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<TemporaryFile> _file = body_file.getFile("file");
+        return imp.uploadFileHttp(request, petId, additionalMetadata, _file);
     }
 
 }

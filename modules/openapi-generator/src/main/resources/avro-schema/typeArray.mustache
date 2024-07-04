@@ -1,4 +1,4 @@
 {
         "type": "{{dataType}}",
-        {{#items}}"items": "{{#isModel}}{{package}}.{{/isModel}}{{dataType}}"{{/items}}
+        {{#items}}"items": "{{^isPrimitiveType}}{{package}}.{{/isPrimitiveType}}{{dataType}}"{{/items}}
       }

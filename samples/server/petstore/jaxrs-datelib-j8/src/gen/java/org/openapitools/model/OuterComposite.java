@@ -32,7 +32,7 @@ import javax.validation.Valid;
   OuterComposite.JSON_PROPERTY_MY_STRING,
   OuterComposite.JSON_PROPERTY_MY_BOOLEAN
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class OuterComposite  implements Serializable {
   public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
   @JsonProperty(JSON_PROPERTY_MY_NUMBER)
@@ -55,7 +55,7 @@ public class OuterComposite  implements Serializable {
    * Get myNumber
    * @return myNumber
    **/
-  @JsonProperty("my_number")
+  @JsonProperty(value = "my_number")
   @ApiModelProperty(value = "")
   @Valid 
   public BigDecimal getMyNumber() {
@@ -75,7 +75,7 @@ public class OuterComposite  implements Serializable {
    * Get myString
    * @return myString
    **/
-  @JsonProperty("my_string")
+  @JsonProperty(value = "my_string")
   @ApiModelProperty(value = "")
   
   public String getMyString() {
@@ -95,7 +95,7 @@ public class OuterComposite  implements Serializable {
    * Get myBoolean
    * @return myBoolean
    **/
-  @JsonProperty("my_boolean")
+  @JsonProperty(value = "my_boolean")
   @ApiModelProperty(value = "")
   
   public Boolean getMyBoolean() {
@@ -125,7 +125,6 @@ public class OuterComposite  implements Serializable {
   public int hashCode() {
     return Objects.hash(myNumber, myString, myBoolean);
   }
-
 
   @Override
   public String toString() {

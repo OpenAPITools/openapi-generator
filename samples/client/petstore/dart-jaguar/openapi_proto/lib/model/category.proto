@@ -1,8 +1,0 @@
-
-syntax = "proto3";
-
-message Category {
-    int32 id = 1;
-    string name = 2;
-}
-

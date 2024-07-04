@@ -7,12 +7,6 @@ import {{import}};
 
 {{#models}}
 {{#model}}
-@Canonical
-class {{classname}} {
-    {{#vars}}
-    {{#description}}/* {{{description}}} */{{/description}}
-    {{{dataType}}} {{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}
-    {{/vars}}
-}
+{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>modelClass}}{{/isEnum}}
 {{/model}}
 {{/models}}

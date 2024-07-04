@@ -1,0 +1,34 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: reactive-spring-boot-request-body-issue
+tags:
+  - name: ReactiveSpringBootRequestBodyIssue
+paths:
+  /some/dummy/endpoint:
+    post:
+      tags:
+        - ReactiveSpringBootRequestBodyIssue
+      requestBody:
+        description: request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dummy'
+        required: true
+      responses:
+        200:
+          description: Successfully created reverse listings for retail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dummy'
+components:
+  schemas:
+    Dummy:
+      required:
+        - status
+      type: object
+      properties:
+        status:
+          type: string

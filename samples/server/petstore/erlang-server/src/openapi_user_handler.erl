@@ -29,9 +29,11 @@
 -spec init(Req :: cowboy_req:req(), Opts :: openapi_router:init_opts()) ->
     {cowboy_rest, Req :: cowboy_req:req(), State :: state()}.
 
-init(Req, {Operations, LogicHandler, ValidatorState}) ->
+init(Req, {Operations, LogicHandler, ValidatorMod}) ->
     Method = cowboy_req:method(Req),
     OperationID = maps:get(Method, Operations, undefined),
+
+    ValidatorState = ValidatorMod:get_validator_state(),
 
     error_logger:info_msg("Attempt to process operation: ~p", [OperationID]),
 
@@ -234,7 +236,9 @@ is_authorized(
         {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
     end;
 is_authorized(Req, State) ->
-    {true, Req, State}.
+    {{false, <<"">>}, Req, State}.
+is_authorized(Req, State) ->
+    {{false, <<"">>}, Req, State}.
 
 -spec content_types_accepted(Req :: cowboy_req:req(), State :: state()) ->
     {
@@ -402,7 +406,7 @@ process_response(Response, Req0, State = #state{operation_id = OperationID}) ->
             {stop, Req, State}
     end.
 
--spec handle_request_json(cowboy_req:req(), state()) -> {cowboy_req:resp_body(), cowboy_req:req(), state()}.
+-spec handle_request_json(cowboy_req:req(), state()) -> processed_response().
 
 handle_request_json(
     Req0,
@@ -426,7 +430,7 @@ handle_request_json(
                 Body,
                 ValidatorState
             ),
-            PreparedBody = jsx:encode(Body),
+            PreparedBody = prepare_body(Code, Body),
             Response = {ok, {Code, Headers, PreparedBody}},
             process_response(Response, Req1, State);
         {error, Reason, Req1} ->
@@ -434,3 +438,10 @@ handle_request_json(
     end.
 
 validate_headers(_, Req) -> {true, Req}.
+
+prepare_body(204, Body) when map_size(Body) == 0; length(Body) == 0 ->
+    <<>>;
+prepare_body(304, Body) when map_size(Body) == 0; length(Body) == 0 ->
+    <<>>;
+prepare_body(_Code, Body) ->
+    jsx:encode(Body).

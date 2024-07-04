@@ -12,7 +12,7 @@ import rx.Single;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class PetApi {
 
     private final org.openapitools.client.api.PetApi delegate;
@@ -28,46 +28,46 @@ public class PetApi {
     /**
     * Add a new pet to the store
     * 
-    * @param body Pet object that needs to be added to the store (required)
+    * @param pet Pet object that needs to be added to the store (required)
     * @param resultHandler Asynchronous result handler
     */
-    public void addPet(Pet body, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.addPet(body, resultHandler);
+    public void addPet(Pet pet, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.addPet(pet, resultHandler);
     }
 
     /**
     * Add a new pet to the store
     * 
-    * @param body Pet object that needs to be added to the store (required)
+    * @param pet Pet object that needs to be added to the store (required)
     * @param authInfo call specific auth overrides
     * @param resultHandler Asynchronous result handler
     */
-    public void addPet(Pet body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.addPet(body, authInfo, resultHandler);
+    public void addPet(Pet pet, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.addPet(pet, authInfo, resultHandler);
     }
 
     /**
     * Add a new pet to the store
     * 
-    * @param body Pet object that needs to be added to the store (required)
+    * @param pet Pet object that needs to be added to the store (required)
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Void> rxAddPet(Pet body) {
+    public Single<Void> rxAddPet(Pet pet) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.addPet(body, fut)
+            delegate.addPet(pet, fut)
         ));
     }
 
     /**
     * Add a new pet to the store
     * 
-    * @param body Pet object that needs to be added to the store (required)
+    * @param pet Pet object that needs to be added to the store (required)
     * @param authInfo call specific auth overrides
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Void> rxAddPet(Pet body, ApiClient.AuthInfo authInfo) {
+    public Single<Void> rxAddPet(Pet pet, ApiClient.AuthInfo authInfo) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.addPet(body, authInfo, fut)
+            delegate.addPet(pet, authInfo, fut)
         ));
     }
     /**
@@ -257,46 +257,46 @@ public class PetApi {
     /**
     * Update an existing pet
     * 
-    * @param body Pet object that needs to be added to the store (required)
+    * @param pet Pet object that needs to be added to the store (required)
     * @param resultHandler Asynchronous result handler
     */
-    public void updatePet(Pet body, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.updatePet(body, resultHandler);
+    public void updatePet(Pet pet, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.updatePet(pet, resultHandler);
     }
 
     /**
     * Update an existing pet
     * 
-    * @param body Pet object that needs to be added to the store (required)
+    * @param pet Pet object that needs to be added to the store (required)
     * @param authInfo call specific auth overrides
     * @param resultHandler Asynchronous result handler
     */
-    public void updatePet(Pet body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.updatePet(body, authInfo, resultHandler);
+    public void updatePet(Pet pet, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.updatePet(pet, authInfo, resultHandler);
     }
 
     /**
     * Update an existing pet
     * 
-    * @param body Pet object that needs to be added to the store (required)
+    * @param pet Pet object that needs to be added to the store (required)
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Void> rxUpdatePet(Pet body) {
+    public Single<Void> rxUpdatePet(Pet pet) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.updatePet(body, fut)
+            delegate.updatePet(pet, fut)
         ));
     }
 
     /**
     * Update an existing pet
     * 
-    * @param body Pet object that needs to be added to the store (required)
+    * @param pet Pet object that needs to be added to the store (required)
     * @param authInfo call specific auth overrides
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Void> rxUpdatePet(Pet body, ApiClient.AuthInfo authInfo) {
+    public Single<Void> rxUpdatePet(Pet pet, ApiClient.AuthInfo authInfo) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.updatePet(body, authInfo, fut)
+            delegate.updatePet(pet, authInfo, fut)
         ));
     }
     /**
@@ -357,11 +357,11 @@ public class PetApi {
     * 
     * @param petId ID of pet to update (required)
     * @param additionalMetadata Additional data to pass to server (optional)
-    * @param file file to upload (optional)
+    * @param _file file to upload (optional)
     * @param resultHandler Asynchronous result handler
     */
-    public void uploadFile(Long petId, String additionalMetadata, AsyncFile file, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
-        delegate.uploadFile(petId, additionalMetadata, file, resultHandler);
+    public void uploadFile(Long petId, String additionalMetadata, AsyncFile _file, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
+        delegate.uploadFile(petId, additionalMetadata, _file, resultHandler);
     }
 
     /**
@@ -369,12 +369,12 @@ public class PetApi {
     * 
     * @param petId ID of pet to update (required)
     * @param additionalMetadata Additional data to pass to server (optional)
-    * @param file file to upload (optional)
+    * @param _file file to upload (optional)
     * @param authInfo call specific auth overrides
     * @param resultHandler Asynchronous result handler
     */
-    public void uploadFile(Long petId, String additionalMetadata, AsyncFile file, ApiClient.AuthInfo authInfo, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
-        delegate.uploadFile(petId, additionalMetadata, file, authInfo, resultHandler);
+    public void uploadFile(Long petId, String additionalMetadata, AsyncFile _file, ApiClient.AuthInfo authInfo, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
+        delegate.uploadFile(petId, additionalMetadata, _file, authInfo, resultHandler);
     }
 
     /**
@@ -382,12 +382,12 @@ public class PetApi {
     * 
     * @param petId ID of pet to update (required)
     * @param additionalMetadata Additional data to pass to server (optional)
-    * @param file file to upload (optional)
+    * @param _file file to upload (optional)
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<ModelApiResponse> rxUploadFile(Long petId, String additionalMetadata, AsyncFile file) {
+    public Single<ModelApiResponse> rxUploadFile(Long petId, String additionalMetadata, AsyncFile _file) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.uploadFile(petId, additionalMetadata, file, fut)
+            delegate.uploadFile(petId, additionalMetadata, _file, fut)
         ));
     }
 
@@ -396,13 +396,13 @@ public class PetApi {
     * 
     * @param petId ID of pet to update (required)
     * @param additionalMetadata Additional data to pass to server (optional)
-    * @param file file to upload (optional)
+    * @param _file file to upload (optional)
     * @param authInfo call specific auth overrides
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<ModelApiResponse> rxUploadFile(Long petId, String additionalMetadata, AsyncFile file, ApiClient.AuthInfo authInfo) {
+    public Single<ModelApiResponse> rxUploadFile(Long petId, String additionalMetadata, AsyncFile _file, ApiClient.AuthInfo authInfo) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.uploadFile(petId, additionalMetadata, file, authInfo, fut)
+            delegate.uploadFile(petId, additionalMetadata, _file, authInfo, fut)
         ));
     }
     /**

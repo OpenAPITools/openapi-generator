@@ -3,7 +3,7 @@
 .SYNOPSIS
     Gets the headers for HTTP signature.
 .DESCRIPTION
-    Gets the headers for the http sigature.
+    Gets the headers for the http signature.
 .PARAMETER Method
    HTTP method
 .PARAMETER UriBuilder
@@ -91,13 +91,13 @@ function Get-{{{apiNamePrefix}}}HttpSignedHeader {
     foreach ($item in $HttpSignatureHeader.GetEnumerator()) {
         $headerValuesList += [string]::Format("{0}: {1}", $item.Name, $item.Value)
     }
-    #Concatinate headers value separated by new line
+    #Concatenate headers value separated by new line
     $headerValuesString = $headerValuesList -join "`n"
 
     #Gets the hash of the headers value
     $signatureHashString = Get-{{{apiNamePrefix}}}StringHash -String $headerValuesString -HashName $httpSigningConfiguration.HashAlgorithm
 
-    #Gets the Key type to select the correct signing alogorithm
+    #Gets the Key type to select the correct signing algorithm
     $KeyType = Get-{{{apiNamePrefix}}}KeyTypeFromFile -KeyFilePath $httpSigningConfiguration.KeyFilePath
 
     if ($keyType -eq "RSA") {
@@ -112,7 +112,7 @@ function Get-{{{apiNamePrefix}}}HttpSignedHeader {
             -HashAlgorithmName $httpSigningConfiguration.HashAlgorithm `
             -KeyPassPhrase $httpSigningConfiguration.KeyPassPhrase
     }
-    #Depricated
+    #Deprecated
     <#$cryptographicScheme = Get-{{{apiNamePrefix}}}CryptographicScheme -SigningAlgorithm $httpSigningConfiguration.SigningAlgorithm `
                                                  -HashAlgorithm $httpSigningConfiguration.HashAlgorithm
     #>
@@ -269,7 +269,7 @@ function Get-{{{apiNamePrefix}}}ECDSASignature {
     Specifies the string to calculate the hash
 .Parameter HashName
     Specifies the hash name to calculate the hash, Accepted values are "SHA1", "SHA256" and "SHA512"
-    It is recommneded not to use "SHA1" to calculate the Hash
+    It is recommended not to use "SHA1" to calculate the Hash
 .Outputs
     String
 #>
@@ -282,8 +282,8 @@ Function Get-{{{apiNamePrefix}}}StringHash {
         [ValidateSet("SHA1", "SHA256", "SHA512")]
         $HashName
     )
-    $hashAlogrithm = [System.Security.Cryptography.HashAlgorithm]::Create($HashName)
-    $hashAlogrithm.ComputeHash([System.Text.Encoding]::UTF8.GetBytes($String))
+    $hashAlgorithm = [System.Security.Cryptography.HashAlgorithm]::Create($HashName)
+    $hashAlgorithm.ComputeHash([System.Text.Encoding]::UTF8.GetBytes($String))
 }
 
 <#
@@ -324,9 +324,9 @@ function Get-{{{apiNamePrefix}}}CryptographicScheme {
         [Parameter(Mandatory = $true)]
         [string]$HashAlgorithm
     )
-    $rsaSigntureType = @("RSASSA-PKCS1-v1_5", "RSASSA-PSS")
+    $rsaSignatureType = @("RSASSA-PKCS1-v1_5", "RSASSA-PSS")
     $SigningAlgorithm = $null
-    if ($rsaSigntureType -contains $SigningAlgorithm) {
+    if ($rsaSignatureType -contains $SigningAlgorithm) {
         switch ($HashAlgorithm) {
             "sha256" { $SigningAlgorithm = "rsa-sha256" }
             "sha512" { $SigningAlgorithm = "rsa-sha512" }
@@ -382,9 +382,9 @@ function Get-{{{apiNamePrefix}}}KeyTypeFromFile {
 
 <#
 .Synopsis
-    Converts sequence of R and S bytes to ANS1 format for ECDSASIgnature.
+    Converts sequence of R and S bytes to ANS1 format for ECDSASignature.
 .Description
-    Converts sequence of R and S bytes to ANS1 format for ECDSASIgnature.
+    Converts sequence of R and S bytes to ANS1 format for ECDSASignature.
 .Parameter RawBytes[]
     Specifies the R and S bytes of ECDSA signature.
 .Outputs
@@ -396,8 +396,8 @@ function ConvertTo-ECDSAANS1Format{
         [byte[]]$RawBytes
     )
 
-    $derLength = 68 #default lenght for ECDSA code signinged bit 0x44
-    $rbytesLength = 32 #R length 0x20 
+    $derLength = 68 #default length for ECDSA code signing bit 0x44
+    $rbytesLength = 32 #R length 0x20
     $sbytesLength = 32 #S length 0x20
     [byte[]]$rBytes = $signedBytes[0..31]
     [byte[]]$sBytes = $signedBytes[32..63]
@@ -417,12 +417,12 @@ function ConvertTo-ECDSAANS1Format{
     [byte[]]$derBytes = @()
 
     $derBytes += 48  # start of the sequence 0x30
-    $derBytes += $derLength  # total length r lenth, type and r bytes
-    
+    $derBytes += $derLength  # total length r length, type and r bytes
+
     $derBytes += 2 # tag for integer
     $derBytes += $rbytesLength # length of r
     $derBytes += $rBytes
-    
+
     $derBytes += 2 #tag for integer
     $derBytes += $sbytesLength #length of s
     $derBytes += $sBytes

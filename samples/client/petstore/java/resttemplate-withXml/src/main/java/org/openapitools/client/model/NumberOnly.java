@@ -20,12 +20,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * NumberOnly
@@ -33,8 +34,7 @@ import javax.xml.bind.annotation.*;
 @JsonPropertyOrder({
   NumberOnly.JSON_PROPERTY_JUST_NUMBER
 })
-@JsonTypeName("NumberOnly")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @XmlRootElement(name = "NumberOnly")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "NumberOnly")
@@ -43,6 +43,8 @@ public class NumberOnly {
   @XmlElement(name = "JustNumber")
   private BigDecimal justNumber;
 
+  public NumberOnly() {
+  }
 
   public NumberOnly justNumber(BigDecimal justNumber) {
     
@@ -50,12 +52,11 @@ public class NumberOnly {
     return this;
   }
 
-   /**
+  /**
    * Get justNumber
    * @return justNumber
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "JustNumber")
@@ -65,10 +66,12 @@ public class NumberOnly {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "JustNumber")
   public void setJustNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
-
 
   @Override
   public boolean equals(Object o) {

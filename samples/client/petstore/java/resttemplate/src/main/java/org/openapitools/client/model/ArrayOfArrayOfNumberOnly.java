@@ -20,12 +20,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * ArrayOfArrayOfNumberOnly
@@ -33,12 +33,20 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   ArrayOfArrayOfNumberOnly.JSON_PROPERTY_ARRAY_ARRAY_NUMBER
 })
-@JsonTypeName("ArrayOfArrayOfNumberOnly")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ArrayOfArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
-  private List<List<BigDecimal>> arrayArrayNumber = null;
+  private List<List<BigDecimal>> arrayArrayNumber;
 
+  public ArrayOfArrayOfNumberOnly() {
+  }
+
+  /**
+   * Constructor with all args parameters
+   */
+  public ArrayOfArrayOfNumberOnly(@JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER) List<List<BigDecimal>> arrayArrayNumber) {
+    this.arrayArrayNumber = arrayArrayNumber;
+  }
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     
@@ -48,18 +56,17 @@ public class ArrayOfArrayOfNumberOnly {
 
   public ArrayOfArrayOfNumberOnly addArrayArrayNumberItem(List<BigDecimal> arrayArrayNumberItem) {
     if (this.arrayArrayNumber == null) {
-      this.arrayArrayNumber = new ArrayList<List<BigDecimal>>();
+      this.arrayArrayNumber = new ArrayList<>();
     }
     this.arrayArrayNumber.add(arrayArrayNumberItem);
     return this;
   }
 
-   /**
+  /**
    * Get arrayArrayNumber
    * @return arrayArrayNumber
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -68,10 +75,11 @@ public class ArrayOfArrayOfNumberOnly {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -109,6 +117,60 @@ public class ArrayOfArrayOfNumberOnly {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder {
+
+    private ArrayOfArrayOfNumberOnly instance;
+
+    public Builder() {
+      this(new ArrayOfArrayOfNumberOnly());
+    }
+
+    protected Builder(ArrayOfArrayOfNumberOnly instance) {
+      this.instance = instance;
+    }
+
+    public ArrayOfArrayOfNumberOnly.Builder arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+      this.instance.arrayArrayNumber = arrayArrayNumber;
+      return this;
+    }
+
+
+    /**
+    * returns a built ArrayOfArrayOfNumberOnly instance.
+    *
+    * The builder is not reusable.
+    */
+    public ArrayOfArrayOfNumberOnly build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ArrayOfArrayOfNumberOnly.Builder builder() {
+    return new ArrayOfArrayOfNumberOnly.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ArrayOfArrayOfNumberOnly.Builder toBuilder() {
+    return new ArrayOfArrayOfNumberOnly.Builder()
+      .arrayArrayNumber(getArrayArrayNumber());
+  }
+
 
 }
 

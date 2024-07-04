@@ -7,6 +7,7 @@ Module : {{baseModule}}.Model
 {-# LANGUAGE DeriveFoldable #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DeriveTraversable #-}
+{-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
@@ -72,11 +73,11 @@ newtype {{{x-param-name-type}}} = {{{x-param-name-type}}} { un{{{x-param-name-ty
 -- {{{.}}}{{/description}}{{#isAlias}}
 newtype {{classname}} = {{classname}}
   { un{{classname}} :: {{{vendorExtensions.x-data-type}}}
-  } deriving (P.Eq, P.Show, P.Typeable, A.ToJSON, A.FromJSON{{#modelDeriving}}, {{modelDeriving}}{{/modelDeriving}}){{/isAlias}}{{^isAlias}}
+  } deriving (P.Eq, P.Show, P.Typeable, A.ToJSON, A.FromJSON{{#modelDeriving}}, {{.}}{{/modelDeriving}}){{/isAlias}}{{^isAlias}}
 data {{classname}} = {{classname}}
-  { {{#vars}}{{name}} :: {{#x-strictFields}}!({{/x-strictFields}}{{^required}}Maybe {{/required}}{{{vendorExtensions.x-data-type}}}{{#x-strictFields}}){{/x-strictFields}} -- ^ {{#required}}/Required/ {{/required}}{{#isReadOnly}}/ReadOnly/ {{/isReadOnly}}"{{baseName}}"{{#description}} - {{description}}{{/description}}{{^-last}}
+  { {{#vars}}{{name}} :: {{#x-strictFields}}!({{/x-strictFields}}{{^required}}Maybe {{/required}}{{{vendorExtensions.x-data-type}}}{{#x-strictFields}}){{/x-strictFields}} -- ^ {{#required}}/Required/ {{/required}}{{#isReadOnly}}/ReadOnly/ {{/isReadOnly}}"{{baseName}}"{{#description}} - {{.}}{{/description}}{{^-last}}
   , {{/-last}}{{/vars}}
-  } deriving (P.Show, P.Eq, P.Typeable{{#modelDeriving}}, {{modelDeriving}}{{/modelDeriving}}){{/isAlias}}
+  } deriving (P.Show, P.Eq, P.Typeable{{#modelDeriving}}, {{.}}{{/modelDeriving}}){{/isAlias}}
 
 {{^isAlias}}-- | FromJSON {{classname}}
 instance A.FromJSON {{classname}} where
@@ -153,7 +154,7 @@ to{{{x-param-name-type}}} = \case{{#allowableValues}}{{#enumVars}}
 
 {{#authMethods}}{{#-first}}-- * Auth Methods
 
-{{/-first}}{{#isBasic}}-- ** {{name}}
+{{/-first}}{{#isBasicBasic}}-- ** {{name}}
 data {{name}} =
   {{name}} B.ByteString B.ByteString -- ^ username password
   deriving (P.Eq, P.Show, P.Typeable)
@@ -167,7 +168,7 @@ instance AuthMethod {{name}} where
       else req
     where cred = BC.append "Basic " (B64.encode $ BC.concat [ user, ":", pw ])
 
-{{/isBasic}}{{#isApiKey}}-- ** {{name}}
+{{/isBasicBasic}}{{#isApiKey}}-- ** {{name}}
 data {{name}} =
   {{name}} Text -- ^ secret
   deriving (P.Eq, P.Show, P.Typeable)
@@ -189,7 +190,7 @@ instance AuthMethod {{name}} where
   applyAuthMethod _ a@({{name}} secret) req =
     P.pure $
     if (P.typeOf a `P.elem` rAuthTypes req)
-      then req `setHeader` toHeader ("Authorization", "Bearer " <> secret) 
+      then req `setHeader` toHeader ("Authorization", "Bearer " <> secret)
            & L.over rAuthTypesL (P.filter (/= P.typeOf a))
       else req
 

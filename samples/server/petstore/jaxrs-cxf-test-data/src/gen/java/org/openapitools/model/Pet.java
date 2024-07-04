@@ -1,6 +1,10 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,13 +14,6 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -38,15 +35,13 @@ public class Pet  {
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<Tag> tags = null;
+  private List<Tag> tags;
 
-@XmlType(name="StatusEnum")
-@XmlEnum(String.class)
 public enum StatusEnum {
 
-    @XmlEnumValue("available") @JsonProperty("available") AVAILABLE(String.valueOf("available")), 
-    @XmlEnumValue("pending") @JsonProperty("pending") PENDING(String.valueOf("pending")), 
-    @XmlEnumValue("sold") @JsonProperty("sold") SOLD(String.valueOf("sold"));
+    @JsonProperty("available") AVAILABLE(String.valueOf("available")),
+    @JsonProperty("pending") PENDING(String.valueOf("pending")),
+    @JsonProperty("sold") SOLD(String.valueOf("sold"));
 
     private String value;
 
@@ -90,7 +85,7 @@ public enum StatusEnum {
   /**
    * Sets the <code>id</code> property.
    */
-  public void setId(Long id) {
+ public void setId(Long id) {
     this.id = id;
   }
 
@@ -114,7 +109,7 @@ public enum StatusEnum {
   /**
    * Sets the <code>category</code> property.
    */
-  public void setCategory(Category category) {
+ public void setCategory(Category category) {
     this.category = category;
   }
 
@@ -139,7 +134,7 @@ public enum StatusEnum {
   /**
    * Sets the <code>name</code> property.
    */
-  public void setName(String name) {
+ public void setName(String name) {
     this.name = name;
   }
 
@@ -164,7 +159,8 @@ public enum StatusEnum {
   /**
    * Sets the <code>photoUrls</code> property.
    */
-  public void setPhotoUrls(Set<String> photoUrls) {
+ @JsonDeserialize(as = LinkedHashSet.class)
+ public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
@@ -196,7 +192,7 @@ public enum StatusEnum {
   /**
    * Sets the <code>tags</code> property.
    */
-  public void setTags(List<Tag> tags) {
+ public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
 
@@ -228,7 +224,7 @@ public enum StatusEnum {
   /**
    * Sets the <code>status</code> property.
    */
-  public void setStatus(StatusEnum status) {
+ public void setStatus(StatusEnum status) {
     this.status = status;
   }
 
@@ -240,6 +236,28 @@ public enum StatusEnum {
     return this;
   }
 
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Pet pet = (Pet) o;
+    return Objects.equals(id, pet.id) &&
+        Objects.equals(category, pet.category) &&
+        Objects.equals(name, pet.name) &&
+        Objects.equals(photoUrls, pet.photoUrls) &&
+        Objects.equals(tags, pet.tags) &&
+        Objects.equals(status, pet.status);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, category, name, photoUrls, tags, status);
+  }
 
   @Override
   public String toString() {

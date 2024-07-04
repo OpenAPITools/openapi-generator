@@ -20,7 +20,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.openapitools.model.Animal;
@@ -37,7 +36,7 @@ import javax.validation.Valid;
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
   public static final String JSON_PROPERTY_UUID = "uuid";
   @JsonProperty(JSON_PROPERTY_UUID)
@@ -49,7 +48,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
 
   public static final String JSON_PROPERTY_MAP = "map";
   @JsonProperty(JSON_PROPERTY_MAP)
-  private Map<String, Animal> map = null;
+  private Map<String, Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
     this.uuid = uuid;
@@ -60,7 +59,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
    * Get uuid
    * @return uuid
    **/
-  @JsonProperty("uuid")
+  @JsonProperty(value = "uuid")
   @ApiModelProperty(value = "")
   
   public UUID getUuid() {
@@ -80,7 +79,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
    * Get dateTime
    * @return dateTime
    **/
-  @JsonProperty("dateTime")
+  @JsonProperty(value = "dateTime")
   @ApiModelProperty(value = "")
   
   public OffsetDateTime getDateTime() {
@@ -108,7 +107,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
    * Get map
    * @return map
    **/
-  @JsonProperty("map")
+  @JsonProperty(value = "map")
   @ApiModelProperty(value = "")
   @Valid 
   public Map<String, Animal> getMap() {
@@ -138,7 +137,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   public int hashCode() {
     return Objects.hash(uuid, dateTime, map);
   }
-
 
   @Override
   public String toString() {

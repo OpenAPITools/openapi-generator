@@ -11,7 +11,7 @@
     path:     {{path}}
     methods:  [{{httpMethod}}]
     defaults:
-        _controller: {{bundleAlias}}.controller.{{pathPrefix}}:{{operationId}}Action
+        _controller: {{bundleAlias}}.controller.{{pathPrefix}}::{{operationId}}Action
     {{#hasPathParams}}
     requirements:
     {{/hasPathParams}}

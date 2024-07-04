@@ -7,7 +7,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.openapitools.model.Animal;
@@ -15,7 +14,7 @@ import org.openapitools.model.Animal;
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty("uuid")
   private UUID uuid;
@@ -69,7 +68,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
 
   public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
     if (this.map == null) {
-      this.map = new HashMap<String, Animal>();
+      this.map = new HashMap<>();
     }
     this.map.put(key, mapItem);
     return this;

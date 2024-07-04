@@ -1,21 +1,21 @@
 <#
 .SYNOPSIS
 
-{{#summary}}{{{.}}}{{/summary}}{{^summary}}No summary available.{{/summary}}
+{{{summary}}}{{^summary}}No summary available.{{/summary}}
 
 .DESCRIPTION
 
-{{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
+{{{description}}}{{^description}}No description available.{{/description}}
 
 {{#allVars}}
 {{^discardReadOnly}}
 .PARAMETER {{{name}}}
-{{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
+{{{description}}}{{^description}}No description available.{{/description}}
 {{/discardReadOnly}}
 {{#discardReadOnly}}
 {{^isReadOnly}}
 .PARAMETER {{{name}}}
-{{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
+{{{description}}}{{^description}}No description available.{{/description}}
 {{/isReadOnly}}
 {{/discardReadOnly}}
 {{/allVars}}
@@ -34,11 +34,11 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         {{#pattern}}
         [ValidatePattern("{{{.}}}")]
         {{/pattern}}
-        {{#isEnum}}
+        {{#isEnumOrRef}}
         {{#allowableValues}}
         [ValidateSet({{#values}}"{{{.}}}"{{^-last}}, {{/-last}}{{/values}})]
         {{/allowableValues}}
-        {{/isEnum}}
+        {{/isEnumOrRef}}
         [{{vendorExtensions.x-powershell-data-type}}]
         {{=<% %>=}}
         ${<%name%>}<%#defaultValue%> = <%&.%><%/defaultValue%><%^vendorExtensions.x-powershell-last-writable%>,<%/vendorExtensions.x-powershell-last-writable%>
@@ -46,17 +46,17 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
     {{/isReadOnly}}
 {{/allVars}}
 {{/discardReadOnly}}
-{{^discardReadOnly}}        
+{{^discardReadOnly}}
 {{#allVars}}
         [Parameter(Position = {{vendorExtensions.x-index}}, ValueFromPipelineByPropertyName = $true)]
         {{#pattern}}
         [ValidatePattern("{{{.}}}")]
         {{/pattern}}
-        {{#isEnum}}
+        {{#isEnumOrRef}}
         {{#allowableValues}}
         [ValidateSet({{#values}}"{{{.}}}"{{^-last}}, {{/-last}}{{/values}})]
         {{/allowableValues}}
-        {{/isEnum}}
+        {{/isEnumOrRef}}
         [{{vendorExtensions.x-powershell-data-type}}]
         {{=<% %>=}}
         ${<%name%>}<%#defaultValue%> = <%&.%><%/defaultValue%><%^-last%>,<%/-last%>
@@ -73,7 +73,7 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         {{#vars}}
         {{^isNullable}}
         {{#required}}
-        if (${{{name}}} -eq $null) {
+        if ($null -eq ${{{name}}}) {
             throw "invalid value for '{{{name}}}', '{{{name}}}' cannot be null."
         }
 
@@ -117,7 +117,7 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
 
         {{/minItems}}
         {{/hasValidation}}
-        {{/vars}} 
+        {{/vars}}
 
         $PSO = [PSCustomObject]@{
             {{=<< >>=}}
@@ -179,7 +179,7 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         {{/hasValidation}}
         {{/isReadOnly}}
         {{/vars}}
-        
+
         $PSO = [PSCustomObject]@{
             {{=<< >>=}}
             <<#allVars>>

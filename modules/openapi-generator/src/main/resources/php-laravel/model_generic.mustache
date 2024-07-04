@@ -1,0 +1,11 @@
+class {{classname}} {
+
+    {{#vars}}
+    /** @var {{{dataType}}}{{#isNullable}}|null{{/isNullable}} ${{name}} {{description}}*/
+{{#deprecated}}
+    /** @deprecated */
+{{/deprecated}}
+    public ${{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{#isNullable}} = null{{/isNullable}}{{/defaultValue}};
+
+    {{/vars}}
+}

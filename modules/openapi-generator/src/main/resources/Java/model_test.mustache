@@ -4,21 +4,14 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
-{{#fullJavaUtil}}
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-{{/fullJavaUtil}}
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for {{classname}}
  */
-public class {{classname}}Test {
+class {{classname}}Test {
     {{#models}}
     {{#model}}
     {{^vendorExtensions.x-is-one-of-interface}}
@@ -30,7 +23,7 @@ public class {{classname}}Test {
      * Model tests for {{classname}}
      */
     @Test
-    public void test{{classname}}() {
+    void test{{classname}}() {
         // TODO: test {{classname}}
     }
 
@@ -39,7 +32,7 @@ public class {{classname}}Test {
      * Test the property '{{name}}'
      */
     @Test
-    public void {{name}}Test() {
+    void {{name}}Test() {
         // TODO: test {{name}}
     }
 

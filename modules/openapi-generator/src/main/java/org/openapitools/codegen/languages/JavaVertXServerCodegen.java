@@ -27,6 +27,9 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.URLPathUtils;
 
 import org.slf4j.Logger;
@@ -90,12 +93,12 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
         artifactVersion = apiVersion;
         this.setDateLibrary("java8");
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.ARTIFACT_VERSION, this.getArtifactVersion());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
-        updateOption(this.DATE_LIBRARY, this.getDateLibrary());
+        updateOption(DATE_LIBRARY, this.getDateLibrary());
 
         additionalProperties.put(ROOT_PACKAGE, rootPackage);
 
@@ -116,6 +119,7 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
      * @return the CodegenType for this generator
      * @see org.openapitools.codegen.CodegenType
      */
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
@@ -126,6 +130,7 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
      *
      * @return the friendly name for the generator
      */
+    @Override
     public String getName() {
         return "java-vertx";
     }
@@ -136,6 +141,7 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
      *
      * @return A string value for the help message
      */
+    @Override
     public String getHelp() {
         return "Generates a java-Vert.X Server library.";
     }
@@ -190,11 +196,11 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> newObjs = super.postProcessOperationsWithModels(objs, allModels);
-        Map<String, Object> operations = (Map<String, Object>) newObjs.get("operations");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationsMap newObjs = super.postProcessOperationsWithModels(objs, allModels);
+        OperationMap operations = newObjs.getOperations();
         if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            List<CodegenOperation> ops = operations.getOperation();
             for (CodegenOperation operation : ops) {
                 operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
 

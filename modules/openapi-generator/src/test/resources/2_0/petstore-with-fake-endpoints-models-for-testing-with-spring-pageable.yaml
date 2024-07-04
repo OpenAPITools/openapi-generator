@@ -329,7 +329,7 @@ paths:
       tags:
         - store
       summary: Find purchase order by ID
-      description: 'For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions'
+      description: 'For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions'
       operationId: getOrderById
       produces:
         - application/xml
@@ -839,7 +839,7 @@ paths:
           description: Integer in group parameters
       responses:
         '400':
-          description: Someting wrong
+          description: Something wrong
   /fake/outer/number:
     post:
       tags:
@@ -1043,7 +1043,7 @@ paths:
       responses:
         '200':
           description: Success
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       tags:
         - fake
@@ -1127,6 +1127,101 @@ paths:
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
+  /versioning/headers:
+    post:
+      tags:
+      - versioning
+      operationId: versioningHeaders
+      parameters:
+      - name: VersionWithDefaultValue
+        in: header
+        required: true
+        type: string
+        default: 'V1'
+        x-version-param: true
+      - name: VersionNoDefaultValue
+        in: header
+        required: true
+        type: string
+        x-version-param: true
+      - name: petId
+        in: path
+        description: ID of pet to update
+        required: true
+        type: integer
+        format: int64
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ApiResponse'
+  /versioning/query-params:
+    post:
+      tags:
+      - versioning
+      operationId: versioningQueryParams
+      parameters:
+      - name: VersionWithDefaultValue
+        in: query
+        required: true
+        type: string
+        default: 'V1'
+        x-version-param: true
+      - name: VersionNoDefaultValue
+        in: query
+        required: true
+        type: string
+        x-version-param: true
+      - name: petId
+        in: path
+        description: ID of pet to update
+        required: true
+        type: integer
+        format: int64
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ApiResponse'
+  /versioning/mix:
+    post:
+      tags:
+      - versioning
+      operationId: versioningMix
+      parameters:
+      - name: VersionWithDefaultValueQuery
+        in: query
+        required: true
+        type: string
+        default: 'V1'
+        x-version-param: true
+      - name: VersionNoDefaultValueQuery
+        in: query
+        required: true
+        type: string
+        x-version-param: true
+      - name: VersionWithDefaultValueHeader
+        in: header
+        required: true
+        type: string
+        default: 'V1'
+        x-version-param: true
+      - name: VersionNoDefaultValueHeader
+        in: header
+        required: true
+        type: string
+        x-version-param: true
+      - name: petId
+        in: path
+        description: ID of pet to update
+        required: true
+        type: integer
+        format: int64
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ApiResponse'
 securityDefinitions:
   petstore_auth:
     type: oauth2

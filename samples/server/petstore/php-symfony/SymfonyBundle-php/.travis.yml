@@ -1,8 +1,7 @@
 language: php
 dist: trusty
 php:
-    - 7.1.3
-    - 7.2
+    - 8.1.1
 
 install:
   - composer install --dev --no-interaction

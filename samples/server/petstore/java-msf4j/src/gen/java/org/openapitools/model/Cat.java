@@ -6,12 +6,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
-import org.openapitools.model.CatAllOf;
 
 /**
  * Cat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Cat extends Animal  {
   @JsonProperty("declawed")
   private Boolean declawed;

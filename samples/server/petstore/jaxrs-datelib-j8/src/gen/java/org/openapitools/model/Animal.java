@@ -14,6 +14,7 @@
 package org.openapitools.model;
 
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -32,7 +33,7 @@ import javax.validation.Valid;
   Animal.JSON_PROPERTY_CLASS_NAME,
   Animal.JSON_PROPERTY_COLOR
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
   @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
@@ -57,7 +58,7 @@ public class Animal  implements Serializable {
    * Get className
    * @return className
    **/
-  @JsonProperty("className")
+  @JsonProperty(value = "className")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
   public String getClassName() {
@@ -77,7 +78,7 @@ public class Animal  implements Serializable {
    * Get color
    * @return color
    **/
-  @JsonProperty("color")
+  @JsonProperty(value = "color")
   @ApiModelProperty(value = "")
   
   public String getColor() {
@@ -106,7 +107,6 @@ public class Animal  implements Serializable {
   public int hashCode() {
     return Objects.hash(className, color);
   }
-
 
   @Override
   public String toString() {

@@ -60,8 +60,24 @@ class OuterComposite {
         return obj;
     }
 
+    /**
+     * Validates the JSON data with respect to <code>OuterComposite</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>OuterComposite</code>.
+     */
+    static validateJSON(data) {
+        // ensure the json data is a string
+        if (data['my_string'] && !(typeof data['my_string'] === 'string' || data['my_string'] instanceof String)) {
+            throw new Error("Expected the field `my_string` to be a primitive type in the JSON string but got " + data['my_string']);
+        }
+
+        return true;
+    }
+
 
 }
+
+
 
 /**
  * @member {Number} my_number

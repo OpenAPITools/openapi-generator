@@ -1,5 +1,5 @@
-import 'package:openapi/model/tag.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 // tests for Tag
 void main() {
@@ -17,7 +17,5 @@ void main() {
       // TODO
     });
 
-
   });
-
 }

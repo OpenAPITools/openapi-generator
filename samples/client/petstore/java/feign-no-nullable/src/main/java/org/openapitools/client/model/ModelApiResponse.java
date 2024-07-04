@@ -20,9 +20,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * ModelApiResponse
@@ -34,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 @JsonTypeName("ApiResponse")
 @javax.annotation.concurrent.Immutable
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ModelApiResponse {
   public static final String JSON_PROPERTY_CODE = "code";
   private Integer code;
@@ -45,6 +44,8 @@ public class ModelApiResponse {
   public static final String JSON_PROPERTY_MESSAGE = "message";
   private String message;
 
+  public ModelApiResponse() {
+  }
 
   public ModelApiResponse code(Integer code) {
     
@@ -52,12 +53,11 @@ public class ModelApiResponse {
     return this;
   }
 
-   /**
+  /**
    * Get code
    * @return code
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_CODE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -66,6 +66,8 @@ public class ModelApiResponse {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CODE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCode(Integer code) {
     this.code = code;
   }
@@ -77,12 +79,11 @@ public class ModelApiResponse {
     return this;
   }
 
-   /**
+  /**
    * Get type
    * @return type
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -91,6 +92,8 @@ public class ModelApiResponse {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setType(String type) {
     this.type = type;
   }
@@ -102,12 +105,11 @@ public class ModelApiResponse {
     return this;
   }
 
-   /**
+  /**
    * Get message
    * @return message
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -116,6 +118,8 @@ public class ModelApiResponse {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MESSAGE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMessage(String message) {
     this.message = message;
   }

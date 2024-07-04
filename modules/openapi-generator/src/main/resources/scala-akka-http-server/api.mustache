@@ -1,15 +1,15 @@
 package {{package}}
 
-import akka.http.scaladsl.server.Directives._
-import akka.http.scaladsl.server.Route
-import akka.http.scaladsl.model.StatusCodes
-{{^pathMatcherPatterns.isEmpty}}import akka.http.scaladsl.server.{PathMatcher, PathMatcher1}
+import {{akkaImportGroupId}}.http.scaladsl.server.Directives._
+import {{akkaImportGroupId}}.http.scaladsl.server.Route
+import {{akkaImportGroupId}}.http.scaladsl.model.StatusCodes
+{{^pathMatcherPatterns.isEmpty}}import {{akkaImportGroupId}}.http.scaladsl.server.{PathMatcher, PathMatcher1}
 {{/pathMatcherPatterns.isEmpty}}
-{{#hasMarshalling}}import akka.http.scaladsl.marshalling.ToEntityMarshaller
-import akka.http.scaladsl.unmarshalling.FromEntityUnmarshaller
-import akka.http.scaladsl.unmarshalling.FromStringUnmarshaller
+{{#hasMarshalling}}import {{akkaImportGroupId}}.http.scaladsl.marshalling.ToEntityMarshaller
+import {{akkaImportGroupId}}.http.scaladsl.unmarshalling.FromEntityUnmarshaller
+import {{akkaImportGroupId}}.http.scaladsl.unmarshalling.FromStringUnmarshaller
 {{/hasMarshalling}}
-{{#hasCookieParams}}import akka.http.scaladsl.model.headers.HttpCookiePair
+{{#hasCookieParams}}import {{akkaImportGroupId}}.http.scaladsl.model.headers.HttpCookiePair
 {{/hasCookieParams}}
 import {{invokerPackage}}.AkkaHttpHelper._
 {{#hasMultipart}}import {{invokerPackage}}.StringDirectives
@@ -20,8 +20,8 @@ import {{invokerPackage}}.PartsAndFiles
 {{#imports}}import {{import}}
 {{/imports}}
 {{#hasMultipart}}import scala.util.Try
-import akka.http.scaladsl.server.MalformedRequestContentRejection
-import akka.http.scaladsl.server.directives.FileInfo
+import {{akkaImportGroupId}}.http.scaladsl.server.MalformedRequestContentRejection
+import {{akkaImportGroupId}}.http.scaladsl.server.directives.FileInfo
 {{/hasMultipart}}
 
 
@@ -64,7 +64,7 @@ object {{classname}}Patterns {
 trait {{classname}}Service {
 
 {{#operation}}
-{{#responses}}  def {{operationId}}{{#vendorExtensions.x-is-default}}Default{{/vendorExtensions.x-is-default}}{{^vendorExtensions.x-is-default}}{{code}}{{/vendorExtensions.x-is-default}}{{#baseType}}({{#vendorExtensions.x-is-default}}statusCode: Int, {{/vendorExtensions.x-is-default}}response{{baseType}}{{containerType}}: {{dataType}}){{^isPrimitiveType}}(implicit toEntityMarshaller{{baseType}}{{containerType}}: ToEntityMarshaller[{{dataType}}]){{/isPrimitiveType}}{{/baseType}}{{^baseType}}{{#vendorExtensions.x-is-default}}(statusCode: Int){{/vendorExtensions.x-is-default}}{{/baseType}}: Route ={{#vendorExtensions.x-empty-response}}
+{{#responses}}  def {{operationId}}{{#vendorExtensions.x-is-default}}Default{{/vendorExtensions.x-is-default}}{{^vendorExtensions.x-is-default}}{{code}}{{/vendorExtensions.x-is-default}}{{#baseType}}({{#vendorExtensions.x-is-default}}statusCode: Int, {{/vendorExtensions.x-is-default}}response{{baseType}}{{containerType}}: {{dataType}})(implicit toEntityMarshaller{{baseType}}{{containerType}}: ToEntityMarshaller[{{dataType}}]){{/baseType}}{{^baseType}}{{#vendorExtensions.x-is-default}}(statusCode: Int){{/vendorExtensions.x-is-default}}{{/baseType}}: Route ={{#vendorExtensions.x-empty-response}}
     complete({{#vendorExtensions.x-is-default}}statusCode{{/vendorExtensions.x-is-default}}{{^vendorExtensions.x-is-default}}StatusCodes.getForKey({{code}}){{/vendorExtensions.x-is-default}}){{/vendorExtensions.x-empty-response}}{{^vendorExtensions.x-empty-response}}
     complete(({{#vendorExtensions.x-is-default}}statusCode{{/vendorExtensions.x-is-default}}{{^vendorExtensions.x-is-default}}{{code}}{{/vendorExtensions.x-is-default}}, {{#baseType}}response{{baseType}}{{containerType}}{{/baseType}}{{^baseType}}"{{message}}"{{/baseType}})){{/vendorExtensions.x-empty-response}}
 {{/responses}}

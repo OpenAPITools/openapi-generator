@@ -17,7 +17,7 @@ namespace {{modelPackage}}
     /// {{description}}
     /// </summary>
     [DataContract]
-    public {{#modelClassModifier}}{{modelClassModifier}} {{/modelClassModifier}}class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{classname}}>
+    public {{#modelClassModifier}}{{.}} {{/modelClassModifier}}class {{classname}} {{#parent}}: {{{.}}}{{^pocoModels}}, {{/pocoModels}}{{/parent}}{{^pocoModels}}{{^parent}}: {{/parent}}IEquatable<{{classname}}>{{/pocoModels}}
     {
         {{#vars}}
         {{#items.isEnum}}
@@ -33,21 +33,22 @@ namespace {{modelPackage}}
         {{/complexType}}
         {{/isEnum}}
         /// <summary>
-        /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
+        /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
         /// </summary>{{#description}}
-        /// <value>{{description}}</value>{{/description}}{{#required}}
+        /// <value>{{.}}</value>{{/description}}{{#example}}
+        /// <example>{{.}}</example>{{/example}}{{#required}}
         [Required]{{/required}}{{#pattern}}
-        [RegularExpression("{{{pattern}}}")]{{/pattern}}{{#minLength}}{{#maxLength}}
+        [RegularExpression("{{{.}}}")]{{/pattern}}{{#minLength}}{{#maxLength}}
         [StringLength({{maxLength}}, MinimumLength={{minLength}})]{{/maxLength}}{{/minLength}}{{#minLength}}{{^maxLength}}
         [MinLength({{minLength}})]{{/maxLength}}{{/minLength}}{{^minLength}}{{#maxLength}}
-        [MaxLength({{maxLength}})]{{/maxLength}}{{/minLength}}{{#minimum}}{{#maximum}}
+        [MaxLength({{.}})]{{/maxLength}}{{/minLength}}{{#minimum}}{{#maximum}}
         [Range({{minimum}}, {{maximum}})]{{/maximum}}{{/minimum}}
         [DataMember(Name="{{baseName}}", EmitDefaultValue={{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}})]
         {{#isEnum}}
-        public {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{name}} { get; set; }{{#defaultValue}} = {{{defaultValue}}};{{/defaultValue}}
+        public {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{name}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
         {{/isEnum}}
         {{^isEnum}}
-        public {{{dataType}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }{{#defaultValue}} = {{{defaultValue}}};{{/defaultValue}}
+        public {{{dataType}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
         {{/isEnum}}
         {{^-last}}
 

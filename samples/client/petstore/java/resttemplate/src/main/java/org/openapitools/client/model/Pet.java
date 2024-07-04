@@ -20,15 +20,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Pet
@@ -41,8 +42,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
-@JsonTypeName("Pet")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -54,10 +54,10 @@ public class Pet {
   private String name;
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
-  private Set<String> photoUrls = new LinkedHashSet<String>();
+  private Set<String> photoUrls;
 
   public static final String JSON_PROPERTY_TAGS = "tags";
-  private List<Tag> tags = null;
+  private List<Tag> tags;
 
   /**
    * pet status in the store
@@ -99,6 +99,20 @@ public class Pet {
   public static final String JSON_PROPERTY_STATUS = "status";
   private StatusEnum status;
 
+  public Pet() {
+  }
+
+  /**
+   * Constructor with all args parameters
+   */
+  public Pet(@JsonProperty(JSON_PROPERTY_ID) Long id, @JsonProperty(JSON_PROPERTY_CATEGORY) Category category, @JsonProperty(JSON_PROPERTY_NAME) String name, @JsonProperty(JSON_PROPERTY_PHOTO_URLS) Set<String> photoUrls, @JsonProperty(JSON_PROPERTY_TAGS) List<Tag> tags, @JsonProperty(JSON_PROPERTY_STATUS) StatusEnum status) {
+    this.id = id;
+    this.category = category;
+    this.name = name;
+    this.photoUrls = photoUrls;
+    this.tags = tags;
+    this.status = status;
+  }
 
   public Pet id(Long id) {
     
@@ -106,12 +120,11 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -120,10 +133,11 @@ public class Pet {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(Long id) {
     this.id = id;
   }
-
 
   public Pet category(Category category) {
     
@@ -131,12 +145,11 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get category
    * @return category
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_CATEGORY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -145,10 +158,11 @@ public class Pet {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CATEGORY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCategory(Category category) {
     this.category = category;
   }
-
 
   public Pet name(String name) {
     
@@ -156,11 +170,11 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
-  @ApiModelProperty(example = "doggie", required = true, value = "")
+   */
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -169,10 +183,11 @@ public class Pet {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setName(String name) {
     this.name = name;
   }
-
 
   public Pet photoUrls(Set<String> photoUrls) {
     
@@ -181,15 +196,18 @@ public class Pet {
   }
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new LinkedHashSet<>();
+    }
     this.photoUrls.add(photoUrlsItem);
     return this;
   }
 
-   /**
+  /**
    * Get photoUrls
    * @return photoUrls
-  **/
-  @ApiModelProperty(required = true, value = "")
+   */
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -198,10 +216,12 @@ public class Pet {
   }
 
 
+  @JsonDeserialize(as = LinkedHashSet.class)
+  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
-
 
   public Pet tags(List<Tag> tags) {
     
@@ -211,18 +231,17 @@ public class Pet {
 
   public Pet addTagsItem(Tag tagsItem) {
     if (this.tags == null) {
-      this.tags = new ArrayList<Tag>();
+      this.tags = new ArrayList<>();
     }
     this.tags.add(tagsItem);
     return this;
   }
 
-   /**
+  /**
    * Get tags
    * @return tags
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_TAGS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -231,10 +250,11 @@ public class Pet {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_TAGS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
-
 
   public Pet status(StatusEnum status) {
     
@@ -242,12 +262,11 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * pet status in the store
    * @return status
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "pet status in the store")
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -256,10 +275,11 @@ public class Pet {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -307,6 +327,85 @@ public class Pet {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder {
+
+    private Pet instance;
+
+    public Builder() {
+      this(new Pet());
+    }
+
+    protected Builder(Pet instance) {
+      this.instance = instance;
+    }
+
+    public Pet.Builder id(Long id) {
+      this.instance.id = id;
+      return this;
+    }
+    public Pet.Builder category(Category category) {
+      this.instance.category = category;
+      return this;
+    }
+    public Pet.Builder name(String name) {
+      this.instance.name = name;
+      return this;
+    }
+    public Pet.Builder photoUrls(Set<String> photoUrls) {
+      this.instance.photoUrls = photoUrls;
+      return this;
+    }
+    public Pet.Builder tags(List<Tag> tags) {
+      this.instance.tags = tags;
+      return this;
+    }
+    public Pet.Builder status(StatusEnum status) {
+      this.instance.status = status;
+      return this;
+    }
+
+
+    /**
+    * returns a built Pet instance.
+    *
+    * The builder is not reusable.
+    */
+    public Pet build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Pet.Builder builder() {
+    return new Pet.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Pet.Builder toBuilder() {
+    return new Pet.Builder()
+      .id(getId())
+      .category(getCategory())
+      .name(getName())
+      .photoUrls(getPhotoUrls())
+      .tags(getTags())
+      .status(getStatus());
+  }
+
 
 }
 

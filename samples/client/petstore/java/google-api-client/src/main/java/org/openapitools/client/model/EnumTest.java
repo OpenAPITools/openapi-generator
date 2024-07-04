@@ -20,10 +20,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.OuterEnum;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * EnumTest
@@ -36,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   EnumTest.JSON_PROPERTY_OUTER_ENUM
 })
 @JsonTypeName("Enum_Test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class EnumTest {
   /**
    * Gets or Sets enumString
@@ -197,6 +196,8 @@ public class EnumTest {
   public static final String JSON_PROPERTY_OUTER_ENUM = "outerEnum";
   private OuterEnum outerEnum;
 
+  public EnumTest() {
+  }
 
   public EnumTest enumString(EnumStringEnum enumString) {
     
@@ -204,12 +205,11 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumString
    * @return enumString
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ENUM_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -218,10 +218,11 @@ public class EnumTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ENUM_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEnumString(EnumStringEnum enumString) {
     this.enumString = enumString;
   }
-
 
   public EnumTest enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     
@@ -229,11 +230,11 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumStringRequired
    * @return enumStringRequired
-  **/
-  @ApiModelProperty(required = true, value = "")
+   */
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -242,10 +243,11 @@ public class EnumTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
   }
-
 
   public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
     
@@ -253,12 +255,11 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumInteger
    * @return enumInteger
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -267,10 +268,11 @@ public class EnumTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEnumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
   }
-
 
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
     
@@ -278,12 +280,11 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumNumber
    * @return enumNumber
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -292,10 +293,11 @@ public class EnumTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEnumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
   }
-
 
   public EnumTest outerEnum(OuterEnum outerEnum) {
     
@@ -303,12 +305,11 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get outerEnum
    * @return outerEnum
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -317,10 +318,11 @@ public class EnumTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
-
 
   @Override
   public boolean equals(Object o) {

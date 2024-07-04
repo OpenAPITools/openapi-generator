@@ -16,13 +16,17 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
@@ -31,6 +35,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -38,17 +43,20 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public static final String PROJECT_NAME = "projectName";
 
-    protected String packageName = "openapiclient";
-    protected String packageVersion = "1.0.0";
+    @Setter protected String packageName = "openapiclient";
+    @Setter protected String packageVersion = "1.0.0";
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "nim";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a nim client (beta).";
     }
@@ -117,13 +125,14 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
                 )
         );
 
-        defaultIncludes = new HashSet<String>(
+        defaultIncludes = new HashSet<>(
                 Arrays.asList(
-                        "array"
+                        "array",
+                        "map"
                 )
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "int",
                         "int8",
@@ -160,16 +169,8 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("file", "string");
     }
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
-    }
-
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         return postProcessModelsEnum(objs);
     }
 
@@ -195,7 +196,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String escapeReservedWord(String name) {
-        LOGGER.warn("A reserved word \"" + name + "\" is used. Consider renaming the field name");
+        LOGGER.warn("A reserved word \"{}\" is used. Consider renaming the field name", name);
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
@@ -249,18 +250,16 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         String sanitizedOperationId = sanitizeName(operationId);
 
         if (isReservedWord(sanitizedOperationId)) {
-            sanitizedOperationId = "call" + StringUtils.camelize(sanitizedOperationId, false);
+            sanitizedOperationId = "call" + StringUtils.camelize(sanitizedOperationId);
         }
 
-        return StringUtils.camelize(sanitizedOperationId, true);
+        return StringUtils.camelize(sanitizedOperationId, LOWERCASE_FIRST_LETTER);
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        @SuppressWarnings("unchecked")
-        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
-        @SuppressWarnings("unchecked")
-        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap objectMap = objs.getOperations();
+        List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
             operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
         }
@@ -271,14 +270,13 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             if (inner == null) {
                 return null;
             }
             return "seq[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             if (inner == null) {
                 inner = new StringSchema();
             }
@@ -299,12 +297,30 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
-        if (isReservedWord(name)) {
-            name = escapeReservedWord(name);
+        // sanitize name
+        name = sanitizeName(name, "\\W-[\\$]"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+
+        if ("_".equals(name)) {
+            name = "_u";
         }
 
+        // numbers are not allowed at the beginning
         if (name.matches("^\\d.*")) {
             name = "`" + name + "`";
+        }
+
+        // if it's all upper case, do nothing
+        if (name.matches("^[A-Z0-9_]*$")) {
+            return name;
+        }
+
+        // camelize (lower first character) the variable name
+        // pet_id => petId
+        name = camelize(name, LOWERCASE_FIRST_LETTER);
+
+        // for reserved word or word starting with number, append _
+        if (isReservedWord(name)) {
+            name = escapeReservedWord(name);
         }
 
         return name;
@@ -330,7 +346,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String name = StringUtils.camelize(property.name, false);
+        String name = StringUtils.camelize(property.name);
 
         if (name.matches("\\d.*")) { // starts with number
             return "`" + name + "`";
@@ -342,7 +358,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toEnumVarName(String name, String datatype) {
         name = name.replace(" ", "_");
-        name = StringUtils.camelize(name, false);
+        name = StringUtils.camelize(name);
 
         if (name.matches("\\d.*")) { // starts with number
             return "`" + name + "`";
@@ -350,4 +366,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
             return name;
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.NIM; }
 }

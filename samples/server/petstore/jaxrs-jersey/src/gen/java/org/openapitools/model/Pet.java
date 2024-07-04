@@ -17,9 +17,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,7 +42,7 @@ import javax.validation.Valid;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Pet   {
   public static final String JSON_PROPERTY_ID = "id";
   @JsonProperty(JSON_PROPERTY_ID)
@@ -56,11 +58,11 @@ public class Pet   {
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
-  private Set<String> photoUrls = new LinkedHashSet<String>();
+  private Set<String> photoUrls = new LinkedHashSet<>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
   @JsonProperty(JSON_PROPERTY_TAGS)
-  private List<Tag> tags = null;
+  private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -108,7 +110,7 @@ public class Pet   {
    * Get id
    * @return id
    **/
-  @JsonProperty("id")
+  @JsonProperty(value = "id")
   @ApiModelProperty(value = "")
   
   public Long getId() {
@@ -128,7 +130,7 @@ public class Pet   {
    * Get category
    * @return category
    **/
-  @JsonProperty("category")
+  @JsonProperty(value = "category")
   @ApiModelProperty(value = "")
   @Valid 
   public Category getCategory() {
@@ -148,7 +150,7 @@ public class Pet   {
    * Get name
    * @return name
    **/
-  @JsonProperty("name")
+  @JsonProperty(value = "name")
   @ApiModelProperty(example = "doggie", required = true, value = "")
   @NotNull 
   public String getName() {
@@ -165,6 +167,9 @@ public class Pet   {
   }
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new LinkedHashSet<>();
+    }
     this.photoUrls.add(photoUrlsItem);
     return this;
   }
@@ -173,25 +178,26 @@ public class Pet   {
    * Get photoUrls
    * @return photoUrls
    **/
-  @JsonProperty("photoUrls")
+  @JsonProperty(value = "photoUrls")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
   public Set<String> getPhotoUrls() {
     return photoUrls;
   }
 
+  @JsonDeserialize(as = LinkedHashSet.class)
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
-  public Pet tags(List<Tag> tags) {
+  public Pet tags(List<@Valid Tag> tags) {
     this.tags = tags;
     return this;
   }
 
   public Pet addTagsItem(Tag tagsItem) {
     if (this.tags == null) {
-      this.tags = new ArrayList<Tag>();
+      this.tags = new ArrayList<>();
     }
     this.tags.add(tagsItem);
     return this;
@@ -201,14 +207,14 @@ public class Pet   {
    * Get tags
    * @return tags
    **/
-  @JsonProperty("tags")
+  @JsonProperty(value = "tags")
   @ApiModelProperty(value = "")
   @Valid 
-  public List<Tag> getTags() {
+  public List<@Valid Tag> getTags() {
     return tags;
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
 
@@ -221,7 +227,7 @@ public class Pet   {
    * pet status in the store
    * @return status
    **/
-  @JsonProperty("status")
+  @JsonProperty(value = "status")
   @ApiModelProperty(value = "pet status in the store")
   
   public StatusEnum getStatus() {
@@ -254,7 +260,6 @@ public class Pet   {
   public int hashCode() {
     return Objects.hash(id, category, name, photoUrls, tags, status);
   }
-
 
   @Override
   public String toString() {

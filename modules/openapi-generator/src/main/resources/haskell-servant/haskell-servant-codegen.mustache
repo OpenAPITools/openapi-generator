@@ -38,4 +38,16 @@ library
                      , http-types
                      , swagger2
                      , uuid
+{{#authMethods}}
+{{#isApiKey}}
+                     , bytestring
+{{/isApiKey}}
+{{#isBasicBearer}}
+                     , bytestring
+                     , wai-extra
+{{/isBasicBearer}}
+{{#isBasicBasic}}
+                     , wai-extra
+{{/isBasicBasic}}
+{{/authMethods}}
   default-language:    Haskell2010

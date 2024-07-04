@@ -24,7 +24,6 @@ import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
-import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.languages.ScalaAkkaClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -468,12 +467,13 @@ public class ScalaAkkaClientCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
 
         Generator gen = generator.opts(clientOptInput);
         List<File> files = gen.generate();
 
-        Assert.assertEquals(files.size(), 15);
+        Assert.assertEquals(files.size(), 16);
 
         TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/model/SomeObj.scala");
         TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/core/ApiSettings.scala");
@@ -505,12 +505,13 @@ public class ScalaAkkaClientCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
 
         Generator gen = generator.opts(clientOptInput);
 
         List<File> files = gen.generate();
-        Assert.assertEquals(files.size(), 15);
+        Assert.assertEquals(files.size(), 16);
 
         TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/model/package/SomeObj.scala");
         TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/package/invoker/ApiSettings.scala");

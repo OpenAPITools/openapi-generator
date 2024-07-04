@@ -48,6 +48,8 @@ module Api.Data exposing
     , encodeRecursion
     , encodeRecursionLoop
     , encodeUnsafeCharacters
+    , stringFromEnum
+    , stringFromEnumeric
     , absentDecoder
     , arrayDecoder
     , composedDecoder
@@ -89,10 +91,10 @@ type alias Absent =
 {-| Model with arrays
 -}
 type alias Array =
-    { array : List (String)
-    , arrayOfArray : List (List (String))
-    , arrayOfPrimitve : Maybe (List (Primitive))
-    , arrayOfEnum : Maybe (List (Enum))
+    { array : List String
+    , arrayOfArray : List (List String)
+    , arrayOfPrimitive : Maybe ( List Primitive )
+    , arrayOfEnum : Maybe ( List Enum )
     }
 
 
@@ -216,10 +218,10 @@ unwrapRecursionMaybe : RecursionMaybe -> Maybe Recursion
 unwrapRecursionMaybe (RecursionMaybe maybe) = maybe
 
 
-type RecursionList = RecursionList (Maybe (List (Recursion)))
+type RecursionList = RecursionList (Maybe ( List Recursion ))
 
 
-unwrapRecursionList : RecursionList -> Maybe (List (Recursion))
+unwrapRecursionList : RecursionList -> Maybe ( List Recursion )
 unwrapRecursionList (RecursionList list) = list
 
 
@@ -297,7 +299,7 @@ encodeArrayPairs model =
         pairs =
             [ encode "array" (Json.Encode.list Json.Encode.string) model.array
             , encode "arrayOfArray" (Json.Encode.list (Json.Encode.list Json.Encode.string)) model.arrayOfArray
-            , maybeEncode "arrayOfPrimitve" (Json.Encode.list encodePrimitive) model.arrayOfPrimitve
+            , maybeEncode "arrayOfPrimitive" (Json.Encode.list encodePrimitive) model.arrayOfPrimitive
             , maybeEncode "arrayOfEnum" (Json.Encode.list encodeEnum) model.arrayOfEnum
             ]
     in
@@ -646,7 +648,7 @@ arrayDecoder =
     Json.Decode.succeed Array
         |> decode "array" (Json.Decode.list Json.Decode.string) 
         |> decode "arrayOfArray" (Json.Decode.list (Json.Decode.list Json.Decode.string)) 
-        |> maybeDecode "arrayOfPrimitve" (Json.Decode.list primitiveDecoder) Nothing
+        |> maybeDecode "arrayOfPrimitive" (Json.Decode.list primitiveDecoder) Nothing
         |> maybeDecode "arrayOfEnum" (Json.Decode.list enumDecoder) Nothing
 
 

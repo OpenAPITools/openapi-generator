@@ -1,6 +1,0 @@
-generatorName: android
-outputDir: samples/client/petstore/android/volley
-library: volley
-inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
-additionalProperties:
-  artifactId: petstore-android-volley

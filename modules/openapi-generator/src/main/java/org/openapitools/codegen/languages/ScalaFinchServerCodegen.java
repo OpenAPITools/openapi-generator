@@ -17,18 +17,19 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
-
-import static org.openapitools.codegen.utils.OnceLogger.once;
 
 public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaFinchServerCodegen.class);
@@ -37,7 +38,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
     protected String artifactId = "finch-server";
     protected String artifactVersion = "1.0.0";
     protected String sourceFolder = "src/main/scala";
-    protected String packageName = "org.openapitools";
+    @Setter protected String packageName = "org.openapitools";
 
     public ScalaFinchServerCodegen() {
         super();
@@ -89,7 +90,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
                         "native")
         );
 
-        defaultIncludes = new HashSet<String>(
+        defaultIncludes = new HashSet<>(
                 Arrays.asList("double",
                         "Int",
                         "Long",
@@ -109,7 +110,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
                         "Map")
         );
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("string", "String");
         typeMapping.put("boolean", "Boolean");
         typeMapping.put("integer", "Int");
@@ -160,7 +161,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("endpoint.mustache", sourceFolder, "endpoint.scala"));
         supportingFiles.add(new SupportingFile("errors.mustache", sourceFolder, "errors.scala"));
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "String",
                         "Boolean",
@@ -177,7 +178,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         instantiationTypes.put("array", "ArrayList");
         instantiationTypes.put("map", "HashMap");
 
-        importMapping = new HashMap<String, String>();
+        importMapping = new HashMap<>();
         importMapping.put("UUID", "java.util.UUID");
         importMapping.put("URI", "java.net.URI");
         importMapping.put("File", "java.io.File");
@@ -230,11 +231,10 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         return outputFolder + File.separator + sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
 
             // Converts GET /foo/bar => get("foo" :: "bar")
@@ -261,11 +261,10 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
 
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
@@ -298,10 +297,6 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
 
     /**
      * @param prim          primitive type
@@ -318,7 +313,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
     //All path parameters are String initially, for primitives these need to be converted
     private String toPathParameter(CodegenParameter p, String paramType, Boolean canBeOptional) {
 
-        Boolean isNotAString = !p.dataType.equals("String");
+        Boolean isNotAString = !"String".equals(p.dataType);
 
         return paramType + (canBeOptional && !p.required ? "Option" : "") + "(\"" + p.baseName + "\")" + (isNotAString ? toPrimitive(p.dataType, p.required, canBeOptional) : "");
     }
@@ -455,7 +450,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
                 }
                 p.vendorExtensions.put("x-codegen-normalized-input-type", toInputParameter(p));
             } else {
-                //Path paremeters are handled in generateScalaPath()
+                //Path parameters are handled in generateScalaPath()
                 p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType);
             }
             if (p.vendorExtensions.get("x-codegen-normalized-path-type") != null) {
@@ -486,4 +481,6 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         System.out.println("################################################################################");
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.SCALA; }
 }

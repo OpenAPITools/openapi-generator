@@ -17,7 +17,7 @@
 
 #include "Templates/SharedPointer.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 void OpenAPIApiResponse::WriteJson(JsonWriter& Writer) const
@@ -25,15 +25,15 @@ void OpenAPIApiResponse::WriteJson(JsonWriter& Writer) const
 	Writer->WriteObjectStart();
 	if (Code.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("code")); WriteJsonValue(Writer, Code.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("code")); WriteJsonValue(Writer, Code.GetValue());
 	}
 	if (Type.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("type")); WriteJsonValue(Writer, Type.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("type")); WriteJsonValue(Writer, Type.GetValue());
 	}
 	if (Message.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("message")); WriteJsonValue(Writer, Message.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("message")); WriteJsonValue(Writer, Message.GetValue());
 	}
 	Writer->WriteObjectEnd();
 }

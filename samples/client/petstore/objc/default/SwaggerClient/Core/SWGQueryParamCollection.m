@@ -10,10 +10,10 @@
 
     self = [super init];
     if (self) {
-    	_values = values;
-    	_format = format;
-	}
-    
+        _values = values;
+        _format = format;
+    }
+
     return self;
 }
 

@@ -4,6 +4,7 @@ import org.openapitools.client.infrastructure.CollectionFormats.*
 import retrofit2.http.*
 import retrofit2.Call
 import okhttp3.RequestBody
+import com.squareup.moshi.Json
 
 import org.openapitools.client.models.Order
 
@@ -14,8 +15,8 @@ interface StoreApi {
      * Responses:
      *  - 400: Invalid ID supplied
      *  - 404: Order not found
-     * 
-     * @param orderId ID of the order that needs to be deleted 
+     *
+     * @param orderId ID of the order that needs to be deleted
      * @return [Call]<[Unit]>
      */
     @DELETE("store/order/{orderId}")
@@ -26,7 +27,7 @@ interface StoreApi {
      * Returns a map of status codes to quantities
      * Responses:
      *  - 200: successful operation
-     * 
+     *
      * @return [Call]<[kotlin.collections.Map<kotlin.String, kotlin.Int>]>
      */
     @GET("store/inventory")
@@ -34,13 +35,13 @@ interface StoreApi {
 
     /**
      * Find purchase order by ID
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      * Responses:
      *  - 200: successful operation
      *  - 400: Invalid ID supplied
      *  - 404: Order not found
-     * 
-     * @param orderId ID of pet that needs to be fetched 
+     *
+     * @param orderId ID of pet that needs to be fetched
      * @return [Call]<[Order]>
      */
     @GET("store/order/{orderId}")
@@ -52,8 +53,8 @@ interface StoreApi {
      * Responses:
      *  - 200: successful operation
      *  - 400: Invalid Order
-     * 
-     * @param body order placed for purchasing the pet 
+     *
+     * @param body order placed for purchasing the pet
      * @return [Call]<[Order]>
      */
     @POST("store/order")

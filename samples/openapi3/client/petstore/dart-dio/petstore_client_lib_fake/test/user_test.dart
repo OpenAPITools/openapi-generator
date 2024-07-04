@@ -1,5 +1,5 @@
-import 'package:openapi/model/user.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 // tests for User
 void main() {
@@ -48,7 +48,5 @@ void main() {
       // TODO
     });
 
-
   });
-
 }

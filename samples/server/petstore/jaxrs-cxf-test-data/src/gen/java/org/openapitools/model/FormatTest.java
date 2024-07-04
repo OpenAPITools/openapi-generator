@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -9,13 +10,6 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -65,6 +59,7 @@ public class FormatTest  {
   private String password;
 
   @ApiModelProperty(value = "")
+  @Valid
   private BigDecimal bigDecimal;
  /**
   * Get integer
@@ -80,7 +75,7 @@ public class FormatTest  {
   /**
    * Sets the <code>integer</code> property.
    */
-  public void setInteger(Integer integer) {
+ public void setInteger(Integer integer) {
     this.integer = integer;
   }
 
@@ -106,7 +101,7 @@ public class FormatTest  {
   /**
    * Sets the <code>int32</code> property.
    */
-  public void setInt32(Integer int32) {
+ public void setInt32(Integer int32) {
     this.int32 = int32;
   }
 
@@ -130,7 +125,7 @@ public class FormatTest  {
   /**
    * Sets the <code>int64</code> property.
    */
-  public void setInt64(Long int64) {
+ public void setInt64(Long int64) {
     this.int64 = int64;
   }
 
@@ -157,7 +152,7 @@ public class FormatTest  {
   /**
    * Sets the <code>number</code> property.
    */
-  public void setNumber(BigDecimal number) {
+ public void setNumber(BigDecimal number) {
     this.number = number;
   }
 
@@ -183,7 +178,7 @@ public class FormatTest  {
   /**
    * Sets the <code>_float</code> property.
    */
-  public void setFloat(Float _float) {
+ public void setFloat(Float _float) {
     this._float = _float;
   }
 
@@ -209,7 +204,7 @@ public class FormatTest  {
   /**
    * Sets the <code>_double</code> property.
    */
-  public void setDouble(Double _double) {
+ public void setDouble(Double _double) {
     this._double = _double;
   }
 
@@ -233,7 +228,7 @@ public class FormatTest  {
   /**
    * Sets the <code>string</code> property.
    */
-  public void setString(String string) {
+ public void setString(String string) {
     this.string = string;
   }
 
@@ -258,7 +253,7 @@ public class FormatTest  {
   /**
    * Sets the <code>_byte</code> property.
    */
-  public void setByte(byte[] _byte) {
+ public void setByte(byte[] _byte) {
     this._byte = _byte;
   }
 
@@ -282,7 +277,7 @@ public class FormatTest  {
   /**
    * Sets the <code>binary</code> property.
    */
-  public void setBinary(File binary) {
+ public void setBinary(File binary) {
     this.binary = binary;
   }
 
@@ -307,7 +302,7 @@ public class FormatTest  {
   /**
    * Sets the <code>date</code> property.
    */
-  public void setDate(LocalDate date) {
+ public void setDate(LocalDate date) {
     this.date = date;
   }
 
@@ -331,7 +326,7 @@ public class FormatTest  {
   /**
    * Sets the <code>dateTime</code> property.
    */
-  public void setDateTime(Date dateTime) {
+ public void setDateTime(Date dateTime) {
     this.dateTime = dateTime;
   }
 
@@ -355,7 +350,7 @@ public class FormatTest  {
   /**
    * Sets the <code>uuid</code> property.
    */
-  public void setUuid(UUID uuid) {
+ public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 
@@ -380,7 +375,7 @@ public class FormatTest  {
   /**
    * Sets the <code>password</code> property.
    */
-  public void setPassword(String password) {
+ public void setPassword(String password) {
     this.password = password;
   }
 
@@ -404,7 +399,7 @@ public class FormatTest  {
   /**
    * Sets the <code>bigDecimal</code> property.
    */
-  public void setBigDecimal(BigDecimal bigDecimal) {
+ public void setBigDecimal(BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;
   }
 
@@ -416,6 +411,36 @@ public class FormatTest  {
     return this;
   }
 
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    FormatTest formatTest = (FormatTest) o;
+    return Objects.equals(integer, formatTest.integer) &&
+        Objects.equals(int32, formatTest.int32) &&
+        Objects.equals(int64, formatTest.int64) &&
+        Objects.equals(number, formatTest.number) &&
+        Objects.equals(_float, formatTest._float) &&
+        Objects.equals(_double, formatTest._double) &&
+        Objects.equals(string, formatTest.string) &&
+        Objects.equals(_byte, formatTest._byte) &&
+        Objects.equals(binary, formatTest.binary) &&
+        Objects.equals(date, formatTest.date) &&
+        Objects.equals(dateTime, formatTest.dateTime) &&
+        Objects.equals(uuid, formatTest.uuid) &&
+        Objects.equals(password, formatTest.password) &&
+        Objects.equals(bigDecimal, formatTest.bigDecimal);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password, bigDecimal);
+  }
 
   @Override
   public String toString() {
@@ -434,7 +459,7 @@ public class FormatTest  {
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    password: ").append("*").append("\n");
     sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();

@@ -14,7 +14,7 @@ To see how to make this your own, look here:
 [README]((https://openapi-generator.tech))
 
 - API version: 1.0.7
-
+- Generator version: 7.8.0-SNAPSHOT
 
 
 
@@ -104,13 +104,13 @@ Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [InlineObject](docs/InlineObject.md)
  - [MultipartRelatedRequest](docs/MultipartRelatedRequest.md)
  - [MultipartRequestObjectField](docs/MultipartRequestObjectField.md)
+ - [MultipleIdenticalMimeTypesPostRequest](docs/MultipleIdenticalMimeTypesPostRequest.md)
 
 
 ## Documentation For Authorization
- Endpoints do not require authorization.
+Endpoints do not require authorization.
 
 
 ## Author

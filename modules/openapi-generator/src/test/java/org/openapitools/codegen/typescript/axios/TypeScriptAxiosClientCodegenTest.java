@@ -1,11 +1,15 @@
 package org.openapitools.codegen.typescript.axios;
 
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.TypeScriptAxiosClientCodegen;
+import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
+@Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_AXIOS})
 public class TypeScriptAxiosClientCodegenTest {
 
     TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
@@ -78,4 +82,33 @@ public class TypeScriptAxiosClientCodegenTest {
         assertEquals(codegen.toEnumVarName("b", "string"), "B");
     }
 
+    @Test
+    public void containsESMTSConfigFileInCaseOfES6AndNPM() {
+        TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
+
+        codegen.additionalProperties().put("npmName", "@openapi/typescript-axios-petstore");
+        codegen.additionalProperties().put("snapshot", false);
+        codegen.additionalProperties().put("npmVersion", "1.0.0-SNAPSHOT");
+        codegen.additionalProperties().put("supportsES6", true);
+
+        codegen.processOpts();
+
+        assertThat(codegen.supportingFiles()).contains(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
+        assertThat(codegen.supportingFiles()).contains(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
+    }
+
+    @Test
+    public void doesNotContainESMTSConfigFileInCaseOfES5AndNPM() {
+        TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
+
+        codegen.additionalProperties().put("npmName", "@openapi/typescript-axios-petstore");
+        codegen.additionalProperties().put("snapshot", false);
+        codegen.additionalProperties().put("npmVersion", "1.0.0-SNAPSHOT");
+        codegen.additionalProperties().put("supportsES6", false);
+
+        codegen.processOpts();
+
+        assertThat(codegen.supportingFiles()).contains(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
+        assertThat(codegen.supportingFiles()).doesNotContain(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
+    }
 }

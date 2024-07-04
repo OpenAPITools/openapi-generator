@@ -21,7 +21,7 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 public class ValidationRuleTest {
-    class Sample {
+    static class Sample {
         private String name;
 
         public Sample(String name) {

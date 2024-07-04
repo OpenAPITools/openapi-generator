@@ -19,8 +19,7 @@ use multipart::server::Multipart;
 use multipart::server::save::SaveResult;
 
 #[allow(unused_imports)]
-use crate::models;
-use crate::header;
+use crate::{models, header, AuthenticationApi};
 
 pub use crate::context;
 
@@ -31,6 +30,8 @@ use crate::{Api,
      MultipartRequestPostResponse,
      MultipleIdenticalMimeTypesPostResponse
 };
+
+mod server_auth;
 
 mod paths {
     use lazy_static::lazy_static;
@@ -47,6 +48,7 @@ mod paths {
     pub(crate) static ID_MULTIPART_REQUEST: usize = 1;
     pub(crate) static ID_MULTIPLE_IDENTICAL_MIME_TYPES: usize = 2;
 }
+
 
 pub struct MakeService<T, C> where
     T: Api<C> + Clone + Send + 'static,
@@ -68,6 +70,7 @@ impl<T, C> MakeService<T, C> where
     }
 }
 
+
 impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString>  + Send + Sync + 'static
@@ -81,7 +84,7 @@ impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
     }
 
     fn call(&mut self, target: Target) -> Self::Future {
-        futures::future::ok(Service::new(
+        future::ok(Service::new(
             self.api_impl.clone(),
         ))
     }
@@ -109,7 +112,7 @@ impl<T, C> Service<T, C> where
 {
     pub fn new(api_impl: T) -> Self {
         Service {
-            api_impl: api_impl,
+            api_impl,
             marker: PhantomData
         }
     }
@@ -122,7 +125,7 @@ impl<T, C> Clone for Service<T, C> where
     fn clone(&self) -> Self {
         Service {
             api_impl: self.api_impl.clone(),
-            marker: self.marker.clone(),
+            marker: self.marker,
         }
     }
 }
@@ -148,14 +151,14 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
         let (method, uri, headers) = (parts.method, parts.uri, parts.headers);
         let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
 
-        match &method {
+        match method {
 
             // MultipartRelatedRequestPost - POST /multipart_related_request
-            &hyper::Method::POST if path.matched(paths::ID_MULTIPART_RELATED_REQUEST) => {
+            hyper::Method::POST if path.matched(paths::ID_MULTIPART_RELATED_REQUEST) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw();
+                let result = body.into_raw();
                 match result.await {
                             Ok(body) => {
                                 let mut unused_elements: Vec<String> = vec![];
@@ -165,9 +168,9 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 // Extract the top-level content type header.
                                 let content_type_mime = headers
                                     .get(CONTENT_TYPE)
-                                    .ok_or("Missing content-type header".to_string())
+                                    .ok_or_else(|| "Missing content-type header".to_string())
                                     .and_then(|v| v.to_str().map_err(|e| format!("Couldn't read content-type header value for MultipartRelatedRequestPost: {}", e)))
-                                    .and_then(|v| v.parse::<Mime2>().map_err(|_e| format!("Couldn't parse content-type header value for MultipartRelatedRequestPost")));
+                                    .and_then(|v| v.parse::<Mime2>().map_err(|_e| "Couldn't parse content-type header value for MultipartRelatedRequestPost".to_string()));
 
                                 // Insert top-level content type header into a Headers object.
                                 let mut multi_part_headers = Headers::new();
@@ -202,7 +205,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 for node in nodes {
                                     if let Node::Part(part) = node {
                                         let content_type = part.content_type().map(|x| format!("{}",x));
-                                        match content_type.as_ref().map(|x| x.as_str()) {
+                                        match content_type.as_deref() {
                                             Some("application/json") if param_object_field.is_none() => {
                                                 // Extract JSON part.
                                                 let deserializer = &mut serde_json::Deserializer::from_slice(part.body.as_slice());
@@ -244,7 +247,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                     Some(x) => x,
                                     None =>  return Ok(Response::builder()
                                                                     .status(StatusCode::BAD_REQUEST)
-                                                                    .body(Body::from(format!("Missing required multipart/related parameter required_binary_field")))
+                                                                    .body(Body::from("Missing required multipart/related parameter required_binary_field".to_string()))
                                                                     .expect("Unable to create Bad Request response for missing multipart/related parameter required_binary_field due to schema"))
                                 };
 
@@ -257,7 +260,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -285,7 +288,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // MultipartRequestPost - POST /multipart_request
-            &hyper::Method::POST if path.matched(paths::ID_MULTIPART_REQUEST) => {
+            hyper::Method::POST if path.matched(paths::ID_MULTIPART_REQUEST) => {
                 let boundary = match swagger::multipart::form::boundary(&headers) {
                     Some(boundary) => boundary.to_string(),
                     None => return Ok(Response::builder()
@@ -297,7 +300,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Form Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw();
+                let result = body.into_raw();
                 match result.await {
                             Ok(body) => {
                                 use std::io::Read;
@@ -310,7 +313,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                     _ => {
                                         return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Unable to process all message parts")))
+                                                        .body(Body::from("Unable to process all message parts".to_string()))
                                                         .expect("Unable to create Bad Request response due to failure to process all message"))
                                     },
                                 };
@@ -336,7 +339,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         return Ok(
                                             Response::builder()
                                             .status(StatusCode::BAD_REQUEST)
-                                            .body(Body::from(format!("Missing required form parameter string_field")))
+                                            .body(Body::from("Missing required form parameter string_field".to_string()))
                                             .expect("Unable to create Bad Request due to missing required form parameter string_field"))
                                     }
                                 };
@@ -400,7 +403,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         return Ok(
                                             Response::builder()
                                             .status(StatusCode::BAD_REQUEST)
-                                            .body(Body::from(format!("Missing required form parameter binary_field")))
+                                            .body(Body::from("Missing required form parameter binary_field".to_string()))
                                             .expect("Unable to create Bad Request due to missing required form parameter binary_field"))
                                     }
                                 };
@@ -414,7 +417,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -436,17 +439,17 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Couldn't read multipart body")))
+                                                .body(Body::from("Couldn't read multipart body".to_string()))
                                                 .expect("Unable to create Bad Request response due to unable read multipart body")),
                         }
             },
 
             // MultipleIdenticalMimeTypesPost - POST /multiple-identical-mime-types
-            &hyper::Method::POST if path.matched(paths::ID_MULTIPLE_IDENTICAL_MIME_TYPES) => {
+            hyper::Method::POST if path.matched(paths::ID_MULTIPLE_IDENTICAL_MIME_TYPES) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw();
+                let result = body.into_raw();
                 match result.await {
                             Ok(body) => {
                                 let mut unused_elements: Vec<String> = vec![];
@@ -456,9 +459,9 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 // Extract the top-level content type header.
                                 let content_type_mime = headers
                                     .get(CONTENT_TYPE)
-                                    .ok_or("Missing content-type header".to_string())
+                                    .ok_or_else(|| "Missing content-type header".to_string())
                                     .and_then(|v| v.to_str().map_err(|e| format!("Couldn't read content-type header value for MultipleIdenticalMimeTypesPost: {}", e)))
-                                    .and_then(|v| v.parse::<Mime2>().map_err(|_e| format!("Couldn't parse content-type header value for MultipleIdenticalMimeTypesPost")));
+                                    .and_then(|v| v.parse::<Mime2>().map_err(|_e| "Couldn't parse content-type header value for MultipleIdenticalMimeTypesPost".to_string()));
 
                                 // Insert top-level content type header into a Headers object.
                                 let mut multi_part_headers = Headers::new();
@@ -492,7 +495,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 for node in nodes {
                                     if let Node::Part(part) = node {
                                         let content_type = part.content_type().map(|x| format!("{}",x));
-                                        match content_type.as_ref().map(|x| x.as_str()) {
+                                        match content_type.as_deref() {
                                             Some("application/octet-stream") if param_binary1.is_none() => {
                                                 param_binary1.get_or_insert(swagger::ByteArray(part.body));
                                             },
@@ -523,7 +526,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -563,16 +566,16 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {
-    fn parse_operation_id(request: &Request<T>) -> Result<&'static str, ()> {
+    fn parse_operation_id(request: &Request<T>) -> Option<&'static str> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
-        match request.method() {
+        match *request.method() {
             // MultipartRelatedRequestPost - POST /multipart_related_request
-            &hyper::Method::POST if path.matched(paths::ID_MULTIPART_RELATED_REQUEST) => Ok("MultipartRelatedRequestPost"),
+            hyper::Method::POST if path.matched(paths::ID_MULTIPART_RELATED_REQUEST) => Some("MultipartRelatedRequestPost"),
             // MultipartRequestPost - POST /multipart_request
-            &hyper::Method::POST if path.matched(paths::ID_MULTIPART_REQUEST) => Ok("MultipartRequestPost"),
+            hyper::Method::POST if path.matched(paths::ID_MULTIPART_REQUEST) => Some("MultipartRequestPost"),
             // MultipleIdenticalMimeTypesPost - POST /multiple-identical-mime-types
-            &hyper::Method::POST if path.matched(paths::ID_MULTIPLE_IDENTICAL_MIME_TYPES) => Ok("MultipleIdenticalMimeTypesPost"),
-            _ => Err(()),
+            hyper::Method::POST if path.matched(paths::ID_MULTIPLE_IDENTICAL_MIME_TYPES) => Some("MultipleIdenticalMimeTypesPost"),
+            _ => None,
         }
     }
 }

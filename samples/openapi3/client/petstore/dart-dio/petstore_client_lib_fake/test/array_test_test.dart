@@ -1,5 +1,5 @@
-import 'package:openapi/model/array_test.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 // tests for ArrayTest
 void main() {
@@ -22,7 +22,5 @@ void main() {
       // TODO
     });
 
-
   });
-
 }

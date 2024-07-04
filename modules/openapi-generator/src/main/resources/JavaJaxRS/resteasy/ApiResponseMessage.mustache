@@ -1,8 +1,8 @@
 package {{apiPackage}};
 
-import javax.xml.bind.annotation.XmlTransient;
+import {{javaxPackage}}.xml.bind.annotation.XmlTransient;
 
-@javax.xml.bind.annotation.XmlRootElement
+@{{javaxPackage}}.xml.bind.annotation.XmlRootElement
 {{>generatedAnnotation}}
 public class ApiResponseMessage {
     public static final int ERROR = 1;
@@ -14,9 +14,9 @@ public class ApiResponseMessage {
     int code;
     String type;
     String message;
-    
+
     public ApiResponseMessage(){}
-    
+
     public ApiResponseMessage(int code, String message){
         this.code = code;
         switch(code){

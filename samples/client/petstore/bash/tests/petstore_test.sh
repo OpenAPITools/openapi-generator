@@ -121,3 +121,10 @@ export PETSTORE_HOST="http://petstore.swagger.io"
             bash $PETSTORE_CLI -ct json -ac xml addPet -"
     [[ "$output" =~ "<id>37567</id>" ]]
 }
+
+@test "updatePet with form data" {
+    run bash $PETSTORE_CLI --dry-run \
+        updatePetWithForm petId=1 name:=lucky status:=available
+    [[ "$output" =~ "status=available&name=lucky" ]]
+    [[ "$output" =~ "/v2/pet/1" ]]
+}

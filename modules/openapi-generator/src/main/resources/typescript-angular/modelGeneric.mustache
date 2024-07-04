@@ -3,7 +3,15 @@ export interface {{classname}}{{#allParents}}{{#-first}} extends {{/-first}}{{{.
     {{#description}}
     /**
      * {{{description}}}
+     {{#deprecated}}
+     * @deprecated
+     {{/deprecated}}
      */
+    {{/description}}
+    {{^description}}
+    {{#deprecated}}
+    /** @deprecated */
+    {{/deprecated}}
     {{/description}}
     {{#isReadOnly}}readonly {{/isReadOnly}}{{{name}}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}} | null{{/isNullable}};
 {{/vars}}

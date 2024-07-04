@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
 
-import javax.ws.rs.core.Response;
+import {{javaxPackage}}.ws.rs.core.Response;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.cxf.jaxrs.client.ClientConfiguration;
 import org.apache.cxf.jaxrs.client.WebClient;
@@ -23,12 +23,10 @@ import org.apache.cxf.interceptor.LoggingOutInterceptor;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
-{{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-{{/fullJavaUtil}}
 
 {{#generateSpringBootApplication}}
 import org.junit.runner.RunWith;
@@ -43,14 +41,14 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 /**
  {{#appName}}
- * {{{appName}}}
+ * {{{.}}}
  *
  {{/appName}}
  {{#appDescription}}
- * <p>{{{appDescription}}}
+ * <p>{{{.}}}
  *
  {{/appDescription}}
- * API tests for {{classname}} 
+ * API tests for {{classname}}
  */
 {{#generateSpringBootApplication}}
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -63,33 +61,33 @@ public class {{classname}}Test {
 {{#generateSpringBootApplication}}
     @Value("${local.server.port}")
     private int serverPort;
-{{/generateSpringBootApplication}}    
+{{/generateSpringBootApplication}}
 
     private {{classname}} api;
-    
+
     @Before
     public void setup() {
         JacksonJsonProvider provider = new JacksonJsonProvider();
         List providers = new ArrayList();
         providers.add(provider);
-        
-{{#generateSpringBootApplication}}        
+
+{{#generateSpringBootApplication}}
         api = JAXRSClientFactory.create("http://localhost:" + serverPort + "/services", {{classname}}.class, providers);
-{{/generateSpringBootApplication}}        
+{{/generateSpringBootApplication}}
 {{^generateSpringBootApplication}}
         api = JAXRSClientFactory.create("{{{basePath}}}", {{classname}}.class, providers);
 {{/generateSpringBootApplication}}
         org.apache.cxf.jaxrs.client.Client client = WebClient.client(api);
-        
-        ClientConfiguration config = WebClient.getConfig(client); 
-{{#useGzipFeatureForTests}}        
+
+        ClientConfiguration config = WebClient.getConfig(client);
+{{#useGzipFeatureForTests}}
         // Example for using Gzipping
         GZIPOutInterceptor gzipOutInterceptor = new GZIPOutInterceptor();
         // use Gzipping for first request sent to server
         //gzipOutInterceptor.setForce(true);
         config.getOutInterceptors().add(gzipOutInterceptor);
-        
-        config.getInInterceptors().add(new GZIPInInterceptor()); 
+
+        config.getInInterceptors().add(new GZIPInInterceptor());
 {{/useGzipFeatureForTests}}
 {{#useLoggingFeatureForTests}}
         LoggingOutInterceptor loggingOutInterceptor = new LoggingOutInterceptor();
@@ -103,7 +101,7 @@ public class {{classname}}Test {
      * {{summary}}
      *
      {{#notes}}
-     * {{notes}}
+     * {{.}}
      *
      {{/notes}}
      {{/summary}}
@@ -113,13 +111,13 @@ public class {{classname}}Test {
     @Test
     public void {{operationId}}Test() {
         {{#allParams}}
-        {{^isFile}}{{{dataType}}} {{paramName}} = null;{{/isFile}}{{#isFile}}org.apache.cxf.jaxrs.ext.multipart.Attachment {{paramName}} = null;{{/isFile}}
+        {{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<InputStream>{{/collectionFormat}}{{^collectionFormat}}InputStream{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}} {{paramName}} = null;{{/isFile}}{{^isFile}}{{{dataType}}} {{paramName}} = null;{{/isFile}}
         {{/allParams}}
         //{{^vendorExtensions.x-java-is-response-void}}{{>returnTypes}} response = {{/vendorExtensions.x-java-is-response-void}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
         {{^vendorExtensions.x-java-is-response-void}}//assertNotNull(response);{{/vendorExtensions.x-java-is-response-void}}
         // TODO: test validations
-        
-        
+
+
     }
     {{/operation}}{{/operations}}
 }

@@ -29,7 +29,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   Client.JSON_PROPERTY_CLIENT
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Client  implements Serializable {
   public static final String JSON_PROPERTY_CLIENT = "client";
   @JsonProperty(JSON_PROPERTY_CLIENT)
@@ -44,7 +44,7 @@ public class Client  implements Serializable {
    * Get client
    * @return client
    **/
-  @JsonProperty("client")
+  @JsonProperty(value = "client")
   @ApiModelProperty(value = "")
   
   public String getClient() {
@@ -72,7 +72,6 @@ public class Client  implements Serializable {
   public int hashCode() {
     return Objects.hash(client);
   }
-
 
   @Override
   public String toString() {

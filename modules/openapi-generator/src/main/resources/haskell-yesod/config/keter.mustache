@@ -1,0 +1,70 @@
+# After you've edited this file, remove the following line to allow
+# `yesod keter` to build your bundle.
+user-edited: false
+
+# A Keter app is composed of 1 or more stanzas. The main stanza will define our
+# web application. See the Keter documentation for more information on
+# available stanzas.
+stanzas:
+
+  # Your Yesod application.
+  - type: webapp
+
+    # Name of your executable. You are unlikely to need to change this.
+    # Note that all file paths are relative to the keter.yml file.
+    #
+    # The path given is for Stack projects. If you're still using cabal, change
+    # to
+    # exec: ../dist/build/{{projectName}}/{{projectName}}
+    exec: ../dist/bin/{{projectName}}
+
+    # Command line options passed to your application.
+    args: []
+
+    hosts:
+      # You can specify one or more hostnames for your application to respond
+      # to. The primary hostname will be used for generating your application
+      # root.
+      - www.{{projectName}}.com
+
+    # Enable to force Keter to redirect to https
+    # Can be added to any stanza
+    requires-secure: false
+
+  # Static files.
+  - type: static-files
+    hosts:
+      - static.{{projectName}}.com
+    root: ../static
+
+    # Uncomment to turn on directory listings.
+    # directory-listing: true
+
+  # Redirect plain domain name to www.
+  - type: redirect
+
+    hosts:
+      - {{projectName}}.com
+    actions:
+      - host: www.{{projectName}}.com
+        # secure: false
+        # port: 80
+
+    # Uncomment to switch to a non-permanent redirect.
+    # status: 303
+
+# Use the following to automatically copy your bundle upon creation via `yesod
+# keter`. Uses `scp` internally, so you can set it to a remote destination
+# copy-to: user@host:/opt/keter/incoming/
+
+# You can pass arguments to `scp` used above. This example limits bandwidth to
+# 1024 Kbit/s and uses port 2222 instead of the default 22
+# copy-to-args:
+#   - "-l 1024"
+#   - "-P 2222"
+
+# If you would like to have Keter automatically create a PostgreSQL database
+# and set appropriate environment variables for it to be discovered, uncomment
+# the following line.
+# plugins:
+#   postgres: true

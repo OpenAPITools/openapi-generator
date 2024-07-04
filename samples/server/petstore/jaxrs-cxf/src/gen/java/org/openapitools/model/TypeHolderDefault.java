@@ -2,19 +2,15 @@ package org.openapitools.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class TypeHolderDefault  {
   
@@ -32,7 +28,7 @@ public class TypeHolderDefault  {
   private Boolean boolItem = true;
 
   @ApiModelProperty(required = true, value = "")
-  private List<Integer> arrayItem = new ArrayList<Integer>();
+  private List<Integer> arrayItem = new ArrayList<>();
  /**
    * Get stringItem
    * @return stringItem
@@ -133,6 +129,26 @@ public class TypeHolderDefault  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    TypeHolderDefault typeHolderDefault = (TypeHolderDefault) o;
+    return Objects.equals(this.stringItem, typeHolderDefault.stringItem) &&
+        Objects.equals(this.numberItem, typeHolderDefault.numberItem) &&
+        Objects.equals(this.integerItem, typeHolderDefault.integerItem) &&
+        Objects.equals(this.boolItem, typeHolderDefault.boolItem) &&
+        Objects.equals(this.arrayItem, typeHolderDefault.arrayItem);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(stringItem, numberItem, integerItem, boolItem, arrayItem);
+  }
 
   @Override
   public String toString() {

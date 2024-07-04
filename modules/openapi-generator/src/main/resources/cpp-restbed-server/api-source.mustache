@@ -5,6 +5,11 @@
 #include <corvusoft/restbed/string.hpp>
 #include <corvusoft/restbed/settings.hpp>
 #include <corvusoft/restbed/request.hpp>
+#include <corvusoft/restbed/uri.hpp>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string.hpp>
 
 #include "{{classname}}.h"
 
@@ -14,213 +19,234 @@ namespace {{this}} {
 
 using namespace {{modelNamespace}};
 
-{{classname}}::{{classname}}() {
+namespace {
+[[maybe_unused]]
+std::string selectPreferredContentType(const std::vector<std::string>& contentTypes) {
+    if (contentTypes.size() == 0) {
+        return "application/json";
+    }
+
+    if (contentTypes.size() == 1) {
+        return contentTypes.at(0);
+    }
+
+    static const std::array<std::string, 2> preferredTypes = {"json", "xml"};
+    for (const auto& preferredType: preferredTypes) {
+        const auto ret = std::find_if(contentTypes.cbegin(),
+        contentTypes.cend(),
+        [preferredType](const std::string& str) {
+            return str.find(preferredType) != std::string::npos;});
+        if (ret != contentTypes.cend()) {
+            return *ret;
+        }
+    }
+
+    return contentTypes.at(0);
+}
 }
 
-{{classname}}::~{{classname}}() {}
-
-void {{classname}}::startService(int const& port) {
-	// A typical pattern is to derive a class from {{classname}} and allocate the shared pointers for restbed::Resource objects
-	// and manipulate them (e.g. binding GET/POST handler functions) before this startService() gets called.
-	// In such a case we want to use our m_spXXX variables.
-	// However in case these shared pointers are nullptr, then allocate the restbed::Resources now:
-	{{#operation}}
-	if (!m_sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource)
-		m_sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource = std::make_shared<{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource>();
-	this->publish(m_sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource);
-	{{/operation}}
-
-	std::shared_ptr<restbed::Settings> settings = std::make_shared<restbed::Settings>();
-	settings->set_port(port);
-	settings->set_root("{{contextPath}}");
-	
-	this->start(settings);
-}
-
-void {{classname}}::stopService() {
-	this->stop();
-}
-
-{{#operation}}
-{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource()
+{{classname}}Exception::{{classname}}Exception(int status_code, std::string what)
+  : m_status(status_code),
+    m_what(what)
 {
-	this->set_path("{{path}}");
+
+}
+int {{classname}}Exception::getStatus() const
+{
+    return m_status;
+}
+const char* {{classname}}Exception::what() const noexcept
+{
+    return m_what.c_str();
+}
+
+
+template<class MODEL_T>
+MODEL_T extractJsonModelBodyParam(const std::string& bodyContent)
+{
+    std::stringstream sstream(bodyContent);
+    boost::property_tree::ptree pt;
+    boost::property_tree::json_parser::read_json(sstream, pt);
+
+    auto model = MODEL_T(pt);
+    return model;
+}
+
+template<class MODEL_T>
+std::vector<MODEL_T> extractJsonArrayBodyParam(const std::string& bodyContent)
+{
+    std::stringstream sstream(bodyContent);
+    boost::property_tree::ptree pt;
+    boost::property_tree::json_parser::read_json(sstream, pt);
+
+    auto arrayRet = std::vector<MODEL_T>();
+    for (const auto& child: pt) {
+        arrayRet.emplace_back(MODEL_T(child.second));
+    }
+    return arrayRet;
+}
+
+template <class KEY_T, class VAL_T>
+std::string convertMapResponse(const std::map<KEY_T, VAL_T>& map)
+{
+    boost::property_tree::ptree pt;
+    for(const auto &kv: map) {
+    pt.push_back(boost::property_tree::ptree::value_type(
+        boost::lexical_cast<std::string>(kv.first),
+        boost::property_tree::ptree(
+        boost::lexical_cast<std::string>(kv.second))));
+    }
+    std::stringstream sstream;
+    write_json(sstream, pt);
+    std::string result = sstream.str();
+    return result;
+}
+
+namespace {{classname}}Resources {
+{{#operation}}
+{{vendorExtensions.x-codegen-resource-name}}Resource::{{vendorExtensions.x-codegen-resource-name}}Resource(const std::string& context /* = "{{contextPath}}" */)
+{
+	this->set_path(context + "{{path}}");
 	this->set_method_handler("{{httpMethod}}",
-		std::bind(&{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::{{httpMethod}}_method_handler, this,
+		std::bind(&{{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}_internal, this,
 			std::placeholders::_1));
 	{{#vendorExtensions.x-codegen-other-methods}}
 	this->set_method_handler("{{httpMethod}}",
-		std::bind(&{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::{{httpMethod}}_method_handler, this,
+		std::bind(&{{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}_internal, this,
 			std::placeholders::_1));
 	{{/vendorExtensions.x-codegen-other-methods}}
 }
 
-{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::~{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource()
+std::pair<int, std::string> {{vendorExtensions.x-codegen-resource-name}}Resource::handle{{classname}}Exception(const {{classname}}Exception& e)
 {
+    return std::make_pair<int, std::string>(e.getStatus(), e.what());
 }
 
-void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::set_handler_{{httpMethod}}(
-	std::function<std::pair<int, std::string>(
-		{{#allParams}}{{{dataType}}} const &{{^-last}}, {{/-last}}{{/allParams}}
-	)> handler) {
-	handler_{{httpMethod}}_ = std::move(handler);
+std::pair<int, std::string> {{vendorExtensions.x-codegen-resource-name}}Resource::handleStdException(const std::exception& e)
+{
+    return std::make_pair<int, std::string>(500, e.what());
+}
+
+std::pair<int, std::string> {{vendorExtensions.x-codegen-resource-name}}Resource::handleUnspecifiedException()
+{
+    return std::make_pair<int, std::string>(500, "Unknown exception occurred");
+}
+
+void {{vendorExtensions.x-codegen-resource-name}}Resource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
+{
+    session->set_header(header, "");
+}
+
+void {{vendorExtensions.x-codegen-resource-name}}Resource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
+{
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
+}
+
+void {{vendorExtensions.x-codegen-resource-name}}Resource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
+{
+    session->close(status, result, { {"Connection", "close"} });
+}
+
+void {{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}_internal(const std::shared_ptr<restbed::Session> session)
+{
+    {{#lambda.indented}}
+    {{>api-source-HandlerBody}}
+    {{/lambda.indented}}
+
 }
 
 {{#vendorExtensions.x-codegen-other-methods}}
-void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::set_handler_{{httpMethod}}(
-	std::function<std::pair<int, std::string>(
-		{{#allParams}}{{{dataType}}} const &{{^-last}}, {{/-last}}{{/allParams}}
-	)> handler) {
-	handler_{{httpMethod}}_ = std::move(handler);
+// x-extension
+void {{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}_internal(const std::shared_ptr<restbed::Session> session) {
+    {{#lambda.indented}}
+    {{>api-source-HandlerBody}}
+    {{/lambda.indented}}
+
 }
 {{/vendorExtensions.x-codegen-other-methods}}
 
-void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::{{httpMethod}}_method_handler(const std::shared_ptr<restbed::Session> session) {
-
-	const auto request = session->get_request();
-	{{#hasBodyParam}}
-	// Body params are present, therefore we have to fetch them
-	int content_length = request->get_header("Content-Length", 0);
-	session->fetch(content_length,
-		[ this ]( const std::shared_ptr<restbed::Session> session, const restbed::Bytes & body )
-		{
-
-			const auto request = session->get_request();
-			std::string file = restbed::String::format("%.*s\n", ( int ) body.size( ), body.data( ));
-			/**
-			 * Get body params or form params here from the file string
-			 */
-	{{/hasBodyParam}}
-
-			{{#hasPathParams}}
-			// Getting the path params
-			{{#pathParams}}
-			{{#isPrimitiveType}}
-			const {{{dataType}}} {{{paramName}}} = request->get_path_parameter("{{paramName}}", {{{defaultValue}}});
-			{{/isPrimitiveType}}
-			{{/pathParams}}
-			{{/hasPathParams}}
-
-			{{#hasQueryParams}}
-			// Getting the query params
-			{{#queryParams}}
-			{{#isPrimitiveType}}
-			const {{{dataType}}} {{{paramName}}} = request->get_query_parameter("{{paramName}}", {{{defaultValue}}});
-			{{/isPrimitiveType}}
-			{{/queryParams}}
-			{{/hasQueryParams}}
-
-			{{#hasHeaderParams}}
-			// Getting the headers
-			{{#headerParams}}
-			{{#isPrimitiveType}}
-			const {{{dataType}}} {{{paramName}}} = request->get_header("{{paramName}}", {{{defaultValue}}});
-			{{/isPrimitiveType}}
-			{{/headerParams}}
-			{{/hasHeaderParams}}
-
-			// Change the value of this variable to the appropriate response before sending the response
-			int status_code = 200;
-			std::string result = "successful operation";
-
-			if (handler_{{httpMethod}}_)
-			{
-				std::tie(status_code, result) = handler_{{httpMethod}}_(
-					{{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}
-				);
-			}
-
-			{{#responses}}
-			if (status_code == {{code}}) {
-				{{#headers}}
-				// Description: {{description}}
-				session->set_header("{{baseName}}", ""); // Change second param to your header value
-				{{/headers}}
-				session->close({{code}}, result.empty() ? "{{message}}" : std::move(result), { {"Connection", "close"} });
-				return;
-			}
-			{{/responses}}
-
-	{{#hasBodyParam}}
-		});
-	{{/hasBodyParam}}
+{{#returnType}}std::pair<int, {{{.}}}>{{/returnType}}{{^returnType}}int{{/returnType}} {{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}(
+        {{#allParams}}{{{dataType}}} & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+{
+    return handler_{{httpMethod}}_func({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
 }
 
 {{#vendorExtensions.x-codegen-other-methods}}
-void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::{{httpMethod}}_method_handler(const std::shared_ptr<restbed::Session> session) {
-
-	const auto request = session->get_request();
-	{{#hasBodyParam}}
-	// Body params are present, therefore we have to fetch them
-	int content_length = request->get_header("Content-Length", 0);
-	session->fetch(content_length,
-		[ this ]( const std::shared_ptr<restbed::Session> session, const restbed::Bytes & body )
-		{
-
-			const auto request = session->get_request();
-			std::string file = restbed::String::format("%.*s\n", ( int ) body.size( ), body.data( ));
-	{{/hasBodyParam}}
-
-			{{#hasPathParams}}
-			// Getting the path params
-			{{#pathParams}}
-			{{#isPrimitiveType}}
-			const {{{dataType}}} {{{paramName}}} = request->get_path_parameter("{{paramName}}", {{{defaultValue}}});
-			{{/isPrimitiveType}}
-			{{/pathParams}}
-			{{/hasPathParams}}
-
-			{{#hasQueryParams}}
-			// Getting the query params
-			{{#queryParams}}
-			{{#isPrimitiveType}}
-			const {{{dataType}}} {{{paramName}}} = request->get_query_parameter("{{paramName}}", {{{defaultValue}}});
-			{{/isPrimitiveType}}
-			{{/queryParams}}
-			{{/hasQueryParams}}
-
-			{{#hasHeaderParams}}
-			// Getting the headers
-			{{#headerParams}}
-			{{#isPrimitiveType}}
-			const {{{dataType}}} {{{paramName}}} = request->get_header("{{paramName}}", {{{defaultValue}}});
-			{{/isPrimitiveType}}
-			{{/headerParams}}
-			{{/hasHeaderParams}}
-
-			// Change the value of this variable to the appropriate response before sending the response
-			int status_code = 200;
-			std::string result = "successful operation";
-
-			if (handler_{{httpMethod}}_)
-			{
-				std::tie(status_code, result) = handler_{{httpMethod}}_(
-					{{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}
-				);
-			}
-
-			{{#responses}}
-			if (status_code == {{code}}) {
-				{{#baseType}}
-				std::shared_ptr<{{.}}> response = NULL;
-				{{/baseType}}
-				{{#headers}}
-				// Description: {{description}}
-				session->set_header("{{baseName}}", ""); // Change second param to your header value
-				{{/headers}}
-				session->close({{code}}, result.empty() ? "{{message}}" : std::move(result), { {"Connection", "close"} });
-				return;
-			}
-			{{/responses}}
-
-	{{#hasBodyParam}}
-		});
-	{{/hasBodyParam}}
+{{#returnType}}std::pair<int, {{{.}}}>{{/returnType}}{{^returnType}}int{{/returnType}} {{vendorExtensions.x-codegen-resource-name}}Resource::handler_{{httpMethod}}(
+    {{#allParams}}{{{dataType}}} & {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+{
+    return handler_{{httpMethod}}_func({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
 }
-{{/vendorExtensions.x-codegen-other-methods}}  
+{{/vendorExtensions.x-codegen-other-methods}}
 
+std::string {{vendorExtensions.x-codegen-resource-name}}Resource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
+  const auto request = session->get_request();
+  int content_length = request->get_header("Content-Length", 0);
+  std::string bodyContent;
+  session->fetch(content_length,
+                 [&bodyContent](const std::shared_ptr<restbed::Session> session,
+                                const restbed::Bytes &body) {
+                   bodyContent = restbed::String::format(
+                       "%.*s\n", (int)body.size(), body.data());
+                 });
+  return bodyContent;
+}
 
+std::string {{vendorExtensions.x-codegen-resource-name}}Resource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
+    const auto uri = restbed::Uri("urlencoded?" + body, true);
+    const auto params = uri.get_query_parameters();
+    const auto result = params.find(paramName);
+    if (result != params.cend()) {
+        return result->second;
+    }
+    return "";
+}
 {{/operation}}
+
+} /* namespace {{classname}}Resources */
+
+{{classname}}::{{classname}}(std::shared_ptr<restbed::Service> const& restbedService)
+: m_service(restbedService)
+{
+}
+
+{{classname}}::~{{classname}}() {}
+
+{{#operation}}
+std::shared_ptr<{{classname}}Resources::{{vendorExtensions.x-codegen-resource-name}}Resource> {{classname}}::get{{vendorExtensions.x-codegen-resource-name}}Resource() {
+    if (!m_sp{{vendorExtensions.x-codegen-resource-name}}Resource) {
+        setResource(std::make_shared<{{classname}}Resources::{{vendorExtensions.x-codegen-resource-name}}Resource>());
+    }
+    return m_sp{{vendorExtensions.x-codegen-resource-name}}Resource;
+}
+{{/operation}}
+{{#operation}}
+void {{classname}}::setResource(std::shared_ptr<{{classname}}Resources::{{vendorExtensions.x-codegen-resource-name}}Resource> resource) {
+    m_sp{{vendorExtensions.x-codegen-resource-name}}Resource = resource;
+    m_service->publish(m_sp{{vendorExtensions.x-codegen-resource-name}}Resource);
+}
+{{/operation}}
+{{#operation}}
+void {{classname}}::set{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource(std::shared_ptr<{{classname}}Resources::{{vendorExtensions.x-codegen-resource-name}}Resource> sp{{vendorExtensions.x-codegen-resource-name}}Resource) {
+    m_sp{{vendorExtensions.x-codegen-resource-name}}Resource = sp{{vendorExtensions.x-codegen-resource-name}}Resource;
+    m_service->publish(m_sp{{vendorExtensions.x-codegen-resource-name}}Resource);
+}
+{{/operation}}
+
+
+void {{classname}}::publishDefaultResources() {
+    {{#operation}}
+    if (!m_sp{{vendorExtensions.x-codegen-resource-name}}Resource) {
+        setResource(std::make_shared<{{classname}}Resources::{{vendorExtensions.x-codegen-resource-name}}Resource>());
+    }
+    {{/operation}}
+}
+
+std::shared_ptr<restbed::Service> {{classname}}::service() {
+    return m_service;
+}
+
 
 {{#apiNamespaceDeclarations}}
 }

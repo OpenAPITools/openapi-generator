@@ -4,13 +4,6 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -55,7 +48,7 @@ public class User  {
   /**
    * Sets the <code>id</code> property.
    */
-  public void setId(Long id) {
+ public void setId(Long id) {
     this.id = id;
   }
 
@@ -79,7 +72,7 @@ public class User  {
   /**
    * Sets the <code>username</code> property.
    */
-  public void setUsername(String username) {
+ public void setUsername(String username) {
     this.username = username;
   }
 
@@ -103,7 +96,7 @@ public class User  {
   /**
    * Sets the <code>firstName</code> property.
    */
-  public void setFirstName(String firstName) {
+ public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
 
@@ -127,7 +120,7 @@ public class User  {
   /**
    * Sets the <code>lastName</code> property.
    */
-  public void setLastName(String lastName) {
+ public void setLastName(String lastName) {
     this.lastName = lastName;
   }
 
@@ -151,7 +144,7 @@ public class User  {
   /**
    * Sets the <code>email</code> property.
    */
-  public void setEmail(String email) {
+ public void setEmail(String email) {
     this.email = email;
   }
 
@@ -175,7 +168,7 @@ public class User  {
   /**
    * Sets the <code>password</code> property.
    */
-  public void setPassword(String password) {
+ public void setPassword(String password) {
     this.password = password;
   }
 
@@ -199,7 +192,7 @@ public class User  {
   /**
    * Sets the <code>phone</code> property.
    */
-  public void setPhone(String phone) {
+ public void setPhone(String phone) {
     this.phone = phone;
   }
 
@@ -223,7 +216,7 @@ public class User  {
   /**
    * Sets the <code>userStatus</code> property.
    */
-  public void setUserStatus(Integer userStatus) {
+ public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
   }
 
@@ -235,6 +228,30 @@ public class User  {
     return this;
   }
 
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    User user = (User) o;
+    return Objects.equals(id, user.id) &&
+        Objects.equals(username, user.username) &&
+        Objects.equals(firstName, user.firstName) &&
+        Objects.equals(lastName, user.lastName) &&
+        Objects.equals(email, user.email) &&
+        Objects.equals(password, user.password) &&
+        Objects.equals(phone, user.phone) &&
+        Objects.equals(userStatus, user.userStatus);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus);
+  }
 
   @Override
   public String toString() {

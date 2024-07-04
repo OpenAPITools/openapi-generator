@@ -26,7 +26,6 @@ create_user(PetstoreUser) ->
   petstore_utils:request(Method, [Host, ?BASE_URL, Path], jsx:encode(Body), ContentType).
 
 %% @doc Creates list of users with given input array
-%% 
 -spec create_users_with_array_input(list(petstore_user:petstore_user())) ->
   petstore_utils:response().
 create_users_with_array_input(PetstoreUserArray) ->
@@ -39,7 +38,6 @@ create_users_with_array_input(PetstoreUserArray) ->
   petstore_utils:request(Method, [Host, ?BASE_URL, Path], jsx:encode(Body), ContentType).
 
 %% @doc Creates list of users with given input array
-%% 
 -spec create_users_with_list_input(list(petstore_user:petstore_user())) ->
   petstore_utils:response().
 create_users_with_list_input(PetstoreUserArray) ->
@@ -63,7 +61,6 @@ delete_user(Username) ->
   petstore_utils:request(Method, [Host, ?BASE_URL, Path]).
 
 %% @doc Get user by user name
-%% 
 -spec get_user_by_name(binary()) ->
   petstore_utils:response().
 get_user_by_name(Username) ->
@@ -74,7 +71,6 @@ get_user_by_name(Username) ->
   petstore_utils:request(Method, [Host, ?BASE_URL, Path]).
 
 %% @doc Logs user into the system
-%% 
 -spec login_user(binary(), binary()) ->
   petstore_utils:response().
 login_user(Username, Password) ->
@@ -86,7 +82,6 @@ login_user(Username, Password) ->
   petstore_utils:request(Method, [Host, ?BASE_URL, Path, <<"?">>, QueryString]).
 
 %% @doc Logs out current logged in user session
-%% 
 -spec logout_user() ->
   petstore_utils:response().
 logout_user() ->

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * An order for a pets from the pet store
@@ -13,7 +14,6 @@ import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 import java.util.Objects;
 
-import javax.xml.bind.annotation.*;
 
 @ApiModel(description = "An order for a pets from the pet store")
 public class Order   {
@@ -27,11 +27,9 @@ public class Order   {
   private java.util.Date shipDate;
 
 
-@XmlType(name="StatusEnum")
-@XmlEnum(String.class)
 public enum StatusEnum {
 
-    @XmlEnumValue("placed") PLACED(String.valueOf("placed")), @XmlEnumValue("approved") APPROVED(String.valueOf("approved")), @XmlEnumValue("delivered") DELIVERED(String.valueOf("delivered"));
+    @JsonProperty("placed") PLACED(String.valueOf("placed")), @JsonProperty("approved") APPROVED(String.valueOf("approved")), @JsonProperty("delivered") DELIVERED(String.valueOf("delivered"));
 
 
     private String value;
@@ -62,7 +60,6 @@ public enum StatusEnum {
   private StatusEnum status;
 
   private Boolean complete = false;
-
 
   /**
    **/
@@ -183,12 +180,12 @@ public enum StatusEnum {
       return false;
     }
     Order order = (Order) o;
-    return Objects.equals(id, order.id) &&
-        Objects.equals(petId, order.petId) &&
-        Objects.equals(quantity, order.quantity) &&
-        Objects.equals(shipDate, order.shipDate) &&
-        Objects.equals(status, order.status) &&
-        Objects.equals(complete, order.complete);
+    return Objects.equals(this.id, order.id) &&
+        Objects.equals(this.petId, order.petId) &&
+        Objects.equals(this.quantity, order.quantity) &&
+        Objects.equals(this.shipDate, order.shipDate) &&
+        Objects.equals(this.status, order.status) &&
+        Objects.equals(this.complete, order.complete);
   }
 
   @Override

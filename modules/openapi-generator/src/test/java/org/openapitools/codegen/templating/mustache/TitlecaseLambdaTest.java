@@ -16,6 +16,24 @@ public class TitlecaseLambdaTest extends LambdaTest {
     }
 
     @Test
+    public void titlecaseSingleLetterTest() {
+        // Given
+        Map<String, Object> ctx = context("titlecase", new TitlecaseLambda());
+
+        // When & Then
+        test("O", "{{#titlecase}}o{{/titlecase}}", ctx);
+    }
+
+    @Test
+    public void titlecaseEmptyStringTest() {
+        // Given
+        Map<String, Object> ctx = context("titlecase", new TitlecaseLambda());
+
+        // When & Then
+        test("", "{{#titlecase}}{{/titlecase}}", ctx);
+    }
+
+    @Test
     public void titlecaseWithDelimiterTest() {
         // Given
         Map<String, Object> ctx = context("titlecase", new TitlecaseLambda("-"));

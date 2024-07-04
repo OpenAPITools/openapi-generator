@@ -10,7 +10,7 @@ The goal of OpenAPI is to define a standard, language-agnostic interface to REST
 When properly described with OpenAPI, a consumer can understand and interact with the remote service with a minimal amount of implementation logic.
 Similar to what interfaces have done for lower-level programming, OpenAPI removes the guesswork in calling the service.
 
-Check out [OpenAPI-Spec](https://github.com/OAI/OpenAPI-Specification) for additional information about the OpenAPI project, including additional libraries with support for other languages and more. 
+Check out [OpenAPI-Spec](https://github.com/OAI/OpenAPI-Specification) for additional information about the OpenAPI project, including additional libraries with support for other languages and more.
 
 ## How do I use this?
 At this point, you've likely generated a client setup.  It will include something along these lines:
@@ -65,7 +65,7 @@ for reading the code more, though.  See how the `MyclientcodegenGenerator` imple
 That class has the signature of all values that can be overridden.
 
 You can also step through MyclientcodegenGenerator.java in a debugger.  Just debug the JUnit
-test in DebugCodegenLauncher.  That runs the command line tool and lets you inspect what the code is doing.  
+test in DebugCodegenLauncher.  That runs the command line tool and lets you inspect what the code is doing.
 
 For the templates themselves, you have a number of values available to you for generation.
 You can execute the `java` command from above while passing different debug flags to show

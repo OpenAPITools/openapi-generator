@@ -1,16 +1,16 @@
 package apimodels;
 
-import apimodels.BigCatAllOf;
 import apimodels.Cat;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
 import java.util.Objects;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 /**
  * BigCat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class BigCat extends Cat  {
   /**

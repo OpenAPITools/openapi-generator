@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -20,26 +20,7 @@ import ApiClient from '../ApiClient';
  */
 class ApiResponse {
     /**
-     * @member {Number} code
-     * @type {Number}
-     */
-    code;
-    /**
-     * @member {String} type
-     * @type {String}
-     */
-    type;
-    /**
-     * @member {String} message
-     * @type {String}
-     */
-    message;
-
-    
-
-    /**
      * Constructs a new <code>ApiResponse</code>.
-     * Describes the result of uploading an image resource
      * @alias module:model/ApiResponse
      */
     constructor() { 
@@ -78,7 +59,47 @@ class ApiResponse {
         }
         return obj;
     }
+
+    /**
+     * Validates the JSON data with respect to <code>ApiResponse</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>ApiResponse</code>.
+     */
+    static validateJSON(data) {
+        // ensure the json data is a string
+        if (data['type'] && !(typeof data['type'] === 'string' || data['type'] instanceof String)) {
+            throw new Error("Expected the field `type` to be a primitive type in the JSON string but got " + data['type']);
+        }
+        // ensure the json data is a string
+        if (data['message'] && !(typeof data['message'] === 'string' || data['message'] instanceof String)) {
+            throw new Error("Expected the field `message` to be a primitive type in the JSON string but got " + data['message']);
+        }
+
+        return true;
+    }
+
+
 }
+
+
+
+/**
+ * @member {Number} code
+ */
+ApiResponse.prototype['code'] = undefined;
+
+/**
+ * @member {String} type
+ */
+ApiResponse.prototype['type'] = undefined;
+
+/**
+ * @member {String} message
+ */
+ApiResponse.prototype['message'] = undefined;
+
+
+
 
 
 

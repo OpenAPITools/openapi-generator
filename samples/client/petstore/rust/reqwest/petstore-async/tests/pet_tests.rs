@@ -3,7 +3,7 @@ extern crate petstore_reqwest_async;
 //use petstore_reqwest_async::apis::PetApiClient;
 use petstore_reqwest_async::apis::configuration;
 //use petstore_reqwest::apis::PetApiUpdatePetWithFormParams;
-use petstore_reqwest_async::models::{Pet};
+use petstore_reqwest_async::models::Pet;
 use std::option::Option;
 
 #[test]
@@ -16,19 +16,15 @@ fn test_pet() {
     let mut new_pet = Pet::new("Rust Pet".to_string(), photo_urls);
     new_pet.id = Option::Some(8787);
 
-    let new_pet_params = petstore_reqwest_async::apis::pet_api::AddPetParams {
-        body: new_pet,
-    };
+    let new_pet_params = petstore_reqwest_async::apis::pet_api::AddPetParams { pet: new_pet };
 
     // add pet
     let _add_result = petstore_reqwest_async::apis::pet_api::add_pet(&config, new_pet_params);
 
-    let get_pet_params = petstore_reqwest_async::apis::pet_api::GetPetByIdParams {
-        pet_id: 8787,
-    };
+    let get_pet_params = petstore_reqwest_async::apis::pet_api::GetPetByIdParams { pet_id: 8787 };
 
     // get pet
-    let pet_result = petstore_reqwest_async::apis::pet_api::get_pet_by_id(&config, get_pet_params);
+    let _pet_result = petstore_reqwest_async::apis::pet_api::get_pet_by_id(&config, get_pet_params);
 
-    // TODO Testing async functions requires some additionnal testing crates.
+    // TODO Testing async functions requires some additional testing crates.
 }

@@ -36,7 +36,7 @@ import javax.validation.Valid;
   User.JSON_PROPERTY_PHONE,
   User.JSON_PROPERTY_USER_STATUS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class User  implements Serializable {
   public static final String JSON_PROPERTY_ID = "id";
   @JsonProperty(JSON_PROPERTY_ID)
@@ -79,7 +79,7 @@ public class User  implements Serializable {
    * Get id
    * @return id
    **/
-  @JsonProperty("id")
+  @JsonProperty(value = "id")
   @ApiModelProperty(value = "")
   
   public Long getId() {
@@ -99,7 +99,7 @@ public class User  implements Serializable {
    * Get username
    * @return username
    **/
-  @JsonProperty("username")
+  @JsonProperty(value = "username")
   @ApiModelProperty(value = "")
   
   public String getUsername() {
@@ -119,7 +119,7 @@ public class User  implements Serializable {
    * Get firstName
    * @return firstName
    **/
-  @JsonProperty("firstName")
+  @JsonProperty(value = "firstName")
   @ApiModelProperty(value = "")
   
   public String getFirstName() {
@@ -139,7 +139,7 @@ public class User  implements Serializable {
    * Get lastName
    * @return lastName
    **/
-  @JsonProperty("lastName")
+  @JsonProperty(value = "lastName")
   @ApiModelProperty(value = "")
   
   public String getLastName() {
@@ -159,7 +159,7 @@ public class User  implements Serializable {
    * Get email
    * @return email
    **/
-  @JsonProperty("email")
+  @JsonProperty(value = "email")
   @ApiModelProperty(value = "")
   
   public String getEmail() {
@@ -179,7 +179,7 @@ public class User  implements Serializable {
    * Get password
    * @return password
    **/
-  @JsonProperty("password")
+  @JsonProperty(value = "password")
   @ApiModelProperty(value = "")
   
   public String getPassword() {
@@ -199,7 +199,7 @@ public class User  implements Serializable {
    * Get phone
    * @return phone
    **/
-  @JsonProperty("phone")
+  @JsonProperty(value = "phone")
   @ApiModelProperty(value = "")
   
   public String getPhone() {
@@ -219,7 +219,7 @@ public class User  implements Serializable {
    * User Status
    * @return userStatus
    **/
-  @JsonProperty("userStatus")
+  @JsonProperty(value = "userStatus")
   @ApiModelProperty(value = "User Status")
   
   public Integer getUserStatus() {
@@ -254,7 +254,6 @@ public class User  implements Serializable {
   public int hashCode() {
     return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus);
   }
-
 
   @Override
   public String toString() {

@@ -11,15 +11,15 @@ import org.springframework.context.annotation.ImportResource;
 @EnableAutoConfiguration
 @SpringBootConfiguration
 public class SpringBootApplication extends SpringBootServletInitializer {
-    
+
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(SpringBootApplication.class);
     }
-    
+
     public static void main(String[] args) {
         SpringApplication.run(SpringBootApplication.class, args);
     }
-    
-    
+
+
 }

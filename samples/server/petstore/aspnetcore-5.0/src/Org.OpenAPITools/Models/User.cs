@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Models
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name="id", EmitDefaultValue=false)]
+        [DataMember(Name="id", EmitDefaultValue=true)]
         public long Id { get; set; }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Org.OpenAPITools.Models
         /// User Status
         /// </summary>
         /// <value>User Status</value>
-        [DataMember(Name="userStatus", EmitDefaultValue=false)]
+        [DataMember(Name="userStatus", EmitDefaultValue=true)]
         public int UserStatus { get; set; }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Org.OpenAPITools.Models
         /// <returns>JSON string presentation of the object</returns>
         public string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>

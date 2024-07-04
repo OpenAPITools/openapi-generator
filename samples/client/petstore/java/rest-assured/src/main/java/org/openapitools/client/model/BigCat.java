@@ -20,10 +20,7 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import org.openapitools.client.model.BigCatAllOf;
 import org.openapitools.client.model.Cat;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -32,7 +29,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * BigCat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class BigCat extends Cat {
   /**
    * Gets or Sets kind
@@ -90,7 +87,7 @@ public class BigCat extends Cat {
   private KindEnum kind;
 
   public BigCat() {
-    this.className = this.getClass().getSimpleName();
+
   }
 
   public BigCat kind(KindEnum kind) {
@@ -99,12 +96,12 @@ public class BigCat extends Cat {
     return this;
   }
 
-   /**
+  /**
    * Get kind
    * @return kind
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public KindEnum getKind() {
     return kind;
@@ -115,6 +112,17 @@ public class BigCat extends Cat {
     this.kind = kind;
   }
 
+  @Override
+  public BigCat className(String className) {
+    this.setClassName(className);
+    return this;
+  }
+
+  @Override
+  public BigCat color(String color) {
+    this.setColor(color);
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {

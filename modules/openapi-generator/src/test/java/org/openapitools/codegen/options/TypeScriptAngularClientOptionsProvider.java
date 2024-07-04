@@ -34,11 +34,12 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     public static final String ENUM_PROPERTY_NAMING_VALUE = "PascalCase";
     public static final String MODEL_PROPERTY_NAMING_VALUE = "camelCase";
+    public static final String PARAM_NAMING_VALUE = "camelCase";
     private static final String NPM_NAME = "npmName";
     private static final String NPM_VERSION = "1.1.2";
     private static final String NPM_REPOSITORY = "https://registry.npmjs.org";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
-    public static final String NG_VERSION = "2";
+    public static final String NG_VERSION = "12";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
     public static final String FILE_NAMING_VALUE = "camelCase";
     public static final String API_MODULE_PREFIX = "";
@@ -49,6 +50,8 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
     public static String SERVICE_FILE_SUFFIX = ".service";
     public static String MODEL_SUFFIX = "";
     public static String MODEL_FILE_SUFFIX = "";
+    public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
+    public static final String ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR_VALUE = "false";
 
     @Override
     public String getLanguage() {
@@ -63,8 +66,10 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.ENUM_PROPERTY_NAMING, ENUM_PROPERTY_NAMING_VALUE)
                 .put(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING_VALUE)
+                .put(CodegenConstants.PARAM_NAMING, PARAM_NAMING_VALUE)
                 .put(CodegenConstants.SUPPORTS_ES6, SUPPORTS_ES6_VALUE)
                 .put(AbstractTypeScriptClientCodegen.NULL_SAFE_ADDITIONAL_PROPS, NULL_SAFE_ADDITIONAL_PROPS_VALUE)
+                .put(AbstractTypeScriptClientCodegen.ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR, ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR_VALUE)
                 .put(CodegenConstants.ENUM_NAME_SUFFIX, ENUM_NAME_SUFFIX)
                 .put(TypeScriptAngularClientCodegen.STRING_ENUMS, STRING_ENUMS_VALUE)
                 .put(TypeScriptAngularClientCodegen.NPM_NAME, NPM_NAME)
@@ -72,7 +77,6 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
                 .put(TypeScriptAngularClientCodegen.SNAPSHOT, Boolean.FALSE.toString())
                 .put(TypeScriptAngularClientCodegen.WITH_INTERFACES, Boolean.FALSE.toString())
                 .put(TypeScriptAngularClientCodegen.USE_SINGLE_REQUEST_PARAMETER, Boolean.FALSE.toString())
-                .put(TypeScriptAngularClientCodegen.PROVIDED_IN_ROOT, Boolean.FALSE.toString())
                 .put(TypeScriptAngularClientCodegen.PROVIDED_IN, PROVIDED_IN_LEVEL)
                 .put(TypeScriptAngularClientCodegen.TAGGED_UNIONS, Boolean.FALSE.toString())
                 .put(TypeScriptAngularClientCodegen.NPM_REPOSITORY, NPM_REPOSITORY)
@@ -89,6 +93,8 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
                 .put(TypeScriptAngularClientCodegen.QUERY_PARAM_OBJECT_FORMAT, QUERY_PARAM_OBJECT_FORMAT_VALUE)
+                .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
+                .put(TypeScriptAngularClientCodegen.USE_SQUARE_BRACKETS_IN_ARRAY_NAMES, Boolean.FALSE.toString())
                 .build();
     }
 

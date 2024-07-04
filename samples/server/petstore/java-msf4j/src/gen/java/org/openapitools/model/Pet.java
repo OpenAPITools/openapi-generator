@@ -4,9 +4,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +18,7 @@ import org.openapitools.model.Tag;
 /**
  * Pet
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Pet   {
   @JsonProperty("id")
   private Long id;
@@ -28,10 +30,10 @@ public class Pet   {
   private String name;
 
   @JsonProperty("photoUrls")
-  private Set<String> photoUrls = new LinkedHashSet<String>();
+  private Set<String> photoUrls = new LinkedHashSet<>();
 
   @JsonProperty("tags")
-  private List<Tag> tags = null;
+  private List<@Valid Tag> tags = null;
 
   /**
    * pet status in the store
@@ -142,18 +144,19 @@ public class Pet   {
     return photoUrls;
   }
 
+  @JsonDeserialize(as = LinkedHashSet.class)
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
-  public Pet tags(List<Tag> tags) {
+  public Pet tags(List<@Valid Tag> tags) {
     this.tags = tags;
     return this;
   }
 
   public Pet addTagsItem(Tag tagsItem) {
     if (this.tags == null) {
-      this.tags = new ArrayList<Tag>();
+      this.tags = new ArrayList<>();
     }
     this.tags.add(tagsItem);
     return this;
@@ -164,11 +167,11 @@ public class Pet   {
    * @return tags
   **/
   @ApiModelProperty(value = "")
-  public List<Tag> getTags() {
+  public List<@Valid Tag> getTags() {
     return tags;
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
 

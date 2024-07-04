@@ -1,0 +1,108 @@
+
+
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Schemas with different types of composition for testing models generation
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /pet/mapped:
+    get:
+      tags:
+        - pet
+      operationId: getPets
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PetWithMappedDiscriminator'
+
+components:
+  schemas:
+    DogBreed:
+      type: string
+      enum: [Dingo, Husky]
+
+    PetWithSimpleDiscriminator:
+      type: object
+      required:
+        - petType
+      discriminator:
+        propertyName: petType
+      properties:
+        petType:
+          type: string
+
+    DogInherited:
+      allOf:
+        - $ref: '#/components/schemas/PetWithSimpleDiscriminator'
+        - type: object
+          properties:
+            breed:
+              $ref: '#/components/schemas/DogBreed'
+    CatInherited:
+      allOf:
+        - $ref: '#/components/schemas/PetWithSimpleDiscriminator'
+        - type: object
+          properties:
+            hunts:
+              type: boolean
+
+    PetWithMappedDiscriminator:
+      type: object
+      required:
+        - petType
+      discriminator:
+        propertyName: petType
+        mapping:
+          cat: '#/components/schemas/CatMapped'
+          dog: '#/components/schemas/DogMapped'
+      properties:
+        petType:
+          type: string
+
+    DogMapped:
+      allOf:
+        - $ref: '#/components/schemas/PetWithMappedDiscriminator'
+        - type: object
+          properties:
+            breed:
+              $ref: '#/components/schemas/DogBreed'
+    CatMapped:
+      allOf:
+        - $ref: '#/components/schemas/PetWithMappedDiscriminator'
+        - type: object
+          properties:
+            hunts:
+              type: boolean
+
+    PetWithoutDiscriminator:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+
+    DogComposed:
+      allOf:
+        - $ref: '#/components/schemas/PetWithoutDiscriminator'
+        - type: object
+          properties:
+            inlineBreed:
+              type: string
+              enum: [ Dingo, Husky ]
+    CatComposed:
+      allOf:
+        - $ref: '#/components/schemas/PetWithoutDiscriminator'
+        - type: object
+          properties:
+            hunts:
+              type: boolean

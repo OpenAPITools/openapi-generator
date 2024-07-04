@@ -1,0 +1,23 @@
+# coding: utf-8
+
+{{>partial_header}}
+
+from fastapi import FastAPI
+
+{{#apiInfo}}
+{{#apis}}
+from {{apiPackage}}.{{classFilename}} import router as {{classname}}Router
+{{/apis}}
+{{/apiInfo}}
+
+app = FastAPI(
+    title="{{appName}}",
+    description="{{appDescription}}",
+    version="{{appVersion}}",
+)
+
+{{#apiInfo}}
+{{#apis}}
+app.include_router({{classname}}Router)
+{{/apis}}
+{{/apiInfo}}

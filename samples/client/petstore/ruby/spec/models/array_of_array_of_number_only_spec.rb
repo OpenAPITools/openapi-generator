@@ -34,7 +34,7 @@ describe 'ArrayOfArrayOfNumberOnly' do
   end
   describe 'test attribute "array_array_number"' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 

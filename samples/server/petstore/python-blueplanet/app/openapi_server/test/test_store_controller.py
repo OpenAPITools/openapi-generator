@@ -3,7 +3,7 @@
 from __future__ import absolute_import
 
 from flask import json
-from six import BytesIO
+from io import BytesIO
 
 from app.openapi_server.models.order import Order  # noqa: E501
 from openapi_server.test import BaseTestCase
@@ -40,7 +40,7 @@ class TestStoreController(BaseTestCase):
         Find purchase order by ID
         """
         response = self.client.open(
-            '/v2/store/order/{order_id}'.format(order_id=5),
+            '/v2/store/order/{order_id}'.format(order_id=1),
             method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -50,7 +50,7 @@ class TestStoreController(BaseTestCase):
 
         Place an order for a pet
         """
-        body = {}
+        body = openapi_server.Order()
         response = self.client.open(
             '/v2/store/order',
             method='POST',

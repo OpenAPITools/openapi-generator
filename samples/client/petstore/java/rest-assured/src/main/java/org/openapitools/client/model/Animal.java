@@ -20,12 +20,7 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import org.openapitools.client.model.BigCat;
-import org.openapitools.client.model.Cat;
-import org.openapitools.client.model.Dog;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import org.hibernate.validator.constraints.*;
@@ -33,7 +28,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * Animal
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Animal {
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
@@ -41,10 +36,9 @@ public class Animal {
 
   public static final String SERIALIZED_NAME_COLOR = "color";
   @SerializedName(SERIALIZED_NAME_COLOR)
-  private String color = "red";
+  protected String color = "red";
 
   public Animal() {
-    this.className = this.getClass().getSimpleName();
   }
 
   public Animal className(String className) {
@@ -53,12 +47,13 @@ public class Animal {
     return this;
   }
 
-   /**
+  /**
    * Get className
    * @return className
-  **/
+   */
+  @javax.annotation.Nonnull
   @NotNull
-  @ApiModelProperty(required = true, value = "")
+
 
   public String getClassName() {
     return className;
@@ -69,19 +64,18 @@ public class Animal {
     this.className = className;
   }
 
-
   public Animal color(String color) {
     
     this.color = color;
     return this;
   }
 
-   /**
+  /**
    * Get color
    * @return color
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public String getColor() {
     return color;
@@ -91,7 +85,6 @@ public class Animal {
   public void setColor(String color) {
     this.color = color;
   }
-
 
   @Override
   public boolean equals(Object o) {

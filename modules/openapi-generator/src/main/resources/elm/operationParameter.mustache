@@ -1,0 +1,1 @@
+{{^required}}Maybe {{/required}}{{#isArray}}{{^required}}({{/required}}List {{/isArray}}{{#isModel}}Api.Data.{{/isModel}}{{#items.isModel}}Api.Data.{{/items.isModel}}{{#isAnyType}}Api.Data.{{/isAnyType}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{dataType}}{{/datatypeWithEnum}}{{#isArray}}{{^required}}){{/required}}{{/isArray}}

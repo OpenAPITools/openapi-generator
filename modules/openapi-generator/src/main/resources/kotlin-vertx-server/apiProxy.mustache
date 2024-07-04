@@ -20,7 +20,7 @@ import com.google.gson.Gson
 {{/imports}}
 
 class {{classname}}VertxProxyHandler(private val vertx: Vertx, private val service: {{classname}}, topLevel: Boolean, private val timeoutSeconds: Long) : ProxyHandler() {
-    private val timerID: Long
+    private lateinit var timerID: Long
     private var lastAccessed: Long = 0
     init {
         try {
@@ -79,7 +79,7 @@ class {{classname}}VertxProxyHandler(private val vertx: Vertx, private val servi
                             , object : TypeToken<kotlin.collections.List<{{{baseType}}}>>(){}.type)
                         {{/required}}
                         {{^required}}
-                    val {{paramName}}:{{{dataType}}}? = if({{paramName}}Param == null) {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}
+                    val {{paramName}}:{{{dataType}}}? = if({{paramName}}Param == null) {{defaultValue}}{{^defaultValue}}null{{/defaultValue}}
                             else Gson().fromJson({{paramName}}Param.encode(),
                             , object : TypeToken<kotlin.collections.List<{{{baseType}}}>>(){}.type)
                         {{/required}}

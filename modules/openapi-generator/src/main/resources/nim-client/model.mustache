@@ -9,7 +9,7 @@ type {{{enumName}}}* {.pure.} = enum{{#allowableValues}}{{#enumVars}}
 {{/isEnum}}{{/vars}}
 type {{{classname}}}* = object
   ## {{{description}}}{{#vars}}
-  {{{name}}}*: {{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#description}} ## {{{description}}}{{/description}}{{/vars}}
+  {{{name}}}*: {{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#description}} ## {{{.}}}{{/description}}{{/vars}}
 {{#vars}}{{#isEnum}}
 func `%`*(v: {{{enumName}}}): JsonNode =
   let str = case v:{{#allowableValues}}{{#enumVars}}

@@ -1,5 +1,5 @@
 {application, {{packageName}}, [
-    {description, {{#appDescription}}"{{appDescription}}"{{/appDescription}}{{^appDescription}}"OpenAPI rest server library"{{/appDescription}}},
+    {description, {{#appDescription}}"{{.}}"{{/appDescription}}{{^appDescription}}"OpenAPI rest server library"{{/appDescription}}},
     {vsn, "{{apiVersion}}"},
     {registered, []},
     {applications, [
@@ -14,6 +14,6 @@
     {env, [
     ]},
     {modules, []},
-    {licenses, [{{#licenseInfo}}"{{licenseInfo}}"{{/licenseInfo}}]},
-    {links, [{{#infoUrl}}"{{infoUrl}}"{{/infoUrl}}]}
+    {licenses, [{{#licenseInfo}}"{{.}}"{{/licenseInfo}}]},
+    {links, [{{#infoUrl}}"{{.}}"{{/infoUrl}}]}
 ]}.

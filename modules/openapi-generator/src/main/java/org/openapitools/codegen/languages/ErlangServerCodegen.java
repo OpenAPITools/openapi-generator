@@ -17,8 +17,12 @@
 
 package org.openapitools.codegen.languages;
 
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,8 +41,8 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
 
     protected String apiVersion = "1.0.0";
     protected String apiPath = "src";
-    protected String packageName = "openapi";
-    protected String openApiSpecName = "openapi";
+    @Setter protected String packageName = "openapi";
+    @Setter protected String openApiSpecName = "openapi";
 
     public ErlangServerCodegen() {
         super();
@@ -256,7 +260,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
@@ -269,9 +273,9 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             if (op.path != null) {
                 op.path = op.path.replaceAll("\\{(.*?)\\}", ":$1");
@@ -284,14 +288,6 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateJSONSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setOpenApiSpecName(String openApiSpecName) {
-        this.openApiSpecName = openApiSpecName;
     }
 
     protected String toHandlerName(String name) {
@@ -326,4 +322,11 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
         return input.replace("-ifdef", "- if def").replace("-endif", "- end if");
     }
 
+    @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        return pattern;
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ERLANG; }
 }

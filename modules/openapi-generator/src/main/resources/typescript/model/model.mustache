@@ -2,24 +2,24 @@
 {{#models}}
 {{#model}}
 {{#tsImports}}
-import { {{classname}} } from './{{filename}}{{extensionForDeno}}';
+import { {{classname}} } from '{{filename}}{{importFileExtension}}';
 {{/tsImports}}
-import { HttpFile } from '../http/http{{extensionForDeno}}';
+import { HttpFile } from '../http/http{{importFileExtension}}';
 
 {{#description}}
 /**
-* {{{description}}}
+* {{{.}}}
 */
 {{/description}}
 {{^isEnum}}
-export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
+export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#vars}}
 {{#description}}
     /**
-    * {{{description}}}
+    * {{{.}}}
     */
 {{/description}}
-    '{{name}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}};
+    '{{name}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}} | null{{/isNullable}};
 {{/vars}}
 
     {{#discriminator}}
@@ -51,7 +51,7 @@ export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
         {{/parent}}
     }
     {{/isArray}}
-    
+
     public constructor() {
         {{#parent}}
         super();
@@ -71,14 +71,26 @@ export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 
 {{#vars}}
 {{#isEnum}}
-export type {{classname}}{{enumName}} ={{#allowableValues}}{{#values}} "{{.}}" {{^-last}}|{{/-last}}{{/values}}{{/allowableValues}};
+export enum {{classname}}{{enumName}} {
+    {{#allowableValues}}
+    {{#enumVars}}
+    {{name}} = {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+    {{/allowableValues}}
+}
 {{/isEnum}}
 {{/vars}}
 
 {{/hasEnums}}
 {{/isEnum}}
 {{#isEnum}}
-export type {{classname}} ={{#allowableValues}}{{#values}} "{{.}}" {{^-last}}|{{/-last}}{{/values}}{{/allowableValues}};
+export enum {{classname}} {
+    {{#allowableValues}}
+    {{#enumVars}}
+    {{name}} = {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+    {{/allowableValues}}
+}
 {{/isEnum}}
 {{/model}}
 {{/models}}

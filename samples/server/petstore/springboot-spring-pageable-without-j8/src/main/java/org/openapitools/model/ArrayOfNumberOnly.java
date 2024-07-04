@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -7,19 +8,26 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * ArrayOfNumberOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class ArrayOfNumberOnly   {
-  @JsonProperty("ArrayNumber")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+public class ArrayOfNumberOnly {
+
   @Valid
-  private List<BigDecimal> arrayNumber = null;
+  private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
@@ -28,7 +36,7 @@ public class ArrayOfNumberOnly   {
 
   public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
     if (this.arrayNumber == null) {
-      this.arrayNumber = new ArrayList<BigDecimal>();
+      this.arrayNumber = new ArrayList<>();
     }
     this.arrayNumber.add(arrayNumberItem);
     return this;
@@ -37,11 +45,10 @@ public class ArrayOfNumberOnly   {
   /**
    * Get arrayNumber
    * @return arrayNumber
-  */
+   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
+  @JsonProperty("ArrayNumber")
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
   }
@@ -49,7 +56,6 @@ public class ArrayOfNumberOnly   {
   public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -72,7 +78,6 @@ public class ArrayOfNumberOnly   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ArrayOfNumberOnly {\n");
-    
     sb.append("    arrayNumber: ").append(toIndentedString(arrayNumber)).append("\n");
     sb.append("}");
     return sb.toString();

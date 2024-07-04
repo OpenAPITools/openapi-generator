@@ -1,74 +1,110 @@
 # {{classname}}{{#description}}
-{{description}}{{/description}}
+{{.}}{{/description}}
 
 All URIs are relative to *{{basePath}}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{summary}}
 {{/operation}}{{/operations}}
 
 {{#operations}}
 {{#operation}}
 # **{{operationId}}**
-> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}}{{#defaultValue}}={{{.}}}{{/defaultValue}}{{^defaultValue}}=var.{{{paramName}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalParams}})
+> {{#returnType}}{{.}} {{/returnType}}{{operationId}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{^defaultValue}} = var.{{{paramName}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalParams}})
 
 {{{summary}}}{{#notes}}
 
-{{{notes}}}{{/notes}}
+{{{.}}}{{/notes}}
 
 ### Example
 ```R
 library({{{packageName}}})
 
+{{#summary}}
+# {{{.}}}
+#
+{{/summary}}
 {{#allParams}}
-var.{{{paramName}}} <- {{{vendorExtensions.x-r-example}}} # {{{dataType}}} | {{{description}}}
+{{#-first}}
+# prepare function argument(s)
+{{/-first}}
+var_{{{paramName}}} <- {{{vendorExtensions.x-r-example}}} # {{{dataType}}} | {{{description}}}{{^required}} (Optional){{/required}}
 {{/allParams}}
 
-{{#summary}}
-#{{{.}}}
-{{/summary}}
-api.instance <- {{{classname}}}$new()
+{{#generateWrapper}}
+api_instance <- {{#lambda.lowercase}}{{{packageName}}}{{/lambda.lowercase}}_api$new()
+{{/generateWrapper}}
+{{^generateWrapper}}
+api_instance <- {{{classname}}}$new()
+{{/generateWrapper}}
 {{#hasAuthMethods}}
 {{#authMethods}}
 {{#isBasic}}
+{{#isBasicBasic}}
 # Configure HTTP basic authorization: {{{name}}}
-api.instance$apiClient$username <- 'TODO_YOUR_USERNAME';
-api.instance$apiClient$password <- 'TODO_YOUR_PASSWORD';
+{{^-first}}# {{/-first}}api_instance$api_client$username <- Sys.getenv("USERNAME")
+{{^-first}}# {{/-first}}api_instance$api_client$password <- Sys.getenv("PASSWORD")
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+# Configure HTTP bearer authorization: {{{name}}}
+{{^-first}}# {{/-first}}api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
+{{/isBasicBearer}}
 {{/isBasic}}
 {{#isApiKey}}
 # Configure API key authorization: {{{name}}}
-api.instance$apiClient$apiKeys['{{{keyParamName}}}'] <- 'TODO_YOUR_API_KEY';
+{{^-first}}# {{/-first}}api_instance$api_client$api_keys["{{{keyParamName}}}"] <- Sys.getenv("API_KEY")
 {{/isApiKey}}
 {{#isOAuth}}
 # Configure OAuth2 access token for authorization: {{{name}}}
-api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
+{{^-first}}# {{/-first}}api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
 {{/isOAuth}}
 {{/authMethods}}
 {{/hasAuthMethods}}
 {{#returnExceptionOnFailure}}
 {{#useRlangExceptionHandling}}
 result <- tryCatch(
-             api.instance${{{operationId}}}({{#requiredParams}}var.{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}}=var.{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}),
-             ApiException = function(ex) ex 
+             {{#returnType}}
+             # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+             # api_instance{{#generateWrapper}}${{#lambda.snakecase}}{{{classname}}}{{/lambda.snakecase}}{{/generateWrapper}}${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}data_file = "result.txt"),
+             {{#vendorExtensions.x-streaming}}
+             # this endpoint supports data streaming via a callback function using the optional `stream_callback` parameter, e.g.
+             # api_instance{{#generateWrapper}}${{#lambda.snakecase}}{{{classname}}}{{/lambda.snakecase}}{{/generateWrapper}}${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}stream_callback = function(x){ print(length(x)) }),
+             {{/vendorExtensions.x-streaming}}
+             {{/returnType}}
+             api_instance{{#generateWrapper}}${{#lambda.snakecase}}{{{classname}}}{{/lambda.snakecase}}{{/generateWrapper}}${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}),
+             ApiException = function(ex) ex
           )
-# In case of error, print the error object 
-if(!is.null(result$ApiException)) {
-  cat(result$ApiException$toString())
- } else {
-{{#returnType}}
-# deserialized response object
-response.object <- result$content
-{{/returnType}}
-# response headers
-response.headers <- result$response$headers
-# response status code
-response.status.code <- result$response$status_code
+# In case of error, print the error object
+if (!is.null(result$ApiException)) {
+  print("Exception occurs when calling `{{{operationId}}}`:")
+  dput(result$ApiException$toString())
+  {{#errorObjectType}}
+  # error object
+  dput(result$ApiException$error_object$toJSONString())
+  {{/errorObjectType}}
+}{{#returnType}} else {
+  # deserialized response object
+  print("The response is ...")
+  dput(result$toString())
 }
+{{/returnType}}
+
+{{^returnType}}
+# This endpoint doesn't return data
+{{/returnType}}
 {{/useRlangExceptionHandling}}
 {{/returnExceptionOnFailure}}
 {{^useRlangExceptionHandling}}
-{{#returnType}}result <- {{/returnType}}api.instance${{{operationId}}}({{#requiredParams}}var.{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}}=var.{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}})
+{{#returnType}}
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}data_file = "result.txt")
+{{/returnType}}
+{{#vendorExtensions.x-streaming}}
+# this endpoint supports data streaming via a callback function using the optional `stream_callback` parameter, e.g.
+# api_instance${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}stream_callback = function(x){ print(length(x)) })
+{{/vendorExtensions.x-streaming}}
+{{#returnType}}result <- {{/returnType}}api_instance{{#generateWrapper}}${{#lambda.snakecase}}{{{classname}}}{{/lambda.snakecase}}{{/generateWrapper}}${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}})
 {{#returnType}}
 dput(result)
 {{/returnType}}
@@ -79,7 +115,7 @@ dput(result)
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
-{{#allParams}} **{{paramName}}** | {{#isEnum}}Enum {{#allowableValues}}{{values}}{{/allowableValues}} {{/isEnum}}{{^isEnum}}{{#isContainer}}{{#isArray}}{{#items}}{{#isPrimitiveType}}list( **{{dataType}}** ){{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}list( [**{{dataType}}**]({{baseType}}.md) ){{/isFile}}{{/isPrimitiveType}}{{/items}}{{/isArray}}{{#isMap}}{{#isPrimitiveType}}named list( **{{dataType}}** ){{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}named list( [**{{dataType}}**]({{baseType}}.md) ){{/isFile}}{{/isPrimitiveType}}{{/isMap}}{{/isContainer}}{{^isContainer}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}{{/isContainer}}{{/isEnum}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
+{{#allParams}} **{{paramName}}** | {{#isEnum}}Enum {{#allowableValues}}{{values}}{{/allowableValues}} {{/isEnum}}{{^isEnum}}{{#isContainer}}{{#isArray}}{{#items}}{{#isPrimitiveType}}list( **{{dataType}}** ){{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}list( [**{{dataType}}**]({{baseType}}.md) ){{/isFile}}{{/isPrimitiveType}}{{/items}}{{/isArray}}{{#isMap}}{{#isPrimitiveType}}named list( **{{dataType}}** ){{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}named list( [**{{dataType}}**]({{baseType}}.md) ){{/isFile}}{{/isPrimitiveType}}{{/isMap}}{{/isContainer}}{{^isContainer}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}{{/isContainer}}{{/isEnum}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{.}}]{{/defaultValue}}
 {{/allParams}}
 
 ### Return type

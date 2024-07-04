@@ -1,0 +1,63 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Petstore
+  description: This is a sample server Petstore server. For this sample, you can use
+    the api key `special-key` to test the authorization filters.
+  license:
+    name: Apache-2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://petstore.swagger.io/v2
+tags:
+  - name: pet
+    description: Everything about your Pets
+  - name: store
+    description: Access to Petstore orders
+  - name: user
+    description: Operations about user
+paths:
+  /pet/findPageable:
+    get:
+      tags:
+        - pet
+      summary: Finds Pets by status
+      description: Multiple status values can be provided with comma separated strings
+      operationId: findPageable
+      parameters:
+        - name: pageable
+          in: query
+          style: form
+          explode: true
+          schema:
+            $ref: "#/components/schemas/Pageable"
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        400:
+          description: Invalid status value
+          content: {}
+
+
+components:
+  schemas:
+    Pageable:
+      type: object
+      properties:
+        page:
+          type: integer
+          description: page number
+        size:
+          type: integer
+          description: page size

@@ -12,7 +12,6 @@
 
 package org.openapitools.client.model;
 
-
 import java.lang.reflect.Type;
 import javax.json.bind.annotation.JsonbTypeDeserializer;
 import javax.json.bind.annotation.JsonbTypeSerializer;
@@ -26,28 +25,30 @@ import javax.json.bind.annotation.JsonbProperty;
 
 /**
   * Describes the result of uploading an image resource
- **/
+  */
 
 public class ModelApiResponse  {
   
+  @JsonbProperty("code")
   private Integer code;
 
+  @JsonbProperty("type")
   private String type;
 
+  @JsonbProperty("message")
   private String message;
-  
- /**
+
+  /**
    * Get code
    * @return code
-  **/
-  @JsonbProperty("code")
+   **/
   public Integer getCode() {
     return code;
   }
 
   /**
-    * Set code
-  **/
+   * Set code
+   */
   public void setCode(Integer code) {
     this.code = code;
   }
@@ -57,18 +58,17 @@ public class ModelApiResponse  {
     return this;
   }
 
- /**
+  /**
    * Get type
    * @return type
-  **/
-  @JsonbProperty("type")
+   **/
   public String getType() {
     return type;
   }
 
   /**
-    * Set type
-  **/
+   * Set type
+   */
   public void setType(String type) {
     this.type = type;
   }
@@ -78,18 +78,17 @@ public class ModelApiResponse  {
     return this;
   }
 
- /**
+  /**
    * Get message
    * @return message
-  **/
-  @JsonbProperty("message")
+   **/
   public String getMessage() {
     return message;
   }
 
   /**
-    * Set message
-  **/
+   * Set message
+   */
   public void setMessage(String message) {
     this.message = message;
   }
@@ -101,8 +100,8 @@ public class ModelApiResponse  {
 
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

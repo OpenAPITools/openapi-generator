@@ -1,0 +1,6 @@
+generatorName: k6
+outputDir: samples/client/petstore/k6
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/k6
+additionalProperties:
+  appName: PetstoreClient

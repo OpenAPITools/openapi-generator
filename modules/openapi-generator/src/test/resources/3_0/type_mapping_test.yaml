@@ -1,0 +1,38 @@
+openapi: 3.0.0
+info:
+  title: Sample API to test type mapping
+  description: API description in Markdown.
+  version: 1.0.0
+paths:
+  /animals:
+    get:
+      summary: Returns all animals.
+      description: Optional extended description in Markdown.
+      parameters:
+        - in: query
+          name: parameter_type_mapping
+          schema:
+            type: string 
+            format: special
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Animal'
+components:
+  schemas:
+    Animal:
+      type: object
+      required:
+        - className
+      properties:
+        className:
+          type: string
+        color:
+          type: string
+          default: red
+        mapping_test:
+          type: string
+          format: special

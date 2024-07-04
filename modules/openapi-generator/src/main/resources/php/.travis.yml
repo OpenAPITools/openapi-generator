@@ -3,8 +3,6 @@ language: php
 # https://docs.travis-ci.com/user/reference/bionic/#php-support
 dist: bionic
 php:
-    - 7.2
-    - 7.3
     - 7.4
 before_install: "composer install"
 script: "vendor/bin/phpunit"

@@ -1,0 +1,10 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-retrofit2-kotlinx_serialization
+library: jvm-retrofit2
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  serializationLibrary: kotlinx_serialization
+  artifactId: kotlin-petstore-retrofit2-kotlinx_serialization
+  enumPropertyNaming: UPPERCASE
+  serializableModel: "true"

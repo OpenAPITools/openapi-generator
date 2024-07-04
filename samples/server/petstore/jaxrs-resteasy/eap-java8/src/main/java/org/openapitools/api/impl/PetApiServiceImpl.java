@@ -13,16 +13,18 @@ import java.util.List;
 
 import java.io.InputStream;
 
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class PetApiServiceImpl implements PetApi {
       public Response addPet(Pet body,SecurityContext securityContext) {
       // do some magic!
       return Response.ok().build();
   }
-      public Response deletePet(Long petId,String apiKey,SecurityContext securityContext) {
+      public Response deletePet(Long petId,SecurityContext securityContext) {
       // do some magic!
       return Response.ok().build();
   }

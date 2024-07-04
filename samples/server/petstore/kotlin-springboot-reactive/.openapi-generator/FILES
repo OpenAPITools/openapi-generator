@@ -3,14 +3,15 @@ build.gradle.kts
 pom.xml
 settings.gradle
 src/main/kotlin/org/openapitools/Application.kt
+src/main/kotlin/org/openapitools/HomeController.kt
 src/main/kotlin/org/openapitools/api/ApiUtil.kt
-src/main/kotlin/org/openapitools/api/PetApi.kt
+src/main/kotlin/org/openapitools/api/PetApiController.kt
 src/main/kotlin/org/openapitools/api/PetApiService.kt
 src/main/kotlin/org/openapitools/api/PetApiServiceImpl.kt
-src/main/kotlin/org/openapitools/api/StoreApi.kt
+src/main/kotlin/org/openapitools/api/StoreApiController.kt
 src/main/kotlin/org/openapitools/api/StoreApiService.kt
 src/main/kotlin/org/openapitools/api/StoreApiServiceImpl.kt
-src/main/kotlin/org/openapitools/api/UserApi.kt
+src/main/kotlin/org/openapitools/api/UserApiController.kt
 src/main/kotlin/org/openapitools/api/UserApiService.kt
 src/main/kotlin/org/openapitools/api/UserApiServiceImpl.kt
 src/main/kotlin/org/openapitools/model/Category.kt
@@ -20,3 +21,4 @@ src/main/kotlin/org/openapitools/model/Pet.kt
 src/main/kotlin/org/openapitools/model/Tag.kt
 src/main/kotlin/org/openapitools/model/User.kt
 src/main/resources/application.yaml
+src/main/resources/openapi.yaml

@@ -1,0 +1,161 @@
+{{#models}}{{#model}}
+#include "{{classname}}.h"
+
+using namespace Tiny;
+
+#include <string>
+#include <list>
+#include <unity.h>
+#include "bourne/json.hpp"
+
+
+{{#vars}}
+{{#isPrimitiveType}}{{^isArray}}
+void test_{{classname}}_{{name}}_is_assigned_from_json()
+{
+    {{#isInteger}}
+    bourne::json input =
+    {
+        "{{name}}", 1
+    };
+
+    {{classname}} obj(input.dump());
+
+    TEST_ASSERT_EQUAL_INT(1, obj.{{getter}}());
+    {{/isInteger}}
+
+
+    {{#isString}}
+    bourne::json input =
+    {
+        "{{name}}", "hello"
+    };
+
+    {{classname}} obj(input.dump());
+
+    TEST_ASSERT_EQUAL_STRING("hello", obj.{{getter}}().c_str());
+    {{/isString}}
+
+
+    {{#isBoolean}}
+    bourne::json input =
+    {
+        "{{name}}", true
+    };
+
+    {{classname}} obj(input.dump());
+
+    TEST_ASSERT(true == obj.{{getter}}());
+    {{/isBoolean}}
+
+
+    {{#isLong}}
+    bourne::json input =
+    {
+        "{{name}}", 1
+    };
+
+    {{classname}} obj(input.dump());
+
+    TEST_ASSERT_EQUAL_INT(1, obj.{{getter}}());
+    {{/isLong}}
+
+
+    {{#isFloat}}
+    bourne::json input =
+    {
+        "{{name}}", 1.0
+    };
+
+    {{classname}} obj(input.dump());
+
+    TEST_ASSERT_EQUAL_FLOAT(1.0, obj.{{getter}}());
+    {{/isFloat}}
+}
+{{/isArray}}{{/isPrimitiveType}}
+{{/vars}}
+
+{{#vars}}
+{{#isPrimitiveType}}{{^isArray}}
+void test_{{classname}}_{{name}}_is_converted_to_json()
+{
+    {{#isInteger}}
+    bourne::json input =
+    {
+        "{{name}}", 1
+    };
+
+    {{classname}} obj(input.dump());
+
+    bourne::json output = bourne::json::object();
+
+    output = obj.toJson();
+
+    TEST_ASSERT(input["{{name}}"] == output["{{name}}"]);
+    {{/isInteger}}
+
+    {{#isString}}
+    bourne::json input =
+    {
+        "{{name}}", "hello"
+    };
+
+    {{classname}} obj(input.dump());
+
+    bourne::json output = bourne::json::object();
+
+    output = obj.toJson();
+
+    TEST_ASSERT(input["{{name}}"] == output["{{name}}"]);
+    {{/isString}}
+
+    {{#isBoolean}}
+    bourne::json input =
+    {
+        "{{name}}", true
+    };
+
+    {{classname}} obj(input.dump());
+
+    bourne::json output = bourne::json::object();
+
+    output = obj.toJson();
+
+    TEST_ASSERT(input["{{name}}"] == output["{{name}}"]);
+    {{/isBoolean}}
+
+    {{#isLong}}
+    bourne::json input =
+    {
+        "{{name}}", 1
+    };
+
+    {{classname}} obj(input.dump());
+
+    bourne::json output = bourne::json::object();
+
+    output = obj.toJson();
+
+    TEST_ASSERT(input["{{name}}"] == output["{{name}}"]);
+    {{/isLong}}
+
+    {{#isFloat}}
+    bourne::json input =
+    {
+        "{{name}}", 1.0
+    };
+
+    {{classname}} obj(input.dump());
+
+    bourne::json output = bourne::json::object();
+
+    output = obj.toJson();
+
+    TEST_ASSERT(input["{{name}}"] == output["{{name}}"]);
+    {{/isFloat}}
+}
+{{/isArray}}{{/isPrimitiveType}}
+{{/vars}}
+
+{{/model}}
+{{/models}}

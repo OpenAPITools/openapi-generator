@@ -17,7 +17,7 @@
   ```bash
   java -jar build/libs/my-client-codegen-openapi-generator-standalone.jar config-help -g myClientCodegen
   ```
-  
+
 ## Building
 
 ### Standalone

@@ -4,6 +4,8 @@ OpenAPI Extension x-auth-id-alias
 
 - API version: 1.0.0
 
+- Generator version: 7.8.0-SNAPSHOT
+
 This specification shows how to use x-auth-id-alias extension for API keys.
 
 
@@ -13,8 +15,8 @@ This specification shows how to use x-auth-id-alias extension for API keys.
 
 Building the API client library requires:
 
-1. Java 1.7+
-2. Maven/Gradle
+1. Java 1.8+
+2. Maven (3.8.3+)/Gradle (7.2+)
 
 ## Installation
 
@@ -50,7 +52,14 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "org.openapitools:openapi3-extensions-x-auth-id-alias-jersey2-java8:1.0.0"
+  repositories {
+    mavenCentral()     // Needed if the 'openapi3-extensions-x-auth-id-alias-jersey2-java8' jar has been published to maven central.
+    mavenLocal()       // Needed if the 'openapi3-extensions-x-auth-id-alias-jersey2-java8' jar has been published to the local maven repo.
+  }
+
+  dependencies {
+     implementation "org.openapitools:openapi3-extensions-x-auth-id-alias-jersey2-java8:1.0.0"
+  }
 ```
 
 ### Others
@@ -152,9 +161,12 @@ Class | Method | HTTP request | Description
 
 
 
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
+
 Authentication schemes defined for the API:
+<a id="api_key"></a>
 ### api_key
 
 
@@ -162,6 +174,7 @@ Authentication schemes defined for the API:
 - **API key parameter name**: X-Api-Key
 - **Location**: HTTP header
 
+<a id="api_key_query"></a>
 ### api_key_query
 
 

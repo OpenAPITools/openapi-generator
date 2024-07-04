@@ -14,7 +14,7 @@ paths:
             schema:
               type: object
               properties:
-                propery:
+                property:
                   type: string
               required:
                 - property

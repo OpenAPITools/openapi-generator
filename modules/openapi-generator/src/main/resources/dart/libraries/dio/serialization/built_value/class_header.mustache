@@ -1,0 +1,13 @@
+/// {{{description}}}{{^description}}{{classname}}{{/description}}
+{{#hasVars}}
+///
+/// Properties:
+{{#allVars}}
+/// * [{{{name}}}] {{#description}}- {{{.}}}{{/description}}
+{{/allVars}}
+{{/hasVars}}
+{{#isDeprecated}}
+@Deprecated('{{{classname}}} has been deprecated')
+{{/isDeprecated}}
+@BuiltValue({{#vendorExtensions.x-is-parent}}instantiable: false{{/vendorExtensions.x-is-parent}})
+abstract class {{classname}} {{^allOf}}{{^vendorExtensions.x-is-parent}}implements {{/vendorExtensions.x-is-parent}}{{/allOf}}{{#allOf}}{{#-first}}implements {{/-first}}{{/allOf}}{{#allOf}}{{{.}}}{{^-last}}, {{/-last}}{{/allOf}}{{^vendorExtensions.x-is-parent}}{{#allOf}}{{#-first}}, {{/-first}}{{/allOf}}{{/vendorExtensions.x-is-parent}}{{^vendorExtensions.x-is-parent}}Built<{{classname}}, {{classname}}Builder>{{/vendorExtensions.x-is-parent}}

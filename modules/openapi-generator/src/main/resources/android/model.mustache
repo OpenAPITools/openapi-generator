@@ -9,10 +9,10 @@ import com.google.gson.annotations.SerializedName;
 
 {{#model}}{{#description}}
 /**
- * {{description}}
+ * {{.}}
  **/{{/description}}
 @ApiModel(description = "{{{description}}}")
-public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {
   {{#vars}}{{#isEnum}}
   public enum {{datatypeWithEnum}} {
     {{#allowableValues}}{{#values}} {{.}}, {{/values}}{{/allowableValues}}
@@ -24,9 +24,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
 
   {{#vars}}
   /**{{#description}}
-   * {{{description}}}{{/description}}{{#minimum}}
-   * minimum: {{minimum}}{{/minimum}}{{#maximum}}
-   * maximum: {{maximum}}{{/maximum}}
+   * {{{.}}}{{/description}}{{#minimum}}
+   * minimum: {{.}}{{/minimum}}{{#maximum}}
+   * maximum: {{.}}{{/maximum}}
    **/
   @ApiModelProperty({{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
   public {{{datatypeWithEnum}}} {{getter}}() {

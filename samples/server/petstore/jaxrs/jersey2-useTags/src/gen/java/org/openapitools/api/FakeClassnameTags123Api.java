@@ -1,6 +1,5 @@
 package org.openapitools.api;
 
-import org.openapitools.model.*;
 import org.openapitools.api.FakeClassnameTags123ApiService;
 import org.openapitools.api.factories.FakeClassnameTags123ApiServiceFactory;
 
@@ -30,7 +29,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the FakeClassnameTags123 API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class FakeClassnameTags123Api  {
    private final FakeClassnameTags123ApiService delegate;
 
@@ -41,11 +40,11 @@ public class FakeClassnameTags123Api  {
          String implClass = servletContext.getInitParameter("FakeClassnameTags123Api.implementation");
          if (implClass != null && !"".equals(implClass.trim())) {
             try {
-               delegate = (FakeClassnameTags123ApiService) Class.forName(implClass).newInstance();
+               delegate = (FakeClassnameTags123ApiService) Class.forName(implClass).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                throw new RuntimeException(e);
             }
-         } 
+         }
       }
 
       if (delegate == null) {
@@ -55,7 +54,7 @@ public class FakeClassnameTags123Api  {
       this.delegate = delegate;
    }
 
-    @PATCH
+    @javax.ws.rs.PATCH
     
     @Consumes({ "application/json" })
     @Produces({ "application/json" })

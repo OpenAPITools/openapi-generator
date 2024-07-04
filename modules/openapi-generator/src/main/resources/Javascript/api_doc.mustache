@@ -1,12 +1,12 @@
 # {{moduleName}}.{{classname}}{{#description}}
 
-{{description}}{{/description}}
+{{.}}{{/description}}
 
 All URIs are relative to *{{basePath}}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{summary}}
 {{/operation}}{{/operations}}
 
 {{#operations}}
@@ -14,54 +14,54 @@ Method | HTTP request | Description
 
 ## {{operationId}}
 
-> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}})
+> {{#returnType}}{{.}} {{/returnType}}{{operationId}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}})
 
 {{summary}}{{#notes}}
 
-{{notes}}{{/notes}}
+{{.}}{{/notes}}
 
 ### Example
 
 ```javascript
-var {{{moduleName}}} = require('{{{projectName}}}');
+import {{{moduleName}}} from '{{{projectName}}}';
 {{#hasAuthMethods}}
-var defaultClient = {{{moduleName}}}.ApiClient.instance;
+let defaultClient = {{{moduleName}}}.ApiClient.instance;
 {{#authMethods}}
 {{#isBasic}}
 {{#isBasicBasic}}
 // Configure HTTP basic authorization: {{{name}}}
-var {{{name}}} = defaultClient.authentications['{{{name}}}'];
+let {{{name}}} = defaultClient.authentications['{{{name}}}'];
 {{{name}}}.username = 'YOUR USERNAME';
 {{{name}}}.password = 'YOUR PASSWORD';
 {{/isBasicBasic}}
 {{#isBasicBearer}}
 // Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} access token for authorization: {{{name}}}
-var {{{name}}} = defaultClient.authentications['{{{name}}}'];
-{{{name}}}.accessToken = 'YOUR ACCESS TOKEN';
+let {{{name}}} = defaultClient.authentications['{{{name}}}'];
+{{{name}}}.accessToken = "YOUR ACCESS TOKEN"
 {{/isBasicBearer}}
 {{/isBasic}}
 {{#isApiKey}}
 // Configure API key authorization: {{{name}}}
-var {{{name}}} = defaultClient.authentications['{{{name}}}'];
+let {{{name}}} = defaultClient.authentications['{{{name}}}'];
 {{{name}}}.apiKey = 'YOUR API KEY';
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
 //{{{name}}}.apiKeyPrefix = 'Token';
 {{/isApiKey}}
 {{#isOAuth}}
 // Configure OAuth2 access token for authorization: {{{name}}}
-var {{{name}}} = defaultClient.authentications['{{{name}}}'];
+let {{{name}}} = defaultClient.authentications['{{{name}}}'];
 {{{name}}}.accessToken = 'YOUR ACCESS TOKEN';
 {{/isOAuth}}
 {{/authMethods}}
 {{/hasAuthMethods}}
 
-var apiInstance = new {{{moduleName}}}.{{{classname}}}();
+let apiInstance = new {{{moduleName}}}.{{{classname}}}();
 {{#requiredParams}}
-var {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
+let {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
 {{/requiredParams}}
 {{#optionalParams}}
 {{#-first}}
-var opts = {
+let opts = {
 {{/-first}}
   '{{{paramName}}}': {{{example}}}{{^-last}},{{/-last}} // {{{dataType}}} | {{{description}}}
 {{#-last}}
@@ -69,32 +69,30 @@ var opts = {
 {{/-last}}
 {{/optionalParams}}
 {{#usePromises}}
-apiInstance.{{{operationId}}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}).then(function({{#returnType}}data{{/returnType}}) {
+apiInstance.{{{operationId}}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}).then(({{#returnType}}data{{/returnType}}) => {
   {{#returnType}}console.log('API called successfully. Returned data: ' + data);{{/returnType}}{{^returnType}}console.log('API called successfully.');{{/returnType}}
-}, function(error) {
+}, (error) => {
   console.error(error);
 });
 
 {{/usePromises}}
 {{^usePromises}}
-var callback = function(error, data, response) {
+apiInstance.{{{operationId}}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}{{#hasParams}}, {{/hasParams}}(error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     {{#returnType}}console.log('API called successfully. Returned data: ' + data);{{/returnType}}{{^returnType}}console.log('API called successfully.');{{/returnType}}
   }
-};
-apiInstance.{{{operationId}}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}}{{#hasParams}}, {{/hasParams}}callback);
+});
 {{/usePromises}}
 ```
 
 ### Parameters
 
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
-{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
+{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{.}}]{{/defaultValue}}
 {{/allParams}}
 
 ### Return type

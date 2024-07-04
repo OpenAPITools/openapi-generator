@@ -2,8 +2,6 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.CollectionFormats.*;
 
-
-
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -15,6 +13,9 @@ import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 import java.util.Set;
+
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,7 +68,9 @@ public interface PetApi {
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
    * @return Call&lt;Set&lt;Pet&gt;&gt;
+   * @deprecated
    */
+  @Deprecated
   @GET("pet/findByTags")
   CompletionStage<Response<Set<Pet>>> findPetsByTags(
     @retrofit2.http.Query("tags") CSVParams tags
@@ -117,13 +120,13 @@ public interface PetApi {
    * 
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
-   * @param file file to upload (optional)
+   * @param _file file to upload (optional)
    * @return Call&lt;ModelApiResponse&gt;
    */
   @retrofit2.http.Multipart
   @POST("pet/{petId}/uploadImage")
   CompletionStage<Response<ModelApiResponse>> uploadFile(
-    @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part("additionalMetadata") String additionalMetadata, @retrofit2.http.Part MultipartBody.Part file
+    @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part("additionalMetadata") String additionalMetadata, @retrofit2.http.Part MultipartBody.Part _file
   );
 
   /**

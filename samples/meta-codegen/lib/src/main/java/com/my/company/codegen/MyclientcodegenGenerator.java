@@ -1,6 +1,7 @@
 package com.my.company.codegen;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.model.*;
 import io.swagger.models.properties.*;
 
 import java.util.*;
@@ -14,7 +15,7 @@ public class MyclientcodegenGenerator extends DefaultCodegen implements CodegenC
 
   /**
    * Configures the type of generator.
-   * 
+   *
    * @return  the CodegenType for this generator
    * @see     org.openapitools.codegen.CodegenType
    */
@@ -25,7 +26,7 @@ public class MyclientcodegenGenerator extends DefaultCodegen implements CodegenC
   /**
    * Configures a friendly name for the generator.  This will be used by the generator
    * to select the library with the -g flag.
-   * 
+   *
    * @return the friendly name for the generator
    */
   public String getName() {
@@ -35,18 +36,17 @@ public class MyclientcodegenGenerator extends DefaultCodegen implements CodegenC
   /**
    * Provides an opportunity to inspect and modify operation data before the code is generated.
    */
-  @SuppressWarnings("unchecked")
   @Override
-  public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+  public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
 
     // to try debugging your code generator:
     // set a break point on the next line.
     // then debug the JUnit test called LaunchGeneratorInDebugger
 
-    Map<String, Object> results = super.postProcessOperationsWithModels(objs, allModels);
+    OperationsMap results = super.postProcessOperationsWithModels(objs, allModels);
 
-    Map<String, Object> ops = (Map<String, Object>)results.get("operations");
-    ArrayList<CodegenOperation> opList = (ArrayList<CodegenOperation>)ops.get("operation");
+    OperationMap ops = results.getOperations();
+    List<CodegenOperation> opList = ops.getOperation();
 
     // iterate over the operation and perhaps modify something
     for(CodegenOperation co : opList){
@@ -60,7 +60,7 @@ public class MyclientcodegenGenerator extends DefaultCodegen implements CodegenC
   /**
    * Returns human-friendly help for the generator.  Provide the consumer with help
    * tips, parameters here
-   * 
+   *
    * @return A string value for the help message
    */
   public String getHelp() {
@@ -147,7 +147,7 @@ public class MyclientcodegenGenerator extends DefaultCodegen implements CodegenC
   /**
    * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
    * those terms here.  This logic is only called if a variable matches the reserved words
-   * 
+   *
    * @return the escaped term
    */
   @Override

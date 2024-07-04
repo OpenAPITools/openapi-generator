@@ -20,17 +20,16 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * TypeHolderDefault
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class TypeHolderDefault {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)
@@ -50,8 +49,10 @@ public class TypeHolderDefault {
 
   public static final String SERIALIZED_NAME_ARRAY_ITEM = "array_item";
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEM)
-  private List<Integer> arrayItem = new ArrayList<Integer>();
+  private List<Integer> arrayItem = new ArrayList<>();
 
+  public TypeHolderDefault() {
+  }
 
   public TypeHolderDefault stringItem(String stringItem) {
     
@@ -59,11 +60,11 @@ public class TypeHolderDefault {
     return this;
   }
 
-   /**
+  /**
    * Get stringItem
    * @return stringItem
-  **/
-  @ApiModelProperty(required = true, value = "")
+   */
+  @javax.annotation.Nonnull
 
   public String getStringItem() {
     return stringItem;
@@ -74,18 +75,17 @@ public class TypeHolderDefault {
     this.stringItem = stringItem;
   }
 
-
   public TypeHolderDefault numberItem(BigDecimal numberItem) {
     
     this.numberItem = numberItem;
     return this;
   }
 
-   /**
+  /**
    * Get numberItem
    * @return numberItem
-  **/
-  @ApiModelProperty(required = true, value = "")
+   */
+  @javax.annotation.Nonnull
 
   public BigDecimal getNumberItem() {
     return numberItem;
@@ -96,18 +96,17 @@ public class TypeHolderDefault {
     this.numberItem = numberItem;
   }
 
-
   public TypeHolderDefault integerItem(Integer integerItem) {
     
     this.integerItem = integerItem;
     return this;
   }
 
-   /**
+  /**
    * Get integerItem
    * @return integerItem
-  **/
-  @ApiModelProperty(required = true, value = "")
+   */
+  @javax.annotation.Nonnull
 
   public Integer getIntegerItem() {
     return integerItem;
@@ -118,18 +117,17 @@ public class TypeHolderDefault {
     this.integerItem = integerItem;
   }
 
-
   public TypeHolderDefault boolItem(Boolean boolItem) {
     
     this.boolItem = boolItem;
     return this;
   }
 
-   /**
+  /**
    * Get boolItem
    * @return boolItem
-  **/
-  @ApiModelProperty(required = true, value = "")
+   */
+  @javax.annotation.Nonnull
 
   public Boolean getBoolItem() {
     return boolItem;
@@ -140,7 +138,6 @@ public class TypeHolderDefault {
     this.boolItem = boolItem;
   }
 
-
   public TypeHolderDefault arrayItem(List<Integer> arrayItem) {
     
     this.arrayItem = arrayItem;
@@ -148,15 +145,18 @@ public class TypeHolderDefault {
   }
 
   public TypeHolderDefault addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }
 
-   /**
+  /**
    * Get arrayItem
    * @return arrayItem
-  **/
-  @ApiModelProperty(required = true, value = "")
+   */
+  @javax.annotation.Nonnull
 
   public List<Integer> getArrayItem() {
     return arrayItem;
@@ -166,7 +166,6 @@ public class TypeHolderDefault {
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
-
 
   @Override
   public boolean equals(Object o) {

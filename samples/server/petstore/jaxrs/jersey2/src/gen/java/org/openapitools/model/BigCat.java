@@ -19,7 +19,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.model.BigCatAllOf;
 import org.openapitools.model.Cat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
@@ -31,7 +30,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   BigCat.JSON_PROPERTY_KIND
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class BigCat extends Cat  {
   /**
    * Gets or Sets kind
@@ -81,7 +80,7 @@ public class BigCat extends Cat  {
    * Get kind
    * @return kind
    **/
-  @JsonProperty("kind")
+  @JsonProperty(value = "kind")
   @ApiModelProperty(value = "")
   
   public KindEnum getKind() {
@@ -102,15 +101,13 @@ public class BigCat extends Cat  {
       return false;
     }
     BigCat bigCat = (BigCat) o;
-    return Objects.equals(this.kind, bigCat.kind) &&
-        super.equals(o);
+    return super.equals(o) && Objects.equals(this.kind, bigCat.kind);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(kind, super.hashCode());
+    return Objects.hash(super.hashCode(), kind);
   }
-
 
   @Override
   public String toString() {

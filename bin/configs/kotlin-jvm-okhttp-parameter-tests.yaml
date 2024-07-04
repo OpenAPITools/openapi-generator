@@ -1,0 +1,7 @@
+generatorName: kotlin
+outputDir: samples/client/others/kotlin-jvm-okhttp-parameter-tests
+library: jvm-okhttp4
+inputSpec: modules/openapi-generator/src/test/resources/3_0/parameter-test-spec.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  artifactId: kotlin-petstore-okhttp4-parameter-tests

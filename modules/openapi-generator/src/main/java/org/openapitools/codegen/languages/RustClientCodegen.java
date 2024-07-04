@@ -17,53 +17,72 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.base.Strings;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
+import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import joptsimple.internal.Strings;
+import lombok.AccessLevel;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.*;
+import java.util.stream.Collectors;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
-
-public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
+public class RustClientCodegen extends AbstractRustCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
-    private boolean useSingleRequestParameter = false;
-    private boolean supportAsync = true;
+    @Setter(AccessLevel.PRIVATE) private boolean useSingleRequestParameter = false;
+    @Setter(AccessLevel.PRIVATE) private boolean supportAsync = true;
+    @Setter(AccessLevel.PRIVATE) private boolean supportMiddleware = false;
     private boolean supportMultipleResponses = false;
+    private boolean withAWSV4Signature = false;
+    @Setter private boolean preferUnsignedInt = false;
+    @Setter private boolean bestFitInt = false;
+    @Setter private boolean avoidBoxedModels = false;
 
     public static final String PACKAGE_NAME = "packageName";
     public static final String PACKAGE_VERSION = "packageVersion";
     public static final String HYPER_LIBRARY = "hyper";
     public static final String REQWEST_LIBRARY = "reqwest";
     public static final String SUPPORT_ASYNC = "supportAsync";
+    public static final String SUPPORT_MIDDLEWARE = "supportMiddleware";
     public static final String SUPPORT_MULTIPLE_RESPONSES = "supportMultipleResponses";
+    public static final String PREFER_UNSIGNED_INT = "preferUnsignedInt";
+    public static final String BEST_FIT_INT = "bestFitInt";
+    public static final String AVOID_BOXED_MODELS = "avoidBoxedModels";
 
-    protected String packageName = "openapi";
-    protected String packageVersion = "1.0.0";
+    @Setter protected String packageName = "openapi";
+    @Setter protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String apiFolder = "src/apis";
     protected String modelFolder = "src/models";
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "rust";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Rust client library (beta).";
     }
@@ -76,8 +95,10 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
                         SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.AWSV4Signature
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
@@ -90,6 +111,9 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 )
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
+                )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.oneOf
                 )
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath,
@@ -108,34 +132,18 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         embeddedTemplateDir = templateDir = "rust";
 
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        "abstract", "alignof", "as", "become", "box",
-                        "break", "const", "continue", "crate", "do",
-                        "else", "enum", "extern", "false", "final",
-                        "fn", "for", "if", "impl", "in",
-                        "let", "loop", "macro", "match", "mod",
-                        "move", "mut", "offsetof", "override", "priv",
-                        "proc", "pub", "pure", "ref", "return",
-                        "Self", "self", "sizeof", "static", "struct",
-                        "super", "trait", "true", "type", "typeof",
-                        "unsafe", "unsized", "use", "virtual", "where",
-                        "while", "yield", "async", "await", "dyn", "try"
-                )
-        );
-
-        defaultIncludes = new HashSet<String>(
+        defaultIncludes = new HashSet<>(
                 Arrays.asList(
                         "map",
                         "array")
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "i8", "i16", "i32", "i64",
                         "u8", "u16", "u32", "u64",
-                        "f32", "f64",
-                        "char", "bool", "String", "Vec<u8>", "File")
+                        "f32", "f64", "isize", "usize",
+                        "char", "bool", "str", "String")
         );
 
         instantiationTypes.clear();
@@ -145,12 +153,14 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.clear();
         typeMapping.put("integer", "i32");
         typeMapping.put("long", "i64");
-        typeMapping.put("number", "f32");
+        typeMapping.put("number", "f64");
         typeMapping.put("float", "f32");
         typeMapping.put("double", "f64");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "String");
-        typeMapping.put("UUID", "String");
+        typeMapping.put("array", "Vec");
+        typeMapping.put("map", "std::collections::HashMap");
+        typeMapping.put("UUID", "uuid::Uuid");
         typeMapping.put("URI", "String");
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "String");
@@ -178,8 +188,19 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(SUPPORT_ASYNC, "If set, generate async function call instead. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(SUPPORT_MIDDLEWARE, "If set, add support for reqwest-middleware. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(SUPPORT_MULTIPLE_RESPONSES, "If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
-            .defaultValue(Boolean.FALSE.toString()));
+                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.ENUM_NAME_SUFFIX, CodegenConstants.ENUM_NAME_SUFFIX_DESC).defaultValue(this.enumSuffix));
+        cliOptions.add(new CliOption(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT, CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT_DESC, SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(PREFER_UNSIGNED_INT, "Prefer unsigned integers where minimum value is >= 0", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(BEST_FIT_INT, "Use best fitting integer type where minimum or maximum is set", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(AVOID_BOXED_MODELS, "If set, `Box<T>` will not be used for models", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper.");
         supportedLibraries.put(REQWEST_LIBRARY, "HTTP client: Reqwest.");
@@ -193,55 +214,105 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        // process enum in models
-        return postProcessModelsEnum(objs);
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel mdl = super.fromModel(name, model);
+
+        // set correct names and baseNames to oneOf in composed-schema to use as enum variant names & mapping
+        if (mdl.getComposedSchemas() != null && mdl.getComposedSchemas().getOneOf() != null
+                && !mdl.getComposedSchemas().getOneOf().isEmpty()) {
+
+            List<CodegenProperty> newOneOfs = mdl.getComposedSchemas().getOneOf().stream()
+                    .map(CodegenProperty::clone)
+                    .collect(Collectors.toList());
+            List<Schema> schemas = ModelUtils.getInterfaces(model);
+            if (newOneOfs.size() != schemas.size()) {
+                // For safety reasons, this should never happen unless there is an error in the code
+                throw new RuntimeException("oneOf size does not match the model");
+            }
+
+            Map<String, String> refsMapping = Optional.ofNullable(model.getDiscriminator())
+                    .map(Discriminator::getMapping).orElse(Collections.emptyMap());
+
+            // Reverse mapped references to use as baseName for oneOF, but different keys may point to the same $ref.
+            // Thus, we group them by the value
+            Map<String, List<String>> mappedNamesByRef = refsMapping.entrySet().stream()
+                    .collect(Collectors.groupingBy(Map.Entry::getValue,
+                            Collectors.mapping(Map.Entry::getKey, Collectors.toList())
+                    ));
+
+            for (int i = 0; i < newOneOfs.size(); i++) {
+                CodegenProperty oneOf = newOneOfs.get(i);
+                Schema schema = schemas.get(i);
+
+                if (mappedNamesByRef.containsKey(schema.get$ref())) {
+                    // prefer mapped names if present
+                    // remove mapping not in order not to reuse for the next occurrence of the ref
+                    List<String> names = mappedNamesByRef.get(schema.get$ref());
+                    String mappedName = names.remove(0);
+                    oneOf.setBaseName(mappedName);
+                    oneOf.setName(toModelName(mappedName));
+                } else if (!org.apache.commons.lang3.StringUtils.isEmpty(schema.get$ref())) {
+                    // use $ref if it's reference
+                    String refName = ModelUtils.getSimpleRef(schema.get$ref());
+                    if (refName != null) {
+                        String modelName = toModelName(refName);
+                        oneOf.setName(modelName);
+                        oneOf.setBaseName(refName);
+                    }
+                } else {
+                    // In-placed type (primitive), because there is no mapping or ref for it.
+                    // use camelized `title` if present, otherwise use `type`
+                    String oneOfName = Optional.ofNullable(schema.getTitle()).orElseGet(schema::getType);
+                    oneOf.setName(toModelName(oneOfName));
+                }
+            }
+
+            mdl.getComposedSchemas().setOneOf(newOneOfs);
+        }
+
+        return mdl;
     }
 
-    @SuppressWarnings({"static-method", "unchecked"})
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        // Index all CodegenModels by model name.
-        Map<String, CodegenModel> allModels = new HashMap<>();
+    @Override
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        for (ModelMap model : objs.getModels()) {
+            CodegenModel cm = model.getModel();
 
-        for (Map.Entry<String, Object> entry : objs.entrySet()) {
-            String modelName = toModelName(entry.getKey());
-            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
-            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-            for (Map<String, Object> mo : models) {
-                CodegenModel cm = (CodegenModel) mo.get("model");
-                allModels.put(modelName, cm);
-            }
-        }
-        for (Map.Entry<String, Object> entry : objs.entrySet()) {
-            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
-            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-            for (Map<String, Object> mo : models) {
-                CodegenModel cm = (CodegenModel) mo.get("model");
-                if (cm.discriminator != null) {
-                    List<Object> discriminatorVars = new ArrayList<>();
-                    for (CodegenDiscriminator.MappedModel mappedModel : cm.discriminator.getMappedModels()) {
-                        CodegenModel model = allModels.get(mappedModel.getModelName());
-                        Map<String, Object> mas = new HashMap<>();
-                        mas.put("modelName", camelize(mappedModel.getModelName()));
-                        mas.put("mappingName", mappedModel.getMappingName());
-                        List<CodegenProperty> vars = model.getVars();
-                        vars.removeIf(p -> p.name.equals(cm.discriminator.getPropertyName()));
-                        mas.put("vars", vars);
-                        discriminatorVars.add(mas);
+            // Remove the discriminator field from the model, serde will take care of this
+            if (cm.discriminator != null) {
+                String reserved_var_name = cm.discriminator.getPropertyBaseName();
+
+                for (CodegenProperty cp : cm.vars) {
+                    if (cp.baseName.equals(reserved_var_name)) {
+                        cm.vars.remove(cp);
+                        break;
                     }
-                    // TODO: figure out how to properly have the original property type that didn't go through toVarName
-                    String vendorExtensionTagName = cm.discriminator.getPropertyName().replace("_", "");
-                    cm.vendorExtensions.put("x-tag-name", vendorExtensionTagName);
-                    cm.vendorExtensions.put("x-mapped-models", discriminatorVars);
+                }
+            }
+
+            // Flag structs with byteArrays in them so that we can annotate them with the serde_as macro
+            for (CodegenProperty cp : cm.vars) {
+                if (cp.isByteArray) {
+                    cm.vendorExtensions.put("x-rust-has-byte-array", true);
+                    break;
                 }
             }
         }
-        return objs;
+        // process enum in models
+        return postProcessModelsEnum(objs);
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (additionalProperties.containsKey(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT)) {
+            withAWSV4Signature = Boolean.parseBoolean(additionalProperties.get(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT).toString());
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.ENUM_NAME_SUFFIX)) {
+            enumSuffix = additionalProperties.get(CodegenConstants.ENUM_NAME_SUFFIX).toString();
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
@@ -249,10 +320,12 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             setPackageName("openapi");
         }
 
+        // If no version is provided in additional properties, version from API specification is used.
+        // If none of them is provided then fallback to default version
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
-        } else {
-            setPackageVersion("1.0.0");
+        } else if (openAPI != null && openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
+            setPackageVersion(openAPI.getInfo().getVersion());
         }
 
         if (additionalProperties.containsKey(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER)) {
@@ -265,10 +338,30 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         writePropertyBack(SUPPORT_ASYNC, getSupportAsync());
 
+        if (additionalProperties.containsKey(SUPPORT_MIDDLEWARE)) {
+            this.setSupportMiddleware(convertPropertyToBoolean(SUPPORT_MIDDLEWARE));
+        }
+        writePropertyBack(SUPPORT_MIDDLEWARE, getSupportMiddleware());
+
         if (additionalProperties.containsKey(SUPPORT_MULTIPLE_RESPONSES)) {
             this.setSupportMultipleReturns(convertPropertyToBoolean(SUPPORT_MULTIPLE_RESPONSES));
         }
         writePropertyBack(SUPPORT_MULTIPLE_RESPONSES, getSupportMultipleReturns());
+
+        if (additionalProperties.containsKey(PREFER_UNSIGNED_INT)) {
+            this.setPreferUnsignedInt(convertPropertyToBoolean(PREFER_UNSIGNED_INT));
+        }
+        writePropertyBack(PREFER_UNSIGNED_INT, getPreferUnsignedInt());
+
+        if (additionalProperties.containsKey(BEST_FIT_INT)) {
+            this.setBestFitInt(convertPropertyToBoolean(BEST_FIT_INT));
+        }
+        writePropertyBack(BEST_FIT_INT, getBestFitInt());
+
+        if (additionalProperties.containsKey(AVOID_BOXED_MODELS)) {
+            this.setAvoidBoxedModels(convertPropertyToBoolean(AVOID_BOXED_MODELS));
+        }
+        writePropertyBack(AVOID_BOXED_MODELS, getAvoidBoxedModels());
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
@@ -303,14 +396,34 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             supportingFiles.add(new SupportingFile("request.rs", apiFolder, "request.rs"));
             supportingFiles.add(new SupportingFile(getLibrary() + "/client.mustache", apiFolder, "client.rs"));
         }
+
+        // add lambda for sanitize version (e.g. v1.2.3-beta => 1.2.3-beta)
+        additionalProperties.put("lambdaVersion", new Mustache.Lambda() {
+            @Override
+            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+                String content = fragment.execute();
+                // remove v or V
+                content = content.trim().replace("v", "");
+                content = content.replace("V", "");
+
+                // convert 5.2 to 5.2.0 for example
+                String[] contents = content.split("[.]");
+                if (contents.length == 2) {
+                    content += ".0";
+                }
+
+                writer.write(content);
+            }
+        });
+
     }
 
     private boolean getSupportAsync() {
         return supportAsync;
     }
 
-    private void setSupportAsync(boolean supportAsync) {
-        this.supportAsync = supportAsync;
+    private boolean getSupportMiddleware() {
+        return supportMiddleware;
     }
 
     public boolean getSupportMultipleReturns() {
@@ -321,20 +434,20 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         this.supportMultipleResponses = supportMultipleResponses;
     }
 
+    public boolean getPreferUnsignedInt() {
+        return preferUnsignedInt;
+    }
+
+    public boolean getBestFitInt() {
+        return bestFitInt;
+    }
+
     private boolean getUseSingleRequestParameter() {
         return useSingleRequestParameter;
     }
 
-    private void setUseSingleRequestParameter(boolean useSingleRequestParameter) {
-        this.useSingleRequestParameter = useSingleRequestParameter;
-    }
-
-    @Override
-    public String escapeReservedWord(String name) {
-        if (this.reservedWordsMappings().containsKey(name)) {
-            return this.reservedWordsMappings().get(name);
-        }
-        return '_' + name;
+    public boolean getAvoidBoxedModels() {
+        return avoidBoxedModels;
     }
 
     @Override
@@ -342,80 +455,9 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         return (outputFolder + File.separator + apiFolder).replace("/", File.separator);
     }
 
+    @Override
     public String modelFileFolder() {
         return (outputFolder + File.separator + modelFolder).replace("/", File.separator);
-    }
-
-    @Override
-    public String toVarName(String name) {
-        // replace - with _ e.g. created-at => created_at
-        name = sanitizeName(name.replaceAll("-", "_"));
-
-        // if it's all uppper case, do nothing
-        if (name.matches("^[A-Z_]*$"))
-            return name;
-
-        // snake_case, e.g. PetId => pet_id
-        name = underscore(name);
-
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name))
-            name = escapeReservedWord(name);
-
-        // for reserved word or word starting with number, append _
-        if (name.matches("^\\d.*"))
-            name = "var_" + name;
-
-        return name;
-    }
-
-    @Override
-    public String toParamName(String name) {
-        return toVarName(name);
-    }
-
-    @Override
-    public String toModelName(String name) {
-        // camelize the model name
-        // phone_number => PhoneNumber
-        return camelize(toModelFilename(name));
-    }
-
-    @Override
-    public String toModelFilename(String name) {
-
-        if (!Strings.isNullOrEmpty(modelNamePrefix)) {
-            name = modelNamePrefix + "_" + name;
-        }
-
-        if (!Strings.isNullOrEmpty(modelNameSuffix)) {
-            name = name + "_" + modelNameSuffix;
-        }
-
-        name = sanitizeName(name);
-
-        // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + ("model_" + name));
-            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
-        }
-
-        // model name starts with number
-        if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + ("model_" + name));
-            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
-        }
-
-        return underscore(name);
-    }
-
-    @Override
-    public String toApiFilename(String name) {
-        // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
-        // e.g. PetApi.rs => pet_api.rs
-        return underscore(name) + "_api";
     }
 
     @Override
@@ -429,92 +471,78 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toModelDocFilename(String name) {
-        return toModelName(name);
-    }
-
-    @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
-    }
-
-    @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
-            if (inner == null) {
-                LOGGER.warn(ap.getName() + "(array property) does not have a proper inner type defined.Default to string");
-                inner = new StringSchema().description("TODO default missing array inner type to string");
-            }
-            return "Vec<" + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
-            if (inner == null) {
-                LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined. Default to string");
-                inner = new StringSchema().description("TODO default missing map inner type to string");
-            }
-            return "::std::collections::HashMap<String, " + getTypeDeclaration(inner) + ">";
-        }
-
-        // Not using the supertype invocation, because we want to UpperCamelize
-        // the type.
-        String schemaType = getSchemaType(p);
-        if (typeMapping.containsKey(schemaType)) {
-            return typeMapping.get(schemaType);
-        }
-
-        if (typeMapping.containsValue(schemaType)) {
-            return schemaType;
-        }
-
-        if (languageSpecificPrimitives.contains(schemaType)) {
-            return schemaType;
-        }
-
-        // return fully-qualified model name
-        // crate::models::{{classnameFile}}::{{classname}}
-        return "crate::models::" + toModelName(schemaType);
+        // use unaliased schema for client-side
+        Schema unaliasSchema = unaliasSchema(p);
+        return super.getTypeDeclaration(unaliasSchema);
     }
 
     @Override
     public String getSchemaType(Schema p) {
         String schemaType = super.getSchemaType(p);
-        String type = null;
-        if (typeMapping.containsKey(schemaType)) {
-            type = typeMapping.get(schemaType);
-            if (languageSpecificPrimitives.contains(type))
-                return (type);
-        } else
-            type = schemaType;
+        String type = typeMapping.getOrDefault(schemaType, schemaType);
+
+        // Implement integer type fitting (when property is enabled)
+        if (Objects.equals(p.getType(), "integer")) {
+            boolean bestFit = convertPropertyToBoolean(BEST_FIT_INT);
+            boolean preferUnsigned = convertPropertyToBoolean(PREFER_UNSIGNED_INT);
+
+            BigInteger minimum = Optional.ofNullable(p.getMinimum()).map(BigDecimal::toBigInteger).orElse(null);
+            boolean exclusiveMinimum = Optional.ofNullable(p.getExclusiveMinimum()).orElse(false);
+
+            boolean unsigned = preferUnsigned && canFitIntoUnsigned(minimum, exclusiveMinimum);
+
+            if (Strings.isNullOrEmpty(p.getFormat())) {
+                if (bestFit) {
+                    return bestFittingIntegerType(
+                            minimum,
+                            exclusiveMinimum,
+                            Optional.ofNullable(p.getMaximum()).map(BigDecimal::toBigInteger).orElse(null),
+                            Optional.ofNullable(p.getExclusiveMaximum()).orElse(false),
+                            preferUnsigned);
+                } else {
+                    return unsigned ? "u32" : "i32";
+                }
+            } else {
+                switch (p.getFormat()) {
+                    case "int32":
+                        return unsigned ? "u32" : "i32";
+                    case "int64":
+                        return unsigned ? "u64" : "i64";
+                }
+            }
+        }
+
         return type;
     }
 
     @Override
-    public String toOperationId(String operationId) {
-        String sanitizedOperationId = sanitizeName(operationId);
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
 
-        // method name cannot use reserved keyword, e.g. return
-        if (isReservedWord(sanitizedOperationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + StringUtils.underscore("call_" + operationId));
-            sanitizedOperationId = "call_" + sanitizedOperationId;
+        // If a property is both nullable and non-required then we represent this using a double Option
+        // which requires the `serde_with` extension crate for deserialization.
+        // See: https://docs.rs/serde_with/latest/serde_with/rust/double_option/index.html
+        if (property.isNullable && !property.required) {
+            additionalProperties.put("serdeWith", true);
         }
 
-        return StringUtils.underscore(sanitizedOperationId);
+        // If a property is a base64-encoded byte array, use `serde_with` for deserialization.
+        if (property.isByteArray) {
+            additionalProperties.put("serdeWith", true);
+        }
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        @SuppressWarnings("unchecked")
-        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
-        @SuppressWarnings("unchecked")
-        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap objectMap = objs.getOperations();
+        List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
             // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put, Reqwest: PUT => put)
             if (HYPER_LIBRARY.equals(getLibrary())) {
                 operation.httpMethod = StringUtils.camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
             } else if (REQWEST_LIBRARY.equals(getLibrary())) {
-                operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
+                operation.httpMethod = operation.httpMethod.toUpperCase(Locale.ROOT);
             }
 
             // add support for single request parameter using x-group-parameters
@@ -574,94 +602,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         return objs;
-    }
-
-    @Override
-    protected boolean needToImport(String type) {
-        return !defaultIncludes.contains(type)
-                && !languageSpecificPrimitives.contains(type);
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
-    }
-
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove " to avoid code injection
-        return input.replace("\"", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
-    }
-
-
-    @Override
-    public String toEnumValue(String value, String datatype) {
-        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
-            return value;
-        } else {
-            return escapeText(value);
-        }
-    }
-
-    @Override
-    public String toEnumDefaultValue(String value, String datatype) {
-        return datatype + "_" + value;
-    }
-
-    @Override
-    public String toEnumVarName(String name, String datatype) {
-        if (name.length() == 0) {
-            return "Empty";
-        }
-
-        // number
-        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
-            String varName = name;
-            varName = varName.replaceAll("-", "Minus");
-            varName = varName.replaceAll("\\+", "Plus");
-            varName = varName.replaceAll("\\.", "Dot");
-            return varName;
-        }
-
-        // for symbol, e.g. $, #
-        if (getSymbolName(name) != null) {
-            return getSymbolName(name);
-        }
-
-        // string
-        String enumName = sanitizeName(camelize(name));
-        enumName = enumName.replaceFirst("^_", "");
-        enumName = enumName.replaceFirst("_$", "");
-
-        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
-            return escapeReservedWord(enumName);
-        } else {
-            return enumName;
-        }
-    }
-
-    @Override
-    public String toEnumName(CodegenProperty property) {
-        // camelize the enum name
-        // phone_number => PhoneNumber
-        String enumName = camelize(toModelName(property.name));
-
-        // remove [] for array or map of enum
-        enumName = enumName.replace("[]", "");
-
-        if (enumName.matches("\\d.*")) { // starts with number
-            return "_" + enumName;
-        } else {
-            return enumName;
-        }
     }
 
     @Override

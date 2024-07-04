@@ -14,10 +14,10 @@ public interface PathHandlerInterface {
       {{#operation}}
 
     /**
-{{#summary}}     * <p>{{{summary}}}</p>
+{{#summary}}     * <p>{{{.}}}</p>
      *
 {{/summary}}
-{{#notes}}     * <p>{{{notes}}}</p>
+{{#notes}}     * <p>{{{.}}}</p>
      *
 {{/notes}}
      * <p><b>Endpoint</b>: {@link Methods#{{{httpMethod}}} {{{httpMethod}}}} "{{{basePathWithoutHost}}}{{{path}}}" (<i>privileged: {{{hasAuthMethods}}}</i>)</p>
@@ -29,12 +29,12 @@ public interface PathHandlerInterface {
     {{^isBodyParam}}
      * <li>
      * <p>"<b>{{{baseName}}}</b>"
-{{#description}}     * <p>{{{description}}}</p>
+{{#description}}     * <p>{{{.}}}</p>
 {{/description}}
      * <p>
      * - Parameter type: <b>{{>isContainerDoc}}{{#isModel}}{@link {{{dataType}}}}{{/isModel}}{{^isModel}}{{#isFile}}{{#isBinary}}Binary{{/isBinary}}File{{/isFile}}{{^isFile}}{@link {{dataType}}}{{/isFile}}{{/isModel}}</b><br/>
      * - Appears in: <b>{{#isFormParam}}{@link io.undertow.server.handlers.form.FormDataParser Form}{{/isFormParam}}{{#isQueryParam}}{@link HttpServerExchange#getQueryParameters Query}{{/isQueryParam}}{{#isPathParam}}{@link HttpServerExchange#getPathParameters Path}{{/isPathParam}}{{#isHeaderParam}}{@link Headers Header}{{/isHeaderParam}}{{#isCookieParam}}{@link HttpServerExchange#getRequestCookie Cookie}{{/isCookieParam}}{{#isBodyParam}}{@link HttpServerExchange#getRequestChannel Body}{{/isBodyParam}}</b><br/>
-{{#defaultValue}}     * - Default value: <b>{{{defaultValue}}}</b><br/>
+{{#defaultValue}}     * - Default value: <b>{{{.}}}</b><br/>
 {{/defaultValue}}
      * - Required: <b>{{{required}}}</b>
      * </p>
@@ -61,11 +61,11 @@ public interface PathHandlerInterface {
      * <p><b>Responses</b>:</p>
      * <ul>
 {{#responses}}
-     * <li><b>{{#isDefault}}Default{{/isDefault}}{{^isDefault}}{{{code}}} ({{#is1xx}}informative{{/is1xx}}{{#is2xx}}success{{/is2xx}}{{#is3xx}}redirection{{/is3xx}}{{#is4xx}}client error{{/is4xx}}{{#is5xx}}server error{{/is5xx}}){{/isDefault}}</b>{{#message}}: {{{message}}}{{/message}}</li>
+     * <li><b>{{#isDefault}}Default{{/isDefault}}{{^isDefault}}{{{code}}} ({{#is1xx}}informative{{/is1xx}}{{#is2xx}}success{{/is2xx}}{{#is3xx}}redirection{{/is3xx}}{{#is4xx}}client error{{/is4xx}}{{#is5xx}}server error{{/is5xx}}){{/isDefault}}</b>{{#message}}: {{{.}}}{{/message}}</li>
 {{/responses}}
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @{{javaxPackage}}.annotation.Nonnull
 {{#isDeprecated}}    @Deprecated
 {{/isDeprecated}}
     HttpHandler {{{operationId}}}();

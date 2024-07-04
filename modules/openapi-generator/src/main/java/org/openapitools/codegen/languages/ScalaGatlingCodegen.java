@@ -20,7 +20,6 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.io.FileUtils;
@@ -52,6 +51,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
      *
      * @return the CodegenType for this generator
      */
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
@@ -62,6 +62,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
      *
      * @return the friendly name for the generator
      */
+    @Override
     public String getName() {
         return "scala-gatling";
     }
@@ -72,6 +73,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
      *
      * @return A string value for the help message
      */
+    @Override
     public String getHelp() {
         return "Generates a gatling simulation library (beta).";
     }
@@ -231,6 +233,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
      * Location to write model files.  You can use the modelPackage() as defined when the class is
      * instantiated
      */
+    @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar);
     }
@@ -251,8 +254,9 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
      */
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        for (String pathname : openAPI.getPaths().keySet()) {
-            PathItem path = openAPI.getPaths().get(pathname);
+        for (Map.Entry<String, PathItem> openAPIGetPathsEntry : openAPI.getPaths().entrySet()) {
+            String pathname = openAPIGetPathsEntry.getKey();
+            PathItem path = openAPIGetPathsEntry.getValue();
             if (path.readOperations() == null) {
                 continue;
             }
@@ -279,7 +283,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
                 if (operation.getParameters() != null) {
 
                     for (Parameter parameter : operation.getParameters()) {
-                        if (parameter.getIn().equalsIgnoreCase("header")) {
+                        if ("header".equalsIgnoreCase(parameter.getIn())) {
                             headerParameters.add(parameter);
                         }
                     /* need to revise below as form parameter is no longer in the parameter list
@@ -287,10 +291,10 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
                         formParameters.add(parameter);
                     }
                     */
-                        if (parameter.getIn().equalsIgnoreCase("query")) {
+                        if ("query".equalsIgnoreCase(parameter.getIn())) {
                             queryParameters.add(parameter);
                         }
-                        if (parameter.getIn().equalsIgnoreCase("path")) {
+                        if ("path".equalsIgnoreCase(parameter.getIn())) {
                             pathParameters.add(parameter);
                         }
                     /* TODO need to revise below as body is no longer in the parameter
@@ -345,7 +349,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
     /**
      * Creates all the necessary openapi vendor extensions and feeder files for gatling
      *
-     * @param operation     OpoenAPI Operation
+     * @param operation     OpenAPI Operation
      * @param parameters    OpenAPI Parameters
      * @param parameterType OpenAPI Parameter Type
      */
@@ -383,11 +387,10 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);

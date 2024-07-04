@@ -18,6 +18,7 @@ package org.openapitools.codegen.meta.features;
 
 import org.openapitools.codegen.meta.features.annotations.OAS2;
 import org.openapitools.codegen.meta.features.annotations.OAS3;
+import org.openapitools.codegen.meta.features.annotations.ToolingExtension;
 
 /**
  * Defines security features supported in the generated code.
@@ -73,5 +74,17 @@ public enum SecurityFeature {
      * <p>In OAS 2.0, this is called "accessCode" flow.</p>
      */
     @OAS2 @OAS3
-    OAuth2_AuthorizationCode
+    OAuth2_AuthorizationCode,
+
+    /**
+     * Supports http signature.
+     */
+    @OAS3
+    SignatureAuth,
+
+    /**
+     * Supports AWS v4 signature, only for a few generators and with config option withAWSV4Signature=true
+     */
+    @ToolingExtension
+    AWSV4Signature,
 }

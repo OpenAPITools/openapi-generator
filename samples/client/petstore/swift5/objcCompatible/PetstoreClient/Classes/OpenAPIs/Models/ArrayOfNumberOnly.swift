@@ -6,8 +6,11 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
-@objc public class ArrayOfNumberOnly: NSObject, Codable {
+@objcMembers public class ArrayOfNumberOnly: NSObject, Codable, JSONEncodable {
 
     public var arrayNumber: [Double]?
 
@@ -19,4 +22,11 @@ import Foundation
         case arrayNumber = "ArrayNumber"
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(arrayNumber, forKey: .arrayNumber)
+    }
 }
+

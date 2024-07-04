@@ -1,9 +1,11 @@
 module {{gitHost}}/{{gitUserId}}/{{gitRepoId}}{{#isGoSubmodule}}/{{packageName}}{{/isGoSubmodule}}
 
-go 1.13
+go 1.18
 
 require (
-	golang.org/x/oauth2 v0.0.0-20210218202405-ba52d332ba99
+	{{#hasOAuthMethods}}
+	golang.org/x/oauth2 v0.0.0-20210323180902-22b0adad7558
+	{{/hasOAuthMethods}}
 	{{#withAWSV4Signature}}
 	github.com/aws/aws-sdk-go v1.34.14
 	{{/withAWSV4Signature}}

@@ -2,13 +2,13 @@
 {{#model}}
 {{>partial_header}}
 {{#description}}
-# {{description}}
+# {{.}}
 {{/description}}
 type {{classname}} {
 
 {{#vars}}
   {{#description}}
-  # {{description}}
+  # {{.}}
   {{/description}}
   {{baseName}}: {{datatypeWithEnum}}
 
@@ -18,7 +18,7 @@ type {{classname}} {
 {{#isEnum}}
 
 {{#description}}
-# {{description}}
+# {{.}}
 {{/description}}
 enum {{enumName}} {
   {{#allowableValues}}

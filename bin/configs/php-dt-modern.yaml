@@ -1,0 +1,6 @@
+generatorName: php-dt
+outputDir: samples/client/petstore/php-dt-modern
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/php-dt-modern
+additionalProperties:
+  modern: "true"

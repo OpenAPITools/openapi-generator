@@ -11,7 +11,8 @@
 request(_Ctx, Method, Path, QS, Headers, Body, Opts, Cfg) ->
     {Headers1, QS1} = update_params_with_auth(Cfg, Headers, QS),
     Host = maps:get(host, Cfg, "localhost:8001"),
-    Url = hackney_url:make_url(Host, Path, QS1),
+    Path1 = prepare_path(Path),
+    Url = hackney_url:make_url(Host, Path1, QS1),
 
     ConfigHackneyOpts = maps:get(hackney_opts, Cfg, []),
     Body1 = case lists:keyfind(<<"Content-Type">>, 1, Headers1) of
@@ -37,6 +38,14 @@ request(_Ctx, Method, Path, QS, Headers, Body, Opts, Cfg) ->
             {error, Resp, #{status => Status,
                             headers => RespHeaders}}
     end.
+
+prepare_path(Path) ->
+    lists:map(fun convert/1, Path).
+
+convert(PathPart) when is_integer(PathPart) ->
+    integer_to_binary(PathPart);
+convert(PathPart) when is_list(PathPart) or is_binary(PathPart) ->
+    PathPart.
 
 decode_response(Headers, Body) ->
     case lists:keyfind(<<"Content-Type">>, 1, Headers) of

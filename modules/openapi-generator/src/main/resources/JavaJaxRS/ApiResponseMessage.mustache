@@ -1,8 +1,12 @@
 package {{apiPackage}};
 
-import javax.xml.bind.annotation.XmlTransient;
+{{#withXml}}
+import {{javaxPackage}}.xml.bind.annotation.XmlTransient;
+{{/withXml}}
 
-@javax.xml.bind.annotation.XmlRootElement
+{{#withXml}}
+@{{javaxPackage}}.xml.bind.annotation.XmlRootElement
+{{/withXml}}
 {{>generatedAnnotation}}
 public class ApiResponseMessage {
     public static final int ERROR = 1;
@@ -42,7 +46,9 @@ public class ApiResponseMessage {
         this.message = message;
     }
 
+    {{#withXml}}
     @XmlTransient
+    {{/withXml}}
     public int getCode() {
         return code;
     }

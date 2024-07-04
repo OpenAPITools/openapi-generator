@@ -5,7 +5,7 @@
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 {{#vars}}
-| **{{name}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional]{{/required}}{{#isReadOnly}}[readonly]{{/isReadOnly}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}} |
+| **{{name}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional]{{/required}}{{#isReadOnly}}[readonly]{{/isReadOnly}}{{#defaultValue}}[default to {{.}}]{{/defaultValue}} |
 {{/vars}}
 
 ## Example

@@ -4,24 +4,22 @@ import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
+
+import org.assertj.core.api.Assertions;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
+import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen;
 import org.openapitools.codegen.languages.JavaCXFExtServerCodegen;
 import org.openapitools.codegen.languages.features.*;
+import org.openapitools.codegen.testutils.ConfigAssert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import static org.testng.Assert.*;
 
@@ -48,11 +46,6 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
             return disableHtmlEscaping;
         }
 
-        // AbstractJavaCodegen.FULL_JAVA_UTIL
-        public boolean isFullJavaUtil() {
-            return fullJavaUtil;
-        }
-
         // JbossFeature.GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR
         public boolean isGenerateJbossDeploymentDescriptor() {
             return generateJbossDeploymentDescriptor;
@@ -77,11 +70,6 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
             return generateSpringBootApplication;
         }
 
-        // AbstractJavaCodegen.JAVA8_MODE
-        public boolean isJava8Mode() {
-            return java8Mode;
-        }
-
         // CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING
         public boolean isSerializeBigDecimalAsString() {
             return serializeBigDecimalAsString;
@@ -97,10 +85,6 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
             return useAnnotatedBasePath;
         }
 
-        // BeanValidationFeatures.USE_BEANVALIDATION
-        public boolean isUseBeanValidation() {
-            return useBeanValidation;
-        }
 
         // BeanValidationExtendedFeatures.USE_BEANVALIDATION_FEATURE
         public boolean isUseBeanValidationFeature() {
@@ -190,33 +174,6 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         codegen = new JavaCXFExtServerCodegenTester();
     }
 
-    private void checkFile(Path path, boolean fileShouldExist, String... regexes) {
-        if (!fileShouldExist) {
-            assertFalse(path.toFile().exists());
-            return;
-        }
-
-        assertTrue(path.toFile().exists());
-
-        String contents = null;
-        try {
-            contents = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            fail("Unable to evaluate file contents");
-        }
-
-        for (String regex : regexes)
-            assertTrue(Pattern.compile(regex).matcher(contents).find());
-    }
-
-    @SuppressWarnings("unchecked")
-    private List<CodegenOperation> getOperationsList(Map<String, Object> templateData) {
-        assertTrue(templateData.get("operations") instanceof Map);
-        Map<String, Object> operations = (Map<String, Object>) templateData.get("operations");
-        assertTrue(operations.get("operation") instanceof List);
-        return (List<CodegenOperation>) operations.get("operation");
-    }
-
     @Test
     public void testAdditionalPropertiesPutForConfigValues() throws Exception {
         JavaCXFExtServerCodegenTester testerCodegen = (JavaCXFExtServerCodegenTester) this.codegen;
@@ -257,10 +214,7 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         additionalProperties.put(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX, "isIt");
         additionalProperties.put(AbstractJavaCodegen.DATE_LIBRARY, "MyDateLibrary");
         additionalProperties.put(AbstractJavaCodegen.DISABLE_HTML_ESCAPING, "true");
-        additionalProperties.put(AbstractJavaCodegen.FULL_JAVA_UTIL, "true");
-        additionalProperties.put(AbstractJavaCodegen.JAVA8_MODE, "true");
         additionalProperties.put(AbstractJavaCodegen.SUPPORT_ASYNC, "true");
-        additionalProperties.put(AbstractJavaCodegen.SUPPORT_JAVA6, "false");
         additionalProperties.put(AbstractJavaCodegen.WITH_XML, "true");
         additionalProperties.put(AbstractJavaCodegen.OPENAPI_NULLABLE, "false");
         // Options processed by AbstractJavaJAXRSServerCodegen
@@ -333,8 +287,6 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         assertEquals(testerCodegen.getBooleanGetterPrefix(), "isIt");
         assertEquals(testerCodegen.getDateLibrary(), "MyDateLibrary");
         assertEquals(testerCodegen.isDisableHtmlEscaping(), true);
-        assertEquals(testerCodegen.isFullJavaUtil(), true);
-        assertEquals(testerCodegen.isJava8Mode(), true);
         assertEquals(testerCodegen.isSupportAsync(), true);
         assertEquals(testerCodegen.isWithXml(), true);
         assertEquals(testerCodegen.isOpenApiNullable(), false);
@@ -387,29 +339,25 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(input).generate();
 
-        String reGetPetById = "(?s)(?m)public Pet getPetById\\(Long petId\\) \\{" // split
-                + ".*" // split
-                + "Pet response = new Pet\\(\\);" // split
-                + ".*" // split
-                + "return response;\\s+" // split
-                + "\\}"; // split
-        checkFile(Paths.get(outputPath + "/src/main/java/org/openapitools/api/impl/PetApiServiceImpl.java"), true,
-                reGetPetById);
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/impl/PetApiServiceImpl.java"))
+            .assertMethod("getPetById")
+            .bodyContainsLines(
+                "Pet response = new Pet();",
+                "return response;"
+            );
 
-        String reFindPetsByStatusTest = "(?s)(?m)public void findPetsByStatusTest\\(\\) throws Exception \\{\\s+"
-                + ".*" // split
-                + "List<String> status = new ArrayList<>\\(\\);" // split
-                + ".*" // split
-                + "List<Pet> response = api\\.findPetsByStatus\\(status\\);" // split
-                + ".*" // split
-                + "validate\\(response\\);\\s+" // split
-                + "\\}";
-        checkFile(Paths.get(outputPath + "/src/test/java/org/openapitools/api/PetApiTest.java"), true,
-                reFindPetsByStatusTest);
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/test/java/org/openapitools/api/PetApiTest.java"))
+            .assertMethod("findPetsByStatusTest")
+            .bodyContainsLines(
+                "List<String> status = new ArrayList<>();",
+                "// List<Pet> response = api.findPetsByStatus(status);",
+                "// validate(response);"
+            );
 
-        checkFile(Paths.get(outputPath + "/src/main/resources/test-data.json"), false);
-
-        checkFile(Paths.get(outputPath + "/test-data-control.json"), false);
+        Assertions.assertThat(Paths.get(outputPath + "/src/main/resources/test-data.json"))
+            .doesNotExist();
+        Assertions.assertThat(Paths.get(outputPath + "/test-data-control.json"))
+            .doesNotExist();
     }
 
     @Test
@@ -432,28 +380,34 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(input).generate();
 
-        String reInitCache = "(?s)(?m)\\{\\s+" + "try \\{\\s+"
-                + "File cacheFile = new File\\(System\\.getProperty\\(\"jaxrs\\.test\\.server\\.json\",\\s+\"(.+)\"\\)\\);\\s+"
-                + "cache = JsonCache\\.Factory\\.instance\\.get\\(\"test-data\"\\)\\.load\\(cacheFile\\)\\.child\\(\"/org\\.openapitools\\.api/PetApi\"\\);";
-        String reGetPetById = "(?s)(?m)public Pet getPetById\\(Long petId\\) \\{.*" // split
-                + "try \\{\\s*" // split
-                + "Pet response = cache\\.getObject\\(\"/getPetById/response\", Pet\\.class\\);";
-        checkFile(Paths.get(outputPath + "/src/main/java/org/openapitools/api/impl/PetApiServiceImpl.java"), true,
-                reInitCache, reGetPetById);
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/impl/PetApiServiceImpl.java"))
+            .fileContains(
+                "File cacheFile = new File(System.getProperty(\"jaxrs.test.server.json\"",
+                "cache = JsonCache.Factory.instance.get(\"test-data\").load(cacheFile).child(\"/org.openapitools.api/PetApi\");"
+            )
+            .assertMethod("getPetById")
+            .bodyContainsLines(
+                "Pet response = cache.getObject(\"/getPetById/response\", Pet.class);"
+            );
 
-        reInitCache = "(?s)(?m)public static void beforeClass\\(\\) throws Exception \\{\\s+"
-                + "File cacheFile = new File\\(System\\.getProperty\\(\"jaxrs\\.test\\.client\\.json\",\\s+"
-                + "\".*src(?:\\\\\\\\|/)main(?:\\\\\\\\|/)resources(?:\\\\\\\\|/)test-data\\.json\"\\)\\);\\s+"
-                + "cache = JsonCache\\.Factory\\.instance.get\\(\"test-data\"\\)\\.load\\(cacheFile\\)"
-                + "\\.child\\(\"/org\\.openapitools\\.api/PetApi\"\\);";
-        String reAddPetTest = "public void addPetTest\\(\\) throws Exception \\{\\s+"
-                + "Pet pet = cache\\.getObject\\(\"/addPet/pet\", Pet\\.class\\);";
-        checkFile(Paths.get(outputPath + "/src/test/java/org/openapitools/api/PetApiTest.java"), true, reInitCache,
-                reAddPetTest);
 
-        checkFile(Paths.get(outputPath + "/src/main/resources/test-data.json"), true);
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/test/java/org/openapitools/api/PetApiTest.java"))
+            .assertMethod("beforeClass")
+                .bodyContainsLines(
+                    "File cacheFile = new File(System.getProperty(\"jaxrs.test.client.json\",",
+                    "cache = JsonCache.Factory.instance.get(\"test-data\").load(cacheFile).child(\"/org.openapitools.api/PetApi\");",
+                    "validator = Validation.buildDefaultValidatorFactory().getValidator();"
+                )
+            .toFileAssert()
+            .assertMethod("addPetTest")
+                .bodyContainsLines(
+                    "Pet pet = cache.getObject(\"/addPet/pet\", Pet.class);"
+                );
 
-        checkFile(Paths.get(outputPath + "/test-data-control.json"), true);
+        Assertions.assertThat(Paths.get(outputPath + "/src/main/resources/test-data.json"))
+            .exists();
+        Assertions.assertThat(Paths.get(outputPath + "/test-data-control.json"))
+            .exists();
     }
 
     @Test
@@ -465,61 +419,50 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.preprocessOpenAPI(openAPI);
 
         Map<String, Object> additionalProperties = codegen.additionalProperties();
-
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
         // Options processed by DefaultCodegen
         assertNull(additionalProperties.get(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS));
-        assertEquals(additionalProperties.get(CodegenConstants.API_PACKAGE), "org.openapitools.api");
+        // NOT WRITTEN BACK assertEquals(additionalProperties.get(CodegenConstants.API_PACKAGE), "org.openapitools.api");
         assertEquals(codegen.apiPackage(), "org.openapitools.api");
         assertNull(additionalProperties.get(CodegenConstants.DOCEXTENSION));
         assertNull(additionalProperties.get(CodegenConstants.ENSURE_UNIQUE_PARAMS));
-        assertEquals(additionalProperties.get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        // NOT WRITTEN BACK assertEquals(additionalProperties.get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, false);
+
         assertEquals(codegen.isHideGenerationTimestamp(), false);
-        assertEquals(additionalProperties.get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools.api");
-        assertEquals(codegen.getInvokerPackage(), "org.openapitools.api");
+        configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "org.openapitools.api");
         assertNull(additionalProperties.get(CodegenConstants.MODEL_NAME_PREFIX));
         assertNull(additionalProperties.get(CodegenConstants.MODEL_NAME_SUFFIX));
-        assertEquals(additionalProperties.get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.model");
-        assertEquals(codegen.modelPackage(), "org.openapitools.model");
+        configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, codegen::modelPackage, "org.openapitools.model");
         assertNull(additionalProperties.get(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS));
         assertNull(additionalProperties.get(CodegenConstants.REMOVE_OPERATION_ID_PREFIX));
         assertNull(additionalProperties.get(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG));
         assertNull(additionalProperties.get(CodegenConstants.TEMPLATE_DIR));
-        // Options processed by AbstractJavaCodegen
-        assertEquals(additionalProperties.get(CodegenConstants.ARTIFACT_DESCRIPTION), "OpenAPI Java");
-        assertEquals(additionalProperties.get(CodegenConstants.ARTIFACT_ID), "openapi-cxf-server");
-        assertEquals(additionalProperties.get(CodegenConstants.ARTIFACT_VERSION), "1.0.0");
-        assertEquals(additionalProperties.get(CodegenConstants.ARTIFACT_URL),
-                "https://github.com/openapitools/openapi-generator");
-        assertEquals(additionalProperties.get(CodegenConstants.DEVELOPER_EMAIL), "team@openapitools.org");
-        assertEquals(additionalProperties.get(CodegenConstants.DEVELOPER_NAME), "OpenAPI-Generator Contributors");
-        assertEquals(additionalProperties.get(CodegenConstants.DEVELOPER_ORGANIZATION), "OpenAPITools.org");
-        assertEquals(additionalProperties.get(CodegenConstants.DEVELOPER_ORGANIZATION_URL), "http://openapitools.org");
-        assertEquals(additionalProperties.get(CodegenConstants.GROUP_ID), "org.openapitools");
-        assertEquals(additionalProperties.get(CodegenConstants.LICENSE_NAME), "Unlicense");
-        assertEquals(additionalProperties.get(CodegenConstants.LICENSE_URL), "http://unlicense.org");
-        assertEquals(additionalProperties.get(CodegenConstants.SCM_CONNECTION),
-                "scm:git:git@github.com:openapitools/openapi-generator.git");
-        assertEquals(additionalProperties.get(CodegenConstants.SCM_DEVELOPER_CONNECTION),
-                "scm:git:git@github.com:openapitools/openapi-generator.git");
-        assertEquals(additionalProperties.get(CodegenConstants.SCM_URL),
-                "https://github.com/openapitools/openapi-generator");
+        configAssert.assertValue(CodegenConstants.ARTIFACT_ID, "openapi-cxf-server");
+        configAssert.assertValue(CodegenConstants.ARTIFACT_VERSION, "1.0.0");
+        configAssert.assertValue(CodegenConstants.ARTIFACT_URL, "https://github.com/openapitools/openapi-generator");
+        configAssert.assertValue(CodegenConstants.DEVELOPER_EMAIL, "team@openapitools.org");
+        configAssert.assertValue(CodegenConstants.DEVELOPER_NAME, "OpenAPI-Generator Contributors");
+        configAssert.assertValue(CodegenConstants.DEVELOPER_ORGANIZATION, "OpenAPITools.org");
+        configAssert.assertValue(CodegenConstants.DEVELOPER_ORGANIZATION_URL, "http://openapitools.org");
+        configAssert.assertValue(CodegenConstants.GROUP_ID, "org.openapitools");
+        configAssert.assertValue(CodegenConstants.LICENSE_NAME, "Unlicense");
+        configAssert.assertValue(CodegenConstants.LICENSE_URL, "http://unlicense.org");
+        configAssert.assertValue(CodegenConstants.SCM_CONNECTION, "scm:git:git@github.com:openapitools/openapi-generator.git");
+        configAssert.assertValue(CodegenConstants.SCM_DEVELOPER_CONNECTION, "scm:git:git@github.com:openapitools/openapi-generator.git");
+        configAssert.assertValue(CodegenConstants.SCM_URL, "https://github.com/openapitools/openapi-generator");
         assertNull(additionalProperties.get(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING));
-        assertEquals(additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL), Boolean.FALSE);
-        assertEquals(additionalProperties.get(CodegenConstants.SOURCE_FOLDER), "src/gen/java");
-        assertEquals(additionalProperties.get(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX), "get");
+        configAssert.assertValue(CodegenConstants.SERIALIZABLE_MODEL, Boolean.FALSE);
+        configAssert.assertValue(CodegenConstants.SOURCE_FOLDER, "src/gen/java");
+        configAssert.assertValue(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX, "get");
         assertNull(additionalProperties.get(AbstractJavaCodegen.DATE_LIBRARY));
-        assertEquals(additionalProperties.get(AbstractJavaCodegen.DISABLE_HTML_ESCAPING), Boolean.FALSE);
-        assertEquals(additionalProperties.get(AbstractJavaCodegen.FULL_JAVA_UTIL), Boolean.FALSE);
-        assertNull(additionalProperties.get(AbstractJavaCodegen.JAVA8_MODE));
+        configAssert.assertValue(AbstractJavaCodegen.DISABLE_HTML_ESCAPING, Boolean.FALSE);
         assertNull(additionalProperties.get(AbstractJavaCodegen.SUPPORT_ASYNC));
-        assertEquals(additionalProperties.get(AbstractJavaCodegen.SUPPORT_JAVA6), Boolean.FALSE);
-        assertEquals(additionalProperties.get(AbstractJavaCodegen.WITH_XML), false);
-        assertEquals(additionalProperties.get(AbstractJavaCodegen.OPENAPI_NULLABLE), true);
-        // Options processed by AbstractJavaJAXRSServerCodegen
+        configAssert.assertValue(AbstractJavaCodegen.WITH_XML, false);
+        configAssert.assertValue(AbstractJavaCodegen.OPENAPI_NULLABLE, true);
         assertNull(additionalProperties.get(CodegenConstants.IMPL_FOLDER));
-        assertEquals(additionalProperties.get(BeanValidationFeatures.USE_BEANVALIDATION), Boolean.TRUE);
-        assertEquals(additionalProperties.get(AbstractJavaJAXRSServerCodegen.SERVER_PORT), "8082");
-        // Options processed by JavaCXFServerCodegen
+        configAssert.assertValue(BeanValidationFeatures.USE_BEANVALIDATION, Boolean.TRUE);
+        configAssert.assertValue(AbstractJavaJAXRSServerCodegen.SERVER_PORT, "8082");
         assertNull(additionalProperties.get(BeanValidationExtendedFeatures.USE_BEANVALIDATION_FEATURE));
         assertNull(additionalProperties.get(GzipFeatures.USE_GZIP_FEATURE));
         assertNull(additionalProperties.get(GzipTestFeatures.USE_GZIP_FEATURE_FOR_TESTS));
@@ -555,14 +498,11 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.setInvokerPackage("xx.yyyyyyyy.invoker");
         codegen.processOpts();
 
-        Map<String, Object> additionalProperties = codegen.additionalProperties();
-        assertEquals(additionalProperties.get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        assertEquals(codegen.isHideGenerationTimestamp(), false);
-        assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
-        assertEquals(additionalProperties.get(CodegenConstants.MODEL_PACKAGE), "xx.yyyyyyyy.model");
-        assertEquals(codegen.apiPackage(), "xx.yyyyyyyy.api");
-        assertEquals(additionalProperties.get(CodegenConstants.API_PACKAGE), "xx.yyyyyyyy.api");
-        assertEquals(codegen.getInvokerPackage(), "xx.yyyyyyyy.invoker");
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP,codegen::isHideGenerationTimestamp, false);
+        configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, codegen::modelPackage, "xx.yyyyyyyy.model");
+        configAssert.assertValue(CodegenConstants.API_PACKAGE, codegen::apiPackage, "xx.yyyyyyyy.api");
+        configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "xx.yyyyyyyy.invoker");
     }
 
 }

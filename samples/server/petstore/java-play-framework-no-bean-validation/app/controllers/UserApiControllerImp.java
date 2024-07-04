@@ -1,6 +1,6 @@
 package controllers;
 
-import java.util.List;
+import java.time.OffsetDateTime;
 import apimodels.User;
 
 import play.mvc.Http;
@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.io.FileInputStream;
 import play.libs.Files.TemporaryFile;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class UserApiControllerImp extends UserApiControllerImpInterface {
     @Override
     public void createUser(Http.Request request, User body) throws Exception {

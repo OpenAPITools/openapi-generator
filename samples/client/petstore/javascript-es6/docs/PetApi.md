@@ -22,6 +22,8 @@ Method | HTTP request | Description
 
 Add a new pet to the store
 
+
+
 ### Example
 
 ```javascript
@@ -68,6 +70,8 @@ null (empty response body)
 > deletePet(petId, opts)
 
 Deletes a pet
+
+
 
 ### Example
 
@@ -269,6 +273,8 @@ Name | Type | Description  | Notes
 
 Update an existing pet
 
+
+
 ### Example
 
 ```javascript
@@ -315,6 +321,8 @@ null (empty response body)
 > updatePetWithForm(petId, opts)
 
 Updates a pet in the store with form data
+
+
 
 ### Example
 
@@ -369,6 +377,8 @@ null (empty response body)
 
 uploads an image
 
+
+
 ### Example
 
 ```javascript
@@ -421,6 +431,8 @@ Name | Type | Description  | Notes
 > ApiResponse uploadFileWithRequiredFile(petId, requiredFile, opts)
 
 uploads an image (required)
+
+
 
 ### Example
 

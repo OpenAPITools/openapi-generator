@@ -18,10 +18,14 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,19 +44,22 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ErlangProperCodegen.class);
 
-    protected String packageName = "openapi";
-    protected String packageVersion = "1.0.0";
+    @Setter protected String packageName = "openapi";
+    @Setter protected String packageVersion = "1.0.0";
     protected String sourceFolder = "src";
     protected String modelFolder = "model";
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "erlang-proper";
     }
 
+    @Override
     public String getHelp() {
         return "Generates an Erlang library with PropEr generators (beta).";
     }
@@ -138,7 +145,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     public CodegenModel fromModel(String name, Schema model) {
         CodegenModel cm = super.fromModel(name, model);
         if(ModelUtils.isArraySchema(model)) {
-            return new CodegenArrayModel(cm, (ArraySchema) model);
+            return new CodegenArrayModel(cm, model);
         } else {
             return cm;
         }
@@ -153,12 +160,9 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     public String getTypeDeclaration(Schema schema) {
         String typeDeclaration = super.getSchemaType(schema);
         if(ModelUtils.isArraySchema(schema)) {
-            ArraySchema arraySchema = (ArraySchema) schema;
-            String complexType = getSchemaType(arraySchema.getItems());
-
+            String complexType = getSchemaType(ModelUtils.getSchemaItems(schema));
             StringBuilder sb = new StringBuilder("list(");
             sb.append(complexType);
-
             return sb.append(")").toString();
         } else if (typeMapping.containsKey(typeDeclaration)) {
             return typeMapping.get(typeDeclaration);
@@ -171,8 +175,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     public String getSchemaType(Schema schema) {
         String schemaType = super.getSchemaType(schema);
         if(ModelUtils.isArraySchema(schema)) {
-            ArraySchema arraySchema = (ArraySchema) schema;
-            String complexType = getSchemaType(arraySchema.getItems());
+            String complexType = getSchemaType(ModelUtils.getSchemaItems(schema));
 
             StringBuilder sb = new StringBuilder("list(");
             sb.append(complexType);
@@ -359,7 +362,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)).replaceAll("\\.", "_"));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)).replaceAll("\\.", "_"));
             operationId = "call_" + operationId;
         }
 
@@ -367,9 +370,9 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> os = (List<CodegenOperation>) operations.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> os = operations.getOperation();
         List<ExtendedCodegenOperation> newOs = new ArrayList<>();
         Pattern pattern = Pattern.compile("\\{([^\\}]+)\\}");
         for (CodegenOperation o : os) {
@@ -396,16 +399,8 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
             }
             newOs.add(eco);
         }
-        operations.put("operation", newOs);
+        operations.setOperation(newOs);
         return objs;
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
     }
 
     String length(Object os) {
@@ -443,7 +438,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
         Integer minItems;
         Integer maxItems;
 
-        public CodegenArrayModel(CodegenModel cm, ArraySchema schema) {
+        public CodegenArrayModel(CodegenModel cm, Schema schema) {
             super();
 
             // Copy all fields of CodegenModel
@@ -486,6 +481,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
             this.isEnum = cm.isEnum;
             this.hasRequired = cm.hasRequired;
             this.hasOptional = cm.hasOptional;
+            this.hasReadOnly = cm.hasReadOnly;
             this.isArray = cm.isArray;
             this.hasChildren = cm.hasChildren;
             this.hasOnlyReadOnly = cm.hasOnlyReadOnly;
@@ -499,6 +495,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     class ExtendedCodegenOperation extends CodegenOperation {
+        @Getter @Setter
         private String replacedPathName;
         String arity;
 
@@ -560,12 +557,13 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
             this.operationIdCamelCase = o.operationIdCamelCase;
         }
 
-        public String getReplacedPathName() {
-            return replacedPathName;
-        }
-
-        public void setReplacedPathName(String replacedPathName) {
-            this.replacedPathName = replacedPathName;
-        }
     }
+
+    @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        return pattern;
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ERLANG; }
 }

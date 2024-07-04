@@ -18,7 +18,7 @@ import io.vertx.core.MultiMap;
 
 import java.util.List;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class OAuth implements Authentication {
   private String accessToken;
 

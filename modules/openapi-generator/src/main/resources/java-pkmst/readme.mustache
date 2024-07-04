@@ -1,4 +1,4 @@
-Dear Reader : Thanks for selecting PKMST swagger code generation toolkit for starting your microservice journey. 
+Dear Reader : Thanks for selecting PKMST swagger code generation toolkit for starting your microservice journey.
 We believe the hard work we put into this framework will help you kick start your journey sooner and you will find it
 easy to scale your service to enterprise grade. Another great thing is you don't need to enable all capabilities as you start,
 but can enable as your microservice capabilities needs to be extended to meet strict enterprise standards.
@@ -6,7 +6,7 @@ but can enable as your microservice capabilities needs to be extended to meet st
 PKMST feature set.
 a)Read the Swagger supplied and will create a maven project
 b)Create basic controller based on rest verb and path configured in swagger
-c)generate default unit test cose using junit
+c)generate default unit test case using junit
 d)generate all needed dependency needed to run the microservice on local
 e)generate a default manifest file that allows you to push code to cloudfoundry instance ( eg pcf , ibm bluemix etc)
 
@@ -19,15 +19,15 @@ i)Allow you to configure Oauth2 security based authorization for your microservi
 
  Additional Features
  j)generate sample cucumber file and dependency to drive your Behaviour driven development.
- k)generate gatling based performance test, which can be excuted via build pipeline like jenkins etc.
- 
- 
+ k)generate gatling based performance test, which can be executed via build pipeline like jenkins etc.
+
+
 Working:
 Using OpenAPI specification you can convert any definition to spring boot microservice.
 It has the integration with the below services:
 eureka registry, zipkin , spring boot admin, circuit breaker.
 
-By default only the circuit breaker annotation is enabled. But one has to write the fallback method. The needed dependency for it is also been enabled. To generate the integration and 
+By default only the circuit breaker annotation is enabled. But one has to write the fallback method. The needed dependency for it is also been enabled. To generate the integration and
 related configuration for eureka, zipkin, spring boot admin one has two options:
 
 1) When generating from UI one has to provide vendor extensions inside the OpenAPI specification as below:
@@ -42,7 +42,7 @@ info:
     zipkinUri: "http://localhost:9411"
     springBootAdminUri: "http://localhost:8000"
     pkmstInterceptor: "true"
-    
+
 PLease note the vendor extensions are inside the info tag of the OpenAPI specification. All the tags are case sensitive. Once given all the related configuration and the dependency
 will be enabled.
 
@@ -64,14 +64,14 @@ inside the openapi generator maven plugin under the configuration section
 								<springBootAdminUri>http://localhost:4588</springBootAdminUri>
 								<pkmstInterceptor>true</pkmstInterceptor>
 								</configOptions>
-						</configuration> 
-						
+						</configuration>
+
  The project has three profiles local, dev, dev-config which can be configured accordingly. Once you have provided the uris you can see the necessary configurations generated inside the local and the dev
  yml files. dev-config is for the config server if you want to use.(also enable the dependency for the config server inside the pom)
- 
+
  [Note: one has to run the zipkin, eureka, spring boot admin servers to be able to connect from the app. This project assumes that you have all the servers
  up and running.]
- 
+
  Also provided are the middleware handlers:
 
 1) traceInterceptor:is an id passed in from client and will be unique with an application context. The id will be passed into the backend and return to the consumer for transaction tracing.
@@ -86,7 +86,7 @@ inside the openapi generator maven plugin under the configuration section
 
 To be able to generate the handlers and the necessary configurations one has to provide the pkmstInterceptor key inside the vendor extensions or through
 the maven plugin.
-Once provided all the handlers are registered in the interceptor registry and can be enabled or disabled through the configuration provided inside 
+Once provided all the handlers are registered in the interceptor registry and can be enabled or disabled through the configuration provided inside
 the application yml as below:
 interceptor:
    enable:
@@ -94,9 +94,9 @@ interceptor:
        body: true
        rateLimit: true
        traceability: true
-       correlation: true  
- 
-For testing we have placeholders for junit test class, integration test class, cucumber sample 
+       correlation: true
+
+For testing we have placeholders for junit test class, integration test class, cucumber sample
 feature file(implement according to your needs), gatling load test.
 
 Logstash: Logstash is a tool to collect, process, and forward events and log messages.Sample Logstash configuration file provided that developer can configure to collect wide variety of data.Logstash can dynamically unify data from disparate sources and normalize the data into destinations of their choice.

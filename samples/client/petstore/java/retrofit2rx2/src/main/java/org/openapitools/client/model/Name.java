@@ -20,15 +20,12 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
  * Model for testing model name same as property name
  */
-@ApiModel(description = "Model for testing model name same as property name")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Name {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -46,6 +43,20 @@ public class Name {
   @SerializedName(SERIALIZED_NAME_123NUMBER)
   private Integer _123number;
 
+  public Name() {
+  }
+  /**
+   * Constructor with only readonly parameters
+   */
+  
+  public Name(
+     Integer snakeCase, 
+     Integer _123number
+  ) {
+    this();
+    this.snakeCase = snakeCase;
+    this._123number = _123number;
+  }
 
   public Name name(Integer name) {
     
@@ -53,11 +64,11 @@ public class Name {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
-  @ApiModelProperty(required = true, value = "")
+   */
+  @javax.annotation.Nonnull
 
   public Integer getName() {
     return name;
@@ -68,18 +79,15 @@ public class Name {
     this.name = name;
   }
 
-
-   /**
+  /**
    * Get snakeCase
    * @return snakeCase
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Integer getSnakeCase() {
     return snakeCase;
   }
-
 
 
 
@@ -89,12 +97,11 @@ public class Name {
     return this;
   }
 
-   /**
+  /**
    * Get property
    * @return property
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getProperty() {
     return property;
@@ -105,18 +112,15 @@ public class Name {
     this.property = property;
   }
 
-
-   /**
+  /**
    * Get _123number
    * @return _123number
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Integer get123number() {
     return _123number;
   }
-
 
 
 

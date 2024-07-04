@@ -45,6 +45,7 @@ export default class PetApi {
 
     /**
      * Add a new pet to the store
+     * 
      * @param {module:model/Pet} pet Pet object that needs to be added to the store
      * @param {module:api/PetApi~addPetCallback} callback The callback function, accepting three arguments: error, data, response
      */
@@ -95,9 +96,10 @@ export default class PetApi {
 
     /**
      * Deletes a pet
+     * 
      * @param {Number} petId Pet id to delete
      * @param {Object} opts Optional parameters
-     * @param {String} opts.apiKey 
+     * @param {String} [apiKey] 
      * @param {module:api/PetApi~deletePetCallback} callback The callback function, accepting three arguments: error, data, response
      */
     deletePet(petId, opts, callback) {
@@ -269,6 +271,7 @@ export default class PetApi {
 
     /**
      * Update an existing pet
+     * 
      * @param {module:model/Pet} pet Pet object that needs to be added to the store
      * @param {module:api/PetApi~updatePetCallback} callback The callback function, accepting three arguments: error, data, response
      */
@@ -319,10 +322,11 @@ export default class PetApi {
 
     /**
      * Updates a pet in the store with form data
+     * 
      * @param {Number} petId ID of pet that needs to be updated
      * @param {Object} opts Optional parameters
-     * @param {String} opts.name Updated name of the pet
-     * @param {String} opts.status Updated status of the pet
+     * @param {String} [name] Updated name of the pet
+     * @param {String} [status] Updated status of the pet
      * @param {module:api/PetApi~updatePetWithFormCallback} callback The callback function, accepting three arguments: error, data, response
      */
     updatePetWithForm(petId, opts, callback) {
@@ -366,10 +370,11 @@ export default class PetApi {
 
     /**
      * uploads an image
+     * 
      * @param {Number} petId ID of pet to update
      * @param {Object} opts Optional parameters
-     * @param {String} opts.additionalMetadata Additional data to pass to server
-     * @param {File} opts.file file to upload
+     * @param {String} [additionalMetadata] Additional data to pass to server
+     * @param {File} [file] file to upload
      * @param {module:api/PetApi~uploadFileCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/ApiResponse}
      */
@@ -414,10 +419,11 @@ export default class PetApi {
 
     /**
      * uploads an image (required)
+     * 
      * @param {Number} petId ID of pet to update
      * @param {File} requiredFile file to upload
      * @param {Object} opts Optional parameters
-     * @param {String} opts.additionalMetadata Additional data to pass to server
+     * @param {String} [additionalMetadata] Additional data to pass to server
      * @param {module:api/PetApi~uploadFileWithRequiredFileCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/ApiResponse}
      */

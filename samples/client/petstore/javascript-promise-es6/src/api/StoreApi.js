@@ -126,7 +126,7 @@ export default class StoreApi {
 
     /**
      * Find purchase order by ID
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      * @param {Number} orderId ID of pet that needs to be fetched
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Order} and HTTP response
      */
@@ -160,7 +160,7 @@ export default class StoreApi {
 
     /**
      * Find purchase order by ID
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      * @param {Number} orderId ID of pet that needs to be fetched
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Order}
      */
@@ -174,6 +174,7 @@ export default class StoreApi {
 
     /**
      * Place an order for a pet
+     * 
      * @param {module:model/Order} order order placed for purchasing the pet
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Order} and HTTP response
      */
@@ -206,6 +207,7 @@ export default class StoreApi {
 
     /**
      * Place an order for a pet
+     * 
      * @param {module:model/Order} order order placed for purchasing the pet
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Order}
      */

@@ -14,8 +14,7 @@ use swagger::auth::Scopes;
 use url::form_urlencoded;
 
 #[allow(unused_imports)]
-use crate::models;
-use crate::header;
+use crate::{models, header, AuthenticationApi};
 
 pub use crate::context;
 
@@ -49,6 +48,8 @@ use crate::{Api,
      CreateRepoResponse,
      GetRepoInfoResponse
 };
+
+mod server_auth;
 
 pub mod callbacks;
 
@@ -90,6 +91,7 @@ mod paths {
     pub(crate) static ID_ENUM_IN_PATH_PATH_PARAM: usize = 3;
     lazy_static! {
         pub static ref REGEX_ENUM_IN_PATH_PATH_PARAM: regex::Regex =
+            #[allow(clippy::invalid_regex)]
             regex::Regex::new(r"^/enum_in_path/(?P<path_param>[^/?#]*)$")
                 .expect("Unable to create regex for ENUM_IN_PATH_PATH_PARAM");
     }
@@ -107,6 +109,7 @@ mod paths {
     pub(crate) static ID_REPOS_REPOID: usize = 15;
     lazy_static! {
         pub static ref REGEX_REPOS_REPOID: regex::Regex =
+            #[allow(clippy::invalid_regex)]
             regex::Regex::new(r"^/repos/(?P<repoId>[^/?#]*)$")
                 .expect("Unable to create regex for REPOS_REPOID");
     }
@@ -119,6 +122,7 @@ mod paths {
     pub(crate) static ID_XML_EXTRA: usize = 22;
     pub(crate) static ID_XML_OTHER: usize = 23;
 }
+
 
 pub struct MakeService<T, C> where
     T: Api<C> + Clone + Send + 'static,
@@ -140,6 +144,7 @@ impl<T, C> MakeService<T, C> where
     }
 }
 
+
 impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static
@@ -153,7 +158,7 @@ impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
     }
 
     fn call(&mut self, target: Target) -> Self::Future {
-        futures::future::ok(Service::new(
+        future::ok(Service::new(
             self.api_impl.clone(),
         ))
     }
@@ -181,7 +186,7 @@ impl<T, C> Service<T, C> where
 {
     pub fn new(api_impl: T) -> Self {
         Service {
-            api_impl: api_impl,
+            api_impl,
             marker: PhantomData
         }
     }
@@ -194,7 +199,7 @@ impl<T, C> Clone for Service<T, C> where
     fn clone(&self) -> Self {
         Service {
             api_impl: self.api_impl.clone(),
-            marker: self.marker.clone(),
+            marker: self.marker,
         }
     }
 }
@@ -220,13 +225,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
         let (method, uri, headers) = (parts.method, parts.uri, parts.headers);
         let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
 
-        match &method {
+        match method {
 
             // AnyOfGet - GET /any-of
-            &hyper::Method::GET if path.matched(paths::ID_ANY_OF) => {
+            hyper::Method::GET if path.matched(paths::ID_ANY_OF) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
-                let param_any_of = query_params.iter().filter(|e| e.0 == "any-of").map(|e| e.1.to_owned())
+                let param_any_of = query_params.iter().filter(|e| e.0 == "any-of").map(|e| e.1.clone())
                     .filter_map(|param_any_of| param_any_of.parse().ok())
                     .collect::<Vec<_>>();
                 let param_any_of = if !param_any_of.is_empty() {
@@ -242,7 +247,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -255,8 +260,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for ANY_OF_GET_SUCCESS"));
-                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    *response.body_mut() = Body::from(body);
+                                                    let body_content = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body_content);
                                                 },
                                                 AnyOfGetResponse::AlternateSuccess
                                                     (body)
@@ -266,8 +271,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for ANY_OF_GET_ALTERNATE_SUCCESS"));
-                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    *response.body_mut() = Body::from(body);
+                                                    let body_content = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body_content);
                                                 },
                                                 AnyOfGetResponse::AnyOfSuccess
                                                     (body)
@@ -277,8 +282,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for ANY_OF_GET_ANY_OF_SUCCESS"));
-                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    *response.body_mut() = Body::from(body);
+                                                    let body_content = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body_content);
                                                 },
                                             },
                                             Err(_) => {
@@ -293,11 +298,11 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // CallbackWithHeaderPost - POST /callback-with-header
-            &hyper::Method::POST if path.matched(paths::ID_CALLBACK_WITH_HEADER) => {
+            hyper::Method::POST if path.matched(paths::ID_CALLBACK_WITH_HEADER) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
-                let param_url = query_params.iter().filter(|e| e.0 == "url").map(|e| e.1.to_owned())
-                    .nth(0);
+                let param_url = query_params.iter().filter(|e| e.0 == "url").map(|e| e.1.clone())
+                    .next();
                 let param_url = match param_url {
                     Some(param_url) => {
                         let param_url =
@@ -328,7 +333,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -350,10 +355,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // ComplexQueryParamGet - GET /complex-query-param
-            &hyper::Method::GET if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => {
+            hyper::Method::GET if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
-                let param_list_of_strings = query_params.iter().filter(|e| e.0 == "list-of-strings").map(|e| e.1.to_owned())
+                let param_list_of_strings = query_params.iter().filter(|e| e.0 == "list-of-strings").map(|e| e.1.clone())
                     .filter_map(|param_list_of_strings| param_list_of_strings.parse().ok())
                     .collect::<Vec<_>>();
                 let param_list_of_strings = if !param_list_of_strings.is_empty() {
@@ -369,7 +374,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -391,12 +396,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // EnumInPathPathParamGet - GET /enum_in_path/{path_param}
-            &hyper::Method::GET if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => {
+            hyper::Method::GET if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => {
                 // Path parameters
-                let path: &str = &uri.path().to_string();
+                let path: &str = uri.path();
                 let path_params =
                     paths::REGEX_ENUM_IN_PATH_PATH_PARAM
-                    .captures(&path)
+                    .captures(path)
                     .unwrap_or_else(||
                         panic!("Path {} matched RE ENUM_IN_PATH_PATH_PARAM in set but failed match against \"{}\"", path, paths::REGEX_ENUM_IN_PATH_PATH_PARAM.as_str())
                     );
@@ -422,7 +427,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -444,11 +449,11 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // JsonComplexQueryParamGet - GET /json-complex-query-param
-            &hyper::Method::GET if path.matched(paths::ID_JSON_COMPLEX_QUERY_PARAM) => {
+            hyper::Method::GET if path.matched(paths::ID_JSON_COMPLEX_QUERY_PARAM) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
-                let param_list_of_strings = query_params.iter().filter(|e| e.0 == "list-of-strings").map(|e| e.1.to_owned())
-                    .nth(0);
+                let param_list_of_strings = query_params.iter().filter(|e| e.0 == "list-of-strings").map(|e| e.1.clone())
+                    .next();
                 let param_list_of_strings = match param_list_of_strings {
                     Some(param_list_of_strings) => {
                         let param_list_of_strings =
@@ -472,7 +477,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -494,7 +499,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // MandatoryRequestHeaderGet - GET /mandatory-request-header
-            &hyper::Method::GET if path.matched(paths::ID_MANDATORY_REQUEST_HEADER) => {
+            hyper::Method::GET if path.matched(paths::ID_MANDATORY_REQUEST_HEADER) => {
                 // Header parameters
                 let param_x_header = headers.get(HeaderName::from_static("x-header"));
 
@@ -525,7 +530,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -547,14 +552,14 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // MergePatchJsonGet - GET /merge-patch-json
-            &hyper::Method::GET if path.matched(paths::ID_MERGE_PATCH_JSON) => {
+            hyper::Method::GET if path.matched(paths::ID_MERGE_PATCH_JSON) => {
                                 let result = api_impl.merge_patch_json_get(
                                         &context
                                     ).await;
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -567,8 +572,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/merge-patch+json")
                                                             .expect("Unable to create Content-Type header for MERGE_PATCH_JSON_GET_MERGE"));
-                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    *response.body_mut() = Body::from(body);
+                                                    let body_content = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body_content);
                                                 },
                                             },
                                             Err(_) => {
@@ -583,14 +588,14 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // MultigetGet - GET /multiget
-            &hyper::Method::GET if path.matched(paths::ID_MULTIGET) => {
+            hyper::Method::GET if path.matched(paths::ID_MULTIGET) => {
                                 let result = api_impl.multiget_get(
                                         &context
                                     ).await;
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -603,8 +608,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for MULTIGET_GET_JSON_RSP"));
-                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    *response.body_mut() = Body::from(body);
+                                                    let body_content = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body_content);
                                                 },
                                                 MultigetGetResponse::XMLRsp
                                                     (body)
@@ -614,8 +619,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/xml")
                                                             .expect("Unable to create Content-Type header for MULTIGET_GET_XML_RSP"));
-                                                    let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
-                                                    *response.body_mut() = Body::from(body);
+                                                    let body_content = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body_content);
                                                 },
                                                 MultigetGetResponse::OctetRsp
                                                     (body)
@@ -625,8 +630,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/octet-stream")
                                                             .expect("Unable to create Content-Type header for MULTIGET_GET_OCTET_RSP"));
-                                                    let body = body.0;
-                                                    *response.body_mut() = Body::from(body);
+                                                    let body_content = body.0;
+                                                    *response.body_mut() = Body::from(body_content);
                                                 },
                                                 MultigetGetResponse::StringRsp
                                                     (body)
@@ -636,8 +641,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("text/plain")
                                                             .expect("Unable to create Content-Type header for MULTIGET_GET_STRING_RSP"));
-                                                    let body = body;
-                                                    *response.body_mut() = Body::from(body);
+                                                    let body_content = body;
+                                                    *response.body_mut() = Body::from(body_content);
                                                 },
                                                 MultigetGetResponse::DuplicateResponseLongText
                                                     (body)
@@ -647,8 +652,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for MULTIGET_GET_DUPLICATE_RESPONSE_LONG_TEXT"));
-                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    *response.body_mut() = Body::from(body);
+                                                    let body_content = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body_content);
                                                 },
                                                 MultigetGetResponse::DuplicateResponseLongText_2
                                                     (body)
@@ -658,8 +663,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for MULTIGET_GET_DUPLICATE_RESPONSE_LONG_TEXT_2"));
-                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    *response.body_mut() = Body::from(body);
+                                                    let body_content = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body_content);
                                                 },
                                                 MultigetGetResponse::DuplicateResponseLongText_3
                                                     (body)
@@ -669,8 +674,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for MULTIGET_GET_DUPLICATE_RESPONSE_LONG_TEXT_3"));
-                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    *response.body_mut() = Body::from(body);
+                                                    let body_content = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body_content);
                                                 },
                                             },
                                             Err(_) => {
@@ -685,11 +690,11 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // MultipleAuthSchemeGet - GET /multiple_auth_scheme
-            &hyper::Method::GET if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => {
+            hyper::Method::GET if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => {
                 {
-                    let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
-                        &Some(ref authorization) => authorization,
-                        &None => return Ok(Response::builder()
+                    let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
+                        Some(ref authorization) => authorization,
+                        None => return Ok(Response::builder()
                                                 .status(StatusCode::FORBIDDEN)
                                                 .body(Body::from("Unauthenticated"))
                                                 .expect("Unable to create Authentication Forbidden response")),
@@ -722,7 +727,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -744,14 +749,14 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // OneOfGet - GET /one-of
-            &hyper::Method::GET if path.matched(paths::ID_ONE_OF) => {
+            hyper::Method::GET if path.matched(paths::ID_ONE_OF) => {
                                 let result = api_impl.one_of_get(
                                         &context
                                     ).await;
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -764,8 +769,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for ONE_OF_GET_SUCCESS"));
-                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    *response.body_mut() = Body::from(body);
+                                                    let body_content = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body_content);
                                                 },
                                             },
                                             Err(_) => {
@@ -780,14 +785,14 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // OverrideServerGet - GET /override-server
-            &hyper::Method::GET if path.matched(paths::ID_OVERRIDE_SERVER) => {
+            hyper::Method::GET if path.matched(paths::ID_OVERRIDE_SERVER) => {
                                 let result = api_impl.override_server_get(
                                         &context
                                     ).await;
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -809,11 +814,11 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // ParamgetGet - GET /paramget
-            &hyper::Method::GET if path.matched(paths::ID_PARAMGET) => {
+            hyper::Method::GET if path.matched(paths::ID_PARAMGET) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
-                let param_uuid = query_params.iter().filter(|e| e.0 == "uuid").map(|e| e.1.to_owned())
-                    .nth(0);
+                let param_uuid = query_params.iter().filter(|e| e.0 == "uuid").map(|e| e.1.clone())
+                    .next();
                 let param_uuid = match param_uuid {
                     Some(param_uuid) => {
                         let param_uuid =
@@ -829,8 +834,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                     },
                     None => None,
                 };
-                let param_some_object = query_params.iter().filter(|e| e.0 == "someObject").map(|e| e.1.to_owned())
-                    .nth(0);
+                let param_some_object = query_params.iter().filter(|e| e.0 == "someObject").map(|e| e.1.clone())
+                    .next();
                 let param_some_object = match param_some_object {
                     Some(param_some_object) => {
                         let param_some_object =
@@ -846,8 +851,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                     },
                     None => None,
                 };
-                let param_some_list = query_params.iter().filter(|e| e.0 == "someList").map(|e| e.1.to_owned())
-                    .nth(0);
+                let param_some_list = query_params.iter().filter(|e| e.0 == "someList").map(|e| e.1.clone())
+                    .next();
                 let param_some_list = match param_some_list {
                     Some(param_some_list) => {
                         let param_some_list =
@@ -873,7 +878,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -886,8 +891,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for PARAMGET_GET_JSON_RSP"));
-                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    *response.body_mut() = Body::from(body);
+                                                    let body_content = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body_content);
                                                 },
                                             },
                                             Err(_) => {
@@ -902,11 +907,11 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // ReadonlyAuthSchemeGet - GET /readonly_auth_scheme
-            &hyper::Method::GET if path.matched(paths::ID_READONLY_AUTH_SCHEME) => {
+            hyper::Method::GET if path.matched(paths::ID_READONLY_AUTH_SCHEME) => {
                 {
-                    let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
-                        &Some(ref authorization) => authorization,
-                        &None => return Ok(Response::builder()
+                    let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
+                        Some(ref authorization) => authorization,
+                        None => return Ok(Response::builder()
                                                 .status(StatusCode::FORBIDDEN)
                                                 .body(Body::from("Unauthenticated"))
                                                 .expect("Unable to create Authentication Forbidden response")),
@@ -938,7 +943,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -960,11 +965,11 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // RegisterCallbackPost - POST /register-callback
-            &hyper::Method::POST if path.matched(paths::ID_REGISTER_CALLBACK) => {
+            hyper::Method::POST if path.matched(paths::ID_REGISTER_CALLBACK) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
-                let param_url = query_params.iter().filter(|e| e.0 == "url").map(|e| e.1.to_owned())
-                    .nth(0);
+                let param_url = query_params.iter().filter(|e| e.0 == "url").map(|e| e.1.clone())
+                    .next();
                 let param_url = match param_url {
                     Some(param_url) => {
                         let param_url =
@@ -995,7 +1000,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -1017,11 +1022,11 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // RequiredOctetStreamPut - PUT /required_octet_stream
-            &hyper::Method::PUT if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => {
+            hyper::Method::PUT if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let param_body: Option<swagger::ByteArray> = if !body.is_empty() {
@@ -1044,7 +1049,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -1072,14 +1077,14 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // ResponsesWithHeadersGet - GET /responses_with_headers
-            &hyper::Method::GET if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => {
+            hyper::Method::GET if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => {
                                 let result = api_impl.responses_with_headers_get(
                                         &context
                                     ).await;
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -1143,8 +1148,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for RESPONSES_WITH_HEADERS_GET_SUCCESS"));
-                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    *response.body_mut() = Body::from(body);
+                                                    let body_content = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body_content);
                                                 },
                                                 ResponsesWithHeadersGetResponse::PreconditionFailed
                                                     {
@@ -1199,14 +1204,14 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // Rfc7807Get - GET /rfc7807
-            &hyper::Method::GET if path.matched(paths::ID_RFC7807) => {
+            hyper::Method::GET if path.matched(paths::ID_RFC7807) => {
                                 let result = api_impl.rfc7807_get(
                                         &context
                                     ).await;
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -1219,8 +1224,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for RFC7807_GET_OK"));
-                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    *response.body_mut() = Body::from(body);
+                                                    let body_content = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body_content);
                                                 },
                                                 Rfc7807GetResponse::NotFound
                                                     (body)
@@ -1230,8 +1235,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/problem+json")
                                                             .expect("Unable to create Content-Type header for RFC7807_GET_NOT_FOUND"));
-                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    *response.body_mut() = Body::from(body);
+                                                    let body_content = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body_content);
                                                 },
                                                 Rfc7807GetResponse::NotAcceptable
                                                     (body)
@@ -1241,8 +1246,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/problem+xml")
                                                             .expect("Unable to create Content-Type header for RFC7807_GET_NOT_ACCEPTABLE"));
-                                                    let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
-                                                    *response.body_mut() = Body::from(body);
+                                                    let body_content = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body_content);
                                                 },
                                             },
                                             Err(_) => {
@@ -1257,16 +1262,16 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // UntypedPropertyGet - GET /untyped_property
-            &hyper::Method::GET if path.matched(paths::ID_UNTYPED_PROPERTY) => {
+            hyper::Method::GET if path.matched(paths::ID_UNTYPED_PROPERTY) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
                                 let param_object_untyped_props: Option<models::ObjectUntypedProps> = if !body.is_empty() {
-                                    let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
+                                    let deserializer = &mut serde_json::Deserializer::from_slice(&body);
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
@@ -1285,7 +1290,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         if !unused_elements.is_empty() {
@@ -1320,14 +1325,14 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // UuidGet - GET /uuid
-            &hyper::Method::GET if path.matched(paths::ID_UUID) => {
+            hyper::Method::GET if path.matched(paths::ID_UUID) => {
                                 let result = api_impl.uuid_get(
                                         &context
                                     ).await;
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -1340,8 +1345,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for UUID_GET_DUPLICATE_RESPONSE_LONG_TEXT"));
-                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    *response.body_mut() = Body::from(body);
+                                                    let body_content = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body_content);
                                                 },
                                             },
                                             Err(_) => {
@@ -1356,11 +1361,11 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // XmlExtraPost - POST /xml_extra
-            &hyper::Method::POST if path.matched(paths::ID_XML_EXTRA) => {
+            hyper::Method::POST if path.matched(paths::ID_XML_EXTRA) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -1384,7 +1389,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         if !unused_elements.is_empty() {
@@ -1423,11 +1428,11 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // XmlOtherPost - POST /xml_other
-            &hyper::Method::POST if path.matched(paths::ID_XML_OTHER) => {
+            hyper::Method::POST if path.matched(paths::ID_XML_OTHER) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -1451,7 +1456,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         if !unused_elements.is_empty() {
@@ -1475,8 +1480,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                                     // An empty string is used to indicate a global namespace in xmltree.
                                                     namespaces.insert("".to_string(), models::AnotherXmlObject::NAMESPACE.to_string());
-                                                    let body = serde_xml_rs::to_string_with_namespaces(&body, namespaces).expect("impossible to fail to serialize");
-                                                    *response.body_mut() = Body::from(body);
+                                                    let body_content = serde_xml_rs::to_string_with_namespaces(&body, namespaces).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body_content);
                                                 },
                                                 XmlOtherPostResponse::BadRequest
                                                 => {
@@ -1501,11 +1506,11 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // XmlOtherPut - PUT /xml_other
-            &hyper::Method::PUT if path.matched(paths::ID_XML_OTHER) => {
+            hyper::Method::PUT if path.matched(paths::ID_XML_OTHER) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -1529,7 +1534,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         if !unused_elements.is_empty() {
@@ -1568,11 +1573,11 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // XmlPost - POST /xml
-            &hyper::Method::POST if path.matched(paths::ID_XML) => {
+            hyper::Method::POST if path.matched(paths::ID_XML) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -1596,7 +1601,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         if !unused_elements.is_empty() {
@@ -1635,11 +1640,11 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // XmlPut - PUT /xml
-            &hyper::Method::PUT if path.matched(paths::ID_XML) => {
+            hyper::Method::PUT if path.matched(paths::ID_XML) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -1663,7 +1668,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         if !unused_elements.is_empty() {
@@ -1702,16 +1707,16 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // CreateRepo - POST /repos
-            &hyper::Method::POST if path.matched(paths::ID_REPOS) => {
+            hyper::Method::POST if path.matched(paths::ID_REPOS) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
                                 let param_object_param: Option<models::ObjectParam> = if !body.is_empty() {
-                                    let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
+                                    let deserializer = &mut serde_json::Deserializer::from_slice(&body);
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
@@ -1740,7 +1745,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         if !unused_elements.is_empty() {
@@ -1775,12 +1780,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // GetRepoInfo - GET /repos/{repoId}
-            &hyper::Method::GET if path.matched(paths::ID_REPOS_REPOID) => {
+            hyper::Method::GET if path.matched(paths::ID_REPOS_REPOID) => {
                 // Path parameters
-                let path: &str = &uri.path().to_string();
+                let path: &str = uri.path();
                 let path_params =
                     paths::REGEX_REPOS_REPOID
-                    .captures(&path)
+                    .captures(path)
                     .unwrap_or_else(||
                         panic!("Path {} matched RE REPOS_REPOID in set but failed match against \"{}\"", path, paths::REGEX_REPOS_REPOID.as_str())
                     );
@@ -1806,7 +1811,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -1819,8 +1824,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for GET_REPO_INFO_OK"));
-                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    *response.body_mut() = Body::from(body);
+                                                    let body_content = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body_content);
                                                 },
                                             },
                                             Err(_) => {
@@ -1868,62 +1873,62 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {
-    fn parse_operation_id(request: &Request<T>) -> Result<&'static str, ()> {
+    fn parse_operation_id(request: &Request<T>) -> Option<&'static str> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
-        match request.method() {
+        match *request.method() {
             // AnyOfGet - GET /any-of
-            &hyper::Method::GET if path.matched(paths::ID_ANY_OF) => Ok("AnyOfGet"),
+            hyper::Method::GET if path.matched(paths::ID_ANY_OF) => Some("AnyOfGet"),
             // CallbackWithHeaderPost - POST /callback-with-header
-            &hyper::Method::POST if path.matched(paths::ID_CALLBACK_WITH_HEADER) => Ok("CallbackWithHeaderPost"),
+            hyper::Method::POST if path.matched(paths::ID_CALLBACK_WITH_HEADER) => Some("CallbackWithHeaderPost"),
             // ComplexQueryParamGet - GET /complex-query-param
-            &hyper::Method::GET if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => Ok("ComplexQueryParamGet"),
+            hyper::Method::GET if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => Some("ComplexQueryParamGet"),
             // EnumInPathPathParamGet - GET /enum_in_path/{path_param}
-            &hyper::Method::GET if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => Ok("EnumInPathPathParamGet"),
+            hyper::Method::GET if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => Some("EnumInPathPathParamGet"),
             // JsonComplexQueryParamGet - GET /json-complex-query-param
-            &hyper::Method::GET if path.matched(paths::ID_JSON_COMPLEX_QUERY_PARAM) => Ok("JsonComplexQueryParamGet"),
+            hyper::Method::GET if path.matched(paths::ID_JSON_COMPLEX_QUERY_PARAM) => Some("JsonComplexQueryParamGet"),
             // MandatoryRequestHeaderGet - GET /mandatory-request-header
-            &hyper::Method::GET if path.matched(paths::ID_MANDATORY_REQUEST_HEADER) => Ok("MandatoryRequestHeaderGet"),
+            hyper::Method::GET if path.matched(paths::ID_MANDATORY_REQUEST_HEADER) => Some("MandatoryRequestHeaderGet"),
             // MergePatchJsonGet - GET /merge-patch-json
-            &hyper::Method::GET if path.matched(paths::ID_MERGE_PATCH_JSON) => Ok("MergePatchJsonGet"),
+            hyper::Method::GET if path.matched(paths::ID_MERGE_PATCH_JSON) => Some("MergePatchJsonGet"),
             // MultigetGet - GET /multiget
-            &hyper::Method::GET if path.matched(paths::ID_MULTIGET) => Ok("MultigetGet"),
+            hyper::Method::GET if path.matched(paths::ID_MULTIGET) => Some("MultigetGet"),
             // MultipleAuthSchemeGet - GET /multiple_auth_scheme
-            &hyper::Method::GET if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => Ok("MultipleAuthSchemeGet"),
+            hyper::Method::GET if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => Some("MultipleAuthSchemeGet"),
             // OneOfGet - GET /one-of
-            &hyper::Method::GET if path.matched(paths::ID_ONE_OF) => Ok("OneOfGet"),
+            hyper::Method::GET if path.matched(paths::ID_ONE_OF) => Some("OneOfGet"),
             // OverrideServerGet - GET /override-server
-            &hyper::Method::GET if path.matched(paths::ID_OVERRIDE_SERVER) => Ok("OverrideServerGet"),
+            hyper::Method::GET if path.matched(paths::ID_OVERRIDE_SERVER) => Some("OverrideServerGet"),
             // ParamgetGet - GET /paramget
-            &hyper::Method::GET if path.matched(paths::ID_PARAMGET) => Ok("ParamgetGet"),
+            hyper::Method::GET if path.matched(paths::ID_PARAMGET) => Some("ParamgetGet"),
             // ReadonlyAuthSchemeGet - GET /readonly_auth_scheme
-            &hyper::Method::GET if path.matched(paths::ID_READONLY_AUTH_SCHEME) => Ok("ReadonlyAuthSchemeGet"),
+            hyper::Method::GET if path.matched(paths::ID_READONLY_AUTH_SCHEME) => Some("ReadonlyAuthSchemeGet"),
             // RegisterCallbackPost - POST /register-callback
-            &hyper::Method::POST if path.matched(paths::ID_REGISTER_CALLBACK) => Ok("RegisterCallbackPost"),
+            hyper::Method::POST if path.matched(paths::ID_REGISTER_CALLBACK) => Some("RegisterCallbackPost"),
             // RequiredOctetStreamPut - PUT /required_octet_stream
-            &hyper::Method::PUT if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => Ok("RequiredOctetStreamPut"),
+            hyper::Method::PUT if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => Some("RequiredOctetStreamPut"),
             // ResponsesWithHeadersGet - GET /responses_with_headers
-            &hyper::Method::GET if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => Ok("ResponsesWithHeadersGet"),
+            hyper::Method::GET if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => Some("ResponsesWithHeadersGet"),
             // Rfc7807Get - GET /rfc7807
-            &hyper::Method::GET if path.matched(paths::ID_RFC7807) => Ok("Rfc7807Get"),
+            hyper::Method::GET if path.matched(paths::ID_RFC7807) => Some("Rfc7807Get"),
             // UntypedPropertyGet - GET /untyped_property
-            &hyper::Method::GET if path.matched(paths::ID_UNTYPED_PROPERTY) => Ok("UntypedPropertyGet"),
+            hyper::Method::GET if path.matched(paths::ID_UNTYPED_PROPERTY) => Some("UntypedPropertyGet"),
             // UuidGet - GET /uuid
-            &hyper::Method::GET if path.matched(paths::ID_UUID) => Ok("UuidGet"),
+            hyper::Method::GET if path.matched(paths::ID_UUID) => Some("UuidGet"),
             // XmlExtraPost - POST /xml_extra
-            &hyper::Method::POST if path.matched(paths::ID_XML_EXTRA) => Ok("XmlExtraPost"),
+            hyper::Method::POST if path.matched(paths::ID_XML_EXTRA) => Some("XmlExtraPost"),
             // XmlOtherPost - POST /xml_other
-            &hyper::Method::POST if path.matched(paths::ID_XML_OTHER) => Ok("XmlOtherPost"),
+            hyper::Method::POST if path.matched(paths::ID_XML_OTHER) => Some("XmlOtherPost"),
             // XmlOtherPut - PUT /xml_other
-            &hyper::Method::PUT if path.matched(paths::ID_XML_OTHER) => Ok("XmlOtherPut"),
+            hyper::Method::PUT if path.matched(paths::ID_XML_OTHER) => Some("XmlOtherPut"),
             // XmlPost - POST /xml
-            &hyper::Method::POST if path.matched(paths::ID_XML) => Ok("XmlPost"),
+            hyper::Method::POST if path.matched(paths::ID_XML) => Some("XmlPost"),
             // XmlPut - PUT /xml
-            &hyper::Method::PUT if path.matched(paths::ID_XML) => Ok("XmlPut"),
+            hyper::Method::PUT if path.matched(paths::ID_XML) => Some("XmlPut"),
             // CreateRepo - POST /repos
-            &hyper::Method::POST if path.matched(paths::ID_REPOS) => Ok("CreateRepo"),
+            hyper::Method::POST if path.matched(paths::ID_REPOS) => Some("CreateRepo"),
             // GetRepoInfo - GET /repos/{repoId}
-            &hyper::Method::GET if path.matched(paths::ID_REPOS_REPOID) => Ok("GetRepoInfo"),
-            _ => Err(()),
+            hyper::Method::GET if path.matched(paths::ID_REPOS_REPOID) => Some("GetRepoInfo"),
+            _ => None,
         }
     }
 }

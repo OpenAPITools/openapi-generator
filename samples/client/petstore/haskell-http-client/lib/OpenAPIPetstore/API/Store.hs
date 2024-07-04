@@ -65,7 +65,7 @@ import qualified Prelude as P
 -- 
 -- For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 -- 
-deleteOrder 
+deleteOrder
   :: OrderIdText -- ^ "orderId" -  ID of the order that needs to be deleted
   -> OpenAPIPetstoreRequest DeleteOrder MimeNoContent NoContent MimeNoContent
 deleteOrder (OrderIdText orderId) =
@@ -85,7 +85,7 @@ instance Produces DeleteOrder MimeNoContent
 -- 
 -- AuthMethod: 'AuthApiKeyApiKey'
 -- 
-getInventory 
+getInventory
   :: OpenAPIPetstoreRequest GetInventory MimeNoContent ((Map.Map String Int)) MimeJSON
 getInventory =
   _mkRequest "GET" ["/store/inventory"]
@@ -102,9 +102,9 @@ instance Produces GetInventory MimeJSON
 -- 
 -- Find purchase order by ID
 -- 
--- For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+-- For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
 -- 
-getOrderById 
+getOrderById
   :: Accept accept -- ^ request accept ('MimeType')
   -> OrderId -- ^ "orderId" -  ID of pet that needs to be fetched
   -> OpenAPIPetstoreRequest GetOrderById MimeNoContent Order accept
@@ -124,7 +124,7 @@ instance Produces GetOrderById MimeJSON
 -- 
 -- Place an order for a pet
 -- 
-placeOrder 
+placeOrder
   :: (Consumes PlaceOrder contentType, MimeRender contentType Order)
   => ContentType contentType -- ^ request content-type ('MimeType')
   -> Accept accept -- ^ request accept ('MimeType')
@@ -138,7 +138,7 @@ data PlaceOrder
 
 -- | /Body Param/ "body" - order placed for purchasing the pet
 instance HasBodyParam PlaceOrder Order 
-    
+
 -- | @*/*@
 instance MimeType mtype => Consumes PlaceOrder mtype
 

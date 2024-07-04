@@ -27,8 +27,8 @@ pet_t* instantiate_pet(int include_optional) {
        // false, not to have infinite recursion
       instantiate_category(0),
       "doggie",
-      list_create(),
-      list_create(),
+      list_createList(),
+      list_createList(),
       openapi_petstore_pet_STATUS_available
     );
   } else {
@@ -36,8 +36,8 @@ pet_t* instantiate_pet(int include_optional) {
       56,
       NULL,
       "doggie",
-      list_create(),
-      list_create(),
+      list_createList(),
+      list_createList(),
       openapi_petstore_pet_STATUS_available
     );
   }

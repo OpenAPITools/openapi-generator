@@ -1,4 +1,4 @@
 
             var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<{{returnContainer}}<{{#returnType}}{{{returnType}}}{{/returnType}}>>(exampleJson)
-            : Enumerable.Empty<{{#returnType}}{{{returnType}}}{{/returnType}}>();
+            ? {{#useNewtonsoft}}JsonConvert.DeserializeObject{{/useNewtonsoft}}{{^useNewtonsoft}}JsonSerializer.Deserialize{{/useNewtonsoft}}<{{returnContainer}}<{{{returnType}}}>>(exampleJson)
+            : Enumerable.Empty<{{{returnType}}}>();

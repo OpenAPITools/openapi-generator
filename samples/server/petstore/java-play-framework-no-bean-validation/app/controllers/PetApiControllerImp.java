@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.io.FileInputStream;
 import play.libs.Files.TemporaryFile;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class PetApiControllerImp extends PetApiControllerImpInterface {
     @Override
     public void addPet(Http.Request request, Pet body) throws Exception {
@@ -52,7 +52,7 @@ public class PetApiControllerImp extends PetApiControllerImpInterface {
     }
 
     @Override
-    public ModelApiResponse uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> file) throws Exception {
+    public ModelApiResponse uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> _file) throws Exception {
         //Do your magic!!!
         return new ModelApiResponse();
     }

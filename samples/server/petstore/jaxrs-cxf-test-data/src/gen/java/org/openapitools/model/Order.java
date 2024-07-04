@@ -1,17 +1,12 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Date;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -31,13 +26,11 @@ public class Order  {
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss.SSSX")
   private Date shipDate;
 
-@XmlType(name="StatusEnum")
-@XmlEnum(String.class)
 public enum StatusEnum {
 
-    @XmlEnumValue("placed") @JsonProperty("placed") PLACED(String.valueOf("placed")), 
-    @XmlEnumValue("approved") @JsonProperty("approved") APPROVED(String.valueOf("approved")), 
-    @XmlEnumValue("delivered") @JsonProperty("delivered") DELIVERED(String.valueOf("delivered"));
+    @JsonProperty("placed") PLACED(String.valueOf("placed")),
+    @JsonProperty("approved") APPROVED(String.valueOf("approved")),
+    @JsonProperty("delivered") DELIVERED(String.valueOf("delivered"));
 
     private String value;
 
@@ -84,7 +77,7 @@ public enum StatusEnum {
   /**
    * Sets the <code>id</code> property.
    */
-  public void setId(Long id) {
+ public void setId(Long id) {
     this.id = id;
   }
 
@@ -108,7 +101,7 @@ public enum StatusEnum {
   /**
    * Sets the <code>petId</code> property.
    */
-  public void setPetId(Long petId) {
+ public void setPetId(Long petId) {
     this.petId = petId;
   }
 
@@ -132,7 +125,7 @@ public enum StatusEnum {
   /**
    * Sets the <code>quantity</code> property.
    */
-  public void setQuantity(Integer quantity) {
+ public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
 
@@ -156,7 +149,7 @@ public enum StatusEnum {
   /**
    * Sets the <code>shipDate</code> property.
    */
-  public void setShipDate(Date shipDate) {
+ public void setShipDate(Date shipDate) {
     this.shipDate = shipDate;
   }
 
@@ -180,7 +173,7 @@ public enum StatusEnum {
   /**
    * Sets the <code>status</code> property.
    */
-  public void setStatus(StatusEnum status) {
+ public void setStatus(StatusEnum status) {
     this.status = status;
   }
 
@@ -204,7 +197,7 @@ public enum StatusEnum {
   /**
    * Sets the <code>complete</code> property.
    */
-  public void setComplete(Boolean complete) {
+ public void setComplete(Boolean complete) {
     this.complete = complete;
   }
 
@@ -216,6 +209,28 @@ public enum StatusEnum {
     return this;
   }
 
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Order order = (Order) o;
+    return Objects.equals(id, order.id) &&
+        Objects.equals(petId, order.petId) &&
+        Objects.equals(quantity, order.quantity) &&
+        Objects.equals(shipDate, order.shipDate) &&
+        Objects.equals(status, order.status) &&
+        Objects.equals(complete, order.complete);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, petId, quantity, shipDate, status, complete);
+  }
 
   @Override
   public String toString() {

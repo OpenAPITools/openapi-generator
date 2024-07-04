@@ -6,8 +6,11 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
-@objc public class User: NSObject, Codable {
+@objcMembers public class User: NSObject, Codable, JSONEncodable {
 
     public var _id: Int64?
     public var _idNum: NSNumber? {
@@ -51,4 +54,18 @@ import Foundation
         case userStatus
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(_id, forKey: ._id)
+        try container.encodeIfPresent(username, forKey: .username)
+        try container.encodeIfPresent(firstName, forKey: .firstName)
+        try container.encodeIfPresent(lastName, forKey: .lastName)
+        try container.encodeIfPresent(email, forKey: .email)
+        try container.encodeIfPresent(password, forKey: .password)
+        try container.encodeIfPresent(phone, forKey: .phone)
+        try container.encodeIfPresent(userStatus, forKey: .userStatus)
+    }
 }
+

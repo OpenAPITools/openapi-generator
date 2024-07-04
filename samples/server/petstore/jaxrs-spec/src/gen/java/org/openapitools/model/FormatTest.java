@@ -1,9 +1,11 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
 import org.joda.time.LocalDate;
@@ -16,25 +18,51 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class FormatTest  implements Serializable {
-  
-  private @Valid Integer integer;
-  private @Valid Integer int32;
-  private @Valid Long int64;
-  private @Valid BigDecimal number;
-  private @Valid Float _float;
-  private @Valid Double _double;
-  private @Valid String string;
-  private @Valid byte[] _byte;
-  private @Valid File binary;
-  private @Valid LocalDate date;
-  private @Valid Date dateTime;
-  private @Valid UUID uuid;
-  private @Valid String password;
-  private @Valid BigDecimal bigDecimal;
+@JsonTypeName("format_test")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+public class FormatTest  implements Serializable {
+  private Integer integer;
+  private Integer int32;
+  private Long int64;
+  private BigDecimal number;
+  private Float _float;
+  private Double _double;
+  private BigDecimal decimal;
+  private String string;
+  private byte[] _byte;
+  private File binary;
+  private LocalDate date;
+  private Date dateTime;
+  private UUID uuid;
+  private String password;
+  private String patternWithDigits;
+  private String patternWithDigitsAndDelimiter;
+
+  protected FormatTest(FormatTestBuilder<?, ?> b) {
+    this.integer = b.integer;
+    this.int32 = b.int32;
+    this.int64 = b.int64;
+    this.number = b.number;
+    this._float = b._float;
+    this._double = b._double;
+    this.decimal = b.decimal;
+    this.string = b.string;
+    this._byte = b._byte;
+    this.binary = b.binary;
+    this.date = b.date;
+    this.dateTime = b.dateTime;
+    this.uuid = b.uuid;
+    this.password = b.password;
+    this.patternWithDigits = b.patternWithDigits;
+    this.patternWithDigitsAndDelimiter = b.patternWithDigitsAndDelimiter;
+  }
+
+  public FormatTest() {
+  }
 
   /**
    * minimum: 10
@@ -46,17 +74,18 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("integer")
- @Min(10) @Max(100)  public Integer getInteger() {
+   @Min(10) @Max(100)public Integer getInteger() {
     return integer;
   }
 
+  @JsonProperty("integer")
   public void setInteger(Integer integer) {
     this.integer = integer;
-  }/**
+  }
+
+  /**
    * minimum: 20
    * maximum: 200
    **/
@@ -66,24 +95,23 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("int32")
- @Min(20) @Max(200)  public Integer getInt32() {
+   @Min(20) @Max(200)public Integer getInt32() {
     return int32;
   }
 
+  @JsonProperty("int32")
   public void setInt32(Integer int32) {
     this.int32 = int32;
-  }/**
+  }
+
+  /**
    **/
   public FormatTest int64(Long int64) {
     this.int64 = int64;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -92,9 +120,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return int64;
   }
 
+  @JsonProperty("int64")
   public void setInt64(Long int64) {
     this.int64 = int64;
-  }/**
+  }
+
+  /**
    * minimum: 32.1
    * maximum: 543.2
    **/
@@ -104,18 +135,18 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("number")
-  @NotNull
- @DecimalMin("32.1") @DecimalMax("543.2")  public BigDecimal getNumber() {
+  @NotNull @Valid  @DecimalMin("32.1") @DecimalMax("543.2")public BigDecimal getNumber() {
     return number;
   }
 
+  @JsonProperty("number")
   public void setNumber(BigDecimal number) {
     this.number = number;
-  }/**
+  }
+
+  /**
    * minimum: 54.3
    * maximum: 987.6
    **/
@@ -125,17 +156,18 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("float")
- @DecimalMin("54.3") @DecimalMax("987.6")  public Float getFloat() {
+   @DecimalMin("54.3") @DecimalMax("987.6")public Float getFloat() {
     return _float;
   }
 
+  @JsonProperty("float")
   public void setFloat(Float _float) {
     this._float = _float;
-  }/**
+  }
+
+  /**
    * minimum: 67.8
    * maximum: 123.4
    **/
@@ -145,17 +177,37 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("double")
- @DecimalMin("67.8") @DecimalMax("123.4")  public Double getDouble() {
+   @DecimalMin("67.8") @DecimalMax("123.4")public Double getDouble() {
     return _double;
   }
 
+  @JsonProperty("double")
   public void setDouble(Double _double) {
     this._double = _double;
-  }/**
+  }
+
+  /**
+   **/
+  public FormatTest decimal(BigDecimal decimal) {
+    this.decimal = decimal;
+    return this;
+  }
+
+  
+  @ApiModelProperty(value = "")
+  @JsonProperty("decimal")
+  @Valid public BigDecimal getDecimal() {
+    return decimal;
+  }
+
+  @JsonProperty("decimal")
+  public void setDecimal(BigDecimal decimal) {
+    this.decimal = decimal;
+  }
+
+  /**
    **/
   public FormatTest string(String string) {
     this.string = string;
@@ -163,17 +215,18 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("string")
- @Pattern(regexp="/[a-z]/i")  public String getString() {
+   @Pattern(regexp="/[a-z]/i")public String getString() {
     return string;
   }
 
+  @JsonProperty("string")
   public void setString(String string) {
     this.string = string;
-  }/**
+  }
+
+  /**
    **/
   public FormatTest _byte(byte[] _byte) {
     this._byte = _byte;
@@ -181,25 +234,23 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("byte")
-  @NotNull
- @Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")  public byte[] getByte() {
+  @NotNull public byte[] getByte() {
     return _byte;
   }
 
+  @JsonProperty("byte")
   public void setByte(byte[] _byte) {
     this._byte = _byte;
-  }/**
+  }
+
+  /**
    **/
   public FormatTest binary(File binary) {
     this.binary = binary;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -208,9 +259,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return binary;
   }
 
+  @JsonProperty("binary")
   public void setBinary(File binary) {
     this.binary = binary;
-  }/**
+  }
+
+  /**
    **/
   public FormatTest date(LocalDate date) {
     this.date = date;
@@ -218,25 +272,23 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("date")
-  @NotNull
-  public LocalDate getDate() {
+  @NotNull public LocalDate getDate() {
     return date;
   }
 
+  @JsonProperty("date")
   public void setDate(LocalDate date) {
     this.date = date;
-  }/**
+  }
+
+  /**
    **/
   public FormatTest dateTime(Date dateTime) {
     this.dateTime = dateTime;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -245,16 +297,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return dateTime;
   }
 
+  @JsonProperty("dateTime")
   public void setDateTime(Date dateTime) {
     this.dateTime = dateTime;
-  }/**
+  }
+
+  /**
    **/
   public FormatTest uuid(UUID uuid) {
     this.uuid = uuid;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
@@ -263,9 +316,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return uuid;
   }
 
+  @JsonProperty("uuid")
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
-  }/**
+  }
+
+  /**
    **/
   public FormatTest password(String password) {
     this.password = password;
@@ -273,36 +329,57 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("password")
-  @NotNull
- @Size(min=10,max=64)  public String getPassword() {
+  @NotNull  @Size(min=10,max=64)public String getPassword() {
     return password;
   }
 
+  @JsonProperty("password")
   public void setPassword(String password) {
     this.password = password;
-  }/**
+  }
+
+  /**
+   * A string that is a 10 digit number. Can have leading zeros.
    **/
-  public FormatTest bigDecimal(BigDecimal bigDecimal) {
-    this.bigDecimal = bigDecimal;
+  public FormatTest patternWithDigits(String patternWithDigits) {
+    this.patternWithDigits = patternWithDigits;
     return this;
   }
 
   
+  @ApiModelProperty(value = "A string that is a 10 digit number. Can have leading zeros.")
+  @JsonProperty("pattern_with_digits")
+   @Pattern(regexp="^\\d{10}$")public String getPatternWithDigits() {
+    return patternWithDigits;
+  }
+
+  @JsonProperty("pattern_with_digits")
+  public void setPatternWithDigits(String patternWithDigits) {
+    this.patternWithDigits = patternWithDigits;
+  }
+
+  /**
+   * A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
+   **/
+  public FormatTest patternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
+    this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
+    return this;
+  }
 
   
-  @ApiModelProperty(value = "")
-  @JsonProperty("BigDecimal")
-  public BigDecimal getBigDecimal() {
-    return bigDecimal;
+  @ApiModelProperty(value = "A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
+  @JsonProperty("pattern_with_digits_and_delimiter")
+   @Pattern(regexp="/^image_\\d{1,3}$/i")public String getPatternWithDigitsAndDelimiter() {
+    return patternWithDigitsAndDelimiter;
   }
 
-  public void setBigDecimal(BigDecimal bigDecimal) {
-    this.bigDecimal = bigDecimal;
+  @JsonProperty("pattern_with_digits_and_delimiter")
+  public void setPatternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
+    this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -319,19 +396,21 @@ import com.fasterxml.jackson.annotation.JsonValue;
         Objects.equals(this.number, formatTest.number) &&
         Objects.equals(this._float, formatTest._float) &&
         Objects.equals(this._double, formatTest._double) &&
+        Objects.equals(this.decimal, formatTest.decimal) &&
         Objects.equals(this.string, formatTest.string) &&
-        Objects.equals(this._byte, formatTest._byte) &&
+        Arrays.equals(this._byte, formatTest._byte) &&
         Objects.equals(this.binary, formatTest.binary) &&
         Objects.equals(this.date, formatTest.date) &&
         Objects.equals(this.dateTime, formatTest.dateTime) &&
         Objects.equals(this.uuid, formatTest.uuid) &&
         Objects.equals(this.password, formatTest.password) &&
-        Objects.equals(this.bigDecimal, formatTest.bigDecimal);
+        Objects.equals(this.patternWithDigits, formatTest.patternWithDigits) &&
+        Objects.equals(this.patternWithDigitsAndDelimiter, formatTest.patternWithDigitsAndDelimiter);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password, bigDecimal);
+    return Objects.hash(integer, int32, int64, number, _float, _double, decimal, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
   }
 
   @Override
@@ -345,14 +424,16 @@ import com.fasterxml.jackson.annotation.JsonValue;
     sb.append("    number: ").append(toIndentedString(number)).append("\n");
     sb.append("    _float: ").append(toIndentedString(_float)).append("\n");
     sb.append("    _double: ").append(toIndentedString(_double)).append("\n");
+    sb.append("    decimal: ").append(toIndentedString(decimal)).append("\n");
     sb.append("    string: ").append(toIndentedString(string)).append("\n");
     sb.append("    _byte: ").append(toIndentedString(_byte)).append("\n");
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
-    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
+    sb.append("    password: ").append("*").append("\n");
+    sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");
+    sb.append("    patternWithDigitsAndDelimiter: ").append(toIndentedString(patternWithDigitsAndDelimiter)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -369,5 +450,108 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
 
+  public static FormatTestBuilder<?, ?> builder() {
+    return new FormatTestBuilderImpl();
+  }
+
+  private static class FormatTestBuilderImpl extends FormatTestBuilder<FormatTest, FormatTestBuilderImpl> {
+
+    @Override
+    protected FormatTestBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public FormatTest build() {
+      return new FormatTest(this);
+    }
+  }
+
+  public static abstract class FormatTestBuilder<C extends FormatTest, B extends FormatTestBuilder<C, B>>  {
+    private Integer integer;
+    private Integer int32;
+    private Long int64;
+    private BigDecimal number;
+    private Float _float;
+    private Double _double;
+    private BigDecimal decimal;
+    private String string;
+    private byte[] _byte;
+    private File binary;
+    private LocalDate date;
+    private Date dateTime;
+    private UUID uuid;
+    private String password;
+    private String patternWithDigits;
+    private String patternWithDigitsAndDelimiter;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B integer(Integer integer) {
+      this.integer = integer;
+      return self();
+    }
+    public B int32(Integer int32) {
+      this.int32 = int32;
+      return self();
+    }
+    public B int64(Long int64) {
+      this.int64 = int64;
+      return self();
+    }
+    public B number(BigDecimal number) {
+      this.number = number;
+      return self();
+    }
+    public B _float(Float _float) {
+      this._float = _float;
+      return self();
+    }
+    public B _double(Double _double) {
+      this._double = _double;
+      return self();
+    }
+    public B decimal(BigDecimal decimal) {
+      this.decimal = decimal;
+      return self();
+    }
+    public B string(String string) {
+      this.string = string;
+      return self();
+    }
+    public B _byte(byte[] _byte) {
+      this._byte = _byte;
+      return self();
+    }
+    public B binary(File binary) {
+      this.binary = binary;
+      return self();
+    }
+    public B date(LocalDate date) {
+      this.date = date;
+      return self();
+    }
+    public B dateTime(Date dateTime) {
+      this.dateTime = dateTime;
+      return self();
+    }
+    public B uuid(UUID uuid) {
+      this.uuid = uuid;
+      return self();
+    }
+    public B password(String password) {
+      this.password = password;
+      return self();
+    }
+    public B patternWithDigits(String patternWithDigits) {
+      this.patternWithDigits = patternWithDigits;
+      return self();
+    }
+    public B patternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
+      this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
+      return self();
+    }
+  }
 }
 

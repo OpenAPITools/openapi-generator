@@ -9,7 +9,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 ## foo_get
 
-> <InlineResponseDefault> foo_get
+> <FooGetDefaultResponse> foo_get
 
 
 
@@ -34,7 +34,7 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(<InlineResponseDefault>, Integer, Hash)> foo_get_with_http_info
+> <Array(<FooGetDefaultResponse>, Integer, Hash)> foo_get_with_http_info
 
 ```ruby
 begin
@@ -42,7 +42,7 @@ begin
   data, status_code, headers = api_instance.foo_get_with_http_info
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => <InlineResponseDefault>
+  p data # => <FooGetDefaultResponse>
 rescue Petstore::ApiError => e
   puts "Error when calling DefaultApi->foo_get_with_http_info: #{e}"
 end
@@ -54,7 +54,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**InlineResponseDefault**](InlineResponseDefault.md)
+[**FooGetDefaultResponse**](FooGetDefaultResponse.md)
 
 ### Authorization
 

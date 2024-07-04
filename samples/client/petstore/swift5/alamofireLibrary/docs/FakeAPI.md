@@ -27,7 +27,7 @@ Method | HTTP request | Description
 
 Test serialization of outer boolean types
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -76,7 +76,7 @@ No authorization required
 
 Test serialization of object with outer number type
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -125,7 +125,7 @@ No authorization required
 
 Test serialization of outer number types
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -174,7 +174,7 @@ No authorization required
 
 Test serialization of outer string types
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -223,12 +223,12 @@ No authorization required
 
 For this test, the body for this request much reference a schema named `File`.
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = FileSchemaTestClass(file: File(sourceURI: "sourceURI_example"), files: [File(sourceURI: "sourceURI_example")]) // FileSchemaTestClass | 
+let body = FileSchemaTestClass(file: File(sourceURI: "sourceURI_example"), files: [nil]) // FileSchemaTestClass | 
 
 FakeAPI.testBodyWithFileSchema(body: body) { (response, error) in
     guard error == nil else {
@@ -270,7 +270,7 @@ No authorization required
 
 
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -321,7 +321,7 @@ To test \"client\" model
 
 To test \"client\" model
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -364,14 +364,14 @@ No authorization required
 
 # **testEndpointParameters**
 ```swift
-    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: OpenAPIDateWithoutTime? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
 Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -379,14 +379,14 @@ import PetstoreClient
 let number = 987 // Double | None
 let double = 987 // Double | None
 let patternWithoutDelimiter = "patternWithoutDelimiter_example" // String | None
-let byte = 987 // Data | None
+let byte = Data([9, 8, 7]) // Data | None
 let integer = 987 // Int | None (optional)
 let int32 = 987 // Int | None (optional)
 let int64 = 987 // Int64 | None (optional)
 let float = 987 // Float | None (optional)
 let string = "string_example" // String | None (optional)
 let binary = URL(string: "https://example.com")! // URL | None (optional)
-let date = Date() // Date | None (optional)
+let date = 987 // OpenAPIDateWithoutTime | None (optional)
 let dateTime = Date() // Date | None (optional)
 let password = "password_example" // String | None (optional)
 let callback = "callback_example" // String | None (optional)
@@ -418,7 +418,7 @@ Name | Type | Description  | Notes
  **float** | **Float** | None | [optional] 
  **string** | **String** | None | [optional] 
  **binary** | **URL** | None | [optional] 
- **date** | **Date** | None | [optional] 
+ **date** | **OpenAPIDateWithoutTime** | None | [optional] 
  **dateTime** | **Date** | None | [optional] 
  **password** | **String** | None | [optional] 
  **callback** | **String** | None | [optional] 
@@ -440,14 +440,14 @@ Void (empty response body)
 
 # **testEnumParameters**
 ```swift
-    open class func testEnumParameters(enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 To test enum parameters
 
 To test enum parameters
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -511,7 +511,7 @@ Fake endpoint to test group parameters (optional)
 
 Fake endpoint to test group parameters (optional)
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -569,7 +569,7 @@ No authorization required
 
 test inline additionalProperties
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -617,7 +617,7 @@ No authorization required
 
 test json serialization of form data
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient

@@ -1,5 +1,5 @@
-import 'package:openapi/model/array_of_number_only.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 // tests for ArrayOfNumberOnly
 void main() {
@@ -12,7 +12,5 @@ void main() {
       // TODO
     });
 
-
   });
-
 }

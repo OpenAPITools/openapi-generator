@@ -16,8 +16,7 @@ Name | Type | Description | Notes
 **dateTime** | **string** |  | [optional] [default to null]
 **uuid** | **string** |  | [optional] [default to null]
 **password** | **string** |  | [default to null]
-**patternUnderscorewithUnderscoredigits** | **string** |  | [optional] [default to null]
-**patternUnderscorewithUnderscoredigitsUnderscoreandUnderscoredelimiter** | **string** |  | [optional] [default to null]
+**BigDecimal** | [**Decimal**](Decimal.md) |  | [optional] [default to null]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

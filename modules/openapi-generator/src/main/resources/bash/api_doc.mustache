@@ -1,12 +1,12 @@
 # {{classname}}{{#description}}
 
-{{description}}{{/description}}
+{{.}}{{/description}}
 
 All URIs are relative to *{{basePathWithoutHost}}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{summary}}
 {{/operation}}{{/operations}}
 
 {{#operations}}
@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 {{{summary}}}{{#notes}}
 
-{{{notes}}}{{/notes}}
+{{{.}}}{{/notes}}
 
 ### Example
 
@@ -29,7 +29,7 @@ Method | HTTP request | Description
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
-{{#allParams}} **{{paramName}}** | {{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{baseType}}.md){{/isPrimitiveType}}{{/isFile}} | {{{description}}} |{{^required}} [optional]{{/required}}{{#defaultValue}} [default to {{defaultValue}}]{{/defaultValue}}
+{{#allParams}} **{{paramName}}** | {{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{baseType}}.md){{/isPrimitiveType}}{{/isFile}} | {{{description}}} |{{^required}} [optional]{{/required}}{{#defaultValue}} [default to {{.}}]{{/defaultValue}}
 {{/allParams}}
 
 ### Return type

@@ -43,5 +43,6 @@ public class HaskellServantOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setModelPackage(HaskellServantOptionsProvider.MODEL_PACKAGE_VALUE);
         verify(clientCodegen).setApiPackage(HaskellServantOptionsProvider.API_PACKAGE_VALUE);
         verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(HaskellServantOptionsProvider.SORT_PARAMS_VALUE));
+        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(HaskellServantOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }

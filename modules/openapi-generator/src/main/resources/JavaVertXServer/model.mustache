@@ -6,7 +6,7 @@ import java.util.Objects;
 {{#serializableModel}}import java.io.Serializable;
 {{/serializableModel}}{{#models}}{{#model}}{{#description}}
 /**
- * {{description}}
+ * {{.}}
  **/
 {{/description}}{{^description}}
 {{/description}}{{#isEnum}}{{>enumOuterClass}}{{/isEnum}}{{^isEnum}}{{>pojo}}{{/isEnum}}{{/model}}{{/models}}

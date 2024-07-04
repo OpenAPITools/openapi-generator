@@ -29,7 +29,7 @@ import javax.validation.Valid;
   ReadOnlyFirst.JSON_PROPERTY_BAR,
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ReadOnlyFirst   {
   public static final String JSON_PROPERTY_BAR = "bar";
   @JsonProperty(JSON_PROPERTY_BAR)
@@ -48,7 +48,7 @@ public class ReadOnlyFirst   {
    * Get bar
    * @return bar
    **/
-  @JsonProperty("bar")
+  @JsonProperty(value = "bar", access = JsonProperty.Access.READ_ONLY)
   @ApiModelProperty(value = "")
   
   public String getBar() {
@@ -68,7 +68,7 @@ public class ReadOnlyFirst   {
    * Get baz
    * @return baz
    **/
-  @JsonProperty("baz")
+  @JsonProperty(value = "baz")
   @ApiModelProperty(value = "")
   
   public String getBaz() {
@@ -97,7 +97,6 @@ public class ReadOnlyFirst   {
   public int hashCode() {
     return Objects.hash(bar, baz);
   }
-
 
   @Override
   public String toString() {

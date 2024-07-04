@@ -1,0 +1,276 @@
+{{>licenseInfo}}
+package {{invokerPackage}};
+
+{{#jsonb}}import {{rootJavaEEPackage}}.json.bind.JsonbBuilder;
+import {{rootJavaEEPackage}}.json.bind.JsonbConfig;
+{{/jsonb}}
+{{#jackson}}import com.fasterxml.jackson.databind.ObjectMapper;
+{{/jackson}}
+{{#openApiNullable}}
+{{#jackson}}
+import org.openapitools.jackson.nullable.JsonNullableModule;
+{{/jackson}}
+{{/openApiNullable}}
+
+import io.helidon.config.Config;
+{{#jsonb}}
+import io.helidon.media.jsonb.JsonbSupport;
+{{/jsonb}}
+{{#jackson}}
+import io.helidon.media.jackson.JacksonSupport;
+{{/jackson}}
+import io.helidon.webclient.WebClient;
+
+import java.net.URI;
+import java.net.URLEncoder;
+import java.time.Duration;
+{{#java8}}
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+{{/java8}}
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+{{#jsonb}}
+import java.util.Map;
+{{/jsonb}}
+import java.util.StringJoiner;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
+
+/**
+ * Configuration and utility class for API clients.
+ * <p>
+ * Use the {@link ApiClient.Builder} class to prepare and ultimately create the {@code ApiClient} instance.
+ * </p>
+ */
+public class ApiClient {
+
+  private final WebClient webClient;
+
+  /**
+   * @return a {@code Builder} for an {@code ApiClient}
+   */
+  public static ApiClient.Builder builder() {
+    return new Builder();
+  }
+
+  /**
+   * URL encode a string in the UTF-8 encoding.
+   *
+   * @param s String to encode.
+   * @return URL-encoded representation of the input string.
+   */
+  public static String urlEncode(String s) {
+    return URLEncoder.encode(s, UTF_8);
+  }
+
+  /**
+   * Convert a URL query name/value parameter to a list of encoded {@link Pair}
+   * objects.
+   *
+   * <p>The value can be null, in which case an empty list is returned.</p>
+   *
+   * @param name The query name parameter.
+   * @param value The query value, which may not be a collection but may be
+   *              null.
+   * @return A singleton list of the {@link Pair} objects representing the input
+   * parameters, which is encoded for use in a URL. If the value is null, an
+   * empty list is returned.
+   */
+  public static List<Pair> parameterToPairs(String name, Object value) {
+    if (name == null || name.isEmpty() || value == null) {
+      return Collections.emptyList();
+    }
+    return Collections.singletonList(new Pair(urlEncode(name), urlEncode(valueToString(value))));
+  }
+
+  /**
+   * Convert a URL query name/collection parameter to a list of encoded
+   * {@link Pair} objects.
+   *
+   * @param collectionFormat The swagger collectionFormat string (csv, tsv, etc).
+   * @param name The query name parameter.
+   * @param values A collection of values for the given query name, which may be
+   *               null.
+   * @return A list of {@link Pair} objects representing the input parameters,
+   * which is encoded for use in a URL. If the values collection is null, an
+   * empty list is returned.
+   */
+  public static List<Pair> parameterToPairs(
+      String collectionFormat, String name, Collection<?> values) {
+    if (name == null || name.isEmpty() || values == null || values.isEmpty()) {
+      return Collections.emptyList();
+    }
+
+    // get the collection format (default: csv)
+    String format = collectionFormat == null || collectionFormat.isEmpty() ? "csv" : collectionFormat;
+
+    // create the params based on the collection format
+    if ("multi".equals(format)) {
+      return values.stream()
+          .map(value -> new Pair(urlEncode(name), urlEncode(valueToString(value))))
+          .collect(Collectors.toList());
+    }
+
+    String delimiter;
+    switch(format) {
+      case "csv":
+        delimiter = urlEncode(",");
+        break;
+      case "ssv":
+        delimiter = urlEncode(" ");
+        break;
+      case "tsv":
+        delimiter = urlEncode("\t");
+        break;
+      case "pipes":
+        delimiter = urlEncode("|");
+        break;
+      default:
+        throw new IllegalArgumentException("Illegal collection format: " + collectionFormat);
+    }
+
+    StringJoiner joiner = new StringJoiner(delimiter);
+    for (Object value : values) {
+      joiner.add(urlEncode(valueToString(value)));
+    }
+
+    return Collections.singletonList(new Pair(urlEncode(name), joiner.toString()));
+  }
+
+  private ApiClient(Builder builder) {
+    webClient = builder.webClientBuilder().build();
+  }
+
+  /**
+   * Get the {@link WebClient} prepared by the builder of this {@code ApiClient}.
+   *
+   * @return the WebClient
+   */
+  public WebClient webClient() {
+    return webClient;
+  }
+
+  private static String valueToString(Object value) {
+    if (value == null) {
+      return "";
+    }
+    {{#java8}}
+    if (value instanceof OffsetDateTime) {
+      return ((OffsetDateTime) value).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+    }
+    {{/java8}}
+    return value.toString();
+  }
+
+  /**
+    * Builder for creating a new {@code ApiClient} instance.
+    *
+    * <p>
+    * The builder accepts a {@link WebClient.Builder} via the {@code webClientBuilder} method but will provide a default one
+    * using available configuration (the {@code client} node) and the base URI set in the OpenAPI document.
+    * </p>
+    */
+  public static class Builder {
+
+    private WebClient.Builder webClientBuilder;
+    private Config clientConfig;
+    {{#jsonb}}
+    private JsonbConfig jsonbConfig;
+    {{/jsonb}}
+    {{#jackson}}
+    private ObjectMapper objectMapper;
+    {{/jackson}}
+
+    public ApiClient build() {
+      return new ApiClient(this);
+    }
+
+    /**
+     * Sets the {@code WebClient.Builder} which the {@code ApiClient.Builder} uses. Any previous setting is discarded.
+     *
+     * @param webClientBuilder the {@code WebClient.Builder} to be used going forward
+     * @return the updated builder
+     */
+    public Builder webClientBuilder(WebClient.Builder webClientBuilder) {
+      this.webClientBuilder = webClientBuilder;
+      return this;
+    }
+
+    /**
+     * Sets the client {@code Config} which the {@code ApiClient.Builder} uses in preparing a default {@code WebClient.Builder}.
+     * The builder ignores this setting if you provide your own {@code WebClient.Builder} by invoking the
+     * {@code webClientBuilder} method.
+     *
+     * @param clientConfig the {@code Config} node containing client settings
+     * @return the updated builder
+     */
+    public Builder clientConfig(Config clientConfig) {
+      this.clientConfig = clientConfig;
+      return this;
+    }
+
+    /**
+     * @return the previously-stored web client builder or, if none, a default one using the provided or defaulted
+     * client configuration
+     */
+     public WebClient.Builder webClientBuilder() {
+      if (webClientBuilder == null) {
+        webClientBuilder = defaultWebClientBuilder();
+      }
+      return webClientBuilder;
+    }
+
+    {{#jsonb}}
+    /**
+     * Stores the JSON-B configuration the builder uses in preparing the {@code WebClient}.
+     *
+     * @param jsonbConfig the JSON-B config to use in all API invocations via the built {@code ApiClient}
+     * @return the updated builder
+     */
+    public Builder jsonbConfig(JsonbConfig jsonbConfig) {
+      this.jsonbConfig = jsonbConfig;
+      return this;
+    }
+    {{/jsonb}}
+    {{#jackson}}
+    /**
+     * Stores the Jackson {@code ObjectMapper} the builder uses in preparing the {@code WebClient}.
+     *
+     * @param objectMapper the Jackson object mapper to use in all API invocations via the built {@code ApiClient}
+     * @return the updated builder
+     */
+    public Builder objectMapper(ObjectMapper objectMapper) {
+      this.objectMapper = objectMapper;
+      return this;
+    }
+    {{/jackson}}
+
+    private WebClient.Builder defaultWebClientBuilder() {
+      WebClient.Builder defaultWebClientBuilder = WebClient.builder()
+                  .baseUri("{{basePath}}")
+                  .config(clientConfig());
+      {{#jsonb}}
+      defaultWebClientBuilder.addMediaSupport(jsonbConfig == null
+                ? JsonbSupport.create()
+                : JsonbSupport.create(JsonbBuilder.create(jsonbConfig)));
+      {{/jsonb}}
+      {{#jackson}}
+      defaultWebClientBuilder.addMediaSupport(objectMapper == null
+                ? JacksonSupport.create()
+                : JacksonSupport.create(objectMapper));
+      {{/jackson}}
+      return defaultWebClientBuilder;
+    }
+
+    private Config clientConfig() {
+      if (clientConfig == null) {
+         clientConfig = Config.create().get("client");
+      }
+      return clientConfig;
+    }
+  }
+}

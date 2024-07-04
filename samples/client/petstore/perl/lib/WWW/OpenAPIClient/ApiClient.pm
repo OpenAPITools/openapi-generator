@@ -69,7 +69,7 @@ sub set_user_agent {
 # Set timeout
 #
 # @param integer $seconds Number of seconds before timing out [set to 0 for no timeout]
-# 
+#
 sub set_timeout {
     my ($self, $seconds) = @_;
     if (!looks_like_number($seconds)) {
@@ -90,11 +90,11 @@ sub call_api {
     my ($resource_path, $method, $query_params, $post_params, $header_params, $body_data, $auth_settings) = @_;
 
     # update parameters based on authentication settings
-    $self->update_params_for_auth($header_params, $query_params, $auth_settings); 
+    $self->update_params_for_auth($header_params, $query_params, $auth_settings);
 
     my $_url = $self->{config}{base_url} . $resource_path;
 
-    # build query 
+    # build query
     if (%$query_params) {
         $_url = ($_url . '?' . eval { URI::Query->new($query_params)->stringify });
     }
@@ -107,37 +107,34 @@ sub call_api {
     my $_request;
     if ($method eq 'POST') {
         # multipart
-        $header_params->{'Content-Type'} = lc $header_params->{'Content-Type'} eq 'multipart/form' ? 
+        $header_params->{'Content-Type'} = lc $header_params->{'Content-Type'} eq 'multipart/form' ?
             'form-data' : $header_params->{'Content-Type'};
-        
+
         $_request = POST($_url, %$header_params, Content => $_body_data);
 
     }
     elsif ($method eq 'PUT') {
         # multipart
-        $header_params->{'Content-Type'}  = lc $header_params->{'Content-Type'} eq 'multipart/form' ? 
+        $header_params->{'Content-Type'}  = lc $header_params->{'Content-Type'} eq 'multipart/form' ?
             'form-data' : $header_params->{'Content-Type'};
 
         $_request = PUT($_url, %$header_params, Content => $_body_data);
 
     }
     elsif ($method eq 'GET') {
-        my $headers = HTTP::Headers->new(%$header_params);
         $_request = GET($_url, %$header_params);
     }
     elsif ($method eq 'HEAD') {
-        my $headers = HTTP::Headers->new(%$header_params);
-        $_request = HEAD($_url,%$header_params); 
+        $_request = HEAD($_url,%$header_params);
     }
     elsif ($method eq 'DELETE') { #TODO support form data
-        my $headers = HTTP::Headers->new(%$header_params);
-        $_request = DELETE($_url, %$headers);
+        $_request = DELETE($_url, %$header_params);
     }
     elsif ($method eq 'PATCH') { #TODO
     }
     else {
     }
-   
+
     $self->{ua}->timeout($self->{http_timeout} || $self->{config}{http_timeout});
     $self->{ua}->agent($self->{http_user_agent} || $self->{config}{http_user_agent});
 
@@ -148,7 +145,7 @@ sub call_api {
     unless ($_response->is_success) {
         croak(sprintf "API Exception(%s): %s\n%s", $_response->code, $_response->message, $_response->content);
     }
-       
+
     return $_response->content;
 
 }
@@ -215,7 +212,7 @@ sub to_string {
 }
 
 # Deserialize a JSON string into an object
-#  
+#
 # @param string $class class name is passed as a string
 # @param string $data data of the body
 # @return object an instance of $class
@@ -256,10 +253,18 @@ sub deserialize
             }
         }
         return \@_values;
-    } elsif ($class eq 'DateTime') {
+    } elsif (grep /^$class$/, ('DATE_TIME', 'DATE')) {
         return DateTime->from_epoch(epoch => str2time($data));
-    } elsif (grep /^$class$/, ('string', 'int', 'float', 'bool', 'object')) {
+    } elsif ($class eq 'string') {
+        return undef unless defined $data;
+        return $data . q();
+    } elsif ($class eq 'object') {
         return $data;
+    } elsif (grep /^$class$/, ('int', 'float', 'double')) {
+        return undef unless defined $data;
+        return $data + 0;
+    } elsif ($class eq 'bool') {
+        return !!$data;
     } else { # model
         my $_instance = use_module("WWW::OpenAPIClient::Object::$class")->new;
         if (ref $data eq "HASH") {
@@ -317,17 +322,17 @@ sub get_api_key_with_prefix
 
     my $prefix = $self->{config}{api_key_prefix}{$key_name};
     return $prefix ? "$prefix $api_key" : $api_key;
-}    
+}
 
 # update header and query param based on authentication setting
-#  
+#
 # @param array $headerParams header parameters (by ref)
 # @param array $queryParams query parameters (by ref)
 # @param array $authSettings array of authentication scheme (e.g ['api_key'])
 sub update_params_for_auth {
     my ($self, $header_params, $query_params, $auth_settings) = @_;
 
-    return $self->_global_auth_setup($header_params, $query_params) 
+    return $self->_global_auth_setup($header_params, $query_params)
         unless $auth_settings && @$auth_settings;
 
     # one endpoint can have more than 1 auth settings
@@ -335,6 +340,11 @@ sub update_params_for_auth {
         # determine which one to use
         if (!defined($auth)) {
             # TODO show warning about auth setting not defined
+        }
+        elsif ($auth eq 'petstore_auth') {
+            if ($self->{config}{access_token}) {
+                $header_params->{'Authorization'} = 'Bearer ' . $self->{config}{access_token};
+            }
         }
         elsif ($auth eq 'api_key') {
             my $api_key = $self->get_api_key_with_prefix('api_key');
@@ -348,23 +358,18 @@ sub update_params_for_auth {
                 $query_params->{'api_key_query'} = $api_key;
             }
         }
+        elsif ($auth eq 'http_basic_test') {
+            if ($self->{config}{username} || $self->{config}{password}) {
+                $header_params->{'Authorization'} = 'Basic ' . encode_base64($self->{config}{username} . ":" . $self->{config}{password});
+            }
+        }
         elsif ($auth eq 'bearer_test') {
             # this endpoint requires Bearer (JWT) authentication (access token)
             if ($self->{config}{access_token}) {
                 $header_params->{'Authorization'} = 'Bearer ' . $self->{config}{access_token};
             }
         }
-        elsif ($auth eq 'http_basic_test') {
-            if ($self->{config}{username} || $self->{config}{password}) {
-                $header_params->{'Authorization'} = 'Basic ' . encode_base64($self->{config}{username} . ":" . $self->{config}{password});
-            }
-        }
         elsif ($auth eq 'http_signature_test') {
-        }
-        elsif ($auth eq 'petstore_auth') {
-            if ($self->{config}{access_token}) {
-                $header_params->{'Authorization'} = 'Bearer ' . $self->{config}{access_token};
-            }
         }
         else {
            # TODO show warning about security definition not found
@@ -372,12 +377,12 @@ sub update_params_for_auth {
     }
 }
 
-# The endpoint API class has not found any settings for auth. This may be deliberate, 
-# in which case update_params_for_auth() will be a no-op. But it may also be that the 
-# OpenAPI Spec does not describe the intended authorization. So we check in the config for any 
-# auth tokens and if we find any, we use them for all endpoints; 
+# The endpoint API class has not found any settings for auth. This may be deliberate,
+# in which case update_params_for_auth() will be a no-op. But it may also be that the
+# OpenAPI Spec does not describe the intended authorization. So we check in the config for any
+# auth tokens and if we find any, we use them for all endpoints;
 sub _global_auth_setup {
-    my ($self, $header_params, $query_params) = @_; 
+    my ($self, $header_params, $query_params) = @_;
 
     my $tokens = $self->{config}->get_tokens;
     return unless keys %$tokens;

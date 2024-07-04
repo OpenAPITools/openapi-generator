@@ -24,7 +24,7 @@ Create user
 
 This can only be done by the logged in user.
 
-### Example 
+### Example
 ```objc
 
 SWGUser* user = [[SWGUser alloc] init]; // Created user object (optional)
@@ -69,7 +69,9 @@ No authorization required
 
 Creates list of users with given input array
 
-### Example 
+
+
+### Example
 ```objc
 
 NSArray<SWGUser>* user = @[[[SWGUser alloc] init]]; // List of user object (optional)
@@ -114,7 +116,9 @@ No authorization required
 
 Creates list of users with given input array
 
-### Example 
+
+
+### Example
 ```objc
 
 NSArray<SWGUser>* user = @[[[SWGUser alloc] init]]; // List of user object (optional)
@@ -161,7 +165,7 @@ Delete user
 
 This can only be done by the logged in user.
 
-### Example 
+### Example
 ```objc
 
 NSString* username = @"username_example"; // The name that needs to be deleted
@@ -206,7 +210,9 @@ No authorization required
 
 Get user by user name
 
-### Example 
+
+
+### Example
 ```objc
 
 NSString* username = @"username_example"; // The name that needs to be fetched. Use user1 for testing. 
@@ -255,7 +261,9 @@ No authorization required
 
 Logs user into the system
 
-### Example 
+
+
+### Example
 ```objc
 
 NSString* username = @"username_example"; // The user name for login (optional)
@@ -306,7 +314,9 @@ No authorization required
 
 Logs out current logged in user session
 
-### Example 
+
+
+### Example
 ```objc
 
 
@@ -350,7 +360,7 @@ Updated user
 
 This can only be done by the logged in user.
 
-### Example 
+### Example
 ```objc
 
 NSString* username = @"username_example"; // name that need to be deleted

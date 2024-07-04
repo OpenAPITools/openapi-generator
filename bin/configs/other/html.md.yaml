@@ -1,3 +1,0 @@
-generatorName: html
-outputDir: samples/documentation/html.md
-inputSpec: modules/openapi-generator/src/test/resources/2_0/markdown.yaml

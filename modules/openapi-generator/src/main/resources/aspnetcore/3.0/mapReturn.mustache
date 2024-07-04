@@ -1,4 +1,4 @@
 
             var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<Dictionary<{{#returnType}}{{{returnType}}}{{/returnType}}>>(exampleJson)
-            : new Dictionary<{{#returnType}}{{{returnType}}}{{/returnType}}>();
+            ? {{#useNewtonsoft}}JsonConvert.DeserializeObject{{/useNewtonsoft}}{{^useNewtonsoft}}JsonSerializer.Deserialize{{/useNewtonsoft}}<{{{returnType}}}>(exampleJson)
+            : new {{{returnType}}}();

@@ -6,17 +6,23 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 open class AnotherFakeAPI {
+
     /**
      To test special tags
      
+     - parameter uuidTest: (header) to test uuid example value 
      - parameter body: (body) client model 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func call123testSpecialTags(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Client?, _ error: Error?) -> Void)) {
-        call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
+    @discardableResult
+    open class func call123testSpecialTags(uuidTest: UUID, body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Client?, _ error: Error?) -> Void)) -> RequestTask {
+        return call123testSpecialTagsWithRequestBuilder(uuidTest: uuidTest, body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -30,25 +36,26 @@ open class AnotherFakeAPI {
      To test special tags
      - PATCH /another-fake/dummy
      - To test special tags and operation ID starting with number
+     - parameter uuidTest: (header) to test uuid example value 
      - parameter body: (body) client model 
      - returns: RequestBuilder<Client> 
      */
-    open class func call123testSpecialTagsWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
-        let path = "/another-fake/dummy"
-        let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+    open class func call123testSpecialTagsWithRequestBuilder(uuidTest: UUID, body: Client) -> RequestBuilder<Client> {
+        let localVariablePath = "/another-fake/dummy"
+        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
-        let url = URLComponents(string: URLString)
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let nillableHeaders: [String: Any?] = [
-            :
+        let localVariableNillableHeaders: [String: Any?] = [
+            "Content-Type": "application/json",
+            "uuid_test": uuidTest.encodeToJSON(),
         ]
 
-        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let requestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "PATCH", URLString: (url?.string ?? URLString), parameters: parameters, headers: headerParameters)
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
-
 }

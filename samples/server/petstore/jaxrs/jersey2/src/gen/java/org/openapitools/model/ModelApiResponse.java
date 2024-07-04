@@ -16,6 +16,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -30,7 +31,7 @@ import javax.validation.Valid;
   ModelApiResponse.JSON_PROPERTY_TYPE,
   ModelApiResponse.JSON_PROPERTY_MESSAGE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ModelApiResponse   {
   public static final String JSON_PROPERTY_CODE = "code";
   @JsonProperty(JSON_PROPERTY_CODE)
@@ -53,7 +54,7 @@ public class ModelApiResponse   {
    * Get code
    * @return code
    **/
-  @JsonProperty("code")
+  @JsonProperty(value = "code")
   @ApiModelProperty(value = "")
   
   public Integer getCode() {
@@ -73,7 +74,7 @@ public class ModelApiResponse   {
    * Get type
    * @return type
    **/
-  @JsonProperty("type")
+  @JsonProperty(value = "type")
   @ApiModelProperty(value = "")
   
   public String getType() {
@@ -93,7 +94,7 @@ public class ModelApiResponse   {
    * Get message
    * @return message
    **/
-  @JsonProperty("message")
+  @JsonProperty(value = "message")
   @ApiModelProperty(value = "")
   
   public String getMessage() {
@@ -123,7 +124,6 @@ public class ModelApiResponse   {
   public int hashCode() {
     return Objects.hash(code, type, message);
   }
-
 
   @Override
   public String toString() {

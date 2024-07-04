@@ -20,13 +20,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * AdditionalPropertiesClass
@@ -44,33 +43,32 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE2,
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE3
 })
-@JsonTypeName("AdditionalPropertiesClass")
 @javax.annotation.concurrent.Immutable
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_STRING = "map_string";
-  private Map<String, String> mapString = null;
+  private Map<String, String> mapString = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_NUMBER = "map_number";
-  private Map<String, BigDecimal> mapNumber = null;
+  private Map<String, BigDecimal> mapNumber = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_INTEGER = "map_integer";
-  private Map<String, Integer> mapInteger = null;
+  private Map<String, Integer> mapInteger = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_BOOLEAN = "map_boolean";
-  private Map<String, Boolean> mapBoolean = null;
+  private Map<String, Boolean> mapBoolean = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_ARRAY_INTEGER = "map_array_integer";
-  private Map<String, List<Integer>> mapArrayInteger = null;
+  private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_ARRAY_ANYTYPE = "map_array_anytype";
-  private Map<String, List<Object>> mapArrayAnytype = null;
+  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_MAP_STRING = "map_map_string";
-  private Map<String, Map<String, String>> mapMapString = null;
+  private Map<String, Map<String, String>> mapMapString = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_MAP_ANYTYPE = "map_map_anytype";
-  private Map<String, Map<String, Object>> mapMapAnytype = null;
+  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
   public static final String JSON_PROPERTY_ANYTYPE1 = "anytype_1";
   private Object anytype1;
@@ -81,6 +79,8 @@ public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_ANYTYPE3 = "anytype_3";
   private Object anytype3;
 
+  public AdditionalPropertiesClass() {
+  }
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     
@@ -90,18 +90,17 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapStringItem(String key, String mapStringItem) {
     if (this.mapString == null) {
-      this.mapString = new HashMap<String, String>();
+      this.mapString = new HashMap<>();
     }
     this.mapString.put(key, mapStringItem);
     return this;
   }
 
-   /**
+  /**
    * Get mapString
    * @return mapString
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -110,6 +109,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapString(Map<String, String> mapString) {
     this.mapString = mapString;
   }
@@ -123,18 +124,17 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapNumberItem(String key, BigDecimal mapNumberItem) {
     if (this.mapNumber == null) {
-      this.mapNumber = new HashMap<String, BigDecimal>();
+      this.mapNumber = new HashMap<>();
     }
     this.mapNumber.put(key, mapNumberItem);
     return this;
   }
 
-   /**
+  /**
    * Get mapNumber
    * @return mapNumber
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -143,6 +143,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
   }
@@ -156,18 +158,17 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapIntegerItem(String key, Integer mapIntegerItem) {
     if (this.mapInteger == null) {
-      this.mapInteger = new HashMap<String, Integer>();
+      this.mapInteger = new HashMap<>();
     }
     this.mapInteger.put(key, mapIntegerItem);
     return this;
   }
 
-   /**
+  /**
    * Get mapInteger
    * @return mapInteger
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -176,6 +177,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapInteger(Map<String, Integer> mapInteger) {
     this.mapInteger = mapInteger;
   }
@@ -189,18 +192,17 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapBooleanItem(String key, Boolean mapBooleanItem) {
     if (this.mapBoolean == null) {
-      this.mapBoolean = new HashMap<String, Boolean>();
+      this.mapBoolean = new HashMap<>();
     }
     this.mapBoolean.put(key, mapBooleanItem);
     return this;
   }
 
-   /**
+  /**
    * Get mapBoolean
    * @return mapBoolean
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -209,6 +211,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_BOOLEAN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapBoolean(Map<String, Boolean> mapBoolean) {
     this.mapBoolean = mapBoolean;
   }
@@ -222,18 +226,17 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapArrayIntegerItem(String key, List<Integer> mapArrayIntegerItem) {
     if (this.mapArrayInteger == null) {
-      this.mapArrayInteger = new HashMap<String, List<Integer>>();
+      this.mapArrayInteger = new HashMap<>();
     }
     this.mapArrayInteger.put(key, mapArrayIntegerItem);
     return this;
   }
 
-   /**
+  /**
    * Get mapArrayInteger
    * @return mapArrayInteger
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -242,6 +245,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_ARRAY_INTEGER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
     this.mapArrayInteger = mapArrayInteger;
   }
@@ -255,18 +260,17 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapArrayAnytypeItem(String key, List<Object> mapArrayAnytypeItem) {
     if (this.mapArrayAnytype == null) {
-      this.mapArrayAnytype = new HashMap<String, List<Object>>();
+      this.mapArrayAnytype = new HashMap<>();
     }
     this.mapArrayAnytype.put(key, mapArrayAnytypeItem);
     return this;
   }
 
-   /**
+  /**
    * Get mapArrayAnytype
    * @return mapArrayAnytype
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -275,6 +279,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
   }
@@ -288,18 +294,17 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapMapStringItem(String key, Map<String, String> mapMapStringItem) {
     if (this.mapMapString == null) {
-      this.mapMapString = new HashMap<String, Map<String, String>>();
+      this.mapMapString = new HashMap<>();
     }
     this.mapMapString.put(key, mapMapStringItem);
     return this;
   }
 
-   /**
+  /**
    * Get mapMapString
    * @return mapMapString
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_MAP_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -308,6 +313,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_MAP_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapMapString(Map<String, Map<String, String>> mapMapString) {
     this.mapMapString = mapMapString;
   }
@@ -321,18 +328,17 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass putMapMapAnytypeItem(String key, Map<String, Object> mapMapAnytypeItem) {
     if (this.mapMapAnytype == null) {
-      this.mapMapAnytype = new HashMap<String, Map<String, Object>>();
+      this.mapMapAnytype = new HashMap<>();
     }
     this.mapMapAnytype.put(key, mapMapAnytypeItem);
     return this;
   }
 
-   /**
+  /**
    * Get mapMapAnytype
    * @return mapMapAnytype
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_MAP_ANYTYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -341,6 +347,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_MAP_ANYTYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
     this.mapMapAnytype = mapMapAnytype;
   }
@@ -352,12 +360,11 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get anytype1
    * @return anytype1
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ANYTYPE1)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -366,6 +373,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ANYTYPE1)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setAnytype1(Object anytype1) {
     this.anytype1 = anytype1;
   }
@@ -377,12 +386,11 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get anytype2
    * @return anytype2
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ANYTYPE2)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -391,6 +399,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ANYTYPE2)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setAnytype2(Object anytype2) {
     this.anytype2 = anytype2;
   }
@@ -402,12 +412,11 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get anytype3
    * @return anytype3
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ANYTYPE3)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -416,6 +425,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ANYTYPE3)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setAnytype3(Object anytype3) {
     this.anytype3 = anytype3;
   }

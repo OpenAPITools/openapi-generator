@@ -16,31 +16,28 @@ package org.openapitools.client.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import java.time.OffsetDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.openapitools.client.model.Animal;
-import org.threeten.bp.OffsetDateTime;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for MixedPropertiesAndAdditionalPropertiesClass
  */
-public class MixedPropertiesAndAdditionalPropertiesClassTest {
+class MixedPropertiesAndAdditionalPropertiesClassTest {
     private final MixedPropertiesAndAdditionalPropertiesClass model = new MixedPropertiesAndAdditionalPropertiesClass();
 
     /**
      * Model tests for MixedPropertiesAndAdditionalPropertiesClass
      */
     @Test
-    public void testMixedPropertiesAndAdditionalPropertiesClass() {
+    void testMixedPropertiesAndAdditionalPropertiesClass() {
         // TODO: test MixedPropertiesAndAdditionalPropertiesClass
     }
 
@@ -48,7 +45,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassTest {
      * Test the property 'uuid'
      */
     @Test
-    public void uuidTest() {
+    void uuidTest() {
         // TODO: test uuid
     }
 
@@ -56,7 +53,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassTest {
      * Test the property 'dateTime'
      */
     @Test
-    public void dateTimeTest() {
+    void dateTimeTest() {
         // TODO: test dateTime
     }
 
@@ -64,7 +61,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassTest {
      * Test the property 'map'
      */
     @Test
-    public void mapTest() {
+    void mapTest() {
         // TODO: test map
     }
 

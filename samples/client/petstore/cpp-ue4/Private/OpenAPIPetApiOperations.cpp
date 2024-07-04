@@ -20,7 +20,7 @@
 #include "HttpModule.h"
 #include "PlatformHttp.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 FString OpenAPIPetApi::AddPetRequest::ComputePath() const
@@ -29,7 +29,7 @@ FString OpenAPIPetApi::AddPetRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIPetApi::AddPetRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIPetApi::AddPetRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = { TEXT("application/json"), TEXT("application/xml") };
 	//static const TArray<FString> Produces = {  };
@@ -82,14 +82,14 @@ bool OpenAPIPetApi::AddPetResponse::FromJson(const TSharedPtr<FJsonValue>& JsonV
 FString OpenAPIPetApi::DeletePetRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
-	{ TEXT("petId"), ToStringFormatArg(PetId) } };
+	{ TEXT("petId"), FStringFormatArg(ToUrlString(PetId)) } };
 
 	FString Path = FString::Format(TEXT("/pet/{petId}"), PathParams);
-	
+
 	return Path;
 }
 
-void OpenAPIPetApi::DeletePetRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIPetApi::DeletePetRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };
@@ -102,20 +102,6 @@ void OpenAPIPetApi::DeletePetRequest::SetupHttpRequest(const TSharedRef<IHttpReq
 		HttpRequest->SetHeader(TEXT("api_key"), ApiKey.GetValue());
 	}
 
-	// Default to Json Body request
-	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("multipart/form-data")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
-	{
-	}
-	else
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
-	}
 }
 
 void OpenAPIPetApi::DeletePetResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
@@ -146,13 +132,32 @@ inline FString ToString(const OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum
 		return TEXT("sold");
 	}
 
-	UE_LOG(LogOpenAPI, Error, TEXT("Invalid OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum Value (%d)"), (int)Value);	
+	UE_LOG(LogOpenAPI, Error, TEXT("Invalid OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum Value (%d)"), (int)Value);
 	return TEXT("");
 }
 
-inline FStringFormatArg ToStringFormatArg(const OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum& Value)
+FString OpenAPIPetApi::FindPetsByStatusRequest::EnumToString(const OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum& EnumValue)
 {
-	return FStringFormatArg(ToString(Value));
+	return ToString(EnumValue);
+}
+
+inline bool FromString(const FString& EnumAsString, OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum& Value)
+{
+	static TMap<FString, OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum> StringToEnum = { 
+		{ TEXT("available"), OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum::Available },
+		{ TEXT("pending"), OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum::Pending },
+		{ TEXT("sold"), OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum::Sold }, };
+
+	const auto Found = StringToEnum.Find(EnumAsString);
+	if(Found)
+		Value = *Found;
+
+	return Found != nullptr;
+}
+
+bool OpenAPIPetApi::FindPetsByStatusRequest::EnumFromString(const FString& EnumAsString, OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum& EnumValue)
+{
+	return FromString(EnumAsString, EnumValue);
 }
 
 inline void WriteJsonValue(JsonWriter& Writer, const OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum& Value)
@@ -165,17 +170,8 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, OpenAPIPetA
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
 	{
-		static TMap<FString, OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum> StringToEnum = { 
-			{ TEXT("available"), OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum::Available },
-			{ TEXT("pending"), OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum::Pending },
-			{ TEXT("sold"), OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum::Sold }, };
-
-		const auto Found = StringToEnum.Find(TmpValue);
-		if(Found)
-		{
-			Value = *Found;
+		if(FromString(TmpValue, Value))
 			return true;
-		}
 	}
 	return false;
 }
@@ -191,27 +187,13 @@ FString OpenAPIPetApi::FindPetsByStatusRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIPetApi::FindPetsByStatusRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIPetApi::FindPetsByStatusRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
 
 	HttpRequest->SetVerb(TEXT("GET"));
 
-	// Default to Json Body request
-	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("multipart/form-data")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
-	{
-	}
-	else
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
-	}
 }
 
 void OpenAPIPetApi::FindPetsByStatusResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
@@ -244,27 +226,13 @@ FString OpenAPIPetApi::FindPetsByTagsRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIPetApi::FindPetsByTagsRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIPetApi::FindPetsByTagsRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
 
 	HttpRequest->SetVerb(TEXT("GET"));
 
-	// Default to Json Body request
-	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("multipart/form-data")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
-	{
-	}
-	else
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
-	}
 }
 
 void OpenAPIPetApi::FindPetsByTagsResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
@@ -289,34 +257,20 @@ bool OpenAPIPetApi::FindPetsByTagsResponse::FromJson(const TSharedPtr<FJsonValue
 FString OpenAPIPetApi::GetPetByIdRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
-	{ TEXT("petId"), ToStringFormatArg(PetId) } };
+	{ TEXT("petId"), FStringFormatArg(ToUrlString(PetId)) } };
 
 	FString Path = FString::Format(TEXT("/pet/{petId}"), PathParams);
-	
+
 	return Path;
 }
 
-void OpenAPIPetApi::GetPetByIdRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIPetApi::GetPetByIdRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
 
 	HttpRequest->SetVerb(TEXT("GET"));
 
-	// Default to Json Body request
-	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("multipart/form-data")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
-	{
-	}
-	else
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
-	}
 }
 
 void OpenAPIPetApi::GetPetByIdResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
@@ -347,7 +301,7 @@ FString OpenAPIPetApi::UpdatePetRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIPetApi::UpdatePetRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIPetApi::UpdatePetRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = { TEXT("application/json"), TEXT("application/xml") };
 	//static const TArray<FString> Produces = {  };
@@ -406,14 +360,14 @@ bool OpenAPIPetApi::UpdatePetResponse::FromJson(const TSharedPtr<FJsonValue>& Js
 FString OpenAPIPetApi::UpdatePetWithFormRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
-	{ TEXT("petId"), ToStringFormatArg(PetId) } };
+	{ TEXT("petId"), FStringFormatArg(ToUrlString(PetId)) } };
 
 	FString Path = FString::Format(TEXT("/pet/{petId}"), PathParams);
-	
+
 	return Path;
 }
 
-void OpenAPIPetApi::UpdatePetWithFormRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIPetApi::UpdatePetWithFormRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = { TEXT("application/x-www-form-urlencoded") };
 	//static const TArray<FString> Produces = {  };
@@ -423,8 +377,22 @@ void OpenAPIPetApi::UpdatePetWithFormRequest::SetupHttpRequest(const TSharedRef<
 	// Default to Json Body request
 	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
 	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Form parameter (name) was ignored, cannot be used in JsonBody"));
-		UE_LOG(LogOpenAPI, Error, TEXT("Form parameter (status) was ignored, cannot be used in JsonBody"));
+		// Form parameters added to try to generate a json body when no body parameters are specified.
+		FString JsonBody;
+		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
+		Writer->WriteObjectStart();
+		if (Name.IsSet()){
+			Writer->WriteIdentifierPrefix(TEXT("name"));
+			WriteJsonValue(Writer, Name.GetValue());
+		}
+		if (Status.IsSet()){
+			Writer->WriteIdentifierPrefix(TEXT("status"));
+			WriteJsonValue(Writer, Status.GetValue());
+		}
+		Writer->WriteObjectEnd();
+		Writer->Close();
+		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
+		HttpRequest->SetContentAsString(JsonBody);
 	}
 	else if (Consumes.Contains(TEXT("multipart/form-data")))
 	{
@@ -451,7 +419,7 @@ void OpenAPIPetApi::UpdatePetWithFormRequest::SetupHttpRequest(const TSharedRef<
 		{
 			FormParams.Add(FString(TEXT("status=")) + ToUrlString(Status.GetValue()));
 		}
-		
+
 		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/x-www-form-urlencoded; charset=utf-8"));
 		HttpRequest->SetContentAsString(FString::Join(FormParams, TEXT("&")));
 	}
@@ -480,14 +448,14 @@ bool OpenAPIPetApi::UpdatePetWithFormResponse::FromJson(const TSharedPtr<FJsonVa
 FString OpenAPIPetApi::UploadFileRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
-	{ TEXT("petId"), ToStringFormatArg(PetId) } };
+	{ TEXT("petId"), FStringFormatArg(ToUrlString(PetId)) } };
 
 	FString Path = FString::Format(TEXT("/pet/{petId}/uploadImage"), PathParams);
-	
+
 	return Path;
 }
 
-void OpenAPIPetApi::UploadFileRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIPetApi::UploadFileRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = { TEXT("multipart/form-data") };
 	//static const TArray<FString> Produces = { TEXT("application/json") };
@@ -497,8 +465,19 @@ void OpenAPIPetApi::UploadFileRequest::SetupHttpRequest(const TSharedRef<IHttpRe
 	// Default to Json Body request
 	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
 	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Form parameter (additionalMetadata) was ignored, cannot be used in JsonBody"));
-		UE_LOG(LogOpenAPI, Error, TEXT("Form parameter (file) was ignored, cannot be used in JsonBody"));
+		// Form parameters added to try to generate a json body when no body parameters are specified.
+		FString JsonBody;
+		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
+		Writer->WriteObjectStart();
+		if (AdditionalMetadata.IsSet()){
+			Writer->WriteIdentifierPrefix(TEXT("additionalMetadata"));
+			WriteJsonValue(Writer, AdditionalMetadata.GetValue());
+		}
+		UE_LOG(LogOpenAPI, Error, TEXT("Form parameter (file) was ignored, Files are not supported in json body"));
+		Writer->WriteObjectEnd();
+		Writer->Close();
+		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
+		HttpRequest->SetContentAsString(JsonBody);
 	}
 	else if (Consumes.Contains(TEXT("multipart/form-data")))
 	{
@@ -522,7 +501,7 @@ void OpenAPIPetApi::UploadFileRequest::SetupHttpRequest(const TSharedRef<IHttpRe
 			FormParams.Add(FString(TEXT("additionalMetadata=")) + ToUrlString(AdditionalMetadata.GetValue()));
 		}
 		UE_LOG(LogOpenAPI, Error, TEXT("Form parameter (file) was ignored, Files are not supported in urlencoded requests"));
-		
+
 		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/x-www-form-urlencoded; charset=utf-8"));
 		HttpRequest->SetContentAsString(FString::Join(FormParams, TEXT("&")));
 	}

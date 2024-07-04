@@ -30,7 +30,7 @@ async def get_inventory(request: web.Request, ) -> web.Response:
 async def get_order_by_id(request: web.Request, order_id) -> web.Response:
     """Find purchase order by ID
 
-    For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+    For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
 
     :param order_id: ID of pet that needs to be fetched
     :type order_id: int

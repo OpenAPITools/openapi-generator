@@ -20,7 +20,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.openapitools.model.Animal;
@@ -36,7 +35,7 @@ import javax.validation.Valid;
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   public static final String JSON_PROPERTY_UUID = "uuid";
   @JsonProperty(JSON_PROPERTY_UUID)
@@ -48,7 +47,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
 
   public static final String JSON_PROPERTY_MAP = "map";
   @JsonProperty(JSON_PROPERTY_MAP)
-  private Map<String, Animal> map = null;
+  private Map<String, Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
     this.uuid = uuid;
@@ -59,7 +58,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get uuid
    * @return uuid
    **/
-  @JsonProperty("uuid")
+  @JsonProperty(value = "uuid")
   @ApiModelProperty(value = "")
   
   public UUID getUuid() {
@@ -79,7 +78,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get dateTime
    * @return dateTime
    **/
-  @JsonProperty("dateTime")
+  @JsonProperty(value = "dateTime")
   @ApiModelProperty(value = "")
   
   public Date getDateTime() {
@@ -97,7 +96,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
 
   public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
     if (this.map == null) {
-      this.map = new HashMap<String, Animal>();
+      this.map = new HashMap<>();
     }
     this.map.put(key, mapItem);
     return this;
@@ -107,7 +106,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get map
    * @return map
    **/
-  @JsonProperty("map")
+  @JsonProperty(value = "map")
   @ApiModelProperty(value = "")
   @Valid 
   public Map<String, Animal> getMap() {
@@ -137,7 +136,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   public int hashCode() {
     return Objects.hash(uuid, dateTime, map);
   }
-
 
   @Override
   public String toString() {

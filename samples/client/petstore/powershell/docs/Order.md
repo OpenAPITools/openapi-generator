@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 $Order = Initialize-PSPetstoreOrder  -Id null `
  -PetId null `
  -Quantity null `
- -ShipDate null `
+ -ShipDate 2020-02-02T20:20:20.000222Z `
  -Status null `
  -Complete null
 ```

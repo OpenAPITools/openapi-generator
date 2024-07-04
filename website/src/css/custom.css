@@ -41,6 +41,7 @@ html[data-theme=''] .navbar__logo {
 
 .avatar__photo-link.bronze-sponsor {
     display: flex;
+    flex-wrap: wrap;
     margin-left: var(--button-margin);
 }
 

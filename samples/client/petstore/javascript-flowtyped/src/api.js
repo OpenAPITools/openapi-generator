@@ -46,7 +46,6 @@ export type FetchArgs = {
     options: {};
 }
 
-
 /**
  *
  * @export
@@ -94,7 +93,6 @@ export type ApiResponse = {
     message?: string;
 }
 
-
 /**
  * A category for a pet
  * @export
@@ -113,7 +111,6 @@ export type Category = {
      */
     name?: string;
 }
-
 
 
             export type OrderStatusEnum = 'placed' | 'approved' | 'delivered';
@@ -161,7 +158,6 @@ export type Order = {
 }
 
 
-
             export type PetStatusEnum = 'available' | 'pending' | 'sold';
 /**
  * A pet for sale in the pet store
@@ -206,7 +202,6 @@ export type Pet = {
     status?: PetStatusEnum;
 }
 
-
 /**
  * A tag for a pet
  * @export
@@ -225,7 +220,6 @@ export type Tag = {
      */
     name?: string;
 }
-
 
 /**
  * A User who is purchasing from the pet store
@@ -284,7 +278,6 @@ export type User = {
 
 
 
-
 /**
  * PetApi - fetch parameter creator
  * @export
@@ -310,9 +303,9 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             // authentication petstore_auth required
             // oauth required
             if (configuration && configuration.accessToken) {
-				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
-					: configuration.accessToken;
+                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+                    : configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
@@ -350,9 +343,9 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             // authentication petstore_auth required
             // oauth required
             if (configuration && configuration.accessToken) {
-				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
-					: configuration.accessToken;
+                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+                    : configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
@@ -389,9 +382,9 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             // authentication petstore_auth required
             // oauth required
             if (configuration && configuration.accessToken) {
-				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
-					: configuration.accessToken;
+                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+                    : configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
@@ -428,9 +421,9 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             // authentication petstore_auth required
             // oauth required
             if (configuration && configuration.accessToken) {
-				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
-					: configuration.accessToken;
+                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+                    : configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
@@ -468,8 +461,8 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             // authentication api_key required
             if (configuration && configuration.apiKey) {
                 const localVarApiKeyValue = typeof configuration.apiKey === 'function'
-					? configuration.apiKey("api_key")
-					: configuration.apiKey;
+                    ? configuration.apiKey("api_key")
+                    : configuration.apiKey;
                 localVarHeaderParameter["api_key"] = localVarApiKeyValue;
             }
 
@@ -502,9 +495,9 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             // authentication petstore_auth required
             // oauth required
             if (configuration && configuration.accessToken) {
-				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
-					: configuration.accessToken;
+                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+                    : configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
@@ -543,9 +536,9 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             // authentication petstore_auth required
             // oauth required
             if (configuration && configuration.accessToken) {
-				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
-					: configuration.accessToken;
+                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+                    : configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
@@ -589,9 +582,9 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             // authentication petstore_auth required
             // oauth required
             if (configuration && configuration.accessToken) {
-				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
-					: configuration.accessToken;
+                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+                    : configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
@@ -765,6 +758,7 @@ export const PetApi = function(configuration?: Configuration, fetch: FetchAPI = 
     }
 };
 
+
 /**
  * StoreApi - fetch parameter creator
  * @export
@@ -813,8 +807,8 @@ export const StoreApiFetchParamCreator = function (configuration?: Configuration
             // authentication api_key required
             if (configuration && configuration.apiKey) {
                 const localVarApiKeyValue = typeof configuration.apiKey === 'function'
-					? configuration.apiKey("api_key")
-					: configuration.apiKey;
+                    ? configuration.apiKey("api_key")
+                    : configuration.apiKey;
                 localVarHeaderParameter["api_key"] = localVarApiKeyValue;
             }
 
@@ -829,7 +823,7 @@ export const StoreApiFetchParamCreator = function (configuration?: Configuration
             };
         },
         /**
-         * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+         * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
          * @summary Find purchase order by ID
          * @throws {RequiredError}
          */
@@ -936,7 +930,7 @@ export const StoreApi = function(configuration?: Configuration, fetch: FetchAPI 
             });
         },
         /**
-         * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+         * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
          * @summary Find purchase order by ID
          * @throws {RequiredError}
          */
@@ -967,6 +961,7 @@ export const StoreApi = function(configuration?: Configuration, fetch: FetchAPI 
         },
     }
 };
+
 
 /**
  * UserApi - fetch parameter creator
@@ -1363,6 +1358,7 @@ export const UserApi = function(configuration?: Configuration, fetch: FetchAPI =
         },
     }
 };
+
 
 export type ApiTypes = { 
     PetApi: PetApiType,

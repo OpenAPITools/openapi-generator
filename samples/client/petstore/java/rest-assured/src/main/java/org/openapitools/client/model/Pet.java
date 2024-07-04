@@ -20,10 +20,9 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,7 +35,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * Pet
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Pet {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -52,11 +51,11 @@ public class Pet {
 
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
-  private Set<String> photoUrls = new LinkedHashSet<String>();
+  private Set<String> photoUrls = new LinkedHashSet<>();
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
-  private List<Tag> tags = null;
+  private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -111,6 +110,8 @@ public class Pet {
   @SerializedName(SERIALIZED_NAME_STATUS)
   private StatusEnum status;
 
+  public Pet() {
+  }
 
   public Pet id(Long id) {
     
@@ -118,12 +119,12 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public Long getId() {
     return id;
@@ -134,20 +135,19 @@ public class Pet {
     this.id = id;
   }
 
-
   public Pet category(Category category) {
     
     this.category = category;
     return this;
   }
 
-   /**
+  /**
    * Get category
    * @return category
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
-  @ApiModelProperty(value = "")
+
 
   public Category getCategory() {
     return category;
@@ -158,19 +158,19 @@ public class Pet {
     this.category = category;
   }
 
-
   public Pet name(String name) {
     
     this.name = name;
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
+  @javax.annotation.Nonnull
   @NotNull
-  @ApiModelProperty(example = "doggie", required = true, value = "")
+
 
   public String getName() {
     return name;
@@ -181,7 +181,6 @@ public class Pet {
     this.name = name;
   }
 
-
   public Pet photoUrls(Set<String> photoUrls) {
     
     this.photoUrls = photoUrls;
@@ -189,16 +188,20 @@ public class Pet {
   }
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new LinkedHashSet<>();
+    }
     this.photoUrls.add(photoUrlsItem);
     return this;
   }
 
-   /**
+  /**
    * Get photoUrls
    * @return photoUrls
-  **/
+   */
+  @javax.annotation.Nonnull
   @NotNull
-  @ApiModelProperty(required = true, value = "")
+
 
   public Set<String> getPhotoUrls() {
     return photoUrls;
@@ -209,8 +212,7 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
-
-  public Pet tags(List<Tag> tags) {
+  public Pet tags(List<@Valid Tag> tags) {
     
     this.tags = tags;
     return this;
@@ -218,29 +220,28 @@ public class Pet {
 
   public Pet addTagsItem(Tag tagsItem) {
     if (this.tags == null) {
-      this.tags = new ArrayList<Tag>();
+      this.tags = new ArrayList<>();
     }
     this.tags.add(tagsItem);
     return this;
   }
 
-   /**
+  /**
    * Get tags
    * @return tags
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
-  @ApiModelProperty(value = "")
 
-  public List<Tag> getTags() {
+
+  public List<@Valid Tag> getTags() {
     return tags;
   }
 
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
-
 
   public Pet status(StatusEnum status) {
     
@@ -248,12 +249,12 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * pet status in the store
    * @return status
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "pet status in the store")
+
 
   public StatusEnum getStatus() {
     return status;
@@ -263,7 +264,6 @@ public class Pet {
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
-
 
   @Override
   public boolean equals(Object o) {

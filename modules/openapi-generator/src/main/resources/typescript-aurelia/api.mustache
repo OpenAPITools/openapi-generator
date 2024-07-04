@@ -39,16 +39,16 @@ export class {{classname}} extends Api {
 {{#operation}}
   /**
   {{#summary}}
-   * {{summary}}
+   * {{.}}
   {{/summary}}
   {{#notes}}
-   * {{notes}}
+   * {{.}}
   {{/notes}}
   {{#allParams}}
    * @param params.{{paramName}} {{description}}
   {{/allParams}}
    */
-  async {{nickname}}({{#hasParams}}params: I{{operationIdCamelCase}}Params{{/hasParams}}): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
+  async {{nickname}}({{#hasParams}}params: I{{operationIdCamelCase}}Params{{/hasParams}}): Promise<{{{returnType}}}{{^returnType}}any{{/returnType}}> {
     // Verify required parameters are set
 {{#allParams}}
 {{#required}}

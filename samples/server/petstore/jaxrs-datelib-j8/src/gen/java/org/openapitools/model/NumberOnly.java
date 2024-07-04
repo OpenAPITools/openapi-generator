@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   NumberOnly.JSON_PROPERTY_JUST_NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class NumberOnly  implements Serializable {
   public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
   @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
@@ -45,7 +45,7 @@ public class NumberOnly  implements Serializable {
    * Get justNumber
    * @return justNumber
    **/
-  @JsonProperty("JustNumber")
+  @JsonProperty(value = "JustNumber")
   @ApiModelProperty(value = "")
   @Valid 
   public BigDecimal getJustNumber() {
@@ -73,7 +73,6 @@ public class NumberOnly  implements Serializable {
   public int hashCode() {
     return Objects.hash(justNumber);
   }
-
 
   @Override
   public String toString() {

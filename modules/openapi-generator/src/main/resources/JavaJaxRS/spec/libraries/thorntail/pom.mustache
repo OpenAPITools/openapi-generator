@@ -7,6 +7,15 @@
   <name>{{artifactId}}</name>
   <version>{{artifactVersion}}</version>
   <packaging>war</packaging>
+
+{{#parentOverridden}}
+  <parent>
+    <groupId>{{parentGroupId}}</groupId>
+    <artifactId>{{parentArtifactId}}</artifactId>
+    <version>{{parentVersion}}</version>
+  </parent>
+{{/parentOverridden}}
+
   <properties>
     <version.thorntail>2.5.0.Final</version.thorntail>
     <version.junit>4.8.1</version.junit>

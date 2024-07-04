@@ -1,5 +1,5 @@
-import 'package:openapi/model/map_test.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 // tests for MapTest
 void main() {
@@ -27,7 +27,5 @@ void main() {
       // TODO
     });
 
-
   });
-
 }

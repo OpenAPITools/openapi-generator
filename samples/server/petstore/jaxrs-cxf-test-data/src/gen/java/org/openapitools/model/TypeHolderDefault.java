@@ -2,18 +2,12 @@ package org.openapitools.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -48,7 +42,7 @@ public class TypeHolderDefault  {
   /**
    * Sets the <code>stringItem</code> property.
    */
-  public void setStringItem(String stringItem) {
+ public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
   }
 
@@ -73,7 +67,7 @@ public class TypeHolderDefault  {
   /**
    * Sets the <code>numberItem</code> property.
    */
-  public void setNumberItem(BigDecimal numberItem) {
+ public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
 
@@ -98,7 +92,7 @@ public class TypeHolderDefault  {
   /**
    * Sets the <code>integerItem</code> property.
    */
-  public void setIntegerItem(Integer integerItem) {
+ public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
 
@@ -123,7 +117,7 @@ public class TypeHolderDefault  {
   /**
    * Sets the <code>boolItem</code> property.
    */
-  public void setBoolItem(Boolean boolItem) {
+ public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
 
@@ -148,7 +142,7 @@ public class TypeHolderDefault  {
   /**
    * Sets the <code>arrayItem</code> property.
    */
-  public void setArrayItem(List<Integer> arrayItem) {
+ public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
 
@@ -168,6 +162,27 @@ public class TypeHolderDefault  {
     return this;
   }
 
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    TypeHolderDefault typeHolderDefault = (TypeHolderDefault) o;
+    return Objects.equals(stringItem, typeHolderDefault.stringItem) &&
+        Objects.equals(numberItem, typeHolderDefault.numberItem) &&
+        Objects.equals(integerItem, typeHolderDefault.integerItem) &&
+        Objects.equals(boolItem, typeHolderDefault.boolItem) &&
+        Objects.equals(arrayItem, typeHolderDefault.arrayItem);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(stringItem, numberItem, integerItem, boolItem, arrayItem);
+  }
 
   @Override
   public String toString() {

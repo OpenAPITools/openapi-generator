@@ -16,6 +16,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -28,7 +29,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class SpecialModelName   {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
@@ -43,7 +44,7 @@ public class SpecialModelName   {
    * Get $specialPropertyName
    * @return $specialPropertyName
    **/
-  @JsonProperty("$special[property.name]")
+  @JsonProperty(value = "$special[property.name]")
   @ApiModelProperty(value = "")
   
   public Long get$SpecialPropertyName() {
@@ -71,7 +72,6 @@ public class SpecialModelName   {
   public int hashCode() {
     return Objects.hash($specialPropertyName);
   }
-
 
   @Override
   public String toString() {

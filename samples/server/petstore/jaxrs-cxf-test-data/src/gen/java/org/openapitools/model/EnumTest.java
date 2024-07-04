@@ -1,30 +1,24 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.model.OuterEnum;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class EnumTest  {
   
-@XmlType(name="EnumStringEnum")
-@XmlEnum(String.class)
 public enum EnumStringEnum {
 
-    @XmlEnumValue("UPPER") @JsonProperty("UPPER") UPPER(String.valueOf("UPPER")), 
-    @XmlEnumValue("lower") @JsonProperty("lower") LOWER(String.valueOf("lower")), 
-    @XmlEnumValue("") @JsonProperty("") EMPTY(String.valueOf(""));
+    @JsonProperty("UPPER") UPPER(String.valueOf("UPPER")),
+    @JsonProperty("lower") LOWER(String.valueOf("lower")),
+    @JsonProperty("") EMPTY(String.valueOf(""));
 
     private String value;
 
@@ -54,13 +48,11 @@ public enum EnumStringEnum {
   @ApiModelProperty(value = "")
   private EnumStringEnum enumString;
 
-@XmlType(name="EnumStringRequiredEnum")
-@XmlEnum(String.class)
 public enum EnumStringRequiredEnum {
 
-    @XmlEnumValue("UPPER") @JsonProperty("UPPER") UPPER(String.valueOf("UPPER")), 
-    @XmlEnumValue("lower") @JsonProperty("lower") LOWER(String.valueOf("lower")), 
-    @XmlEnumValue("") @JsonProperty("") EMPTY(String.valueOf(""));
+    @JsonProperty("UPPER") UPPER(String.valueOf("UPPER")),
+    @JsonProperty("lower") LOWER(String.valueOf("lower")),
+    @JsonProperty("") EMPTY(String.valueOf(""));
 
     private String value;
 
@@ -90,12 +82,10 @@ public enum EnumStringRequiredEnum {
   @ApiModelProperty(required = true, value = "")
   private EnumStringRequiredEnum enumStringRequired;
 
-@XmlType(name="EnumIntegerEnum")
-@XmlEnum(Integer.class)
 public enum EnumIntegerEnum {
 
-    @XmlEnumValue("1") @JsonProperty("1") NUMBER_1(Integer.valueOf(1)), 
-    @XmlEnumValue("-1") @JsonProperty("-1") NUMBER_MINUS_1(Integer.valueOf(-1));
+    @JsonProperty("1") NUMBER_1(Integer.valueOf(1)),
+    @JsonProperty("-1") NUMBER_MINUS_1(Integer.valueOf(-1));
 
     private Integer value;
 
@@ -125,12 +115,10 @@ public enum EnumIntegerEnum {
   @ApiModelProperty(value = "")
   private EnumIntegerEnum enumInteger;
 
-@XmlType(name="EnumNumberEnum")
-@XmlEnum(Double.class)
 public enum EnumNumberEnum {
 
-    @XmlEnumValue("1.1") @JsonProperty("1.1") NUMBER_1_DOT_1(Double.valueOf(1.1)), 
-    @XmlEnumValue("-1.2") @JsonProperty("-1.2") NUMBER_MINUS_1_DOT_2(Double.valueOf(-1.2));
+    @JsonProperty("1.1") NUMBER_1_DOT_1(Double.valueOf(1.1)),
+    @JsonProperty("-1.2") NUMBER_MINUS_1_DOT_2(Double.valueOf(-1.2));
 
     private Double value;
 
@@ -175,7 +163,7 @@ public enum EnumNumberEnum {
   /**
    * Sets the <code>enumString</code> property.
    */
-  public void setEnumString(EnumStringEnum enumString) {
+ public void setEnumString(EnumStringEnum enumString) {
     this.enumString = enumString;
   }
 
@@ -200,7 +188,7 @@ public enum EnumNumberEnum {
   /**
    * Sets the <code>enumStringRequired</code> property.
    */
-  public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
+ public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
   }
 
@@ -224,7 +212,7 @@ public enum EnumNumberEnum {
   /**
    * Sets the <code>enumInteger</code> property.
    */
-  public void setEnumInteger(EnumIntegerEnum enumInteger) {
+ public void setEnumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
   }
 
@@ -248,7 +236,7 @@ public enum EnumNumberEnum {
   /**
    * Sets the <code>enumNumber</code> property.
    */
-  public void setEnumNumber(EnumNumberEnum enumNumber) {
+ public void setEnumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
   }
 
@@ -272,7 +260,7 @@ public enum EnumNumberEnum {
   /**
    * Sets the <code>outerEnum</code> property.
    */
-  public void setOuterEnum(OuterEnum outerEnum) {
+ public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
 
@@ -284,6 +272,27 @@ public enum EnumNumberEnum {
     return this;
   }
 
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    EnumTest enumTest = (EnumTest) o;
+    return Objects.equals(enumString, enumTest.enumString) &&
+        Objects.equals(enumStringRequired, enumTest.enumStringRequired) &&
+        Objects.equals(enumInteger, enumTest.enumInteger) &&
+        Objects.equals(enumNumber, enumTest.enumNumber) &&
+        Objects.equals(outerEnum, enumTest.outerEnum);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(enumString, enumStringRequired, enumInteger, enumNumber, outerEnum);
+  }
 
   @Override
   public String toString() {

@@ -1,0 +1,43 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /example:
+    get:
+      operationId: dummyid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseClass"
+components:
+  schemas:
+    BaseClass:
+      type: object
+      properties:
+        myDiscrim:
+          type: string
+      discriminator:
+        propertyName: myDiscrim
+        mapping:
+          WITHPROPS: '#/components/schemas/ChildWithProperties'
+          WITHOUTPROPS: '#/components/schemas/ChildWithoutProperties'
+    ChildWithoutProperties:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseClass'
+    ChildWithProperties:
+      type: object
+      allOf:
+      - type: object
+        properties:
+          childProperty:
+            type: string
+      - $ref: '#/components/schemas/BaseClass'

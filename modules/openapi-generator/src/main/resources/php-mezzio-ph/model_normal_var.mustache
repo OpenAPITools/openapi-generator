@@ -1,64 +1,45 @@
-{{^isPrimitiveType}}
-{{^isContainer}}
-{{^isDate}}
-{{^isDateTime}}
-     * @DTA\Strategy(name="Object", options={"type":{{dataType}}::class})
-     * @DTA\Validator(name="TypeCompliant", options={"type":{{dataType}}::class})
-{{/isDateTime}}
-{{/isDate}}
-{{#isDate}}
-     * @DTA\Strategy(name="Date")
+{{#isContainer
+}}     * @DTA\Strategy(name="Object", options={"type":{{internal.ze-ph.containerDataType}}::class})
+     * @DTA\Validator(name="TypeCompliant", options={"type":{{internal.ze-ph.containerDataType}}::class})
+{{/isContainer
+}}{{^isContainer
+}}{{#isPrimitiveType
+}}     * @DTA\Validator(name="Scalar", options={"type":"{{dataType}}"})
+{{/isPrimitiveType
+}}{{#isDate
+}}     * @DTA\Strategy(name="Date")
      * @DTA\Validator(name="Date")
-{{/isDate}}
-{{#isDateTime}}
-     * @DTA\Strategy(name="DateTime")
+{{/isDate
+}}{{#isDateTime
+}}     * @DTA\Strategy(name="DateTime")
      * @DTA\Validator(name="Date", options={"format": \DateTime::RFC3339})
-{{/isDateTime}}
-{{/isContainer}}
-{{#isContainer}}
-     * TODO check validator and strategy are correct and can handle container item type
-     * @DTA\Strategy(name="ObjectArray", options={"type":{{#items}}{{dataType}}{{/items}}::class})
-     * @DTA\Validator(name="Collection", options={"validators":{
-     *     {"name":"TypeCompliant", "options":{"type":{{#items}}{{dataType}}{{/items}}::class}}
-     * }})
-{{/isContainer}}
-{{/isPrimitiveType}}
-{{#isPrimitiveType}}
-{{#isContainer}}
-{{#items}}
-     * TODO check validator and strategy are correct and can handle container item type
-     * @DTA\Validator(name="Collection", options={"validators":{
-     *     {"name":"Scalar", "options":{"type":"{{dataType}}"}}
-     * }})
-{{/items}}
-{{/isContainer}}
-{{^isContainer}}
-     * @DTA\Validator(name="Scalar", options={"type":"{{dataType}}"})
-{{/isContainer}}
-{{/isPrimitiveType}}
-{{#hasValidation}}
-{{#minLength}}
-{{#maxLength}}
-     * @DTA\Validator(name="StringLength", options={"min":{{minLength}}, "max":{{maxLength}}})
-{{/maxLength}}
-{{/minLength}}
-{{^minLength}}
-{{#maxLength}}
-     * @DTA\Validator(name="StringLength", options={"max":{{maxLength}}})
-{{/maxLength}}
-{{/minLength}}
-{{#minLength}}
-{{^maxLength}}
-     * @DTA\Validator(name="StringLength", options={"min":{{minLength}}})
-{{/maxLength}}
-{{/minLength}}
-{{#minimum}}
-     * @DTA\Validator(name="GreaterThan", options={"min":{{minimum}}{{^exclusiveMinimum}}, "inclusive":true{{/exclusiveMinimum}}})
-{{/minimum}}
-{{#maximum}}
-     * @DTA\Validator(name="LessThan", options={"max":{{maximum}}{{^exclusiveMaximum}}, "inclusive":true{{/exclusiveMaximum}}})
-{{/maximum}}
-{{#pattern}}
-     * @DTA\Validator(name="Regex", options={"pattern":"{{{pattern}}}"})
-{{/pattern}}
-{{/hasValidation}}
+{{/isDateTime
+}}{{^isPrimitiveType
+}}{{^isDate
+}}{{^isDateTime
+}}     * @DTA\Strategy(name="Object", options={"type":{{dataType}}::class})
+     * @DTA\Validator(name="TypeCompliant", options={"type":{{dataType}}::class})
+{{/isDateTime
+}}{{/isDate
+}}{{/isPrimitiveType
+}}{{/isContainer
+}}{{#hasValidation
+}}{{#minLength}}{{#maxLength
+}}     * @DTA\Validator(name="StringLength", options={"min":{{minLength}}, "max":{{maxLength}}})
+{{/maxLength}}{{/minLength
+}}{{^minLength}}{{#maxLength
+}}     * @DTA\Validator(name="StringLength", options={"max":{{maxLength}}})
+{{/maxLength}}{{/minLength
+}}{{#minLength}}{{^maxLength
+}}     * @DTA\Validator(name="StringLength", options={"min":{{minLength}}})
+{{/maxLength}}{{/minLength
+}}{{#minimum
+}}     * @DTA\Validator(name="GreaterThan", options={"min":{{minimum}}{{^exclusiveMinimum}}, "inclusive":true{{/exclusiveMinimum}}})
+{{/minimum
+}}{{#maximum
+}}     * @DTA\Validator(name="LessThan", options={"max":{{maximum}}{{^exclusiveMaximum}}, "inclusive":true{{/exclusiveMaximum}}})
+{{/maximum
+}}{{#pattern
+}}     * @DTA\Validator(name="Regex", options={"pattern":"{{{pattern}}}"})
+{{/pattern
+}}{{/hasValidation}}

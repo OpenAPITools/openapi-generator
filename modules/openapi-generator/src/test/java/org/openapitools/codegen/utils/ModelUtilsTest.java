@@ -26,6 +26,7 @@ import org.openapitools.codegen.TestUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 public class ModelUtilsTest {
@@ -34,7 +35,7 @@ public class ModelUtilsTest {
     public void testGetAllUsedSchemas() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/unusedSchemas.yaml");
         List<String> allUsedSchemas = ModelUtils.getAllUsedSchemas(openAPI);
-        List<String> expectedallUsedSchemas = Arrays.asList(
+        List<String> expectedAllUsedSchemas = Arrays.asList(
                 "SomeObj1",
                 "SomeObj2",
                 "SomeObj3",
@@ -56,10 +57,11 @@ public class ModelUtilsTest {
                 "SomeObj15",
                 "SomeMapObj16",
                 "MapItem16",
+                "p17_200_response",
                 "SomeObj17",
                 "SomeObj18",
                 "Common18",
-                "SomeObj18_allOf",
+                "_some_p19_patch_request",
                 "Obj19ByAge",
                 "Obj19ByType",
                 "SomeObj20",
@@ -78,8 +80,8 @@ public class ModelUtilsTest {
                 "AChild30",
                 "BChild30"
         );
-        Assert.assertEquals(allUsedSchemas.size(), expectedallUsedSchemas.size());
-        Assert.assertTrue(allUsedSchemas.containsAll(expectedallUsedSchemas));
+        Assert.assertEquals(allUsedSchemas, expectedAllUsedSchemas);
+        Assert.assertTrue(allUsedSchemas.containsAll(expectedAllUsedSchemas));
     }
 
     @Test
@@ -93,9 +95,7 @@ public class ModelUtilsTest {
                 "UnusedObj4",
                 "Parent29",
                 "AChild29",
-                "BChild29",
-                "AChild29_allOf",
-                "BChild29_allOf"
+                "BChild29"
         );
         Assert.assertEquals(unusedSchemas.size(), expectedUnusedSchemas.size());
         Assert.assertTrue(unusedSchemas.containsAll(expectedUnusedSchemas));
@@ -112,6 +112,14 @@ public class ModelUtilsTest {
         Assert.assertTrue(unusedSchemas.contains("SomeObj3"), "contains 'SomeObj3'");
         //SomeObj7 is only used in an 'application/x-www-form-urlencoded' request (with referenced request body)
         Assert.assertTrue(unusedSchemas.contains("SomeObj7"), "contains 'SomeObj7'");
+    }
+
+    @Test
+    public void testNestedFormParameter() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/nestedFormParameter.yaml");
+        List<String> unusedSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
+        Assert.assertEquals(unusedSchemas.size(), 1);
+        Assert.assertTrue(unusedSchemas.contains("OuterObject"), "contains 'OuterObject'");
     }
 
     @Test
@@ -134,7 +142,7 @@ public class ModelUtilsTest {
         Schema commandSchema = ModelUtils.getSchema(openAPI, "Command");
 
         Assert.assertTrue(ModelUtils.isModel(commandSchema));
-        Assert.assertFalse(ModelUtils.isFreeFormObject(openAPI, commandSchema));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(commandSchema));
     }
 
     @Test
@@ -204,7 +212,8 @@ public class ModelUtilsTest {
      */
     @Test
     public void testComposedSchemasAreNotUnaliased() {
-        ComposedSchema composedSchema = new ComposedSchema().allOf(Arrays.asList(
+        ComposedSchema composedSchema = new ComposedSchema();
+        composedSchema.allOf(Arrays.asList(
                 new Schema<>().$ref("#/components/schemas/SomeSchema"),
                 new ObjectSchema()
         ));
@@ -216,15 +225,15 @@ public class ModelUtilsTest {
     }
 
     @Test
-    public void testAliasedTypeIsNotUnaliasedIfUsedForImportMapping(){
+    public void testAliasedTypeIsNotUnaliasedIfUsedForImportMapping() {
         Schema emailSchema = new Schema().$ref("#/components/schemas/Email").type("string");
         StringSchema stringSchema = new StringSchema();
-        HashMap<String, String> importMappings = new HashMap<>();
-        importMappings.put("Email","foo.bar.Email");
+        HashMap<String, String> schemaMappings = new HashMap<>();
+        schemaMappings.put("Email", "foo.bar.Email");
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Email", stringSchema);
 
-        Assert.assertEquals(emailSchema, ModelUtils.unaliasSchema(openAPI, emailSchema, importMappings));
+        Assert.assertEquals(emailSchema, ModelUtils.unaliasSchema(openAPI, emailSchema, schemaMappings));
         Assert.assertEquals(stringSchema, ModelUtils.unaliasSchema(openAPI, emailSchema, new HashMap<>()));
     }
 
@@ -238,23 +247,23 @@ public class ModelUtilsTest {
         OpenAPI openAPI = new OpenAPI().openapi("3.0.0");
         // Create initial "empty" object schema.
         ObjectSchema objSchema = new ObjectSchema();
-        Assert.assertTrue(ModelUtils.isFreeFormObject(openAPI, objSchema));
+        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema));
 
         // Set additionalProperties to an empty ObjectSchema.
         objSchema.setAdditionalProperties(new ObjectSchema());
-        Assert.assertTrue(ModelUtils.isFreeFormObject(openAPI, objSchema));
+        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema));
 
         // Add a single property to the schema (no longer a free-form object).
         Map<String, Schema> props = new HashMap<>();
         props.put("prop1", new StringSchema());
         objSchema.setProperties(props);
-        Assert.assertFalse(ModelUtils.isFreeFormObject(openAPI, objSchema));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(objSchema));
 
         // Test a non-object schema
-        Assert.assertFalse(ModelUtils.isFreeFormObject(openAPI, new StringSchema()));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(new StringSchema()));
 
         // Test a null schema
-        Assert.assertFalse(ModelUtils.isFreeFormObject(openAPI, null));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(null));
     }
 
     @Test
@@ -285,5 +294,171 @@ public class ModelUtilsTest {
     public void testSimpleRefDecoding() {
         String decoded = ModelUtils.getSimpleRef("#/components/~01%20Hallo~1Welt");
         Assert.assertEquals(decoded, "~1 Hallo/Welt");
+    }
+
+    @Test
+    public void testRefToSchemaProperties() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+
+        Schema category = ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, "#/components/schemas/Pet/properties/category");
+        Assert.assertEquals(category.get$ref(), "#/components/schemas/Category");
+
+        Schema name = ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, "#/components/schemas/Pet/properties/name");
+        Assert.assertEquals(name.getType(), "string");
+
+        Schema id = ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, "#/components/schemas/Pet/properties/id");
+        Assert.assertEquals(id.getType(), "integer");
+        Assert.assertEquals(id.getFormat(), "int64");
+
+        Assert.assertEquals(null, ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, "#/components/schemas/Pet/prop/category"));
+        Assert.assertEquals(null, ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, "#/components/schemas/Pet/properties/categoryyyy"));
+        Assert.assertEquals(null, ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, "#/components/schemas/Pet"));
+    }
+
+
+    // 3.0 spec tests
+    @Test
+    public void test30Schemas() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/schema.yaml");
+        Schema misc = ModelUtils.getSchema(openAPI, "Misc");
+
+        // test map
+        Assert.assertTrue(ModelUtils.isMapSchema((Schema) misc.getProperties().get("map1")));
+
+        // test free form object
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_1")));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_2")));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_3")));
+
+        // test oneOf
+        Assert.assertTrue(ModelUtils.isOneOf((Schema) misc.getProperties().get("oneof1")));
+
+        // test anyOf model
+        Schema anyof1 = ModelUtils.getSchema(openAPI, "anyof1");
+        Assert.assertNotNull(anyof1);
+        Assert.assertNull(anyof1.getTypes());
+        Assert.assertNull(anyof1.getType());
+        Assert.assertTrue(ModelUtils.hasAnyOf(anyof1));
+        Assert.assertTrue(ModelUtils.isAnyOf(anyof1));
+
+        // test anyOf in properties
+        Schema anyof1Property = (Schema) misc.getProperties().get("anyof1");
+        Assert.assertNotNull(anyof1Property);
+        Assert.assertNull(anyof1Property.getTypes());
+        Assert.assertNull(anyof1Property.getType());
+        Assert.assertTrue(ModelUtils.hasAnyOf(anyof1Property));
+        Assert.assertTrue(ModelUtils.isAnyOf(anyof1Property));
+    }
+
+    // 3.1 spec tests
+    @Test
+    public void test31Schemas() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/schema.yaml");
+        Schema misc = ModelUtils.getSchema(openAPI, "Misc");
+
+        // test map
+        Assert.assertTrue(ModelUtils.isMapSchema((Schema) misc.getProperties().get("map1")));
+
+        // test free form object
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_1")));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_2")));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_3")));
+
+        // test oneOf property
+        Assert.assertTrue(ModelUtils.isOneOf((Schema) misc.getProperties().get("oneof1")));
+
+        // test anyOf property
+        Schema anyof1 = (Schema) misc.getProperties().get("anyof1");
+        Assert.assertNotNull(anyof1);
+        Assert.assertNull(anyof1.getTypes());
+        Assert.assertNull(anyof1.getType());
+        Assert.assertNotNull(anyof1.getAnyOf());
+        Assert.assertFalse(anyof1.getAnyOf().isEmpty());
+        Assert.assertTrue(ModelUtils.hasAnyOf(anyof1));
+        Assert.assertTrue(ModelUtils.isAnyOf(anyof1));
+
+        Schema anyof2 = (Schema) misc.getProperties().get("anyof2");
+        Assert.assertNotNull(anyof2);
+        Assert.assertNull(anyof2.getTypes());
+        Assert.assertNull(anyof2.getType());
+        Assert.assertNotNull(anyof2.getAnyOf());
+        Assert.assertFalse(anyof2.getAnyOf().isEmpty());
+        Assert.assertTrue(ModelUtils.hasAnyOf(anyof2));
+        Assert.assertTrue(ModelUtils.isAnyOf(anyof2));
+
+        Schema objectSchema = ModelUtils.getSchema(openAPI, "ObjectSchema");
+        Assert.assertTrue(ModelUtils.isMapSchema(objectSchema));
+
+        Schema complexComposedSchema = ModelUtils.getSchema(openAPI, "ComplexComposedSchema");
+        Assert.assertTrue(ModelUtils.isComplexComposedSchema(complexComposedSchema));
+    }
+
+    @Test
+    public void testCloneNumberSchema() {
+        Schema schema = new NumberSchema()
+                .name("test-schema")
+                .minimum(new BigDecimal(100));
+
+        Schema deepCopy = ModelUtils.cloneSchema(schema, false);
+
+        Assert.assertEquals(deepCopy, schema);
+        Assert.assertNotSame(deepCopy, schema);
+    }
+
+    @Test
+    public void testCloneCustomSchema() {
+        Schema schema = new ObjectSchema().type("money");
+
+        Schema deepCopy = ModelUtils.cloneSchema(schema, false);
+
+        Assert.assertEquals(deepCopy, schema);
+        Assert.assertNotSame(deepCopy, schema);
+    }
+
+    @Test
+    public void testCloneComposedSchema() {
+        Schema base1 = new ObjectSchema()
+                .name("Base1")
+                .addProperty("foo", new StringSchema());
+        Schema base2 = new ObjectSchema()
+                .name("Base2")
+                .addProperty("bar", new StringSchema());
+        Schema composedSchema = new ComposedSchema()
+                .name("Composed")
+                .allOf(List.of(base1, base2))
+                .addProperty("baz", new StringSchema());
+
+        Schema deepCopy = ModelUtils.cloneSchema(composedSchema, false);
+
+        Assert.assertEquals(deepCopy, composedSchema);
+        Assert.assertNotSame(deepCopy, composedSchema);
+    }
+
+    @Test
+    public void testCloneArrayOfEnumsSchema() {
+        Schema schema = new ArraySchema()
+                .name("ArrayType")
+                .type("array")
+                .items(new StringSchema()
+                        .type("string")
+                        ._enum(List.of("SUCCESS", "FAILURE", "SKIPPED"))
+                )
+                ._default(List.of("SUCCESS", "FAILURE"));
+
+        Schema deepCopy = ModelUtils.cloneSchema(schema, false);
+
+        Assert.assertEquals(deepCopy, schema);
+        Assert.assertNotSame(deepCopy, schema);
+    }
+
+    @Test
+    public void testCloneDateTimeSchemaWithExample() {
+        Schema schema = new DateTimeSchema()
+                .example("2020-02-02T20:20:20.000222Z");
+
+        Schema deepCopy = ModelUtils.cloneSchema(schema, false);
+
+        Assert.assertEquals(deepCopy, schema);
+        Assert.assertNotSame(deepCopy, schema);
     }
 }

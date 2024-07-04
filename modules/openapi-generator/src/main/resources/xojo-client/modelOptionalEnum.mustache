@@ -1,0 +1,68 @@
+#tag Class
+Protected Class {{classname}}{{> suffixOptionalEnum}}
+	#tag Method, Flags = &h0
+		Function Operator_Convert() As {{{projectName}}}.{{{modelPackage}}}.{{classname}}
+		  Return Value
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Operator_Convert(rhs As {{{projectName}}}.{{{modelPackage}}}.{{classname}})
+		  Value = rhs
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Set(Assigns rhs As {{{projectName}}}.{{{modelPackage}}}.{{classname}})
+		  Value = rhs
+		End Sub
+	#tag EndMethod
+
+{{^isInteger}}	#tag Method, Flags = &h0
+		Function ToString() As String
+		  Return {{{projectName}}}.{{{modelPackage}}}.{{classname}}ToString(Value)
+		End Function
+	#tag EndMethod
+{{/isInteger}}
+
+	#tag Property, Flags = &h{{^nonPublicApi}}0{{/nonPublicApi}}{{#nonPublicApi}}1{{/nonPublicApi}}
+		Value As {{{projectName}}}.{{{modelPackage}}}.{{classname}}
+	#tag EndProperty
+
+
+	#tag ViewBehavior
+		#tag ViewProperty
+			Name="Index"
+			Visible=true
+			Group="ID"
+			InitialValue="-2147483648"
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Super"
+			Visible=true
+			Group="ID"
+			InitialValue=""
+			Type="String"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Left"
+			Visible=true
+			Group="Position"
+			InitialValue="0"
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Top"
+			Visible=true
+			Group="Position"
+			InitialValue="0"
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+	#tag EndViewBehavior
+End Class
+#tag EndClass

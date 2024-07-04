@@ -45,13 +45,14 @@ public class OptionUtils {
 
         return results;
     }
-   
+
     public static List<String> splitCommaSeparatedList(String input) {
 
         List<String> results = new ArrayList<String>();
 
         if(input != null && !input.isEmpty()) {
-            for (String value : input.split(",")) {
+            String[] tokens = input.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+            for (String value : tokens) {
                 if(isNotEmpty(value))
                 results.add(value);
             }

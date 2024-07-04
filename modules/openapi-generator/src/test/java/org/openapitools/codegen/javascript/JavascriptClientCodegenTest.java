@@ -17,17 +17,15 @@
 
 package org.openapitools.codegen.javascript;
 
-import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.RequestBody;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.JavascriptClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.Map;
 
 public class JavascriptClientCodegenTest {
 
@@ -68,7 +66,7 @@ public class JavascriptClientCodegenTest {
 
     @Test(description = "test defaultValueWithParam for model's properties")
     public void bodyParameterTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         final JavascriptClientCodegen codegen = new JavascriptClientCodegen();
         final Schema pet = openAPI.getComponents().getSchemas().get("Pet");
         codegen.setOpenAPI(openAPI);
@@ -100,9 +98,9 @@ public class JavascriptClientCodegenTest {
         Assert.assertFalse(property2.isContainer);
     }
 
-    @Test(description = "test isDefualt in the response")
+    @Test(description = "test isDefault in the response")
     public void testResponseIsDefault() throws Exception {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -129,6 +127,55 @@ public class JavascriptClientCodegenTest {
         CodegenParameter codegenParameter = operation.allParams.get(0);
 
         Assert.assertEquals(codegenParameter.collectionFormat, "passthrough");
+    }
+
+    @Test(description = "test isJson, isXml")
+    public void testIsJsonIsXmlInConsumes() throws Exception {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Operation textOperation = openAPI.getPaths().get("/pet").getPost();
+        CodegenOperation coText = codegen.fromOperation("/user", "post", textOperation, null);
+
+        for (Map<String, String> consume: coText.consumes) {
+            if ("application/json".equals(consume.get("mediaType"))) {
+                Assert.assertEquals(consume.get("isJson"), "true");
+            }
+
+            if ("application/xml".equals(consume.get("mediaType"))) {
+                Assert.assertEquals(consume.get("isXml"), "true");
+            }
+        }
+    }
+
+    @Test(description = "test isJson, isXml")
+    public void testIsJsonIsXmlInProduces() throws Exception {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Operation textOperation = openAPI.getPaths().get("/pet/{petId}").getGet();
+        CodegenOperation coText = codegen.fromOperation("/user", "get", textOperation, null);
+
+        for (Map<String, String> consume: coText.produces) {
+            if ("application/json".equals(consume.get("mediaType"))) {
+                Assert.assertEquals(consume.get("isJson"), "true");
+            }
+
+            if ("application/xml".equals(consume.get("mediaType"))) {
+                Assert.assertEquals(consume.get("isXml"), "true");
+            }
+        }
+    }
+
+    @Test(description = "test additional properties for code generation")
+    public void testAdditionalProperties() throws Exception {
+        final JavascriptClientCodegen codegen = new JavascriptClientCodegen();
+        codegen.additionalProperties().put("customProperty", "customValue");
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get("customProperty"), "customValue");
     }
 
 }

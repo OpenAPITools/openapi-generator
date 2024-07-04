@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
@@ -60,7 +61,7 @@ import javax.validation.Valid;
   XmlItem.JSON_PROPERTY_PREFIX_NS_ARRAY,
   XmlItem.JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class XmlItem  implements Serializable {
   public static final String JSON_PROPERTY_ATTRIBUTE_STRING = "attribute_string";
   @JsonProperty(JSON_PROPERTY_ATTRIBUTE_STRING)
@@ -80,7 +81,7 @@ public class XmlItem  implements Serializable {
 
   public static final String JSON_PROPERTY_WRAPPED_ARRAY = "wrapped_array";
   @JsonProperty(JSON_PROPERTY_WRAPPED_ARRAY)
-  private List<Integer> wrappedArray = null;
+  private List<Integer> wrappedArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_NAME_STRING = "name_string";
   @JsonProperty(JSON_PROPERTY_NAME_STRING)
@@ -100,11 +101,11 @@ public class XmlItem  implements Serializable {
 
   public static final String JSON_PROPERTY_NAME_ARRAY = "name_array";
   @JsonProperty(JSON_PROPERTY_NAME_ARRAY)
-  private List<Integer> nameArray = null;
+  private List<Integer> nameArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_NAME_WRAPPED_ARRAY = "name_wrapped_array";
   @JsonProperty(JSON_PROPERTY_NAME_WRAPPED_ARRAY)
-  private List<Integer> nameWrappedArray = null;
+  private List<Integer> nameWrappedArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PREFIX_STRING = "prefix_string";
   @JsonProperty(JSON_PROPERTY_PREFIX_STRING)
@@ -124,11 +125,11 @@ public class XmlItem  implements Serializable {
 
   public static final String JSON_PROPERTY_PREFIX_ARRAY = "prefix_array";
   @JsonProperty(JSON_PROPERTY_PREFIX_ARRAY)
-  private List<Integer> prefixArray = null;
+  private List<Integer> prefixArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PREFIX_WRAPPED_ARRAY = "prefix_wrapped_array";
   @JsonProperty(JSON_PROPERTY_PREFIX_WRAPPED_ARRAY)
-  private List<Integer> prefixWrappedArray = null;
+  private List<Integer> prefixWrappedArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_NAMESPACE_STRING = "namespace_string";
   @JsonProperty(JSON_PROPERTY_NAMESPACE_STRING)
@@ -148,11 +149,11 @@ public class XmlItem  implements Serializable {
 
   public static final String JSON_PROPERTY_NAMESPACE_ARRAY = "namespace_array";
   @JsonProperty(JSON_PROPERTY_NAMESPACE_ARRAY)
-  private List<Integer> namespaceArray = null;
+  private List<Integer> namespaceArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY = "namespace_wrapped_array";
   @JsonProperty(JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY)
-  private List<Integer> namespaceWrappedArray = null;
+  private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PREFIX_NS_STRING = "prefix_ns_string";
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_STRING)
@@ -172,11 +173,11 @@ public class XmlItem  implements Serializable {
 
   public static final String JSON_PROPERTY_PREFIX_NS_ARRAY = "prefix_ns_array";
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_ARRAY)
-  private List<Integer> prefixNsArray = null;
+  private List<Integer> prefixNsArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY = "prefix_ns_wrapped_array";
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY)
-  private List<Integer> prefixNsWrappedArray = null;
+  private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItem attributeString(String attributeString) {
     this.attributeString = attributeString;
@@ -187,7 +188,7 @@ public class XmlItem  implements Serializable {
    * Get attributeString
    * @return attributeString
    **/
-  @JsonProperty("attribute_string")
+  @JsonProperty(value = "attribute_string")
   @ApiModelProperty(example = "string", value = "")
   
   public String getAttributeString() {
@@ -207,7 +208,7 @@ public class XmlItem  implements Serializable {
    * Get attributeNumber
    * @return attributeNumber
    **/
-  @JsonProperty("attribute_number")
+  @JsonProperty(value = "attribute_number")
   @ApiModelProperty(example = "1.234", value = "")
   @Valid 
   public BigDecimal getAttributeNumber() {
@@ -227,7 +228,7 @@ public class XmlItem  implements Serializable {
    * Get attributeInteger
    * @return attributeInteger
    **/
-  @JsonProperty("attribute_integer")
+  @JsonProperty(value = "attribute_integer")
   @ApiModelProperty(example = "-2", value = "")
   
   public Integer getAttributeInteger() {
@@ -247,7 +248,7 @@ public class XmlItem  implements Serializable {
    * Get attributeBoolean
    * @return attributeBoolean
    **/
-  @JsonProperty("attribute_boolean")
+  @JsonProperty(value = "attribute_boolean")
   @ApiModelProperty(example = "true", value = "")
   
   public Boolean getAttributeBoolean() {
@@ -275,7 +276,7 @@ public class XmlItem  implements Serializable {
    * Get wrappedArray
    * @return wrappedArray
    **/
-  @JsonProperty("wrapped_array")
+  @JsonProperty(value = "wrapped_array")
   @ApiModelProperty(value = "")
   
   public List<Integer> getWrappedArray() {
@@ -295,7 +296,7 @@ public class XmlItem  implements Serializable {
    * Get nameString
    * @return nameString
    **/
-  @JsonProperty("name_string")
+  @JsonProperty(value = "name_string")
   @ApiModelProperty(example = "string", value = "")
   
   public String getNameString() {
@@ -315,7 +316,7 @@ public class XmlItem  implements Serializable {
    * Get nameNumber
    * @return nameNumber
    **/
-  @JsonProperty("name_number")
+  @JsonProperty(value = "name_number")
   @ApiModelProperty(example = "1.234", value = "")
   @Valid 
   public BigDecimal getNameNumber() {
@@ -335,7 +336,7 @@ public class XmlItem  implements Serializable {
    * Get nameInteger
    * @return nameInteger
    **/
-  @JsonProperty("name_integer")
+  @JsonProperty(value = "name_integer")
   @ApiModelProperty(example = "-2", value = "")
   
   public Integer getNameInteger() {
@@ -355,7 +356,7 @@ public class XmlItem  implements Serializable {
    * Get nameBoolean
    * @return nameBoolean
    **/
-  @JsonProperty("name_boolean")
+  @JsonProperty(value = "name_boolean")
   @ApiModelProperty(example = "true", value = "")
   
   public Boolean getNameBoolean() {
@@ -383,7 +384,7 @@ public class XmlItem  implements Serializable {
    * Get nameArray
    * @return nameArray
    **/
-  @JsonProperty("name_array")
+  @JsonProperty(value = "name_array")
   @ApiModelProperty(value = "")
   
   public List<Integer> getNameArray() {
@@ -411,7 +412,7 @@ public class XmlItem  implements Serializable {
    * Get nameWrappedArray
    * @return nameWrappedArray
    **/
-  @JsonProperty("name_wrapped_array")
+  @JsonProperty(value = "name_wrapped_array")
   @ApiModelProperty(value = "")
   
   public List<Integer> getNameWrappedArray() {
@@ -431,7 +432,7 @@ public class XmlItem  implements Serializable {
    * Get prefixString
    * @return prefixString
    **/
-  @JsonProperty("prefix_string")
+  @JsonProperty(value = "prefix_string")
   @ApiModelProperty(example = "string", value = "")
   
   public String getPrefixString() {
@@ -451,7 +452,7 @@ public class XmlItem  implements Serializable {
    * Get prefixNumber
    * @return prefixNumber
    **/
-  @JsonProperty("prefix_number")
+  @JsonProperty(value = "prefix_number")
   @ApiModelProperty(example = "1.234", value = "")
   @Valid 
   public BigDecimal getPrefixNumber() {
@@ -471,7 +472,7 @@ public class XmlItem  implements Serializable {
    * Get prefixInteger
    * @return prefixInteger
    **/
-  @JsonProperty("prefix_integer")
+  @JsonProperty(value = "prefix_integer")
   @ApiModelProperty(example = "-2", value = "")
   
   public Integer getPrefixInteger() {
@@ -491,7 +492,7 @@ public class XmlItem  implements Serializable {
    * Get prefixBoolean
    * @return prefixBoolean
    **/
-  @JsonProperty("prefix_boolean")
+  @JsonProperty(value = "prefix_boolean")
   @ApiModelProperty(example = "true", value = "")
   
   public Boolean getPrefixBoolean() {
@@ -519,7 +520,7 @@ public class XmlItem  implements Serializable {
    * Get prefixArray
    * @return prefixArray
    **/
-  @JsonProperty("prefix_array")
+  @JsonProperty(value = "prefix_array")
   @ApiModelProperty(value = "")
   
   public List<Integer> getPrefixArray() {
@@ -547,7 +548,7 @@ public class XmlItem  implements Serializable {
    * Get prefixWrappedArray
    * @return prefixWrappedArray
    **/
-  @JsonProperty("prefix_wrapped_array")
+  @JsonProperty(value = "prefix_wrapped_array")
   @ApiModelProperty(value = "")
   
   public List<Integer> getPrefixWrappedArray() {
@@ -567,7 +568,7 @@ public class XmlItem  implements Serializable {
    * Get namespaceString
    * @return namespaceString
    **/
-  @JsonProperty("namespace_string")
+  @JsonProperty(value = "namespace_string")
   @ApiModelProperty(example = "string", value = "")
   
   public String getNamespaceString() {
@@ -587,7 +588,7 @@ public class XmlItem  implements Serializable {
    * Get namespaceNumber
    * @return namespaceNumber
    **/
-  @JsonProperty("namespace_number")
+  @JsonProperty(value = "namespace_number")
   @ApiModelProperty(example = "1.234", value = "")
   @Valid 
   public BigDecimal getNamespaceNumber() {
@@ -607,7 +608,7 @@ public class XmlItem  implements Serializable {
    * Get namespaceInteger
    * @return namespaceInteger
    **/
-  @JsonProperty("namespace_integer")
+  @JsonProperty(value = "namespace_integer")
   @ApiModelProperty(example = "-2", value = "")
   
   public Integer getNamespaceInteger() {
@@ -627,7 +628,7 @@ public class XmlItem  implements Serializable {
    * Get namespaceBoolean
    * @return namespaceBoolean
    **/
-  @JsonProperty("namespace_boolean")
+  @JsonProperty(value = "namespace_boolean")
   @ApiModelProperty(example = "true", value = "")
   
   public Boolean getNamespaceBoolean() {
@@ -655,7 +656,7 @@ public class XmlItem  implements Serializable {
    * Get namespaceArray
    * @return namespaceArray
    **/
-  @JsonProperty("namespace_array")
+  @JsonProperty(value = "namespace_array")
   @ApiModelProperty(value = "")
   
   public List<Integer> getNamespaceArray() {
@@ -683,7 +684,7 @@ public class XmlItem  implements Serializable {
    * Get namespaceWrappedArray
    * @return namespaceWrappedArray
    **/
-  @JsonProperty("namespace_wrapped_array")
+  @JsonProperty(value = "namespace_wrapped_array")
   @ApiModelProperty(value = "")
   
   public List<Integer> getNamespaceWrappedArray() {
@@ -703,7 +704,7 @@ public class XmlItem  implements Serializable {
    * Get prefixNsString
    * @return prefixNsString
    **/
-  @JsonProperty("prefix_ns_string")
+  @JsonProperty(value = "prefix_ns_string")
   @ApiModelProperty(example = "string", value = "")
   
   public String getPrefixNsString() {
@@ -723,7 +724,7 @@ public class XmlItem  implements Serializable {
    * Get prefixNsNumber
    * @return prefixNsNumber
    **/
-  @JsonProperty("prefix_ns_number")
+  @JsonProperty(value = "prefix_ns_number")
   @ApiModelProperty(example = "1.234", value = "")
   @Valid 
   public BigDecimal getPrefixNsNumber() {
@@ -743,7 +744,7 @@ public class XmlItem  implements Serializable {
    * Get prefixNsInteger
    * @return prefixNsInteger
    **/
-  @JsonProperty("prefix_ns_integer")
+  @JsonProperty(value = "prefix_ns_integer")
   @ApiModelProperty(example = "-2", value = "")
   
   public Integer getPrefixNsInteger() {
@@ -763,7 +764,7 @@ public class XmlItem  implements Serializable {
    * Get prefixNsBoolean
    * @return prefixNsBoolean
    **/
-  @JsonProperty("prefix_ns_boolean")
+  @JsonProperty(value = "prefix_ns_boolean")
   @ApiModelProperty(example = "true", value = "")
   
   public Boolean getPrefixNsBoolean() {
@@ -791,7 +792,7 @@ public class XmlItem  implements Serializable {
    * Get prefixNsArray
    * @return prefixNsArray
    **/
-  @JsonProperty("prefix_ns_array")
+  @JsonProperty(value = "prefix_ns_array")
   @ApiModelProperty(value = "")
   
   public List<Integer> getPrefixNsArray() {
@@ -819,7 +820,7 @@ public class XmlItem  implements Serializable {
    * Get prefixNsWrappedArray
    * @return prefixNsWrappedArray
    **/
-  @JsonProperty("prefix_ns_wrapped_array")
+  @JsonProperty(value = "prefix_ns_wrapped_array")
   @ApiModelProperty(value = "")
   
   public List<Integer> getPrefixNsWrappedArray() {
@@ -875,7 +876,6 @@ public class XmlItem  implements Serializable {
   public int hashCode() {
     return Objects.hash(attributeString, attributeNumber, attributeInteger, attributeBoolean, wrappedArray, nameString, nameNumber, nameInteger, nameBoolean, nameArray, nameWrappedArray, prefixString, prefixNumber, prefixInteger, prefixBoolean, prefixArray, prefixWrappedArray, namespaceString, namespaceNumber, namespaceInteger, namespaceBoolean, namespaceArray, namespaceWrappedArray, prefixNsString, prefixNsNumber, prefixNsInteger, prefixNsBoolean, prefixNsArray, prefixNsWrappedArray);
   }
-
 
   @Override
   public String toString() {

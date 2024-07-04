@@ -2,16 +2,15 @@ package org.openapitools.client;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.threeten.bp.*;
 import feign.okhttp.OkHttpClient;
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import feign.Feign;
 import feign.RequestInterceptor;
@@ -19,10 +18,20 @@ import feign.form.FormEncoder;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import feign.slf4j.Slf4jLogger;
-import org.openapitools.client.auth.*;
-import org.openapitools.client.auth.OAuth.AccessTokenListener;
+import org.openapitools.client.auth.HttpBasicAuth;
+import org.openapitools.client.auth.HttpBearerAuth;
+import org.openapitools.client.auth.ApiKeyAuth;
+import org.openapitools.client.ApiResponseDecoder;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+import org.openapitools.client.auth.ApiErrorDecoder;
+import org.openapitools.client.auth.OAuth;
+import org.openapitools.client.auth.OAuth.AccessTokenListener;
+import org.openapitools.client.auth.OAuthFlow;
+import org.openapitools.client.auth.OauthPasswordGrant;
+import org.openapitools.client.auth.OauthClientCredentialsGrant;
+import feign.Retryer;
+
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ApiClient {
   private static final Logger log = Logger.getLogger(ApiClient.class.getName());
 
@@ -34,12 +43,14 @@ public class ApiClient {
   private Feign.Builder feignBuilder;
 
   public ApiClient() {
-    objectMapper = createObjectMapper();
     apiAuthorizations = new LinkedHashMap<String, RequestInterceptor>();
+    objectMapper = createObjectMapper();
     feignBuilder = Feign.builder()
                 .client(new OkHttpClient())
                 .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
-                .decoder(new JacksonDecoder(objectMapper))
+                .decoder(new ApiResponseDecoder(objectMapper))
+                .errorDecoder(new ApiErrorDecoder())
+                .retryer(new Retryer.Default(0, 0, 2))
                 .logger(new Slf4jLogger());
   }
 
@@ -47,19 +58,21 @@ public class ApiClient {
     this();
     for(String authName : authNames) {
       log.log(Level.FINE, "Creating authentication {0}", authName);
-      RequestInterceptor auth;
-      if ("api_key".equals(authName)) {
+      RequestInterceptor auth = null;
+      if ("petstore_auth".equals(authName)) {
+        auth = buildOauthRequestInterceptor(OAuthFlow.IMPLICIT, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
+      } else if ("api_key".equals(authName)) {
         auth = new ApiKeyAuth("header", "api_key");
       } else if ("api_key_query".equals(authName)) {
         auth = new ApiKeyAuth("query", "api_key_query");
       } else if ("http_basic_test".equals(authName)) {
         auth = new HttpBasicAuth();
-      } else if ("petstore_auth".equals(authName)) {
-        auth = buildOauthRequestInterceptor(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
       } else {
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
       }
-      addAuthorization(authName, auth);
+      if (auth != null) {
+        addAuthorization(authName, auth);
+      }
     }
   }
 
@@ -115,24 +128,21 @@ public class ApiClient {
     objectMapper.disable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE);
     objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     objectMapper.setDateFormat(new RFC3339DateFormat());
-    ThreeTenModule module = new ThreeTenModule();
-    module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
-    module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
-    module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
-    objectMapper.registerModule(module);
+    objectMapper.registerModule(new JavaTimeModule());
     return objectMapper;
   }
 
   private RequestInterceptor buildOauthRequestInterceptor(OAuthFlow flow, String authorizationUrl, String tokenUrl, String scopes) {
     switch (flow) {
-      case password:
+      case PASSWORD:
         return new OauthPasswordGrant(tokenUrl, scopes);
-      case application:
+      case APPLICATION:
         return new OauthClientCredentialsGrant(authorizationUrl, tokenUrl, scopes);
       default:
         throw new RuntimeException("Oauth flow \"" + flow + "\" is not implemented");
     }
   }
+
 
   public ObjectMapper getObjectMapper(){
     return objectMapper;
@@ -198,6 +208,15 @@ public class ApiClient {
   }
 
   /**
+   * Helper method to configure the supplier of bearer tokens.
+   * @param tokenSupplier the supplier of bearer tokens.
+   */
+  public void setBearerToken(Supplier<String> tokenSupplier) {
+    HttpBearerAuth apiAuthorization =  getAuthorization(HttpBearerAuth.class);
+    apiAuthorization.setBearerToken(tokenSupplier);
+  }
+
+  /**
    * Helper method to configure the first api key found
    * @param apiKey API key
    */
@@ -217,9 +236,9 @@ public class ApiClient {
   }
 
   /**
-   * Helper method to configure the client credentials for Oauth 
-   * @param username Username
-   * @param password Password
+   * Helper method to configure the client credentials for Oauth
+   * @param clientId Client ID
+   * @param clientSecret Client secret
    */
   public void setClientCredentials(String clientId, String clientSecret) {
     OauthClientCredentialsGrant authorization = getAuthorization(OauthClientCredentialsGrant.class);
@@ -230,6 +249,8 @@ public class ApiClient {
    * Helper method to configure the username/password for Oauth password grant
    * @param username Username
    * @param password Password
+   * @param clientId Client ID
+   * @param clientSecret Client secret
    */
   public void setOauthPassword(String username, String password, String clientId, String clientSecret) {
     OauthPasswordGrant apiAuthorization = getAuthorization(OauthPasswordGrant.class);
@@ -258,7 +279,7 @@ public class ApiClient {
 
   /**
    * Configures a listener which is notified when a new access token is received.
-   * @param accessTokenListener Acesss token listener
+   * @param accessTokenListener Access token listener
    */
   public void registerAccessTokenListener(AccessTokenListener accessTokenListener) {
     OAuth apiAuthorization = getAuthorization(OAuth.class);
@@ -267,7 +288,7 @@ public class ApiClient {
 
   /**
    * Gets request interceptor based on authentication name
-   * @param authName Authentiation name
+   * @param authName Authentication name
    * @return Request Interceptor
    */
   public RequestInterceptor getAuthorization(String authName) {

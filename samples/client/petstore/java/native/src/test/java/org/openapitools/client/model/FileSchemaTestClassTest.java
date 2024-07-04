@@ -18,13 +18,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.openapitools.client.model.ModelFile;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -42,11 +41,11 @@ public class FileSchemaTestClassTest {
     }
 
     /**
-     * Test the property 'file'
+     * Test the property '_file'
      */
     @Test
-    public void fileTest() {
-        // TODO: test file
+    public void _fileTest() {
+        // TODO: test _file
     }
 
     /**

@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -9,14 +10,9 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class FormatTest  {
   
@@ -329,6 +325,35 @@ public class FormatTest  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    FormatTest formatTest = (FormatTest) o;
+    return Objects.equals(this.integer, formatTest.integer) &&
+        Objects.equals(this.int32, formatTest.int32) &&
+        Objects.equals(this.int64, formatTest.int64) &&
+        Objects.equals(this.number, formatTest.number) &&
+        Objects.equals(this._float, formatTest._float) &&
+        Objects.equals(this._double, formatTest._double) &&
+        Objects.equals(this.string, formatTest.string) &&
+        Objects.equals(this._byte, formatTest._byte) &&
+        Objects.equals(this.binary, formatTest.binary) &&
+        Objects.equals(this.date, formatTest.date) &&
+        Objects.equals(this.dateTime, formatTest.dateTime) &&
+        Objects.equals(this.uuid, formatTest.uuid) &&
+        Objects.equals(this.password, formatTest.password) &&
+        Objects.equals(this.bigDecimal, formatTest.bigDecimal);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password, bigDecimal);
+  }
 
   @Override
   public String toString() {
@@ -347,7 +372,7 @@ public class FormatTest  {
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    password: ").append("*").append("\n");
     sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();

@@ -1,8 +1,19 @@
 ---
-title: Config Options for go-gin-server
-sidebar_label: go-gin-server
+title: Documentation for the go-gin-server Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | go-gin-server | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SERVER | |
+| generator language | Go | |
+| generator default templating engine | mustache | |
+| helpTxt | Generates a Go server library with the gin framework using OpenAPI-Generator.By default, it will also generate service classes. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -10,6 +21,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |apiPath|Name of the folder that contains the Go source code| |go|
 |enumClassPrefix|Prefix enum with class name| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
+|interfaceOnly|Whether to generate only API interface stubs without the implementation files.| |false|
 |packageName|Go package name (convention: lowercase).| |openapi|
 |packageVersion|Go package version.| |1.0.0|
 |serverPort|The network port the generated server binds to| |8080|
@@ -126,7 +138,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |DateTime|✓|OAS2,OAS3
 |Password|✓|OAS2,OAS3
 |File|✓|OAS2
+|Uuid|✗|
 |Array|✓|OAS2,OAS3
+|Null|✗|OAS3
+|AnyType|✗|OAS2,OAS3
+|Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2
 |CollectionFormatMulti|✓|OAS2
@@ -186,6 +202,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Composite|✓|OAS2,OAS3
 |Polymorphism|✗|OAS2,OAS3
 |Union|✗|OAS3
+|allOf|✗|OAS2,OAS3
+|anyOf|✗|OAS3
+|oneOf|✗|OAS3
+|not|✗|OAS3
 
 ### Security Feature
 | Name | Supported | Defined By |
@@ -198,6 +218,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|SignatureAuth|✗|OAS3
+|AWSV4Signature|✗|ToolingExtension
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

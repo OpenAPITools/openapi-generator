@@ -17,21 +17,23 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.Operation;
+import lombok.Setter;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.JbossFeature;
 import org.openapitools.codegen.languages.features.SwaggerFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Setter
 public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
         implements JbossFeature, BeanValidationFeatures, SwaggerFeatures {
 
@@ -47,7 +49,7 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
         useBeanValidation = true;
         outputFolder = "generated-code/JavaJaxRS-Resteasy-eap";
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
 
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
@@ -80,22 +82,9 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR)) {
-            boolean generateJbossDeploymentDescriptorProp = convertPropertyToBooleanAndWriteBack(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR);
-            this.setGenerateJbossDeploymentDescriptor(generateJbossDeploymentDescriptorProp);
-        }
+        convertPropertyToBooleanAndWriteBack(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR, this::setGenerateJbossDeploymentDescriptor);
 
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
-        }
-
-        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
-
-        if (additionalProperties.containsKey(USE_SWAGGER_FEATURE)) {
-            this.setUseSwaggerFeature(convertPropertyToBoolean(USE_SWAGGER_FEATURE));
-        }
-
-        writePropertyBack(USE_SWAGGER_FEATURE, useSwaggerFeature);
+        convertPropertyToBooleanAndWriteBack(USE_SWAGGER_FEATURE, this::setUseSwaggerFeature);
 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
                 .doNotOverwrite());
@@ -121,11 +110,6 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        return super.postProcessOperationsWithModels(objs, allModels);
-    }
-
-    @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
         // Add imports for Jackson
@@ -139,15 +123,13 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
     }
 
     @Override
-    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
+    public ModelsMap postProcessModelsEnum(ModelsMap objs) {
         objs = super.postProcessModelsEnum(objs);
 
         // Add imports for Jackson
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+        List<Map<String, String>> imports = objs.getImports();
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
             // for enum model
             if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
                 cm.imports.add(importMapping.get("JsonValue"));
@@ -160,15 +142,10 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
         return objs;
     }
 
-    public void setUseBeanValidation(boolean useBeanValidation) {
-        this.useBeanValidation = useBeanValidation;
-    }
-
-    public void setGenerateJbossDeploymentDescriptor(boolean generateJbossDeploymentDescriptor) {
-        this.generateJbossDeploymentDescriptor = generateJbossDeploymentDescriptor;
-    }
-
-    public void setUseSwaggerFeature(boolean useSwaggerFeature) {
-        this.useSwaggerFeature = useSwaggerFeature;
+    @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+        removeImport(objs, "java.util.List");
+        return objs;
     }
 }

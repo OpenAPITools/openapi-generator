@@ -18,7 +18,7 @@ import {
     FooFromJSON,
     FooFromJSONTyped,
     FooToJSON,
-} from './';
+} from './Foo';
 
 /**
  * 
@@ -60,5 +60,4 @@ export function InlineResponseDefaultToJSON(value?: InlineResponseDefault | null
         'string': FooToJSON(value.string),
     };
 }
-
 

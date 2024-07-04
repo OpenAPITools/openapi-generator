@@ -32,3 +32,4 @@ input UserInput {
     # User Status
     userStatus: Int!
 }
+

@@ -1,0 +1,27 @@
+{{#models}}
+{{#model}}
+import 'package:test/test.dart';
+import 'package:{{pubName}}/{{pubName}}.dart';
+
+// tests for {{{classname}}}
+void main() {
+  {{^isEnum}}
+  {{! Due to required vars without default value we can not create a full instance here }}
+{{#includeLibraryTemplate}}test_instance{{/includeLibraryTemplate}}
+  {{/isEnum}}
+
+  group({{{classname}}}, () {
+    {{#vars}}
+    {{#description}}
+    // {{{.}}}
+    {{/description}}
+    // {{{dataType}}} {{{name}}}{{#defaultValue}} (default value: {{{.}}}){{/defaultValue}}
+    test('to test the property `{{{name}}}`', () async {
+      // TODO
+    });
+
+    {{/vars}}
+  });
+}
+{{/model}}
+{{/models}}

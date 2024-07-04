@@ -6,7 +6,7 @@ import {
   Category
 } from "@openapitools/typescript-axios-petstore";
 import { Configuration } from "@openapitools/typescript-axios-petstore";
-import axios, {AxiosInstance, AxiosResponse} from "@openapitools/typescript-axios-petstore/node_modules/axios";
+import axios, {AxiosInstance, AxiosResponse} from "axios";
 
 let config: Configuration;
 

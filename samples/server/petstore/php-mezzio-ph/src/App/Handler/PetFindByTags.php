@@ -31,10 +31,10 @@ class PetFindByTags
      *
      * @throws PHException\HttpCode 501 if the method is not implemented
      *
-     * TODO check if generated return container type is valid
-     * @return \App\DTO\Pet[]
+     * @return \App\DTO\Collection6
+     * @deprecated
      */
-    public function findPetsByTags(ServerRequestInterface $request): array
+    public function findPetsByTags(ServerRequestInterface $request): \App\DTO\Collection6
     {
         //TODO implement method
         /** @var \App\DTO\FindPetsByTagsQueryData $queryData */

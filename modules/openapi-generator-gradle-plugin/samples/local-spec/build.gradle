@@ -54,6 +54,25 @@ openApiGenerate {
     enablePostProcessFile = false
 }
 
+task buildJavaResttemplateSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+    generatorName = "java"
+    library = "resttemplate"
+    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+    outputDir = "$buildDir/java-resttemplate-api-client"
+    apiPackage = "com.example.client"
+    invokerPackage = "com.example.invoker"
+    modelPackage = "com.example.cdm"
+    configOptions = [
+            dateLibrary: "java8"
+    ]
+    groupId = 'com.example'
+    id = 'client'
+    skipValidateSpec = true
+    logToStderr = true
+    generateAliasAsModel = false
+    enablePostProcessFile = false
+}
+
 task buildGoSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
     generatorName = "go"
     inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
@@ -67,13 +86,13 @@ task buildGoSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTas
 }
 
 task buildDotnetSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
-    generatorName = "csharp-netcore"
+    generatorName = "csharp"
     inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
     additionalProperties = [
             packageGuid: "{321C8C3F-0156-40C1-AE42-D59761FB9B6C}",
             useCompareNetObjects: "true"
     ]
-    outputDir = "$buildDir/csharp-netcore".toString()
+    outputDir = "$buildDir/csharp".toString()
     globalProperties = [
             models: "",
             apis  : "",

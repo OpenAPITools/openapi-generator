@@ -33,7 +33,7 @@ export class {{classname}} {
      * @param {{paramName}} {{description}}
      {{/allParams}}
      */
-    public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any ) : ng.IHttpPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
+    public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any ) : ng.IHttpPromise<{{{returnType}}}{{^returnType}}{}{{/returnType}}> {
         const localVarPath = this.basePath + '{{{path}}}'{{#pathParams}}
             .replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
 

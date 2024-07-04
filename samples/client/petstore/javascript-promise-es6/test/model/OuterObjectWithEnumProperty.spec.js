@@ -50,7 +50,7 @@
   describe('OuterObjectWithEnumProperty', function() {
     it('should create an instance of OuterObjectWithEnumProperty', function() {
       // uncomment below and update the code to test OuterObjectWithEnumProperty
-      //var instane = new OpenApiPetstore.OuterObjectWithEnumProperty();
+      //var instance = new OpenApiPetstore.OuterObjectWithEnumProperty();
       //expect(instance).to.be.a(OpenApiPetstore.OuterObjectWithEnumProperty);
     });
 

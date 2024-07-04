@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { Container } from "inversify";
 
 import * as petstore from "ts-petstore-client";
-import * as petstoreInternals from "ts-petstore-client/dist/apis/PetApi";
+import * as petstoreInternals from "../../../builds/inversify/dist/apis/PetApi";
 
 import { expect, assert } from "chai";
 import * as fs from "fs";
@@ -20,7 +20,7 @@ describe("ApiServiceBinder", () => {
     });
 
     it("binds server config", async () => {
-        const url = "foobar";
+        const url = "http://foobar";
         let callCount = 0;
         const mockServer = {
             makeRequestContext(endpoint: string, httpMethod: petstore.HttpMethod): petstore.RequestContext {
@@ -45,7 +45,7 @@ describe("ApiServiceBinder", () => {
     });
 
     it("binds server config to url", async () => {
-        const url = "foobar";
+        const url = "http://foobar";
         const petId = 42;
         apiServiceBinder.bindServerConfigurationToURL(url);
 

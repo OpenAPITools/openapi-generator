@@ -19,10 +19,10 @@ class StoreAPITests: XCTestCase {
     func test1PlaceOrder() {
         // use explicit naming to reference the enum so that we test we don't regress on enum naming
         let shipDate = Date()
-        let order = Order(id: 1000, petId: 1000, quantity: 10, shipDate: shipDate, status: .placed, complete: true)
+        let order = PetstoreClientAPI.Order(id: 1000, petId: 1000, quantity: 10, shipDate: shipDate, status: .placed, complete: true)
         let expectation = self.expectation(description: "testPlaceOrder")
 
-        StoreAPI.placeOrder(body: order) { (order, error) in
+        PetstoreClientAPI.StoreAPI.placeOrder(body: order) { (order, error) in
             guard error == nil else {
                 XCTFail("error placing order: \(error.debugDescription)")
                 return
@@ -45,7 +45,7 @@ class StoreAPITests: XCTestCase {
     func test2GetOrder() {
         let expectation = self.expectation(description: "testGetOrder")
 
-        StoreAPI.getOrderById(orderId: 1000) { (order, error) in
+        PetstoreClientAPI.StoreAPI.getOrderById(orderId: 1000) { (order, error) in
             guard error == nil else {
                 XCTFail("error retrieving order: \(error.debugDescription)")
                 return
@@ -59,14 +59,14 @@ class StoreAPITests: XCTestCase {
                 expectation.fulfill()
             }
         }
-
+        
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
     func test3DeleteOrder() {
         let expectation = self.expectation(description: "testDeleteOrder")
 
-        StoreAPI.deleteOrder(orderId: "1000") { (response, error) in
+        PetstoreClientAPI.StoreAPI.deleteOrder(orderId: "1000") { (response, error) in
             guard error == nil else {
                 XCTFail("error deleting order")
                 return
@@ -86,7 +86,7 @@ class StoreAPITests: XCTestCase {
     func testDownloadProgress() {
         let responseExpectation = self.expectation(description: "obtain response")
         let progressExpectation = self.expectation(description: "obtain progress")
-        let requestBuilder = StoreAPI.getOrderByIdWithRequestBuilder(orderId: 1000)
+        let requestBuilder = PetstoreClientAPI.StoreAPI.getOrderByIdWithRequestBuilder(orderId: 1000)
 
         requestBuilder.onProgressReady = { (_) in
             progressExpectation.fulfill()

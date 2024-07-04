@@ -13,8 +13,10 @@
 
 package org.openapitools.client.model;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 import java.util.Objects;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -22,22 +24,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * Model for testing model name same as property name
  */
-@ApiModel(description = "Model for testing model name same as property name")
 @JsonPropertyOrder({
   Name.JSON_PROPERTY_NAME,
   Name.JSON_PROPERTY_SNAKE_CASE,
   Name.JSON_PROPERTY_PROPERTY,
   Name.JSON_PROPERTY_123NUMBER
 })
-@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";
   private Integer name;
@@ -51,39 +52,50 @@ public class Name {
   public static final String JSON_PROPERTY_123NUMBER = "123Number";
   private Integer _123number;
 
+  public Name() { 
+  }
+
+  @JsonCreator
+  public Name(
+    @JsonProperty(JSON_PROPERTY_SNAKE_CASE) Integer snakeCase, 
+    @JsonProperty(JSON_PROPERTY_123NUMBER) Integer _123number
+  ) {
+  this();
+    this.snakeCase = snakeCase;
+    this._123number = _123number;
+  }
 
   public Name name(Integer name) {
     this.name = name;
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
-  @ApiModelProperty(required = true, value = "")
+   */
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public Integer getName() {
     return name;
   }
 
 
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setName(Integer name) {
     this.name = name;
   }
 
 
-   /**
+  /**
    * Get snakeCase
    * @return snakeCase
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Integer getSnakeCase() {
     return snakeCase;
   }
@@ -96,34 +108,32 @@ public class Name {
     return this;
   }
 
-   /**
+  /**
    * Get property
    * @return property
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getProperty() {
     return property;
   }
 
 
+  @JsonProperty(JSON_PROPERTY_PROPERTY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setProperty(String property) {
     this.property = property;
   }
 
 
-   /**
+  /**
    * Get _123number
    * @return _123number
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_123NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Integer get123number() {
     return _123number;
   }
@@ -177,5 +187,59 @@ public class Name {
     return o.toString().replace("\n", "\n    ");
   }
 
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
+    if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
+      prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
+    }
+
+    StringJoiner joiner = new StringJoiner("&");
+
+    // add `name` to the URL query string
+    if (getName() != null) {
+      joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `snake_case` to the URL query string
+    if (getSnakeCase() != null) {
+      joiner.add(String.format("%ssnake_case%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSnakeCase()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `property` to the URL query string
+    if (getProperty() != null) {
+      joiner.add(String.format("%sproperty%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProperty()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `123Number` to the URL query string
+    if (get123number() != null) {
+      joiner.add(String.format("%s123Number%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(get123number()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    return joiner.toString();
+  }
 }
 

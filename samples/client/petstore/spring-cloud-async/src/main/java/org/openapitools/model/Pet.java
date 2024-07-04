@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -11,15 +12,22 @@ import java.util.List;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * A pet for sale in the pet store
  */
+
 @ApiModel(description = "A pet for sale in the pet store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class Pet   {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+public class Pet {
+
   @JsonProperty("id")
   private Long id;
 
@@ -35,7 +43,7 @@ public class Pet   {
 
   @JsonProperty("tags")
   @Valid
-  private List<Tag> tags = null;
+  private List<@Valid Tag> tags;
 
   /**
    * pet status in the store
@@ -77,6 +85,23 @@ public class Pet   {
   @JsonProperty("status")
   private StatusEnum status;
 
+  /**
+   * Default constructor
+   * @deprecated Use {@link Pet#Pet(String, List<String>)}
+   */
+  @Deprecated
+  public Pet() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Pet(String name, List<String> photoUrls) {
+    this.name = name;
+    this.photoUrls = photoUrls;
+  }
+
   public Pet id(Long id) {
     this.id = id;
     return this;
@@ -86,9 +111,8 @@ public class Pet   {
    * Get id
    * @return id
   */
+  
   @ApiModelProperty(value = "")
-
-
   public Long getId() {
     return id;
   }
@@ -106,10 +130,8 @@ public class Pet   {
    * Get category
    * @return category
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
   public Category getCategory() {
     return category;
   }
@@ -127,10 +149,8 @@ public class Pet   {
    * Get name
    * @return name
   */
+  @NotNull 
   @ApiModelProperty(example = "doggie", required = true, value = "")
-  @NotNull
-
-
   public String getName() {
     return name;
   }
@@ -145,6 +165,9 @@ public class Pet   {
   }
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new ArrayList<>();
+    }
     this.photoUrls.add(photoUrlsItem);
     return this;
   }
@@ -153,10 +176,8 @@ public class Pet   {
    * Get photoUrls
    * @return photoUrls
   */
+  @NotNull 
   @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -165,7 +186,7 @@ public class Pet   {
     this.photoUrls = photoUrls;
   }
 
-  public Pet tags(List<Tag> tags) {
+  public Pet tags(List<@Valid Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -182,15 +203,13 @@ public class Pet   {
    * Get tags
    * @return tags
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
-  public List<Tag> getTags() {
+  public List<@Valid Tag> getTags() {
     return tags;
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
 
@@ -203,9 +222,8 @@ public class Pet   {
    * pet status in the store
    * @return status
   */
+  
   @ApiModelProperty(value = "pet status in the store")
-
-
   public StatusEnum getStatus() {
     return status;
   }
@@ -213,7 +231,6 @@ public class Pet   {
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -241,7 +258,6 @@ public class Pet   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Pet {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");

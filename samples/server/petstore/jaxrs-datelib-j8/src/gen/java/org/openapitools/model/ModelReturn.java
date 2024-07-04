@@ -16,6 +16,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -30,7 +31,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   ModelReturn.JSON_PROPERTY_RETURN
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ModelReturn  implements Serializable {
   public static final String JSON_PROPERTY_RETURN = "return";
   @JsonProperty(JSON_PROPERTY_RETURN)
@@ -45,7 +46,7 @@ public class ModelReturn  implements Serializable {
    * Get _return
    * @return _return
    **/
-  @JsonProperty("return")
+  @JsonProperty(value = "return")
   @ApiModelProperty(value = "")
   
   public Integer getReturn() {
@@ -73,7 +74,6 @@ public class ModelReturn  implements Serializable {
   public int hashCode() {
     return Objects.hash(_return);
   }
-
 
   @Override
   public String toString() {

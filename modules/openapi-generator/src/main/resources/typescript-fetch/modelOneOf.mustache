@@ -1,13 +1,13 @@
 {{#hasImports}}
+{{#oneOf}}
+import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
 import {
-    {{#imports}}
-    {{{.}}},
-    {{/imports}}
-    {{#oneOf}}
+    instanceOf{{{.}}},
+    {{{.}}}FromJSON,
     {{{.}}}FromJSONTyped,
     {{{.}}}ToJSON,
-    {{/oneOf}}
-} from './';
+} from './{{.}}{{importFileExtension}}';
+{{/oneOf}}
 
 {{/hasImports}}
 {{>modelOneOfInterfaces}}
@@ -17,30 +17,31 @@ export function {{classname}}FromJSON(json: any): {{classname}} {
 }
 
 export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boolean): {{classname}} {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
 {{#discriminator}}
-    switch (json['{{discriminator.propertyName}}']) {
+    switch (json['{{discriminator.propertyBaseName}}']) {
 {{#discriminator.mappedModels}}
         case '{{mappingName}}':
-            return {...{{modelName}}FromJSONTyped(json, true), {{discriminator.propertyName}}: '{{mappingName}}'};
+            return Object.assign({}, {{modelName}}FromJSONTyped(json, true), { {{discriminator.propertyName}}: '{{mappingName}}' } as const);
 {{/discriminator.mappedModels}}
         default:
             throw new Error(`No variant of {{classname}} exists with '{{discriminator.propertyName}}=${json['{{discriminator.propertyName}}']}'`);
     }
 {{/discriminator}}
 {{^discriminator}}
-    return { {{#oneOf}}...{{{.}}}FromJSONTyped(json, true){{^-last}}, {{/-last}}{{/oneOf}} };
+    {{#oneOf}}
+    if (instanceOf{{{.}}}(json)) {
+        return {{{.}}}FromJSONTyped(json, true);
+    }
+    {{/oneOf}}
 {{/discriminator}}
 }
 
 export function {{classname}}ToJSON(value?: {{classname}} | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
 {{#discriminator}}
     switch (value['{{discriminator.propertyName}}']) {
@@ -52,7 +53,14 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
             throw new Error(`No variant of {{classname}} exists with '{{discriminator.propertyName}}=${value['{{discriminator.propertyName}}']}'`);
     }
 {{/discriminator}}
+
 {{^discriminator}}
-    return { {{#oneOf}}...{{{.}}}ToJSON(value){{^-last}}, {{/-last}}{{/oneOf}} };
+    {{#oneOf}}
+    if (instanceOf{{{.}}}(value)) {
+        return {{{.}}}ToJSON(value as {{{.}}});
+    }
+    {{/oneOf}}
+
+    return {};
 {{/discriminator}}
 }

@@ -54,7 +54,7 @@ And to use the api you can follow the examples bellow:
     ApiClient apiClient = new ApiClient("oauth_password");
     apiClient.setBasePath("https://localhost:8243/petstore/1/");
     apiClient.setOauthPassword("username", "password", "client_id", "client_secret");
-    
+
     //Oauth client credentials flow
     ApiClient apiClient = new ApiClient("oauth_client_credentials");
     apiClient.setBasePath("https://localhost:8243/petstore/1/");
@@ -62,7 +62,7 @@ And to use the api you can follow the examples bellow:
 
     PetApi petApi = apiClient.buildClient(PetApi.class);
     Pet petById = petApi.getPetById(12345L);
-    
+
     System.out.println(petById);
   }
 ```

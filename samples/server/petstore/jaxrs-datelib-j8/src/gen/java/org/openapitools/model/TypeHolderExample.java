@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
@@ -37,7 +38,7 @@ import javax.validation.Valid;
   TypeHolderExample.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderExample.JSON_PROPERTY_ARRAY_ITEM
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class TypeHolderExample  implements Serializable {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
   @JsonProperty(JSON_PROPERTY_STRING_ITEM)
@@ -72,7 +73,7 @@ public class TypeHolderExample  implements Serializable {
    * Get stringItem
    * @return stringItem
    **/
-  @JsonProperty("string_item")
+  @JsonProperty(value = "string_item")
   @ApiModelProperty(example = "what", required = true, value = "")
   @NotNull 
   public String getStringItem() {
@@ -92,7 +93,7 @@ public class TypeHolderExample  implements Serializable {
    * Get numberItem
    * @return numberItem
    **/
-  @JsonProperty("number_item")
+  @JsonProperty(value = "number_item")
   @ApiModelProperty(example = "1.234", required = true, value = "")
   @NotNull @Valid 
   public BigDecimal getNumberItem() {
@@ -112,7 +113,7 @@ public class TypeHolderExample  implements Serializable {
    * Get floatItem
    * @return floatItem
    **/
-  @JsonProperty("float_item")
+  @JsonProperty(value = "float_item")
   @ApiModelProperty(example = "1.234", required = true, value = "")
   @NotNull 
   public Float getFloatItem() {
@@ -132,7 +133,7 @@ public class TypeHolderExample  implements Serializable {
    * Get integerItem
    * @return integerItem
    **/
-  @JsonProperty("integer_item")
+  @JsonProperty(value = "integer_item")
   @ApiModelProperty(example = "-2", required = true, value = "")
   @NotNull 
   public Integer getIntegerItem() {
@@ -152,7 +153,7 @@ public class TypeHolderExample  implements Serializable {
    * Get boolItem
    * @return boolItem
    **/
-  @JsonProperty("bool_item")
+  @JsonProperty(value = "bool_item")
   @ApiModelProperty(example = "true", required = true, value = "")
   @NotNull 
   public Boolean getBoolItem() {
@@ -169,6 +170,9 @@ public class TypeHolderExample  implements Serializable {
   }
 
   public TypeHolderExample addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }
@@ -177,7 +181,7 @@ public class TypeHolderExample  implements Serializable {
    * Get arrayItem
    * @return arrayItem
    **/
-  @JsonProperty("array_item")
+  @JsonProperty(value = "array_item")
   @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
   @NotNull 
   public List<Integer> getArrayItem() {
@@ -210,7 +214,6 @@ public class TypeHolderExample  implements Serializable {
   public int hashCode() {
     return Objects.hash(stringItem, numberItem, floatItem, integerItem, boolItem, arrayItem);
   }
-
 
   @Override
   public String toString() {

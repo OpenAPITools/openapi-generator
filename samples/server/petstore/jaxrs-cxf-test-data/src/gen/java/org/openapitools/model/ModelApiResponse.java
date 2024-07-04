@@ -1,16 +1,10 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -37,7 +31,7 @@ public class ModelApiResponse  {
   /**
    * Sets the <code>code</code> property.
    */
-  public void setCode(Integer code) {
+ public void setCode(Integer code) {
     this.code = code;
   }
 
@@ -61,7 +55,7 @@ public class ModelApiResponse  {
   /**
    * Sets the <code>type</code> property.
    */
-  public void setType(String type) {
+ public void setType(String type) {
     this.type = type;
   }
 
@@ -85,7 +79,7 @@ public class ModelApiResponse  {
   /**
    * Sets the <code>message</code> property.
    */
-  public void setMessage(String message) {
+ public void setMessage(String message) {
     this.message = message;
   }
 
@@ -97,6 +91,25 @@ public class ModelApiResponse  {
     return this;
   }
 
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ModelApiResponse _apiResponse = (ModelApiResponse) o;
+    return Objects.equals(code, _apiResponse.code) &&
+        Objects.equals(type, _apiResponse.type) &&
+        Objects.equals(message, _apiResponse.message);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(code, type, message);
+  }
 
   @Override
   public String toString() {

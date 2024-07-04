@@ -10,12 +10,14 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import okhttp3.MultipartBody;
 
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface UserApi {
   /**
@@ -24,7 +26,7 @@ public interface UserApi {
    * @param body Created user object (required)
    * @return Completable
    */
-  @POST("user")
+  @HTTP(method = "POST", path = "user", hasBody = true)
   Completable createUser(
     @retrofit2.http.Body User body
   );
@@ -35,7 +37,7 @@ public interface UserApi {
    * @param body List of user object (required)
    * @return Completable
    */
-  @POST("user/createWithArray")
+  @HTTP(method = "POST", path = "user/createWithArray", hasBody = true)
   Completable createUsersWithArrayInput(
     @retrofit2.http.Body List<User> body
   );
@@ -46,7 +48,7 @@ public interface UserApi {
    * @param body List of user object (required)
    * @return Completable
    */
-  @POST("user/createWithList")
+  @HTTP(method = "POST", path = "user/createWithList", hasBody = true)
   Completable createUsersWithListInput(
     @retrofit2.http.Body List<User> body
   );
@@ -57,7 +59,7 @@ public interface UserApi {
    * @param username The name that needs to be deleted (required)
    * @return Completable
    */
-  @DELETE("user/{username}")
+  @HTTP(method = "DELETE", path = "user/{username}")
   Completable deleteUser(
     @retrofit2.http.Path("username") String username
   );
@@ -68,7 +70,7 @@ public interface UserApi {
    * @param username The name that needs to be fetched. Use user1 for testing. (required)
    * @return Observable&lt;User&gt;
    */
-  @GET("user/{username}")
+  @HTTP(method = "GET", path = "user/{username}")
   Observable<User> getUserByName(
     @retrofit2.http.Path("username") String username
   );
@@ -80,7 +82,7 @@ public interface UserApi {
    * @param password The password for login in clear text (required)
    * @return Observable&lt;String&gt;
    */
-  @GET("user/login")
+  @HTTP(method = "GET", path = "user/login")
   Observable<String> loginUser(
     @retrofit2.http.Query("username") String username, @retrofit2.http.Query("password") String password
   );
@@ -90,7 +92,7 @@ public interface UserApi {
    * 
    * @return Completable
    */
-  @GET("user/logout")
+  @HTTP(method = "GET", path = "user/logout")
   Completable logoutUser();
     
 
@@ -101,7 +103,7 @@ public interface UserApi {
    * @param body Updated user object (required)
    * @return Completable
    */
-  @PUT("user/{username}")
+  @HTTP(method = "PUT", path = "user/{username}", hasBody = true)
   Completable updateUser(
     @retrofit2.http.Path("username") String username, @retrofit2.http.Body User body
   );

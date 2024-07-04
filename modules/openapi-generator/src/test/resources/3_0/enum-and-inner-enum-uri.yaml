@@ -1,0 +1,38 @@
+openapi: 3.0.3
+info:
+  title: Example API
+  description: ''
+  version: v1
+servers:
+  - url: http://localhost
+    description: Global Endpoint
+paths:
+  /v1/schemas:
+    get:
+      summary: Get a list of schemas
+      responses:
+        default:
+          description: List of schemas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    format: uri
+                    default: https://example.com/v1/schema.json
+                    enum:
+                      - https://example.com/v1/schema.json
+                      - https://example.com/v2/schema.json
+                  metadata:
+                    $ref: '#/components/schemas/Metadata'
+components:
+  schemas:
+    Metadata:
+      type: string
+      format: uri
+      enum:
+        - https://example.com/v1/metadata.json
+        - https://example.com/v2/metadata.json
+

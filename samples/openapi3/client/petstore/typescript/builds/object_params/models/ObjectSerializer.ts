@@ -1,16 +1,16 @@
-export * from './ApiResponse';
-export * from './Category';
-export * from './Order';
-export * from './Pet';
-export * from './Tag';
-export * from './User';
+export * from '../models/ApiResponse';
+export * from '../models/Category';
+export * from '../models/Order';
+export * from '../models/Pet';
+export * from '../models/Tag';
+export * from '../models/User';
 
-import { ApiResponse } from './ApiResponse';
-import { Category } from './Category';
-import { Order    , OrderStatusEnum    } from './Order';
-import { Pet     , PetStatusEnum   } from './Pet';
-import { Tag } from './Tag';
-import { User } from './User';
+import { ApiResponse } from '../models/ApiResponse';
+import { Category } from '../models/Category';
+import { Order    , OrderStatusEnum    } from '../models/Order';
+import { Pet     , PetStatusEnum   } from '../models/Pet';
+import { Tag } from '../models/Tag';
+import { User } from '../models/User';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [
@@ -24,12 +24,6 @@ let primitives = [
                     "any"
                  ];
 
-const supportedMediaTypes: { [mediaType: string]: number } = {
-  "application/json": Infinity,
-  "application/octet-stream": 0
-}
-
-                 
 let enumsMap: Set<string> = new Set<string>([
     "OrderStatusEnum",
     "PetStatusEnum",
@@ -43,6 +37,58 @@ let typeMap: {[index: string]: any} = {
     "Tag": Tag,
     "User": User,
 }
+
+type MimeTypeDescriptor = {
+    type: string;
+    subtype: string;
+    subtypeTokens: string[];
+};
+
+/**
+ * Every mime-type consists of a type, subtype, and optional parameters.
+ * The subtype can be composite, including information about the content format.
+ * For example: `application/json-patch+json`, `application/merge-patch+json`.
+ *
+ * This helper transforms a string mime-type into an internal representation.
+ * This simplifies the implementation of predicates that in turn define common rules for parsing or stringifying
+ * the payload.
+ */
+const parseMimeType = (mimeType: string): MimeTypeDescriptor => {
+    const [type, subtype] = mimeType.split('/');
+    return {
+        type,
+        subtype,
+        subtypeTokens: subtype.split('+'),
+    };
+};
+
+type MimeTypePredicate = (mimeType: string) => boolean;
+
+// This factory creates a predicate function that checks a string mime-type against defined rules.
+const mimeTypePredicateFactory = (predicate: (descriptor: MimeTypeDescriptor) => boolean): MimeTypePredicate => (mimeType) => predicate(parseMimeType(mimeType));
+
+// Use this factory when you need to define a simple predicate based only on type and, if applicable, subtype.
+const mimeTypeSimplePredicateFactory = (type: string, subtype?: string): MimeTypePredicate => mimeTypePredicateFactory((descriptor) => {
+    if (descriptor.type !== type) return false;
+    if (subtype != null && descriptor.subtype !== subtype) return false;
+    return true;
+});
+
+// Creating a set of named predicates that will help us determine how to handle different mime-types
+const isTextLikeMimeType = mimeTypeSimplePredicateFactory('text');
+const isJsonMimeType = mimeTypeSimplePredicateFactory('application', 'json');
+const isJsonLikeMimeType = mimeTypePredicateFactory((descriptor) => descriptor.type === 'application' && descriptor.subtypeTokens.some((item) => item === 'json'));
+const isOctetStreamMimeType = mimeTypeSimplePredicateFactory('application', 'octet-stream');
+const isFormUrlencodedMimeType = mimeTypeSimplePredicateFactory('application', 'x-www-form-urlencoded');
+
+// Defining a list of mime-types in the order of prioritization for handling.
+const supportedMimeTypePredicatesWithPriority: MimeTypePredicate[] = [
+    isJsonMimeType,
+    isJsonLikeMimeType,
+    isTextLikeMimeType,
+    isOctetStreamMimeType,
+    isFormUrlencodedMimeType,
+];
 
 export class ObjectSerializer {
     public static findCorrectType(data: any, expectedType: string) {
@@ -89,8 +135,7 @@ export class ObjectSerializer {
             let subType: string = type.replace("Array<", ""); // Array<Type> => Type>
             subType = subType.substring(0, subType.length - 1); // Type> => Type
             let transformedData: any[] = [];
-            for (let index in data) {
-                let date = data[index];
+            for (let date of data) {
                 transformedData.push(ObjectSerializer.serialize(date, subType, format));
             }
             return transformedData;
@@ -112,15 +157,14 @@ export class ObjectSerializer {
             if (!typeMap[type]) { // in case we dont know the type
                 return data;
             }
-            
+
             // Get the actual type of this object
             type = this.findCorrectType(data, type);
 
             // get the map for the correct type.
             let attributeTypes = typeMap[type].getAttributeTypeMap();
             let instance: {[index: string]: any} = {};
-            for (let index in attributeTypes) {
-                let attributeType = attributeTypes[index];
+            for (let attributeType of attributeTypes) {
                 instance[attributeType.baseName] = ObjectSerializer.serialize(data[attributeType.name], attributeType.type, attributeType.format);
             }
             return instance;
@@ -138,8 +182,7 @@ export class ObjectSerializer {
             let subType: string = type.replace("Array<", ""); // Array<Type> => Type>
             subType = subType.substring(0, subType.length - 1); // Type> => Type
             let transformedData: any[] = [];
-            for (let index in data) {
-                let date = data[index];
+            for (let date of data) {
                 transformedData.push(ObjectSerializer.deserialize(date, subType, format));
             }
             return transformedData;
@@ -155,9 +198,11 @@ export class ObjectSerializer {
             }
             let instance = new typeMap[type]();
             let attributeTypes = typeMap[type].getAttributeTypeMap();
-            for (let index in attributeTypes) {
-                let attributeType = attributeTypes[index];
-                instance[attributeType.name] = ObjectSerializer.deserialize(data[attributeType.baseName], attributeType.type, attributeType.format);
+            for (let attributeType of attributeTypes) {
+                let value = ObjectSerializer.deserialize(data[attributeType.baseName], attributeType.type, attributeType.format);
+                if (value !== undefined) {
+                    instance[attributeType.name] = value;
+                }
             }
             return instance;
         }
@@ -185,32 +230,32 @@ export class ObjectSerializer {
      */
     public static getPreferredMediaType(mediaTypes: Array<string>): string {
         /** According to OAS 3 we should default to json */
-        if (!mediaTypes) {
+        if (mediaTypes.length === 0) {
             return "application/json";
         }
 
         const normalMediaTypes = mediaTypes.map(this.normalizeMediaType);
-        let selectedMediaType: string | undefined = undefined;
-        let selectedRank: number = -Infinity;
-        for (const mediaType of normalMediaTypes) {
-            if (supportedMediaTypes[mediaType!] > selectedRank) {
-                selectedMediaType = mediaType;
-                selectedRank = supportedMediaTypes[mediaType!];
+
+        for (const predicate of supportedMimeTypePredicatesWithPriority) {
+            for (const mediaType of normalMediaTypes) {
+                if (mediaType != null && predicate(mediaType)) {
+                    return mediaType;
+                }
             }
         }
 
-        if (selectedMediaType === undefined) {
-            throw new Error("None of the given media types are supported: " + mediaTypes.join(", "));
-        }
-
-        return selectedMediaType!;
+        throw new Error("None of the given media types are supported: " + mediaTypes.join(", "));
     }
 
     /**
      * Convert data to a string according the given media type
      */
     public static stringify(data: any, mediaType: string): string {
-        if (mediaType === "application/json") {
+        if (isTextLikeMimeType(mediaType)) {
+            return String(data);
+        }
+
+        if (isJsonLikeMimeType(mediaType)) {
             return JSON.stringify(data);
         }
 
@@ -225,7 +270,11 @@ export class ObjectSerializer {
             throw new Error("Cannot parse content. No Content-Type defined.");
         }
 
-        if (mediaType === "application/json") {
+        if (isTextLikeMimeType(mediaType)) {
+            return rawData;
+        }
+
+        if (isJsonLikeMimeType(mediaType)) {
             return JSON.parse(rawData);
         }
 

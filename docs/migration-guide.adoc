@@ -49,7 +49,7 @@ Projects relying on generated code might need to be adapted.
 ==== Validate spec on generation by default
 
 The default is to validate the spec during generation. If the spec has errors,
-they will appear as errors or warnings to the user. This prevent generation of the project.
+they will appear as errors or warnings to the user. This prevents generation of the project.
 
 If you want to switch back to the `3.1.x` behavior you can use:
 

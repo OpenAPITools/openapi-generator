@@ -8,32 +8,19 @@ paths:
   /op:
     get:
       requestBody:
-        $ref: '#/components/requestBodies/inline_object'
         content:
           application/json:
             schema:
-              properties:
-                propery:
-                  type: string
-              required:
-              - property
-              type: object
+              $ref: '#/components/schemas/_op_get_request'
         required: true
       responses:
         "200":
           description: OK
 components:
-  requestBodies:
-    inline_object:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/inline_object'
-      required: true
   schemas:
-    inline_object:
+    _op_get_request:
       properties:
-        propery:
+        property:
           type: string
       required:
       - property

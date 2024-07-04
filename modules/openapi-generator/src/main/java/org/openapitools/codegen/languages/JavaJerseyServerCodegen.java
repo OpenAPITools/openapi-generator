@@ -21,14 +21,17 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationsMap;
 
 import java.util.*;
 
 public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
-    protected static final String LIBRARY_JERSEY1 = "jersey1";
     protected static final String LIBRARY_JERSEY2 = "jersey2";
-
+    protected static final String LIBRARY_JERSEY3 = "jersey3";
+    
     /**
      * Default library template to use. (Default: jersey2)
      */
@@ -55,12 +58,10 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME;
 
         CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC).defaultValue(DEFAULT_JERSEY_LIBRARY);
-        supportedLibraries.put(LIBRARY_JERSEY1, "Jersey core 1.x");
         supportedLibraries.put(LIBRARY_JERSEY2, "Jersey core 2.x");
+        supportedLibraries.put(LIBRARY_JERSEY3, "Jersey core 3.x");
         library.setEnum(supportedLibraries);
-
         cliOptions.add(library);
-        cliOptions.add(CliOption.newBoolean(SUPPORT_JAVA6, "Whether to support Java6 with the Jersey1/2 library."));
     }
 
     @Override
@@ -80,7 +81,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
             property.example = null;
         }
 
-        //Add imports for Jackson
+        // --- Add imports for Jackson ----------
         if (!BooleanUtils.toBoolean(model.isEnum)) {
             model.imports.add("JsonProperty");
 
@@ -88,6 +89,12 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
                 model.imports.add("JsonValue");
             }
         }
+        
+        // --- Imports for Swagger2 ------------- 
+        if (this.isLibrary(LIBRARY_JERSEY3)) {
+            model.imports.add("Schema");
+        }
+        
     }
 
     @Override
@@ -96,13 +103,19 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         // use default library if unset
         if (StringUtils.isEmpty(library)) {
-            setLibrary(DEFAULT_JERSEY_LIBRARY);
+            this.setLibrary(DEFAULT_JERSEY_LIBRARY);
+            
+        } else if (this.isLibrary(LIBRARY_JERSEY3)) {
+            // --- Ensure to use Jakarta for jersey3 ----
+            this.setUseJakartaEe(true);
+            additionalProperties.put(USE_JAKARTA_EE, true);
+            this.applyJakartaPackage();
+            // --- Set Swagger2 annotations ---------------   
+            annotationLibrary = AnnotationLibrary.SWAGGER2;
+            
         }
-
-        if (additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
-            implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
-        }
-
+        
+        convertPropertyToStringAndWriteBack(CodegenConstants.IMPL_FOLDER, value -> implFolder = value);
         if ("joda".equals(dateLibrary)) {
             supportingFiles.add(new SupportingFile("JodaDateTimeProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaDateTimeProvider.java"));
             supportingFiles.add(new SupportingFile("JodaLocalDateProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaLocalDateProvider.java"));
@@ -126,19 +139,20 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         supportingFiles.add(new SupportingFile("web.mustache", ("src/main/webapp/WEB-INF"), "web.xml")
                 .doNotOverwrite());
         supportingFiles.add(new SupportingFile("StringUtil.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "StringUtil.java"));
+
+        // JsonNullable is not implemented for this generator
+        openApiNullable = false;
     }
 
 
     @Override
-    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
+    public ModelsMap postProcessModelsEnum(ModelsMap objs) {
         objs = super.postProcessModelsEnum(objs);
 
         //Add imports for Jackson
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+        List<Map<String, String>> imports = objs.getImports();
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
             // for enum model
             if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
                 cm.imports.add(importMapping.get("JsonValue"));
@@ -148,6 +162,13 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
             }
         }
 
+        return objs;
+    }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+        removeImport(objs, "java.util.List");
         return objs;
     }
 

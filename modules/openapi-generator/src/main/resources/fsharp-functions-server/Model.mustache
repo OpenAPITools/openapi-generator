@@ -7,13 +7,13 @@ open Newtonsoft.Json
 open {{import}}
 {{/imports}}
 
-module {{classname}} = 
+module {{classname}} =
 
   {{#models}}
   {{#model}}
   //#region {{classname}}
 
-  {{^allowableValues}}  
+  {{^allowableValues}}
   [<CLIMutable>]
   type {{classname}} = {
     {{#vars}}
@@ -21,15 +21,14 @@ module {{classname}} =
     {{name}} : {{#isDateTime}}{{^required}}Nullable<{{/required}}{{/isDateTime}}{{{dataType}}}{{#isDateTime}}{{^required}}>{{/required}}{{/isDateTime}};
     {{/vars}}
   }
-  {{/allowableValues}}  
+  {{/allowableValues}}
   {{#allowableValues}}
   {{#enumVars}}
   let {{name}} = {{#isString}}"{{value}}"{{/isString}}{{#isInteger}}"{{value}}"{{/isInteger}}
   {{/enumVars}}
   type {{classname}} = {{#isString}}string{{/isString}}{{#isInteger}}int{{/isInteger}}
   {{/allowableValues}}
-  
+
   //#endregion
   {{/model}}
   {{/models}}
-  

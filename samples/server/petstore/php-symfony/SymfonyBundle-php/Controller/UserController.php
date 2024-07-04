@@ -2,7 +2,7 @@
 
 /**
  * UserController
- * PHP version 7.1.3
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  OpenAPI\Server\Controller
@@ -60,23 +60,26 @@ class UserController extends Controller
     public function createUserAction(Request $request)
     {
         // Make sure that the client is providing something that we can consume
-        $consumes = [];
+        $consumes = ['application/json'];
         if (!static::isContentTypeAllowed($request, $consumes)) {
             // We can't consume the content that the client is sending us
             return new Response('', 415);
         }
 
         // Handle authentication
+        // Authentication 'api_key' required
+        // Set key with prefix in header
+        $securityapi_key = $request->headers->get('api_key');
 
         // Read out all input parameter values into variables
-        $body = $request->getContent();
+        $user = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
         try {
-            $inputFormat = $request->getMimeType($request->getContentType());
-            $body = $this->deserialize($body, 'OpenAPI\Server\Model\User', $inputFormat);
+            $inputFormat = $request->getMimeType($request->getContentTypeFormat());
+            $user = $this->deserialize($user, 'OpenAPI\Server\Model\User', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
         }
@@ -86,7 +89,7 @@ class UserController extends Controller
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("OpenAPI\Server\Model\User");
         $asserts[] = new Assert\Valid();
-        $response = $this->validate($body, $asserts);
+        $response = $this->validate($user, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -95,21 +98,19 @@ class UserController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            
+            // Set authentication method 'api_key'
+            $handler->setapi_key($securityapi_key);
+
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->createUser($body, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = 'successful operation';
+            $handler->createUser($user, $responseCode, $responseHeaders);
 
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 0:
-                    $message = 'successful operation';
-                    break;
-            }
+            $message = match($responseCode) {
+                0 => 'successful operation',
+                default => 'successful operation',
+            };
 
             return new Response(
                 '',
@@ -121,7 +122,7 @@ class UserController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -137,23 +138,26 @@ class UserController extends Controller
     public function createUsersWithArrayInputAction(Request $request)
     {
         // Make sure that the client is providing something that we can consume
-        $consumes = [];
+        $consumes = ['application/json'];
         if (!static::isContentTypeAllowed($request, $consumes)) {
             // We can't consume the content that the client is sending us
             return new Response('', 415);
         }
 
         // Handle authentication
+        // Authentication 'api_key' required
+        // Set key with prefix in header
+        $securityapi_key = $request->headers->get('api_key');
 
         // Read out all input parameter values into variables
-        $body = $request->getContent();
+        $user = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
         try {
-            $inputFormat = $request->getMimeType($request->getContentType());
-            $body = $this->deserialize($body, 'array<OpenAPI\Server\Model\User>', $inputFormat);
+            $inputFormat = $request->getMimeType($request->getContentTypeFormat());
+            $user = $this->deserialize($user, 'array<OpenAPI\Server\Model\User>', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
         }
@@ -163,9 +167,9 @@ class UserController extends Controller
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\All([
             new Assert\Type("OpenAPI\Server\Model\User"),
-            new Assert\Valid(),
         ]);
-        $response = $this->validate($body, $asserts);
+        $asserts[] = new Assert\Valid();
+        $response = $this->validate($user, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -174,21 +178,19 @@ class UserController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            
+            // Set authentication method 'api_key'
+            $handler->setapi_key($securityapi_key);
+
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->createUsersWithArrayInput($body, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = 'successful operation';
+            $handler->createUsersWithArrayInput($user, $responseCode, $responseHeaders);
 
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 0:
-                    $message = 'successful operation';
-                    break;
-            }
+            $message = match($responseCode) {
+                0 => 'successful operation',
+                default => 'successful operation',
+            };
 
             return new Response(
                 '',
@@ -200,7 +202,7 @@ class UserController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -216,23 +218,26 @@ class UserController extends Controller
     public function createUsersWithListInputAction(Request $request)
     {
         // Make sure that the client is providing something that we can consume
-        $consumes = [];
+        $consumes = ['application/json'];
         if (!static::isContentTypeAllowed($request, $consumes)) {
             // We can't consume the content that the client is sending us
             return new Response('', 415);
         }
 
         // Handle authentication
+        // Authentication 'api_key' required
+        // Set key with prefix in header
+        $securityapi_key = $request->headers->get('api_key');
 
         // Read out all input parameter values into variables
-        $body = $request->getContent();
+        $user = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
         try {
-            $inputFormat = $request->getMimeType($request->getContentType());
-            $body = $this->deserialize($body, 'array<OpenAPI\Server\Model\User>', $inputFormat);
+            $inputFormat = $request->getMimeType($request->getContentTypeFormat());
+            $user = $this->deserialize($user, 'array<OpenAPI\Server\Model\User>', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
         }
@@ -242,9 +247,9 @@ class UserController extends Controller
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\All([
             new Assert\Type("OpenAPI\Server\Model\User"),
-            new Assert\Valid(),
         ]);
-        $response = $this->validate($body, $asserts);
+        $asserts[] = new Assert\Valid();
+        $response = $this->validate($user, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -253,21 +258,19 @@ class UserController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            
+            // Set authentication method 'api_key'
+            $handler->setapi_key($securityapi_key);
+
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->createUsersWithListInput($body, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = 'successful operation';
+            $handler->createUsersWithListInput($user, $responseCode, $responseHeaders);
 
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 0:
-                    $message = 'successful operation';
-                    break;
-            }
+            $message = match($responseCode) {
+                0 => 'successful operation',
+                default => 'successful operation',
+            };
 
             return new Response(
                 '',
@@ -279,7 +282,7 @@ class UserController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -295,6 +298,9 @@ class UserController extends Controller
     public function deleteUserAction(Request $request, $username)
     {
         // Handle authentication
+        // Authentication 'api_key' required
+        // Set key with prefix in header
+        $securityapi_key = $request->headers->get('api_key');
 
         // Read out all input parameter values into variables
 
@@ -320,24 +326,20 @@ class UserController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            
+            // Set authentication method 'api_key'
+            $handler->setapi_key($securityapi_key);
+
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->deleteUser($username, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
+            $handler->deleteUser($username, $responseCode, $responseHeaders);
 
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 400:
-                    $message = 'Invalid username supplied';
-                    break;
-                case 404:
-                    $message = 'User not found';
-                    break;
-            }
+            $message = match($responseCode) {
+                400 => 'Invalid username supplied',
+                404 => 'User not found',
+                default => '',
+            };
 
             return new Response(
                 '',
@@ -349,7 +351,7 @@ class UserController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -399,27 +401,19 @@ class UserController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            
+
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
+
             $result = $handler->getUserByName($username, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
-
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 200:
-                    $message = 'successful operation';
-                    break;
-                case 400:
-                    $message = 'Invalid username supplied';
-                    break;
-                case 404:
-                    $message = 'User not found';
-                    break;
-            }
+            $message = match($responseCode) {
+                200 => 'successful operation',
+                400 => 'Invalid username supplied',
+                404 => 'User not found',
+                default => '',
+            };
 
             return new Response(
                 $result !== null ?$this->serialize($result, $responseFormat):'',
@@ -432,7 +426,7 @@ class UserController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -476,6 +470,7 @@ class UserController extends Controller
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("string");
+        $asserts[] = new Assert\Regex("/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/");
         $response = $this->validate($username, $asserts);
         if ($response instanceof Response) {
             return $response;
@@ -492,24 +487,18 @@ class UserController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            
+
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
+
             $result = $handler->loginUser($username, $password, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
-
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 200:
-                    $message = 'successful operation';
-                    break;
-                case 400:
-                    $message = 'Invalid username/password supplied';
-                    break;
-            }
+            $message = match($responseCode) {
+                200 => 'successful operation',
+                400 => 'Invalid username/password supplied',
+                default => '',
+            };
 
             return new Response(
                 $result !== null ?$this->serialize($result, $responseFormat):'',
@@ -522,7 +511,7 @@ class UserController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -538,6 +527,9 @@ class UserController extends Controller
     public function logoutUserAction(Request $request)
     {
         // Handle authentication
+        // Authentication 'api_key' required
+        // Set key with prefix in header
+        $securityapi_key = $request->headers->get('api_key');
 
         // Read out all input parameter values into variables
 
@@ -549,21 +541,19 @@ class UserController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            
+            // Set authentication method 'api_key'
+            $handler->setapi_key($securityapi_key);
+
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->logoutUser($responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = 'successful operation';
+            $handler->logoutUser($responseCode, $responseHeaders);
 
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 0:
-                    $message = 'successful operation';
-                    break;
-            }
+            $message = match($responseCode) {
+                0 => 'successful operation',
+                default => 'successful operation',
+            };
 
             return new Response(
                 '',
@@ -575,7 +565,7 @@ class UserController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }
@@ -591,24 +581,27 @@ class UserController extends Controller
     public function updateUserAction(Request $request, $username)
     {
         // Make sure that the client is providing something that we can consume
-        $consumes = [];
+        $consumes = ['application/json'];
         if (!static::isContentTypeAllowed($request, $consumes)) {
             // We can't consume the content that the client is sending us
             return new Response('', 415);
         }
 
         // Handle authentication
+        // Authentication 'api_key' required
+        // Set key with prefix in header
+        $securityapi_key = $request->headers->get('api_key');
 
         // Read out all input parameter values into variables
-        $body = $request->getContent();
+        $user = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
         try {
             $username = $this->deserialize($username, 'string', 'string');
-            $inputFormat = $request->getMimeType($request->getContentType());
-            $body = $this->deserialize($body, 'OpenAPI\Server\Model\User', $inputFormat);
+            $inputFormat = $request->getMimeType($request->getContentTypeFormat());
+            $user = $this->deserialize($user, 'OpenAPI\Server\Model\User', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
         }
@@ -625,7 +618,7 @@ class UserController extends Controller
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("OpenAPI\Server\Model\User");
         $asserts[] = new Assert\Valid();
-        $response = $this->validate($body, $asserts);
+        $response = $this->validate($user, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -634,24 +627,20 @@ class UserController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            
+            // Set authentication method 'api_key'
+            $handler->setapi_key($securityapi_key);
+
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->updateUser($username, $body, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
+            $handler->updateUser($username, $user, $responseCode, $responseHeaders);
 
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 400:
-                    $message = 'Invalid user supplied';
-                    break;
-                case 404:
-                    $message = 'User not found';
-                    break;
-            }
+            $message = match($responseCode) {
+                400 => 'Invalid user supplied',
+                404 => 'User not found',
+                default => '',
+            };
 
             return new Response(
                 '',
@@ -663,7 +652,7 @@ class UserController extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }

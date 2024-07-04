@@ -1,8 +1,9 @@
 {{>licenseInfo}}
 package {{packageName}}
 
-import io.ktor.locations.KtorExperimentalLocationsAPI
-import io.ktor.locations.Location
+import io.ktor.resources.*
+import kotlinx.serialization.*
+import {{packageName}}.models.*
 {{#imports}}import {{import}}
 {{/imports}}
 
@@ -11,16 +12,18 @@ object Paths {
 {{#apis}}
 {{#operations}}
     {{#operation}}
-    {{^bodyAllowed}}
-    /**
-     * {{summary}}
-     * {{#unescapedNotes}}{{.}}{{/unescapedNotes}}
+    /**{{#summary}}
+     * {{.}}{{/summary}}
+     * {{unescapedNotes}}
      {{#allParams}}* @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
      {{/allParams}}*/
-    @KtorExperimentalLocationsAPI
-    @Location("{{path}}") class {{operationId}}({{#allParams}}val {{paramName}}: {{{dataType}}}{{^required}}? = null{{/required}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+    {{#hasParams}}
+    @Serializable @Resource("{{path}}") class {{operationId}}({{#allParams}}val {{paramName}}: {{{dataType}}}{{^required}}? = null{{/required}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+    {{/hasParams}}
+    {{^hasParams}}
+    @Serializable @Resource("{{path}}") class {{operationId}}
+    {{/hasParams}}
 
-    {{/bodyAllowed}}
     {{/operation}}
 {{/operations}}
 {{/apis}}

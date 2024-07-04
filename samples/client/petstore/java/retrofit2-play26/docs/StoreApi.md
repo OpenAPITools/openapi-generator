@@ -2,12 +2,12 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**deleteOrder**](StoreApi.md#deleteOrder) | **DELETE** store/order/{order_id} | Delete purchase order by ID
-[**getInventory**](StoreApi.md#getInventory) | **GET** store/inventory | Returns pet inventories by status
-[**getOrderById**](StoreApi.md#getOrderById) | **GET** store/order/{order_id} | Find purchase order by ID
-[**placeOrder**](StoreApi.md#placeOrder) | **POST** store/order | Place an order for a pet
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**deleteOrder**](StoreApi.md#deleteOrder) | **DELETE** store/order/{order_id} | Delete purchase order by ID |
+| [**getInventory**](StoreApi.md#getInventory) | **GET** store/inventory | Returns pet inventories by status |
+| [**getOrderById**](StoreApi.md#getOrderById) | **GET** store/order/{order_id} | Find purchase order by ID |
+| [**placeOrder**](StoreApi.md#placeOrder) | **POST** store/order | Place an order for a pet |
 
 
 
@@ -52,9 +52,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **orderId** | **String**| ID of the order that needs to be deleted |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **orderId** | **String**| ID of the order that needs to be deleted | |
 
 ### Return type
 
@@ -152,7 +152,7 @@ This endpoint does not need any parameter.
 
 Find purchase order by ID
 
-For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
 
 ### Example
 
@@ -188,9 +188,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **orderId** | **Long**| ID of pet that needs to be fetched |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **orderId** | **Long**| ID of pet that needs to be fetched | |
 
 ### Return type
 
@@ -254,9 +254,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **body** | [**Order**](Order.md)| order placed for purchasing the pet | |
 
 ### Return type
 

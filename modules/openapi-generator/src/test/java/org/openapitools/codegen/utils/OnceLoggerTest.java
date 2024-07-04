@@ -1,6 +1,5 @@
 package org.openapitools.codegen.utils;
 
-import com.google.common.base.Ticker;
 import com.google.common.testing.FakeTicker;
 import org.mockito.Mockito;
 import org.openapitools.codegen.config.GlobalSettings;
@@ -21,6 +20,8 @@ import static org.testng.Assert.*;
 @SuppressWarnings({"SameParameterValue", "UnstableApiUsage"})
 public class OnceLoggerTest {
     private Logger mockLogger = Mockito.mock(Logger.class);
+    
+    // TODO if we find a replacement for FakeTicker, we can drop the guava-testlib dependency altogether
     private FakeTicker ticker = new FakeTicker();
 
     @BeforeTest

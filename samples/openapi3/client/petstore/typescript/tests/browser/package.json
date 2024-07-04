@@ -1,0 +1,20 @@
+{
+  "name": "typescript-test",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit && esbuild test/*.ts --bundle --outdir=dist",
+    "test": "web-test-runner"
+  },
+  "dependencies": {
+    "@esm-bundle/chai": "^4.3.4-fix.0",
+    "@web/test-runner": "^0.13.26",
+    "@web/test-runner-puppeteer": "^0.10.5",
+    "ts-petstore-client": "file:../../builds/browser"
+  },
+  "devDependencies": {
+    "esbuild": "^0.14.14",
+    "typescript": "^4.4.4"
+  }
+}

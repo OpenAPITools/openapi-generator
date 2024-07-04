@@ -13,7 +13,15 @@
 {{#imports}}{{{this}}}
 {{/imports}}
 #include <memory>
+#include <vector>
+{{#hasEnums}}
+#include <array>
+{{/hasEnums}}
 #include <boost/property_tree/ptree.hpp>
+{{#interfaces}}
+#include "{{{this}}}.h"
+{{/interfaces}}
+#include "helpers.h"
 
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
@@ -28,16 +36,32 @@ class  {{{this}}};
 class {{declspec}} {{classname}} {{#interfaces}}{{#-first}}:{{/-first}}{{^-first}},{{/-first}} public {{{this}}}{{/interfaces}}
 {
 public:
-    {{classname}}();
-    virtual ~{{classname}}();
-    
-    std::string toJsonString(bool prettyJson = false);
+    {{classname}}() = default;
+    explicit {{classname}}(boost::property_tree::ptree const& pt);
+    virtual ~{{classname}}() = default;
+
+    {{classname}}(const {{classname}}& other) = default; // copy constructor
+    {{classname}}({{classname}}&& other) noexcept = default; // move constructor
+
+    {{classname}}& operator=(const {{classname}}& other) = default; // copy assignment
+    {{classname}}& operator=({{classname}}&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
+
+    {{#isEnum}}
+    std::string toString() const;
+    void fromString(const std::string& str);
+    {{/isEnum}}
 
     /////////////////////////////////////////////
     /// {{classname}} members
+    {{#isEnum}}
+    {{{dataType}}} getEnumValue() const;
+    void setEnumValue(const {{{dataType}}}& val);
+    {{/isEnum}}
     {{#vars}}
 
     /// <summary>
@@ -46,16 +70,39 @@ public:
     {{{dataType}}} {{getter}}() const;
     void {{setter}}({{{dataType}}} value);
     {{/vars}}
+
 protected:
-    {{#vars}}
-    {{{dataType}}} m_{{name}};
-    {{/vars}}
-    {{#vars}}
     {{#isEnum}}
-    std::vector<{{{dataType}}}> m_{{enumName}};
+    {{{dataType}}} m_{{{name}}}EnumValue;
     {{/isEnum}}
+    {{#vars}}
+    {{^isContainer}}
+    {{^isModel}}
+    {{{dataType}}} m_{{name}} = {{{defaultValue}}};
+    {{/isModel}}
+    {{#isModel}}
+    {{{dataType}}} m_{{name}};
+    {{/isModel}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{{dataType}}} m_{{name}};
+    {{/isContainer}}
     {{/vars}}
 };
+
+std::vector<{{classname}}> create{{classname}}VectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<{{classname}}>(const {{classname}}& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline {{classname}} fromPt<{{classname}}>(const boost::property_tree::ptree& pt) {
+    {{classname}} ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 {{#modelNamespaceDeclarations}}
 }

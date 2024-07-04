@@ -1,0 +1,38 @@
+{{! define variables that aren't inherited from allOf/anyOf/oneOf }}
+{{#vendorExtensions.x-self-only-props}}
+  {{#description}}
+  /// {{{.}}}
+  {{/description}}
+  {{#deprecated}}
+  @Deprecated('{{{name}}} has been deprecated')
+  {{/deprecated}}
+  @BuiltValueField(wireName: r'{{baseName}}')
+  {{>serialization/built_value/variable_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} get {{name}};
+  {{#allowableValues}}
+  // {{#min}}range from {{{min}}} to {{{max}}}{{/min}}{{^min}}enum {{name}}Enum { {{#values}} {{{.}}}, {{/values}} };{{/min}}
+  {{/allowableValues}}
+
+{{/vendorExtensions.x-self-only-props}}{{#anyOf}}{{#-first}}  /// Any Of {{#anyOf}}[{{{.}}}]{{^-last}}, {{/-last}}{{/anyOf}}
+  AnyOf get anyOf;
+
+{{/-first}}{{/anyOf}}{{#oneOf}}{{#-first}}  /// One Of {{#oneOf}}[{{{.}}}]{{^-last}}, {{/-last}}{{/oneOf}}
+  OneOf get oneOf;
+
+{{/-first}}{{/oneOf}}{{#discriminator}}  static const String discriminatorFieldName = r'{{propertyBaseName}}';{{#hasDiscriminatorWithNonEmptyMapping}}
+
+  static const Map<String, Type> discriminatorMapping = {
+    {{#mappedModels}}
+    r'{{mappingName}}': {{modelName}},
+    {{/mappedModels}}
+  };{{/hasDiscriminatorWithNonEmptyMapping}}
+
+{{/discriminator}}{{^vendorExtensions.x-is-parent}}  {{classname}}._();
+
+  factory {{classname}}([void updates({{classname}}Builder b)]) = _${{classname}};
+
+  @BuiltValueHook(initializeBuilder: true)
+  static void _defaults({{{classname}}}Builder b) => b{{#vendorExtensions.x-parent-discriminator}}..{{propertyName}}=b.discriminatorValue{{/vendorExtensions.x-parent-discriminator}}{{#vendorExtensions.x-self-and-ancestor-only-props}}{{#defaultValue}}
+      ..{{{name}}} = {{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{defaultValue}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}}{{/vendorExtensions.x-self-and-ancestor-only-props}};
+
+{{/vendorExtensions.x-is-parent}}  @BuiltValueSerializer(custom: true)
+  static Serializer<{{classname}}> get serializer => _${{classname}}Serializer();

@@ -14,14 +14,14 @@ CREATE DATABASE IF NOT EXISTS `{{{defaultDatabaseName}}}` DEFAULT CHARACTER SET 
 {{#models}}{{#model}}{{#hasVars}}{{^isArray}}--
 -- Table structure{{#vendorExtensions}}{{#x-mysql-schema}}{{#tableDefinition}} for table `{{tblName}}`{{/tableDefinition}}{{/x-mysql-schema}}{{/vendorExtensions}} generated from model '{{classVarName}}'
 {{#description}}
--- {{description}}
+-- {{.}}
 {{/description}}
 --
 
 {{#vendorExtensions}}
 {{#x-mysql-schema}}
 {{#tableDefinition}}
-CREATE TABLE IF NOT EXISTS {{#defaultDatabaseName}}`{{{defaultDatabaseName}}}`.{{/defaultDatabaseName}}`{{tblName}}` (
+CREATE TABLE IF NOT EXISTS {{#defaultDatabaseName}}`{{{.}}}`.{{/defaultDatabaseName}}`{{tblName}}` (
 {{/tableDefinition}}
 {{/x-mysql-schema}}
 {{/vendorExtensions}}
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS {{#defaultDatabaseName}}`{{{defaultDatabaseName}}}`.{
   {{#vendorExtensions}}
   {{#x-mysql-schema}}
   {{#columnDefinition}}
-  `{{colName}}` {{colDataType}}{{#colDataTypeArguments}}{{#-first}}({{/-first}}{{#isString}}'{{/isString}}{{argumentValue}}{{#isString}}'{{/isString}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/colDataTypeArguments}}{{#colUnsigned}} UNSIGNED{{/colUnsigned}}{{#colNotNull}} NOT NULL{{/colNotNull}}{{#colDefault}} DEFAULT {{#isString}}'{{defaultValue}}'{{/isString}}{{^isString}}{{defaultValue}}{{/isString}}{{/colDefault}}{{#colComment}} COMMENT '{{colComment}}'{{/colComment}}{{^-last}},{{/-last}}
+  `{{colName}}` {{colDataType}}{{#colDataTypeArguments}}{{#-first}}({{/-first}}{{#isString}}'{{/isString}}{{argumentValue}}{{#isString}}'{{/isString}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/colDataTypeArguments}}{{#colUnsigned}} UNSIGNED{{/colUnsigned}}{{#colNotNull}} NOT NULL{{/colNotNull}}{{#colDefault}} DEFAULT {{#isString}}'{{defaultValue}}'{{/isString}}{{^isString}}{{defaultValue}}{{/isString}}{{/colDefault}}{{#colComment}} COMMENT '{{.}}'{{/colComment}}{{^-last}},{{/-last}}
   {{/columnDefinition}}
   {{/x-mysql-schema}}
   {{/vendorExtensions}}
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS {{#defaultDatabaseName}}`{{{defaultDatabaseName}}}`.{
 {{#vendorExtensions}}
 {{#x-mysql-schema}}
 {{#tableDefinition}}
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci{{#tblComment}} COMMENT='{{tblComment}}'{{/tblComment}};
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci{{#tblComment}} COMMENT='{{.}}'{{/tblComment}};
 {{/tableDefinition}}
 {{/x-mysql-schema}}
 {{/vendorExtensions}}
@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `oauth_jwt` (
 CREATE TABLE IF NOT EXISTS `oauth_jti` (
   `issuer`              VARCHAR(80)    NOT NULL,
   `subject`             VARCHAR(80)    DEFAULT NULL,
-  `audiance`            VARCHAR(80)    DEFAULT NULL,
+  `audience`            VARCHAR(80)    DEFAULT NULL,
   `expires`             TIMESTAMP      NOT NULL,
   `jti`                 VARCHAR(2000)  NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

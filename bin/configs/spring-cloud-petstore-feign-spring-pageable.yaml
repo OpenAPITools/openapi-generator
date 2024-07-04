@@ -1,8 +1,0 @@
-generatorName: spring
-templateDir: modules/openapi-generator/src/main/resources/JavaSpring
-inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-spring-pageable.yaml
-outputDir: samples/client/petstore/spring-cloud-spring-pageable
-artifactId: spring-cloud-spring-pageable
-library: spring-cloud
-additionalProperties:
-  hideGenerationTimestamp: 'true'

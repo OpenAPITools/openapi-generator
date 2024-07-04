@@ -2,6 +2,7 @@ package org.openapitools.client;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.openapitools.client.model.*;
@@ -11,39 +12,34 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.ext.ContextResolver;
 
-@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class JSON implements ContextResolver<ObjectMapper> {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+public class JSON {
   private ObjectMapper mapper;
 
   public JSON() {
-    mapper = new ObjectMapper();
-    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    mapper.configure(MapperFeature.ALLOW_COERCION_OF_SCALARS, false);
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
-    mapper.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, true);
-    mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-    mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
-    mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
-    mapper.setDateFormat(new RFC3339DateFormat());
-    mapper.registerModule(new JavaTimeModule());
+    mapper = JsonMapper.builder()
+        .serializationInclusion(JsonInclude.Include.NON_NULL)
+        .disable(MapperFeature.ALLOW_COERCION_OF_SCALARS)
+        .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        .enable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE)
+        .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+        .enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING)
+        .enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING)
+        .defaultDateFormat(new RFC3339DateFormat())
+        .addModule(new JavaTimeModule())
+        .build();
     JsonNullableModule jnm = new JsonNullableModule();
     mapper.registerModule(jnm);
   }
 
   /**
    * Set the date format for JSON (de)serialization with Date properties.
+   *
    * @param dateFormat Date format
    */
   public void setDateFormat(DateFormat dateFormat) {
     mapper.setDateFormat(dateFormat);
-  }
-
-  @Override
-  public ObjectMapper getContext(Class<?> type) {
-    return mapper;
   }
 
   /**
@@ -59,6 +55,8 @@ public class JSON implements ContextResolver<ObjectMapper> {
    *
    * @param node The input data.
    * @param modelClass The class that contains the discriminator mappings.
+   *
+   * @return the target model class.
    */
   public static Class<?> getClassForElement(JsonNode node, Class<?> modelClass) {
     ClassDiscriminatorMapping cdm = modelDiscriminators.get(modelClass);
@@ -71,6 +69,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
   /**
    * Helper class to register the discriminator mappings.
    */
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
   private static class ClassDiscriminatorMapping {
     // The model class name.
     Class<?> modelClass;
@@ -118,6 +117,8 @@ public class JSON implements ContextResolver<ObjectMapper> {
      *
      * @param node The input data.
      * @param visitedClasses The set of classes that have already been visited.
+     *
+     * @return the target model class.
      */
     Class<?> getClassForElement(JsonNode node, Set<Class<?>> visitedClasses) {
       if (visitedClasses.contains(modelClass)) {
@@ -164,6 +165,9 @@ public class JSON implements ContextResolver<ObjectMapper> {
    *
    * @param modelClass A OpenAPI model class.
    * @param inst The instance object.
+   * @param visitedClasses The set of classes that have already been visited.
+   *
+   * @return true if inst is an instance of modelClass in the OpenAPI model hierarchy.
    */
   public static boolean isInstanceOf(Class<?> modelClass, Object inst, Set<Class<?>> visitedClasses) {
     if (modelClass.isInstance(inst)) {
@@ -178,10 +182,10 @@ public class JSON implements ContextResolver<ObjectMapper> {
     visitedClasses.add(modelClass);
 
     // Traverse the oneOf/anyOf composed schemas.
-    Map<String, GenericType> descendants = modelDescendants.get(modelClass);
+    Map<String, Class<?>> descendants = modelDescendants.get(modelClass);
     if (descendants != null) {
-      for (GenericType childType : descendants.values()) {
-        if (isInstanceOf(childType.getRawType(), inst, visitedClasses)) {
+      for (Class<?> childType : descendants.values()) {
+        if (isInstanceOf(childType, inst, visitedClasses)) {
           return true;
         }
       }
@@ -192,12 +196,12 @@ public class JSON implements ContextResolver<ObjectMapper> {
   /**
    * A map of discriminators for all model classes.
    */
-  private static Map<Class<?>, ClassDiscriminatorMapping> modelDiscriminators = new HashMap<Class<?>, ClassDiscriminatorMapping>();
+  private static Map<Class<?>, ClassDiscriminatorMapping> modelDiscriminators = new HashMap<>();
 
   /**
    * A map of oneOf/anyOf descendants for each model class.
    */
-  private static Map<Class<?>, Map<String, GenericType>> modelDescendants = new HashMap<Class<?>, Map<String, GenericType>>();
+  private static Map<Class<?>, Map<String, Class<?>>> modelDescendants = new HashMap<>();
 
   /**
     * Register a model class discriminator.
@@ -217,7 +221,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
     * @param modelClass the model class
     * @param descendants a map of oneOf/anyOf descendants.
     */
-  public static void registerDescendants(Class<?> modelClass, Map<String, GenericType> descendants) {
+  public static void registerDescendants(Class<?> modelClass, Map<String, Class<?>> descendants) {
     modelDescendants.put(modelClass, descendants);
   }
 

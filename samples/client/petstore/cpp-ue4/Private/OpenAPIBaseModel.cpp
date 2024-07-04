@@ -12,8 +12,27 @@
 
 #include "OpenAPIBaseModel.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
+
+bool HttpRetryManager::Tick(float DeltaTime)
+{
+	FManager::Update();
+	return true;
+}
+
+HttpRetryParams::HttpRetryParams(const FRetryLimitCountSetting& InRetryLimitCountOverride /*= FRetryLimitCountSetting()*/,
+    const FRetryTimeoutRelativeSecondsSetting& InRetryTimeoutRelativeSecondsOverride /*= FRetryTimeoutRelativeSecondsSetting()*/,
+    const FRetryResponseCodes& InRetryResponseCodes /*= FRetryResponseCodes()*/,
+    const FRetryVerbs& InRetryVerbs /*= FRetryVerbs()*/,
+    const FRetryDomainsPtr& InRetryDomains /*= FRetryDomainsPtr() */)
+    : RetryLimitCountOverride(InRetryLimitCountOverride)
+    , RetryTimeoutRelativeSecondsOverride(InRetryTimeoutRelativeSecondsOverride)
+    , RetryResponseCodes(InRetryResponseCodes)
+    , RetryVerbs(InRetryVerbs)
+    , RetryDomains(InRetryDomains)
+{
+}
 
 void Response::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
 {

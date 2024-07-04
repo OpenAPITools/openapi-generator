@@ -1,6 +1,6 @@
 package controllers;
 
-import java.util.List;
+import java.time.OffsetDateTime;
 import apimodels.User;
 
 import play.mvc.Http;
@@ -11,7 +11,8 @@ import java.util.LinkedHashSet;
 import java.io.FileInputStream;
 import play.libs.Files.TemporaryFile;
 import javax.validation.constraints.*;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+import javax.validation.Valid;
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class UserApiControllerImp extends UserApiControllerImpInterface {
     @Override
     public void createUser(Http.Request request, User body)  {
@@ -19,12 +20,12 @@ public class UserApiControllerImp extends UserApiControllerImpInterface {
     }
 
     @Override
-    public void createUsersWithArrayInput(Http.Request request, List<User> body)  {
+    public void createUsersWithArrayInput(Http.Request request, List<@Valid User> body)  {
         //Do your magic!!!
     }
 
     @Override
-    public void createUsersWithListInput(Http.Request request, List<User> body)  {
+    public void createUsersWithListInput(Http.Request request, List<@Valid User> body)  {
         //Do your magic!!!
     }
 

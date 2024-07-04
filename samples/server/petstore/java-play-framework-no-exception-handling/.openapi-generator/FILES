@@ -19,6 +19,7 @@ app/controllers/UserApiControllerImp.java
 app/controllers/UserApiControllerImpInterface.java
 app/openapitools/ApiCall.java
 app/openapitools/OpenAPIUtils.java
+app/openapitools/SecurityAPIUtils.java
 build.sbt
 conf/application.conf
 conf/logback.xml

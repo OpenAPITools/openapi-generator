@@ -7,77 +7,119 @@ NODE_INDEX=${CIRCLE_NODE_INDEX:-0}
 
 set -e
 
-function cleanup {
-  # Show logs of 'petstore.swagger' container to troubleshoot Unit Test failures, if any.
-  docker logs petstore.swagger # container name specified in circle.yml
-}
-
-trap cleanup EXIT
+export NODE_ENV=test
 
 if [ "$NODE_INDEX" = "1" ]; then
-  echo "Running node $NODE_INDEX to test 'samples.circleci' defined in pom.xml ..."
+  echo "Running node $NODE_INDEX ..."
   java -version
 
-  mvn --no-snapshot-updates --quiet verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  sudo apt-get -y install cpanminus
 
-  echo "show ivy2 cache"
-  ls -l /home/circleci/.ivy2/cache
+  (cd samples/client/petstore/perl && /bin/bash ./test.bash)
+  (cd samples/client/petstore/ruby && mvn integration-test)
+  (cd samples/client/petstore/ruby-faraday && mvn integration-test)
+  (cd samples/client/petstore/ruby-httpx && mvn integration-test)
+  (cd samples/client/petstore/ruby-autoload && mvn integration-test)
 
 elif [ "$NODE_INDEX" = "2" ]; then
-  # run ensure-up-to-date sample script on SNAPSHOT version only
-  project_version=`mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout`
-  if [[ $project_version == *"-SNAPSHOT" ]]; then
-    echo "Running node $NODE_INDEX to test ensure-up-to-date"
-    java -version
-
-    # clear any changes to the samples
-    git checkout -- .
-
-    # look for outdated samples
-    ./bin/utils/ensure-up-to-date
-  fi
-  echo "Running node $NODE_INDEX to test haskell"
+  echo "Running node $NODE_INDEX to test Go"
   # install haskell
-  curl -sSL https://get.haskellstack.org/ | sh
-  stack upgrade
-  stack --version
-  # prepare r
-  sudo sh -c 'echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list'
-  gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
-  gpg -a --export E084DAB9 | sudo apt-key add -
-  sudo apt-get update
-  sudo apt-get -y install r-base
-  R --version
+  #curl -sSLk https://get.haskellstack.org/ | sh
+  #stack upgrade
+  #stack --version
 
   # install curl
-  sudo apt-get -y build-dep libcurl4-gnutls-dev
-  sudo apt-get -y install libcurl4-gnutls-dev
+  #sudo apt-get -y build-dep libcurl4-gnutls-dev
+  #sudo apt-get -y install libcurl4-gnutls-dev
 
-  # run integration tests
-  mvn --no-snapshot-updates --quiet verify -Psamples.misc -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  # Install golang version 1.18
+  go version
+  sudo mkdir /usr/local/go1.18
+  wget -c https://dl.google.com/go/go1.18.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local/go1.18
+  export PATH="/usr/local/go1.18/go/bin:$PATH"
+  go version
+
+  # install cpprestsdk
+  sudo apt-get install libcpprest-dev
+  wget "https://github.com/aminya/setup-cpp/releases/download/v0.37.0/setup-cpp-x64-linux"
+  chmod +x ./setup-cpp-x64-linux
+  sudo ./setup-cpp-x64-linux --compiler llvm --cmake true --ninja true
+  source ~/.cpprc # activate cpp environment variables
+
+  # run go integration tests
+  (cd samples/client/petstore/go && mvn integration-test)
+  (cd samples/openapi3/client/petstore/go && mvn integration-test)
+  (cd samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false && mvn integration-test)
+  (cd samples/client/others/go/allof_multiple_ref_and_discriminator && mvn integration-test)
+  (cd samples/client/petstore/cpp-restsdk/client && mvn integration-test)
+
+elif [ "$NODE_INDEX" = "3" ]; then
+
+  echo "Running node $NODE_INDEX ... "
+
+  # Install node@stable (for angular 6)
+  set +e
+  curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+  export NVM_DIR="/opt/circleci/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  #nvm install stable
+  # install v16 instead of the latest stable version
+  nvm install 16
+  nvm alias default 16
+  node --version
+
+  # Each step uses the same `$BASH_ENV`, so need to modify it
+  echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
+  echo "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"" >> $BASH_ENV
+
+  (cd samples/client/others/typescript-angular && mvn integration-test)
+  (cd samples/client/petstore/typescript-angular-v12-provided-in-root && mvn integration-test)
+  (cd samples/client/petstore/typescript-angular-v13-provided-in-root && mvn integration-test)
+  (cd samples/client/petstore/typescript-angular-v14-provided-in-root && mvn integration-test)
+  (cd samples/client/petstore/typescript-angular-v15-provided-in-root && mvn integration-test)
+  (cd samples/client/petstore/typescript-angular-v16-provided-in-root && mvn integration-test)
+  (cd samples/client/petstore/typescript-angular-v17-provided-in-root && mvn integration-test)
+  (cd samples/client/petstore/typescript-angular-v18-provided-in-root && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/builds/default && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/tests/default && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/builds/jquery && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/tests/jquery && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/builds/object_params && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/tests/object_params && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/builds/inversify && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/tests/inversify && mvn integration-test)
+  #(cd samples/openapi3/client/petstore/typescript/tests/deno && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/builds/browser && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/tests/browser && mvn integration-test)
+  (cd samples/client/petstore/typescript-fetch/builds/default && mvn integration-test)
+  (cd samples/client/petstore/typescript-fetch/builds/es6-target && mvn integration-test)
+  (cd samples/client/petstore/typescript-fetch/builds/with-npm-version && mvn integration-test)
+  (cd samples/client/petstore/typescript-fetch/tests/default && mvn integration-test)
+  (cd samples/client/petstore/typescript-node/npm && mvn integration-test)
+  (cd samples/client/petstore/typescript-rxjs/builds/with-npm-version && mvn integration-test)
+  (cd samples/client/petstore/typescript-axios/builds/with-npm-version && mvn integration-test)
+  (cd samples/client/petstore/typescript-axios/tests/default && mvn integration-test)
+  (cd samples/client/petstore/javascript-flowtyped && mvn integration-test)
+  (cd samples/client/petstore/javascript-es6 && mvn integration-test)
+  (cd samples/client/petstore/javascript-promise-es6 && mvn integration-test)
+
 else
-  echo "Running node $NODE_INDEX to test 'samples.circleci.others' defined in pom.xml ..."
-  #sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
+  echo "Running node $NODE_INDEX ..."
   java -version
 
-  # Install golang version 1.14
-  go version
-  sudo mkdir /usr/local/go1.14
-  wget -c https://dl.google.com/go/go1.14.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local/go1.14
-  export PATH="/usr/local/go1.14/go/bin:$PATH"
-  go version
+  (cd samples/client/petstore/scala-akka && mvn integration-test)
+  (cd samples/client/petstore/scala-sttp && mvn integration-test)
+  (cd samples/client/petstore/scala-sttp4 && mvn integration-test)
+  (cd samples/client/petstore/clojure && mvn integration-test)
+  (cd samples/client/petstore/java/jersey2-java8 && mvn integration-test)
+  (cd samples/openapi3/client/petstore/java/jersey2-java8 && mvn integration-test)
+  (cd samples/client/petstore/java/jersey3 && mvn integration-test)
+  (cd samples/client/others/java/okhttp-gson-streaming && mvn integration-test)
+  (cd samples/client/petstore/java/okhttp-gson && mvn integration-test)
+  (cd samples/client/petstore/java/okhttp-gson-3.1 && mvn integration-test)
+  (cd samples/client/petstore/java/resteasy && mvn integration-test)
+  (cd samples/client/petstore/java-micronaut-client && mvn integration-test)
+  (cd samples/client/petstore/java/apache-httpclient && mvn integration-test)
+  (cd samples/client/petstore/java/resttemplate-jakarta && mvn integration-test)
 
-  # install dart2
-  sudo apt-get update
-  sudo apt-get install apt-transport-https
-  sudo sh -c 'wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -'
-  sudo sh -c 'wget -qO- https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list'
-  sudo apt-get update
-  sudo apt-get install dart
-  export PATH="$PATH:/usr/lib/dart/bin"
-
-  mvn --no-snapshot-updates --quiet verify -Psamples.circleci.others -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  mvn --no-snapshot-updates --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 fi
-
-

@@ -20,23 +20,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Model for testing model name same as property name
  */
-@ApiModel(description = "Model for testing model name same as property name")
 @JsonPropertyOrder({
   Name.JSON_PROPERTY_NAME,
   Name.JSON_PROPERTY_SNAKE_CASE,
   Name.JSON_PROPERTY_PROPERTY,
   Name.JSON_PROPERTY_123NUMBER
 })
-@JsonTypeName("Name")
 @javax.annotation.concurrent.Immutable
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";
   private Integer name;
@@ -50,6 +47,18 @@ public class Name {
   public static final String JSON_PROPERTY_123NUMBER = "123Number";
   private Integer _123number;
 
+  public Name() {
+  }
+
+  @JsonCreator
+  public Name(
+    @JsonProperty(JSON_PROPERTY_SNAKE_CASE) Integer snakeCase, 
+    @JsonProperty(JSON_PROPERTY_123NUMBER) Integer _123number
+  ) {
+    this();
+    this.snakeCase = snakeCase;
+    this._123number = _123number;
+  }
 
   public Name name(Integer name) {
     
@@ -57,11 +66,11 @@ public class Name {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
-  @ApiModelProperty(required = true, value = "")
+   */
+  @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -70,17 +79,18 @@ public class Name {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setName(Integer name) {
     this.name = name;
   }
 
 
-   /**
+  /**
    * Get snakeCase
    * @return snakeCase
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -97,12 +107,11 @@ public class Name {
     return this;
   }
 
-   /**
+  /**
    * Get property
    * @return property
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -111,17 +120,18 @@ public class Name {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_PROPERTY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setProperty(String property) {
     this.property = property;
   }
 
 
-   /**
+  /**
    * Get _123number
    * @return _123number
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_123NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

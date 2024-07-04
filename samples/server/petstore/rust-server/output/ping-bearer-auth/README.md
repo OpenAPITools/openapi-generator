@@ -14,7 +14,7 @@ To see how to make this your own, look here:
 [README]((https://openapi-generator.tech))
 
 - API version: 1.0
-
+- Generator version: 7.8.0-SNAPSHOT
 
 
 
@@ -104,7 +104,8 @@ Method | HTTP request | Description
 
 ## Documentation For Authorization
 
-## bearerAuth
+Authentication schemes defined for the API:
+### bearerAuth
 - **Type**: Bearer token authentication
 
 Example

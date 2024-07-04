@@ -1,5 +1,6 @@
 package apimodels;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -10,10 +11,11 @@ import java.util.Set;
 import javax.validation.*;
 import java.util.Objects;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 /**
  * FormatTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class FormatTest   {
   @JsonProperty("integer")
@@ -392,7 +394,7 @@ public class FormatTest   {
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    password: ").append("*").append("\n");
     sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();

@@ -10,21 +10,21 @@ namespace app\Models;
 class Capitalization {
 
     /** @var string $smallCamel */
-    private $smallCamel;
+    public $smallCamel = "";
 
     /** @var string $capitalCamel */
-    private $capitalCamel;
+    public $capitalCamel = "";
 
     /** @var string $smallSnake */
-    private $smallSnake;
+    public $smallSnake = "";
 
     /** @var string $capitalSnake */
-    private $capitalSnake;
+    public $capitalSnake = "";
 
     /** @var string $sCAETHFlowPoints */
-    private $sCAETHFlowPoints;
+    public $sCAETHFlowPoints = "";
 
     /** @var string $aTTNAME Name of the pet*/
-    private $aTTNAME;
+    public $aTTNAME = "";
 
 }

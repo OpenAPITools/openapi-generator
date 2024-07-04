@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
         "moduleResolution": "node",
-        "module": "commonjs",
-        "target": "es5",
+        "module": "CommonJS",
+        "target": "ES5",
         "noImplicitAny": true,
         "sourceMap": false,
         "outDir": "dist",

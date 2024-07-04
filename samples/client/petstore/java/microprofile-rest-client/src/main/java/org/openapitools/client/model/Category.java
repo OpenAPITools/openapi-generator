@@ -12,7 +12,6 @@
 
 package org.openapitools.client.model;
 
-
 import java.lang.reflect.Type;
 import javax.json.bind.annotation.JsonbTypeDeserializer;
 import javax.json.bind.annotation.JsonbTypeSerializer;
@@ -26,26 +25,27 @@ import javax.json.bind.annotation.JsonbProperty;
 
 /**
   * A category for a pet
- **/
+  */
 
 public class Category  {
   
+  @JsonbProperty("id")
   private Long id;
 
+  @JsonbProperty("name")
   private String name;
-  
- /**
+
+  /**
    * Get id
    * @return id
-  **/
-  @JsonbProperty("id")
+   **/
   public Long getId() {
     return id;
   }
 
   /**
-    * Set id
-  **/
+   * Set id
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -55,18 +55,17 @@ public class Category  {
     return this;
   }
 
- /**
+  /**
    * Get name
    * @return name
-  **/
-  @JsonbProperty("name")
+   **/
   public String getName() {
     return name;
   }
 
   /**
-    * Set name
-  **/
+   * Set name
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -78,8 +77,8 @@ public class Category  {
 
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

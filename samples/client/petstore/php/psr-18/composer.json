@@ -1,0 +1,51 @@
+{
+    "name": "GIT_USER_ID/GIT_REPO_ID",
+    "description": "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\",
+    "keywords": [
+        "openapitools",
+        "openapi-generator",
+        "openapi",
+        "php",
+        "sdk",
+        "rest",
+        "api"
+    ],
+    "homepage": "https://openapi-generator.tech",
+    "license": "unlicense",
+    "authors": [
+        {
+            "name": "OpenAPI-Generator contributors",
+            "homepage": "https://openapi-generator.tech"
+        }
+    ],
+    "config": {
+        "sort-packages": true
+    },
+    "require": {
+        "php": ">=7.2",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "guzzlehttp/psr7": "^1.8 || ^2.0",
+        "php-http/async-client-implementation": "^1.0",
+        "php-http/client-common": "^2.4",
+        "php-http/discovery": "^1.14",
+        "php-http/httplug": "^2.2",
+        "psr/http-client-implementation": "^1.0",
+        "psr/http-factory": "^1.0",
+        "psr/http-factory-implementation": "^1.0",
+        "psr/http-message": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0 || ^9.0",
+        "friendsofphp/php-cs-fixer": "^2.12",
+        "guzzlehttp/guzzle": "^7.0",
+        "php-http/guzzle7-adapter": "^1.0"
+    },
+    "autoload": {
+        "psr-4": { "OpenAPI\\Client\\" : "lib/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "OpenAPI\\Client\\Test\\" : "test/" }
+    }
+}

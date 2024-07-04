@@ -17,20 +17,19 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.Operation;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
-    protected static final String LIBRARY_JERSEY1 = "jersey1";
     protected static final String LIBRARY_JERSEY2 = "jersey2";
 
 
@@ -50,7 +49,6 @@ public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
         apiDocTemplateFiles.remove("api_doc.mustache");
         embeddedTemplateDir = templateDir = "java-msf4j-server";
         CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC);
-        supportedLibraries.put(LIBRARY_JERSEY1, "Jersey core 1.x");
         supportedLibraries.put(LIBRARY_JERSEY2, "Jersey core 2.x");
         library.setEnum(supportedLibraries);
         library.setDefault(DEFAULT_MSF4J_LIBRARY);
@@ -94,9 +92,7 @@ public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
             setLibrary(DEFAULT_MSF4J_LIBRARY);
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
-            implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
-        }
+        convertPropertyToStringAndWriteBack(CodegenConstants.IMPL_FOLDER, value -> implFolder = value);
 
         if ("joda".equals(dateLibrary)) {
             supportingFiles.add(new SupportingFile("JodaDateTimeProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaDateTimeProvider.java"));
@@ -123,15 +119,13 @@ public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
+    public ModelsMap postProcessModelsEnum(ModelsMap objs) {
         objs = super.postProcessModelsEnum(objs);
 
         //Add imports for Jackson
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+        List<Map<String, String>> imports = objs.getImports();
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
             // for enum model
             if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
                 cm.imports.add(importMapping.get("JsonValue"));

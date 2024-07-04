@@ -10,21 +10,21 @@ namespace app\Models;
 class Order {
 
     /** @var int $id */
-    private $id;
+    public $id = 0;
 
     /** @var int $petId */
-    private $petId;
+    public $petId = 0;
 
     /** @var int $quantity */
-    private $quantity;
+    public $quantity = 0;
 
     /** @var \DateTime $shipDate */
-    private $shipDate;
+    public $shipDate;
 
     /** @var string $status Order Status*/
-    private $status;
+    public $status = "";
 
     /** @var bool $complete */
-    private $complete;
+    public $complete = false;
 
 }

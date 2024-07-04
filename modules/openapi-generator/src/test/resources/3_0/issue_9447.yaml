@@ -1,0 +1,106 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Petstore
+  description: "sample to vet integer handling"
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://petstore.swagger.io:80/v2
+tags: []
+paths:
+  /UnboundedInteger:
+    post:
+      operationId: UnboundedInteger
+      parameters:
+        - name: UnboundedInteger
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: integer
+  /Int64:
+    post:
+      operationId: Int64
+      parameters:
+        - name: Int64
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              format: int64
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+  /Int32:
+    post:
+      operationId: Int32
+      parameters:
+        - name: Int32
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              format: int32
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+components:
+  schemas:
+    UnboundedInteger:
+      type: integer
+    Int32:
+      type: integer
+      format: int32
+    Int64:
+      type: integer
+      format: int64
+    ObjectModelWithIntegerProps:
+      type: object
+      properties:
+        UnboundedInteger:
+          type: integer
+        Int32:
+          type: integer
+          format: int32
+        Int64:
+          type: integer
+          format: int64
+  securitySchemes: {}

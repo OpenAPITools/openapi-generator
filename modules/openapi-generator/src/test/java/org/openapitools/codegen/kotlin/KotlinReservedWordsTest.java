@@ -6,21 +6,33 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.KotlinClientCodegen;
+import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
 import org.openapitools.codegen.utils.StringUtils;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashSet;
 
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.testng.Assert.assertEquals;
 
 @SuppressWarnings("rawtypes")
 public class KotlinReservedWordsTest {
-    final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/reserved_words.yaml");
+    OpenAPI openAPI;
+
+    @BeforeTest void loadOpenApi() {
+        openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/reserved_words.yaml");
+    }
 
     @DataProvider(name = "reservedWords")
     static Object[][] reservedWords() {
         return new Object[][]{
+                {"annotation"},
                 {"as"},
                 {"break"},
                 {"class"},
@@ -48,7 +60,11 @@ public class KotlinReservedWordsTest {
                 {"val"},
                 {"var"},
                 {"when"},
-                {"while"}
+                {"while"},
+                {"open"},
+                {"external"},
+                {"internal"},
+                {"value"}
         };
     }
 
@@ -57,7 +73,7 @@ public class KotlinReservedWordsTest {
         final DefaultCodegen codegen = new KotlinClientCodegen();
         final Schema schema = new Schema();
         final String escaped = "`" + reservedWord + "`";
-        final String titleCased = StringUtils.camelize(reservedWord, false);
+        final String titleCased = StringUtils.camelize(reservedWord);
 
         codegen.setOpenAPI(openAPI);
         CodegenModel model = codegen.fromModel(reservedWord, schema);
@@ -97,7 +113,7 @@ public class KotlinReservedWordsTest {
         final DefaultCodegen codegen = new KotlinClientCodegen();
 
         final String escaped = "`" + reservedWord + "`";
-        final String titleCased = StringUtils.camelize(reservedWord, false);
+        final String titleCased = StringUtils.camelize(reservedWord);
 
         Schema linked = openAPI.getComponents().getSchemas().get("Linked");
 
@@ -125,4 +141,70 @@ public class KotlinReservedWordsTest {
         assertEquals(property.baseName, reservedWord);
     }
 
+    @Test
+    public void reservedWordsInGeneratedCode() throws Exception {
+        String baseApiPackage = "/org/openapitools/client/apis/";
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile(); //may be move to /build
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/issue_11304_kotlin_backticks_reserved_words.yaml");
+
+        KotlinClientCodegen codegen = new KotlinClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        File resultSourcePath = new File(output, "src/main/kotlin");
+
+        assertFileContains(Paths.get(resultSourcePath.getAbsolutePath() + baseApiPackage + "DefaultApi.kt"),
+               "fun test(`value`: kotlin.String) : Unit {",
+               "fun testWithHttpInfo(`value`: kotlin.String) : ApiResponse<Unit?> {",
+               "fun testRequestConfig(`value`: kotlin.String) : RequestConfig<Unit> {"
+        );
+
+        assertFileNotContains(Paths.get(resultSourcePath.getAbsolutePath() + baseApiPackage + "DefaultApi.kt"),
+                "&#x60;"
+        );
+    }
+
+    @Test
+    public void reservedWordsInGeneratedServerCode() throws Exception {
+        String baseApiPackage = "/org/openapitools/api/";
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile(); //may be move to /build
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/issue_14026_kotlin_backticks_reserved_words.yaml");
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setServiceInterface(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        File resultSourcePath = new File(output, "src/main/kotlin");
+
+        assertFileContains(Paths.get(resultSourcePath.getAbsolutePath() + baseApiPackage + "AnnotationsApiController.kt"),
+               "fun annotationsPost(@Parameter(description = \"\", required = true) @Valid @RequestBody `annotation`: Annotation",
+               "return ResponseEntity(service.annotationsPost(`annotation`), HttpStatus.valueOf(200))"
+        );
+
+        assertFileNotContains(Paths.get(resultSourcePath.getAbsolutePath() + baseApiPackage + "AnnotationsApiController.kt"),
+                "&#x60;"
+        );
+
+        assertFileContains(Paths.get(resultSourcePath.getAbsolutePath() + baseApiPackage + "AnnotationsApiService.kt"),
+               "* @param `annotation`  (required)",
+               "fun annotationsPost(`annotation`: Annotation): Unit"
+        );
+
+        assertFileNotContains(Paths.get(resultSourcePath.getAbsolutePath() + baseApiPackage + "AnnotationsApiService.kt"),
+                "&#x60;"
+        );
+    }
 }

@@ -4,7 +4,7 @@ info:
   version: '0.1.0'
   title: An *API* with more **Markdown** in summary, description, and other text
   description: >
-    Not really a *pseudo-randum* number generator API.
+    Not really a *pseudo-random* number generator API.
     This API uses [Markdown](http://daringfireball.net/projects/markdown/syntax)
     in text:
   

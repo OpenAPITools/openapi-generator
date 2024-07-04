@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface PetApi {
   /**
@@ -29,7 +30,7 @@ public interface PetApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @POST("pet")
+  @HTTP(method = "POST", path = "pet", hasBody = true)
   Call<Void> addPet(
     @retrofit2.http.Body Pet body
   );
@@ -41,7 +42,7 @@ public interface PetApi {
    * @param apiKey  (optional)
    * @return Call&lt;Void&gt;
    */
-  @DELETE("pet/{petId}")
+  @HTTP(method = "DELETE", path = "pet/{petId}")
   Call<Void> deletePet(
     @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Header("api_key") String apiKey
   );
@@ -52,7 +53,7 @@ public interface PetApi {
    * @param status Status values that need to be considered for filter (required)
    * @return Call&lt;List&lt;Pet&gt;&gt;
    */
-  @GET("pet/findByStatus")
+  @HTTP(method = "GET", path = "pet/findByStatus")
   Call<List<Pet>> findPetsByStatus(
     @retrofit2.http.Query("status") CSVParams status
   );
@@ -65,7 +66,7 @@ public interface PetApi {
    * @deprecated
    */
   @Deprecated
-  @GET("pet/findByTags")
+  @HTTP(method = "GET", path = "pet/findByTags")
   Call<Set<Pet>> findPetsByTags(
     @retrofit2.http.Query("tags") CSVParams tags
   );
@@ -76,7 +77,7 @@ public interface PetApi {
    * @param petId ID of pet to return (required)
    * @return Call&lt;Pet&gt;
    */
-  @GET("pet/{petId}")
+  @HTTP(method = "GET", path = "pet/{petId}")
   Call<Pet> getPetById(
     @retrofit2.http.Path("petId") Long petId
   );
@@ -90,7 +91,7 @@ public interface PetApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @PUT("pet")
+  @HTTP(method = "PUT", path = "pet", hasBody = true)
   Call<Void> updatePet(
     @retrofit2.http.Body Pet body
   );
@@ -104,7 +105,7 @@ public interface PetApi {
    * @return Call&lt;Void&gt;
    */
   @retrofit2.http.FormUrlEncoded
-  @POST("pet/{petId}")
+  @HTTP(method = "POST", path = "pet/{petId}")
   Call<Void> updatePetWithForm(
     @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Field("name") String name, @retrofit2.http.Field("status") String status
   );
@@ -114,13 +115,13 @@ public interface PetApi {
    * 
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
-   * @param file file to upload (optional)
+   * @param _file file to upload (optional)
    * @return Call&lt;ModelApiResponse&gt;
    */
   @retrofit2.http.Multipart
-  @POST("pet/{petId}/uploadImage")
+  @HTTP(method = "POST", path = "pet/{petId}/uploadImage")
   Call<ModelApiResponse> uploadFile(
-    @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part("additionalMetadata") String additionalMetadata, @retrofit2.http.Part MultipartBody.Part file
+    @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part("additionalMetadata") String additionalMetadata, @retrofit2.http.Part MultipartBody.Part _file
   );
 
   /**
@@ -132,7 +133,7 @@ public interface PetApi {
    * @return Call&lt;ModelApiResponse&gt;
    */
   @retrofit2.http.Multipart
-  @POST("fake/{petId}/uploadImageWithRequiredFile")
+  @HTTP(method = "POST", path = "fake/{petId}/uploadImageWithRequiredFile")
   Call<ModelApiResponse> uploadFileWithRequiredFile(
     @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part MultipartBody.Part requiredFile, @retrofit2.http.Part("additionalMetadata") String additionalMetadata
   );

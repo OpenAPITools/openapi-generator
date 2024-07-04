@@ -20,14 +20,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * ArrayOfArrayOfNumberOnly
@@ -35,19 +37,17 @@ import javax.xml.bind.annotation.*;
 @JsonPropertyOrder({
   ArrayOfArrayOfNumberOnly.JSON_PROPERTY_ARRAY_ARRAY_NUMBER
 })
-@JsonTypeName("ArrayOfArrayOfNumberOnly")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 @XmlRootElement(name = "ArrayOfArrayOfNumberOnly")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ArrayOfArrayOfNumberOnly")
 public class ArrayOfArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
-  // Is a container wrapped=false
-  // items.name=arrayArrayNumber items.baseName=arrayArrayNumber items.xmlName= items.xmlNamespace=
-  // items.example= items.type=List&lt;BigDecimal&gt;
-  @XmlElement(name = "arrayArrayNumber")
-  private List<List<BigDecimal>> arrayArrayNumber = null;
+  @XmlElement(name = "ArrayArrayNumber")
+  private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
 
+  public ArrayOfArrayOfNumberOnly() {
+  }
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     
@@ -57,30 +57,34 @@ public class ArrayOfArrayOfNumberOnly {
 
   public ArrayOfArrayOfNumberOnly addArrayArrayNumberItem(List<BigDecimal> arrayArrayNumberItem) {
     if (this.arrayArrayNumber == null) {
-      this.arrayArrayNumber = new ArrayList<List<BigDecimal>>();
+      this.arrayArrayNumber = new ArrayList<>();
     }
     this.arrayArrayNumber.add(arrayArrayNumberItem);
     return this;
   }
 
-   /**
+  /**
    * Get arrayArrayNumber
    * @return arrayArrayNumber
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "ArrayArrayNumber")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "ArrayArrayNumber")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
-
 
   @Override
   public boolean equals(Object o) {

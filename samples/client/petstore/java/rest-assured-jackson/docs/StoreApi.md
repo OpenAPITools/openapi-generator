@@ -2,15 +2,15 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**deleteOrder**](StoreApi.md#deleteOrder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
-[**getInventory**](StoreApi.md#getInventory) | **GET** /store/inventory | Returns pet inventories by status
-[**getOrderById**](StoreApi.md#getOrderById) | **GET** /store/order/{order_id} | Find purchase order by ID
-[**placeOrder**](StoreApi.md#placeOrder) | **POST** /store/order | Place an order for a pet
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**deleteOrder**](StoreApi.md#deleteOrder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID |
+| [**getInventory**](StoreApi.md#getInventory) | **GET** /store/inventory | Returns pet inventories by status |
+| [**getOrderById**](StoreApi.md#getOrderById) | **GET** /store/order/{order_id} | Find purchase order by ID |
+| [**placeOrder**](StoreApi.md#placeOrder) | **POST** /store/order | Place an order for a pet |
 
 
-<a name="deleteOrder"></a>
+<a id="deleteOrder"></a>
 # **deleteOrder**
 > deleteOrder(orderId)
 
@@ -35,9 +35,9 @@ api.deleteOrder()
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **orderId** | **String**| ID of the order that needs to be deleted |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **orderId** | **String**| ID of the order that needs to be deleted | |
 
 ### Return type
 
@@ -52,7 +52,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="getInventory"></a>
+<a id="getInventory"></a>
 # **getInventory**
 > Map&lt;String, Integer&gt; getInventory()
 
@@ -90,13 +90,13 @@ This endpoint does not need any parameter.
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
-<a name="getOrderById"></a>
+<a id="getOrderById"></a>
 # **getOrderById**
 > Order getOrderById(orderId)
 
 Find purchase order by ID
 
-For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
 
 ### Example
 ```java
@@ -115,9 +115,9 @@ api.getOrderById()
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **orderId** | **Long**| ID of pet that needs to be fetched |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **orderId** | **Long**| ID of pet that needs to be fetched | |
 
 ### Return type
 
@@ -132,7 +132,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
-<a name="placeOrder"></a>
+<a id="placeOrder"></a>
 # **placeOrder**
 > Order placeOrder(body)
 
@@ -155,9 +155,9 @@ api.placeOrder()
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **body** | [**Order**](Order.md)| order placed for purchasing the pet | |
 
 ### Return type
 

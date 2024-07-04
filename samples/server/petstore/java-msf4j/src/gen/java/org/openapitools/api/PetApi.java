@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
 import java.io.File;
+import java.util.List;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import java.util.Set;
@@ -29,7 +30,7 @@ import javax.ws.rs.*;
 
 
 @io.swagger.annotations.Api(description = "the pet API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class PetApi  {
    private final PetApiService delegate = PetApiServiceFactory.getPetApi();
 
@@ -86,7 +87,7 @@ public class PetApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid status value", response = Pet.class, responseContainer = "List") })
-    public Response findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter",required=true, allowableValues="available, pending, sold", defaultValue="new ArrayList<String>()") @DefaultValue("new ArrayList<String>()") @QueryParam("status") List<String> status
+    public Response findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter",required=true, allowableValues="available, pending, sold") @QueryParam("status") List<String> status
 )
     throws NotFoundException {
         return delegate.findPetsByStatus(status);
@@ -105,7 +106,7 @@ public class PetApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "Set"),
         
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid tag value", response = Pet.class, responseContainer = "Set") })
-    public Response findPetsByTags(@ApiParam(value = "Tags to filter by",required=true, defaultValue="new LinkedHashSet<String>()") @DefaultValue("new LinkedHashSet<String>()") @QueryParam("tags") Set<String> tags
+    public Response findPetsByTags(@ApiParam(value = "Tags to filter by",required=true) @QueryParam("tags") Set<String> tags
 )
     throws NotFoundException {
         return delegate.findPetsByTags(tags);
@@ -185,10 +186,10 @@ public class PetApi  {
     public Response uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathParam("petId") Long petId
 ,@ApiParam(value = "Additional data to pass to server")@FormDataParam("additionalMetadata")  String additionalMetadata
 ,
-            @FormDataParam("file") InputStream fileInputStream,
-            @FormDataParam("file") FileInfo fileDetail
+            @FormDataParam("file") InputStream _fileInputStream,
+            @FormDataParam("file") FileInfo _fileDetail
 )
     throws NotFoundException {
-        return delegate.uploadFile(petId,additionalMetadata,fileInputStream, fileDetail);
+        return delegate.uploadFile(petId,additionalMetadata,_fileInputStream, _fileDetail);
     }
 }

@@ -6,3 +6,4 @@ additionalProperties:
   artifactId: jaxrs-resteasy-eap-java8-server
   hideGenerationTimestamp: "true"
   dateLibrary: java8
+  implicitHeadersRegex: api_key

@@ -3,7 +3,9 @@ name := "{{artifactId}}"
 organization := "{{groupId}}"
 scalaVersion := "2.12.8"
 
-libraryDependencies ++= Seq(
+libraryDependencies ++= Seq({{#useApachePekko}}
+  "org.apache.pekko" %% "pekko-stream" % "{{akkaHttpVersion}}",
+  "org.apache.pekko" %% "pekko-http" % "{{akkaHttpVersion}}"{{/useApachePekko}}{{^useApachePekko}}
   "com.typesafe.akka" %% "akka-stream" % "2.5.21",
-  "com.typesafe.akka" %% "akka-http" % "{{akkaHttpVersion}}"
+  "com.typesafe.akka" %% "akka-http" % "{{akkaHttpVersion}}"{{/useApachePekko}}
 )

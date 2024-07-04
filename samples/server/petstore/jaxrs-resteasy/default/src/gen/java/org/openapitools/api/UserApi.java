@@ -6,7 +6,7 @@ import org.openapitools.api.UserApiService;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
-import java.util.List;
+import java.util.Date;
 import org.openapitools.model.User;
 
 import java.util.Map;
@@ -28,7 +28,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the user API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class UserApi  {
 
     @Inject UserApiService service;
@@ -51,7 +51,7 @@ public class UserApi  {
     @io.swagger.annotations.ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    public Response createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true) @NotNull @Valid List<User> body,@Context SecurityContext securityContext)
+    public Response createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true) @NotNull @Valid List<@Valid User> body,@Context SecurityContext securityContext)
     throws NotFoundException {
         return service.createUsersWithArrayInput(body,securityContext);
     }
@@ -62,7 +62,7 @@ public class UserApi  {
     @io.swagger.annotations.ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    public Response createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true) @NotNull @Valid List<User> body,@Context SecurityContext securityContext)
+    public Response createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true) @NotNull @Valid List<@Valid User> body,@Context SecurityContext securityContext)
     throws NotFoundException {
         return service.createUsersWithListInput(body,securityContext);
     }
@@ -103,7 +103,7 @@ public class UserApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = String.class),
         
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username/password supplied", response = Void.class) })
-    public Response loginUser( @NotNull  @QueryParam("username") String username, @NotNull  @QueryParam("password") String password,@Context SecurityContext securityContext)
+    public Response loginUser( @NotNull @QueryParam("username") String username, @NotNull @QueryParam("password") String password,@Context SecurityContext securityContext)
     throws NotFoundException {
         return service.loginUser(username,password,securityContext);
     }

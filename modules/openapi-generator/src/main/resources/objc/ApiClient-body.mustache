@@ -322,14 +322,14 @@ static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) 
 /**
  * Update header and query params based on authentication settings
  */
-- (void) updateHeaderParams:(NSDictionary * *)headers queryParams:(NSDictionary * *)querys WithAuthSettings:(NSArray *)authSettings {
+- (void) updateHeaderParams:(NSDictionary * *)headers queryParams:(NSDictionary * *)queries WithAuthSettings:(NSArray *)authSettings {
 
     if ([authSettings count] == 0) {
         return;
     }
 
     NSMutableDictionary *headersWithAuth = [NSMutableDictionary dictionaryWithDictionary:*headers];
-    NSMutableDictionary *querysWithAuth = [NSMutableDictionary dictionaryWithDictionary:*querys];
+    NSMutableDictionary *queriesWithAuth = [NSMutableDictionary dictionaryWithDictionary:*queries];
 
     id<{{classPrefix}}Configuration> config = self.configuration;
     for (NSString *auth in authSettings) {
@@ -344,12 +344,12 @@ static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) 
         if ([type isEqualToString:@"header"] && [key length] > 0 ) {
             headersWithAuth[key] = value;
         } else if ([type isEqualToString:@"query"] && [key length] != 0) {
-            querysWithAuth[key] = value;
+                                    queriesWithAuth[key] = value;
         }
     }
 
     *headers = [NSDictionary dictionaryWithDictionary:headersWithAuth];
-    *querys = [NSDictionary dictionaryWithDictionary:querysWithAuth];
+    *queries = [NSDictionary dictionaryWithDictionary:queriesWithAuth];
 }
 
 - (AFSecurityPolicy *) createSecurityPolicy {

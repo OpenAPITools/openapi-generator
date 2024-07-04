@@ -6,13 +6,18 @@ import {{invokerPackage}}.ApiClient;
 import org.junit.Before;
 import org.junit.Test;
 
-{{^fullJavaUtil}}
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-{{/fullJavaUtil}}
 
+{{#useBeanValidation}}
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+
+{{/useBeanValidation}}
 /**
  * API tests for {{classname}}
  */
@@ -37,7 +42,7 @@ public class {{classname}}Test {
         {{#allParams}}
         {{{dataType}}} {{paramName}} = null;
         {{/allParams}}
-        // {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        // {{#returnType}}{{{.}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
 
         // TODO: test validations
     }

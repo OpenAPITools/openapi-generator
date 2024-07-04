@@ -9,18 +9,15 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 import io.swagger.annotations.*;
 
-@ApiModel(description="An order for a pets from the pet store")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen")
+@ApiModel(description="An order for a pets from the pet store")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Order   {
   
-
   private Long id;
-
   private Long petId;
-
   private Integer quantity;
-
   private Date shipDate;
 
   /**
@@ -45,9 +42,7 @@ public class Order   {
     }
   }
 
-
   private StatusEnum status;
-
   private Boolean complete = false;
 
   /**
@@ -133,12 +128,12 @@ public class Order   {
       return false;
     }
     Order order = (Order) o;
-    return Objects.equals(id, order.id) &&
-        Objects.equals(petId, order.petId) &&
-        Objects.equals(quantity, order.quantity) &&
-        Objects.equals(shipDate, order.shipDate) &&
-        Objects.equals(status, order.status) &&
-        Objects.equals(complete, order.complete);
+    return Objects.equals(this.id, order.id) &&
+        Objects.equals(this.petId, order.petId) &&
+        Objects.equals(this.quantity, order.quantity) &&
+        Objects.equals(this.shipDate, order.shipDate) &&
+        Objects.equals(this.status, order.status) &&
+        Objects.equals(this.complete, order.complete);
   }
 
   @Override

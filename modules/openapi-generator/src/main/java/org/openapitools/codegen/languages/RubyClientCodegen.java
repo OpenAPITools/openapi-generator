@@ -17,14 +17,24 @@
 
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -39,25 +49,32 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     public static final String GEM_DESCRIPTION = "gemDescription";
     public static final String GEM_AUTHOR = "gemAuthor";
     public static final String GEM_AUTHOR_EMAIL = "gemAuthorEmail";
+    public static final String GEM_METADATA = "gemMetadata";
     public static final String FARADAY = "faraday";
+    public static final String HTTPX = "httpx";
     public static final String TYPHOEUS = "typhoeus";
+    public static final String USE_AUTOLOAD = "useAutoload";
     private final Logger LOGGER = LoggerFactory.getLogger(RubyClientCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "N";
     protected static int emptyMethodNameCounter = 0;
-    protected String gemName;
-    protected String moduleName;
-    protected String gemVersion = "1.0.0";
+    @Setter protected String gemName;
+    @Setter protected String moduleName;
+    @Setter protected String gemVersion = "1.0.0";
     protected String specFolder = "spec";
     protected String libFolder = "lib";
-    protected String gemLicense = "unlicense";
-    protected String gemRequiredRubyVersion = ">= 1.9";
-    protected String gemHomepage = "https://openapitools.org";
-    protected String gemSummary = "A Ruby SDK for the REST API";
-    protected String gemDescription = "This gem maps to a REST API";
-    protected String gemAuthor = "";
-    protected String gemAuthorEmail = "";
+    @Setter protected String gemLicense = "unlicense";
+    @Setter protected String gemRequiredRubyVersion = ">= 1.9";
+    @Setter protected String gemHomepage = "https://openapitools.org";
+    @Setter protected String gemSummary = "A Ruby SDK for the REST API";
+    @Setter protected String gemDescription = "This gem maps to a REST API";
+    @Setter protected String gemAuthor = "";
+    @Setter protected String gemMetadata = "{}";
+    @Setter protected String gemAuthorEmail = "";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    @Setter protected boolean useAutoload = false;
+
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public RubyClientCodegen() {
         super();
@@ -141,10 +158,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 defaultValue("unlicense"));
 
         cliOptions.add(new CliOption(GEM_REQUIRED_RUBY_VERSION, "gem required Ruby version. ").
-                defaultValue(">= 1.9"));
+                defaultValue(">= 2.4"));
 
         cliOptions.add(new CliOption(GEM_HOMEPAGE, "gem homepage. ").
-                defaultValue("http://org.openapitools"));
+                defaultValue("https://openapi-generator.tech"));
 
         cliOptions.add(new CliOption(GEM_SUMMARY, "gem summary. ").
                 defaultValue("A ruby wrapper for the REST APIs"));
@@ -152,14 +169,21 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         cliOptions.add(new CliOption(GEM_DESCRIPTION, "gem description. ").
                 defaultValue("This gem maps to a REST API"));
 
-        cliOptions.add(new CliOption(GEM_AUTHOR, "gem author (only one is supported)."));
+        cliOptions.add(new CliOption(GEM_AUTHOR, "gem author (only one is supported).").defaultValue("OpenAPI-Generator"));
 
         cliOptions.add(new CliOption(GEM_AUTHOR_EMAIL, "gem author email (only one is supported)."));
+
+        cliOptions.add(new CliOption(GEM_METADATA, "gem metadata.").
+                defaultValue("{}"));
 
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).
                 defaultValue(Boolean.TRUE.toString()));
 
-        supportedLibraries.put(FARADAY, "Faraday (https://github.com/lostisland/faraday) (Beta support)");
+        cliOptions.add(CliOption.newBoolean(USE_AUTOLOAD, "Use autoload instead of require to load modules.").
+                defaultValue(Boolean.FALSE.toString()));
+
+        supportedLibraries.put(FARADAY, "Faraday >= 1.0.1 (https://github.com/lostisland/faraday)");
+        supportedLibraries.put(HTTPX, "HTTPX >= 1.0.0 (https://gitlab.com/os85/httpx)");
         supportedLibraries.put(TYPHOEUS, "Typhoeus >= 1.0.1 (https://github.com/typhoeus/typhoeus)");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
@@ -228,6 +252,14 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             setGemAuthorEmail((String) additionalProperties.get(GEM_AUTHOR_EMAIL));
         }
 
+        if (additionalProperties.containsKey(GEM_METADATA)) {
+            setGemMetadata((String) additionalProperties.get(GEM_METADATA));
+        }
+
+        if (additionalProperties.containsKey(USE_AUTOLOAD)) {
+            setUseAutoload(convertPropertyToBooleanAndWriteBack(USE_AUTOLOAD));
+        }
+
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -239,7 +271,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("gem.mustache", libFolder, gemName + ".rb"));
         String gemFolder = libFolder + File.separator + gemName;
         supportingFiles.add(new SupportingFile("api_error.mustache", gemFolder, "api_error.rb"));
-        supportingFiles.add(new SupportingFile("configuration.mustache", gemFolder, "configuration.rb"));
         supportingFiles.add(new SupportingFile("version.mustache", gemFolder, "version.rb"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
@@ -248,17 +279,22 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("Gemfile.mustache", "", "Gemfile"));
         supportingFiles.add(new SupportingFile("rubocop.mustache", "", ".rubocop.yml"));
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
+        supportingFiles.add(new SupportingFile("gitlab-ci.mustache", "", ".gitlab-ci.yml"));
         supportingFiles.add(new SupportingFile("gemspec.mustache", "", gemName + ".gemspec"));
         supportingFiles.add(new SupportingFile("configuration.mustache", gemFolder, "configuration.rb"));
         supportingFiles.add(new SupportingFile("api_client.mustache", gemFolder, "api_client.rb"));
 
         if (TYPHOEUS.equals(getLibrary())) {
             // for Typhoeus
+            additionalProperties.put("isTyphoeus", Boolean.TRUE);
         } else if (FARADAY.equals(getLibrary())) {
             // for Faraday
             additionalProperties.put("isFaraday", Boolean.TRUE);
+        } else if (HTTPX.equals(getLibrary())) {
+            // for Faraday
+            additionalProperties.put("isHttpx", Boolean.TRUE);
         } else {
-            throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only faraday, typhoeus are supported.");
+            throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only faraday, typhoeus and httpx are supported.");
         }
 
         // test files should not be overwritten
@@ -266,10 +302,18 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 .doNotOverwrite());
         supportingFiles.add(new SupportingFile("spec_helper.mustache", specFolder, "spec_helper.rb")
                 .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("configuration_spec.mustache", specFolder, "configuration_spec.rb")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("api_client_spec.mustache", specFolder, "api_client_spec.rb")
-                .doNotOverwrite());
+
+        // add lambda to convert a symbol to a string if an underscore is included (e.g. :'user_uuid' => 'user_uuid')
+        additionalProperties.put("lambdaFixHeaderKey", new Mustache.Lambda() {
+            @Override
+            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+                String content = fragment.execute();
+                if (content.contains("_")) {
+                    content = content.substring(1);
+                }
+                writer.write(content);
+            }
+        });
     }
 
     @Override
@@ -291,8 +335,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
      * Generate Ruby module name from the gem name, e.g. use "OpenAPIClient" for "openapi_client".
      *
      * @param gemName Ruby gem name
-     *
-     * @return Ruby module naame
+     * @return Ruby module name
      */
     @SuppressWarnings("static-method")
     public String generateModuleName(String gemName) {
@@ -302,8 +345,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     /**
      * Generate Ruby gem name from the module name, e.g. use "openapi_client" for "OpenAPIClient".
      *
-     * @param moduleName Ruby module naame
-     *
+     * @param moduleName Ruby module name
      * @return Ruby gem name
      */
     @SuppressWarnings("static-method")
@@ -363,6 +405,22 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     @Override
     public String toModelName(final String name) {
+        // We need to check if schema-mapping has a different model for this class, so we use it
+        // instead of the auto-generated one.
+        if (schemaMapping.containsKey(name)) {
+            return schemaMapping.get(name);
+        }
+
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
         String modelName;
         modelName = sanitizeName(name);
 
@@ -377,19 +435,23 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(modelName)) {
             modelName = camelize("Model" + modelName);
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
+            schemaKeyToModelNameCache.put(origName, modelName);
             return modelName;
         }
 
         // model name starts with number
         if (modelName.matches("^\\d.*")) {
-            LOGGER.warn(modelName + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + modelName));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", modelName,
+                    camelize("model_" + modelName));
             modelName = "model_" + modelName; // e.g. 200Response => Model200Response (after camelize)
         }
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(modelName);
+        String camelizedName = camelize(modelName);
+        schemaKeyToModelNameCache.put(origName, camelizedName);
+        return camelizedName;
     }
 
     @Override
@@ -447,6 +509,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     @Override
     public String toEnumVarName(String name, String datatype) {
+        if (enumNameMapping.containsKey(name)) {
+            return enumNameMapping.get(name);
+        }
+
         if (name.length() == 0) {
             return "EMPTY";
         }
@@ -474,6 +540,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     @Override
     public String toEnumName(CodegenProperty property) {
+        if (enumNameMapping.containsKey(property.name)) {
+            return enumNameMapping.get(property.name);
+        }
+
         String enumName = underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
@@ -486,7 +556,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         // process enum in models
         return postProcessModelsEnum(objs);
     }
@@ -496,20 +566,20 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         // rename to empty_method_name_1 (e.g.) if method name is empty
         if (StringUtils.isEmpty(operationId)) {
             operationId = underscore("empty_method_name_" + emptyMethodNameCounter++);
-            LOGGER.warn("Empty method name (operationId) found. Renamed to " + operationId);
+            LOGGER.warn("Empty method name (operationId) found. Renamed to {}", operationId);
             return operationId;
         }
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = underscore("call_" + operationId);
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
@@ -521,49 +591,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         return gemName + "/" + apiPackage() + "/" + toApiFilename(name);
     }
 
-    public void setGemName(String gemName) {
-        this.gemName = gemName;
-    }
-
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
-    }
-
-    public void setGemVersion(String gemVersion) {
-        this.gemVersion = gemVersion;
-    }
-
-    public void setGemDescription(String gemDescription) {
-        this.gemDescription = gemDescription;
-    }
-
-    public void setGemSummary(String gemSummary) {
-        this.gemSummary = gemSummary;
-    }
-
-    public void setGemLicense(String gemLicense) {
-        this.gemLicense = gemLicense;
-    }
-
-    public void setGemRequiredRubyVersion(String gemRequiredRubyVersion) {
-        this.gemRequiredRubyVersion = gemRequiredRubyVersion;
-    }
-
-    public void setGemHomepage(String gemHomepage) {
-        this.gemHomepage = gemHomepage;
-    }
-
-    public void setGemAuthor(String gemAuthor) {
-        this.gemAuthor = gemAuthor;
-    }
-
-    public void setGemAuthorEmail(String gemAuthorEmail) {
-        this.gemAuthorEmail = gemAuthorEmail;
-    }
-
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        final Schema additionalProperties = getAdditionalProperties(schema);
+        final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
 
         if (additionalProperties != null) {
             codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
@@ -571,19 +601,13 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
-        HashMap<String, Integer> processedModelMaps = new HashMap<String, Integer>();
+        OperationMap operations = objs.getOperations();
+        HashMap<String, CodegenModel> modelMaps = ModelMap.toCodegenModelMap(allModels);
+        HashMap<String, Integer> processedModelMaps = new HashMap<>();
 
-        for (Object o : allModels) {
-            HashMap<String, Object> h = (HashMap<String, Object>) o;
-            CodegenModel m = (CodegenModel) h.get("model");
-            modelMaps.put(m.classname, m);
-        }
-
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             for (CodegenParameter p : op.allParams) {
                 p.vendorExtensions.put("x-ruby-example", constructExampleCode(p, modelMaps, processedModelMaps));
@@ -614,6 +638,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         if (codegenParameter.isArray) { // array
             return "[" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "]";
         } else if (codegenParameter.isMap) {
+            if (codegenParameter.items == null) {
+                return "{ ... }";
+            }
             return "{ key: " + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
         } else if (codegenParameter.isPrimitiveType) { // primitive type
             if (codegenParameter.isEnum) {
@@ -672,9 +699,19 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
         if (codegenProperty.isArray) { // array
+            if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
+                String value = codegenProperty.example;
+                value = value.replaceAll(",", ", ");
+                value = value.replaceAll(":", ": ");
+                return value;
+            }
             return "[" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "]";
         } else if (codegenProperty.isMap) {
-            return "{ key: " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
+            if (codegenProperty.items != null) {
+                return "{ key: " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
+            } else {
+                return "{ ... }";
+            }
         } else if (codegenProperty.isPrimitiveType) { // primitive type
             if (codegenProperty.isEnum) {
                 // When inline enum, set example to first allowable value
@@ -749,8 +786,14 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             return moduleName + "::" + codegenModel.classname + "::" + enumVars.get(0).get("name");
         } else if (codegenModel.oneOf != null && !codegenModel.oneOf.isEmpty()) {
             String subModel = (String) codegenModel.oneOf.toArray()[0];
-            String oneOf = constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap);
-            return oneOf;
+            if (modelMaps.containsKey(subModel)) {
+                // oneOf models
+                return constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap);
+            } else {
+                // TODO oneOf primitive type not supported at the moment
+                LOGGER.warn("oneOf example value not supported at the moment.");
+                return "nil";
+            }
         } else {
             processedModelMap.put(model, 1);
         }

@@ -31,11 +31,11 @@ module StoreApiHandlerParams =
     }
 
     
-    type GetInventoryDefaultStatusCodeResponse = {
+    type GetInventoryStatusCode200Response = {
       content:IDictionary<string, int>;
       
     }
-    type GetInventoryResult = GetInventoryDefaultStatusCode of GetInventoryDefaultStatusCodeResponse
+    type GetInventoryResult = GetInventoryStatusCode200 of GetInventoryStatusCode200Response
 
     //#region Path parameters
     [<CLIMutable>]
@@ -45,7 +45,7 @@ module StoreApiHandlerParams =
     //#endregion
 
     
-    type GetOrderByIdDefaultStatusCodeResponse = {
+    type GetOrderByIdStatusCode200Response = {
       content:Order;
       
     }
@@ -59,7 +59,7 @@ module StoreApiHandlerParams =
       content:string;
       
     }
-    type GetOrderByIdResult = GetOrderByIdDefaultStatusCode of GetOrderByIdDefaultStatusCodeResponse|GetOrderByIdStatusCode400 of GetOrderByIdStatusCode400Response|GetOrderByIdStatusCode404 of GetOrderByIdStatusCode404Response
+    type GetOrderByIdResult = GetOrderByIdStatusCode200 of GetOrderByIdStatusCode200Response|GetOrderByIdStatusCode400 of GetOrderByIdStatusCode400Response|GetOrderByIdStatusCode404 of GetOrderByIdStatusCode404Response
 
     type GetOrderByIdArgs = {
       pathParams:GetOrderByIdPathParams;
@@ -71,7 +71,7 @@ module StoreApiHandlerParams =
     //#endregion
 
     
-    type PlaceOrderDefaultStatusCodeResponse = {
+    type PlaceOrderStatusCode200Response = {
       content:Order;
       
     }
@@ -80,7 +80,7 @@ module StoreApiHandlerParams =
       content:string;
       
     }
-    type PlaceOrderResult = PlaceOrderDefaultStatusCode of PlaceOrderDefaultStatusCodeResponse|PlaceOrderStatusCode400 of PlaceOrderStatusCode400Response
+    type PlaceOrderResult = PlaceOrderStatusCode200 of PlaceOrderStatusCode200Response|PlaceOrderStatusCode400 of PlaceOrderStatusCode400Response
 
     type PlaceOrderArgs = {
       bodyParams:PlaceOrderBodyParams

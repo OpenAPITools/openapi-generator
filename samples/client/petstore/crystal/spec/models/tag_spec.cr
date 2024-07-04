@@ -23,6 +23,21 @@ describe Petstore::Tag do
       #expect(instance).to be_instance_of(Petstore::Tag)
     end
   end
+
+  describe "test equality of Tag instances" do
+    it "should equal to itself" do
+      tag1 = Petstore::Tag.new(id: 0, name: "same")
+      tag2 = tag1
+      (tag1 == tag2).should be_true
+    end
+
+    it "should equal to another instance with same attributes" do
+      tag1 = Petstore::Tag.new(id: 0, name: "tag")
+      tag2 = Petstore::Tag.new(id: 0, name: "tag")
+      (tag1 == tag2).should be_true
+    end
+  end
+
   describe "test attribute 'id'" do
     it "should work" do
       # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html

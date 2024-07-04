@@ -1,0 +1,76 @@
+{{>licenseInfo}}
+/**
+ * Representing a Server configuration.
+ */
+#ifndef {{prefix}}_SERVERVCONFIGURATION_H
+#define {{prefix}}_SERVERVCONFIGURATION_H
+
+#include <QString>
+#include <QMap>
+#include <QRegularExpression>
+#include <QUrl>
+#include <stdexcept>
+#include "{{prefix}}ServerVariable.h"
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+class {{prefix}}ServerConfiguration {
+public:
+    /**
+     * @param url A URL to the target host.
+     * @param description A description of the host designated by the URL.
+     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
+     */
+    {{prefix}}ServerConfiguration(const QUrl &url, const QString &description, const QMap<QString, {{prefix}}ServerVariable> &variables)
+    : _description(description),
+      _variables(variables),
+      _url(url){}
+    {{prefix}}ServerConfiguration(){}
+    ~{{prefix}}ServerConfiguration(){}
+
+    /**
+     * Format URL template using given variables.
+     *
+     * @param variables A map between a variable name and its value.
+     * @return Formatted URL.
+     */
+    QString URL() {
+        QString url = _url.toString();
+        if(!_variables.empty()){
+            // go through variables and replace placeholders
+            for (auto const& v : _variables.keys()) {
+                QString name = v;
+                {{prefix}}ServerVariable serverVariable = _variables.value(v);
+                QString value = serverVariable._defaultValue;
+
+                if (!serverVariable._enumValues.empty() && !serverVariable._enumValues.contains(value)) {
+                    throw std::runtime_error(QString("The variable " + name + " in the server URL has invalid value " + value + ".").toUtf8().toStdString());
+                }
+                QRegularExpression regex(QString("\\{" + name + "\\}"));
+                url = url.replace(regex, value);
+
+            }
+            return url;
+        }
+        return url;
+    }
+
+    int setDefaultValue(const QString &variable,const QString &value){
+      if(_variables.contains(variable))
+        return _variables[variable].setDefaultValue(value);
+      return -1;
+    }
+
+    QString _description;
+    QMap<QString, {{prefix}}ServerVariable> _variables;
+    QUrl _url;
+
+};
+
+{{#cppNamespaceDeclarations}}
+} // namespace {{this}}
+{{/cppNamespaceDeclarations}}
+
+#endif // {{prefix}}_SERVERVCONFIGURATION_H

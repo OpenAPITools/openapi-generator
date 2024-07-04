@@ -29,25 +29,25 @@ namespace Org.OpenAPITools.Models
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name="id", EmitDefaultValue=false)]
+        [DataMember(Name="id", EmitDefaultValue=true)]
         public long Id { get; set; }
 
         /// <summary>
         /// Gets or Sets PetId
         /// </summary>
-        [DataMember(Name="petId", EmitDefaultValue=false)]
+        [DataMember(Name="petId", EmitDefaultValue=true)]
         public long PetId { get; set; }
 
         /// <summary>
         /// Gets or Sets Quantity
         /// </summary>
-        [DataMember(Name="quantity", EmitDefaultValue=false)]
+        [DataMember(Name="quantity", EmitDefaultValue=true)]
         public int Quantity { get; set; }
 
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
-        [DataMember(Name="shipDate", EmitDefaultValue=false)]
+        [DataMember(Name="shipDate", EmitDefaultValue=true)]
         public DateTime ShipDate { get; set; }
 
 
@@ -83,13 +83,13 @@ namespace Org.OpenAPITools.Models
         /// Order Status
         /// </summary>
         /// <value>Order Status</value>
-        [DataMember(Name="status", EmitDefaultValue=false)]
+        [DataMember(Name="status", EmitDefaultValue=true)]
         public StatusEnum Status { get; set; }
 
         /// <summary>
         /// Gets or Sets Complete
         /// </summary>
-        [DataMember(Name="complete", EmitDefaultValue=false)]
+        [DataMember(Name="complete", EmitDefaultValue=true)]
         public bool Complete { get; set; } = false;
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace Org.OpenAPITools.Models
         /// <returns>JSON string presentation of the object</returns>
         public string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace Org.OpenAPITools.Models
                 ) && 
                 (
                     ShipDate == other.ShipDate ||
-                    ShipDate != null &&
+                    
                     ShipDate.Equals(other.ShipDate)
                 ) && 
                 (
@@ -190,7 +190,7 @@ namespace Org.OpenAPITools.Models
                     hashCode = hashCode * 59 + PetId.GetHashCode();
                     
                     hashCode = hashCode * 59 + Quantity.GetHashCode();
-                    if (ShipDate != null)
+                    
                     hashCode = hashCode * 59 + ShipDate.GetHashCode();
                     
                     hashCode = hashCode * 59 + Status.GetHashCode();

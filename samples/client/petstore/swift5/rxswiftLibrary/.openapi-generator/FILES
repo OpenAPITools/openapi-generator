@@ -1,4 +1,5 @@
 .gitignore
+.swiftformat
 Cartfile
 Package.swift
 PetstoreClient.podspec
@@ -25,12 +26,10 @@ PetstoreClient/Classes/OpenAPIs/Models/ArrayOfNumberOnly.swift
 PetstoreClient/Classes/OpenAPIs/Models/ArrayTest.swift
 PetstoreClient/Classes/OpenAPIs/Models/Capitalization.swift
 PetstoreClient/Classes/OpenAPIs/Models/Cat.swift
-PetstoreClient/Classes/OpenAPIs/Models/CatAllOf.swift
 PetstoreClient/Classes/OpenAPIs/Models/Category.swift
 PetstoreClient/Classes/OpenAPIs/Models/ClassModel.swift
 PetstoreClient/Classes/OpenAPIs/Models/Client.swift
 PetstoreClient/Classes/OpenAPIs/Models/Dog.swift
-PetstoreClient/Classes/OpenAPIs/Models/DogAllOf.swift
 PetstoreClient/Classes/OpenAPIs/Models/EnumArrays.swift
 PetstoreClient/Classes/OpenAPIs/Models/EnumClass.swift
 PetstoreClient/Classes/OpenAPIs/Models/EnumTest.swift
@@ -59,6 +58,7 @@ PetstoreClient/Classes/OpenAPIs/Models/User.swift
 PetstoreClient/Classes/OpenAPIs/OpenISO8601DateFormatter.swift
 PetstoreClient/Classes/OpenAPIs/SynchronizedDictionary.swift
 PetstoreClient/Classes/OpenAPIs/URLSessionImplementations.swift
+PetstoreClient/Classes/OpenAPIs/Validation.swift
 README.md
 docs/AdditionalPropertiesClass.md
 docs/Animal.md
@@ -70,12 +70,10 @@ docs/ArrayOfNumberOnly.md
 docs/ArrayTest.md
 docs/Capitalization.md
 docs/Cat.md
-docs/CatAllOf.md
 docs/Category.md
 docs/ClassModel.md
 docs/Client.md
 docs/Dog.md
-docs/DogAllOf.md
 docs/EnumArrays.md
 docs/EnumClass.md
 docs/EnumTest.md

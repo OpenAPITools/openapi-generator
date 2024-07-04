@@ -1,0 +1,88 @@
+{{>partial_header}}
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+{{#operationResultTask}}
+using System.Threading.Tasks;
+{{/operationResultTask}}
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+{{#useSwashbuckle}}
+using Swashbuckle.AspNetCore.Annotations;
+using Swashbuckle.AspNetCore.SwaggerGen;
+{{/useSwashbuckle}}
+{{^isLibrary}}
+using Newtonsoft.Json;
+{{/isLibrary}}
+using {{packageName}}.Attributes;
+using {{modelPackage}};
+
+namespace {{apiPackage}}
+{ {{#operations}}
+    /// <summary>
+    /// {{description}}
+    /// </summary>{{#description}}
+    [Description("{{.}}")]{{/description}}
+    [ApiController]
+    public {{#classModifier}}{{.}} {{/classModifier}}class {{classname}}Controller : ControllerBase
+    { {{#operation}}
+        /// <summary>
+        /// {{summary}}
+        /// </summary>{{#notes}}
+        /// <remarks>{{.}}</remarks>{{/notes}}{{#allParams}}
+        /// <param name="{{paramName}}">{{description}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>{{/allParams}}{{#responses}}
+        /// <response code="{{code}}">{{message}}</response>{{/responses}}
+        [{{httpMethod}}]
+        [Route("{{{basePathWithoutHost}}}{{{path}}}")]
+{{#authMethods}}
+{{#isApiKey}}
+        [Authorize(Policy = "{{name}}")]
+{{/isApiKey}}
+{{#isBasicBearer}}
+        [Authorize{{#scopes}}{{#-first}}(Roles = "{{/-first}}{{scope}}{{^-last}},{{/-last}}{{#-last}}"){{/-last}}{{/scopes}}]
+{{/isBasicBearer}}
+{{/authMethods}}
+        {{#vendorExtensions.x-aspnetcore-consumes}}
+        [Consumes({{&vendorExtensions.x-aspnetcore-consumes}})]
+        {{/vendorExtensions.x-aspnetcore-consumes}}
+        [ValidateModelState]{{#useSwashbuckle}}
+        [SwaggerOperation("{{operationId}}")]{{#responses}}{{#dataType}}
+        [SwaggerResponse(statusCode: {{code}}, type: typeof({{&dataType}}), description: "{{message}}")]{{/dataType}}{{/responses}}{{/useSwashbuckle}}{{^useSwashbuckle}}{{#responses}}{{#dataType}}
+        [ProducesResponseType(statusCode: {{code}}, type: typeof({{&dataType}}))]{{/dataType}}{{/responses}}{{/useSwashbuckle}}
+        {{#isDeprecated}}
+        [Obsolete]
+        {{/isDeprecated}}
+        public {{operationModifier}} {{#operationResultTask}}{{#operationIsAsync}}async {{/operationIsAsync}}Task<{{/operationResultTask}}IActionResult{{#operationResultTask}}>{{/operationResultTask}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{^-last}}{{^isCookieParam}}, {{/isCookieParam}}{{/-last}}{{/allParams}}){{^generateBody}};{{/generateBody}}
+        {{#generateBody}}
+        {
+            {{#cookieParams}}
+            var {{paramName}} = Request.Cookies["{{paramName}}"];
+            {{/cookieParams}}
+
+{{#responses}}
+{{#dataType}}
+            //TODO: Uncomment the next line to return response {{code}} or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode({{code}}, default({{&dataType}}));
+{{/dataType}}
+{{^dataType}}
+            //TODO: Uncomment the next line to return response {{code}} or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode({{code}});
+{{/dataType}}
+{{/responses}}
+{{#returnType}}
+            string exampleJson = null;
+            {{#examples}}
+            exampleJson = "{{{example}}}";
+            {{/examples}}
+            {{#isListCollection}}{{>listReturn}}{{/isListCollection}}{{^isListCollection}}{{#isMap}}{{>mapReturn}}{{/isMap}}{{^isMap}}{{>objectReturn}}{{/isMap}}{{/isListCollection}}
+            {{!TODO: defaultResponse, examples, auth, consumes, produces, nickname, externalDocs, imports, security}}
+            //TODO: Change the data returned
+            return {{#operationResultTask}}Task.FromResult<IActionResult>({{/operationResultTask}}new ObjectResult(example){{#operationResultTask}}){{/operationResultTask}};{{/returnType}}{{^returnType}}
+            throw new NotImplementedException();{{/returnType}}
+        }
+        {{/generateBody}}
+        {{/operation}}
+    }
+{{/operations}}
+}

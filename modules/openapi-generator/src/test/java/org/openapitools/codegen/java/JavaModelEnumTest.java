@@ -38,7 +38,7 @@ public class JavaModelEnumTest {
     public void converterTest() {
         final StringSchema enumSchema = new StringSchema();
         enumSchema.setEnum(Arrays.asList("VALUE1", "VALUE2", "VALUE3"));
-        final Schema model = new Schema().type("object").addProperties("name", enumSchema);
+        final Schema model = new Schema().type("object").addProperty("name", enumSchema);
 
         final JavaClientCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
@@ -52,7 +52,7 @@ public class JavaModelEnumTest {
         Assert.assertEquals(enumVar.dataType, "String");
         Assert.assertEquals(enumVar.datatypeWithEnum, "NameEnum");
         Assert.assertEquals(enumVar.name, "name");
-        Assert.assertEquals(enumVar.defaultValue, null);
+        Assert.assertNull(enumVar.defaultValue);
         Assert.assertEquals(enumVar.baseType, "String");
         Assert.assertTrue(enumVar.isEnum);
     }
@@ -61,7 +61,7 @@ public class JavaModelEnumTest {
     public void converterInArrayTest() {
         final ArraySchema enumSchema = new ArraySchema().items(
                 new StringSchema().addEnumItem("Aaaa").addEnumItem("Bbbb"));
-        final Schema model = new Schema().type("object").addProperties("name", enumSchema);
+        final Schema model = new Schema().type("object").addProperty("name", enumSchema);
 
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
@@ -75,7 +75,7 @@ public class JavaModelEnumTest {
         Assert.assertEquals(enumVar.dataType, "List<String>");
         Assert.assertEquals(enumVar.datatypeWithEnum, "List<NameEnum>");
         Assert.assertEquals(enumVar.name, "name");
-        Assert.assertEquals(enumVar.defaultValue, "new ArrayList<NameEnum>()");
+        Assert.assertEquals(enumVar.defaultValue, "new ArrayList<>()");
         Assert.assertEquals(enumVar.baseType, "List");
         Assert.assertTrue(enumVar.isEnum);
 
@@ -83,7 +83,7 @@ public class JavaModelEnumTest {
         Assert.assertEquals(enumVar.mostInnerItems.dataType, "String");
         Assert.assertEquals(enumVar.mostInnerItems.datatypeWithEnum, "NameEnum");
         Assert.assertEquals(enumVar.mostInnerItems.name, "name");
-        Assert.assertEquals(enumVar.mostInnerItems.defaultValue, null);
+        Assert.assertNull(enumVar.mostInnerItems.defaultValue);
         Assert.assertEquals(enumVar.mostInnerItems.baseType, "String");
 
         Assert.assertEquals(enumVar.mostInnerItems.baseType, enumVar.items.baseType);
@@ -94,7 +94,7 @@ public class JavaModelEnumTest {
         final ArraySchema enumSchema = new ArraySchema().items(
                 new ArraySchema().items(
                         new StringSchema().addEnumItem("Aaaa").addEnumItem("Bbbb")));
-        final Schema model = new Schema().type("object").addProperties("name", enumSchema);
+        final Schema model = new Schema().type("object").addProperty("name", enumSchema);
 
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
@@ -108,7 +108,7 @@ public class JavaModelEnumTest {
         Assert.assertEquals(enumVar.dataType, "List<List<String>>");
         Assert.assertEquals(enumVar.datatypeWithEnum, "List<List<NameEnum>>");
         Assert.assertEquals(enumVar.name, "name");
-        Assert.assertEquals(enumVar.defaultValue, "new ArrayList<List<NameEnum>>()");
+        Assert.assertEquals(enumVar.defaultValue, "new ArrayList<>()");
         Assert.assertEquals(enumVar.baseType, "List");
         Assert.assertTrue(enumVar.isEnum);
 
@@ -116,7 +116,7 @@ public class JavaModelEnumTest {
         Assert.assertEquals(enumVar.mostInnerItems.dataType, "String");
         Assert.assertEquals(enumVar.mostInnerItems.datatypeWithEnum, "NameEnum");
         Assert.assertEquals(enumVar.mostInnerItems.name, "name");
-        Assert.assertEquals(enumVar.mostInnerItems.defaultValue, null);
+        Assert.assertNull(enumVar.mostInnerItems.defaultValue);
         Assert.assertEquals(enumVar.mostInnerItems.baseType, "String");
 
         Assert.assertEquals(enumVar.mostInnerItems.baseType, enumVar.items.items.baseType);
@@ -146,8 +146,8 @@ public class JavaModelEnumTest {
         discriminator.setPropertyName("model_type");
         parentModel.setDiscriminator(discriminator);
 
-        final ComposedSchema composedSchema = new ComposedSchema()
-                .addAllOfItem(new Schema().$ref(parentModel.getName()));
+        final ComposedSchema composedSchema = new ComposedSchema();
+        composedSchema.addAllOfItem(new Schema().$ref(parentModel.getName()));
         composedSchema.setName("sample");
 
         final JavaClientCodegen codegen = new JavaClientCodegen();

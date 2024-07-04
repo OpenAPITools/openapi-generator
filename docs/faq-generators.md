@@ -5,7 +5,7 @@ title: "FAQ: Generators"
 
 ### What are some server generator use cases?
 
-We have around 40+ server generators, with more added regularly. Some of these include Spring in your choice of Java or Kotlin, the Finch and Scalatra frameworks using Scala, and C# generators for NancyFX and WebAPI (to name only a few).
+We have around 40+ server generators, with more added regularly. Some of these include Spring in your choice of Java or Kotlin, the Finch and Scalatra frameworks using Scala, and C# generators for ASP.NET and Azure Functions (to name only a few).
 
 Besides generating the server code as a starting point to implement the API backend, here are some use cases of the server generators:
 
@@ -110,6 +110,6 @@ No, please use `swift3` or `swift4` generator instead as we want to focus on Swi
 Yes, please use the following option when generating TypeScript clients:
 
 ```
-	modelPropertyNaming
-	    Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name (Default: camelCase)
+    modelPropertyNaming
+        Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name (Default: camelCase)
 ```

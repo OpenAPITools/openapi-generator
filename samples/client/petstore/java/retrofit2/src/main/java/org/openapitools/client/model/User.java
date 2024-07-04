@@ -20,14 +20,12 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
  * User
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class User {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -61,6 +59,8 @@ public class User {
   @SerializedName(SERIALIZED_NAME_USER_STATUS)
   private Integer userStatus;
 
+  public User() {
+  }
 
   public User id(Long id) {
     
@@ -68,12 +68,11 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Long getId() {
     return id;
@@ -84,19 +83,17 @@ public class User {
     this.id = id;
   }
 
-
   public User username(String username) {
     
     this.username = username;
     return this;
   }
 
-   /**
+  /**
    * Get username
    * @return username
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getUsername() {
     return username;
@@ -107,19 +104,17 @@ public class User {
     this.username = username;
   }
 
-
   public User firstName(String firstName) {
     
     this.firstName = firstName;
     return this;
   }
 
-   /**
+  /**
    * Get firstName
    * @return firstName
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getFirstName() {
     return firstName;
@@ -130,19 +125,17 @@ public class User {
     this.firstName = firstName;
   }
 
-
   public User lastName(String lastName) {
     
     this.lastName = lastName;
     return this;
   }
 
-   /**
+  /**
    * Get lastName
    * @return lastName
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getLastName() {
     return lastName;
@@ -153,19 +146,17 @@ public class User {
     this.lastName = lastName;
   }
 
-
   public User email(String email) {
     
     this.email = email;
     return this;
   }
 
-   /**
+  /**
    * Get email
    * @return email
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getEmail() {
     return email;
@@ -176,19 +167,17 @@ public class User {
     this.email = email;
   }
 
-
   public User password(String password) {
     
     this.password = password;
     return this;
   }
 
-   /**
+  /**
    * Get password
    * @return password
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getPassword() {
     return password;
@@ -199,19 +188,17 @@ public class User {
     this.password = password;
   }
 
-
   public User phone(String phone) {
     
     this.phone = phone;
     return this;
   }
 
-   /**
+  /**
    * Get phone
    * @return phone
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getPhone() {
     return phone;
@@ -222,19 +209,17 @@ public class User {
     this.phone = phone;
   }
 
-
   public User userStatus(Integer userStatus) {
     
     this.userStatus = userStatus;
     return this;
   }
 
-   /**
+  /**
    * User Status
    * @return userStatus
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "User Status")
 
   public Integer getUserStatus() {
     return userStatus;
@@ -244,7 +229,6 @@ public class User {
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
   }
-
 
   @Override
   public boolean equals(Object o) {

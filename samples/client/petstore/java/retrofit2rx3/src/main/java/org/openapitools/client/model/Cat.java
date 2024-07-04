@@ -20,24 +20,20 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.Animal;
-import org.openapitools.client.model.BigCat;
-import org.openapitools.client.model.CatAllOf;
 
 /**
  * Cat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Cat extends Animal {
   public static final String SERIALIZED_NAME_DECLAWED = "declawed";
   @SerializedName(SERIALIZED_NAME_DECLAWED)
-  private Boolean declawed;
+  protected Boolean declawed;
 
   public Cat() {
-    this.className = this.getClass().getSimpleName();
+
   }
 
   public Cat declawed(Boolean declawed) {
@@ -46,12 +42,11 @@ public class Cat extends Animal {
     return this;
   }
 
-   /**
+  /**
    * Get declawed
    * @return declawed
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Boolean getDeclawed() {
     return declawed;
@@ -62,6 +57,17 @@ public class Cat extends Animal {
     this.declawed = declawed;
   }
 
+  @Override
+  public Cat className(String className) {
+    this.setClassName(className);
+    return this;
+  }
+
+  @Override
+  public Cat color(String color) {
+    this.setColor(color);
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {

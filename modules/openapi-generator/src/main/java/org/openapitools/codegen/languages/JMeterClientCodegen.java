@@ -20,7 +20,6 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenType;
@@ -32,6 +31,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashSet;
+import java.util.Map;
 
 public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -132,7 +132,7 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
         /*
          * Reserved words.  Override this with reserved words specific to your language
          */
-        reservedWords = new HashSet<String>(
+        reservedWords = new HashSet<>(
                 Arrays.asList(
                         "sample1",  // replace with static values
                         "sample2")
@@ -149,8 +149,9 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         if (openAPI != null && openAPI.getPaths() != null) {
-            for (String pathname : openAPI.getPaths().keySet()) {
-                PathItem path = openAPI.getPaths().get(pathname);
+            for (Map.Entry<String, PathItem> openAPIGetPathsEntry : openAPI.getPaths().entrySet()) {
+                String pathname = openAPIGetPathsEntry.getKey();
+                PathItem path = openAPIGetPathsEntry.getValue();
                 if (path.readOperations() != null) {
                     for (Operation operation : path.readOperations()) {
                         String pathWithDollars = pathname.replaceAll("\\{", "\\$\\{");
@@ -159,6 +160,12 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
                 }
             }
         }
+    }
+
+    @Override
+    public String toOperationId(String operationId) {
+        // replace $ with _
+        return super.toOperationId(operationId.replace("$", "_"));
     }
 
     /**
@@ -202,11 +209,10 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);

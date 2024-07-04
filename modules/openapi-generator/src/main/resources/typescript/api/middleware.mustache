@@ -1,5 +1,5 @@
-import {RequestContext, ResponseContext} from './http/http{{extensionForDeno}}';
-import { Observable, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'./rxjsStub{{extensionForDeno}}'{{/useRxJS}};
+import {RequestContext, ResponseContext} from './http/http{{importFileExtension}}';
+import { Observable, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'./rxjsStub{{importFileExtension}}'{{/useRxJS}};
 
 /**
  * Defines the contract for a middleware intercepting requests before
@@ -34,7 +34,7 @@ export class PromiseMiddlewareWrapper implements Middleware {
     pre(context: RequestContext): Observable<RequestContext> {
         return from(this.middleware.pre(context));
     }
-    
+
     post(context: ResponseContext): Observable<ResponseContext> {
         return from(this.middleware.post(context));
     }

@@ -1,6 +1,4 @@
-FROM java:8-jre-alpine
-
-RUN apk add --no-cache bash
+FROM eclipse-temurin:17.0.9_9-jre-focal
 
 ADD target/openapi-generator-cli.jar /opt/openapi-generator/modules/openapi-generator-cli/target/openapi-generator-cli.jar
 

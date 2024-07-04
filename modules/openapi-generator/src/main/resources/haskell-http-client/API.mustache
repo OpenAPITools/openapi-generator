@@ -60,7 +60,7 @@ import qualified Prelude as P
 -- {{/hasAuthMethods}}{{#vendorExtensions.x-has-unknown-return}}
 -- Note: Has 'Produces' instances, but no response schema
 -- {{/vendorExtensions.x-has-unknown-return}}
-{{operationId}} 
+{{operationId}}
   :: {{#vendorExtensions.x-has-body-or-form-param}}(Consumes {{{vendorExtensions.x-operation-type}}} {{>_contentType}}{{#allParams}}{{#isBodyParam}}{{#required}}, MimeRender {{>_contentType}} {{#vendorExtensions.x-param-name-type}}{{{.}}}{{/vendorExtensions.x-param-name-type}}{{^vendorExtensions.x-param-name-type}}{{{dataType}}}{{/vendorExtensions.x-param-name-type}}{{/required}}{{/isBodyParam}}{{/allParams}})
   => {{^vendorExtensions.x-inline-content-type}}ContentType contentType -- ^ request content-type ('MimeType')
   -> {{/vendorExtensions.x-inline-content-type}}{{/vendorExtensions.x-has-body-or-form-param}}{{^vendorExtensions.x-inline-accept}}Accept accept -- ^ request accept ('MimeType')
@@ -92,7 +92,7 @@ instance HasOptionalParam {{{vendorExtensions.x-operation-type}}} {{#vendorExten
 instance Consumes {{{vendorExtensions.x-operation-type}}} {{{x-mediaDataType}}}{{/x-mediaIsWildcard}}{{#x-mediaIsWildcard}}
 instance MimeType mtype => Consumes {{{vendorExtensions.x-operation-type}}} mtype{{/x-mediaIsWildcard}}
 {{/consumes}}{{/hasConsumes}}{{^hasConsumes}}{{#vendorExtensions.x-has-body-or-form-param}}
-    
+
 -- | @*/*@
 instance MimeType mtype => Consumes {{{vendorExtensions.x-operation-type}}} mtype
 {{/vendorExtensions.x-has-body-or-form-param}}{{/hasConsumes}}{{#hasProduces}}

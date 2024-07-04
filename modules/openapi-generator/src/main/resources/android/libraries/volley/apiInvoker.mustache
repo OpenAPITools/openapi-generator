@@ -188,7 +188,7 @@ public class ApiInvoker {
 
   public static void initializeInstance(Cache cache, Network network, int threadPoolSize, ResponseDelivery delivery, int connectionTimeout) {
     INSTANCE = new ApiInvoker(cache, network, threadPoolSize, delivery, connectionTimeout);
-    setUserAgent("{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{artifactVersion}}}/android{{/httpUserAgent}}");
+    setUserAgent("{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/{{{artifactVersion}}}/android{{/httpUserAgent}}");
 
     // Setup authentications (key: authentication name, value: authentication).
     INSTANCE.authentications = new HashMap<String, Authentication>();
@@ -196,9 +196,9 @@ public class ApiInvoker {
     {{#isApiKey}}
     INSTANCE.authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));
     {{/isApiKey}}
-    {{#isBasic}}
+    {{#isBasicBasic}}
     INSTANCE.authentications.put("{{name}}", new HttpBasicAuth());
-    {{/isBasic}}
+    {{/isBasicBasic}}
     {{#isOAuth}}
     // TODO: comment out below as OAuth does not exist
     //INSTANCE.authentications.put("{{name}}", new OAuth());

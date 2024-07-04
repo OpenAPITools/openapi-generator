@@ -1,19 +1,13 @@
 package org.openapitools.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.ReadOnlyFirst;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -21,15 +15,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ArrayTest  {
   
   @ApiModelProperty(value = "")
-  private List<String> arrayOfString = null;
+  private List<String> arrayOfString;
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<List<Long>> arrayArrayOfInteger = null;
+  private List<List<Long>> arrayArrayOfInteger;
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel;
  /**
   * Get arrayOfString
   * @return arrayOfString
@@ -42,7 +36,7 @@ public class ArrayTest  {
   /**
    * Sets the <code>arrayOfString</code> property.
    */
-  public void setArrayOfString(List<String> arrayOfString) {
+ public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
   }
 
@@ -74,7 +68,7 @@ public class ArrayTest  {
   /**
    * Sets the <code>arrayArrayOfInteger</code> property.
    */
-  public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+ public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
@@ -106,7 +100,7 @@ public class ArrayTest  {
   /**
    * Sets the <code>arrayArrayOfModel</code> property.
    */
-  public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+ public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 
@@ -126,6 +120,25 @@ public class ArrayTest  {
     return this;
   }
 
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ArrayTest arrayTest = (ArrayTest) o;
+    return Objects.equals(arrayOfString, arrayTest.arrayOfString) &&
+        Objects.equals(arrayArrayOfInteger, arrayTest.arrayArrayOfInteger) &&
+        Objects.equals(arrayArrayOfModel, arrayTest.arrayArrayOfModel);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(arrayOfString, arrayArrayOfInteger, arrayArrayOfModel);
+  }
 
   @Override
   public String toString() {

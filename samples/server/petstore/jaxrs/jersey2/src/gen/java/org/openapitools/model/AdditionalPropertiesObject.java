@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   AdditionalPropertiesObject.JSON_PROPERTY_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class AdditionalPropertiesObject extends HashMap<String, Map>  {
   public static final String JSON_PROPERTY_NAME = "name";
   @JsonProperty(JSON_PROPERTY_NAME)
@@ -45,7 +45,7 @@ public class AdditionalPropertiesObject extends HashMap<String, Map>  {
    * Get name
    * @return name
    **/
-  @JsonProperty("name")
+  @JsonProperty(value = "name")
   @ApiModelProperty(value = "")
   
   public String getName() {
@@ -66,15 +66,13 @@ public class AdditionalPropertiesObject extends HashMap<String, Map>  {
       return false;
     }
     AdditionalPropertiesObject additionalPropertiesObject = (AdditionalPropertiesObject) o;
-    return Objects.equals(this.name, additionalPropertiesObject.name) &&
-        super.equals(o);
+    return super.equals(o) && Objects.equals(this.name, additionalPropertiesObject.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, super.hashCode());
+    return Objects.hash(super.hashCode(), name);
   }
-
 
   @Override
   public String toString() {

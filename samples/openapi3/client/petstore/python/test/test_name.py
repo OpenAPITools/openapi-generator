@@ -10,12 +10,14 @@
 """
 
 
-import sys
+from __future__ import absolute_import
+
 import unittest
+import datetime
 
 import petstore_api
-from petstore_api.model.name import Name
-
+from petstore_api.models.name import Name  # noqa: E501
+from petstore_api.rest import ApiException
 
 class TestName(unittest.TestCase):
     """Name unit test stubs"""
@@ -26,12 +28,28 @@ class TestName(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def make_instance(self, include_optional):
+        """Test Name
+            include_option is a boolean, when False only required
+            params are included, when True both required and
+            optional params are included """
+        # model = petstore_api.models.name.Name()  # noqa: E501
+        if include_optional :
+            return Name(
+                name = 56, 
+                snake_case = 56, 
+                _property = '', 
+                _123_number = 56
+            )
+        else :
+            return Name(
+                name = 56,
+        )
+
     def testName(self):
         """Test Name"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = Name()  # noqa: E501
-        pass
-
+        inst_req_only = self.make_instance(include_optional=False)
+        inst_req_and_optional = self.make_instance(include_optional=True)
 
 if __name__ == '__main__':
     unittest.main()

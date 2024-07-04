@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -33,12 +31,15 @@ import org.hibernate.validator.constraints.*;
 /**
  * AdditionalPropertiesNumber
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
+  public AdditionalPropertiesNumber() {
+
+  }
 
   public AdditionalPropertiesNumber name(String name) {
     
@@ -46,12 +47,12 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public String getName() {
     return name;
@@ -61,7 +62,6 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(Object o) {

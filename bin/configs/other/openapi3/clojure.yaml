@@ -1,3 +1,0 @@
-generatorName: clojure
-outputDir: samples/client/petstore/clojure
-inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.json

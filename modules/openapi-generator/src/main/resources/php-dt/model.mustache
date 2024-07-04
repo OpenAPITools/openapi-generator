@@ -1,0 +1,13 @@
+<?php
+declare(strict_types=1);
+{{#models}}{{#model}}
+namespace {{package}};
+
+use Articus\DataTransfer\Annotation as DTA;
+
+{{#vendorExtensions
+}}{{#internal.fromContainer}}{{>model_container}}{{/internal.fromContainer
+}}{{^internal.fromContainer}}{{>model_object}}{{/internal.fromContainer
+}}{{/vendorExtensions
+}}{{^vendorExtensions}}{{>model_object}}{{/vendorExtensions
+}}{{/model}}{{/models}}

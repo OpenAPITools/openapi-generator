@@ -10,15 +10,15 @@ namespace app\Models;
 class MapTest {
 
     /** @var array<string,array<string,string>> $mapMapOfString */
-    private $mapMapOfString;
+    public $mapMapOfString;
 
     /** @var array<string,string> $mapOfEnumString */
-    private $mapOfEnumString;
+    public $mapOfEnumString;
 
     /** @var array<string,bool> $directMap */
-    private $directMap;
+    public $directMap;
 
     /** @var array<string,bool> $indirectMap */
-    private $indirectMap;
+    public $indirectMap;
 
 }

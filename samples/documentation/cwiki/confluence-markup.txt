@@ -16,18 +16,18 @@ h2. Endpoints
 h3. addPet
 {panel:title=addPet|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Add a new pet to the store
-    *Description:* *No Description*
+    *Description:* 
 
 	|| HttpMethod | {status:colour=Yellow|title=post|subtle=false} |
     || Protocol | {noformat:nopanel=true}http{noformat} |
     || Path | {noformat:nopanel=true}/pet{noformat} |
     || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
-    || Produces | {noformat:nopanel=true}application/xmlapplication/json{noformat} |
+    || Produces | {noformat:nopanel=true}application/xml application/json {noformat} |
 ----
 h4. Parameters
 
 h5. Body Parameter
-        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
         |Pet |Pet object that needs to be added to the store | Pet | (/) | |  |  |
 
 
@@ -56,7 +56,7 @@ h4. Responses
        
 
 
-    	|| Status Code | {status:colour=Green|title=405|subtle=false} |
+    	|| Status Code | {status:colour=Orange|title=405|subtle=false} |
     	|| Message | Invalid input |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -72,7 +72,7 @@ h4. Responses
 h3. deletePet
 {panel:title=deletePet|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Deletes a pet
-    *Description:* *No Description*
+    *Description:* 
 
 	|| HttpMethod | {status:colour=Yellow|title=delete|subtle=false} |
     || Protocol | {noformat:nopanel=true}http{noformat} |
@@ -82,18 +82,18 @@ h3. deletePet
 ----
 h4. Parameters
 h5. Path Parameters
-        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
         |petId |Pet id to delete | Long | (/) |null |  |  |
 
 
 h5. Header Parameters
-        ||Name||Description||Required||Default||Pattern||
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
         |api_key | | String | (x) |null |  |  |
 
 ----
 h4. Responses
 
-    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Status Code | {status:colour=Orange|title=400|subtle=false} |
     	|| Message | Invalid pet value |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -115,14 +115,14 @@ h3. findPetsByStatus
     || Protocol | {noformat:nopanel=true}http{noformat} |
     || Path | {noformat:nopanel=true}/pet/findByStatus{noformat} |
     || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
-    || Produces | {noformat:nopanel=true}application/xmlapplication/json{noformat} |
+    || Produces | {noformat:nopanel=true}application/xml application/json {noformat} |
 ----
 h4. Parameters
 
 
 
 h5. Query Parameters
-        ||Name||Description||Required||Default||Pattern||
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
         |status |Status values that need to be considered for filter | array[String] | (/) |null |  |  |
 ----
 h4. Responses
@@ -155,7 +155,7 @@ h4. Responses
        
 
 
-    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Status Code | {status:colour=Orange|title=400|subtle=false} |
     	|| Message | Invalid status value |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -177,14 +177,14 @@ h3. findPetsByTags
     || Protocol | {noformat:nopanel=true}http{noformat} |
     || Path | {noformat:nopanel=true}/pet/findByTags{noformat} |
     || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
-    || Produces | {noformat:nopanel=true}application/xmlapplication/json{noformat} |
+    || Produces | {noformat:nopanel=true}application/xml application/json {noformat} |
 ----
 h4. Parameters
 
 
 
 h5. Query Parameters
-        ||Name||Description||Required||Default||Pattern||
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
         |tags |Tags to filter by | array[String] | (/) |null |  |  |
 ----
 h4. Responses
@@ -217,7 +217,7 @@ h4. Responses
        
 
 
-    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Status Code | {status:colour=Orange|title=400|subtle=false} |
     	|| Message | Invalid tag value |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -239,11 +239,11 @@ h3. getPetById
     || Protocol | {noformat:nopanel=true}http{noformat} |
     || Path | {noformat:nopanel=true}/pet/{petId}{noformat} |
     || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
-    || Produces | {noformat:nopanel=true}application/xmlapplication/json{noformat} |
+    || Produces | {noformat:nopanel=true}application/xml application/json {noformat} |
 ----
 h4. Parameters
 h5. Path Parameters
-        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
         |petId |ID of pet to return | Long | (/) |null |  |  |
 
 
@@ -273,7 +273,7 @@ h4. Responses
        
 
 
-    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Status Code | {status:colour=Orange|title=400|subtle=false} |
     	|| Message | Invalid ID supplied |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -283,7 +283,7 @@ h4. Responses
        
 
 
-    	|| Status Code | {status:colour=Green|title=404|subtle=false} |
+    	|| Status Code | {status:colour=Orange|title=404|subtle=false} |
     	|| Message | Pet not found |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -299,18 +299,18 @@ h4. Responses
 h3. updatePet
 {panel:title=updatePet|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Update an existing pet
-    *Description:* *No Description*
+    *Description:* 
 
 	|| HttpMethod | {status:colour=Yellow|title=put|subtle=false} |
     || Protocol | {noformat:nopanel=true}http{noformat} |
     || Path | {noformat:nopanel=true}/pet{noformat} |
     || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
-    || Produces | {noformat:nopanel=true}application/xmlapplication/json{noformat} |
+    || Produces | {noformat:nopanel=true}application/xml application/json {noformat} |
 ----
 h4. Parameters
 
 h5. Body Parameter
-        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
         |Pet |Pet object that needs to be added to the store | Pet | (/) | |  |  |
 
 
@@ -339,7 +339,7 @@ h4. Responses
        
 
 
-    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Status Code | {status:colour=Orange|title=400|subtle=false} |
     	|| Message | Invalid ID supplied |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -349,7 +349,7 @@ h4. Responses
        
 
 
-    	|| Status Code | {status:colour=Green|title=404|subtle=false} |
+    	|| Status Code | {status:colour=Orange|title=404|subtle=false} |
     	|| Message | Pet not found |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -359,7 +359,7 @@ h4. Responses
        
 
 
-    	|| Status Code | {status:colour=Green|title=405|subtle=false} |
+    	|| Status Code | {status:colour=Orange|title=405|subtle=false} |
     	|| Message | Validation exception |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -375,7 +375,7 @@ h4. Responses
 h3. updatePetWithForm
 {panel:title=updatePetWithForm|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Updates a pet in the store with form data
-    *Description:* *No Description*
+    *Description:* 
 
 	|| HttpMethod | {status:colour=Yellow|title=post|subtle=false} |
     || Protocol | {noformat:nopanel=true}http{noformat} |
@@ -385,7 +385,7 @@ h3. updatePetWithForm
 ----
 h4. Parameters
 h5. Path Parameters
-        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
         |petId |ID of pet that needs to be updated | Long | (/) |null |  |  |
 
 
@@ -393,7 +393,7 @@ h5. Path Parameters
 ----
 h4. Responses
 
-    	|| Status Code | {status:colour=Green|title=405|subtle=false} |
+    	|| Status Code | {status:colour=Orange|title=405|subtle=false} |
     	|| Message | Invalid input |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -409,17 +409,17 @@ h4. Responses
 h3. uploadFile
 {panel:title=uploadFile|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* uploads an image
-    *Description:* *No Description*
+    *Description:* 
 
 	|| HttpMethod | {status:colour=Yellow|title=post|subtle=false} |
     || Protocol | {noformat:nopanel=true}http{noformat} |
     || Path | {noformat:nopanel=true}/pet/{petId}/uploadImage{noformat} |
     || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
-    || Produces | {noformat:nopanel=true}application/json{noformat} |
+    || Produces | {noformat:nopanel=true}application/json {noformat} |
 ----
 h4. Parameters
 h5. Path Parameters
-        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
         |petId |ID of pet to update | Long | (/) |null |  |  |
 
 
@@ -460,7 +460,7 @@ h3. deleteOrder
 ----
 h4. Parameters
 h5. Path Parameters
-        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
         |orderId |ID of the order that needs to be deleted | String | (/) |null |  |  |
 
 
@@ -468,7 +468,7 @@ h5. Path Parameters
 ----
 h4. Responses
 
-    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Status Code | {status:colour=Orange|title=400|subtle=false} |
     	|| Message | Invalid ID supplied |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -478,7 +478,7 @@ h4. Responses
        
 
 
-    	|| Status Code | {status:colour=Green|title=404|subtle=false} |
+    	|| Status Code | {status:colour=Orange|title=404|subtle=false} |
     	|| Message | Order not found |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -500,7 +500,7 @@ h3. getInventory
     || Protocol | {noformat:nopanel=true}http{noformat} |
     || Path | {noformat:nopanel=true}/store/inventory{noformat} |
     || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
-    || Produces | {noformat:nopanel=true}application/json{noformat} |
+    || Produces | {noformat:nopanel=true}application/json {noformat} |
 ----
 h4. Parameters
 
@@ -536,17 +536,17 @@ h4. Responses
 h3. getOrderById
 {panel:title=getOrderById|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Find purchase order by ID
-    *Description:* For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+    *Description:* For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
 
 	|| HttpMethod | {status:colour=Yellow|title=get|subtle=false} |
     || Protocol | {noformat:nopanel=true}http{noformat} |
     || Path | {noformat:nopanel=true}/store/order/{orderId}{noformat} |
     || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
-    || Produces | {noformat:nopanel=true}application/xmlapplication/json{noformat} |
+    || Produces | {noformat:nopanel=true}application/xml application/json {noformat} |
 ----
 h4. Parameters
 h5. Path Parameters
-        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
         |orderId |ID of pet that needs to be fetched | Long | (/) |null |  |  |
 
 
@@ -576,7 +576,7 @@ h4. Responses
        
 
 
-    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Status Code | {status:colour=Orange|title=400|subtle=false} |
     	|| Message | Invalid ID supplied |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -586,7 +586,7 @@ h4. Responses
        
 
 
-    	|| Status Code | {status:colour=Green|title=404|subtle=false} |
+    	|| Status Code | {status:colour=Orange|title=404|subtle=false} |
     	|| Message | Order not found |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -602,18 +602,18 @@ h4. Responses
 h3. placeOrder
 {panel:title=placeOrder|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Place an order for a pet
-    *Description:* *No Description*
+    *Description:* 
 
 	|| HttpMethod | {status:colour=Yellow|title=post|subtle=false} |
     || Protocol | {noformat:nopanel=true}http{noformat} |
     || Path | {noformat:nopanel=true}/store/order{noformat} |
     || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
-    || Produces | {noformat:nopanel=true}application/xmlapplication/json{noformat} |
+    || Produces | {noformat:nopanel=true}application/xml application/json {noformat} |
 ----
 h4. Parameters
 
 h5. Body Parameter
-        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
         |Order |order placed for purchasing the pet | Order | (/) | |  |  |
 
 
@@ -642,7 +642,7 @@ h4. Responses
        
 
 
-    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Status Code | {status:colour=Orange|title=400|subtle=false} |
     	|| Message | Invalid Order |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -669,14 +669,14 @@ h3. createUser
 h4. Parameters
 
 h5. Body Parameter
-        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
         |User |Created user object | User | (/) | |  |  |
 
 
 ----
 h4. Responses
 
-    	|| Status Code | {status:colour=Green|title=0|subtle=false} |
+    	|| Status Code | {status:colour=Red|title=0|subtle=false} |
     	|| Message | successful operation |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -692,7 +692,7 @@ h4. Responses
 h3. createUsersWithArrayInput
 {panel:title=createUsersWithArrayInput|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Creates list of users with given input array
-    *Description:* *No Description*
+    *Description:* 
 
 	|| HttpMethod | {status:colour=Yellow|title=post|subtle=false} |
     || Protocol | {noformat:nopanel=true}http{noformat} |
@@ -703,14 +703,14 @@ h3. createUsersWithArrayInput
 h4. Parameters
 
 h5. Body Parameter
-        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
         |User |List of user object | array[User] | (/) | |  |  |
 
 
 ----
 h4. Responses
 
-    	|| Status Code | {status:colour=Green|title=0|subtle=false} |
+    	|| Status Code | {status:colour=Red|title=0|subtle=false} |
     	|| Message | successful operation |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -726,7 +726,7 @@ h4. Responses
 h3. createUsersWithListInput
 {panel:title=createUsersWithListInput|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Creates list of users with given input array
-    *Description:* *No Description*
+    *Description:* 
 
 	|| HttpMethod | {status:colour=Yellow|title=post|subtle=false} |
     || Protocol | {noformat:nopanel=true}http{noformat} |
@@ -737,14 +737,14 @@ h3. createUsersWithListInput
 h4. Parameters
 
 h5. Body Parameter
-        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
         |User |List of user object | array[User] | (/) | |  |  |
 
 
 ----
 h4. Responses
 
-    	|| Status Code | {status:colour=Green|title=0|subtle=false} |
+    	|| Status Code | {status:colour=Red|title=0|subtle=false} |
     	|| Message | successful operation |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -770,7 +770,7 @@ h3. deleteUser
 ----
 h4. Parameters
 h5. Path Parameters
-        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
         |username |The name that needs to be deleted | String | (/) |null |  |  |
 
 
@@ -778,7 +778,7 @@ h5. Path Parameters
 ----
 h4. Responses
 
-    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Status Code | {status:colour=Orange|title=400|subtle=false} |
     	|| Message | Invalid username supplied |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -788,7 +788,7 @@ h4. Responses
        
 
 
-    	|| Status Code | {status:colour=Green|title=404|subtle=false} |
+    	|| Status Code | {status:colour=Orange|title=404|subtle=false} |
     	|| Message | User not found |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -804,17 +804,17 @@ h4. Responses
 h3. getUserByName
 {panel:title=getUserByName|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Get user by user name
-    *Description:* *No Description*
+    *Description:* 
 
 	|| HttpMethod | {status:colour=Yellow|title=get|subtle=false} |
     || Protocol | {noformat:nopanel=true}http{noformat} |
     || Path | {noformat:nopanel=true}/user/{username}{noformat} |
     || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
-    || Produces | {noformat:nopanel=true}application/xmlapplication/json{noformat} |
+    || Produces | {noformat:nopanel=true}application/xml application/json {noformat} |
 ----
 h4. Parameters
 h5. Path Parameters
-        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
         |username |The name that needs to be fetched. Use user1 for testing. | String | (/) |null |  |  |
 
 
@@ -844,7 +844,7 @@ h4. Responses
        
 
 
-    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Status Code | {status:colour=Orange|title=400|subtle=false} |
     	|| Message | Invalid username supplied |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -854,7 +854,7 @@ h4. Responses
        
 
 
-    	|| Status Code | {status:colour=Green|title=404|subtle=false} |
+    	|| Status Code | {status:colour=Orange|title=404|subtle=false} |
     	|| Message | User not found |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -870,21 +870,21 @@ h4. Responses
 h3. loginUser
 {panel:title=loginUser|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Logs user into the system
-    *Description:* *No Description*
+    *Description:* 
 
 	|| HttpMethod | {status:colour=Yellow|title=get|subtle=false} |
     || Protocol | {noformat:nopanel=true}http{noformat} |
     || Path | {noformat:nopanel=true}/user/login{noformat} |
     || Base Path | {noformat:nopanel=true}http://petstore.swagger.io/v2{noformat} |
-    || Produces | {noformat:nopanel=true}application/xmlapplication/json{noformat} |
+    || Produces | {noformat:nopanel=true}application/xml application/json {noformat} |
 ----
 h4. Parameters
 
 
 
 h5. Query Parameters
-        ||Name||Description||Required||Default||Pattern||
-        |username |The user name for login | String | (/) |null | /^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/ |  ||password |The password for login in clear text | String | (/) |null |  |  |
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
+        |username |The user name for login | String | (/) |null | /^[a-zA-Z0-9\]+[a-zA-Z0-9\\.\\-_\]*[a-zA-Z0-9\]+$/ |  ||password |The password for login in clear text | String | (/) |null |  |  |
 ----
 h4. Responses
 
@@ -914,7 +914,7 @@ h4. Responses
       }
     },
     "X-Expires-After" : {
-      "description" : "date in UTC when toekn expires",
+      "description" : "date in UTC when token expires",
       "style" : "simple",
       "explode" : false,
       "schema" : {
@@ -939,7 +939,7 @@ h4. Responses
        
 
 
-    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Status Code | {status:colour=Orange|title=400|subtle=false} |
     	|| Message | Invalid username/password supplied |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -955,7 +955,7 @@ h4. Responses
 h3. logoutUser
 {panel:title=logoutUser|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Logs out current logged in user session
-    *Description:* *No Description*
+    *Description:* 
 
 	|| HttpMethod | {status:colour=Yellow|title=get|subtle=false} |
     || Protocol | {noformat:nopanel=true}http{noformat} |
@@ -970,7 +970,7 @@ h4. Parameters
 ----
 h4. Responses
 
-    	|| Status Code | {status:colour=Green|title=0|subtle=false} |
+    	|| Status Code | {status:colour=Red|title=0|subtle=false} |
     	|| Message | successful operation |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -996,18 +996,18 @@ h3. updateUser
 ----
 h4. Parameters
 h5. Path Parameters
-        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
         |username |name that need to be deleted | String | (/) |null |  |  |
 
 h5. Body Parameter
-        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        ||Name||Description||Type||Required||Default||Pattern||Enum||Example||
         |User |Updated user object | User | (/) | |  |  |
 
 
 ----
 h4. Responses
 
-    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Status Code | {status:colour=Orange|title=400|subtle=false} |
     	|| Message | Invalid user supplied |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -1017,7 +1017,7 @@ h4. Responses
        
 
 
-    	|| Status Code | {status:colour=Green|title=404|subtle=false} |
+    	|| Status Code | {status:colour=Orange|title=404|subtle=false} |
     	|| Message | User not found |
     	|| Response Type |  |
     	|| Response Model | [ Model|#ModelAnchor|Jump to model] |
@@ -1037,77 +1037,73 @@ h2. Models
 
         Describes the result of uploading an image resource
 
-        ||Field Name||Required||Type||Description||Enum||
-         |code |(x) |{noformat:nopanel=true}Integer{noformat} | |  |
- |type |(x) |{noformat:nopanel=true}String{noformat} | |  |
- |message |(x) |{noformat:nopanel=true}String{noformat} | |  |
+        
+        ||Field Name||Required||Type||Description||Enum||Example||
+         |code |(x) |{noformat:nopanel=true}Integer{noformat} |  |  | null
+         |type |(x) |{noformat:nopanel=true}String{noformat} |  |  | null
+         |message |(x) |{noformat:nopanel=true}String{noformat} |  |  | null
+         
         {anchor:CategoryModelAnchor}
         h3. Category
 
         A category for a pet
 
-        ||Field Name||Required||Type||Description||Enum||
-         |id |(x) |{noformat:nopanel=true}Long{noformat} | |  |
- |name |(x) |{noformat:nopanel=true}String{noformat} | |  |
-        {anchor:InlineObjectModelAnchor}
-        h3. InlineObject
-
         
-
-        ||Field Name||Required||Type||Description||Enum||
-         |name |(x) |{noformat:nopanel=true}String{noformat} |Updated name of the pet |  |
- |status |(x) |{noformat:nopanel=true}String{noformat} |Updated status of the pet |  |
-        {anchor:InlineObject1ModelAnchor}
-        h3. InlineObject1
-
-        
-
-        ||Field Name||Required||Type||Description||Enum||
-         |additionalMetadata |(x) |{noformat:nopanel=true}String{noformat} |Additional data to pass to server |  |
- |file |(x) |{noformat:nopanel=true}File{noformat} |file to upload |  |
+        ||Field Name||Required||Type||Description||Enum||Example||
+         |id |(x) |{noformat:nopanel=true}Long{noformat} |  |  | null
+         |name |(x) |{noformat:nopanel=true}String{noformat} |  |  | null
+         
         {anchor:OrderModelAnchor}
         h3. Order
 
         An order for a pets from the pet store
 
-        ||Field Name||Required||Type||Description||Enum||
-         |id |(x) |{noformat:nopanel=true}Long{noformat} | |  |
- |petId |(x) |{noformat:nopanel=true}Long{noformat} | |  |
- |quantity |(x) |{noformat:nopanel=true}Integer{noformat} | |  |
- |shipDate |(x) |{noformat:nopanel=true}Date{noformat} | |  |
- |status |(x) |{noformat:nopanel=true}String{noformat} |Order Status |  [placed, approved, delivered]  |
- |complete |(x) |{noformat:nopanel=true}Boolean{noformat} | |  |
+        
+        ||Field Name||Required||Type||Description||Enum||Example||
+         |id |(x) |{noformat:nopanel=true}Long{noformat} |  |  | null
+         |petId |(x) |{noformat:nopanel=true}Long{noformat} |  |  | null
+         |quantity |(x) |{noformat:nopanel=true}Integer{noformat} |  |  | null
+         |shipDate |(x) |{noformat:nopanel=true}Date{noformat} |  |  | null
+         |status |(x) |{noformat:nopanel=true}String{noformat} | Order Status |  [placed, approved, delivered]  | null
+         |complete |(x) |{noformat:nopanel=true}Boolean{noformat} |  |  | null
+         
         {anchor:PetModelAnchor}
         h3. Pet
 
         A pet for sale in the pet store
 
-        ||Field Name||Required||Type||Description||Enum||
-         |id |(x) |{noformat:nopanel=true}Long{noformat} | |  |
- |category |(x) |{noformat:nopanel=true}Category{noformat} | |  |
- |name |(/) |{noformat:nopanel=true}String{noformat} | |  |
- |photoUrls |(/) |{noformat:nopanel=true}array[String]{noformat} | |  |
- |tags |(x) |{noformat:nopanel=true}array[Tag]{noformat} | |  |
- |status |(x) |{noformat:nopanel=true}String{noformat} |pet status in the store |  [available, pending, sold]  |
+        
+        ||Field Name||Required||Type||Description||Enum||Example||
+         |id |(x) |{noformat:nopanel=true}Long{noformat} |  |  | null
+         |category |(x) |{noformat:nopanel=true}Category{noformat} |  |  | null
+         |name |(/) |{noformat:nopanel=true}String{noformat} |  |  | doggie
+         |photoUrls |(/) |{noformat:nopanel=true}array[String]{noformat} |  |  | null
+         |tags |(x) |{noformat:nopanel=true}array[Tag]{noformat} |  |  | null
+         |status |(x) |{noformat:nopanel=true}String{noformat} | pet status in the store |  [available, pending, sold]  | null
+         
         {anchor:TagModelAnchor}
         h3. Tag
 
         A tag for a pet
 
-        ||Field Name||Required||Type||Description||Enum||
-         |id |(x) |{noformat:nopanel=true}Long{noformat} | |  |
- |name |(x) |{noformat:nopanel=true}String{noformat} | |  |
+        
+        ||Field Name||Required||Type||Description||Enum||Example||
+         |id |(x) |{noformat:nopanel=true}Long{noformat} |  |  | null
+         |name |(x) |{noformat:nopanel=true}String{noformat} |  |  | null
+         
         {anchor:UserModelAnchor}
         h3. User
 
         A User who is purchasing from the pet store
 
-        ||Field Name||Required||Type||Description||Enum||
-         |id |(x) |{noformat:nopanel=true}Long{noformat} | |  |
- |username |(x) |{noformat:nopanel=true}String{noformat} | |  |
- |firstName |(x) |{noformat:nopanel=true}String{noformat} | |  |
- |lastName |(x) |{noformat:nopanel=true}String{noformat} | |  |
- |email |(x) |{noformat:nopanel=true}String{noformat} | |  |
- |password |(x) |{noformat:nopanel=true}String{noformat} | |  |
- |phone |(x) |{noformat:nopanel=true}String{noformat} | |  |
- |userStatus |(x) |{noformat:nopanel=true}Integer{noformat} |User Status |  |
+        
+        ||Field Name||Required||Type||Description||Enum||Example||
+         |id |(x) |{noformat:nopanel=true}Long{noformat} |  |  | null
+         |username |(x) |{noformat:nopanel=true}String{noformat} |  |  | null
+         |firstName |(x) |{noformat:nopanel=true}String{noformat} |  |  | null
+         |lastName |(x) |{noformat:nopanel=true}String{noformat} |  |  | null
+         |email |(x) |{noformat:nopanel=true}String{noformat} |  |  | null
+         |password |(x) |{noformat:nopanel=true}String{noformat} |  |  | null
+         |phone |(x) |{noformat:nopanel=true}String{noformat} |  |  | null
+         |userStatus |(x) |{noformat:nopanel=true}Integer{noformat} | User Status |  | null
+         

@@ -1,0 +1,48 @@
+{{#isContainer
+}}    #[DTA\Strategy("Object", ["type" => {{internal.containerDataType}}::class])]
+    #[DTA\Validator("TypeCompliant", ["type" => {{internal.containerDataType}}::class])]
+{{/isContainer
+}}{{^isContainer
+}}{{#isPrimitiveType
+}}    #[DTA\Validator("Scalar", ["type" => "{{dataType}}"])]
+{{/isPrimitiveType
+}}{{#isDate
+}}    #[DTA\Strategy("Date")]
+    #[DTA\Validator("Date")]
+{{/isDate
+}}{{#isDateTime
+}}    #[DTA\Strategy("DateTime")]
+    #[DTA\Validator("DateTime")]
+{{/isDateTime
+}}{{^isPrimitiveType
+}}{{^isDate
+}}{{^isDateTime
+}}    #[DTA\Strategy("Object", ["type" => {{dataType}}::class])]
+    #[DTA\Validator("TypeCompliant", ["type" => {{dataType}}::class])]
+{{/isDateTime
+}}{{/isDate
+}}{{/isPrimitiveType
+}}{{/isContainer
+}}{{#hasValidation
+}}{{#minLength}}{{#maxLength
+}}    #[DTA\Validator("Length", ["min" => {{minLength}}, "max" => {{maxLength}}])]
+{{/maxLength}}{{/minLength
+}}{{^minLength}}{{#maxLength
+}}    #[DTA\Validator("Length", ["max" => {{maxLength}}])]
+{{/maxLength}}{{/minLength
+}}{{#minLength}}{{^maxLength
+}}    #[DTA\Validator("Length", ["min" => {{minLength}}])]
+{{/maxLength}}{{/minLength
+}}{{#minimum}}{{#maximum
+}}    #[DTA\Validator("Range", ["min" => {{minimum}}, "max" => {{maximum}}{{#exclusiveMinimum}}, "exclude_min" => true{{/exclusiveMinimum}}{{#exclusiveMaximum}}, "exclude_max" => true{{/exclusiveMaximum}}])]
+{{/maximum}}{{/minimum
+}}{{^minimum}}{{#maximum
+}}    #[DTA\Validator("Range", ["max" => {{maximum}}{{#exclusiveMaximum}}, "exclude_max" => true{{/exclusiveMaximum}}])]
+{{/maximum}}{{/minimum
+}}{{#minimum}}{{^maximum
+}}    #[DTA\Validator("Range", ["min" => {{minimum}}{{#exclusiveMinimum}}, "exclude_min" => true{{/exclusiveMinimum}}])]
+{{/maximum}}{{/minimum
+}}{{#pattern
+}}    #[DTA\Validator("Match", ["pattern" => "{{{pattern}}}"])]
+{{/pattern
+}}{{/hasValidation}}

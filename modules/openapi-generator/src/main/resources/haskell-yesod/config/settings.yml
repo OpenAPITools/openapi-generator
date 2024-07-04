@@ -1,0 +1,25 @@
+# Values formatted like "_env:YESOD_ENV_VAR_NAME:default_value" can be overridden by the specified environment variable.
+# See https://github.com/yesodweb/yesod/wiki/Configuration#overriding-configuration-values-with-environment-variables
+
+static-dir:     "_env:YESOD_STATIC_DIR:static"
+host:           "_env:YESOD_HOST:*4" # any IPv4 host
+port:           "_env:YESOD_PORT:3000" # NB: The port `yesod devel` uses is distinct from this value. Set the `yesod devel` port from the command line.
+ip-from-header: "_env:YESOD_IP_FROM_HEADER:false"
+
+# Default behavior: determine the application root from the request headers.
+# Uncomment to set an explicit approot
+#approot:        "_env:YESOD_APPROOT:http://localhost:3000"
+
+# By default, `yesod devel` runs in development, and built executables use
+# production settings (see below). To override this, use the following:
+#
+# development: false
+
+# Optional values with the following production defaults.
+# In development, they default to the inverse.
+#
+# detailed-logging: false
+# should-log-all: false
+# reload-templates: false
+# mutable-static: false
+# skip-combining: false

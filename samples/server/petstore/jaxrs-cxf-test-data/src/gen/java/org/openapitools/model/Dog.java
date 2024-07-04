@@ -1,18 +1,10 @@
 package org.openapitools.model;
 
 import org.openapitools.model.Animal;
-import org.openapitools.model.DogAllOf;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -33,7 +25,7 @@ public class Dog extends Animal {
   /**
    * Sets the <code>breed</code> property.
    */
-  public void setBreed(String breed) {
+ public void setBreed(String breed) {
     this.breed = breed;
   }
 
@@ -45,6 +37,23 @@ public class Dog extends Animal {
     return this;
   }
 
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Dog dog = (Dog) o;
+    return super.equals(o) && Objects.equals(breed, dog.breed);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(super.hashCode(), breed);
+  }
 
   @Override
   public String toString() {

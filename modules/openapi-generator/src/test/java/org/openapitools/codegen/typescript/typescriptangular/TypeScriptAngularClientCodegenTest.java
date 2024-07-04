@@ -8,15 +8,21 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
+import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
+
+@Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_ANGULAR})
 public class TypeScriptAngularClientCodegenTest {
     @Test
     public void toVarName() {
@@ -220,15 +226,122 @@ public class TypeScriptAngularClientCodegenTest {
 
         final String modelName = "FooResponse__links";
         final Schema schema = new Schema()
-            .name(modelName)
-            .description("an inline model with name previously prefixed with underscore")
-            .addRequiredItem("self")
-            .addProperties("self", new StringSchema());
+                .name(modelName)
+                .description("an inline model with name previously prefixed with underscore")
+                .addRequiredItem("self")
+                .addProperty("self", new StringSchema());
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("test", schema);
         codegen.setOpenAPI(openAPI);
 
-        Assert.assertEquals(codegen.toModelImport(modelName), "model/foo-response-links");
+        Assert.assertEquals(codegen.toModelImport(modelName), "../model/foo-response-links");
         Assert.assertEquals(codegen.toModelFilename(modelName), "./foo-response-links");
+    }
+
+    @Test
+    public void testToParamNaming() {
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        // unspecified option should default to camelcase
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toParamName("valid_id"), "validId");
+        Assert.assertEquals(codegen.toParamName("illegal-id+"), "illegalId");
+
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.PARAM_NAMING, CodegenConstants.PARAM_NAMING_TYPE.original.name());
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toParamName("valid_id"), "valid_id");
+        Assert.assertEquals(codegen.toParamName("illegal-id+"), "illegal_id");
+
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.PARAM_NAMING, CodegenConstants.PARAM_NAMING_TYPE.snake_case.name());
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toParamName("valid_ID"), "valid_id");
+        Assert.assertEquals(codegen.toParamName("Illegal-Id+"), "illegal_id");
+
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.PARAM_NAMING, CodegenConstants.PARAM_NAMING_TYPE.PascalCase.name());
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toParamName("valid_id"), "ValidId");
+        Assert.assertEquals(codegen.toParamName("illegal-id+"), "IllegalId");
+    }
+
+    @Test
+    public void testCorrectlyProducesImportsWithImportMapping() {
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        final String importedModel = "SharedApiModel";
+        final String importName = "@lib/custom/model";
+        codegen.importMapping().put(importedModel, importName);
+        Assert.assertEquals(codegen.toModelImport(importedModel), importName);
+    }
+
+    @Test
+    public void testTaggedUnionImports() throws Exception {
+        final String specPath = "src/test/resources/3_0/allOf_composition_discriminator_recursive.yaml";
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptAngularClientCodegen.TAGGED_UNIONS, "true");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-angular")
+                .setInputSpec(specPath)
+                .setAdditionalProperties(properties)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        TestUtils.assertFileContains(
+                Paths.get(output + "/model/expressionToken.ts"),
+                "import { Token } from './token'", // imports the parent schema
+                "import { TokenMetadata } from './tokenMetadata'", // imports a schema referenced in an inherited property
+                "export interface ExpressionToken {" // no inheritance
+        );
+
+        TestUtils.assertFileNotContains(
+                Paths.get(output + "/model/stringToken.ts"),
+                "import { Token } from './token'"
+        );
+
+        TestUtils.assertFileContains(
+                Paths.get(output + "/model/token.ts"),
+                "import { ExpressionToken } from './expressionToken'",
+                "export type Token = ExpressionToken | StringToken"
+        );
+    }
+
+    @Test
+    public void testModelNameMappings() throws Exception {
+        final String specPath = "src/test/resources/2_0/issue_8289.json";
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptAngularClientCodegen.TAGGED_UNIONS, "true");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        Map<String, String> modelNames = new HashMap<>();
+        modelNames.put("File", "SystemFile");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setModelNameMappings(modelNames)
+                .setGeneratorName("typescript-angular")
+                .setInputSpec(specPath)
+                .setAdditionalProperties(properties)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        TestUtils.assertFileContains(
+                Paths.get(output + "/model/folder.ts"),
+                "files?: Array<SystemFile>;" // ensure it's an array of SystemFile (not Any)
+        );
     }
 }

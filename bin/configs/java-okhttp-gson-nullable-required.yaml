@@ -1,0 +1,10 @@
+generatorName: java
+outputDir: samples/client/petstore/java/okhttp-gson-nullable-required
+library: okhttp-gson
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-nullable-required.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  artifactId: nullable-required-okhttp-gson
+  hideGenerationTimestamp: "true"
+  useOneOfDiscriminatorLookup: "true"
+  disallowAdditionalPropertiesIfNotPresent: false

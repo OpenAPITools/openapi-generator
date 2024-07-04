@@ -1,0 +1,52 @@
+openapi: 3.0.1
+info:
+  title: Test Issue #9789
+  version: v1
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ObjectWithNoRequiredParameter'
+components:
+  schemas:
+    ObjectWithNoRequiredParameter:
+      type: object
+      properties:
+        param1:
+          type: string
+    ObjectWithRequiredParameter:
+      type: object
+      properties:
+        param1:
+          type: string
+        param2:
+          type: string
+        param3:
+          type: string
+          nullable: true
+        param4:
+          type: string
+      required:
+        - param2
+        - param3
+      discriminator:
+        propertyName: param1
+    ObjectWithInheritedRequiredParameter:
+      allOf:
+        - $ref: '#/components/schemas/ObjectWithRequiredParameter'
+        - type: object
+          properties:
+            param5:
+              type: boolean
+            param6:
+              type: integer
+            param7:
+              type: number
+          required:
+            - param6
+

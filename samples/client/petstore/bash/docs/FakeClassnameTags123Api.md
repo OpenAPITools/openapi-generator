@@ -25,7 +25,7 @@ petstore-cli testClassname
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md) | client model |
+ **body** | [**Client**](Client.md) | client model |
 
 ### Return type
 

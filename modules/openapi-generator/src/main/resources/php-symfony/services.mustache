@@ -30,8 +30,8 @@ services:
          - [setSerializer, ['@{{bundleAlias}}.service.serializer']]
          - [setValidator,  ['@{{bundleAlias}}.service.validator']]
          - [setApiServer,  ['@{{bundleAlias}}.api.api_server']]
+         - [setContainer,  ['@service_container']]
         tags: ['controller.service_arguments']
-        autowire: true
 
 {{/operations}}
 {{/apis}}

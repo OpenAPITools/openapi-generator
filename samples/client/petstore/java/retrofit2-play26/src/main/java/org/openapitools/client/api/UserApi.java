@@ -2,8 +2,6 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.CollectionFormats.*;
 
-
-
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -11,7 +9,11 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import okhttp3.MultipartBody;
 
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
+
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +43,7 @@ public interface UserApi {
    */
   @POST("user/createWithArray")
   CompletionStage<Response<Void>> createUsersWithArrayInput(
-    @retrofit2.http.Body List<User> body
+    @retrofit2.http.Body List<@Valid User> body
   );
 
   /**
@@ -52,7 +54,7 @@ public interface UserApi {
    */
   @POST("user/createWithList")
   CompletionStage<Response<Void>> createUsersWithListInput(
-    @retrofit2.http.Body List<User> body
+    @retrofit2.http.Body List<@Valid User> body
   );
 
   /**

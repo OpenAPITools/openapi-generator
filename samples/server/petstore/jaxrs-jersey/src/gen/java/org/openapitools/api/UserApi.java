@@ -1,13 +1,12 @@
 package org.openapitools.api;
 
-import org.openapitools.model.*;
 import org.openapitools.api.UserApiService;
 import org.openapitools.api.factories.UserApiServiceFactory;
 
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
-import java.util.List;
+import java.util.Date;
 import org.openapitools.model.User;
 
 import java.util.Map;
@@ -31,7 +30,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the user API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class UserApi  {
    private final UserApiService delegate;
 
@@ -42,11 +41,11 @@ public class UserApi  {
          String implClass = servletContext.getInitParameter("UserApi.implementation");
          if (implClass != null && !"".equals(implClass.trim())) {
             try {
-               delegate = (UserApiService) Class.forName(implClass).newInstance();
+               delegate = (UserApiService) Class.forName(implClass).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                throw new RuntimeException(e);
             }
-         } 
+         }
       }
 
       if (delegate == null) {
@@ -56,7 +55,7 @@ public class UserApi  {
       this.delegate = delegate;
    }
 
-    @POST
+    @javax.ws.rs.POST
     
     @Consumes({ "application/json" })
     
@@ -68,7 +67,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.createUser(user, securityContext);
     }
-    @POST
+    @javax.ws.rs.POST
     @Path("/createWithArray")
     @Consumes({ "application/json" })
     
@@ -76,11 +75,11 @@ public class UserApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response createUsersWithArrayInput(@ApiParam(value = "List of user object", required = true) @NotNull @Valid  List<User> user,@Context SecurityContext securityContext)
+    public Response createUsersWithArrayInput(@ApiParam(value = "List of user object", required = true) @NotNull @Valid  List<@Valid User> user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.createUsersWithArrayInput(user, securityContext);
     }
-    @POST
+    @javax.ws.rs.POST
     @Path("/createWithList")
     @Consumes({ "application/json" })
     
@@ -88,11 +87,11 @@ public class UserApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response createUsersWithListInput(@ApiParam(value = "List of user object", required = true) @NotNull @Valid  List<User> user,@Context SecurityContext securityContext)
+    public Response createUsersWithListInput(@ApiParam(value = "List of user object", required = true) @NotNull @Valid  List<@Valid User> user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.createUsersWithListInput(user, securityContext);
     }
-    @DELETE
+    @javax.ws.rs.DELETE
     @Path("/{username}")
     
     
@@ -105,7 +104,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.deleteUser(username, securityContext);
     }
-    @GET
+    @javax.ws.rs.GET
     @Path("/{username}")
     
     @Produces({ "application/xml", "application/json" })
@@ -119,7 +118,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.getUserByName(username, securityContext);
     }
-    @GET
+    @javax.ws.rs.GET
     @Path("/login")
     
     @Produces({ "application/xml", "application/json" })
@@ -132,7 +131,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.loginUser(username, password, securityContext);
     }
-    @GET
+    @javax.ws.rs.GET
     @Path("/logout")
     
     
@@ -144,7 +143,7 @@ public class UserApi  {
     throws NotFoundException {
         return delegate.logoutUser(securityContext);
     }
-    @PUT
+    @javax.ws.rs.PUT
     @Path("/{username}")
     @Consumes({ "application/json" })
     

@@ -44,7 +44,6 @@ import java.nio.charset.Charset
  */
 @CacheableTask
 open class MetaTask : DefaultTask() {
-
     @get:Input
     val generatorName = project.objects.property<String>()
 
@@ -54,10 +53,8 @@ open class MetaTask : DefaultTask() {
     @get:OutputDirectory
     val outputFolder = project.objects.property<String>()
 
-    @Suppress("unused")
     @TaskAction
     fun doWork() {
-
         val packageToPath = packageName.get().replace(".", File.separator)
         val dir = File(outputFolder.get())
         val klass = "${generatorName.get().titleCasedTextOnly()}Generator"
@@ -73,21 +70,28 @@ open class MetaTask : DefaultTask() {
         logger.debug("generator class: {}", klass)
 
         val supportingFiles = listOf(
-                SupportingFile("pom.mustache", "", "pom.xml"),
-                SupportingFile("generatorClass.mustache", dir("src", "main", "java", packageToPath), "$klass.java"),
-                SupportingFile("README.mustache", "", "README.md"),
-                SupportingFile("api.template", dir("src", "main", "resources", templateResourceDir), "api.mustache"),
-                SupportingFile("model.template", dir("src", "main", "resources", templateResourceDir), "model.mustache"),
-                SupportingFile("myFile.template", dir("src", "main", "resources", templateResourceDir), "myFile.mustache"),
-                SupportingFile("services.mustache", dir("src", "main", "resources", "META-INF", "services"), CodegenConfig::class.java.canonicalName))
+            SupportingFile("pom.mustache", "", "pom.xml"),
+            SupportingFile("generatorClass.mustache", dir("src", "main", "java", packageToPath), "$klass.java"),
+            SupportingFile("README.mustache", "", "README.md"),
+            SupportingFile("api.template", dir("src", "main", "resources", templateResourceDir), "api.mustache"),
+            SupportingFile("model.template", dir("src", "main", "resources", templateResourceDir), "model.mustache"),
+            SupportingFile("myFile.template", dir("src", "main", "resources", templateResourceDir), "myFile.mustache"),
+            SupportingFile(
+                "services.mustache",
+                dir("src", "main", "resources", "META-INF", "services"),
+                CodegenConfig::class.java.canonicalName
+            )
+        )
 
         val currentVersion = CodegenConstants::class.java.`package`.implementationVersion
 
-        val data = mapOf("generatorPackage" to packageToPath,
-                "generatorClass" to klass,
-                "name" to templateResourceDir,
-                "fullyQualifiedGeneratorClass" to "${packageName.get()}.$klass",
-                "openapiGeneratorVersion" to currentVersion)
+        val data = mapOf(
+            "generatorPackage" to packageToPath,
+            "generatorClass" to klass,
+            "name" to templateResourceDir,
+            "fullyQualifiedGeneratorClass" to "${packageName.get()}.$klass",
+            "openapiGeneratorVersion" to currentVersion
+        )
 
         supportingFiles.map {
             try {
@@ -96,9 +100,9 @@ open class MetaTask : DefaultTask() {
                 val outputFile = File(destinationFolder, it.destinationFilename)
 
                 val templateProcessor = TemplateManager(
-                        TemplateManagerOptions(false, false),
-                        MustacheEngineAdapter(),
-                        arrayOf(CommonTemplateContentLocator("codegen"))
+                    TemplateManagerOptions(false, false),
+                    MustacheEngineAdapter(),
+                    arrayOf(CommonTemplateContentLocator("codegen"))
                 )
 
                 val template = templateProcessor.getFullTemplateContents(it.templateFile)
@@ -110,9 +114,9 @@ open class MetaTask : DefaultTask() {
 
                 if (it.templateFile.endsWith(".mustache")) {
                     formatted = Mustache.compiler()
-                            .withLoader(loader)
-                            .defaultValue("")
-                            .compile(template).execute(data)
+                        .withLoader(loader)
+                        .defaultValue("")
+                        .compile(template).execute(data)
                 }
 
                 outputFile.writeText(formatted, Charset.forName("UTF8"))
@@ -131,11 +135,10 @@ open class MetaTask : DefaultTask() {
     }
 
     private fun String.titleCasedTextOnly(): String =
-            this.split(Regex("[^a-zA-Z0-9]")).joinToString(separator = "", transform = String::capitalize)
+        split(Regex("[^a-zA-Z0-9]")).joinToString(separator = "", transform = String::capitalize)
 
     private fun String.hyphenatedTextOnly(): String =
-            this.split(Regex("[^a-zA-Z0-9]")).joinToString(separator = "-", transform = String::toLowerCase)
+        split(Regex("[^a-zA-Z0-9]")).joinToString(separator = "-", transform = String::toLowerCase)
 
-    private fun dir(vararg parts: String): String =
-            parts.joinToString(separator = File.separator)
+    private fun dir(vararg parts: String): String = parts.joinToString(separator = File.separator)
 }

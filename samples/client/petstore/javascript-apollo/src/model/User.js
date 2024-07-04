@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -20,51 +20,7 @@ import ApiClient from '../ApiClient';
  */
 class User {
     /**
-     * @member {Number} id
-     * @type {Number}
-     */
-    id;
-    /**
-     * @member {String} username
-     * @type {String}
-     */
-    username;
-    /**
-     * @member {String} firstName
-     * @type {String}
-     */
-    firstName;
-    /**
-     * @member {String} lastName
-     * @type {String}
-     */
-    lastName;
-    /**
-     * @member {String} email
-     * @type {String}
-     */
-    email;
-    /**
-     * @member {String} password
-     * @type {String}
-     */
-    password;
-    /**
-     * @member {String} phone
-     * @type {String}
-     */
-    phone;
-    /**
-     * @member {Number} userStatus
-     * @type {Number}
-     */
-    userStatus;
-
-    
-
-    /**
      * Constructs a new <code>User</code>.
-     * A User who is purchasing from the pet store
      * @alias module:model/User
      */
     constructor() { 
@@ -118,7 +74,89 @@ class User {
         }
         return obj;
     }
+
+    /**
+     * Validates the JSON data with respect to <code>User</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>User</code>.
+     */
+    static validateJSON(data) {
+        // ensure the json data is a string
+        if (data['username'] && !(typeof data['username'] === 'string' || data['username'] instanceof String)) {
+            throw new Error("Expected the field `username` to be a primitive type in the JSON string but got " + data['username']);
+        }
+        // ensure the json data is a string
+        if (data['firstName'] && !(typeof data['firstName'] === 'string' || data['firstName'] instanceof String)) {
+            throw new Error("Expected the field `firstName` to be a primitive type in the JSON string but got " + data['firstName']);
+        }
+        // ensure the json data is a string
+        if (data['lastName'] && !(typeof data['lastName'] === 'string' || data['lastName'] instanceof String)) {
+            throw new Error("Expected the field `lastName` to be a primitive type in the JSON string but got " + data['lastName']);
+        }
+        // ensure the json data is a string
+        if (data['email'] && !(typeof data['email'] === 'string' || data['email'] instanceof String)) {
+            throw new Error("Expected the field `email` to be a primitive type in the JSON string but got " + data['email']);
+        }
+        // ensure the json data is a string
+        if (data['password'] && !(typeof data['password'] === 'string' || data['password'] instanceof String)) {
+            throw new Error("Expected the field `password` to be a primitive type in the JSON string but got " + data['password']);
+        }
+        // ensure the json data is a string
+        if (data['phone'] && !(typeof data['phone'] === 'string' || data['phone'] instanceof String)) {
+            throw new Error("Expected the field `phone` to be a primitive type in the JSON string but got " + data['phone']);
+        }
+
+        return true;
+    }
+
+
 }
+
+
+
+/**
+ * @member {Number} id
+ */
+User.prototype['id'] = undefined;
+
+/**
+ * @member {String} username
+ */
+User.prototype['username'] = undefined;
+
+/**
+ * @member {String} firstName
+ */
+User.prototype['firstName'] = undefined;
+
+/**
+ * @member {String} lastName
+ */
+User.prototype['lastName'] = undefined;
+
+/**
+ * @member {String} email
+ */
+User.prototype['email'] = undefined;
+
+/**
+ * @member {String} password
+ */
+User.prototype['password'] = undefined;
+
+/**
+ * @member {String} phone
+ */
+User.prototype['phone'] = undefined;
+
+/**
+ * User Status
+ * @member {Number} userStatus
+ */
+User.prototype['userStatus'] = undefined;
+
+
+
 
 
 

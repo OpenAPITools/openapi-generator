@@ -5,52 +5,59 @@ namespace {{servicePackage}};
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Naming\CamelCaseNamingStrategy;
 use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
-use JMS\Serializer\XmlDeserializationVisitor;
+use JMS\Serializer\Serializer;
+use JMS\Serializer\Visitor\Factory\XmlDeserializationVisitorFactory;
+use DateTime;
+use RuntimeException;
 
 class JmsSerializer implements SerializerInterface
 {
-    protected $serializer;
+    protected Serializer $serializer;
 
     public function __construct()
     {
-        $naming_strategy = new SerializedNameAnnotationStrategy(new CamelCaseNamingStrategy());
+        $namingStrategy = new SerializedNameAnnotationStrategy(new CamelCaseNamingStrategy());
         $this->serializer = SerializerBuilder::create()
-            ->setDeserializationVisitor('json', new StrictJsonDeserializationVisitor($naming_strategy))
-            ->setDeserializationVisitor('xml', new XmlDeserializationVisitor($naming_strategy))
+            ->setDeserializationVisitor('json', new StrictJsonDeserializationVisitorFactory())
+            ->setDeserializationVisitor('xml', new XmlDeserializationVisitorFactory())
+            ->setPropertyNamingStrategy($namingStrategy)
             ->build();
     }
 
-    public function serialize($data, $format)
+    /**
+     * @inheritdoc
+     */
+    public function serialize($data, string $format): string
     {
         return SerializerBuilder::create()->build()->serialize($data, $this->convertFormat($format));
     }
 
-    public function deserialize($data, $type, $format)
+    /**
+     * @inheritdoc
+     */
+    public function deserialize($data, string $type, string $format)
     {
         if ($format == 'string') {
-            return $this->deserializeString($data, $type);           
+            return $this->deserializeString($data, $type);
         }
 
         // If we end up here, let JMS serializer handle the deserialization
         return $this->serializer->deserialize($data, $type, $this->convertFormat($format));
     }
 
-    private function convertFormat($format)
+    private function convertFormat(string $format): ?string
     {
-        switch ($format) {
-            case 'application/json':
-                return 'json';
-            case 'application/xml':
-                return 'xml';
-        }
-
-        return null;
+        return match($format) {
+            'application/json' => 'json',
+            'application/xml' => 'xml',
+            default => null,
+        };
     }
 
-    private function deserializeString($data, $type)
+    private function deserializeString($data, string $type)
     {
         // Figure out if we have an array format
-        if (1 === preg_match('/array<(csv|ssv|tsv|pipes),(int|string)>/i', $type, $matches)) {
+        if (1 === preg_match('/array<(csv|ssv|tsv|pipes),(.*)>/i', $type, $matches)) {
             return $this->deserializeArrayString($matches[1], $matches[2], $data);
         }
 
@@ -66,10 +73,21 @@ class JmsSerializer implements SerializerInterface
                 }
 
                 break;
+            case 'double':
+            case 'float':
+                if (is_float($data) || is_numeric($data)) {
+                    return (float) $data;
+                }
+
+                break;
             case 'string':
                 break;
             case 'boolean':
             case 'bool':
+                if (is_bool($data)) {
+                    return $data;
+                }
+
                 if (strtolower($data) === 'true') {
                     return true;
                 }
@@ -79,31 +97,49 @@ class JmsSerializer implements SerializerInterface
                 }
 
                 break;
+            case 'DateTime':
+            case '\DateTime':
+                return is_null($data) ? null :new DateTime($data);
+            default:
+                if (is_null($data)) {
+                    return null;
+                }
+
+                if (!class_exists($type)) {
+                    throw new RuntimeException(sprintf("Type %s is unsupported", $type));
+                }
+
+                $reflectionClass = new \ReflectionClass($type);
+                if (!$reflectionClass->implementsInterface('\BackedEnum')) {
+                    throw new RuntimeException(sprintf("Type %s is unsupported", $type));
+                }
+
+                $enum = $type::tryFrom($data);
+                if (!$enum) {
+                    throw new RuntimeException(sprintf("Unknown %s value in %s enum", $data, $type));
+                }
+
+                return $enum;
         }
 
         // If we end up here, just return data
         return $data;
     }
 
-    private function deserializeArrayString($format, $type, $data)
+    private function deserializeArrayString(string $format, string $type, $data): array
     {
-        // Parse the string using the correct separator
-        switch ($format) {
-            case 'csv':
-                $data = explode(',', $data);
-                break;
-            case 'ssv':
-                $data = explode(' ', $data);
-                break;
-            case 'tsv':
-                $data = explode("\t", $data);
-                break;
-            case 'pipes':
-                $data = explode('|', $data);
-                break;
-            default;
-                $data = [];
+        if (empty($data)) {
+            return [];
         }
+
+        // Parse the string using the correct separator
+        $data = match($format) {
+            'csv' => explode(',', $data),
+            'ssv' => explode(' ', $data),
+            'tsv' => explode("\t", $data),
+            'pipes' => explode('|', $data),
+            default => [],
+        };
 
         // Deserialize each of the array elements
         foreach ($data as $key => $item) {

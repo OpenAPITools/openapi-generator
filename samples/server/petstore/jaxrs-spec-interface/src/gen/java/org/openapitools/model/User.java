@@ -11,19 +11,21 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class User  implements Serializable {
-  
-  private @Valid Long id;
-  private @Valid String username;
-  private @Valid String firstName;
-  private @Valid String lastName;
-  private @Valid String email;
-  private @Valid String password;
-  private @Valid String phone;
-  private @Valid Integer userStatus;
+@JsonTypeName("User")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+public class User  implements Serializable {
+  private Long id;
+  private String username;
+  private String firstName;
+  private String lastName;
+  private String email;
+  private String password;
+  private String phone;
+  private Integer userStatus;
 
   /**
    **/
@@ -33,24 +35,23 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(Long id) {
     this.id = id;
-  }/**
+  }
+
+  /**
    **/
   public User username(String username) {
     this.username = username;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -59,16 +60,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return username;
   }
 
+  @JsonProperty("username")
   public void setUsername(String username) {
     this.username = username;
-  }/**
+  }
+
+  /**
    **/
   public User firstName(String firstName) {
     this.firstName = firstName;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -77,16 +79,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return firstName;
   }
 
+  @JsonProperty("firstName")
   public void setFirstName(String firstName) {
     this.firstName = firstName;
-  }/**
+  }
+
+  /**
    **/
   public User lastName(String lastName) {
     this.lastName = lastName;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -95,16 +98,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return lastName;
   }
 
+  @JsonProperty("lastName")
   public void setLastName(String lastName) {
     this.lastName = lastName;
-  }/**
+  }
+
+  /**
    **/
   public User email(String email) {
     this.email = email;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -113,16 +117,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return email;
   }
 
+  @JsonProperty("email")
   public void setEmail(String email) {
     this.email = email;
-  }/**
+  }
+
+  /**
    **/
   public User password(String password) {
     this.password = password;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -131,16 +136,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return password;
   }
 
+  @JsonProperty("password")
   public void setPassword(String password) {
     this.password = password;
-  }/**
+  }
+
+  /**
    **/
   public User phone(String phone) {
     this.phone = phone;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -149,9 +155,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return phone;
   }
 
+  @JsonProperty("phone")
   public void setPhone(String phone) {
     this.phone = phone;
-  }/**
+  }
+
+  /**
    * User Status
    **/
   public User userStatus(Integer userStatus) {
@@ -160,17 +169,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "User Status")
   @JsonProperty("userStatus")
   public Integer getUserStatus() {
     return userStatus;
   }
 
+  @JsonProperty("userStatus")
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
   }
+
 
   @Override
   public boolean equals(Object o) {

@@ -22,12 +22,14 @@ import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.Markdown;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -35,7 +37,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfig {
@@ -68,7 +69,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         outputFolder = "docs";
         embeddedTemplateDir = templateDir = "htmlDocs2";
 
-        defaultIncludes = new HashSet<String>();
+        defaultIncludes = new HashSet<>();
 
         cliOptions.add(new CliOption("appName", "short name of the application"));
         cliOptions.add(new CliOption("appDescription", "description of the application"));
@@ -101,10 +102,10 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
 
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.html"));
-        reservedWords = new HashSet<String>();
+        reservedWords = new HashSet<>();
 
-        languageSpecificPrimitives = new HashSet<String>();
-        importMapping = new HashMap<String, String>();
+        languageSpecificPrimitives = new HashSet<>();
+        importMapping = new HashMap<>();
     }
 
     @Override
@@ -131,20 +132,19 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
             for (CodegenResponse response : op.responses) {
@@ -180,7 +180,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         additionalProperties.put("jsProjectName", jsProjectName);
         additionalProperties.put("jsModuleName", jsModuleName);
 
-        preparHtmlForGlobalDescription(openAPI);
+        prepareHtmlForGlobalDescription(openAPI);
 
         Map<String, Object> vendorExtensions = openAPI.getExtensions();
         if (vendorExtensions != null) {
@@ -220,7 +220,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
      *
      * @param openAPI The base object containing the global description through "Info" class
      */
-    private void preparHtmlForGlobalDescription(OpenAPI openAPI) {
+    private void prepareHtmlForGlobalDescription(OpenAPI openAPI) {
         if (openAPI.getInfo() == null) {
             return;
         }
@@ -230,7 +230,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
             Markdown markInstance = new Markdown();
             openAPI.getInfo().setDescription(markInstance.toHtml(currentDescription));
         } else {
-            LOGGER.error("OpenAPI object description is empty [" + openAPI.getInfo().getTitle() + "]");
+            LOGGER.error("OpenAPI object description is empty [{}]", openAPI.getInfo().getTitle());
         }
     }
 
@@ -238,7 +238,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
      * Format to HTML the enums contained in every operations
      *
      * @param parameterList The whole parameters contained in one operation
-     * @return String | Html formated enum
+     * @return String | Html formatted enum
      */
     public List<CodegenParameter> postProcessParameterEnum(List<CodegenParameter> parameterList) {
         String enumFormatted = "";
@@ -287,4 +287,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         // just return the original string
         return input;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return null; }
 }

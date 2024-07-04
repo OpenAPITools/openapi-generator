@@ -44,8 +44,8 @@ public class ApiClient {
 
     public ApiClient() {
         // Setup authentications (key: authentication name, value: authentication).
-        authentications = new HashMap<>();{{#authMethods}}{{#isBasic}}
-        // authentications.put("{{name}}", new HttpBasicAuth());{{/isBasic}}{{#isApiKey}}
+        authentications = new HashMap<>();{{#authMethods}}{{#isBasicBasic}}
+        // authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{#isApiKey}}
         authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"query"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
         // authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
         // Prevent the authentications from being modified.

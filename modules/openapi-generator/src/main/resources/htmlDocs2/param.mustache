@@ -1,4 +1,4 @@
-<tr><td style="width:150px;">{{baseName}}{{^required}}{{/required}}{{#required}}*{{/required}}</td>
+<tr><td style="width:150px;">{{baseName}}{{#required}}*{{/required}}</td>
 <td>
 
 
@@ -10,13 +10,13 @@
                 </span>
                 {{#dataFormat}}
                     <span class="format">
-                        ({{dataFormat}})
+                        ({{.}})
                     </span>
                 {{/dataFormat}}
 
                 {{#description}}
                     <div class="inner description marked">
-{{description}}
+{{.}}
                     </div>
                 {{/description}}
             </div>

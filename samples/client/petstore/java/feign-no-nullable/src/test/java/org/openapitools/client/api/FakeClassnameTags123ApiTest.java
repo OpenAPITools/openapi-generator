@@ -2,8 +2,8 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.model.Client;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,11 +13,11 @@ import java.util.Map;
 /**
  * API tests for FakeClassnameTags123Api
  */
-public class FakeClassnameTags123ApiTest {
+class FakeClassnameTags123ApiTest {
 
     private FakeClassnameTags123Api api;
 
-    @Before
+    @BeforeEach
     public void setup() {
         api = new ApiClient().buildClient(FakeClassnameTags123Api.class);
     }
@@ -29,7 +29,7 @@ public class FakeClassnameTags123ApiTest {
      * To test class name in snake case
      */
     @Test
-    public void testClassnameTest() {
+    void testClassnameTest() {
         Client body = null;
         // Client response = api.testClassname(body);
 

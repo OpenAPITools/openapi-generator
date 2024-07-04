@@ -15,19 +15,20 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
 import org.openapitools.client.model.Client;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
  * API tests for FakeClassnameTags123Api
  */
-@Ignore
+@Disabled
 public class FakeClassnameTags123ApiTest {
 
     private final FakeClassnameTags123Api api = new FakeClassnameTags123Api();
@@ -43,9 +44,9 @@ public class FakeClassnameTags123ApiTest {
      */
     @Test
     public void testClassnameTest() throws ApiException {
-        Client body = null;
+        Client client = null;
         Client response = 
-        api.testClassname(body);
+        api.testClassname(client);
         
         // TODO: test validations
     }

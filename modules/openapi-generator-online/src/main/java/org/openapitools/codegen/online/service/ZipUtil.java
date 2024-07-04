@@ -30,7 +30,7 @@ import java.util.zip.ZipOutputStream;
 /**
  * This utility compresses a list of files to standard ZIP format file. It is able to compresses all
  * sub files and sub directories, recursively.
- * 
+ *
  * @author Ha Minh Nam
  *
  */
@@ -42,7 +42,7 @@ public class ZipUtil {
 
     /**
      * Compresses a collection of files to a destination zip file.
-     * 
+     *
      * @param listFiles A collection of files and directories
      * @param destZipFile The path of the destination zip file
      * @throws FileNotFoundException if file not found
@@ -51,7 +51,8 @@ public class ZipUtil {
     public void compressFiles(List<File> listFiles, String destZipFile)
             throws IOException {
 
-        try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(destZipFile))) {
+        try (FileOutputStream fileOutputStream = new FileOutputStream(destZipFile);
+             ZipOutputStream zos = new ZipOutputStream(fileOutputStream)) {
 
             for (File file : listFiles) {
                 if (file.isDirectory()) {
@@ -67,7 +68,7 @@ public class ZipUtil {
 
     /**
      * Adds a directory to the current zip output stream.
-     * 
+     *
      * @param folder the directory to be added
      * @param parentFolder the path of parent directory
      * @param zos the current zip output stream
@@ -84,7 +85,8 @@ public class ZipUtil {
 
             zos.putNextEntry(new ZipEntry(parentFolder + "/" + file.getName()));
 
-            try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))) {
+            try (FileInputStream fileInputStream = new FileInputStream(file);
+                 BufferedInputStream bis = new BufferedInputStream(fileInputStream)) {
                 byte[] bytesIn = new byte[BUFFER_SIZE];
                 int read;
                 while ((read = bis.read(bytesIn)) != -1) {
@@ -99,7 +101,7 @@ public class ZipUtil {
 
     /**
      * Adds a file to the current zip output stream.
-     * 
+     *
      * @param file the file to be added
      * @param zos the current zip output stream
      * @throws FileNotFoundException if file not found
@@ -109,7 +111,8 @@ public class ZipUtil {
             IOException {
         zos.putNextEntry(new ZipEntry(file.getName()));
 
-        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))) {
+        try (FileInputStream fileInputStream = new FileInputStream(file);
+             BufferedInputStream bis = new BufferedInputStream(fileInputStream)) {
             byte[] bytesIn = new byte[BUFFER_SIZE];
             int read;
             while ((read = bis.read(bytesIn)) != -1) {

@@ -2,39 +2,53 @@ package {{invokerPackage}};
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-{{#threetenbp}}
-import org.threeten.bp.*;
-{{/threetenbp}}
+{{#jackson}}
 import feign.okhttp.OkHttpClient;
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 {{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
 {{/openApiNullable}}
+{{/jackson}}
 {{#joda}}
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 {{/joda}}
-{{#java8}}
+{{#jackson}}
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-{{/java8}}
-{{#threetenbp}}
-import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
-{{/threetenbp}}
+{{/jackson}}
 
 import feign.Feign;
 import feign.RequestInterceptor;
 import feign.form.FormEncoder;
+{{#jackson}}
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
+{{/jackson}}
+{{#gson}}
+import feign.gson.GsonDecoder;
+import feign.gson.GsonEncoder;
+{{/gson}}
 import feign.slf4j.Slf4jLogger;
-import {{invokerPackage}}.auth.*;
+import {{invokerPackage}}.auth.HttpBasicAuth;
+import {{invokerPackage}}.auth.HttpBearerAuth;
+import {{invokerPackage}}.auth.ApiKeyAuth;
+{{#jackson}}
+import {{invokerPackage}}.ApiResponseDecoder;
+{{/jackson}}
+
 {{#hasOAuthMethods}}
+import {{invokerPackage}}.auth.ApiErrorDecoder;
+import {{invokerPackage}}.auth.OAuth;
 import {{invokerPackage}}.auth.OAuth.AccessTokenListener;
+import {{invokerPackage}}.auth.OAuthFlow;
+import {{invokerPackage}}.auth.OauthPasswordGrant;
+import {{invokerPackage}}.auth.OauthClientCredentialsGrant;
+import feign.Retryer;
 {{/hasOAuthMethods}}
 
 {{>generatedAnnotation}}
@@ -43,19 +57,37 @@ public class ApiClient {
 
   public interface Api {}
 
+  {{#jackson}}
   protected ObjectMapper objectMapper;
+  {{/jackson}}
   private String basePath = "{{{basePath}}}";
   private Map<String, RequestInterceptor> apiAuthorizations;
   private Feign.Builder feignBuilder;
 
   public ApiClient() {
-    objectMapper = createObjectMapper();
     apiAuthorizations = new LinkedHashMap<String, RequestInterceptor>();
+    {{#jackson}}
+    objectMapper = createObjectMapper();
     feignBuilder = Feign.builder()
                 .client(new OkHttpClient())
                 .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
-                .decoder(new JacksonDecoder(objectMapper))
+                .decoder(new ApiResponseDecoder(objectMapper))
+                {{#hasOAuthMethods}}
+                .errorDecoder(new ApiErrorDecoder())
+                .retryer(new Retryer.Default(0, 0, 2))
+                {{/hasOAuthMethods}}
                 .logger(new Slf4jLogger());
+    {{/jackson}}
+    {{#gson}}
+    feignBuilder = Feign.builder()
+        .encoder(new FormEncoder(new GsonEncoder()))
+        .decoder(new GsonDecoder())
+        {{#hasOAuthMethods}}
+        .errorDecoder(new ApiErrorDecoder())
+        .retryer(new Retryer.Default(0, 0, 2))
+        {{/hasOAuthMethods}}
+        .logger(new Slf4jLogger());
+    {{/gson}}
   }
 
   public ApiClient(String[] authNames) {
@@ -63,26 +95,26 @@ public class ApiClient {
     for(String authName : authNames) {
       log.log(Level.FINE, "Creating authentication {0}", authName);
       {{#hasAuthMethods}}
-      RequestInterceptor auth;
+      RequestInterceptor auth = null;
       {{#authMethods}}if ("{{name}}".equals(authName)) {
-      {{#isBasic}}
       {{#isBasicBasic}}
         auth = new HttpBasicAuth();
       {{/isBasicBasic}}
-      {{^isBasicBasic}}
+      {{#isBasicBearer}}
         auth = new HttpBearerAuth("{{scheme}}");
-      {{/isBasicBasic}}
-      {{/isBasic}}
+      {{/isBasicBearer}}
       {{#isApiKey}}
         auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}");
       {{/isApiKey}}
       {{#isOAuth}}
-        auth = buildOauthRequestInterceptor(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{^-last}}, {{/-last}}{{/scopes}}");
+        auth = buildOauthRequestInterceptor(OAuthFlow.{{#lambda.uppercase}}{{#lambda.snakecase}}{{flow}}{{/lambda.snakecase}}{{/lambda.uppercase}}, "{{{authorizationUrl}}}", "{{{tokenUrl}}}", "{{#scopes}}{{scope}}{{^-last}}, {{/-last}}{{/scopes}}");
       {{/isOAuth}}
       } else {{/authMethods}}{
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
       }
-      addAuthorization(authName, auth);
+      if (auth != null) {
+        addAuthorization(authName, auth);
+      }
       {{/hasAuthMethods}}
       {{^hasAuthMethods}}
       throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
@@ -134,6 +166,7 @@ public class ApiClient {
     return this;
   }
 
+  {{#jackson}}
   private ObjectMapper createObjectMapper() {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
@@ -145,34 +178,30 @@ public class ApiClient {
     {{#joda}}
     objectMapper.registerModule(new JodaModule());
     {{/joda}}
-    {{#java8}}
     objectMapper.registerModule(new JavaTimeModule());
-    {{/java8}}
-    {{#threetenbp}}
-    ThreeTenModule module = new ThreeTenModule();
-    module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
-    module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
-    module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
-    objectMapper.registerModule(module);
-    {{/threetenbp}}
     {{#openApiNullable}}
     JsonNullableModule jnm = new JsonNullableModule();
     objectMapper.registerModule(jnm);
     {{/openApiNullable}}
     return objectMapper;
   }
+  {{/jackson}}
 
+  {{#hasOAuthMethods}}
   private RequestInterceptor buildOauthRequestInterceptor(OAuthFlow flow, String authorizationUrl, String tokenUrl, String scopes) {
     switch (flow) {
-      case password:
+      case PASSWORD:
         return new OauthPasswordGrant(tokenUrl, scopes);
-      case application:
+      case APPLICATION:
         return new OauthClientCredentialsGrant(authorizationUrl, tokenUrl, scopes);
       default:
         throw new RuntimeException("Oauth flow \"" + flow + "\" is not implemented");
     }
   }
 
+  {{/hasOAuthMethods}}
+
+  {{#jackson}}
   public ObjectMapper getObjectMapper(){
     return objectMapper;
   }
@@ -180,6 +209,7 @@ public class ApiClient {
   public void setObjectMapper(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
   }
+  {{/jackson}}
 
   /**
    * Creates a feign client for given API interface.
@@ -237,6 +267,15 @@ public class ApiClient {
   }
 
   /**
+   * Helper method to configure the supplier of bearer tokens.
+   * @param tokenSupplier the supplier of bearer tokens.
+   */
+  public void setBearerToken(Supplier<String> tokenSupplier) {
+    HttpBearerAuth apiAuthorization =  getAuthorization(HttpBearerAuth.class);
+    apiAuthorization.setBearerToken(tokenSupplier);
+  }
+
+  /**
    * Helper method to configure the first api key found
    * @param apiKey API key
    */
@@ -257,9 +296,9 @@ public class ApiClient {
 
   {{#hasOAuthMethods}}
   /**
-   * Helper method to configure the client credentials for Oauth 
-   * @param username Username
-   * @param password Password
+   * Helper method to configure the client credentials for Oauth
+   * @param clientId Client ID
+   * @param clientSecret Client secret
    */
   public void setClientCredentials(String clientId, String clientSecret) {
     OauthClientCredentialsGrant authorization = getAuthorization(OauthClientCredentialsGrant.class);
@@ -270,6 +309,8 @@ public class ApiClient {
    * Helper method to configure the username/password for Oauth password grant
    * @param username Username
    * @param password Password
+   * @param clientId Client ID
+   * @param clientSecret Client secret
    */
   public void setOauthPassword(String username, String password, String clientId, String clientSecret) {
     OauthPasswordGrant apiAuthorization = getAuthorization(OauthPasswordGrant.class);
@@ -298,7 +339,7 @@ public class ApiClient {
 
   /**
    * Configures a listener which is notified when a new access token is received.
-   * @param accessTokenListener Acesss token listener
+   * @param accessTokenListener Access token listener
    */
   public void registerAccessTokenListener(AccessTokenListener accessTokenListener) {
     OAuth apiAuthorization = getAuthorization(OAuth.class);
@@ -308,7 +349,7 @@ public class ApiClient {
   {{/hasOAuthMethods}}
   /**
    * Gets request interceptor based on authentication name
-   * @param authName Authentiation name
+   * @param authName Authentication name
    * @return Request Interceptor
    */
   public RequestInterceptor getAuthorization(String authName) {

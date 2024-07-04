@@ -1,0 +1,3 @@
+val basicAuthHeaderFactoryBuilder = { username: String?, password: String? ->
+        { mapOf("Authorization" to "Basic " + Base64.encodeToString("${username ?: ""}:${password ?: ""}".toByteArray(), Base64.DEFAULT))}
+}

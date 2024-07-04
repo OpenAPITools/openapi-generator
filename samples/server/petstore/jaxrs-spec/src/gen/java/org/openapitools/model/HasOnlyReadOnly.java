@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
@@ -11,13 +12,23 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class HasOnlyReadOnly  implements Serializable {
-  
-  private @Valid String bar;
-  private @Valid String foo;
+@JsonTypeName("hasOnlyReadOnly")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+public class HasOnlyReadOnly  implements Serializable {
+  private String bar;
+  private String foo;
+
+  protected HasOnlyReadOnly(HasOnlyReadOnlyBuilder<?, ?> b) {
+    this.bar = b.bar;
+    this.foo = b.foo;
+  }
+
+  public HasOnlyReadOnly() {
+  }
 
   /**
    **/
@@ -27,24 +38,23 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("bar")
   public String getBar() {
     return bar;
   }
 
+  @JsonProperty("bar")
   public void setBar(String bar) {
     this.bar = bar;
-  }/**
+  }
+
+  /**
    **/
   public HasOnlyReadOnly foo(String foo) {
     this.foo = foo;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -53,9 +63,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return foo;
   }
 
+  @JsonProperty("foo")
   public void setFoo(String foo) {
     this.foo = foo;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -98,5 +110,38 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
 
+  public static HasOnlyReadOnlyBuilder<?, ?> builder() {
+    return new HasOnlyReadOnlyBuilderImpl();
+  }
+
+  private static class HasOnlyReadOnlyBuilderImpl extends HasOnlyReadOnlyBuilder<HasOnlyReadOnly, HasOnlyReadOnlyBuilderImpl> {
+
+    @Override
+    protected HasOnlyReadOnlyBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public HasOnlyReadOnly build() {
+      return new HasOnlyReadOnly(this);
+    }
+  }
+
+  public static abstract class HasOnlyReadOnlyBuilder<C extends HasOnlyReadOnly, B extends HasOnlyReadOnlyBuilder<C, B>>  {
+    private String bar;
+    private String foo;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B bar(String bar) {
+      this.bar = bar;
+      return self();
+    }
+    public B foo(String foo) {
+      this.foo = foo;
+      return self();
+    }
+  }
 }
 

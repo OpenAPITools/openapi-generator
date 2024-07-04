@@ -1,0 +1,4 @@
+generatorName: typescript-axios
+outputDir: samples/client/petstore/typescript-axios/builds/test-petstore
+inputSpec: modules/openapi-generator/src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-axios

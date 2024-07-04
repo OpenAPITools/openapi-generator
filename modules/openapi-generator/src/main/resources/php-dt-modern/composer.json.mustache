@@ -1,0 +1,38 @@
+{
+    "name": "{{#lambda.lowercase}}{{gitUserId}}/{{gitRepoId}}{{/lambda.lowercase}}",
+    "description": "{{description}}",
+    "keywords": [
+        "openapi",
+        "php",
+        "sdk",
+        "api"
+    ],
+    "homepage": "{{{artifactUrl}}}",
+    "license": "{{{licenseName}}}",
+    "authors": [
+        {
+            "name": "{{{developerOrganization}}}",
+            "homepage": "{{{developerOrganizationUrl}}}"
+        }
+    ],
+    "version": "{{artifactVersion}}",
+    "type": "library",
+    "require": {
+        "php": "^8.1",
+        "articus/data-transfer": "^0.6",
+        "articus/openapi-generator-common": "^0.3",
+        "articus/openapi-generator-apiclient": "^0.2",
+        "psr/simple-cache": "^1.0",
+        "laminas/laminas-stdlib": "^3.18"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "{{srcBasePath}}/"
+        }
+    },
+    "require-dev": {
+        "laminas/laminas-servicemanager": "^3.22",
+        "nyholm/psr7": "^1.8",
+        "symfony/http-client": "^6.4 || ^7.0"
+    }
+}

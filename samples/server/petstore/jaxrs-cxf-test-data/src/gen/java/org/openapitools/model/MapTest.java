@@ -1,20 +1,14 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.openapitools.model.StringBooleanMap;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -23,14 +17,12 @@ public class MapTest  {
   
   @ApiModelProperty(value = "")
   @Valid
-  private Map<String, Map<String, String>> mapMapOfString = null;
+  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
-@XmlType(name="InnerEnum")
-@XmlEnum(String.class)
 public enum InnerEnum {
 
-    @XmlEnumValue("UPPER") @JsonProperty("UPPER") UPPER(String.valueOf("UPPER")), 
-    @XmlEnumValue("lower") @JsonProperty("lower") LOWER(String.valueOf("lower"));
+    @JsonProperty("UPPER") UPPER(String.valueOf("UPPER")),
+    @JsonProperty("lower") LOWER(String.valueOf("lower"));
 
     private String value;
 
@@ -58,14 +50,14 @@ public enum InnerEnum {
 }
 
   @ApiModelProperty(value = "")
-  private Map<String, InnerEnum> mapOfEnumString = null;
+  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
   @ApiModelProperty(value = "")
-  private Map<String, Boolean> directMap = null;
+  private Map<String, Boolean> directMap = new HashMap<>();
 
   @ApiModelProperty(value = "")
   @Valid
-  private StringBooleanMap indirectMap = new StringBooleanMap();
+  private StringBooleanMap indirectMap = new HashMap<>();
  /**
   * Get mapMapOfString
   * @return mapMapOfString
@@ -78,7 +70,7 @@ public enum InnerEnum {
   /**
    * Sets the <code>mapMapOfString</code> property.
    */
-  public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
+ public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
 
@@ -110,7 +102,7 @@ public enum InnerEnum {
   /**
    * Sets the <code>mapOfEnumString</code> property.
    */
-  public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
+ public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
 
@@ -142,7 +134,7 @@ public enum InnerEnum {
   /**
    * Sets the <code>directMap</code> property.
    */
-  public void setDirectMap(Map<String, Boolean> directMap) {
+ public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
   }
 
@@ -174,7 +166,7 @@ public enum InnerEnum {
   /**
    * Sets the <code>indirectMap</code> property.
    */
-  public void setIndirectMap(StringBooleanMap indirectMap) {
+ public void setIndirectMap(StringBooleanMap indirectMap) {
     this.indirectMap = indirectMap;
   }
 
@@ -186,6 +178,26 @@ public enum InnerEnum {
     return this;
   }
 
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    MapTest mapTest = (MapTest) o;
+    return Objects.equals(mapMapOfString, mapTest.mapMapOfString) &&
+        Objects.equals(mapOfEnumString, mapTest.mapOfEnumString) &&
+        Objects.equals(directMap, mapTest.directMap) &&
+        Objects.equals(indirectMap, mapTest.indirectMap);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(mapMapOfString, mapOfEnumString, directMap, indirectMap);
+  }
 
   @Override
   public String toString() {

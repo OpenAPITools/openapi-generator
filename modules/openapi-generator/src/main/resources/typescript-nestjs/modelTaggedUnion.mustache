@@ -7,10 +7,10 @@ export interface {{classname}} { {{>modelGenericAdditionalProperties}}
 {{#allVars}}
     {{#description}}
     /**
-    * {{{description}}}
+    * {{{.}}}
     */
     {{/description}}
-    {{name}}{{^required}}?{{/required}}: {{#discriminatorValue}}'{{discriminatorValue}}'{{/discriminatorValue}}{{^discriminatorValue}}{{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{/discriminatorValue}}{{#isNullable}} | null{{/isNullable}};
+    {{name}}{{^required}}?{{/required}}: {{#discriminatorValue}}'{{.}}'{{/discriminatorValue}}{{^discriminatorValue}}{{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{/discriminatorValue}}{{#isNullable}} | null{{/isNullable}};
 {{/allVars}}
 }
 {{>modelGenericEnums}}

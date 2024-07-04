@@ -29,7 +29,7 @@ import javax.validation.Valid;
   Tag.JSON_PROPERTY_ID,
   Tag.JSON_PROPERTY_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Tag   {
   public static final String JSON_PROPERTY_ID = "id";
   @JsonProperty(JSON_PROPERTY_ID)
@@ -48,7 +48,7 @@ public class Tag   {
    * Get id
    * @return id
    **/
-  @JsonProperty("id")
+  @JsonProperty(value = "id")
   @ApiModelProperty(value = "")
   
   public Long getId() {
@@ -68,7 +68,7 @@ public class Tag   {
    * Get name
    * @return name
    **/
-  @JsonProperty("name")
+  @JsonProperty(value = "name")
   @ApiModelProperty(value = "")
   
   public String getName() {
@@ -97,7 +97,6 @@ public class Tag   {
   public int hashCode() {
     return Objects.hash(id, name);
   }
-
 
   @Override
   public String toString() {

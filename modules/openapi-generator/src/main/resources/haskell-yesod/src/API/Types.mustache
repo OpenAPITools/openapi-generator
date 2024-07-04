@@ -1,0 +1,65 @@
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE DeriveGeneric              #-}
+{-# LANGUAGE NoImplicitPrelude          #-}
+{-# OPTIONS_GHC -fno-warn-unused-binds -fno-warn-unused-imports #-}
+
+module {{apiModuleName}}.Types (
+{{#models}}
+{{#model}}
+  {{classname}} (..),
+{{/model}}
+{{/models}}
+  ) where
+
+import ClassyPrelude.Yesod
+import Data.Foldable (foldl)
+import qualified Data.List as List
+import Data.Maybe (fromMaybe)
+import Data.Aeson (Value, FromJSON(..), ToJSON(..), genericToJSON, genericParseJSON)
+import Data.Aeson.Types (Options(..), defaultOptions)
+import qualified Data.Char as Char
+import qualified Data.Text as T
+import qualified Data.Map as Map
+import GHC.Generics (Generic)
+{{#imports}}import {{import}}
+{{/imports}}
+
+{{#models}}
+{{#model}}
+
+-- | {{description}}
+{{^vendorExtensions.x-custom-newtype}}
+{{^parent}}
+{{vendorExtensions.x-data}} {{classname}} = {{classname}}
+  { {{#vars}}{{& name}} :: {{^required}}Maybe {{/required}}{{dataType}} -- ^ {{& description}}{{^-last}}
+  , {{/-last}}{{/vars}}
+  } deriving (Show, Eq, Generic)
+
+instance FromJSON {{classname}} where
+  parseJSON = genericParseJSON options{{classname}}
+instance ToJSON {{classname}} where
+  toJSON = genericToJSON options{{classname}}
+
+options{{classname}} :: Options
+options{{classname}} =
+  defaultOptions
+    { omitNothingFields  = True
+    , fieldLabelModifier = \s -> fromMaybe ("did not find JSON field name for " ++ show s) $ List.lookup s table
+    }
+  where
+    table =
+      [ {{#vars}}("{{& name}}", {{& vendorExtensions.x-base-name-string-literal}}){{^-last}}
+      , {{/-last}}{{/vars}}
+      ]
+
+{{/parent}}
+{{#parent}}
+newtype {{classname}} = {{classname}} { un{{classname}} :: {{parent}} }
+  deriving (Show, Eq, FromJSON, ToJSON, Generic)
+{{/parent}}
+{{/vendorExtensions.x-custom-newtype}}
+{{#vendorExtensions.x-custom-newtype}}
+newtype {{classname}} = {{classname}} {{vendorExtensions.x-custom-newtype}} deriving (Show, Eq, FromJSON, ToJSON, Generic)
+{{/vendorExtensions.x-custom-newtype}}
+{{/model}}
+{{/models}}

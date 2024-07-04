@@ -47,9 +47,9 @@ use crate::{{{operationId}}}Response;
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {
-    fn parse_operation_id(request: &Request<T>) -> Result<&'static str, ()> {
+    fn parse_operation_id(request: &Request<T>) -> Option<&'static str> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
-        match request.method() {
+        match *request.method() {
 {{#apiInfo}}
   {{#apis}}
     {{#operations}}
@@ -58,7 +58,7 @@ impl<T> RequestParser<T> for ApiRequestParser {
           {{#urls}}
             {{#requests}}
             // {{{operationId}}} - {{{httpMethod}}} {{{path}}}
-            &hyper::Method::{{{vendorExtensions.x-http-method}}} if path.matched(paths::ID_{{{vendorExtensions.x-path-id}}}) => Ok("{{{operationId}}}"),
+            hyper::Method::{{{vendorExtensions.x-http-method}}} if path.matched(paths::ID_{{{vendorExtensions.x-path-id}}}) => Some("{{{operationId}}}"),
             {{/requests}}
           {{/urls}}
         {{/callbacks}}
@@ -66,7 +66,7 @@ impl<T> RequestParser<T> for ApiRequestParser {
     {{/operations}}
   {{/apis}}
 {{/apiInfo}}
-            _ => Err(()),
+            _ => None,
         }
     }
 }

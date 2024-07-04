@@ -14,7 +14,7 @@ ext {
 
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.50" // $kotlin_version
@@ -23,7 +23,7 @@ buildscript {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 kotlin {

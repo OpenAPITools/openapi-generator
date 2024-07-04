@@ -12,14 +12,16 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class OuterComposite  implements Serializable {
-  
-  private @Valid BigDecimal myNumber;
-  private @Valid String myString;
-  private @Valid Boolean myBoolean;
+@JsonTypeName("OuterComposite")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+public class OuterComposite  implements Serializable {
+  private BigDecimal myNumber;
+  private String myString;
+  private Boolean myBoolean;
 
   /**
    **/
@@ -29,24 +31,23 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("my_number")
-  public BigDecimal getMyNumber() {
+  @Valid public BigDecimal getMyNumber() {
     return myNumber;
   }
 
+  @JsonProperty("my_number")
   public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
-  }/**
+  }
+
+  /**
    **/
   public OuterComposite myString(String myString) {
     this.myString = myString;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -55,16 +56,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return myString;
   }
 
+  @JsonProperty("my_string")
   public void setMyString(String myString) {
     this.myString = myString;
-  }/**
+  }
+
+  /**
    **/
   public OuterComposite myBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -73,9 +75,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return myBoolean;
   }
 
+  @JsonProperty("my_boolean")
   public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
+
 
   @Override
   public boolean equals(Object o) {

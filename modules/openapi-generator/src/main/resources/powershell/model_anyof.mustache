@@ -1,11 +1,11 @@
 <#
 .SYNOPSIS
 
-{{#summary}}{{{.}}}{{/summary}}{{^summary}}No summary available.{{/summary}}
+{{{summary}}}{{^summary}}No summary available.{{/summary}}
 
 .DESCRIPTION
 
-{{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
+{{{description}}}{{^description}}No description available.{{/description}}
 
 .PARAMETER Json
 
@@ -28,7 +28,7 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
         $matchInstance = $null
 
         {{#isNullable}}
-        # nullalble check
+        # nullable check
         if ([string]::IsNullOrEmpty($Json) -or $Json -eq "{}") {
             return [PSCustomObject]@{
                 "ActualType" = $null
@@ -64,7 +64,7 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
                 Write-Debug "Failed to match '{{{modelName}}}' defined in anyOf ({{{apiNamePrefix}}}{{{classname}}}) using the discriminator lookup ({{{mappingName}}}). Proceeding with the typical anyOf type matching."
             }
         }
-    
+
         {{/mappedModels}}
         {{/discriminator}}
         {{#anyOf}}
@@ -98,4 +98,3 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
         }
     }
 }
-

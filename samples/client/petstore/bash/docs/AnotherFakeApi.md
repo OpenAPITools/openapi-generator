@@ -17,7 +17,7 @@ To test special tags and operation ID starting with number
 ### Example
 
 ```bash
-petstore-cli call123TestSpecialTags
+petstore-cli call123TestSpecialTags uuid_test:value
 ```
 
 ### Parameters
@@ -25,7 +25,8 @@ petstore-cli call123TestSpecialTags
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md) | client model |
+ **uuidTest** | **string** | to test uuid example value | [default to null]
+ **body** | [**Client**](Client.md) | client model |
 
 ### Return type
 

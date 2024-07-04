@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface StoreApi {
   /**
@@ -24,7 +25,7 @@ public interface StoreApi {
    * @param orderId ID of the order that needs to be deleted (required)
    * @return Completable
    */
-  @DELETE("store/order/{order_id}")
+  @HTTP(method = "DELETE", path = "store/order/{order_id}")
   Completable deleteOrder(
     @retrofit2.http.Path("order_id") String orderId
   );
@@ -34,17 +35,17 @@ public interface StoreApi {
    * Returns a map of status codes to quantities
    * @return Observable&lt;Map&lt;String, Integer&gt;&gt;
    */
-  @GET("store/inventory")
+  @HTTP(method = "GET", path = "store/inventory")
   Observable<Map<String, Integer>> getInventory();
     
 
   /**
    * Find purchase order by ID
-   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
    * @param orderId ID of pet that needs to be fetched (required)
    * @return Observable&lt;Order&gt;
    */
-  @GET("store/order/{order_id}")
+  @HTTP(method = "GET", path = "store/order/{order_id}")
   Observable<Order> getOrderById(
     @retrofit2.http.Path("order_id") Long orderId
   );
@@ -55,7 +56,7 @@ public interface StoreApi {
    * @param body order placed for purchasing the pet (required)
    * @return Observable&lt;Order&gt;
    */
-  @POST("store/order")
+  @HTTP(method = "POST", path = "store/order", hasBody = true)
   Observable<Order> placeOrder(
     @retrofit2.http.Body Order body
   );

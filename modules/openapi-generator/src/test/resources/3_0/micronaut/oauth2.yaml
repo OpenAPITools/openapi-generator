@@ -1,0 +1,25 @@
+openapi: 3.0.2
+info:
+  title: info
+  description: info
+  version: 0.1.0
+
+paths:
+  /example/api:
+    get:
+      summary: summary
+      description: description
+      responses:
+        200:
+          description: response
+
+components:
+  securitySchemes:
+    OAuth_2.0_Client_Credentials:
+      type: oauth2
+      description: OAuth 2.0 - Client Credentials
+      flows:
+        clientCredentials:
+          tokenUrl: "https://example.com/token"
+          scopes:
+            scope: scope description

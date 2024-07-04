@@ -240,7 +240,7 @@ public class FakeApiTest {
 
 
     /**
-     * Someting wrong
+     * Something wrong
      */
     @Test
     public void shouldSee400AfterTestGroupParameters() {

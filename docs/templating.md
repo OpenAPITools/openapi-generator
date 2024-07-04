@@ -62,13 +62,13 @@ In OpenAPI Generator 5.0 and later, you can use the CLI command `author template
 openapi-generator author template -g java --library webclient
 ```
 
-For OpenAPI Generator versions prior to 5.0, you will want to find the [resources directory](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources) for the generator you want to extend. This is generally easy to find as directories commonly follow the convention of `resources/<generator name>`. In cases where you're unsure, you will need to find the `embeddedTemplateDir` assignment in your desired generator. This is almost always assigned in the constructor of the generator class. The C# .Net Core generator assigns this as:
+For OpenAPI Generator versions prior to 5.0, you will want to find the [resources directory](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources) for the generator you want to extend. This is generally easy to find as directories commonly follow the convention of `resources/<generator name>`. In cases where you're unsure, you will need to find the `embeddedTemplateDir` assignment in your desired generator. This is almost always assigned in the constructor of the generator class. The C# generator assigns this as:
 
 ```
-embeddedTemplateDir = templateDir = "csharp-netcore";
+embeddedTemplateDir = templateDir = "csharp";
 ```
 
-These templates are in our source repository at [modules/openapi-generator/src/main/resources/csharp-netcore](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources/csharp-netcore). Be sure to select the tag or branch for the version of OpenAPI Generator you're using before grabbing the templates.
+These templates are in our source repository at [modules/openapi-generator/src/main/resources/csharp](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources/csharp). Be sure to select the tag or branch for the version of OpenAPI Generator you're using before grabbing the templates.
 
 **NOTE** If you have specific logic you'd like to modify such as modifying the generated README, you _only_ need to pull and modify this individual template. OpenAPI Generator will lookup templates in this order:
 
@@ -563,7 +563,7 @@ For C-like languages which also require header files, you may create two files p
 apiTemplateFiles.put("api-header.mustache", ".h");
 apiTemplateFiles.put("api-body.mustache", ".m");
 ```
-Here, an Operation with tag `Pet` will generate two files: `SWGPetApi.h` and `SWGPetApi.m`. The `SWG` prefix and `Api` suffix are options specific to the Objective-C geneator.
+Here, an Operation with tag `Pet` will generate two files: `SWGPetApi.h` and `SWGPetApi.m`. The `SWG` prefix and `Api` suffix are options specific to the Objective-C generator.
 
 ### Models
 
@@ -811,6 +811,9 @@ Supporting files can either be processed through the templating engine or copied
 - **isContainer**: true if the parameter or property is an array or a map.
 - **isPrimitiveType**: true if the parameter or property type is a primitive type (e.g. string, integer, etc) as defined in the spec.
 
+More variables can be found [here](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/CodegenProperty.java).
+
+
 ## Mustache Lambdas
 
 Many generators (*those extending DefaultCodegen*) come with a small set of lambda functions available under the key `lambda`:
@@ -819,6 +822,7 @@ Many generators (*those extending DefaultCodegen*) come with a small set of lamb
 - `uppercase` - Converts all of the characters in this fragment to upper case using the rules of the `ROOT` locale.
 - `titlecase` - Converts text in a fragment to title case. For example `once upon a time` to `Once Upon A Time`.
 - `camelcase` - Converts text in a fragment to camelCase. For example `Input-text` to `inputText`.
+- `uncamelize` - Converts text in a fragment from camelCase or PascalCase to a string of words separated by whitespaces. For example `inputText` to `Input Text`.
 - `indented` - Prepends 4 spaces indention from second line of a fragment on. First line will be indented by Mustache.
 - `indented_8` - Prepends 8 spaces indention from second line of a fragment on. First line will be indented by Mustache.
 - `indented_12` - Prepends 12 spaces indention from second line of a fragment on. First line will be indented by Mustache.
@@ -845,7 +849,7 @@ The following are vendor extensions supported by OpenAPI Generator. The list may
 
 #### Enum
 
-`x-enum-varnames` can be used to have an other enum name for the corresponding value.
+`x-enum-varnames` can be used to have another enum name for the corresponding value.
 This is used to define names of the enum items.
 
 `x-enum-descriptions` can be used to provide an individual description for each value.
@@ -910,9 +914,9 @@ x-content-type: application/json
 
 ### Rust-server
 
-#### x-responseId
+#### x-response-id
 
-Each response may specify a unique `x-responseId`. `rust-server` will use this to name the corresponding enum variant in the code. e.g.
+Each response may specify a unique `x-response-id`. `rust-server` will use this to name the corresponding enum variant in the code. e.g.
 
 ```yaml
 paths:
@@ -921,7 +925,7 @@ paths:
       responses:
         200:
           description: OK
-          x-responseId: Pong
+          x-response-id: Pong
 ```
 
 ### MySQL Schema

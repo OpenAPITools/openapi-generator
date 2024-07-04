@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
@@ -36,11 +35,11 @@ import javax.validation.Valid;
   MapTest.JSON_PROPERTY_DIRECT_MAP,
   MapTest.JSON_PROPERTY_INDIRECT_MAP
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class MapTest  implements Serializable {
   public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
   @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
-  private Map<String, Map<String, String>> mapMapOfString = null;
+  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
    * Gets or Sets inner
@@ -75,15 +74,15 @@ public class MapTest  implements Serializable {
 
   public static final String JSON_PROPERTY_MAP_OF_ENUM_STRING = "map_of_enum_string";
   @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
-  private Map<String, InnerEnum> mapOfEnumString = null;
+  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
   public static final String JSON_PROPERTY_DIRECT_MAP = "direct_map";
   @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
-  private Map<String, Boolean> directMap = null;
+  private Map<String, Boolean> directMap = new HashMap<>();
 
   public static final String JSON_PROPERTY_INDIRECT_MAP = "indirect_map";
   @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
-  private Map<String, Boolean> indirectMap = null;
+  private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
@@ -102,9 +101,9 @@ public class MapTest  implements Serializable {
    * Get mapMapOfString
    * @return mapMapOfString
    **/
-  @JsonProperty("map_map_of_string")
+  @JsonProperty(value = "map_map_of_string")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
@@ -130,7 +129,7 @@ public class MapTest  implements Serializable {
    * Get mapOfEnumString
    * @return mapOfEnumString
    **/
-  @JsonProperty("map_of_enum_string")
+  @JsonProperty(value = "map_of_enum_string")
   @ApiModelProperty(value = "")
   
   public Map<String, InnerEnum> getMapOfEnumString() {
@@ -158,7 +157,7 @@ public class MapTest  implements Serializable {
    * Get directMap
    * @return directMap
    **/
-  @JsonProperty("direct_map")
+  @JsonProperty(value = "direct_map")
   @ApiModelProperty(value = "")
   
   public Map<String, Boolean> getDirectMap() {
@@ -186,7 +185,7 @@ public class MapTest  implements Serializable {
    * Get indirectMap
    * @return indirectMap
    **/
-  @JsonProperty("indirect_map")
+  @JsonProperty(value = "indirect_map")
   @ApiModelProperty(value = "")
   
   public Map<String, Boolean> getIndirectMap() {
@@ -217,7 +216,6 @@ public class MapTest  implements Serializable {
   public int hashCode() {
     return Objects.hash(mapMapOfString, mapOfEnumString, directMap, indirectMap);
   }
-
 
   @Override
   public String toString() {

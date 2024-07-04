@@ -22,7 +22,7 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class PetApiImpl implements PetApi {
 
     private ApiClient apiClient;
@@ -46,26 +46,26 @@ public class PetApiImpl implements PetApi {
     /**
     * Add a new pet to the store
     * 
-        * @param body Pet object that needs to be added to the store (required)
+        * @param pet Pet object that needs to be added to the store (required)
     * @param resultHandler Asynchronous result handler
     */
-    public void addPet(Pet body, Handler<AsyncResult<Void>> resultHandler) {
-        addPet(body, null, resultHandler);
+    public void addPet(Pet pet, Handler<AsyncResult<Void>> resultHandler) {
+        addPet(pet, null, resultHandler);
     }
 
     /**
     * Add a new pet to the store
     * 
-    * @param body Pet object that needs to be added to the store (required)
+    * @param pet Pet object that needs to be added to the store (required)
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler
     */
-    public void addPet(Pet body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
-        Object localVarBody = body;
+    public void addPet(Pet pet, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = pet;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'body' when calling addPet"));
+        // verify the required parameter 'pet' is set
+        if (pet == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'pet' when calling addPet"));
             return;
         }
         
@@ -292,26 +292,26 @@ public class PetApiImpl implements PetApi {
     /**
     * Update an existing pet
     * 
-        * @param body Pet object that needs to be added to the store (required)
+        * @param pet Pet object that needs to be added to the store (required)
     * @param resultHandler Asynchronous result handler
     */
-    public void updatePet(Pet body, Handler<AsyncResult<Void>> resultHandler) {
-        updatePet(body, null, resultHandler);
+    public void updatePet(Pet pet, Handler<AsyncResult<Void>> resultHandler) {
+        updatePet(pet, null, resultHandler);
     }
 
     /**
     * Update an existing pet
     * 
-    * @param body Pet object that needs to be added to the store (required)
+    * @param pet Pet object that needs to be added to the store (required)
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler
     */
-    public void updatePet(Pet body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
-        Object localVarBody = body;
+    public void updatePet(Pet pet, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = pet;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'body' when calling updatePet"));
+        // verify the required parameter 'pet' is set
+        if (pet == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'pet' when calling updatePet"));
             return;
         }
         
@@ -396,11 +396,11 @@ if (status != null) localVarFormParams.put("status", status);
     * 
         * @param petId ID of pet to update (required)
         * @param additionalMetadata Additional data to pass to server (optional)
-        * @param file file to upload (optional)
+        * @param _file file to upload (optional)
     * @param resultHandler Asynchronous result handler
     */
-    public void uploadFile(Long petId, String additionalMetadata, AsyncFile file, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
-        uploadFile(petId, additionalMetadata, file, null, resultHandler);
+    public void uploadFile(Long petId, String additionalMetadata, AsyncFile _file, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
+        uploadFile(petId, additionalMetadata, _file, null, resultHandler);
     }
 
     /**
@@ -408,11 +408,11 @@ if (status != null) localVarFormParams.put("status", status);
     * 
     * @param petId ID of pet to update (required)
     * @param additionalMetadata Additional data to pass to server (optional)
-    * @param file file to upload (optional)
+    * @param _file file to upload (optional)
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler
     */
-    public void uploadFile(Long petId, String additionalMetadata, AsyncFile file, ApiClient.AuthInfo authInfo, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
+    public void uploadFile(Long petId, String additionalMetadata, AsyncFile _file, ApiClient.AuthInfo authInfo, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
         Object localVarBody = null;
         
         // verify the required parameter 'petId' is set
@@ -437,7 +437,7 @@ if (status != null) localVarFormParams.put("status", status);
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
         if (additionalMetadata != null) localVarFormParams.put("additionalMetadata", additionalMetadata);
-if (file != null) localVarFormParams.put("file", file);
+if (_file != null) localVarFormParams.put("file", _file);
 
         String[] localVarAccepts = { "application/json" };
         String[] localVarContentTypes = { "multipart/form-data" };

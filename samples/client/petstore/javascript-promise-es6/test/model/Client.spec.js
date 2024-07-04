@@ -50,13 +50,13 @@
   describe('Client', function() {
     it('should create an instance of Client', function() {
       // uncomment below and update the code to test Client
-      //var instane = new OpenApiPetstore.Client();
+      //var instance = new OpenApiPetstore.Client();
       //expect(instance).to.be.a(OpenApiPetstore.Client);
     });
 
     it('should have the property client (base name: "client")', function() {
       // uncomment below and update the code to test the property client
-      //var instane = new OpenApiPetstore.Client();
+      //var instance = new OpenApiPetstore.Client();
       //expect(instance).to.be();
     });
 

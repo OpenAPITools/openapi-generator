@@ -6,8 +6,11 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
-@objc public class Dog: NSObject, Codable {
+@objcMembers public class Dog: NSObject, Codable, JSONEncodable {
 
     public var _className: String
     public var color: String? = "red"
@@ -25,4 +28,13 @@ import Foundation
         case breed
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(_className, forKey: ._className)
+        try container.encodeIfPresent(color, forKey: .color)
+        try container.encodeIfPresent(breed, forKey: .breed)
+    }
 }
+

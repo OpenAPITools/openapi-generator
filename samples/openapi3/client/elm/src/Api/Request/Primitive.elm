@@ -18,13 +18,11 @@ module Api.Request.Primitive exposing
     )
 
 import Api
-import Api.Data
+import Api.Data exposing (..)
 import Dict
 import Http
 import Json.Decode
 import Json.Encode
-
-
 
 update : Api.Data.Primitive -> Api.Request Api.Data.Primitive
 update primitive_body =
@@ -34,5 +32,6 @@ update primitive_body =
         []
         []
         []
-        (Just (Api.Data.encodePrimitive primitive_body))
+        (Maybe.map Http.jsonBody (Just (Api.Data.encodePrimitive primitive_body)))
         Api.Data.primitiveDecoder
+

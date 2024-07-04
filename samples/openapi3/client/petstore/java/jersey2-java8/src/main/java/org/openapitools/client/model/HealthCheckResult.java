@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -22,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import java.util.Arrays;
+import org.openapitools.jackson.nullable.JsonNullable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
@@ -34,27 +33,27 @@ import org.openapitools.client.JSON;
 /**
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
  */
-@ApiModel(description = "Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.")
 @JsonPropertyOrder({
   HealthCheckResult.JSON_PROPERTY_NULLABLE_MESSAGE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class HealthCheckResult {
   public static final String JSON_PROPERTY_NULLABLE_MESSAGE = "NullableMessage";
   private JsonNullable<String> nullableMessage = JsonNullable.<String>undefined();
 
+  public HealthCheckResult() { 
+  }
 
   public HealthCheckResult nullableMessage(String nullableMessage) {
     this.nullableMessage = JsonNullable.<String>of(nullableMessage);
     return this;
   }
 
-   /**
+  /**
    * Get nullableMessage
    * @return nullableMessage
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonIgnore
 
   public String getNullableMessage() {
@@ -90,12 +89,23 @@ public class HealthCheckResult {
       return false;
     }
     HealthCheckResult healthCheckResult = (HealthCheckResult) o;
-    return Objects.equals(this.nullableMessage, healthCheckResult.nullableMessage);
+    return equalsNullable(this.nullableMessage, healthCheckResult.nullableMessage);
+  }
+
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(nullableMessage);
+    return Objects.hash(hashCodeNullable(nullableMessage));
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override

@@ -9,6 +9,8 @@
 #include <signal.h>
 #include <unistd.h>
 #endif
+
+#include "ApiBase.h"
 {{#apiInfo}}{{#apis}}{{#operations}}
 #include "{{classname}}Impl.h"{{/operations}}{{/apis}}{{/apiInfo}}
 
@@ -54,7 +56,7 @@ int main() {
     std::vector<int> sigs{SIGQUIT, SIGINT, SIGTERM, SIGHUP};
     setUpUnixSignals(sigs);
 #endif
-    Pistache::Address addr(Pistache::Ipv4::any(), Pistache::Port({{#serverPort}}{{serverPort}}{{/serverPort}}{{^serverPort}}8080{{/serverPort}}));
+    Pistache::Address addr(Pistache::Ipv4::any(), Pistache::Port({{serverPort}}{{^serverPort}}8080{{/serverPort}}));
 
     httpEndpoint = new Pistache::Http::Endpoint((addr));
     auto router = std::make_shared<Pistache::Rest::Router>();
@@ -66,14 +68,16 @@ int main() {
     opts.maxResponseSize(PISTACHE_SERVER_MAX_RESPONSE_SIZE);
     httpEndpoint->init(opts);
 
+    auto apiImpls = std::vector<std::shared_ptr<ApiBase>>();
     {{#apiInfo}}{{#apis}}{{#operations}}
-    {{classname}}Impl {{classname}}server(router);
-    {{classname}}server.init();{{/operations}}{{/apis}}{{/apiInfo}}
+    apiImpls.push_back(std::make_shared<{{classname}}Impl>(router));{{/operations}}{{/apis}}{{/apiInfo}}
+
+    for (auto api : apiImpls) {
+        api->init();
+    }
 
     httpEndpoint->setHandler(router->handler());
     httpEndpoint->serve();
 
     httpEndpoint->shutdown();
-
 }
-

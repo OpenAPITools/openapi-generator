@@ -1,0 +1,109 @@
+openapi: '3.0.2'
+info:
+  title: Search API
+  version: '1.0'
+servers:
+- url: http://localhost:8080/api/v1
+tags:
+- name: "search"
+paths:
+  /default-list:
+    get:
+      tags:
+      - search
+      operationId: defaultList
+      parameters:
+      - in: query
+        name: p
+        schema:
+          type: integer
+          default: 0
+          minimum: 0
+      - in: query
+        name: orderBy
+        schema:
+          type: array
+          default: ["updatedAt:DESC", "createdAt:DESC"]
+          items:
+            type: string
+            enum: [ "createdAt:ASC", "createdAt:DESC",
+                    "updatedAt:ASC", "updatedAt:DESC" ]
+      responses:
+        204:
+          description: "Custom response"
+  /empty-default-list:
+    get:
+      tags:
+        - search
+      operationId: emptyDefaultList
+      parameters:
+        - in: query
+          name: p
+          description: Page
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+        - in: query
+          name: orderBy
+          schema:
+            type: array
+            default: [ ]
+            items:
+              type: string
+              enum: [ "createdAt:ASC", "createdAt:DESC",
+                      "updatedAt:ASC", "updatedAt:DESC" ]
+      responses:
+        204:
+          description: "Custom response"
+  /default-set:
+    get:
+      tags:
+        - search
+      operationId: defaultSet
+      parameters:
+        - in: query
+          name: p
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+        - in: query
+          name: orderBy
+          schema:
+            type: array
+            default: [ "updatedAt:DESC", "createdAt:DESC" ]
+            uniqueItems: true
+            items:
+              type: string
+              enum: [ "createdAt:ASC", "createdAt:DESC",
+                      "updatedAt:ASC", "updatedAt:DESC" ]
+      responses:
+        204:
+          description: "Custom response"
+  /empty-default-set:
+    get:
+      tags:
+        - search
+      operationId: emptyDefaultSet
+      parameters:
+        - in: query
+          name: p
+          description: Page
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+        - in: query
+          name: orderBy
+          schema:
+            type: array
+            default: [ ]
+            uniqueItems: true
+            items:
+              type: string
+              enum: [ "createdAt:ASC", "createdAt:DESC",
+                      "updatedAt:ASC", "updatedAt:DESC" ]
+      responses:
+        204:
+          description: "Custom response"

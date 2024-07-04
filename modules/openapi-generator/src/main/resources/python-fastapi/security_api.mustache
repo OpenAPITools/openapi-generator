@@ -1,0 +1,157 @@
+# coding: utf-8
+
+from typing import List
+
+from fastapi import Depends, Security  # noqa: F401
+from fastapi.openapi.models import OAuthFlowImplicit, OAuthFlows  # noqa: F401
+from fastapi.security import (  # noqa: F401
+    HTTPAuthorizationCredentials,
+    HTTPBasic,
+    HTTPBasicCredentials,
+    HTTPBearer,
+    OAuth2,
+    OAuth2AuthorizationCodeBearer,
+    OAuth2PasswordBearer,
+    SecurityScopes,
+)
+from fastapi.security.api_key import APIKeyCookie, APIKeyHeader, APIKeyQuery  # noqa: F401
+
+from {{modelPackage}}.extra_models import TokenModel
+
+{{#authMethods}}
+{{#isOAuth}}
+{{#isPassword}}
+oauth2_password = OAuth2PasswordBearer(
+    tokenUrl="{{tokenUrl}}",
+    scopes={
+{{#scopes}}
+        "{{scope}}": "{{description}}",
+{{/scopes}}
+    }
+)
+{{/isPassword}}
+{{#isCode}}
+oauth2_code = OAuth2AuthorizationCodeBearer(
+    authorizationUrl="{{authorizationUrl}}",
+    tokenUrl="{{tokenUrl}}",
+    refreshUrl="{{refreshUrl}}",
+    scopes={
+{{#scopes}}
+        "{{scope}}": "{{description}}",
+{{/scopes}}
+    }
+)
+{{/isCode}}
+{{#isImplicit}}
+oauth2_implicit = OAuth2(
+    flows=OAuthFlows(
+        implicit=OAuthFlowImplicit(
+            authorizationUrl="{{authorizationUrl}}",
+            scopes={
+{{#scopes}}
+                "{{scope}}": "{{description}}",
+{{/scopes}}
+            }
+        )
+    )
+)
+{{/isImplicit}}
+
+
+def get_token_{{name}}(
+    security_scopes: SecurityScopes, token: str = Depends(oauth2_{{#isPassword}}password{{/isPassword}}{{#isCode}}code{{/isCode}}{{#isImplicit}}implicit{{/isImplicit}})
+) -> TokenModel:
+    """
+    Validate and decode token.
+
+    :param token Token provided by Authorization header
+    :type token: str
+    :return: Decoded token information or None if token is invalid
+    :rtype: TokenModel | None
+    """
+
+    ...
+
+
+def validate_scope_{{name}}(
+    required_scopes: SecurityScopes, token_scopes: List[str]
+) -> bool:
+    """
+    Validate required scopes are included in token scope
+
+    :param required_scopes Required scope to access called API
+    :type required_scopes: List[str]
+    :param token_scopes Scope present in token
+    :type token_scopes: List[str]
+    :return: True if access to called API is allowed
+    :rtype: bool
+    """
+
+    return False
+
+{{/isOAuth}}
+{{#isApiKey}}
+
+def get_token_{{name}}(
+    {{#isKeyInHeader}}token_api_key_header: str = Security(
+        APIKeyHeader(name="{{keyParamName}}", auto_error=False)
+    ),{{/isKeyInHeader}}{{#isKeyInCookie}}
+    token_api_key_cookie: str = Security(
+        APIKeyCookie(name="{{keyParamName}}", auto_error=False)
+    ),{{/isKeyInCookie}}{{#isKeyInQuery}}
+    token_api_key_query: str = Security(
+        APIKeyQuery(name="{{keyParamName}}", auto_error=False)
+    ),{{/isKeyInQuery}}
+) -> TokenModel:
+    """
+    Check and retrieve authentication information from api_key.
+
+    {{#isKeyInHeader}}:param token_api_key_header API key provided by Authorization[{{keyParamName}}] header{{/isKeyInHeader}}
+    {{#isKeyInCookie}}:param token_api_key_cookie API key provided by Authorization[{{keyParamName}}] cookie{{/isKeyInCookie}}
+    {{#isKeyInQuery}}:param token_api_key_query API key provided by [{{keyParamName}}] query{{/isKeyInQuery}}
+    :type token_api_key_{{#isKeyInHeader}}header{{/isKeyInHeader}}{{#isKeyInCookie}}cookie{{/isKeyInCookie}}{{#isKeyInQuery}}query{{/isKeyInQuery}}: str
+    :return: Information attached to provided api_key or None if api_key is invalid or does not allow access to called API
+    :rtype: TokenModel | None
+    """
+
+    ...
+
+{{/isApiKey}}
+{{#isBasicBasic}}
+
+basic_auth = HTTPBasic()
+
+
+def get_token_{{name}}(
+    credentials: HTTPBasicCredentials = Depends(basic_auth)
+) -> TokenModel:
+    """
+    Check and retrieve authentication information from basic auth.
+
+    :param credentials Credentials provided by Authorization header
+    :type credentials: HTTPBasicCredentials
+    :rtype: TokenModel | None
+    """
+
+    ...
+
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+
+bearer_auth = HTTPBearer()
+
+
+def get_token_{{name}}(credentials: HTTPAuthorizationCredentials = Depends(bearer_auth)) -> TokenModel:
+    """
+    Check and retrieve authentication information from custom bearer token.
+
+    :param credentials Credentials provided by Authorization header
+    :type credentials: HTTPAuthorizationCredentials
+    :return: Decoded token information or None if token is invalid
+    :rtype: TokenModel | None
+    """
+
+    ...
+
+{{/isBasicBearer}}
+{{/authMethods}}

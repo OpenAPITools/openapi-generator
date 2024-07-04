@@ -1,5 +1,5 @@
 {{#hasImports}}
-import {
+import type {
     {{#imports}}
     {{{.}}},
     {{/imports}}
@@ -8,7 +8,7 @@ import {
 {{/hasImports}}
 /**
  * @type {{classname}}{{#description}}
- * {{{description}}}{{/description}}
+ * {{{.}}}{{/description}}
  * @export
  */
 export type {{classname}} = {{#allOf}}{{{.}}}{{^-last}} & {{/-last}}{{/allOf}};

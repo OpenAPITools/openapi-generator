@@ -1,7 +1,7 @@
 {{>licenseInfo}}
-#include "ApiClient.h"
-#include "MultipartFormData.h"
-#include "ModelBase.h"
+#include "{{packageName}}/ApiClient.h"
+#include "{{packageName}}/MultipartFormData.h"
+#include "{{packageName}}/ModelBase.h"
 
 #include <sstream>
 #include <limits>
@@ -77,6 +77,13 @@ utility::string_t ApiClient::parameterToString(double value)
 utility::string_t ApiClient::parameterToString(const utility::datetime &value)
 {
     return utility::conversions::to_string_t(value.to_string(utility::datetime::ISO_8601));
+}
+
+utility::string_t ApiClient::parameterToString(bool value)
+{
+    std::stringstream valueAsStringStream;
+    valueAsStringStream << std::boolalpha << value;
+    return utility::conversions::to_string_t(valueAsStringStream.str());
 }
 
 pplx::task<web::http::http_response> ApiClient::callApi(

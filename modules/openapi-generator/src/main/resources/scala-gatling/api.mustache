@@ -89,7 +89,7 @@ class {{classname}}Simulation extends Simulation {
 
 {{#operations}}
 {{#operation}}
-    {{#description}}/* {{{description}}} */{{/description}}
+    {{#description}}/* {{{.}}} */{{/description}}
     val scn{{operationId}} = scenario("{{operationId}}Simulation")
     {{#vendorExtensions.x-gatling-query-feeder}}
         .feed({{vendorExtensions.x-gatling-query-feeder}})

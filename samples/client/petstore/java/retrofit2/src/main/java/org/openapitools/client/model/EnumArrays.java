@@ -20,16 +20,15 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * EnumArrays
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class EnumArrays {
   /**
    * Gets or Sets justSymbol
@@ -131,8 +130,10 @@ public class EnumArrays {
 
   public static final String SERIALIZED_NAME_ARRAY_ENUM = "array_enum";
   @SerializedName(SERIALIZED_NAME_ARRAY_ENUM)
-  private List<ArrayEnumEnum> arrayEnum = null;
+  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
+  public EnumArrays() {
+  }
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     
@@ -140,12 +141,11 @@ public class EnumArrays {
     return this;
   }
 
-   /**
+  /**
    * Get justSymbol
    * @return justSymbol
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
@@ -156,7 +156,6 @@ public class EnumArrays {
     this.justSymbol = justSymbol;
   }
 
-
   public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
     
     this.arrayEnum = arrayEnum;
@@ -165,18 +164,17 @@ public class EnumArrays {
 
   public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
     if (this.arrayEnum == null) {
-      this.arrayEnum = new ArrayList<ArrayEnumEnum>();
+      this.arrayEnum = new ArrayList<>();
     }
     this.arrayEnum.add(arrayEnumItem);
     return this;
   }
 
-   /**
+  /**
    * Get arrayEnum
    * @return arrayEnum
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
@@ -186,7 +184,6 @@ public class EnumArrays {
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
-
 
   @Override
   public boolean equals(Object o) {

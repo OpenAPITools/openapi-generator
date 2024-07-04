@@ -19,7 +19,6 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -36,8 +35,8 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ScalazClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ScalazClientCodegen.class);
@@ -86,7 +85,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
 
         additionalProperties.put("apiPackage", apiPackage);
 
-        // Explicitly defining bulid.properties helps guarantee our sample remains compilable against the embedded target 2.11 scala
+        // Explicitly defining build.properties helps guarantee our sample remains compilable against the embedded target 2.11 scala
         supportingFiles.add(new SupportingFile("build.properties.mustache", "", "project/build.properties"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
         supportingFiles.add(new SupportingFile("dateTimeCodecs.mustache", (sourceFolder + File.separator + apiPackage).replace(".", File.separator), "DateTimeCodecs.scala"));
@@ -138,6 +137,11 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         // should be the same as variable name
         return toVarName(name);
     }
@@ -145,24 +149,6 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
     @Override
     public String toEnumName(CodegenProperty property) {
         return formatIdentifier(property.baseName, true);
-    }
-
-    public String getNameUsingModelPropertyNaming(String name) {
-        switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
-            case original:
-                return name;
-            case camelCase:
-                return camelize(name, true);
-            case PascalCase:
-                return camelize(name);
-            case snake_case:
-                return underscore(name);
-            default:
-                throw new IllegalArgumentException("Invalid model property naming '" +
-                        name + "'. Must be 'original', 'camelCase', " +
-                        "'PascalCase' or 'snake_case'");
-        }
-
     }
 
     @Override
@@ -183,13 +169,12 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         } else if (ModelUtils.isIntegerSchema(p)) {
             return null;
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType(getAdditionalProperties(p));
+            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
 
             return "Map.empty[String, " + inner + "] ";
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
-            String collectionType = ModelUtils.isSet(ap) ? typeMapping.get("set") : typeMapping.get("array");
+            String inner = getSchemaType(ModelUtils.getSchemaItems(p));
+            String collectionType = ModelUtils.isSet(p) ? typeMapping.get("set") : typeMapping.get("array");
 
             // We assume that users would map these collections to a monoid with an identity function
             // There's no reason to assume mutable structure here (which may make consumption more difficult)
@@ -228,7 +213,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
         }
 
-        return camelize(operationId, true);
+        return camelize(operationId, LOWERCASE_FIRST_LETTER);
     }
 
     private static abstract class CustomLambda implements Mustache.Lambda {

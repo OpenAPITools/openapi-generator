@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
@@ -33,7 +34,7 @@ import javax.validation.Valid;
   EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
   EnumArrays.JSON_PROPERTY_ARRAY_ENUM
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class EnumArrays  implements Serializable {
   /**
    * Gets or Sets justSymbol
@@ -103,7 +104,7 @@ public class EnumArrays  implements Serializable {
 
   public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
   @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
-  private List<ArrayEnumEnum> arrayEnum = null;
+  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
@@ -114,7 +115,7 @@ public class EnumArrays  implements Serializable {
    * Get justSymbol
    * @return justSymbol
    **/
-  @JsonProperty("just_symbol")
+  @JsonProperty(value = "just_symbol")
   @ApiModelProperty(value = "")
   
   public JustSymbolEnum getJustSymbol() {
@@ -142,7 +143,7 @@ public class EnumArrays  implements Serializable {
    * Get arrayEnum
    * @return arrayEnum
    **/
-  @JsonProperty("array_enum")
+  @JsonProperty(value = "array_enum")
   @ApiModelProperty(value = "")
   
   public List<ArrayEnumEnum> getArrayEnum() {
@@ -171,7 +172,6 @@ public class EnumArrays  implements Serializable {
   public int hashCode() {
     return Objects.hash(justSymbol, arrayEnum);
   }
-
 
   @Override
   public String toString() {

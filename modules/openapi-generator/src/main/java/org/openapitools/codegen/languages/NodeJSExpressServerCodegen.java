@@ -25,17 +25,24 @@ import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.info.Info;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ApiInfoMap;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.Map.Entry;
@@ -53,6 +60,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
     protected String defaultServerPort = "8080";
     protected String implFolder = "services";
     protected String projectName = "openapi-server";
+    @Getter @Setter
     protected String exportedName;
 
     public NodeJSExpressServerCodegen() {
@@ -227,20 +235,10 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
 
-    public String getExportedName() {
-        return exportedName;
-    }
-
-    public void setExportedName(String name) {
-        exportedName = name;
-    }
-
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        @SuppressWarnings("unchecked")
-        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
-        @SuppressWarnings("unchecked")
-        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap objectMap = objs.getOperations();
+        List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
             operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
 
@@ -270,13 +268,11 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         return objs;
     }
 
-    @SuppressWarnings("unchecked")
-    private static List<Map<String, Object>> getOperations(Map<String, Object> objs) {
-        List<Map<String, Object>> result = new ArrayList<>();
-        Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
-        List<Map<String, Object>> apis = (List<Map<String, Object>>) apiInfo.get("apis");
-        for (Map<String, Object> api : apis) {
-            result.add((Map<String, Object>) api.get("operations"));
+    private static List<OperationMap> getOperations(Map<String, Object> objs) {
+        List<OperationMap> result = new ArrayList<>();
+        ApiInfoMap apiInfo = (ApiInfoMap) objs.get("apiInfo");
+        for (OperationsMap api : apiInfo.getApis()) {
+            result.add(api.getOperations());
         }
         return result;
     }
@@ -359,12 +355,14 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         // need vendor extensions
         Paths paths = openAPI.getPaths();
         if (paths != null) {
-            for (String pathname : paths.keySet()) {
-                PathItem path = paths.get(pathname);
+            for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
+                String pathname = pathsEntry.getKey();
+                PathItem path = pathsEntry.getValue();
                 Map<HttpMethod, Operation> operationMap = path.readOperationsMap();
                 if (operationMap != null) {
-                    for (HttpMethod method : operationMap.keySet()) {
-                        Operation operation = operationMap.get(method);
+                    for (Map.Entry<HttpMethod, Operation> operationMapEntry : operationMap.entrySet()) {
+                        HttpMethod method = operationMapEntry.getKey();
+                        Operation operation = operationMapEntry.getValue();
                         String tag = "default";
                         if (operation.getTags() != null && operation.getTags().size() > 0) {
                             tag = toApiName(operation.getTags().get(0));
@@ -397,9 +395,8 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
 
-        for (Map<String, Object> operations : getOperations(objs)) {
-            @SuppressWarnings("unchecked")
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+        for (OperationMap operations : getOperations(objs)) {
+            List<CodegenOperation> ops = operations.getOperation();
 
             List<Map<String, Object>> opsByPathList = sortOperationsByPath(ops);
             operations.put("operationsByPath", opsByPathList);
@@ -436,7 +433,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
 
         // only process files with js extension
         if ("js".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = jsPostProcessFile + " " + file.toString();
+            String command = jsPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();
@@ -444,10 +441,15 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
                 }
-                LOGGER.info("Successfully executed: " + command);
-            } catch (Exception e) {
+                LOGGER.info("Successfully executed: {}", command);
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
 }

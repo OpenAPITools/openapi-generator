@@ -16,10 +16,13 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -35,8 +39,8 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractGraphQLCodegen.class);
 
     protected String specFolder = "spec";
-    protected String packageName = "openapi2graphql";
-    protected String packageVersion = "1.0.0";
+    @Setter protected String packageName = "openapi2graphql";
+    @Setter protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
@@ -55,13 +59,13 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
                 )
         );
 
-        defaultIncludes = new HashSet<String>(
+        defaultIncludes = new HashSet<>(
                 Arrays.asList(
                         "map",
                         "array")
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "null",
                         "ID",
@@ -112,14 +116,6 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         additionalProperties.put("modelDocPath", modelDocPath);
     }
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
-    }
-
     @Override
     public String escapeReservedWord(String name) {
         // Can't start with an underscore, as our fields need to start with an
@@ -143,6 +139,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         return outputFolder + File.separator + packageName + File.separator + "api" + File.separator;
     }
 
+    @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + packageName + File.separator + "model" + File.separator;
     }
@@ -152,11 +149,11 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name.replaceAll("-", "_"));
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$"))
             return name;
 
-        name = camelize(name, true);
+        name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name))
@@ -193,13 +190,14 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + ("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, "model_" + name);
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + ("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    "model_" + name);
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -267,12 +265,14 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
-            return getTypeDeclaration(inner);
+            Object ap = p.getAdditionalProperties();
+            // additionalProperties is either a Schema or a Boolean
+            if (ap instanceof Schema) {
+                return getTypeDeclaration((Schema) ap);
+            }
         }
 
         // Not using the supertype invocation, because we want to UpperCamelize
@@ -317,11 +317,11 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore("call_" + operationId));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
-        return camelize(sanitizedOperationId, false);
+        return camelize(sanitizedOperationId);
     }
 
     @Override
@@ -342,7 +342,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
     }
 
     public Map<String, String> createMapping(String key, String value) {
-        Map<String, String> customImport = new HashMap<String, String>();
+        Map<String, String> customImport = new HashMap<>();
         customImport.put(key, value);
 
         return customImport;
@@ -418,10 +418,10 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
-        Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
+        OperationMap objs = operations.getOperations();
 
-        for (CodegenOperation op : (List<CodegenOperation>) objs.get("operation")) {
+        for (CodegenOperation op : objs.getOperation()) {
             // non GET/HEAD methods are mutation
             if (!"GET".equals(op.httpMethod.toUpperCase(Locale.ROOT)) && !"HEAD".equals(op.httpMethod.toUpperCase(Locale.ROOT))) {
                 op.vendorExtensions.put("x-is-mutation", Boolean.TRUE);
@@ -437,7 +437,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
             }
         }
 
-        return objs;
+        return operations;
     }
 
     public String graphQlInputsPackage() {

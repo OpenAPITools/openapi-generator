@@ -12,7 +12,6 @@
 
 package org.openapitools.client.model;
 
-
 import java.lang.reflect.Type;
 import javax.json.bind.annotation.JsonbTypeDeserializer;
 import javax.json.bind.annotation.JsonbTypeSerializer;
@@ -26,41 +25,48 @@ import javax.json.bind.annotation.JsonbProperty;
 
 /**
   * A User who is purchasing from the pet store
- **/
+  */
 
 public class User  {
   
+  @JsonbProperty("id")
   private Long id;
 
+  @JsonbProperty("username")
   private String username;
 
+  @JsonbProperty("firstName")
   private String firstName;
 
+  @JsonbProperty("lastName")
   private String lastName;
 
+  @JsonbProperty("email")
   private String email;
 
+  @JsonbProperty("password")
   private String password;
 
+  @JsonbProperty("phone")
   private String phone;
 
  /**
-   * User Status
-  **/
+  * User Status
+  */
+  @JsonbProperty("userStatus")
   private Integer userStatus;
-  
- /**
+
+  /**
    * Get id
    * @return id
-  **/
-  @JsonbProperty("id")
+   **/
   public Long getId() {
     return id;
   }
 
   /**
-    * Set id
-  **/
+   * Set id
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -70,18 +76,17 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get username
    * @return username
-  **/
-  @JsonbProperty("username")
+   **/
   public String getUsername() {
     return username;
   }
 
   /**
-    * Set username
-  **/
+   * Set username
+   */
   public void setUsername(String username) {
     this.username = username;
   }
@@ -91,18 +96,17 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get firstName
    * @return firstName
-  **/
-  @JsonbProperty("firstName")
+   **/
   public String getFirstName() {
     return firstName;
   }
 
   /**
-    * Set firstName
-  **/
+   * Set firstName
+   */
   public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
@@ -112,18 +116,17 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get lastName
    * @return lastName
-  **/
-  @JsonbProperty("lastName")
+   **/
   public String getLastName() {
     return lastName;
   }
 
   /**
-    * Set lastName
-  **/
+   * Set lastName
+   */
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
@@ -133,18 +136,17 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get email
    * @return email
-  **/
-  @JsonbProperty("email")
+   **/
   public String getEmail() {
     return email;
   }
 
   /**
-    * Set email
-  **/
+   * Set email
+   */
   public void setEmail(String email) {
     this.email = email;
   }
@@ -154,18 +156,17 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get password
    * @return password
-  **/
-  @JsonbProperty("password")
+   **/
   public String getPassword() {
     return password;
   }
 
   /**
-    * Set password
-  **/
+   * Set password
+   */
   public void setPassword(String password) {
     this.password = password;
   }
@@ -175,18 +176,17 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get phone
    * @return phone
-  **/
-  @JsonbProperty("phone")
+   **/
   public String getPhone() {
     return phone;
   }
 
   /**
-    * Set phone
-  **/
+   * Set phone
+   */
   public void setPhone(String phone) {
     this.phone = phone;
   }
@@ -196,18 +196,17 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * User Status
    * @return userStatus
-  **/
-  @JsonbProperty("userStatus")
+   **/
   public Integer getUserStatus() {
     return userStatus;
   }
 
   /**
-    * Set userStatus
-  **/
+   * Set userStatus
+   */
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
   }
@@ -219,8 +218,8 @@ public class User  {
 
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

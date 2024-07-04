@@ -5,7 +5,7 @@ import * as models from './models';
 
 {{#description}}
 /**
- * {{{description}}}
+ * {{{.}}}
  */
 {{/description}}
 {{#isEnum}}{{>modelEnum}}{{/isEnum}}{{#oneOf}}{{#-first}}{{>modelOneOf}}{{/-first}}{{/oneOf}}{{^isEnum}}{{^oneOf}}{{>modelGeneric}}{{/oneOf}}{{/isEnum}}

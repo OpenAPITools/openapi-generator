@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Setter;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
@@ -27,9 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.EnumSet;
-import java.util.Locale;
 import java.util.Map;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -68,7 +67,7 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
     protected String pidFolder = tmpFolder + File.separator + "pids";
     protected String socketsFolder = tmpFolder + File.separator + "sockets";
     protected String vendorFolder = "vendor";
-    protected String databaseAdapter = "sqlite";
+    @Setter protected String databaseAdapter = "sqlite";
 
 
     public RubyOnRailsServerCodegen() {
@@ -138,7 +137,7 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         } else if ("mysql".equals(databaseAdapter)) {
             additionalProperties.put("isDBMySQL", Boolean.TRUE);
         } else {
-            LOGGER.warn("Unknown database {}. Defaul to 'sqlite'.", databaseAdapter);
+            LOGGER.warn("Unknown database {}. Default to 'sqlite'.", databaseAdapter);
             additionalProperties.put("isDBSQLite", Boolean.TRUE);
         }
 
@@ -240,7 +239,7 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             String modelName = camelize("Model" + name);
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
             return modelName;
         }
 
@@ -254,7 +253,7 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             String filename = underscore("model_" + name);
-            LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + filename);
+            LOGGER.warn("{} (reserved word) cannot be used as model filename. Renamed to {}", name, filename);
             return filename;
         }
 
@@ -295,9 +294,5 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
-    }
-
-    public void setDatabaseAdapter(String databaseAdapter) {
-        this.databaseAdapter = databaseAdapter;
     }
 }

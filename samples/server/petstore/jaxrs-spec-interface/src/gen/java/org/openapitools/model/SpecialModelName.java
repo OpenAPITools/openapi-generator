@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
@@ -11,12 +12,14 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class SpecialModelName  implements Serializable {
-  
-  private @Valid Long $specialPropertyName;
+@JsonTypeName("$special[model.name]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
+public class SpecialModelName  implements Serializable {
+  private Long $specialPropertyName;
 
   /**
    **/
@@ -26,17 +29,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("$special[property.name]")
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }
 
+  @JsonProperty("$special[property.name]")
   public void set$SpecialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
+
 
   @Override
   public boolean equals(Object o) {

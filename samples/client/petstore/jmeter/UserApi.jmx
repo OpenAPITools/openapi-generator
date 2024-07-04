@@ -117,6 +117,14 @@
       <hashTree>
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
           <collectionProp name="HeaderManager.headers">
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Content-Type</stringProp>
+              <stringProp name="Header.value">application/json</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">api_key</stringProp>
+              <stringProp name="Header.value">${__P(apiKey,key)}</stringProp>
+            </elementProp>
           </collectionProp>
         </HeaderManager>
         <hashTree/>
@@ -124,9 +132,9 @@
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments">
-              <elementProp name="body" elementType="HTTPArgument">
+              <elementProp name="user" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">${__javaScript("${body}".replace(/'/g\, '"'),)}</stringProp>
+                <stringProp name="Argument.value">${__javaScript("${user}".replace(/'/g\, '"'),)}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -163,7 +171,7 @@
           <hashTree/>
         </hashTree>
         <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="HTTP Status Assertion" enabled="true">
-          <collectionProp name="Asserion.test_strings">
+          <collectionProp name="Assertion.test_strings">
             <stringProp name="812696575">${httpStatusCode}</stringProp>
           </collectionProp>
           <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
@@ -189,6 +197,14 @@
       <hashTree>
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
           <collectionProp name="HeaderManager.headers">
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Content-Type</stringProp>
+              <stringProp name="Header.value">application/json</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">api_key</stringProp>
+              <stringProp name="Header.value">${__P(apiKey,key)}</stringProp>
+            </elementProp>
           </collectionProp>
         </HeaderManager>
         <hashTree/>
@@ -196,9 +212,9 @@
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments">
-              <elementProp name="body" elementType="HTTPArgument">
+              <elementProp name="user" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">${__javaScript("${body}".replace(/'/g\, '"'),)}</stringProp>
+                <stringProp name="Argument.value">${__javaScript("${user}".replace(/'/g\, '"'),)}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -235,7 +251,7 @@
           <hashTree/>
         </hashTree>
         <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="HTTP Status Assertion" enabled="true">
-          <collectionProp name="Asserion.test_strings">
+          <collectionProp name="Assertion.test_strings">
             <stringProp name="812696575">${httpStatusCode}</stringProp>
           </collectionProp>
           <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
@@ -261,6 +277,14 @@
       <hashTree>
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
           <collectionProp name="HeaderManager.headers">
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Content-Type</stringProp>
+              <stringProp name="Header.value">application/json</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">api_key</stringProp>
+              <stringProp name="Header.value">${__P(apiKey,key)}</stringProp>
+            </elementProp>
           </collectionProp>
         </HeaderManager>
         <hashTree/>
@@ -268,9 +292,9 @@
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments">
-              <elementProp name="body" elementType="HTTPArgument">
+              <elementProp name="user" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">${__javaScript("${body}".replace(/'/g\, '"'),)}</stringProp>
+                <stringProp name="Argument.value">${__javaScript("${user}".replace(/'/g\, '"'),)}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -307,7 +331,7 @@
           <hashTree/>
         </hashTree>
         <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="HTTP Status Assertion" enabled="true">
-          <collectionProp name="Asserion.test_strings">
+          <collectionProp name="Assertion.test_strings">
             <stringProp name="812696575">${httpStatusCode}</stringProp>
           </collectionProp>
           <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
@@ -333,6 +357,10 @@
       <hashTree>
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
           <collectionProp name="HeaderManager.headers">
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">api_key</stringProp>
+              <stringProp name="Header.value">${__P(apiKey,key)}</stringProp>
+            </elementProp>
           </collectionProp>
         </HeaderManager>
         <hashTree/>
@@ -374,7 +402,7 @@
           <hashTree/>
         </hashTree>
         <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="HTTP Status Assertion" enabled="true">
-          <collectionProp name="Asserion.test_strings">
+          <collectionProp name="Assertion.test_strings">
             <stringProp name="812696575">${httpStatusCode}</stringProp>
           </collectionProp>
           <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
@@ -445,7 +473,7 @@
           <hashTree/>
         </hashTree>
         <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="HTTP Status Assertion" enabled="true">
-          <collectionProp name="Asserion.test_strings">
+          <collectionProp name="Assertion.test_strings">
             <stringProp name="812696575">${httpStatusCode}</stringProp>
           </collectionProp>
           <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
@@ -530,7 +558,7 @@
           <hashTree/>
         </hashTree>
         <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="HTTP Status Assertion" enabled="true">
-          <collectionProp name="Asserion.test_strings">
+          <collectionProp name="Assertion.test_strings">
             <stringProp name="812696575">${httpStatusCode}</stringProp>
           </collectionProp>
           <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
@@ -556,6 +584,10 @@
       <hashTree>
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
           <collectionProp name="HeaderManager.headers">
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">api_key</stringProp>
+              <stringProp name="Header.value">${__P(apiKey,key)}</stringProp>
+            </elementProp>
           </collectionProp>
         </HeaderManager>
         <hashTree/>
@@ -597,7 +629,7 @@
           <hashTree/>
         </hashTree>
         <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="HTTP Status Assertion" enabled="true">
-          <collectionProp name="Asserion.test_strings">
+          <collectionProp name="Assertion.test_strings">
             <stringProp name="812696575">${httpStatusCode}</stringProp>
           </collectionProp>
           <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
@@ -623,6 +655,14 @@
       <hashTree>
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
           <collectionProp name="HeaderManager.headers">
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Content-Type</stringProp>
+              <stringProp name="Header.value">application/json</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">api_key</stringProp>
+              <stringProp name="Header.value">${__P(apiKey,key)}</stringProp>
+            </elementProp>
           </collectionProp>
         </HeaderManager>
         <hashTree/>
@@ -630,9 +670,9 @@
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments">
-              <elementProp name="body" elementType="HTTPArgument">
+              <elementProp name="user" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">${__javaScript("${body}".replace(/'/g\, '"'),)}</stringProp>
+                <stringProp name="Argument.value">${__javaScript("${user}".replace(/'/g\, '"'),)}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -669,7 +709,7 @@
           <hashTree/>
         </hashTree>
         <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="HTTP Status Assertion" enabled="true">
-          <collectionProp name="Asserion.test_strings">
+          <collectionProp name="Assertion.test_strings">
             <stringProp name="812696575">${httpStatusCode}</stringProp>
           </collectionProp>
           <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>

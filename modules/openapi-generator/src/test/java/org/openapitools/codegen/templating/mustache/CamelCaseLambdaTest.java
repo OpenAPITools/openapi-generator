@@ -27,16 +27,25 @@ public class CamelCaseLambdaTest extends LambdaTest {
     @Test
     public void camelCaseTest() {
         // Given
-        Map<String, Object> ctx = context("camelcase", new CamelCaseLambda());
+        Map<String, Object> ctx = context("camelcase", new CamelCaseAndSanitizeLambda());
 
         // When & Then
         test("inputText", "{{#camelcase}}Input-text{{/camelcase}}", ctx);
     }
 
     @Test
+    public void camelCaseSpaceTest() {
+        // Given
+        Map<String, Object> ctx = context("camelcase", new CamelCaseAndSanitizeLambda());
+
+        // When & Then
+        test("inputTextApi", "{{#camelcase}}Input text  api{{/camelcase}}", ctx);
+    }
+
+    @Test
     public void camelCaseReservedWordTest() {
         // Given
-        Map<String, Object> ctx = context("camelcase", new CamelCaseLambda().generator(generator));
+        Map<String, Object> ctx = context("camelcase", new CamelCaseAndSanitizeLambda().generator(generator));
 
         when(generator.sanitizeName(anyString())).then(returnsFirstArg());
         when(generator.reservedWords()).thenReturn(new HashSet<String>(Arrays.asList("reservedWord")));
@@ -49,7 +58,7 @@ public class CamelCaseLambdaTest extends LambdaTest {
     @Test
     public void camelCaseEscapeParamTest() {
         // Given
-        Map<String, Object> ctx = context("camelcase", new CamelCaseLambda()
+        Map<String, Object> ctx = context("camelcase", new CamelCaseAndSanitizeLambda()
                 .generator(generator).escapeAsParamName(true));
 
         when(generator.sanitizeName(anyString())).then(returnsFirstArg());

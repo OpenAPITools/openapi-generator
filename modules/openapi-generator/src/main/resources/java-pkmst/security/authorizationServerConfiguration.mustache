@@ -14,9 +14,9 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 /**
  * Convenient strategy for configuring an OAUth2 Authorization Server. Beans of this type are applied to the Spring
  * context automatically if you {@link EnableAuthorizationServer @EnableAuthorizationServer}.
- * 
+ *
  * @author pkmst
- * 
+ *
  */
 @Configuration
 @EnableAuthorizationServer

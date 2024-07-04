@@ -30,7 +30,7 @@ public class AndroidClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertTrue(codegen.isHideGenerationTimestamp());
         Assert.assertEquals(codegen.modelPackage(), "org.openapitools.client.model");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.client.model");
         Assert.assertEquals(codegen.apiPackage(), "org.openapitools.client.api");
@@ -69,5 +69,24 @@ public class AndroidClientCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.aaaaa.api");
         Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.iiii.invoker");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.iiii.invoker");
+    }
+    @Test
+    public void testHideGenerationTimestampDisabled() throws Exception {
+        final AndroidClientCodegen codegen = new AndroidClientCodegen();
+        codegen.additionalProperties().put("hideGenerationTimestamp", false);
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get("hideGenerationTimestamp"), Boolean.FALSE);
+        Assert.assertFalse(codegen.isHideGenerationTimestamp());
+    }
+
+    @Test
+    public void testHideGenerationTimestampEnabled() throws Exception {
+        final AndroidClientCodegen codegen = new AndroidClientCodegen();
+        codegen.additionalProperties().put("hideGenerationTimestamp", true);
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get("hideGenerationTimestamp"), Boolean.TRUE);
+        Assert.assertTrue(codegen.isHideGenerationTimestamp());
     }
 }

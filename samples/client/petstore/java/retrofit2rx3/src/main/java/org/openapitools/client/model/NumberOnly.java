@@ -20,20 +20,20 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 
 /**
  * NumberOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class NumberOnly {
   public static final String SERIALIZED_NAME_JUST_NUMBER = "JustNumber";
   @SerializedName(SERIALIZED_NAME_JUST_NUMBER)
   private BigDecimal justNumber;
 
+  public NumberOnly() {
+  }
 
   public NumberOnly justNumber(BigDecimal justNumber) {
     
@@ -41,12 +41,11 @@ public class NumberOnly {
     return this;
   }
 
-   /**
+  /**
    * Get justNumber
    * @return justNumber
-  **/
+   */
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public BigDecimal getJustNumber() {
     return justNumber;
@@ -56,7 +55,6 @@ public class NumberOnly {
   public void setJustNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
-
 
   @Override
   public boolean equals(Object o) {

@@ -17,18 +17,10 @@ paths:
     put:
       operationId: dummyPut
       requestBody:
-        $ref: '#/components/requestBodies/inline_object'
         content:
           '*/*':
             schema:
-              properties:
-                id:
-                  type: string
-                password:
-                  type: string
-              required:
-              - id
-              type: object
+              $ref: '#/components/schemas/dummyPut_request'
         required: true
       responses:
         "200":
@@ -144,12 +136,6 @@ components:
             - id
             type: object
       required: true
-    inline_object:
-      content:
-        '*/*':
-          schema:
-            $ref: '#/components/schemas/inline_object'
-      required: true
   schemas:
     additionalPropertiesObject:
       additionalProperties:
@@ -167,7 +153,7 @@ components:
           type: string
     baseAllOf:
       properties:
-        sampleBasePropery:
+        sampleBaseProperty:
           type: string
       type: object
     aNullableContainer:
@@ -194,7 +180,7 @@ components:
           description: Inner string
           type: string
       type: object
-    inline_object:
+    dummyPut_request:
       properties:
         id:
           type: string

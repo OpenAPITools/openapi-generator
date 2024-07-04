@@ -19,7 +19,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
@@ -32,15 +31,15 @@ import javax.validation.Valid;
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_PROPERTY,
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_OF_MAP_PROPERTY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class AdditionalPropertiesClass   {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
   @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
-  private Map<String, String> mapProperty = null;
+  private Map<String, String> mapProperty = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_OF_MAP_PROPERTY = "map_of_map_property";
   @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
-  private Map<String, Map<String, String>> mapOfMapProperty = null;
+  private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
 
   public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {
     this.mapProperty = mapProperty;
@@ -49,7 +48,7 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass putMapPropertyItem(String key, String mapPropertyItem) {
     if (this.mapProperty == null) {
-      this.mapProperty = new HashMap<String, String>();
+      this.mapProperty = new HashMap<>();
     }
     this.mapProperty.put(key, mapPropertyItem);
     return this;
@@ -59,7 +58,7 @@ public class AdditionalPropertiesClass   {
    * Get mapProperty
    * @return mapProperty
    **/
-  @JsonProperty("map_property")
+  @JsonProperty(value = "map_property")
   @ApiModelProperty(value = "")
   
   public Map<String, String> getMapProperty() {
@@ -77,7 +76,7 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass putMapOfMapPropertyItem(String key, Map<String, String> mapOfMapPropertyItem) {
     if (this.mapOfMapProperty == null) {
-      this.mapOfMapProperty = new HashMap<String, Map<String, String>>();
+      this.mapOfMapProperty = new HashMap<>();
     }
     this.mapOfMapProperty.put(key, mapOfMapPropertyItem);
     return this;
@@ -87,9 +86,9 @@ public class AdditionalPropertiesClass   {
    * Get mapOfMapProperty
    * @return mapOfMapProperty
    **/
-  @JsonProperty("map_of_map_property")
+  @JsonProperty(value = "map_of_map_property")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public Map<String, Map<String, String>> getMapOfMapProperty() {
     return mapOfMapProperty;
   }
@@ -116,7 +115,6 @@ public class AdditionalPropertiesClass   {
   public int hashCode() {
     return Objects.hash(mapProperty, mapOfMapProperty);
   }
-
 
   @Override
   public String toString() {

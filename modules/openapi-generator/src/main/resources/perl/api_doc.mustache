@@ -1,5 +1,5 @@
 # {{moduleName}}::{{classname}}{{#description}}
-{{description}}{{/description}}
+{{.}}{{/description}}
 
 ## Load the API package
 ```perl
@@ -10,26 +10,26 @@ All URIs are relative to *{{basePath}}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{summary}}
 {{/operation}}{{/operations}}
 
 {{#operations}}
 {{#operation}}
 # **{{{operationId}}}**
-> {{#returnType}}{{{returnType}}} {{/returnType}}{{{operationId}}}({{#allParams}}{{paramName}} => ${{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
+> {{#returnType}}{{{.}}} {{/returnType}}{{{operationId}}}({{#allParams}}{{paramName}} => ${{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
 
 {{{summary}}}{{#notes}}
 
-{{{notes}}}{{/notes}}
+{{{.}}}{{/notes}}
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use {{moduleName}}::{{classname}};
 my $api_instance = {{moduleName}}::{{classname}}->new(
 {{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}
-    # Configure HTTP basic authorization: {{{name}}}
     {{#isBasicBasic}}
+    # Configure HTTP basic authorization: {{{name}}}
     username => 'YOUR_USERNAME',
     password => 'YOUR_PASSWORD',
     {{/isBasicBasic}}
@@ -50,7 +50,7 @@ my $api_instance = {{moduleName}}::{{classname}}->new(
 {{#allParams}}my ${{paramName}} = {{#isArray}}[{{/isArray}}{{#isBodyParam}}{{{moduleName}}}::Object::{{dataType}}->new(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isArray}}]{{/isArray}}; # {{{dataType}}} | {{{description}}}
 {{/allParams}}
 
-eval { 
+eval {
     {{#returnType}}my $result = {{/returnType}}$api_instance->{{{operationId}}}({{#allParams}}{{paramName}} => ${{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
     print Dumper($result);{{/returnType}}
 };
@@ -63,7 +63,7 @@ if ($@) {
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
-{{#allParams}} **{{paramName}}** | {{#isFile}}**{{dataType}}**{{/isFile}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
+{{#allParams}} **{{paramName}}** | {{#isFile}}**{{dataType}}**{{/isFile}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{.}}]{{/defaultValue}}
 {{/allParams}}
 
 ### Return type

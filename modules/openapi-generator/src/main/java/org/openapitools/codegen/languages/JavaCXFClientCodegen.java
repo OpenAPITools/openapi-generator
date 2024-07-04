@@ -18,11 +18,15 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.GzipTestFeatures;
 import org.openapitools.codegen.languages.features.LoggingTestFeatures;
 import org.openapitools.codegen.languages.features.UseGenericResponseFeatures;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,13 +45,15 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
      */
     protected static final String JAXRS_TEMPLATE_DIRECTORY_NAME = "JavaJaxRS";
 
-    protected boolean useBeanValidation = false;
+    public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
 
-    protected boolean useGenericResponse = false;
+    @Getter protected boolean useGenericResponse = false;
 
-    protected boolean useGzipFeatureForTests = false;
+    @Getter protected boolean useGzipFeatureForTests = false;
 
-    protected boolean useLoggingFeatureForTests = false;
+    @Getter protected boolean useLoggingFeatureForTests = false;
+
+    @Setter protected boolean useAbstractionForFiles = false;
 
     public JavaCXFClientCodegen() {
         super();
@@ -62,13 +68,13 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         modelPackage = "org.openapitools.model";
         outputFolder = "generated-code/JavaJaxRS-CXF";
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.SOURCE_FOLDER, this.getSourceFolder());
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
-        updateOption(this.DATE_LIBRARY, this.getDateLibrary());
+        updateOption(DATE_LIBRARY, this.getDateLibrary());
 
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
@@ -86,27 +92,17 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE_FOR_TESTS, "Use Gzip Feature for tests"));
         cliOptions.add(CliOption.newBoolean(USE_LOGGING_FEATURE_FOR_TESTS, "Use Logging Feature for tests"));
         cliOptions.add(CliOption.newBoolean(USE_GENERIC_RESPONSE, "Use generic response"));
+        cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk."));
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
-
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            this.setUseBeanValidation(convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION));
-        }
-
-        if (additionalProperties.containsKey(USE_GENERIC_RESPONSE)) {
-            this.setUseGenericResponse(convertPropertyToBooleanAndWriteBack(USE_GENERIC_RESPONSE));
-        }
-
-        if (additionalProperties.containsKey(USE_GZIP_FEATURE_FOR_TESTS)) {
-            this.setUseGzipFeatureForTests(convertPropertyToBooleanAndWriteBack(USE_GZIP_FEATURE_FOR_TESTS));
-        }
-
-        if (additionalProperties.containsKey(USE_LOGGING_FEATURE_FOR_TESTS)) {
-            this.setUseLoggingFeatureForTests(convertPropertyToBooleanAndWriteBack(USE_LOGGING_FEATURE_FOR_TESTS));
-        }
+        convertPropertyToBooleanAndWriteBack(USE_GENERIC_RESPONSE, this::setUseGenericResponse);
+        convertPropertyToBooleanAndWriteBack(USE_GZIP_FEATURE_FOR_TESTS, this::setUseGzipFeatureForTests);
+        convertPropertyToBooleanAndWriteBack(USE_LOGGING_FEATURE_FOR_TESTS, this::setUseLoggingFeatureForTests);
+        convertPropertyToBooleanAndWriteBack(JACKSON, this::setJackson);
+        convertPropertyToBooleanAndWriteBack(USE_ABSTRACTION_FOR_FILES, this::setUseAbstractionForFiles);
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
@@ -139,17 +135,29 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         model.imports.remove("JsonSerialize");
         model.imports.remove("ToStringSerializer");
 
-        //Add imports for Jackson when model has inner enum
-        if (additionalProperties.containsKey("jackson")) {
+
+        if (jackson) {
+            //Add jackson imports when model has inner enum
             if (Boolean.FALSE.equals(model.isEnum) && Boolean.TRUE.equals(model.hasEnums)) {
                 model.imports.add("JsonCreator");
                 model.imports.add("JsonValue");
+            }
+
+            //Add JsonNullable import and mark property nullable for templating if necessary
+            if (openApiNullable) {
+                if (Boolean.FALSE.equals(property.required) && Boolean.TRUE.equals(property.isNullable)) {
+                    property.getVendorExtensions().put("x-is-jackson-optional-nullable", true);
+                    findByName(property.name, model.readOnlyVars)
+                        .ifPresent(p -> p.getVendorExtensions().put("x-is-jackson-optional-nullable", true));
+                    model.imports.add("JsonNullable");
+                    model.imports.add("JsonIgnore");
+                }
             }
         }
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         return AbstractJavaJAXRSServerCodegen.jaxrsPostProcessOperations(objs);
     }
@@ -159,22 +167,10 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         return "Generates a Java JAXRS Client based on Apache CXF framework.";
     }
 
-    @Override
-    public void setUseBeanValidation(boolean useBeanValidation) {
-        this.useBeanValidation = useBeanValidation;
-    }
-
-    public boolean isUseBeanValidation() {
-        return useBeanValidation;
-    }
 
     @Override
     public void setUseGzipFeatureForTests(boolean useGzipFeatureForTests) {
         this.useGzipFeatureForTests = useGzipFeatureForTests;
-    }
-
-    public boolean isUseGzipFeatureForTests() {
-        return useGzipFeatureForTests;
     }
 
     @Override
@@ -182,17 +178,9 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         this.useLoggingFeatureForTests = useLoggingFeatureForTests;
     }
 
-    public boolean isUseLoggingFeatureForTests() {
-        return useLoggingFeatureForTests;
-    }
-
     @Override
     public void setUseGenericResponse(boolean useGenericResponse) {
         this.useGenericResponse = useGenericResponse;
-    }
-
-    public boolean isUseGenericResponse() {
-        return useGenericResponse;
     }
 
 }

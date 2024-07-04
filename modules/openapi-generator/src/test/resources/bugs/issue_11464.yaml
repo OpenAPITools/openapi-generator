@@ -1,0 +1,43 @@
+openapi: '3.0.3'
+info:
+  version: 1.0.0
+  title: Example Api
+paths:
+  /none:
+    get:
+      summary: No Tag
+      operationId: get_none
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /single:
+    get:
+      summary: Single Tag
+      operationId: get_single_tag
+      tags:
+        - tag1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /multiple:
+    get:
+      summary: Multiple Tags
+      operationId: get_multiple_tags
+      tags:
+        - tag1
+        - tag2
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string

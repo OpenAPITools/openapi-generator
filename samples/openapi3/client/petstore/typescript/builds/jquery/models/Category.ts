@@ -38,7 +38,7 @@ export class Category {
     static getAttributeTypeMap() {
         return Category.attributeTypeMap;
     }
-    
+
     public constructor() {
     }
 }

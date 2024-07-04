@@ -89,7 +89,7 @@ public class OpenAPIGenerator extends DefaultCodegen implements CodegenConfig {
         try {
             String outputFile = outputFolder + File.separator + outputFileName;
             FileUtils.writeStringToFile(new File(outputFile), jsonOpenAPI, StandardCharsets.UTF_8);
-            LOGGER.info("wrote file to " + outputFile);
+            LOGGER.info("wrote file to {}", outputFile);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
         }
@@ -106,4 +106,7 @@ public class OpenAPIGenerator extends DefaultCodegen implements CodegenConfig {
         // just return the original string
         return input;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return null; }
 }

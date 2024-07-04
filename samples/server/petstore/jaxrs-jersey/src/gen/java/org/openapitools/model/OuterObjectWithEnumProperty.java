@@ -16,6 +16,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.OuterEnumInteger;
@@ -29,7 +30,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   OuterObjectWithEnumProperty.JSON_PROPERTY_VALUE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class OuterObjectWithEnumProperty   {
   public static final String JSON_PROPERTY_VALUE = "value";
   @JsonProperty(JSON_PROPERTY_VALUE)
@@ -44,9 +45,9 @@ public class OuterObjectWithEnumProperty   {
    * Get value
    * @return value
    **/
-  @JsonProperty("value")
+  @JsonProperty(value = "value")
   @ApiModelProperty(required = true, value = "")
-  @NotNull @Valid 
+  @NotNull 
   public OuterEnumInteger getValue() {
     return value;
   }
@@ -72,7 +73,6 @@ public class OuterObjectWithEnumProperty   {
   public int hashCode() {
     return Objects.hash(value);
   }
-
 
   @Override
   public String toString() {

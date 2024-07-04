@@ -1,0 +1,22 @@
+openapi: 3.0.2
+info:
+  title: property name collision
+  version: 1.0.0
+paths:
+  /:
+    get:
+      description: 
+      responses:
+        '200':
+          description: test
+components:
+  schemas:
+    PropertyNameCollision:
+      properties:
+        _type:
+          type: string
+        type:
+          type: string
+        type_:
+          type: string
+      type: object 

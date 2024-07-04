@@ -41,7 +41,7 @@ public class RootedFileRule extends Rule {
     }
 
     private String getExtensionPart(final String input, int stopIndex) {
-        return input.substring(stopIndex > 0 ? stopIndex+1: input.length(), input.length());
+        return input.substring(stopIndex > 0 ? stopIndex+1: input.length());
     }
 
     @Override

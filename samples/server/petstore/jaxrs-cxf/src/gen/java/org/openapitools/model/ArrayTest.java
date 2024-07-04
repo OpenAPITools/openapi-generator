@@ -1,33 +1,29 @@
 package org.openapitools.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.ReadOnlyFirst;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class ArrayTest  {
   
   @ApiModelProperty(value = "")
-  private List<String> arrayOfString = null;
+  private List<String> arrayOfString = new ArrayList<>();
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<List<Long>> arrayArrayOfInteger = null;
+  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
+  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
  /**
    * Get arrayOfString
    * @return arrayOfString
@@ -79,24 +75,42 @@ public class ArrayTest  {
    * @return arrayArrayOfModel
   **/
   @JsonProperty("array_array_of_model")
-  public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
+  public List<List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 
-  public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 
-  public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  public ArrayTest arrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
 
-  public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
+  public ArrayTest addArrayArrayOfModelItem(List<@Valid ReadOnlyFirst> arrayArrayOfModelItem) {
     this.arrayArrayOfModel.add(arrayArrayOfModelItem);
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ArrayTest arrayTest = (ArrayTest) o;
+    return Objects.equals(this.arrayOfString, arrayTest.arrayOfString) &&
+        Objects.equals(this.arrayArrayOfInteger, arrayTest.arrayArrayOfInteger) &&
+        Objects.equals(this.arrayArrayOfModel, arrayTest.arrayArrayOfModel);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(arrayOfString, arrayArrayOfInteger, arrayArrayOfModel);
+  }
 
   @Override
   public String toString() {
