@@ -197,6 +197,7 @@ module Petstore
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
+      {{^@integer.nil?}}
       if !@integer.nil? && @integer > 100
         invalid_properties.push('invalid value for "integer", must be smaller than or equal to 100.')
       end
@@ -205,6 +206,8 @@ module Petstore
         invalid_properties.push('invalid value for "integer", must be greater than or equal to 10.')
       end
 
+      {{/@integer.nil?}}
+      {{^@int32.nil?}}
       if !@int32.nil? && @int32 > 200
         invalid_properties.push('invalid value for "int32", must be smaller than or equal to 200.')
       end
@@ -213,10 +216,12 @@ module Petstore
         invalid_properties.push('invalid value for "int32", must be greater than or equal to 20.')
       end
 
+      {{/@int32.nil?}}
       if @number.nil?
         invalid_properties.push('invalid value for "number", number cannot be nil.')
       end
 
+      {{^@number.nil?}}
       if @number > 543.2
         invalid_properties.push('invalid value for "number", must be smaller than or equal to 543.2.')
       end
@@ -225,6 +230,8 @@ module Petstore
         invalid_properties.push('invalid value for "number", must be greater than or equal to 32.1.')
       end
 
+      {{/@number.nil?}}
+      {{^@float.nil?}}
       if !@float.nil? && @float > 987.6
         invalid_properties.push('invalid value for "float", must be smaller than or equal to 987.6.')
       end
@@ -233,6 +240,8 @@ module Petstore
         invalid_properties.push('invalid value for "float", must be greater than or equal to 54.3.')
       end
 
+      {{/@float.nil?}}
+      {{^@double.nil?}}
       if !@double.nil? && @double > 123.4
         invalid_properties.push('invalid value for "double", must be smaller than or equal to 123.4.')
       end
@@ -241,11 +250,14 @@ module Petstore
         invalid_properties.push('invalid value for "double", must be greater than or equal to 67.8.')
       end
 
+      {{/@double.nil?}}
+      {{^@string.nil?}}
       pattern = Regexp.new(/[a-z]/i)
       if !@string.nil? && @string !~ pattern
         invalid_properties.push("invalid value for \"string\", must conform to the pattern #{pattern}.")
       end
 
+      {{/@string.nil?}}
       if @byte.nil?
         invalid_properties.push('invalid value for "byte", byte cannot be nil.')
       end
@@ -258,6 +270,7 @@ module Petstore
         invalid_properties.push('invalid value for "password", password cannot be nil.')
       end
 
+      {{^@password.nil?}}
       if @password.to_s.length > 64
         invalid_properties.push('invalid value for "password", the character length must be smaller than or equal to 64.')
       end
@@ -266,16 +279,21 @@ module Petstore
         invalid_properties.push('invalid value for "password", the character length must be great than or equal to 10.')
       end
 
+      {{/@password.nil?}}
+      {{^@pattern_with_digits.nil?}}
       pattern = Regexp.new(/^\d{10}$/)
       if !@pattern_with_digits.nil? && @pattern_with_digits !~ pattern
         invalid_properties.push("invalid value for \"pattern_with_digits\", must conform to the pattern #{pattern}.")
       end
 
+      {{/@pattern_with_digits.nil?}}
+      {{^@pattern_with_digits_and_delimiter.nil?}}
       pattern = Regexp.new(/^image_\d{1,3}$/i)
       if !@pattern_with_digits_and_delimiter.nil? && @pattern_with_digits_and_delimiter !~ pattern
         invalid_properties.push("invalid value for \"pattern_with_digits_and_delimiter\", must conform to the pattern #{pattern}.")
       end
 
+      {{/@pattern_with_digits_and_delimiter.nil?}}
       invalid_properties
     end
 
