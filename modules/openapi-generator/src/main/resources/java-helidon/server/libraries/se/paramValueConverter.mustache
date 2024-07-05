@@ -2,7 +2,8 @@
 }}{{^isString}}{{#isDecimal}}BigDecimal::new{{/isDecimal}}{{!
 }}{{#isNumber}}BigDecimal::new{{/isNumber}}{{!
 }}{{#isDate}}LocalDate::parse{{/isDate}}{{#isDateTime}}OffsetDateTime::parse{{/isDateTime}}{{!
-}}{{^isDecimal}}{{^isNumber}}{{^isDate}}{{^isDateTime}}{{#isContainer}}{{baseType}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}::valueOf{{/isDateTime}}{{/isDate}}{{/isNumber}}{{/isDecimal}}{{/isString}}{{!
+}}{{#isByteArray}}HexFormat.of()::parseHex{{/isByteArray}}{{!
+}}{{^isDecimal}}{{^isNumber}}{{^isDate}}{{^isDateTime}}{{^isByteArray}}{{#isContainer}}{{baseType}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}::valueOf{{/isByteArray}}{{/isDateTime}}{{/isDate}}{{/isNumber}}{{/isDecimal}}{{/isString}}{{!
 }}{{#isString}}String::valueOf{{/isString}}{{!
 }}{{/vendorExtensions.x-helidon-hasEnumClass}}{{!
 }}{{!

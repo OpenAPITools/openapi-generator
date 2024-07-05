@@ -95,6 +95,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     static final String X_MEDIA_SUPPORT_PACKAGE_PREFIX = "x-helidon-media-support-package-prefix";
     static final String X_MEDIA_COMMON_MEDIA_TYPE_PACKAGE_PREFIX = "x-helidon-common-media-type-package-prefix";
     static final String X_USE_REACTIVE = "x-helidon-use-reactive";
+    static final String X_USE_OPTIONAL = "x-helidon-use-optional";
     static final String MICROPROFILE_ROOT_PACKAGE_DESC = "Root package name for Java EE";
     static final String MICROPROFILE_ROOT_PACKAGE_JAVAX = "javax";
     static final String MICROPROFILE_ROOT_PACKAGE_JAKARTA = "jakarta";
@@ -122,6 +123,9 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         + "The specified exact Helidon release or, if specified as a major version the latest release of that major version, "
         + " is used in the generated code.";
 
+    static final String X_HELIDON_USE_OPTIONAL = "x-helidon-useOptional";
+    static final String X_HELIDON_USE_OPTIONAL_DESC = "Wrap optional parameters in an Optional (Helidon 4 and later)";
+
     static final String FULL_PROJECT = "fullProject";
     static final String FULL_PROJECT_DESC = "If set to true, it will generate all files; if set to false, " +
             "it will only generate API files. If unspecified, the behavior depends on whether a project " +
@@ -131,6 +135,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     protected String helidonVersion;
     protected int helidonMajorVersion;
     protected boolean useReactive;
+    protected boolean useOptional = true; // effective with Helidon 4
     protected final GenericTypeDeclarations genericTypeDeclarations = new GenericTypeDeclarations();
 
     private String rootJavaEEPackage;
@@ -161,6 +166,8 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
                 .defaultValue(MICROPROFILE_ROOT_PACKAGE_DEFAULT));
         cliOptions.add(new CliOption(FULL_PROJECT, FULL_PROJECT_DESC)
                 .defaultValue(""));     // depends on project state
+        cliOptions.add(new CliOption(X_HELIDON_USE_OPTIONAL, X_HELIDON_USE_OPTIONAL_DESC)
+                .defaultValue("true"));
     }
 
     @Override
@@ -169,10 +176,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
 
         importMapping.put("Headers", helidonMajorVersion == 3 ? "io.helidon.http.common.Headers" : "io.helidon.http.Headers");
         importMapping.put("Optional", "java.util.Optional");
-        if (helidonMajorVersion > 3) {
-            importMapping.put("Status", "io.helidon.http.Status");
-        }
-
+        importMapping.put("Collectors", "java.util.stream.Collectors");
 
         String userHelidonVersion = "";
         String userParentVersion = "";
@@ -201,6 +205,11 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
             setHelidonVersion(VersionUtil.instance().defaultVersion());
         }
 
+        if (helidonMajorVersion > 3) {
+            importMapping.put("Status", "io.helidon.http.Status");
+            importMapping.put("HexFormat", "java.util.HexFormat");
+        }
+
         additionalProperties.put(HELIDON_VERSION, helidonVersion);
         additionalProperties.put(V3_STYLE, (helidonMajorVersion == 3));
 
@@ -209,6 +218,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         setJandexPluginDependency(helidonVersion);
         setMediaPackageInfo();
         setUseReactive();
+        setUseOptional();
     }
 
     @Override
@@ -350,6 +360,18 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     private void setUseReactive() {
         useReactive = (helidonMajorVersion < 4);
         additionalProperties.put(X_USE_REACTIVE, useReactive);
+    }
+
+    private void setUseOptional() {
+        Object useOptionalSetting = additionalProperties.get(X_USE_OPTIONAL);
+        if (useOptionalSetting == null) {
+            useOptional = true;
+        } else if (useOptionalSetting instanceof Boolean) {
+            useOptional = (Boolean) useOptionalSetting;
+        } else if (useOptionalSetting instanceof String) {
+            useOptional = Boolean.parseBoolean((String) useOptionalSetting);
+        }
+        additionalProperties.put(X_USE_OPTIONAL, useOptional);
     }
 
     private String checkAndSelectRootEEPackage(String version) {

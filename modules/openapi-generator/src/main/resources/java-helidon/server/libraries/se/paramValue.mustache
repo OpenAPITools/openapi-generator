@@ -16,11 +16,11 @@
 {{/x-helidon-v3}}{{!
 }}{{^x-helidon-v3}}{{!
 
-Most non-body parameter values are handled largely the same regardless of their origin (path, query, cookie, header).
-Wrap a single-valued parameter in an Optional only if it is NOT declared as required; otherwise insist that it be present.
+    Most non-body parameter values are handled largely the same regardless of their origin (path, query, cookie, header).
+    Wrap a single-valued parameter in an Optional only if it is NOT declared as required; otherwise insist that it be present.
 
-The Helidon 4 API exposes path, query, and cookie values as Value objects but header values as Strings, so deal with
-them slightly differently.
+    The Helidon 4 API exposes path, query, and cookie values as Value objects but header values as Strings, so deal with
+    them slightly differently.
 
 }}{{^isFormParam}}request{{/isFormParam}}{{!
 }}{{#isFormParam}}formParams{{/isFormParam}}{{!
@@ -52,36 +52,23 @@ them slightly differently.
                 .asOptional(){{/isHeaderParam}}{{/isString}}{{!
 }}{{#defaultValue}}
                 .or(() -> Optional.of("{{defaultValue}}")){{/defaultValue}}{{!
-}}{{^defaultValue}}{{#required}}
-                .map(v -> validator.require("{{baseName}}", v)){{!
-}}{{/required}}{{/defaultValue}}{{!
 }}{{/isContainer}}{{!
-}}{{> paramValueMapExpr }}{{!
-}}{{^vendorExtensions.x-helidon-hasEnumClass}}{{!
-}}{{#isEnum}}
+}}{{^isFile}}{{^isString}}
+                .map({{>paramValueConverter}}){{!
+}}{{/isString}}{{/isFile}}{{!
+}}{{^vendorExtensions.x-helidon-hasEnumClass}}{{#isEnum}}
                 .map(v -> validator.check("{{baseName}}",
                      v,
                      List.of({{#allowableValues}}{{#enumVars}}{{^-first}},
                              {{/-first}}{{{value}}}{{/enumVars}}{{/allowableValues}}))){{!
-}}{{/isEnum}}{{/vendorExtensions.x-helidon-hasEnumClass}}{{^isContainer}}{{^defaultValue}}{{!
-}}{{#required}}
-                .orElse(null){{!
-}}{{/required}}{{!
-}}{{^required}}
-                .or(Optional::empty){{!
-}}{{/required}}{{!
-}}{{/defaultValue}}{{/isContainer}}{{!
+}}{{/isEnum}}{{/vendorExtensions.x-helidon-hasEnumClass}}{{!
+}}{{#required}}{{^defaultValue}}{{^isContainer}}
+                .orElse(null){{/isContainer}}{{/defaultValue}}{{/required}}{{!
 }}{{#isContainer}}{{!
 }}{{#defaultValue}}
                 .collect(HCollectors.toDefaultedList("{{defaultValue}}",
-                                                    {{>paramValueConverter}}){{!
-}}{{/defaultValue}}{{!
-}}{{^defaultValue}}{{#required}}
-                .collect(HCollectors.toRequiredList("{{baseName}}",
-                                                    validator){{!
-}}{{/required}}{{!
-}}{{^required}}
-                .to{{containerTypeMapped}}(){{!
-}}{{/required}}{{/defaultValue}}{{!
-}}{{/isContainer}}{{!
+                                                    {{>paramValueConverter}})){{!
+}}{{/defaultValue}}{{^defaultValue}}
+                .collect(Collectors.to{{containerTypeMapped}}()){{/defaultValue}}{{!
+}}{{/isContainer}};{{!
 }}{{/x-helidon-v3}}

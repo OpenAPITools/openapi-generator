@@ -8,4 +8,4 @@ additionalProperties:
   artifactId: petstore-helidon-server-se
   hideGenerationTimestamp: "true"
   fullProject: "true"
-  x-helidon-useOptional: "true"
+  useAbstractClass: "true"

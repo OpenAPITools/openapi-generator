@@ -1,8 +1,10 @@
 {{!
-    The type part of a parameter local variable declaration (omitting the name).
+    Type declaration of a parameter for v4 and later.
 
-}}{{#x-helidon-v3}}{{#isPathParam}}{{baseType}}{{/isPathParam}}{{/x-helidon-v3}}{{!
+    Non-container parameters declared in the OpenAPI document as not required become Optional<dataType>; all other declarations
+     are just the dataType.
+
 }}{{^x-helidon-v3}}{{!
-    }}{{^required}}{{^isContainer}}Optional<{{/isContainer}}{{/required}}{{!
-}}{{{dataType}}}{{^required}}{{^isContainer}}>{{/isContainer}}{{/required}}{{!
+    }}{{^required}}{{^isContainer}}{{#x-helidon-use-optional}}Optional<{{/x-helidon-use-optional}}{{/isContainer}}{{/required}}{{!
+}}{{#isFile}}InputStream{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}}{{^required}}{{^isContainer}}{{#x-helidon-use-optional}}>{{/x-helidon-use-optional}}{{/isContainer}}{{/required}}{{!
 }}{{/x-helidon-v3}}
