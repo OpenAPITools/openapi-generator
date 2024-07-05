@@ -1,3 +1,6 @@
+// checks if the {{classname}} type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &{{classname}}{}
+
 // {{classname}} {{{description}}}{{^description}}struct for {{{classname}}}{{/description}}
 type {{classname}} struct {
 	{{#anyOf}}
@@ -71,6 +74,16 @@ func (src *{{classname}}) MarshalJSON() ([]byte, error) {
 
 {{/anyOf}}
 	return nil, nil // no data in anyOf schemas
+}
+
+func (src {{classname}}) ToMap() (map[string]interface{}, error) {
+{{#anyOf}}
+	if src.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}} != nil {
+		return src.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}}.ToMap()
+	}
+
+{{/anyOf}}
+    return nil, nil // no data in anyOf schemas
 }
 
 {{>nullable_model}}

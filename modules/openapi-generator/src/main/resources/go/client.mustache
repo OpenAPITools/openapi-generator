@@ -184,7 +184,8 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 				var lenIndValue = indValue.Len()
 				for i:=0;i<lenIndValue;i++ {
 					var arrayValue = indValue.Index(i)
-					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefix, arrayValue.Interface(), collectionType)
+					var keyPrefixWithIndex = keyPrefix + "[" + strconv.Itoa(i) + "]"
+					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixWithIndex, arrayValue.Interface(), collectionType)
 				}
 				return
 

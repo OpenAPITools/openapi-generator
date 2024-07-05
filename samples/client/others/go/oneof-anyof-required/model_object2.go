@@ -15,6 +15,9 @@ import (
 	"fmt"
 )
 
+// checks if the Object2 type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Object2{}
+
 // Object2 struct for Object2
 type Object2 struct {
 	NestedObject1 *NestedObject1
@@ -64,6 +67,18 @@ func (src *Object2) MarshalJSON() ([]byte, error) {
 	}
 
 	return nil, nil // no data in anyOf schemas
+}
+
+func (src Object2) ToMap() (map[string]interface{}, error) {
+	if src.NestedObject1 != nil {
+		return src.NestedObject1.ToMap()
+	}
+
+	if src.NestedObject2 != nil {
+		return src.NestedObject2.ToMap()
+	}
+
+    return nil, nil // no data in anyOf schemas
 }
 
 type NullableObject2 struct {
