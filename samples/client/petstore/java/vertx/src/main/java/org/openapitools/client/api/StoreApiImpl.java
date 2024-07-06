@@ -84,7 +84,7 @@ public class StoreApiImpl implements StoreApi {
         
         String[] localVarAccepts = {  };
         String[] localVarContentTypes = {  };
-        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
+        String[] localVarAuthNames = new String[] {  };
 
         apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
@@ -172,7 +172,7 @@ public class StoreApiImpl implements StoreApi {
         
         String[] localVarAccepts = { "application/xml", "application/json" };
         String[] localVarContentTypes = {  };
-        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
+        String[] localVarAuthNames = new String[] {  };
         TypeReference<Order> localVarReturnType = new TypeReference<Order>() {};
         apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
@@ -220,7 +220,7 @@ public class StoreApiImpl implements StoreApi {
         
         String[] localVarAccepts = { "application/xml", "application/json" };
         String[] localVarContentTypes = { "application/json" };
-        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
+        String[] localVarAuthNames = new String[] {  };
         TypeReference<Order> localVarReturnType = new TypeReference<Order>() {};
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }

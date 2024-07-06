@@ -55,10 +55,6 @@ export class StoreApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
-        }
-
         const response = await this.request({
             path: `/store/order/{order_id}`.replace(`{${"order_id"}}`, encodeURIComponent(String(requestParameters['orderId']))),
             method: 'DELETE',
@@ -125,10 +121,6 @@ export class StoreApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
-        }
-
         const response = await this.request({
             path: `/store/order/{order_id}`.replace(`{${"order_id"}}`, encodeURIComponent(String(requestParameters['orderId']))),
             method: 'GET',
@@ -165,10 +157,6 @@ export class StoreApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["global_api_key_header"] = await this.configuration.apiKey("global_api_key_header"); // global_api_key_header authentication
-        }
 
         const response = await this.request({
             path: `/store/order`,

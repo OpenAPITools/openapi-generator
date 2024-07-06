@@ -13,8 +13,6 @@ public class UserApiMockServer {
 
     public static MappingBuilder stubCreateUser0(@javax.annotation.Nonnull String body) {
         MappingBuilder stub = post(urlPathEqualTo("/user"))
-            .withHeader("Content-Type", havingExactly("application/json"))
-            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withStatus(0)
@@ -26,8 +24,6 @@ public class UserApiMockServer {
 
     public static MappingBuilder stubCreateUserFault(@javax.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/user"))
-            .withHeader("Content-Type", havingExactly("application/json"))
-            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withFault(fault)
@@ -45,8 +41,6 @@ public class UserApiMockServer {
 
     public static MappingBuilder stubCreateUsersWithArrayInput0(@javax.annotation.Nonnull String body) {
         MappingBuilder stub = post(urlPathEqualTo("/user/createWithArray"))
-            .withHeader("Content-Type", havingExactly("application/json"))
-            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withStatus(0)
@@ -58,8 +52,6 @@ public class UserApiMockServer {
 
     public static MappingBuilder stubCreateUsersWithArrayInputFault(@javax.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/user/createWithArray"))
-            .withHeader("Content-Type", havingExactly("application/json"))
-            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withFault(fault)
@@ -77,8 +69,6 @@ public class UserApiMockServer {
 
     public static MappingBuilder stubCreateUsersWithListInput0(@javax.annotation.Nonnull String body) {
         MappingBuilder stub = post(urlPathEqualTo("/user/createWithList"))
-            .withHeader("Content-Type", havingExactly("application/json"))
-            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withStatus(0)
@@ -90,8 +80,6 @@ public class UserApiMockServer {
 
     public static MappingBuilder stubCreateUsersWithListInputFault(@javax.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/user/createWithList"))
-            .withHeader("Content-Type", havingExactly("application/json"))
-            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withFault(fault)
@@ -109,7 +97,6 @@ public class UserApiMockServer {
 
     public static MappingBuilder stubDeleteUser400(@javax.annotation.Nonnull String username) {
         MappingBuilder stub = delete(urlPathTemplate("/user/{username}"))
-            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withStatus(400)
             );
@@ -121,7 +108,6 @@ public class UserApiMockServer {
 
     public static MappingBuilder stubDeleteUser404(@javax.annotation.Nonnull String username) {
         MappingBuilder stub = delete(urlPathTemplate("/user/{username}"))
-            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withStatus(404)
             );
@@ -133,7 +119,6 @@ public class UserApiMockServer {
 
     public static MappingBuilder stubDeleteUserFault(@javax.annotation.Nonnull String username, Fault fault) {
         MappingBuilder stub = delete(urlPathTemplate("/user/{username}"))
-            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withFault(fault)
             );
@@ -149,7 +134,6 @@ public class UserApiMockServer {
     public static MappingBuilder stubGetUserByName200(@javax.annotation.Nonnull String username, String response) {
         MappingBuilder stub = get(urlPathTemplate("/user/{username}"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
-            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/xml")
@@ -164,7 +148,6 @@ public class UserApiMockServer {
     public static MappingBuilder stubGetUserByName400(@javax.annotation.Nonnull String username, String response) {
         MappingBuilder stub = get(urlPathTemplate("/user/{username}"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
-            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withStatus(400)
                 .withHeader("Content-Type", "application/xml")
@@ -179,7 +162,6 @@ public class UserApiMockServer {
     public static MappingBuilder stubGetUserByName404(@javax.annotation.Nonnull String username, String response) {
         MappingBuilder stub = get(urlPathTemplate("/user/{username}"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
-            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withStatus(404)
                 .withHeader("Content-Type", "application/xml")
@@ -194,7 +176,6 @@ public class UserApiMockServer {
     public static MappingBuilder stubGetUserByNameFault(@javax.annotation.Nonnull String username, Fault fault) {
         MappingBuilder stub = get(urlPathTemplate("/user/{username}"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
-            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withFault(fault)
             );
@@ -216,7 +197,6 @@ public class UserApiMockServer {
     public static MappingBuilder stubLoginUser200(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password, String responseXRateLimit, String responseXExpiresAfter, String response) {
         MappingBuilder stub = get(urlPathEqualTo("/user/login"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
-            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/xml")
@@ -234,7 +214,6 @@ public class UserApiMockServer {
     public static MappingBuilder stubLoginUser400(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password, String response) {
         MappingBuilder stub = get(urlPathEqualTo("/user/login"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
-            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withStatus(400)
                 .withHeader("Content-Type", "application/xml")
@@ -250,7 +229,6 @@ public class UserApiMockServer {
     public static MappingBuilder stubLoginUserFault(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password, Fault fault) {
         MappingBuilder stub = get(urlPathEqualTo("/user/login"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
-            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withFault(fault)
             );
@@ -266,7 +244,6 @@ public class UserApiMockServer {
 
     public static MappingBuilder stubLogoutUser0() {
         MappingBuilder stub = get(urlPathEqualTo("/user/logout"))
-            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withStatus(0)
             );
@@ -277,7 +254,6 @@ public class UserApiMockServer {
 
     public static MappingBuilder stubLogoutUserFault(Fault fault) {
         MappingBuilder stub = get(urlPathEqualTo("/user/logout"))
-            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withFault(fault)
             );
@@ -291,8 +267,6 @@ public class UserApiMockServer {
 
     public static MappingBuilder stubUpdateUser400(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String body) {
         MappingBuilder stub = put(urlPathTemplate("/user/{username}"))
-            .withHeader("Content-Type", havingExactly("application/json"))
-            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withStatus(400)
@@ -305,8 +279,6 @@ public class UserApiMockServer {
 
     public static MappingBuilder stubUpdateUser404(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String body) {
         MappingBuilder stub = put(urlPathTemplate("/user/{username}"))
-            .withHeader("Content-Type", havingExactly("application/json"))
-            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withStatus(404)
@@ -319,8 +291,6 @@ public class UserApiMockServer {
 
     public static MappingBuilder stubUpdateUserFault(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = put(urlPathTemplate("/user/{username}"))
-            .withHeader("Content-Type", havingExactly("application/json"))
-            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withFault(fault)

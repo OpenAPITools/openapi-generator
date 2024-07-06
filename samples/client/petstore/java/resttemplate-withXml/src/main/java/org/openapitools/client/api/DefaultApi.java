@@ -71,7 +71,7 @@ public class DefaultApi extends BaseApi {
         final String[] localVarContentTypes = {  };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
+        String[] localVarAuthNames = new String[] {  };
 
         ParameterizedTypeReference<FooGetDefaultResponse> localReturnType = new ParameterizedTypeReference<FooGetDefaultResponse>() {};
         return apiClient.invokeAPI("/foo", HttpMethod.GET, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
@@ -95,7 +95,7 @@ public class DefaultApi extends BaseApi {
         final String[] localVarContentTypes = {  };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
+        String[] localVarAuthNames = new String[] {  };
 
         return apiClient.invokeAPI(localVarPath, method, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType);
     }

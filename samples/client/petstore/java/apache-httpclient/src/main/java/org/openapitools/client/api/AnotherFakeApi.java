@@ -95,7 +95,7 @@ public class AnotherFakeApi extends BaseApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
+    String[] localVarAuthNames = new String[] {  };
 
     TypeReference<Client> localVarReturnType = new TypeReference<Client>() {};
     return apiClient.invokeAPI(
@@ -137,7 +137,7 @@ public class AnotherFakeApi extends BaseApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
+    String[] localVarAuthNames = new String[] {  };
 
     return apiClient.invokeAPI(
       localVarPath,

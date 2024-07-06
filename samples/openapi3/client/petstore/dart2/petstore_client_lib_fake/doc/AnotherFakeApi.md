@@ -22,14 +22,6 @@ To test special tags and operation ID starting with number
 ### Example
 ```dart
 import 'package:openapi/api.dart';
-// TODO Configure API key authorization: global_api_key_cookie
-//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
-// TODO Configure API key authorization: global_api_key_header
-//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api_instance = AnotherFakeApi();
 final modelClient = ModelClient(); // ModelClient | client model
@@ -54,7 +46,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 

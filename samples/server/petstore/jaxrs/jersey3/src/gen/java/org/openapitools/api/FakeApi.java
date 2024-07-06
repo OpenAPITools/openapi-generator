@@ -81,10 +81,7 @@ public class FakeApi  {
     @Operation(summary = "", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = FakeBigDecimalMap200Response.class))),
-            },security = {
-            @SecurityRequirement(name = "global_api_key_cookie"),
-            @SecurityRequirement(name = "global_api_key_header")
-        }, tags={ "fake", }) 
+            }, tags={ "fake", }) 
     public Response fakeBigDecimalMap(@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeBigDecimalMap(securityContext);
@@ -96,10 +93,7 @@ public class FakeApi  {
     @Operation(summary = "Health check endpoint", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "The instance started successfully", content = 
                 @Content(schema = @Schema(implementation = HealthCheckResult.class))),
-            },security = {
-            @SecurityRequirement(name = "global_api_key_cookie"),
-            @SecurityRequirement(name = "global_api_key_header")
-        }, tags={ "fake", }) 
+            }, tags={ "fake", }) 
     public Response fakeHealthGet(@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeHealthGet(securityContext);
@@ -126,10 +120,7 @@ public class FakeApi  {
     @Operation(summary = "", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "Output boolean", content = 
                 @Content(schema = @Schema(implementation = Boolean.class))),
-            },security = {
-            @SecurityRequirement(name = "global_api_key_cookie"),
-            @SecurityRequirement(name = "global_api_key_header")
-        }, tags={ "fake", }) 
+            }, tags={ "fake", }) 
     public Response fakeOuterBooleanSerialize(@Schema(description = "Input boolean as post body")  Boolean body,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeOuterBooleanSerialize(body, securityContext);
@@ -142,10 +133,7 @@ public class FakeApi  {
     @Operation(summary = "", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "Output composite", content = 
                 @Content(schema = @Schema(implementation = OuterComposite.class))),
-            },security = {
-            @SecurityRequirement(name = "global_api_key_cookie"),
-            @SecurityRequirement(name = "global_api_key_header")
-        }, tags={ "fake", }) 
+            }, tags={ "fake", }) 
     public Response fakeOuterCompositeSerialize(@Schema(description = "Input composite as post body") @Valid  OuterComposite outerComposite,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeOuterCompositeSerialize(outerComposite, securityContext);
@@ -158,10 +146,7 @@ public class FakeApi  {
     @Operation(summary = "", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "Output number", content = 
                 @Content(schema = @Schema(implementation = BigDecimal.class))),
-            },security = {
-            @SecurityRequirement(name = "global_api_key_cookie"),
-            @SecurityRequirement(name = "global_api_key_header")
-        }, tags={ "fake", }) 
+            }, tags={ "fake", }) 
     public Response fakeOuterNumberSerialize(@Schema(description = "Input number as post body")  BigDecimal body,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeOuterNumberSerialize(body, securityContext);
@@ -174,10 +159,7 @@ public class FakeApi  {
     @Operation(summary = "", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "Output string", content = 
                 @Content(schema = @Schema(implementation = String.class))),
-            },security = {
-            @SecurityRequirement(name = "global_api_key_cookie"),
-            @SecurityRequirement(name = "global_api_key_header")
-        }, tags={ "fake", }) 
+            }, tags={ "fake", }) 
     public Response fakeOuterStringSerialize(@Schema(description = "Input string as post body")  String body,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeOuterStringSerialize(body, securityContext);
@@ -190,10 +172,7 @@ public class FakeApi  {
     @Operation(summary = "", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "Output enum (int)", content = 
                 @Content(schema = @Schema(implementation = OuterObjectWithEnumProperty.class))),
-            },security = {
-            @SecurityRequirement(name = "global_api_key_cookie"),
-            @SecurityRequirement(name = "global_api_key_header")
-        }, tags={ "fake", }) 
+            }, tags={ "fake", }) 
     public Response fakePropertyEnumIntegerSerialize(@Schema(description = "Input enum (int) as post body", required = true) @NotNull @Valid  OuterObjectWithEnumProperty outerObjectWithEnumProperty,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, securityContext);
@@ -205,10 +184,7 @@ public class FakeApi  {
     @Operation(summary = "test referenced additionalProperties", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
-            },security = {
-            @SecurityRequirement(name = "global_api_key_cookie"),
-            @SecurityRequirement(name = "global_api_key_header")
-        }, tags={ "fake", }) 
+            }, tags={ "fake", }) 
     public Response testAdditionalPropertiesReference(@Schema(description = "request body", required = true) @NotNull  Map<String, Object> requestBody,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testAdditionalPropertiesReference(requestBody, securityContext);
@@ -220,10 +196,7 @@ public class FakeApi  {
     @Operation(summary = "", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "Success", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
-            },security = {
-            @SecurityRequirement(name = "global_api_key_cookie"),
-            @SecurityRequirement(name = "global_api_key_header")
-        }, tags={ "fake", }) 
+            }, tags={ "fake", }) 
     public Response testBodyWithBinary(@Schema(description = "image to upload", required = true) @NotNull  File body,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testBodyWithBinary(body, securityContext);
@@ -235,10 +208,7 @@ public class FakeApi  {
     @Operation(summary = "", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "Success", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
-            },security = {
-            @SecurityRequirement(name = "global_api_key_cookie"),
-            @SecurityRequirement(name = "global_api_key_header")
-        }, tags={ "fake", }) 
+            }, tags={ "fake", }) 
     public Response testBodyWithFileSchema(@Schema(description = "", required = true) @NotNull @Valid  FileSchemaTestClass fileSchemaTestClass,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testBodyWithFileSchema(fileSchemaTestClass, securityContext);
@@ -250,10 +220,7 @@ public class FakeApi  {
     @Operation(summary = "", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "Success", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
-            },security = {
-            @SecurityRequirement(name = "global_api_key_cookie"),
-            @SecurityRequirement(name = "global_api_key_header")
-        }, tags={ "fake", }) 
+            }, tags={ "fake", }) 
     public Response testBodyWithQueryParams(@Schema(description = "") @QueryParam("query") @NotNull  String query,@Schema(description = "", required = true) @NotNull @Valid  User user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testBodyWithQueryParams(query, user, securityContext);
@@ -265,10 +232,7 @@ public class FakeApi  {
     @Operation(summary = "To test \"client\" model", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Client.class))),
-            },security = {
-            @SecurityRequirement(name = "global_api_key_cookie"),
-            @SecurityRequirement(name = "global_api_key_header")
-        }, tags={ "fake", }) 
+            }, tags={ "fake", }) 
     public Response testClientModel(@Schema(description = "client model", required = true) @NotNull @Valid  Client client,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testClientModel(client, securityContext);
@@ -296,10 +260,7 @@ public class FakeApi  {
                 @Content(schema = @Schema(implementation = Void.class))),
             @ApiResponse(responseCode = "404", description = "Not found", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
-            },security = {
-            @SecurityRequirement(name = "global_api_key_cookie"),
-            @SecurityRequirement(name = "global_api_key_header")
-        }, tags={ "fake", }) 
+            }, tags={ "fake", }) 
     public Response testEnumParameters(@Schema(description = "Header parameter enum test (string array)" , allowableValues=">, $")@HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray,@Schema(description = "Header parameter enum test (string)" , allowableValues="_abc, -efg, (xyz)", defaultValue="-efg")@HeaderParam("enum_header_string") String enumHeaderString,@Schema(description = "Query parameter enum test (string array)") @QueryParam("enum_query_string_array")  List<String> enumQueryStringArray,@Schema(description = "Query parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue = "-efg") @DefaultValue("-efg") @QueryParam("enum_query_string")  String enumQueryString,@Schema(description = "Query parameter enum test (double)", allowableValues="1, -2") @QueryParam("enum_query_integer")  Integer enumQueryInteger,@Schema(description = "Query parameter enum test (double)", allowableValues="1.1, -1.2") @QueryParam("enum_query_double")  Double enumQueryDouble,@Schema(description = "") @QueryParam("enum_query_model_array")  List<EnumClass> enumQueryModelArray,@Schema(description = "Form parameter enum test (string array)", allowableValues=">, $", defaultValue="$") @DefaultValue("$") @QueryParam("enum_form_string_array") List<String> enumFormStringArray,@Schema(description = "Form parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @DefaultValue("-efg") @QueryParam("enum_form_string") String enumFormString,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, securityContext);
@@ -323,10 +284,7 @@ public class FakeApi  {
     @Operation(summary = "test inline additionalProperties", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
-            },security = {
-            @SecurityRequirement(name = "global_api_key_cookie"),
-            @SecurityRequirement(name = "global_api_key_header")
-        }, tags={ "fake", }) 
+            }, tags={ "fake", }) 
     public Response testInlineAdditionalProperties(@Schema(description = "request body", required = true) @NotNull  Map<String, String> requestBody,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testInlineAdditionalProperties(requestBody, securityContext);
@@ -338,10 +296,7 @@ public class FakeApi  {
     @Operation(summary = "test inline free-form additionalProperties", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
-            },security = {
-            @SecurityRequirement(name = "global_api_key_cookie"),
-            @SecurityRequirement(name = "global_api_key_header")
-        }, tags={ "fake", }) 
+            }, tags={ "fake", }) 
     public Response testInlineFreeformAdditionalProperties(@Schema(description = "request body", required = true) @NotNull @Valid  TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, securityContext);
@@ -353,10 +308,7 @@ public class FakeApi  {
     @Operation(summary = "test json serialization of form data", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
-            },security = {
-            @SecurityRequirement(name = "global_api_key_cookie"),
-            @SecurityRequirement(name = "global_api_key_header")
-        }, tags={ "fake", }) 
+            }, tags={ "fake", }) 
     public Response testJsonFormData(@Schema(description = "field1") @QueryParam("param") String param,@Schema(description = "field2") @QueryParam("param2") String param2,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testJsonFormData(param, param2, securityContext);
@@ -368,10 +320,7 @@ public class FakeApi  {
     @Operation(summary = "test nullable parent property", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
-            },security = {
-            @SecurityRequirement(name = "global_api_key_cookie"),
-            @SecurityRequirement(name = "global_api_key_header")
-        }, tags={ "fake", }) 
+            }, tags={ "fake", }) 
     public Response testNullable(@Schema(description = "request body", required = true) @NotNull @Valid  ChildWithNullable childWithNullable,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testNullable(childWithNullable, securityContext);
@@ -382,10 +331,7 @@ public class FakeApi  {
     @Operation(summary = "", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "Success", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
-            },security = {
-            @SecurityRequirement(name = "global_api_key_cookie"),
-            @SecurityRequirement(name = "global_api_key_header")
-        }, tags={ "fake", }) 
+            }, tags={ "fake", }) 
     public Response testQueryParameterCollectionFormat(@Schema(description = "") @QueryParam("pipe") @NotNull  List<String> pipe,@Schema(description = "") @QueryParam("ioutil") @NotNull  List<String> ioutil,@Schema(description = "") @QueryParam("http") @NotNull  List<String> http,@Schema(description = "") @QueryParam("url") @NotNull  List<String> url,@Schema(description = "") @QueryParam("context") @NotNull  List<String> context,@Schema(description = "") @QueryParam("allowEmpty") @NotNull  String allowEmpty,@Schema(description = "") @Parameter(description="language")  Map<String, String> language,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language, securityContext);
@@ -397,10 +343,7 @@ public class FakeApi  {
     @Operation(summary = "test referenced string map", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
-            },security = {
-            @SecurityRequirement(name = "global_api_key_cookie"),
-            @SecurityRequirement(name = "global_api_key_header")
-        }, tags={ "fake", }) 
+            }, tags={ "fake", }) 
     public Response testStringMapReference(@Schema(description = "request body", required = true) @NotNull  Map<String, String> requestBody,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testStringMapReference(requestBody, securityContext);

@@ -251,20 +251,6 @@ module Petstore
             key: 'Authorization',
             value: "Bearer #{access_token_with_refresh}"
           },
-        'global_api_key_header' =>
-          {
-            type: 'api_key',
-            in: 'header',
-            key: 'global_api_key_header',
-            value: api_key_with_prefix('global_api_key_header')
-          },
-        'global_api_key_cookie' =>
-          {
-            type: 'api_key',
-            in: ,
-            key: 'global_api_key_cookie',
-            value: api_key_with_prefix('global_api_key_cookie')
-          },
         'api_key' =>
           {
             type: 'api_key',

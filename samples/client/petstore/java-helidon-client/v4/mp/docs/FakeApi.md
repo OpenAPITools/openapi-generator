@@ -47,7 +47,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 
@@ -77,7 +77,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 
@@ -147,7 +147,7 @@ Test serialization of outer boolean types
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 
@@ -182,7 +182,7 @@ Test serialization of object with outer number type
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 
@@ -217,7 +217,7 @@ Test serialization of outer number types
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 
@@ -252,7 +252,7 @@ Test serialization of outer string types
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 
@@ -287,7 +287,7 @@ Test serialization of enum (int) properties with examples
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 
@@ -322,7 +322,7 @@ test referenced additionalProperties
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 
@@ -357,7 +357,7 @@ For this test, the body has to be a binary file.
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 
@@ -392,7 +392,7 @@ For this test, the body for this request must reference a schema named &#x60;Fil
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 
@@ -426,7 +426,7 @@ For this test, the body for this request must reference a schema named &#x60;Fil
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 
@@ -461,7 +461,7 @@ To test \&quot;client\&quot; model
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 
@@ -553,7 +553,7 @@ To test enum parameters
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 
@@ -629,7 +629,7 @@ test inline additionalProperties
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 
@@ -664,7 +664,7 @@ test inline free-form additionalProperties
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 
@@ -700,7 +700,7 @@ test json serialization of form data
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 
@@ -735,7 +735,7 @@ test nullable parent property
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 
@@ -776,7 +776,7 @@ To test the collection format in query parameters
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 
@@ -811,7 +811,7 @@ test referenced string map
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 

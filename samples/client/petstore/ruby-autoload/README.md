@@ -57,19 +57,6 @@ Please follow the [installation](#installation) procedure and then run the follo
 # Load the gem
 require 'petstore'
 
-# Setup authorization
-Petstore.configure do |config|
-  # Configure API key authorization: global_api_key_cookie
-  config.api_key['global_api_key_cookie'] = 'YOUR API KEY'
-  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  # config.api_key_prefix['global_api_key_cookie'] = 'Bearer'
-
-  # Configure API key authorization: global_api_key_header
-  config.api_key['global_api_key_header'] = 'YOUR API KEY'
-  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  # config.api_key_prefix['global_api_key_header'] = 'Bearer'
-end
-
 api_instance = Petstore::AnotherFakeApi.new
 client = Petstore::Client.new # Client | client model
 
@@ -204,20 +191,6 @@ Authentication schemes defined for the API:
 - **Scopes**: 
   - write:pets: modify pets in your account
   - read:pets: read your pets
-
-### global_api_key_header
-
-
-- **Type**: API key
-- **API key parameter name**: global_api_key_header
-- **Location**: HTTP header
-
-### global_api_key_cookie
-
-
-- **Type**: API key
-- **API key parameter name**: global_api_key_cookie
-- **Location**: 
 
 ### api_key
 

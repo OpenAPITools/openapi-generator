@@ -84,7 +84,7 @@ public class AnotherFakeApiImpl implements AnotherFakeApi {
         
         String[] localVarAccepts = { "application/json" };
         String[] localVarContentTypes = { "application/json" };
-        String[] localVarAuthNames = new String[] { "global_api_key_cookie", "global_api_key_header" };
+        String[] localVarAuthNames = new String[] {  };
         TypeReference<Client> localVarReturnType = new TypeReference<Client>() {};
         apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }

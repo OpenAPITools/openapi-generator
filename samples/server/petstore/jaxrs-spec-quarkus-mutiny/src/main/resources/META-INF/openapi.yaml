@@ -33,9 +33,6 @@ servers:
       - v2
 - description: The local server without variables
   url: https://127.0.0.1/no_varaible
-security:
-- global_api_key_header: []
-- global_api_key_cookie: []
 tags:
 - description: Everything about your Pets
   name: pet
@@ -2435,14 +2432,6 @@ components:
             write:pets: modify pets in your account
             read:pets: read your pets
       type: oauth2
-    global_api_key_header:
-      in: header
-      name: global_api_key_header
-      type: apiKey
-    global_api_key_cookie:
-      in: cookie
-      name: global_api_key_cookie
-      type: apiKey
     api_key:
       in: header
       name: api_key

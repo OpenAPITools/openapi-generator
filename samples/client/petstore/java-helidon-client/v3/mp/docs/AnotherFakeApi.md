@@ -29,7 +29,7 @@ To test special tags and operation ID starting with number
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 

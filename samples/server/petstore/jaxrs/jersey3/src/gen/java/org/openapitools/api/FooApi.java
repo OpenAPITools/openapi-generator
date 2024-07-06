@@ -65,10 +65,7 @@ public class FooApi  {
     @Operation(summary = "", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "response", content = 
                 @Content(schema = @Schema(implementation = FooGetDefaultResponse.class))),
-            },security = {
-            @SecurityRequirement(name = "global_api_key_cookie"),
-            @SecurityRequirement(name = "global_api_key_header")
-        }, tags={  }) 
+            }, tags={  }) 
     public Response fooGet(@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fooGet(securityContext);

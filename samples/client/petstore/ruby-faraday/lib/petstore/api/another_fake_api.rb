@@ -68,7 +68,7 @@ module Petstore
       return_type = opts[:debug_return_type] || 'Client'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :operation => :"AnotherFakeApi.call_123_test_special_tags",

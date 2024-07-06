@@ -21,7 +21,6 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.DefaultApi;
 
@@ -29,18 +28,6 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
-        
-        // Configure API key authorization: global_api_key_cookie
-        ApiKeyAuth global_api_key_cookie = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_cookie");
-        global_api_key_cookie.setApiKey("YOUR API KEY");
-        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-        //global_api_key_cookie.setApiKeyPrefix("Token");
-
-        // Configure API key authorization: global_api_key_header
-        ApiKeyAuth global_api_key_header = (ApiKeyAuth) defaultClient.getAuthentication("global_api_key_header");
-        global_api_key_header.setApiKey("YOUR API KEY");
-        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-        //global_api_key_header.setApiKeyPrefix("Token");
 
         DefaultApi apiInstance = new DefaultApi(defaultClient);
         try {
@@ -67,7 +54,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 

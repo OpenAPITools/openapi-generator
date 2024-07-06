@@ -13,7 +13,6 @@ public class StoreApiMockServer {
 
     public static MappingBuilder stubDeleteOrder400(@javax.annotation.Nonnull String orderId) {
         MappingBuilder stub = delete(urlPathTemplate("/store/order/{order_id}"))
-            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withStatus(400)
             );
@@ -25,7 +24,6 @@ public class StoreApiMockServer {
 
     public static MappingBuilder stubDeleteOrder404(@javax.annotation.Nonnull String orderId) {
         MappingBuilder stub = delete(urlPathTemplate("/store/order/{order_id}"))
-            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withStatus(404)
             );
@@ -37,7 +35,6 @@ public class StoreApiMockServer {
 
     public static MappingBuilder stubDeleteOrderFault(@javax.annotation.Nonnull String orderId, Fault fault) {
         MappingBuilder stub = delete(urlPathTemplate("/store/order/{order_id}"))
-            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withFault(fault)
             );
@@ -82,7 +79,6 @@ public class StoreApiMockServer {
     public static MappingBuilder stubGetOrderById200(@javax.annotation.Nonnull String orderId, String response) {
         MappingBuilder stub = get(urlPathTemplate("/store/order/{order_id}"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
-            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/xml")
@@ -97,7 +93,6 @@ public class StoreApiMockServer {
     public static MappingBuilder stubGetOrderById400(@javax.annotation.Nonnull String orderId, String response) {
         MappingBuilder stub = get(urlPathTemplate("/store/order/{order_id}"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
-            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withStatus(400)
                 .withHeader("Content-Type", "application/xml")
@@ -112,7 +107,6 @@ public class StoreApiMockServer {
     public static MappingBuilder stubGetOrderById404(@javax.annotation.Nonnull String orderId, String response) {
         MappingBuilder stub = get(urlPathTemplate("/store/order/{order_id}"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
-            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withStatus(404)
                 .withHeader("Content-Type", "application/xml")
@@ -127,7 +121,6 @@ public class StoreApiMockServer {
     public static MappingBuilder stubGetOrderByIdFault(@javax.annotation.Nonnull String orderId, Fault fault) {
         MappingBuilder stub = get(urlPathTemplate("/store/order/{order_id}"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
-            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withFault(fault)
             );
@@ -149,8 +142,6 @@ public class StoreApiMockServer {
     public static MappingBuilder stubPlaceOrder200(@javax.annotation.Nonnull String body, String response) {
         MappingBuilder stub = post(urlPathEqualTo("/store/order"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
-            .withHeader("Content-Type", havingExactly("application/json"))
-            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withStatus(200)
@@ -165,8 +156,6 @@ public class StoreApiMockServer {
     public static MappingBuilder stubPlaceOrder400(@javax.annotation.Nonnull String body, String response) {
         MappingBuilder stub = post(urlPathEqualTo("/store/order"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
-            .withHeader("Content-Type", havingExactly("application/json"))
-            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withStatus(400)
@@ -181,8 +170,6 @@ public class StoreApiMockServer {
     public static MappingBuilder stubPlaceOrderFault(@javax.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/store/order"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
-            .withHeader("Content-Type", havingExactly("application/json"))
-            .withHeader("Authorization", matching(".*"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
                 .withFault(fault)

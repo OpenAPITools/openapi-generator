@@ -55,7 +55,7 @@ module Petstore
       return_type = opts[:debug_return_type] || 'FakeBigDecimalMap200Response'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :operation => :"FakeApi.fake_big_decimal_map",
@@ -110,7 +110,7 @@ module Petstore
       return_type = opts[:debug_return_type] || 'HealthCheckResult'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :operation => :"FakeApi.fake_health_get",
@@ -242,7 +242,7 @@ module Petstore
       return_type = opts[:debug_return_type] || 'Boolean'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :operation => :"FakeApi.fake_outer_boolean_serialize",
@@ -304,7 +304,7 @@ module Petstore
       return_type = opts[:debug_return_type] || 'OuterComposite'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :operation => :"FakeApi.fake_outer_composite_serialize",
@@ -366,7 +366,7 @@ module Petstore
       return_type = opts[:debug_return_type] || 'Float'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :operation => :"FakeApi.fake_outer_number_serialize",
@@ -428,7 +428,7 @@ module Petstore
       return_type = opts[:debug_return_type] || 'String'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :operation => :"FakeApi.fake_outer_string_serialize",
@@ -494,7 +494,7 @@ module Petstore
       return_type = opts[:debug_return_type] || 'OuterObjectWithEnumProperty'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :operation => :"FakeApi.fake_property_enum_integer_serialize",
@@ -560,7 +560,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :operation => :"FakeApi.test_additional_properties_reference",
@@ -620,7 +620,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :operation => :"FakeApi.test_body_with_binary",
@@ -684,7 +684,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :operation => :"FakeApi.test_body_with_file_schema",
@@ -753,7 +753,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :operation => :"FakeApi.test_body_with_query_params",
@@ -821,7 +821,7 @@ module Petstore
       return_type = opts[:debug_return_type] || 'Client'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :operation => :"FakeApi.test_client_model",
@@ -1112,7 +1112,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :operation => :"FakeApi.test_enum_parameters",
@@ -1267,7 +1267,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :operation => :"FakeApi.test_inline_additional_properties",
@@ -1333,7 +1333,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :operation => :"FakeApi.test_inline_freeform_additional_properties",
@@ -1407,7 +1407,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :operation => :"FakeApi.test_json_form_data",
@@ -1473,7 +1473,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :operation => :"FakeApi.test_nullable",
@@ -1571,7 +1571,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :operation => :"FakeApi.test_query_parameter_collection_format",
@@ -1637,7 +1637,7 @@ module Petstore
       return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['global_api_key_cookie', 'global_api_key_header']
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :operation => :"FakeApi.test_string_map_reference",

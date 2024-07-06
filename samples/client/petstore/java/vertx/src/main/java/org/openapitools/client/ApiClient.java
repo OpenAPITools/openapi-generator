@@ -86,8 +86,6 @@ public class ApiClient extends JavaTimeFormatter {
         // Setup authentications (key: authentication name, value: authentication).
         this.authentications = new HashMap<>();
         authentications.put("petstore_auth", new OAuth());
-        authentications.put("global_api_key_header", new ApiKeyAuth("header", "global_api_key_header"));
-        authentications.put("global_api_key_cookie", new ApiKeyAuth("cookie", "global_api_key_cookie"));
         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
         authentications.put("http_basic_test", new HttpBasicAuth());
@@ -679,20 +677,6 @@ public class ApiClient extends JavaTimeFormatter {
            authentications.put("petstore_auth", auth);
         }
 
-        public void addGlobalApiKeyHeaderAuthentication(String apikey, String apiKeyPrefix) {
-           ApiKeyAuth auth = new ApiKeyAuth("header","global_api_key_header");
-           auth.setApiKey(apikey);
-           auth.setApiKeyPrefix(apiKeyPrefix);
-           authentications.put("global_api_key_header", auth);
-        }
-
-        public void addGlobalApiKeyCookieAuthentication(String apikey, String apiKeyPrefix) {
-           ApiKeyAuth auth = new ApiKeyAuth("cookie","global_api_key_cookie");
-           auth.setApiKey(apikey);
-           auth.setApiKeyPrefix(apiKeyPrefix);
-           authentications.put("global_api_key_cookie", auth);
-        }
-
         public void addApiKeyAuthentication(String apikey, String apiKeyPrefix) {
            ApiKeyAuth auth = new ApiKeyAuth("header","api_key");
            auth.setApiKey(apikey);
@@ -724,18 +708,6 @@ public class ApiClient extends JavaTimeFormatter {
         public static AuthInfo forPetstoreAuthAuthentication(String accessToken) {
             AuthInfo authInfo = new AuthInfo();
             authInfo.addPetstoreAuthAuthentication(accessToken);
-            return authInfo;
-        }
-
-        public static AuthInfo forGlobalApiKeyHeaderAuthentication(String apikey, String apiKeyPrefix) {
-            AuthInfo authInfo = new AuthInfo();
-            authInfo.addGlobalApiKeyHeaderAuthentication(apikey, apiKeyPrefix);
-            return authInfo;
-        }
-
-        public static AuthInfo forGlobalApiKeyCookieAuthentication(String apikey, String apiKeyPrefix) {
-            AuthInfo authInfo = new AuthInfo();
-            authInfo.addGlobalApiKeyCookieAuthentication(apikey, apiKeyPrefix);
             return authInfo;
         }
 

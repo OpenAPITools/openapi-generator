@@ -47,19 +47,7 @@ class AnotherFakeApi {
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'apiKey',
-            'name': 'global_api_key_cookie',
-            'keyName': 'global_api_key_cookie',
-            'where': '',
-          },{
-            'type': 'apiKey',
-            'name': 'global_api_key_header',
-            'keyName': 'global_api_key_header',
-            'where': 'header',
-          },
-        ],
+        'secure': <Map<String, String>>[],
         ...?extra,
       },
       contentType: 'application/json',

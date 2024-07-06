@@ -73,10 +73,7 @@ public class FakeApi  {
     @Path("/BigDecimalMap")
     
     @Produces({ "*/*" })
-    @io.swagger.annotations.ApiOperation(value = "", notes = "for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys", response = FakeBigDecimalMap200Response.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "global_api_key_cookie"),
-        @io.swagger.annotations.Authorization(value = "global_api_key_header")
-    }, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "", notes = "for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys", response = FakeBigDecimalMap200Response.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = FakeBigDecimalMap200Response.class)
     })
@@ -88,10 +85,7 @@ public class FakeApi  {
     @Path("/health")
     
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "Health check endpoint", notes = "", response = HealthCheckResult.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "global_api_key_cookie"),
-        @io.swagger.annotations.Authorization(value = "global_api_key_header")
-    }, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "Health check endpoint", notes = "", response = HealthCheckResult.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "The instance started successfully", response = HealthCheckResult.class)
     })
@@ -117,10 +111,7 @@ public class FakeApi  {
     @Path("/outer/boolean")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer boolean types", response = Boolean.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "global_api_key_cookie"),
-        @io.swagger.annotations.Authorization(value = "global_api_key_header")
-    }, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Output boolean", response = Boolean.class)
     })
@@ -132,10 +123,7 @@ public class FakeApi  {
     @Path("/outer/composite")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of object with outer number type", response = OuterComposite.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "global_api_key_cookie"),
-        @io.swagger.annotations.Authorization(value = "global_api_key_header")
-    }, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of object with outer number type", response = OuterComposite.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class)
     })
@@ -147,10 +135,7 @@ public class FakeApi  {
     @Path("/outer/number")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer number types", response = BigDecimal.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "global_api_key_cookie"),
-        @io.swagger.annotations.Authorization(value = "global_api_key_header")
-    }, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Output number", response = BigDecimal.class)
     })
@@ -162,10 +147,7 @@ public class FakeApi  {
     @Path("/outer/string")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer string types", response = String.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "global_api_key_cookie"),
-        @io.swagger.annotations.Authorization(value = "global_api_key_header")
-    }, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer string types", response = String.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Output string", response = String.class)
     })
@@ -177,10 +159,7 @@ public class FakeApi  {
     @Path("/property/enum-int")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of enum (int) properties with examples", response = OuterObjectWithEnumProperty.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "global_api_key_cookie"),
-        @io.swagger.annotations.Authorization(value = "global_api_key_header")
-    }, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of enum (int) properties with examples", response = OuterObjectWithEnumProperty.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Output enum (int)", response = OuterObjectWithEnumProperty.class)
     })
@@ -192,10 +171,7 @@ public class FakeApi  {
     @Path("/additionalProperties-reference")
     @Consumes({ "application/json" })
     
-    @io.swagger.annotations.ApiOperation(value = "test referenced additionalProperties", notes = "", response = Void.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "global_api_key_cookie"),
-        @io.swagger.annotations.Authorization(value = "global_api_key_header")
-    }, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "test referenced additionalProperties", notes = "", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
@@ -207,10 +183,7 @@ public class FakeApi  {
     @Path("/body-with-binary")
     @Consumes({ "image/png" })
     
-    @io.swagger.annotations.ApiOperation(value = "", notes = "For this test, the body has to be a binary file.", response = Void.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "global_api_key_cookie"),
-        @io.swagger.annotations.Authorization(value = "global_api_key_header")
-    }, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "", notes = "For this test, the body has to be a binary file.", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class)
     })
@@ -222,10 +195,7 @@ public class FakeApi  {
     @Path("/body-with-file-schema")
     @Consumes({ "application/json" })
     
-    @io.swagger.annotations.ApiOperation(value = "", notes = "For this test, the body for this request must reference a schema named `File`.", response = Void.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "global_api_key_cookie"),
-        @io.swagger.annotations.Authorization(value = "global_api_key_header")
-    }, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "", notes = "For this test, the body for this request must reference a schema named `File`.", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class)
     })
@@ -237,10 +207,7 @@ public class FakeApi  {
     @Path("/body-with-query-params")
     @Consumes({ "application/json" })
     
-    @io.swagger.annotations.ApiOperation(value = "", notes = "", response = Void.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "global_api_key_cookie"),
-        @io.swagger.annotations.Authorization(value = "global_api_key_header")
-    }, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "", notes = "", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class)
     })
@@ -252,10 +219,7 @@ public class FakeApi  {
     
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", response = Client.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "global_api_key_cookie"),
-        @io.swagger.annotations.Authorization(value = "global_api_key_header")
-    }, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", response = Client.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class)
     })
@@ -283,10 +247,7 @@ public class FakeApi  {
     
     @Consumes({ "application/x-www-form-urlencoded" })
     
-    @io.swagger.annotations.ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", response = Void.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "global_api_key_cookie"),
-        @io.swagger.annotations.Authorization(value = "global_api_key_header")
-    }, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid request", response = Void.class),
         @io.swagger.annotations.ApiResponse(code = 404, message = "Not found", response = Void.class)
@@ -313,10 +274,7 @@ public class FakeApi  {
     @Path("/inline-additionalProperties")
     @Consumes({ "application/json" })
     
-    @io.swagger.annotations.ApiOperation(value = "test inline additionalProperties", notes = "", response = Void.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "global_api_key_cookie"),
-        @io.swagger.annotations.Authorization(value = "global_api_key_header")
-    }, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "test inline additionalProperties", notes = "", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
@@ -328,10 +286,7 @@ public class FakeApi  {
     @Path("/inline-freeform-additionalProperties")
     @Consumes({ "application/json" })
     
-    @io.swagger.annotations.ApiOperation(value = "test inline free-form additionalProperties", notes = "", response = Void.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "global_api_key_cookie"),
-        @io.swagger.annotations.Authorization(value = "global_api_key_header")
-    }, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "test inline free-form additionalProperties", notes = "", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
@@ -343,10 +298,7 @@ public class FakeApi  {
     @Path("/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
     
-    @io.swagger.annotations.ApiOperation(value = "test json serialization of form data", notes = "", response = Void.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "global_api_key_cookie"),
-        @io.swagger.annotations.Authorization(value = "global_api_key_header")
-    }, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "test json serialization of form data", notes = "", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
@@ -358,10 +310,7 @@ public class FakeApi  {
     @Path("/nullable")
     @Consumes({ "application/json" })
     
-    @io.swagger.annotations.ApiOperation(value = "test nullable parent property", notes = "", response = Void.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "global_api_key_cookie"),
-        @io.swagger.annotations.Authorization(value = "global_api_key_header")
-    }, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "test nullable parent property", notes = "", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
@@ -373,10 +322,7 @@ public class FakeApi  {
     @Path("/test-query-parameters")
     
     
-    @io.swagger.annotations.ApiOperation(value = "", notes = "To test the collection format in query parameters", response = Void.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "global_api_key_cookie"),
-        @io.swagger.annotations.Authorization(value = "global_api_key_header")
-    }, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "", notes = "To test the collection format in query parameters", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class)
     })
@@ -388,10 +334,7 @@ public class FakeApi  {
     @Path("/stringMap-reference")
     @Consumes({ "application/json" })
     
-    @io.swagger.annotations.ApiOperation(value = "test referenced string map", notes = "", response = Void.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "global_api_key_cookie"),
-        @io.swagger.annotations.Authorization(value = "global_api_key_header")
-    }, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "test referenced string map", notes = "", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })

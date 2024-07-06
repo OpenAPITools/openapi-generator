@@ -25,14 +25,6 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ### Example
 ```dart
 import 'package:openapi/api.dart';
-// TODO Configure API key authorization: global_api_key_cookie
-//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
-// TODO Configure API key authorization: global_api_key_header
-//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api_instance = StoreApi();
 final orderId = orderId_example; // String | ID of the order that needs to be deleted
@@ -56,7 +48,7 @@ void (empty response body)
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 
@@ -118,14 +110,6 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ### Example
 ```dart
 import 'package:openapi/api.dart';
-// TODO Configure API key authorization: global_api_key_cookie
-//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
-// TODO Configure API key authorization: global_api_key_header
-//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api_instance = StoreApi();
 final orderId = 789; // int | ID of pet that needs to be fetched
@@ -150,7 +134,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 
@@ -169,14 +153,6 @@ Place an order for a pet
 ### Example
 ```dart
 import 'package:openapi/api.dart';
-// TODO Configure API key authorization: global_api_key_cookie
-//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_cookie').apiKeyPrefix = 'Bearer';
-// TODO Configure API key authorization: global_api_key_header
-//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('global_api_key_header').apiKeyPrefix = 'Bearer';
 
 final api_instance = StoreApi();
 final order = Order(); // Order | order placed for purchasing the pet
@@ -201,7 +177,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[global_api_key_cookie](../README.md#global_api_key_cookie), [global_api_key_header](../README.md#global_api_key_header)
+No authorization required
 
 ### HTTP request headers
 

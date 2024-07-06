@@ -62,10 +62,6 @@ public class ApiClient {
       RequestInterceptor auth = null;
       if ("petstore_auth".equals(authName)) {
         auth = buildOauthRequestInterceptor(OAuthFlow.IMPLICIT, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
-      } else if ("global_api_key_header".equals(authName)) {
-        auth = new ApiKeyAuth("header", "global_api_key_header");
-      } else if ("global_api_key_cookie".equals(authName)) {
-        auth = new ApiKeyAuth("cookie", "global_api_key_cookie");
       } else if ("api_key".equals(authName)) {
         auth = new ApiKeyAuth("header", "api_key");
       } else if ("api_key_query".equals(authName)) {

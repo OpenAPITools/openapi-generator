@@ -14,7 +14,6 @@ public class DefaultApiMockServer {
     public static MappingBuilder stubFooGet0(String response) {
         MappingBuilder stub = get(urlPathEqualTo("/foo"))
             .withHeader("Accept", havingExactly("application/json"))
-            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withStatus(0)
                 .withHeader("Content-Type", "application/json")
@@ -28,7 +27,6 @@ public class DefaultApiMockServer {
     public static MappingBuilder stubFooGetFault(Fault fault) {
         MappingBuilder stub = get(urlPathEqualTo("/foo"))
             .withHeader("Accept", havingExactly("application/json"))
-            .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
                 .withFault(fault)
             );
