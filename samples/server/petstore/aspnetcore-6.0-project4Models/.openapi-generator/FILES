@@ -14,6 +14,7 @@ src/Org.OpenAPITools.Models/Org.OpenAPITools.Models.csproj
 src/Org.OpenAPITools.Models/Pet.cs
 src/Org.OpenAPITools.Models/Tag.cs
 src/Org.OpenAPITools.Models/TestEnum.cs
+src/Org.OpenAPITools.Models/TestNullable.cs
 src/Org.OpenAPITools.Models/User.cs
 src/Org.OpenAPITools/.gitignore
 src/Org.OpenAPITools/Attributes/ValidateModelStateAttribute.cs
