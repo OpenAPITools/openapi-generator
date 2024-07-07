@@ -30,7 +30,7 @@ public interface PetApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @HTTP(method = "POST", path = "pet", hasBody = true)
+  @POST("pet")
   Call<Void> addPet(
     @retrofit2.http.Body Pet body
   );
@@ -42,7 +42,7 @@ public interface PetApi {
    * @param apiKey  (optional)
    * @return Call&lt;Void&gt;
    */
-  @HTTP(method = "DELETE", path = "pet/{petId}")
+  @DELETE("pet/{petId}")
   Call<Void> deletePet(
     @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Header("api_key") String apiKey
   );
@@ -53,7 +53,7 @@ public interface PetApi {
    * @param status Status values that need to be considered for filter (required)
    * @return Call&lt;List&lt;Pet&gt;&gt;
    */
-  @HTTP(method = "GET", path = "pet/findByStatus")
+  @GET("pet/findByStatus")
   Call<List<Pet>> findPetsByStatus(
     @retrofit2.http.Query("status") CSVParams status
   );
@@ -66,7 +66,7 @@ public interface PetApi {
    * @deprecated
    */
   @Deprecated
-  @HTTP(method = "GET", path = "pet/findByTags")
+  @GET("pet/findByTags")
   Call<Set<Pet>> findPetsByTags(
     @retrofit2.http.Query("tags") CSVParams tags
   );
@@ -77,7 +77,7 @@ public interface PetApi {
    * @param petId ID of pet to return (required)
    * @return Call&lt;Pet&gt;
    */
-  @HTTP(method = "GET", path = "pet/{petId}")
+  @GET("pet/{petId}")
   Call<Pet> getPetById(
     @retrofit2.http.Path("petId") Long petId
   );
@@ -91,7 +91,7 @@ public interface PetApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @HTTP(method = "PUT", path = "pet", hasBody = true)
+  @PUT("pet")
   Call<Void> updatePet(
     @retrofit2.http.Body Pet body
   );
@@ -105,7 +105,7 @@ public interface PetApi {
    * @return Call&lt;Void&gt;
    */
   @retrofit2.http.FormUrlEncoded
-  @HTTP(method = "POST", path = "pet/{petId}")
+  @POST("pet/{petId}")
   Call<Void> updatePetWithForm(
     @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Field("name") String name, @retrofit2.http.Field("status") String status
   );
@@ -119,7 +119,7 @@ public interface PetApi {
    * @return Call&lt;ModelApiResponse&gt;
    */
   @retrofit2.http.Multipart
-  @HTTP(method = "POST", path = "pet/{petId}/uploadImage")
+  @POST("pet/{petId}/uploadImage")
   Call<ModelApiResponse> uploadFile(
     @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part("additionalMetadata") String additionalMetadata, @retrofit2.http.Part MultipartBody.Part _file
   );
@@ -133,7 +133,7 @@ public interface PetApi {
    * @return Call&lt;ModelApiResponse&gt;
    */
   @retrofit2.http.Multipart
-  @HTTP(method = "POST", path = "fake/{petId}/uploadImageWithRequiredFile")
+  @POST("fake/{petId}/uploadImageWithRequiredFile")
   Call<ModelApiResponse> uploadFileWithRequiredFile(
     @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part MultipartBody.Part requiredFile, @retrofit2.http.Part("additionalMetadata") String additionalMetadata
   );

@@ -36,7 +36,7 @@ public interface FakeApi {
   @Headers({
     "Content-Type:application/xml"
   })
-  @HTTP(method = "POST", path = "fake/create_xml_item", hasBody = true)
+  @POST("fake/create_xml_item")
   Completable createXmlItem(
     @retrofit2.http.Body XmlItem xmlItem
   );
@@ -47,7 +47,7 @@ public interface FakeApi {
    * @param body Input boolean as post body (optional)
    * @return Observable&lt;Boolean&gt;
    */
-  @HTTP(method = "POST", path = "fake/outer/boolean", hasBody = true)
+  @POST("fake/outer/boolean")
   Observable<Boolean> fakeOuterBooleanSerialize(
     @retrofit2.http.Body Boolean body
   );
@@ -58,7 +58,7 @@ public interface FakeApi {
    * @param body Input composite as post body (optional)
    * @return Observable&lt;OuterComposite&gt;
    */
-  @HTTP(method = "POST", path = "fake/outer/composite", hasBody = true)
+  @POST("fake/outer/composite")
   Observable<OuterComposite> fakeOuterCompositeSerialize(
     @retrofit2.http.Body OuterComposite body
   );
@@ -69,7 +69,7 @@ public interface FakeApi {
    * @param body Input number as post body (optional)
    * @return Observable&lt;BigDecimal&gt;
    */
-  @HTTP(method = "POST", path = "fake/outer/number", hasBody = true)
+  @POST("fake/outer/number")
   Observable<BigDecimal> fakeOuterNumberSerialize(
     @retrofit2.http.Body BigDecimal body
   );
@@ -80,7 +80,7 @@ public interface FakeApi {
    * @param body Input string as post body (optional)
    * @return Observable&lt;String&gt;
    */
-  @HTTP(method = "POST", path = "fake/outer/string", hasBody = true)
+  @POST("fake/outer/string")
   Observable<String> fakeOuterStringSerialize(
     @retrofit2.http.Body String body
   );
@@ -94,7 +94,7 @@ public interface FakeApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @HTTP(method = "PUT", path = "fake/body-with-file-schema", hasBody = true)
+  @PUT("fake/body-with-file-schema")
   Completable testBodyWithFileSchema(
     @retrofit2.http.Body FileSchemaTestClass body
   );
@@ -109,7 +109,7 @@ public interface FakeApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @HTTP(method = "PUT", path = "fake/body-with-query-params", hasBody = true)
+  @PUT("fake/body-with-query-params")
   Completable testBodyWithQueryParams(
     @retrofit2.http.Query("query") String query, @retrofit2.http.Body User body
   );
@@ -123,7 +123,7 @@ public interface FakeApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @HTTP(method = "PATCH", path = "fake", hasBody = true)
+  @PATCH("fake")
   Observable<Client> testClientModel(
     @retrofit2.http.Body Client body
   );
@@ -148,7 +148,7 @@ public interface FakeApi {
    * @return Completable
    */
   @retrofit2.http.FormUrlEncoded
-  @HTTP(method = "POST", path = "fake")
+  @POST("fake")
   Completable testEndpointParameters(
     @retrofit2.http.Field("number") BigDecimal number, @retrofit2.http.Field("double") Double _double, @retrofit2.http.Field("pattern_without_delimiter") String patternWithoutDelimiter, @retrofit2.http.Field("byte") byte[] _byte, @retrofit2.http.Field("integer") Integer integer, @retrofit2.http.Field("int32") Integer int32, @retrofit2.http.Field("int64") Long int64, @retrofit2.http.Field("float") Float _float, @retrofit2.http.Field("string") String string, @retrofit2.http.Field("binary") MultipartBody.Part binary, @retrofit2.http.Field("date") LocalDate date, @retrofit2.http.Field("dateTime") OffsetDateTime dateTime, @retrofit2.http.Field("password") String password, @retrofit2.http.Field("callback") String paramCallback
   );
@@ -167,7 +167,7 @@ public interface FakeApi {
    * @return Completable
    */
   @retrofit2.http.FormUrlEncoded
-  @HTTP(method = "GET", path = "fake")
+  @GET("fake")
   Completable testEnumParameters(
     @retrofit2.http.Header("enum_header_string_array") List<String> enumHeaderStringArray, @retrofit2.http.Header("enum_header_string") String enumHeaderString, @retrofit2.http.Query("enum_query_string_array") CSVParams enumQueryStringArray, @retrofit2.http.Query("enum_query_string") String enumQueryString, @retrofit2.http.Query("enum_query_integer") Integer enumQueryInteger, @retrofit2.http.Query("enum_query_double") Double enumQueryDouble, @retrofit2.http.Field("enum_form_string_array") List<String> enumFormStringArray, @retrofit2.http.Field("enum_form_string") String enumFormString
   );
@@ -183,7 +183,7 @@ public interface FakeApi {
    * @param int64Group Integer in group parameters (optional)
    * @return Completable
    */
-  @HTTP(method = "DELETE", path = "fake")
+  @DELETE("fake")
   Completable testGroupParameters(
     @retrofit2.http.Query("required_string_group") Integer requiredStringGroup, @retrofit2.http.Header("required_boolean_group") Boolean requiredBooleanGroup, @retrofit2.http.Query("required_int64_group") Long requiredInt64Group, @retrofit2.http.Query("string_group") Integer stringGroup, @retrofit2.http.Header("boolean_group") Boolean booleanGroup, @retrofit2.http.Query("int64_group") Long int64Group
   );
@@ -197,7 +197,7 @@ public interface FakeApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @HTTP(method = "POST", path = "fake/inline-additionalProperties", hasBody = true)
+  @POST("fake/inline-additionalProperties")
   Completable testInlineAdditionalProperties(
     @retrofit2.http.Body Map<String, String> param
   );
@@ -210,7 +210,7 @@ public interface FakeApi {
    * @return Completable
    */
   @retrofit2.http.FormUrlEncoded
-  @HTTP(method = "GET", path = "fake/jsonFormData")
+  @GET("fake/jsonFormData")
   Completable testJsonFormData(
     @retrofit2.http.Field("param") String param, @retrofit2.http.Field("param2") String param2
   );
@@ -225,7 +225,7 @@ public interface FakeApi {
    * @param context  (required)
    * @return Completable
    */
-  @HTTP(method = "PUT", path = "fake/test-query-parameters")
+  @PUT("fake/test-query-parameters")
   Completable testQueryParameterCollectionFormat(
     @retrofit2.http.Query("pipe") CSVParams pipe, @retrofit2.http.Query("ioutil") CSVParams ioutil, @retrofit2.http.Query("http") SSVParams http, @retrofit2.http.Query("url") CSVParams url, @retrofit2.http.Query("context") List<String> context
   );
