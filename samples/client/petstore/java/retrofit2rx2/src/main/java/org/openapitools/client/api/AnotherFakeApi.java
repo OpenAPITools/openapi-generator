@@ -30,7 +30,7 @@ public interface AnotherFakeApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @HTTP(method = "PATCH", path = "another-fake/dummy", hasBody = true)
+  @PATCH("another-fake/dummy")
   Observable<Client> call123testSpecialTags(
     @retrofit2.http.Header("uuid_test") UUID uuidTest, @retrofit2.http.Body Client body
   );

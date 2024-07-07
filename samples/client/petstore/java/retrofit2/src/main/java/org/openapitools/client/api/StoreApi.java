@@ -24,7 +24,7 @@ public interface StoreApi {
    * @param orderId ID of the order that needs to be deleted (required)
    * @return Call&lt;Void&gt;
    */
-  @HTTP(method = "DELETE", path = "store/order/{order_id}")
+  @DELETE("store/order/{order_id}")
   Call<Void> deleteOrder(
     @retrofit2.http.Path("order_id") String orderId
   );
@@ -34,7 +34,7 @@ public interface StoreApi {
    * Returns a map of status codes to quantities
    * @return Call&lt;Map&lt;String, Integer&gt;&gt;
    */
-  @HTTP(method = "GET", path = "store/inventory")
+  @GET("store/inventory")
   Call<Map<String, Integer>> getInventory();
     
 
@@ -44,7 +44,7 @@ public interface StoreApi {
    * @param orderId ID of pet that needs to be fetched (required)
    * @return Call&lt;Order&gt;
    */
-  @HTTP(method = "GET", path = "store/order/{order_id}")
+  @GET("store/order/{order_id}")
   Call<Order> getOrderById(
     @retrofit2.http.Path("order_id") Long orderId
   );
@@ -55,7 +55,7 @@ public interface StoreApi {
    * @param body order placed for purchasing the pet (required)
    * @return Call&lt;Order&gt;
    */
-  @HTTP(method = "POST", path = "store/order", hasBody = true)
+  @POST("store/order")
   Call<Order> placeOrder(
     @retrofit2.http.Body Order body
   );

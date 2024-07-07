@@ -27,7 +27,7 @@ public interface FakeClassnameTags123Api {
   @Headers({
     "Content-Type:application/json"
   })
-  @HTTP(method = "PATCH", path = "fake_classname_test", hasBody = true)
+  @PATCH("fake_classname_test")
   Call<Client> testClassname(
     @retrofit2.http.Body Client body
   );
