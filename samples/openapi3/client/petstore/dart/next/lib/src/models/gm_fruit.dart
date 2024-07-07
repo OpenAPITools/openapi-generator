@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'gm_fruit.reflection.dart';
@@ -31,7 +31,6 @@ mixin GmFruitMixin on
 /// * [color] 
 class GmFruit with
 $OpenApiObjectMixin,
-
 
 GmFruitMixin {
   @override
@@ -74,6 +73,7 @@ GmFruitMixin {
   });
 
   static const $reflection = GmFruitReflection.instance;
+  GmFruitReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
@@ -86,7 +86,6 @@ GmFruitMixin {
       
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$GmFruitToMap(this);

@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_type_check
+// ignore_for_file: unnecessary_type_check, unnecessary_null_comparison, unnecessary_cast
 
 part of 'another_fake_api.dart';
 
@@ -59,6 +59,7 @@ class AnotherFakeApi$123testSpecialTagsResponse200 extends AnotherFakeApi$123tes
     super.bodyBytesStream,
   });
 
+
   T split200<T>({
     
     required T Function(AnotherFakeApi$123testSpecialTagsResponse200ApplicationJson response) onApplicationJson,
@@ -102,17 +103,15 @@ class AnotherFakeApi$123testSpecialTagsResponse200 extends AnotherFakeApi$123tes
 
 /// Represent the response when content-type is application/json.
 class AnotherFakeApi$123testSpecialTagsResponse200ApplicationJson extends AnotherFakeApi$123testSpecialTagsResponse200 {
-  final UndefinedWrapper<
+  final 
             Client
-> body;
+? body;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   AnotherFakeApi$123testSpecialTagsResponse200ApplicationJson({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -122,11 +121,13 @@ class AnotherFakeApi$123testSpecialTagsResponse200ApplicationJson extends Anothe
   });
 
   static Future<AnotherFakeApi$123testSpecialTagsResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
-    switch (contentType) {
+  final encodingRules = <String, PropertyEncodingRule>{
       
+    };
+
+    switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
         if (v == null ? false :
@@ -139,9 +140,7 @@ class AnotherFakeApi$123testSpecialTagsResponse200ApplicationJson extends Anothe
           final res = Client.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -152,7 +151,8 @@ class AnotherFakeApi$123testSpecialTagsResponse200ApplicationJson extends Anothe
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
             context: context,
-            body: UndefinedWrapper(res),
+            body: res,
+            
           );
         } else {
           // since we consumed the stream, we need to publish our read result.
@@ -162,10 +162,10 @@ class AnotherFakeApi$123testSpecialTagsResponse200ApplicationJson extends Anothe
             reasonPhrase: response.reasonPhrase,
             context: context,
             rawJson: v,
+            
           );
         }
-      
-      
+      default:
     }
     return AnotherFakeApi$123testSpecialTagsResponse200ApplicationJson(
       headers: response.headers,
@@ -173,6 +173,7 @@ class AnotherFakeApi$123testSpecialTagsResponse200ApplicationJson extends Anothe
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }
@@ -233,6 +234,7 @@ class AnotherFakeApiGetParameterArrayNumberResponse200 extends AnotherFakeApiGet
     required super.context,
     super.bodyBytesStream,
   });
+
 
 
 
@@ -308,6 +310,7 @@ class AnotherFakeApiGetParameterStringNumberResponse200 extends AnotherFakeApiGe
 
 
 
+
   static Future<AnotherFakeApiGetParameterStringNumberResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
     return AnotherFakeApiGetParameterStringNumberResponse200(
       headers: response.headers,
@@ -377,6 +380,7 @@ class AnotherFakeApiNullRequestBodyResponse200 extends AnotherFakeApiNullRequest
     required super.context,
     super.bodyBytesStream,
   });
+
 
 
 

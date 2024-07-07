@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_type_check
+// ignore_for_file: unnecessary_type_check, unnecessary_null_comparison, unnecessary_cast
 
 part of 'pet_api.dart';
 
@@ -58,6 +58,7 @@ class PetApiAddPetResponse405 extends PetApiAddPetResponse {
     required super.context,
     super.bodyBytesStream,
   });
+
 
 
 
@@ -130,6 +131,7 @@ class PetApiDeletePetResponse400 extends PetApiDeletePetResponse {
     required super.context,
     super.bodyBytesStream,
   });
+
 
 
 
@@ -209,6 +211,7 @@ class PetApiFindPetsByStatusResponse200 extends PetApiFindPetsByStatusResponse {
     super.bodyBytesStream,
   });
 
+
   T split200<T>({
     
     required T Function(PetApiFindPetsByStatusResponse200ApplicationXml response) onApplicationXml,
@@ -260,20 +263,18 @@ class PetApiFindPetsByStatusResponse200 extends PetApiFindPetsByStatusResponse {
 
 /// Represent the response when content-type is application/xml.
 class PetApiFindPetsByStatusResponse200ApplicationXml extends PetApiFindPetsByStatusResponse200 {
-  final UndefinedWrapper<
+  final 
     List<
         
             Pet
 >
-> body;
+? body;
 
   /// The raw result of calling XmlDocument.parse
   final XmlDocument? rawXml;
 
   PetApiFindPetsByStatusResponse200ApplicationXml({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -283,12 +284,13 @@ class PetApiFindPetsByStatusResponse200ApplicationXml extends PetApiFindPetsBySt
   });
 
   static Future<PetApiFindPetsByStatusResponse200ApplicationXml> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+  final encodingRules = <String, PropertyEncodingRule>{
+      
+    };
+
     switch (contentType) {
-      
-      
       case MediaType(type: 'application', subtype: 'xml'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = XmlDocument.parse(serialized);
         // check if v can be deserialized to xml
@@ -298,8 +300,9 @@ class PetApiFindPetsByStatusResponse200ApplicationXml extends PetApiFindPetsBySt
           reasonPhrase: response.reasonPhrase,
           context: context,
           rawXml: v,
+          
         );
-      
+      default:
     }
     return PetApiFindPetsByStatusResponse200ApplicationXml(
       headers: response.headers,
@@ -307,26 +310,25 @@ class PetApiFindPetsByStatusResponse200ApplicationXml extends PetApiFindPetsBySt
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }
 
 /// Represent the response when content-type is application/json.
 class PetApiFindPetsByStatusResponse200ApplicationJson extends PetApiFindPetsByStatusResponse200 {
-  final UndefinedWrapper<
+  final 
     List<
         
             Pet
 >
-> body;
+? body;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   PetApiFindPetsByStatusResponse200ApplicationJson({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -336,11 +338,13 @@ class PetApiFindPetsByStatusResponse200ApplicationJson extends PetApiFindPetsByS
   });
 
   static Future<PetApiFindPetsByStatusResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
-    switch (contentType) {
+  final encodingRules = <String, PropertyEncodingRule>{
       
+    };
+
+    switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
         if (v == null ? false :
@@ -359,7 +363,6 @@ class PetApiFindPetsByStatusResponse200ApplicationJson extends PetApiFindPetsByS
           final res = 
 (
 
-    
             
             v as List
             
@@ -369,9 +372,7 @@ class PetApiFindPetsByStatusResponse200ApplicationJson extends PetApiFindPetsByS
 .map((v) => Pet.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -383,7 +384,8 @@ class PetApiFindPetsByStatusResponse200ApplicationJson extends PetApiFindPetsByS
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
             context: context,
-            body: UndefinedWrapper(res),
+            body: res,
+            
           );
         } else {
           // since we consumed the stream, we need to publish our read result.
@@ -393,10 +395,10 @@ class PetApiFindPetsByStatusResponse200ApplicationJson extends PetApiFindPetsByS
             reasonPhrase: response.reasonPhrase,
             context: context,
             rawJson: v,
+            
           );
         }
-      
-      
+      default:
     }
     return PetApiFindPetsByStatusResponse200ApplicationJson(
       headers: response.headers,
@@ -404,6 +406,7 @@ class PetApiFindPetsByStatusResponse200ApplicationJson extends PetApiFindPetsByS
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }
@@ -416,6 +419,7 @@ class PetApiFindPetsByStatusResponse400 extends PetApiFindPetsByStatusResponse {
     required super.context,
     super.bodyBytesStream,
   });
+
 
 
 
@@ -497,6 +501,7 @@ class PetApiFindPetsByTagsResponse200 extends PetApiFindPetsByTagsResponse {
     super.bodyBytesStream,
   });
 
+
   T split200<T>({
     
     required T Function(PetApiFindPetsByTagsResponse200ApplicationXml response) onApplicationXml,
@@ -549,20 +554,18 @@ class PetApiFindPetsByTagsResponse200 extends PetApiFindPetsByTagsResponse {
 /// Represent the response when content-type is application/xml.
 @Deprecated('This operation has been deprecated')
 class PetApiFindPetsByTagsResponse200ApplicationXml extends PetApiFindPetsByTagsResponse200 {
-  final UndefinedWrapper<
+  final 
     List<
         
             Pet
 >
-> body;
+? body;
 
   /// The raw result of calling XmlDocument.parse
   final XmlDocument? rawXml;
 
   PetApiFindPetsByTagsResponse200ApplicationXml({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -572,12 +575,13 @@ class PetApiFindPetsByTagsResponse200ApplicationXml extends PetApiFindPetsByTags
   });
 
   static Future<PetApiFindPetsByTagsResponse200ApplicationXml> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+  final encodingRules = <String, PropertyEncodingRule>{
+      
+    };
+
     switch (contentType) {
-      
-      
       case MediaType(type: 'application', subtype: 'xml'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = XmlDocument.parse(serialized);
         // check if v can be deserialized to xml
@@ -587,8 +591,9 @@ class PetApiFindPetsByTagsResponse200ApplicationXml extends PetApiFindPetsByTags
           reasonPhrase: response.reasonPhrase,
           context: context,
           rawXml: v,
+          
         );
-      
+      default:
     }
     return PetApiFindPetsByTagsResponse200ApplicationXml(
       headers: response.headers,
@@ -596,6 +601,7 @@ class PetApiFindPetsByTagsResponse200ApplicationXml extends PetApiFindPetsByTags
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }
@@ -603,20 +609,18 @@ class PetApiFindPetsByTagsResponse200ApplicationXml extends PetApiFindPetsByTags
 /// Represent the response when content-type is application/json.
 @Deprecated('This operation has been deprecated')
 class PetApiFindPetsByTagsResponse200ApplicationJson extends PetApiFindPetsByTagsResponse200 {
-  final UndefinedWrapper<
+  final 
     List<
         
             Pet
 >
-> body;
+? body;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   PetApiFindPetsByTagsResponse200ApplicationJson({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -626,11 +630,13 @@ class PetApiFindPetsByTagsResponse200ApplicationJson extends PetApiFindPetsByTag
   });
 
   static Future<PetApiFindPetsByTagsResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
-    switch (contentType) {
+  final encodingRules = <String, PropertyEncodingRule>{
       
+    };
+
+    switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
         if (v == null ? false :
@@ -649,7 +655,6 @@ class PetApiFindPetsByTagsResponse200ApplicationJson extends PetApiFindPetsByTag
           final res = 
 (
 
-    
             
             v as List
             
@@ -659,9 +664,7 @@ class PetApiFindPetsByTagsResponse200ApplicationJson extends PetApiFindPetsByTag
 .map((v) => Pet.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -673,7 +676,8 @@ class PetApiFindPetsByTagsResponse200ApplicationJson extends PetApiFindPetsByTag
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
             context: context,
-            body: UndefinedWrapper(res),
+            body: res,
+            
           );
         } else {
           // since we consumed the stream, we need to publish our read result.
@@ -683,10 +687,10 @@ class PetApiFindPetsByTagsResponse200ApplicationJson extends PetApiFindPetsByTag
             reasonPhrase: response.reasonPhrase,
             context: context,
             rawJson: v,
+            
           );
         }
-      
-      
+      default:
     }
     return PetApiFindPetsByTagsResponse200ApplicationJson(
       headers: response.headers,
@@ -694,6 +698,7 @@ class PetApiFindPetsByTagsResponse200ApplicationJson extends PetApiFindPetsByTag
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }
@@ -707,6 +712,7 @@ class PetApiFindPetsByTagsResponse400 extends PetApiFindPetsByTagsResponse {
     required super.context,
     super.bodyBytesStream,
   });
+
 
 
 
@@ -792,6 +798,7 @@ class PetApiGetPetByIdResponse200 extends PetApiGetPetByIdResponse {
     super.bodyBytesStream,
   });
 
+
   T split200<T>({
     
     required T Function(PetApiGetPetByIdResponse200ApplicationXml response) onApplicationXml,
@@ -843,17 +850,15 @@ class PetApiGetPetByIdResponse200 extends PetApiGetPetByIdResponse {
 
 /// Represent the response when content-type is application/xml.
 class PetApiGetPetByIdResponse200ApplicationXml extends PetApiGetPetByIdResponse200 {
-  final UndefinedWrapper<
+  final 
             Pet
-> body;
+? body;
 
   /// The raw result of calling XmlDocument.parse
   final XmlDocument? rawXml;
 
   PetApiGetPetByIdResponse200ApplicationXml({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -863,12 +868,13 @@ class PetApiGetPetByIdResponse200ApplicationXml extends PetApiGetPetByIdResponse
   });
 
   static Future<PetApiGetPetByIdResponse200ApplicationXml> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+  final encodingRules = <String, PropertyEncodingRule>{
+      
+    };
+
     switch (contentType) {
-      
-      
       case MediaType(type: 'application', subtype: 'xml'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = XmlDocument.parse(serialized);
         // check if v can be deserialized to xml
@@ -878,8 +884,9 @@ class PetApiGetPetByIdResponse200ApplicationXml extends PetApiGetPetByIdResponse
           reasonPhrase: response.reasonPhrase,
           context: context,
           rawXml: v,
+          
         );
-      
+      default:
     }
     return PetApiGetPetByIdResponse200ApplicationXml(
       headers: response.headers,
@@ -887,23 +894,22 @@ class PetApiGetPetByIdResponse200ApplicationXml extends PetApiGetPetByIdResponse
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }
 
 /// Represent the response when content-type is application/json.
 class PetApiGetPetByIdResponse200ApplicationJson extends PetApiGetPetByIdResponse200 {
-  final UndefinedWrapper<
+  final 
             Pet
-> body;
+? body;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   PetApiGetPetByIdResponse200ApplicationJson({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -913,11 +919,13 @@ class PetApiGetPetByIdResponse200ApplicationJson extends PetApiGetPetByIdRespons
   });
 
   static Future<PetApiGetPetByIdResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
-    switch (contentType) {
+  final encodingRules = <String, PropertyEncodingRule>{
       
+    };
+
+    switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
         if (v == null ? false :
@@ -930,9 +938,7 @@ class PetApiGetPetByIdResponse200ApplicationJson extends PetApiGetPetByIdRespons
           final res = Pet.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -943,7 +949,8 @@ class PetApiGetPetByIdResponse200ApplicationJson extends PetApiGetPetByIdRespons
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
             context: context,
-            body: UndefinedWrapper(res),
+            body: res,
+            
           );
         } else {
           // since we consumed the stream, we need to publish our read result.
@@ -953,10 +960,10 @@ class PetApiGetPetByIdResponse200ApplicationJson extends PetApiGetPetByIdRespons
             reasonPhrase: response.reasonPhrase,
             context: context,
             rawJson: v,
+            
           );
         }
-      
-      
+      default:
     }
     return PetApiGetPetByIdResponse200ApplicationJson(
       headers: response.headers,
@@ -964,6 +971,7 @@ class PetApiGetPetByIdResponse200ApplicationJson extends PetApiGetPetByIdRespons
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }
@@ -976,6 +984,7 @@ class PetApiGetPetByIdResponse400 extends PetApiGetPetByIdResponse {
     required super.context,
     super.bodyBytesStream,
   });
+
 
 
 
@@ -1000,6 +1009,7 @@ class PetApiGetPetByIdResponse404 extends PetApiGetPetByIdResponse {
     required super.context,
     super.bodyBytesStream,
   });
+
 
 
 
@@ -1087,6 +1097,7 @@ class PetApiUpdatePetResponse400 extends PetApiUpdatePetResponse {
 
 
 
+
   static Future<PetApiUpdatePetResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
     return PetApiUpdatePetResponse400(
       headers: response.headers,
@@ -1111,6 +1122,7 @@ class PetApiUpdatePetResponse404 extends PetApiUpdatePetResponse {
 
 
 
+
   static Future<PetApiUpdatePetResponse404> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
     return PetApiUpdatePetResponse404(
       headers: response.headers,
@@ -1132,6 +1144,7 @@ class PetApiUpdatePetResponse405 extends PetApiUpdatePetResponse {
     required super.context,
     super.bodyBytesStream,
   });
+
 
 
 
@@ -1207,6 +1220,7 @@ class PetApiUpdatePetWithFormResponse405 extends PetApiUpdatePetWithFormResponse
 
 
 
+
   static Future<PetApiUpdatePetWithFormResponse405> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
     return PetApiUpdatePetWithFormResponse405(
       headers: response.headers,
@@ -1277,6 +1291,7 @@ class PetApiUploadFileResponse200 extends PetApiUploadFileResponse {
     super.bodyBytesStream,
   });
 
+
   T split200<T>({
     
     required T Function(PetApiUploadFileResponse200ApplicationJson response) onApplicationJson,
@@ -1320,17 +1335,15 @@ class PetApiUploadFileResponse200 extends PetApiUploadFileResponse {
 
 /// Represent the response when content-type is application/json.
 class PetApiUploadFileResponse200ApplicationJson extends PetApiUploadFileResponse200 {
-  final UndefinedWrapper<
+  final 
             ApiResponse
-> body;
+? body;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   PetApiUploadFileResponse200ApplicationJson({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -1340,11 +1353,13 @@ class PetApiUploadFileResponse200ApplicationJson extends PetApiUploadFileRespons
   });
 
   static Future<PetApiUploadFileResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
-    switch (contentType) {
+  final encodingRules = <String, PropertyEncodingRule>{
       
+    };
+
+    switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
         if (v == null ? false :
@@ -1357,9 +1372,7 @@ class PetApiUploadFileResponse200ApplicationJson extends PetApiUploadFileRespons
           final res = ApiResponse.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -1370,7 +1383,8 @@ class PetApiUploadFileResponse200ApplicationJson extends PetApiUploadFileRespons
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
             context: context,
-            body: UndefinedWrapper(res),
+            body: res,
+            
           );
         } else {
           // since we consumed the stream, we need to publish our read result.
@@ -1380,10 +1394,10 @@ class PetApiUploadFileResponse200ApplicationJson extends PetApiUploadFileRespons
             reasonPhrase: response.reasonPhrase,
             context: context,
             rawJson: v,
+            
           );
         }
-      
-      
+      default:
     }
     return PetApiUploadFileResponse200ApplicationJson(
       headers: response.headers,
@@ -1391,6 +1405,7 @@ class PetApiUploadFileResponse200ApplicationJson extends PetApiUploadFileRespons
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }
@@ -1452,6 +1467,7 @@ class PetApiUploadFileWithRequiredFileResponse200 extends PetApiUploadFileWithRe
     super.bodyBytesStream,
   });
 
+
   T split200<T>({
     
     required T Function(PetApiUploadFileWithRequiredFileResponse200ApplicationJson response) onApplicationJson,
@@ -1495,17 +1511,15 @@ class PetApiUploadFileWithRequiredFileResponse200 extends PetApiUploadFileWithRe
 
 /// Represent the response when content-type is application/json.
 class PetApiUploadFileWithRequiredFileResponse200ApplicationJson extends PetApiUploadFileWithRequiredFileResponse200 {
-  final UndefinedWrapper<
+  final 
             ApiResponse
-> body;
+? body;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   PetApiUploadFileWithRequiredFileResponse200ApplicationJson({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -1515,11 +1529,13 @@ class PetApiUploadFileWithRequiredFileResponse200ApplicationJson extends PetApiU
   });
 
   static Future<PetApiUploadFileWithRequiredFileResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
-    switch (contentType) {
+  final encodingRules = <String, PropertyEncodingRule>{
       
+    };
+
+    switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
         if (v == null ? false :
@@ -1532,9 +1548,7 @@ class PetApiUploadFileWithRequiredFileResponse200ApplicationJson extends PetApiU
           final res = ApiResponse.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -1545,7 +1559,8 @@ class PetApiUploadFileWithRequiredFileResponse200ApplicationJson extends PetApiU
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
             context: context,
-            body: UndefinedWrapper(res),
+            body: res,
+            
           );
         } else {
           // since we consumed the stream, we need to publish our read result.
@@ -1555,10 +1570,10 @@ class PetApiUploadFileWithRequiredFileResponse200ApplicationJson extends PetApiU
             reasonPhrase: response.reasonPhrase,
             context: context,
             rawJson: v,
+            
           );
         }
-      
-      
+      default:
     }
     return PetApiUploadFileWithRequiredFileResponse200ApplicationJson(
       headers: response.headers,
@@ -1566,6 +1581,7 @@ class PetApiUploadFileWithRequiredFileResponse200ApplicationJson extends PetApiU
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }

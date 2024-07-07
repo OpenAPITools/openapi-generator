@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'shape.reflection.dart';
@@ -22,7 +22,6 @@ mixin ShapeMixin on
 /// Shape
 class Shape with
 $OpenApiObjectMixin,
-
 
 ShapeMixin {
 
@@ -56,6 +55,7 @@ ShapeMixin {
   });
 
   static const $reflection = ShapeReflection.instance;
+  ShapeReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
@@ -68,7 +68,6 @@ ShapeMixin {
       
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$ShapeToMap(this);

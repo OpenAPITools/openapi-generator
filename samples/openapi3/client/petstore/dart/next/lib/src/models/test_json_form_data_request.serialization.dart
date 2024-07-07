@@ -9,13 +9,13 @@ Map<String, dynamic> _$TestJsonFormDataRequestToMap(TestJsonFormDataRequest inst
   final _reflection = TestJsonFormDataRequestReflection.instance;
   return <String, dynamic>{
     
-    _reflection.param.oasName: (
+    _reflection.paramPart.oasName: (
             String
  v) {
       return v;
     }(instance.param),
     
-    _reflection.param2.oasName: (
+    _reflection.param2Part.oasName: (
             String
  v) {
       return v;
@@ -26,27 +26,37 @@ Map<String, dynamic> _$TestJsonFormDataRequestToMap(TestJsonFormDataRequest inst
 }
 
 TestJsonFormDataRequest _$TestJsonFormDataRequestFromMap(Map<String, dynamic> src) {
-  final _reflection = TestJsonFormDataRequestReflection.instance;
+  const _reflection = TestJsonFormDataRequestReflection.instance;
   return TestJsonFormDataRequest.$all(
-    param: src.getRequiredMapped(_reflection.param.oasName, (v) => 
+    param: src.getRequiredMapped(_reflection.paramPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-param2: src.getRequiredMapped(_reflection.param2.oasName, (v) => 
+param2: src.getRequiredMapped(_reflection.param2Part.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -64,27 +74,38 @@ v
 
 bool _$TestJsonFormDataRequestCanFromMap(Map<String, dynamic> src) {
   final _reflection = TestJsonFormDataRequestReflection.instance;
-  if (!src.getOrUndefined(_reflection.param.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.paramPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.param.required,
+    unDefined: () => !_reflection.paramPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.param2.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.param2Part.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.param2.required,
+    unDefined: () => !_reflection.param2Part.required,
 )) {
     return false;
   }
@@ -94,7 +115,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -118,11 +139,14 @@ bool _$TestJsonFormDataRequestCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$TestJsonFormDataRequestSerialize(TestJsonFormDataRequest src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$TestJsonFormDataRequestSerialize(TestJsonFormDataRequest src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

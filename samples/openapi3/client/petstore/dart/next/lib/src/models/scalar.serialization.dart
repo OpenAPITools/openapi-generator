@@ -14,7 +14,7 @@ Map<String, dynamic> _$ScalarToMap(Scalar instance) {
 }
 
 Scalar _$ScalarFromMap(Map<String, dynamic> src) {
-  final _reflection = ScalarReflection.instance;
+  const _reflection = ScalarReflection.instance;
   return Scalar.$all(
         additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
 (
@@ -31,17 +31,17 @@ v
 
 bool _$ScalarCanFromMap(Map<String, dynamic> src) {
   final _reflection = ScalarReflection.instance;
+
     if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
 (
 true
 ))) {
     return false;
   }
-  
+
+
   final oneOfs = [
-  
-  
-  ];
+      ];
   final validOneOfs = oneOfs.where((x) => x()).take(2).length;
   if (validOneOfs == 0 || validOneOfs > 1) {
     return false;
@@ -63,14 +63,24 @@ Scalar _$ScalarDeserialize(Object? src) {
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 )) ? UndefinedWrapper(
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -80,14 +90,22 @@ Scalar _$ScalarDeserialize(Object? src) {
 
     
             
-            v is num
+            (v is num
+     || (num.tryParse(v.toString()) != null)
+    
+    
+    
+)
 )) ? UndefinedWrapper(
 (
 
-    
             
-                    v as num
-            
+                    ( v is num ? v as num :
+num.parse(v.toString())
+
+
+
+)
 
 )
 
@@ -97,14 +115,22 @@ Scalar _$ScalarDeserialize(Object? src) {
 
     
             
-            v is bool
+            (v is bool
+    
+     || (bool.tryParse(v.toString()) != null)
+    
+    
+)
 )) ? UndefinedWrapper(
 (
 
-    
             
-                    v as bool
-            
+                    ( v is bool ? v as bool :
+
+bool.parse(v.toString())
+
+
+)
 
 )
 
@@ -128,21 +154,36 @@ bool _$ScalarCanDeserialize(Object? src) {
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
       () => v == null ? false :
 (
 
     
             
-            v is num
+            (v is num
+     || (num.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
       () => v == null ? false :
 (
 
     
             
-            v is bool
+            (v is bool
+    
+     || (bool.tryParse(v.toString()) != null)
+    
+    
+)
 ),
     ];
     final validOneOfs = oneOfs.where((x) => x()).take(2).length;
@@ -155,12 +196,21 @@ bool _$ScalarCanDeserialize(Object? src) {
 
 /// Serializes to a primitive Object (num, String, List, Map).
 Object? _$ScalarSerialize(Scalar src) {
-  
-  
-  if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v; }
-  if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v; }
-  if (src.oneOf2.isDefined) {final v = src.oneOf2.valueRequired; return v; }
-  return null;
+  Object? initialResult = () {
+    
+    
+    if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v; }
+    if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v; }
+    if (src.oneOf2.isDefined) {final v = src.oneOf2.valueRequired; return v; }
+    return null;
+  }();
+  if (initialResult is Map<String, Object?>) {
+    return {
+      ...src.additionalProperties,
+      ...initialResult,
+    };
+  }
+  return initialResult;
 }
 
 

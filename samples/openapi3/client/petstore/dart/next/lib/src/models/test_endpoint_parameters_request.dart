@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'test_endpoint_parameters_request.reflection.dart';
@@ -90,7 +90,6 @@ UndefinedWrapper<
 /// * [callback] - None
 class TestEndpointParametersRequest with
 $OpenApiObjectMixin,
-
 
 TestEndpointParametersRequestMixin {
   @override
@@ -214,12 +213,12 @@ required  this.byte     ,
   });
 
   static const $reflection = TestEndpointParametersRequestReflection.instance;
+  TestEndpointParametersRequestReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$TestEndpointParametersRequestToMap(this);

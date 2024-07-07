@@ -14,7 +14,7 @@ Map<String, dynamic> _$FakeOneOfWIthSameErasureGet200ResponseToMap(FakeOneOfWIth
 }
 
 FakeOneOfWIthSameErasureGet200Response _$FakeOneOfWIthSameErasureGet200ResponseFromMap(Map<String, dynamic> src) {
-  final _reflection = FakeOneOfWIthSameErasureGet200ResponseReflection.instance;
+  const _reflection = FakeOneOfWIthSameErasureGet200ResponseReflection.instance;
   return FakeOneOfWIthSameErasureGet200Response.$all(
         additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
 (
@@ -30,16 +30,17 @@ v
 
 bool _$FakeOneOfWIthSameErasureGet200ResponseCanFromMap(Map<String, dynamic> src) {
   final _reflection = FakeOneOfWIthSameErasureGet200ResponseReflection.instance;
+
     if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
 (
 true
 ))) {
     return false;
   }
-  
+
+
   final oneOfs = [
-  
-  ];
+    ];
   final validOneOfs = oneOfs.where((x) => x()).take(2).length;
   if (validOneOfs == 0 || validOneOfs > 1) {
     return false;
@@ -66,12 +67,16 @@ FakeOneOfWIthSameErasureGet200Response _$FakeOneOfWIthSameErasureGet200ResponseD
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ))
 )) ? UndefinedWrapper(
 (
 
-    
             
             v as List
             
@@ -81,10 +86,15 @@ FakeOneOfWIthSameErasureGet200Response _$FakeOneOfWIthSameErasureGet200ResponseD
 .map((v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -100,12 +110,16 @@ FakeOneOfWIthSameErasureGet200Response _$FakeOneOfWIthSameErasureGet200ResponseD
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ))
 )) ? UndefinedWrapper(
 (
 
-    
             
             v as List
             
@@ -115,10 +129,13 @@ FakeOneOfWIthSameErasureGet200Response _$FakeOneOfWIthSameErasureGet200ResponseD
 .map((v) => 
 (
 
-    
             
-                    v as int
-            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
@@ -148,7 +165,12 @@ bool _$FakeOneOfWIthSameErasureGet200ResponseCanDeserialize(Object? src) {
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ))
 ),
       () => v == null ? false :
@@ -161,7 +183,12 @@ bool _$FakeOneOfWIthSameErasureGet200ResponseCanDeserialize(Object? src) {
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ))
 ),
     ];
@@ -175,11 +202,20 @@ bool _$FakeOneOfWIthSameErasureGet200ResponseCanDeserialize(Object? src) {
 
 /// Serializes to a primitive Object (num, String, List, Map).
 Object? _$FakeOneOfWIthSameErasureGet200ResponseSerialize(FakeOneOfWIthSameErasureGet200Response src) {
-  
-  
-  if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.map((v) => v).toList(); }
-  if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.map((v) => v).toList(); }
-  return null;
+  Object? initialResult = () {
+    
+    
+    if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.map((v) => v).toList(); }
+    if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.map((v) => v).toList(); }
+    return null;
+  }();
+  if (initialResult is Map<String, Object?>) {
+    return {
+      ...src.additionalProperties,
+      ...initialResult,
+    };
+  }
+  return initialResult;
 }
 
 

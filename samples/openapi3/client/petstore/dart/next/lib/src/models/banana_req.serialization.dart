@@ -9,13 +9,13 @@ Map<String, dynamic> _$BananaReqToMap(BananaReq instance) {
   final _reflection = BananaReqReflection.instance;
   return <String, dynamic>{
     
-    _reflection.lengthCm.oasName: (
+    _reflection.lengthCmPart.oasName: (
             num
  v) {
       return v;
     }(instance.lengthCm),
     if (instance.sweet.isDefined)
-    _reflection.sweet.oasName: (
+    _reflection.sweetPart.oasName: (
             bool
  v) {
       return v;
@@ -26,27 +26,33 @@ Map<String, dynamic> _$BananaReqToMap(BananaReq instance) {
 }
 
 BananaReq _$BananaReqFromMap(Map<String, dynamic> src) {
-  final _reflection = BananaReqReflection.instance;
+  const _reflection = BananaReqReflection.instance;
   return BananaReq.$all(
-    lengthCm: src.getRequiredMapped(_reflection.lengthCm.oasName, (v) => 
+    lengthCm: src.getRequiredMapped(_reflection.lengthCmPart.oasName, (v) => 
 (
 
-    
             
-                    v as num
-            
+                    ( v is num ? v as num :
+num.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-sweet: src.getOrUndefinedMapped(_reflection.sweet.oasName, (v) => 
+sweet: src.getOrUndefinedMapped(_reflection.sweetPart.oasName, (v) => 
 (
 
-    
             
-                    v as bool
-            
+                    ( v is bool ? v as bool :
+
+bool.parse(v.toString())
+
+
+)
 
 )
 
@@ -59,31 +65,42 @@ sweet: src.getOrUndefinedMapped(_reflection.sweet.oasName, (v) =>
 
 bool _$BananaReqCanFromMap(Map<String, dynamic> src) {
   final _reflection = BananaReqReflection.instance;
-  if (!src.getOrUndefined(_reflection.lengthCm.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.lengthCmPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is num
+            (v is num
+     || (num.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.lengthCm.required,
+    unDefined: () => !_reflection.lengthCmPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.sweet.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.sweetPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is bool
+            (v is bool
+    
+     || (bool.tryParse(v.toString()) != null)
+    
+    
+)
 ),
-    unDefined: () => !_reflection.sweet.required,
+    unDefined: () => !_reflection.sweetPart.required,
 )) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -107,11 +124,14 @@ bool _$BananaReqCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$BananaReqSerialize(BananaReq src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$BananaReqSerialize(BananaReq src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

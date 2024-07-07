@@ -9,7 +9,7 @@ Map<String, dynamic> _$DeprecatedObjectToMap(DeprecatedObject instance) {
   final _reflection = DeprecatedObjectReflection.instance;
   return <String, dynamic>{
     if (instance.name.isDefined)
-    _reflection.name.oasName: (
+    _reflection.namePart.oasName: (
             String
  v) {
       return v;
@@ -20,15 +20,20 @@ Map<String, dynamic> _$DeprecatedObjectToMap(DeprecatedObject instance) {
 }
 
 DeprecatedObject _$DeprecatedObjectFromMap(Map<String, dynamic> src) {
-  final _reflection = DeprecatedObjectReflection.instance;
+  const _reflection = DeprecatedObjectReflection.instance;
   return DeprecatedObject.$all(
-    name: src.getOrUndefinedMapped(_reflection.name.oasName, (v) => 
+    name: src.getOrUndefinedMapped(_reflection.namePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -46,15 +51,21 @@ v
 
 bool _$DeprecatedObjectCanFromMap(Map<String, dynamic> src) {
   final _reflection = DeprecatedObjectReflection.instance;
-  if (!src.getOrUndefined(_reflection.name.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.namePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.name.required,
+    unDefined: () => !_reflection.namePart.required,
 )) {
     return false;
   }
@@ -64,7 +75,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -88,11 +99,14 @@ bool _$DeprecatedObjectCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$DeprecatedObjectSerialize(DeprecatedObject src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$DeprecatedObjectSerialize(DeprecatedObject src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

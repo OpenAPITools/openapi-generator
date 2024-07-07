@@ -9,7 +9,7 @@ Map<String, dynamic> _$TriangleInterfaceToMap(TriangleInterface instance) {
   final _reflection = TriangleInterfaceReflection.instance;
   return <String, dynamic>{
     
-    _reflection.triangleType.oasName: (
+    _reflection.triangleTypePart.oasName: (
             String
  v) {
       return v;
@@ -20,15 +20,20 @@ Map<String, dynamic> _$TriangleInterfaceToMap(TriangleInterface instance) {
 }
 
 TriangleInterface _$TriangleInterfaceFromMap(Map<String, dynamic> src) {
-  final _reflection = TriangleInterfaceReflection.instance;
+  const _reflection = TriangleInterfaceReflection.instance;
   return TriangleInterface.$all(
-    triangleType: src.getRequiredMapped(_reflection.triangleType.oasName, (v) => 
+    triangleType: src.getRequiredMapped(_reflection.triangleTypePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -46,15 +51,21 @@ v
 
 bool _$TriangleInterfaceCanFromMap(Map<String, dynamic> src) {
   final _reflection = TriangleInterfaceReflection.instance;
-  if (!src.getOrUndefined(_reflection.triangleType.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.triangleTypePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.triangleType.required,
+    unDefined: () => !_reflection.triangleTypePart.required,
 )) {
     return false;
   }
@@ -64,7 +75,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -88,11 +99,14 @@ bool _$TriangleInterfaceCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$TriangleInterfaceSerialize(TriangleInterface src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$TriangleInterfaceSerialize(TriangleInterface src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

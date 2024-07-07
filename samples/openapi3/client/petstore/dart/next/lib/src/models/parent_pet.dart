@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'parent_pet.reflection.dart';
@@ -16,7 +16,6 @@ mixin ParentPetMixin on
 /// ParentPet
 class ParentPet with
 $OpenApiObjectMixin,
-
 GrandparentAnimalMixin,
 ParentPetMixin {
   @override
@@ -42,6 +41,7 @@ ParentPetMixin {
   });
 
   static const $reflection = ParentPetReflection.instance;
+  ParentPetReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
@@ -49,7 +49,6 @@ ParentPetMixin {
       
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$ParentPetToMap(this);

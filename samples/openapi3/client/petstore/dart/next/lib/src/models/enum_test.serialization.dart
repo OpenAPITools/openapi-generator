@@ -9,55 +9,55 @@ Map<String, dynamic> _$EnumTestToMap(EnumTest instance) {
   final _reflection = EnumTestReflection.instance;
   return <String, dynamic>{
     if (instance.enumString.isDefined)
-    _reflection.enumString.oasName: (
+    _reflection.enumStringPart.oasName: (
             EnumTestEnumStringEnum
  v) {
       return v.value;
     }(instance.enumString.valueRequired),
     
-    _reflection.enumStringRequired.oasName: (
+    _reflection.enumStringRequiredPart.oasName: (
             EnumTestEnumStringRequiredEnum
  v) {
       return v.value;
     }(instance.enumStringRequired),
     if (instance.enumInteger.isDefined)
-    _reflection.enumInteger.oasName: (
+    _reflection.enumIntegerPart.oasName: (
             EnumTestEnumIntegerEnum
  v) {
       return v.value;
     }(instance.enumInteger.valueRequired),
     if (instance.enumIntegerOnly.isDefined)
-    _reflection.enumIntegerOnly.oasName: (
+    _reflection.enumIntegerOnlyPart.oasName: (
             EnumTestEnumIntegerOnlyEnum
  v) {
       return v.value;
     }(instance.enumIntegerOnly.valueRequired),
     if (instance.enumNumber.isDefined)
-    _reflection.enumNumber.oasName: (
+    _reflection.enumNumberPart.oasName: (
             EnumTestEnumNumberEnum
  v) {
       return v.value;
     }(instance.enumNumber.valueRequired),
     if (instance.outerEnum.isDefined)
-    _reflection.outerEnum.oasName: (
+    _reflection.outerEnumPart.oasName: (
             OuterEnum
 ? v) {
       return v;
     }(instance.outerEnum.valueRequired),
     if (instance.outerEnumInteger.isDefined)
-    _reflection.outerEnumInteger.oasName: (
+    _reflection.outerEnumIntegerPart.oasName: (
             OuterEnumInteger
  v) {
       return v;
     }(instance.outerEnumInteger.valueRequired),
     if (instance.outerEnumDefaultValue.isDefined)
-    _reflection.outerEnumDefaultValue.oasName: (
+    _reflection.outerEnumDefaultValuePart.oasName: (
             OuterEnumDefaultValue
  v) {
       return v;
     }(instance.outerEnumDefaultValue.valueRequired),
     if (instance.outerEnumIntegerDefaultValue.isDefined)
-    _reflection.outerEnumIntegerDefaultValue.oasName: (
+    _reflection.outerEnumIntegerDefaultValuePart.oasName: (
             OuterEnumIntegerDefaultValue
  v) {
       return v;
@@ -68,111 +68,150 @@ Map<String, dynamic> _$EnumTestToMap(EnumTest instance) {
 }
 
 EnumTest _$EnumTestFromMap(Map<String, dynamic> src) {
-  final _reflection = EnumTestReflection.instance;
+  const _reflection = EnumTestReflection.instance;
   return EnumTest.$all(
-    enumString: src.getOrUndefinedMapped(_reflection.enumString.oasName, (v) => 
+    enumString: src.getOrUndefinedMapped(_reflection.enumStringPart.oasName, (v) => 
 (
 
-    
             
-                    EnumTestEnumStringEnum.$safe(v as String)
-            
+                    EnumTestEnumStringEnum.$safe(( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+))
 
 )
 
 
 ),
-enumStringRequired: src.getRequiredMapped(_reflection.enumStringRequired.oasName, (v) => 
+enumStringRequired: src.getRequiredMapped(_reflection.enumStringRequiredPart.oasName, (v) => 
 (
 
-    
             
-                    EnumTestEnumStringRequiredEnum.$safe(v as String)
-            
+                    EnumTestEnumStringRequiredEnum.$safe(( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+))
 
 )
 
 
 ),
-enumInteger: src.getOrUndefinedMapped(_reflection.enumInteger.oasName, (v) => 
+enumInteger: src.getOrUndefinedMapped(_reflection.enumIntegerPart.oasName, (v) => 
 (
 
-    
             
-                    EnumTestEnumIntegerEnum.$safe(v as int)
-            
+                    EnumTestEnumIntegerEnum.$safe(( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+))
 
 )
 
 
 ),
-enumIntegerOnly: src.getOrUndefinedMapped(_reflection.enumIntegerOnly.oasName, (v) => 
+enumIntegerOnly: src.getOrUndefinedMapped(_reflection.enumIntegerOnlyPart.oasName, (v) => 
 (
 
-    
             
-                    EnumTestEnumIntegerOnlyEnum.$safe(v as int)
-            
+                    EnumTestEnumIntegerOnlyEnum.$safe(( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+))
 
 )
 
 
 ),
-enumNumber: src.getOrUndefinedMapped(_reflection.enumNumber.oasName, (v) => 
+enumNumber: src.getOrUndefinedMapped(_reflection.enumNumberPart.oasName, (v) => 
 (
 
-    
             
-                    EnumTestEnumNumberEnum.$safe(v as double)
-            
+                    EnumTestEnumNumberEnum.$safe(( v is double ? v as double :
+double.parse(v.toString())
+
+
+
+))
 
 )
 
 
 ),
-outerEnum: src.getOrUndefinedMapped(_reflection.outerEnum.oasName, (v) => 
+outerEnum: src.getOrUndefinedMapped(_reflection.outerEnumPart.oasName, (v) => 
 (
 
-    
             
-                    v as OuterEnum
-            ?
+                    (v == null ? null :  v is OuterEnum ? v as OuterEnum :
+
+
+
+
+throwArgumentMismatch(OuterEnum, v)
+
+)
 
 )
 
 
 ),
-outerEnumInteger: src.getOrUndefinedMapped(_reflection.outerEnumInteger.oasName, (v) => 
+outerEnumInteger: src.getOrUndefinedMapped(_reflection.outerEnumIntegerPart.oasName, (v) => 
 (
 
-    
             
-                    v as OuterEnumInteger
-            
+                    ( v is OuterEnumInteger ? v as OuterEnumInteger :
+
+
+
+
+throwArgumentMismatch(OuterEnumInteger, v)
+
+)
 
 )
 
 
 ),
-outerEnumDefaultValue: src.getOrUndefinedMapped(_reflection.outerEnumDefaultValue.oasName, (v) => 
+outerEnumDefaultValue: src.getOrUndefinedMapped(_reflection.outerEnumDefaultValuePart.oasName, (v) => 
 (
 
-    
             
-                    v as OuterEnumDefaultValue
-            
+                    ( v is OuterEnumDefaultValue ? v as OuterEnumDefaultValue :
+
+
+
+
+throwArgumentMismatch(OuterEnumDefaultValue, v)
+
+)
 
 )
 
 
 ),
-outerEnumIntegerDefaultValue: src.getOrUndefinedMapped(_reflection.outerEnumIntegerDefaultValue.oasName, (v) => 
+outerEnumIntegerDefaultValue: src.getOrUndefinedMapped(_reflection.outerEnumIntegerDefaultValuePart.oasName, (v) => 
 (
 
-    
             
-                    v as OuterEnumIntegerDefaultValue
-            
+                    ( v is OuterEnumIntegerDefaultValue ? v as OuterEnumIntegerDefaultValue :
+
+
+
+
+throwArgumentMismatch(OuterEnumIntegerDefaultValue, v)
+
+)
 
 )
 
@@ -190,111 +229,157 @@ v
 
 bool _$EnumTestCanFromMap(Map<String, dynamic> src) {
   final _reflection = EnumTestReflection.instance;
-  if (!src.getOrUndefined(_reflection.enumString.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.enumStringPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+     && EnumTestEnumStringEnum.canDeserialize(v)
+)
 ),
-    unDefined: () => !_reflection.enumString.required,
+    unDefined: () => !_reflection.enumStringPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.enumStringRequired.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.enumStringRequiredPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+     && EnumTestEnumStringRequiredEnum.canDeserialize(v)
+)
 ),
-    unDefined: () => !_reflection.enumStringRequired.required,
+    unDefined: () => !_reflection.enumStringRequiredPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.enumInteger.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.enumIntegerPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+     && EnumTestEnumIntegerEnum.canDeserialize(v)
+)
 ),
-    unDefined: () => !_reflection.enumInteger.required,
+    unDefined: () => !_reflection.enumIntegerPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.enumIntegerOnly.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.enumIntegerOnlyPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+     && EnumTestEnumIntegerOnlyEnum.canDeserialize(v)
+)
 ),
-    unDefined: () => !_reflection.enumIntegerOnly.required,
+    unDefined: () => !_reflection.enumIntegerOnlyPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.enumNumber.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.enumNumberPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is double
+            (v is double
+     || (double.tryParse(v.toString()) != null)
+    
+    
+     && EnumTestEnumNumberEnum.canDeserialize(v)
+)
 ),
-    unDefined: () => !_reflection.enumNumber.required,
+    unDefined: () => !_reflection.enumNumberPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.outerEnum.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.outerEnumPart.oasName).split<bool>(
     defined: (v) => v == null ? true :
 (
 
     
             
-            v is OuterEnum
+            (v is OuterEnum
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.outerEnum.required,
+    unDefined: () => !_reflection.outerEnumPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.outerEnumInteger.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.outerEnumIntegerPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is OuterEnumInteger
+            (v is OuterEnumInteger
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.outerEnumInteger.required,
+    unDefined: () => !_reflection.outerEnumIntegerPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.outerEnumDefaultValue.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.outerEnumDefaultValuePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is OuterEnumDefaultValue
+            (v is OuterEnumDefaultValue
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.outerEnumDefaultValue.required,
+    unDefined: () => !_reflection.outerEnumDefaultValuePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.outerEnumIntegerDefaultValue.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.outerEnumIntegerDefaultValuePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is OuterEnumIntegerDefaultValue
+            (v is OuterEnumIntegerDefaultValue
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.outerEnumIntegerDefaultValue.required,
+    unDefined: () => !_reflection.outerEnumIntegerDefaultValuePart.required,
 )) {
     return false;
   }
@@ -304,7 +389,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -328,11 +413,14 @@ bool _$EnumTestCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$EnumTestSerialize(EnumTest src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$EnumTestSerialize(EnumTest src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

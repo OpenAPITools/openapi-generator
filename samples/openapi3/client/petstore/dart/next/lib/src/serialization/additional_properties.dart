@@ -1,5 +1,5 @@
 import 'open_api_object.dart';
-
+typedef $FreeFormObject = Map<String, Object?>;
 extension type const AdditionalProperties<T>._(Map<String, T> src)
     implements Map<String, dynamic> {
   const AdditionalProperties([Map<String, T> src = const {}])

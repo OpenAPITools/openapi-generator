@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'quadrilateral.reflection.dart';
@@ -26,7 +26,6 @@ mixin QuadrilateralMixin on
 /// Properties:
 class Quadrilateral with
 $OpenApiObjectMixin,
-
 
 QuadrilateralMixin {
 
@@ -60,6 +59,7 @@ QuadrilateralMixin {
   });
 
   static const $reflection = QuadrilateralReflection.instance;
+  QuadrilateralReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
@@ -72,7 +72,6 @@ QuadrilateralMixin {
       
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$QuadrilateralToMap(this);

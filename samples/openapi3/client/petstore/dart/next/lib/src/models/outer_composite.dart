@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'outer_composite.reflection.dart';
@@ -35,7 +35,6 @@ UndefinedWrapper<
 /// * [myBoolean] 
 class OuterComposite with
 $OpenApiObjectMixin,
-
 
 OuterCompositeMixin {
   @override
@@ -79,12 +78,12 @@ OuterCompositeMixin {
   });
 
   static const $reflection = OuterCompositeReflection.instance;
+  OuterCompositeReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$OuterCompositeToMap(this);

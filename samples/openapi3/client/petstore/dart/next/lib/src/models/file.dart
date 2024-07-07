@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'file.reflection.dart';
@@ -25,7 +25,6 @@ mixin FileMixin on
 /// * [sourceURI] - Test capitalization
 class File with
 $OpenApiObjectMixin,
-
 
 FileMixin {
   @override
@@ -53,12 +52,12 @@ FileMixin {
   });
 
   static const $reflection = FileReflection.instance;
+  FileReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$FileToMap(this);

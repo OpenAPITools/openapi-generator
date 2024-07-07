@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'foo_get_default_response.reflection.dart';
@@ -25,7 +25,6 @@ mixin FooGetDefaultResponseMixin on
 /// * [string] 
 class FooGetDefaultResponse with
 $OpenApiObjectMixin,
-
 
 FooGetDefaultResponseMixin {
   @override
@@ -53,12 +52,12 @@ FooGetDefaultResponseMixin {
   });
 
   static const $reflection = FooGetDefaultResponseReflection.instance;
+  FooGetDefaultResponseReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$FooGetDefaultResponseToMap(this);

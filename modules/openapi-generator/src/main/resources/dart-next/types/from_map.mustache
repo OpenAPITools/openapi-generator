@@ -1,2 +1,2 @@
 {{! you have access to _reflection.name.oasName and }}
-src.{{^required}}getOrUndefinedMapped{{/required}}{{#required}}getRequiredMapped{{/required}}(_reflection.{{name}}.oasName, (v) => {{>types/deserialize_recursive}})
+src.{{^required}}getOrUndefinedMapped{{/required}}{{#required}}getRequiredMapped{{/required}}(_reflection.{{name}}Part.oasName, (v) => {{>types/deserialize_recursive}})

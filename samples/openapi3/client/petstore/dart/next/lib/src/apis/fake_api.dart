@@ -1,4 +1,4 @@
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 part 'fake_api.requests.dart';
 part 'fake_api.responses.dart';

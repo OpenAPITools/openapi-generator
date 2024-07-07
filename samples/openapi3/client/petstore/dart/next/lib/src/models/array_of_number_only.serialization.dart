@@ -9,7 +9,7 @@ Map<String, dynamic> _$ArrayOfNumberOnlyToMap(ArrayOfNumberOnly instance) {
   final _reflection = ArrayOfNumberOnlyReflection.instance;
   return <String, dynamic>{
     if (instance.arrayNumber.isDefined)
-    _reflection.arrayNumber.oasName: (
+    _reflection.arrayNumberPart.oasName: (
     List<
         
             num
@@ -23,12 +23,11 @@ Map<String, dynamic> _$ArrayOfNumberOnlyToMap(ArrayOfNumberOnly instance) {
 }
 
 ArrayOfNumberOnly _$ArrayOfNumberOnlyFromMap(Map<String, dynamic> src) {
-  final _reflection = ArrayOfNumberOnlyReflection.instance;
+  const _reflection = ArrayOfNumberOnlyReflection.instance;
   return ArrayOfNumberOnly.$all(
-    arrayNumber: src.getOrUndefinedMapped(_reflection.arrayNumber.oasName, (v) => 
+    arrayNumber: src.getOrUndefinedMapped(_reflection.arrayNumberPart.oasName, (v) => 
 (
 
-    
             
             v as List
             
@@ -38,10 +37,13 @@ ArrayOfNumberOnly _$ArrayOfNumberOnlyFromMap(Map<String, dynamic> src) {
 .map((v) => 
 (
 
-    
             
-                    v as num
-            
+                    ( v is num ? v as num :
+num.parse(v.toString())
+
+
+
+)
 
 )
 
@@ -60,7 +62,8 @@ v
 
 bool _$ArrayOfNumberOnlyCanFromMap(Map<String, dynamic> src) {
   final _reflection = ArrayOfNumberOnlyReflection.instance;
-  if (!src.getOrUndefined(_reflection.arrayNumber.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.arrayNumberPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -71,10 +74,15 @@ bool _$ArrayOfNumberOnlyCanFromMap(Map<String, dynamic> src) {
 
     
             
-            v is num
+            (v is num
+     || (num.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ))
 ),
-    unDefined: () => !_reflection.arrayNumber.required,
+    unDefined: () => !_reflection.arrayNumberPart.required,
 )) {
     return false;
   }
@@ -84,7 +92,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -108,11 +116,14 @@ bool _$ArrayOfNumberOnlyCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$ArrayOfNumberOnlySerialize(ArrayOfNumberOnly src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$ArrayOfNumberOnlySerialize(ArrayOfNumberOnly src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

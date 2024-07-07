@@ -1,0 +1,20 @@
+{{#isNullable}}exampleNullable(() =>{{/isNullable}}
+
+{{#isAnyType}}exampleObject(){{/isAnyType}}
+{{^isAnyType}}
+    {{#isContainer}}example{{dataType}}(() { _partReflection = _partReflection?.itemsReflection; return {{#items}}{{>lib/src/models/reflection/example_recursive}}{{/items}}; })
+    {{/isContainer}}
+    {{^isContainer}}
+        {{#isEnum}}exampleEnum({{{datatypeWithEnum}}}.values){{/isEnum}}
+        {{^isEnum}}
+            {{#isEnumRef}}exampleEnum({{{datatypeWithEnum}}}.values){{/isEnumRef}}
+        {{/isEnum}}
+    {{/isContainer}}
+{{/isAnyType}}
+
+{{^isAnyType}}{{^isContainer}}{{^isEnum}}{{^isEnumRef}}
+    {{#isModel}}{{dataType}}.$reflection.example(){{/isModel}}
+    {{^isModel}}example{{dataType}}(){{/isModel}}
+{{/isEnumRef}}{{/isEnum}}{{/isContainer}}{{/isAnyType}}
+
+{{#isNullable}} ) {{/isNullable}}

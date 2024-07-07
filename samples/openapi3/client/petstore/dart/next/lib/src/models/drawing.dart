@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'drawing.reflection.dart';
@@ -21,7 +21,7 @@ mixin DrawingMixin on
 > get mainShape;
 UndefinedWrapper<
             ShapeOrNull
-?> get shapeOrNull;
+> get shapeOrNull;
 UndefinedWrapper<
             NullableShape
 ?> get nullableShape;
@@ -44,7 +44,6 @@ UndefinedWrapper<
 class Drawing with
 $OpenApiObjectMixin,
 
-
 DrawingMixin {
   @override
   UndefinedWrapper<
@@ -53,7 +52,7 @@ DrawingMixin {
   @override
   UndefinedWrapper<
             ShapeOrNull
-?> shapeOrNull;
+> shapeOrNull;
   @override
   UndefinedWrapper<
             NullableShape
@@ -99,12 +98,12 @@ DrawingMixin {
   });
 
   static const $reflection = DrawingReflection.instance;
+  DrawingReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$DrawingToMap(this);

@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'capitalization.reflection.dart';
@@ -50,7 +50,6 @@ UndefinedWrapper<
 /// * [ATT_NAME] - Name of the pet 
 class Capitalization with
 $OpenApiObjectMixin,
-
 
 CapitalizationMixin {
   @override
@@ -118,12 +117,12 @@ CapitalizationMixin {
   });
 
   static const $reflection = CapitalizationReflection.instance;
+  CapitalizationReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$CapitalizationToMap(this);

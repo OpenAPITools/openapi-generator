@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'variable.reflection.dart';
@@ -30,7 +30,6 @@ mixin VariableMixin on
 /// * [value] 
 class Variable with
 $OpenApiObjectMixin,
-
 
 VariableMixin {
   @override
@@ -62,12 +61,12 @@ required  this.value     ,
   });
 
   static const $reflection = VariableReflection.instance;
+  VariableReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$VariableToMap(this);

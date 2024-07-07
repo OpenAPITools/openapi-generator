@@ -6,140 +6,323 @@ part of 'enum_test.dart';
 //class reflection
 
 class EnumTestReflection extends ClassReflection<EnumTest> {
+  static EnumTestReflection instanceGetter() => instance;
   static const instance = EnumTestReflection._(
-    enumString: PropertyReflection(
+    modelName: r'Enum_Test',
+    className: r'EnumTest',
+    enumStringPart: PropertyReflection<EnumTest, UndefinedWrapper<
+            EnumTestEnumStringEnum
+>>(
       dartName: r'enumString',
       nullable: false,
       required: false,
       oasName: r'enum_string',
       oasType: r'string',
       pattern: null,
+      parentReflectionGetter:  instanceGetter,
+      isDiscriminator: false,
+      getter: _enumStringGetter,
+      setter: _enumStringSetter,
     ),
-    enumStringRequired: PropertyReflection(
+    enumStringRequiredPart: PropertyReflection<EnumTest, 
+            EnumTestEnumStringRequiredEnum
+>(
       dartName: r'enumStringRequired',
       nullable: false,
       required: true,
       oasName: r'enum_string_required',
       oasType: r'string',
       pattern: null,
+      parentReflectionGetter:  instanceGetter,
+      isDiscriminator: false,
+      getter: _enumStringRequiredGetter,
+      setter: _enumStringRequiredSetter,
     ),
-    enumInteger: PropertyReflection(
+    enumIntegerPart: PropertyReflection<EnumTest, UndefinedWrapper<
+            EnumTestEnumIntegerEnum
+>>(
       dartName: r'enumInteger',
       nullable: false,
       required: false,
       oasName: r'enum_integer',
       oasType: r'integer',
       pattern: null,
+      parentReflectionGetter:  instanceGetter,
+      isDiscriminator: false,
+      getter: _enumIntegerGetter,
+      setter: _enumIntegerSetter,
     ),
-    enumIntegerOnly: PropertyReflection(
+    enumIntegerOnlyPart: PropertyReflection<EnumTest, UndefinedWrapper<
+            EnumTestEnumIntegerOnlyEnum
+>>(
       dartName: r'enumIntegerOnly',
       nullable: false,
       required: false,
       oasName: r'enum_integer_only',
       oasType: r'integer',
       pattern: null,
+      parentReflectionGetter:  instanceGetter,
+      isDiscriminator: false,
+      getter: _enumIntegerOnlyGetter,
+      setter: _enumIntegerOnlySetter,
     ),
-    enumNumber: PropertyReflection(
+    enumNumberPart: PropertyReflection<EnumTest, UndefinedWrapper<
+            EnumTestEnumNumberEnum
+>>(
       dartName: r'enumNumber',
       nullable: false,
       required: false,
       oasName: r'enum_number',
       oasType: r'number',
       pattern: null,
+      parentReflectionGetter:  instanceGetter,
+      isDiscriminator: false,
+      getter: _enumNumberGetter,
+      setter: _enumNumberSetter,
     ),
-    outerEnum: PropertyReflection(
+    outerEnumPart: PropertyReflection<EnumTest, UndefinedWrapper<
+            OuterEnum
+?>>(
       dartName: r'outerEnum',
       nullable: true,
       required: false,
       oasName: r'outerEnum',
       oasType: r'OuterEnum',
       pattern: null,
+      parentReflectionGetter:  instanceGetter,
+      isDiscriminator: false,
+      getter: _outerEnumGetter,
+      setter: _outerEnumSetter,
     ),
-    outerEnumInteger: PropertyReflection(
+    outerEnumIntegerPart: PropertyReflection<EnumTest, UndefinedWrapper<
+            OuterEnumInteger
+>>(
       dartName: r'outerEnumInteger',
       nullable: false,
       required: false,
       oasName: r'outerEnumInteger',
       oasType: r'OuterEnumInteger',
       pattern: null,
+      parentReflectionGetter:  instanceGetter,
+      isDiscriminator: false,
+      getter: _outerEnumIntegerGetter,
+      setter: _outerEnumIntegerSetter,
     ),
-    outerEnumDefaultValue: PropertyReflection(
+    outerEnumDefaultValuePart: PropertyReflection<EnumTest, UndefinedWrapper<
+            OuterEnumDefaultValue
+>>(
       dartName: r'outerEnumDefaultValue',
       nullable: false,
       required: false,
       oasName: r'outerEnumDefaultValue',
       oasType: r'OuterEnumDefaultValue',
       pattern: null,
+      parentReflectionGetter:  instanceGetter,
+      isDiscriminator: false,
+      getter: _outerEnumDefaultValueGetter,
+      setter: _outerEnumDefaultValueSetter,
     ),
-    outerEnumIntegerDefaultValue: PropertyReflection(
+    outerEnumIntegerDefaultValuePart: PropertyReflection<EnumTest, UndefinedWrapper<
+            OuterEnumIntegerDefaultValue
+>>(
       dartName: r'outerEnumIntegerDefaultValue',
       nullable: false,
       required: false,
       oasName: r'outerEnumIntegerDefaultValue',
       oasType: r'OuterEnumIntegerDefaultValue',
       pattern: null,
+      parentReflectionGetter:  instanceGetter,
+      isDiscriminator: false,
+      getter: _outerEnumIntegerDefaultValueGetter,
+      setter: _outerEnumIntegerDefaultValueSetter,
     ),
+    
+    
+    additionalPropertiesPart: AdditionalPropertiesReflection(
+      parentReflectionGetter: instanceGetter,
+      itemsReflection: ItemsReflection<EnumTest, Object
+?>(parentReflectionGetter: instanceGetter,),
+          ),
   );
   const EnumTestReflection._({
-    required this.enumString,
-  
-    required this.enumStringRequired,
-  
-    required this.enumInteger,
-  
-    required this.enumIntegerOnly,
-  
-    required this.enumNumber,
-  
-    required this.outerEnum,
-  
-    required this.outerEnumInteger,
-  
-    required this.outerEnumDefaultValue,
-  
-    required this.outerEnumIntegerDefaultValue,
+    required this.modelName,
+    required this.className,
+    required this.enumStringPart,
+    required this.enumStringRequiredPart,
+    required this.enumIntegerPart,
+    required this.enumIntegerOnlyPart,
+    required this.enumNumberPart,
+    required this.outerEnumPart,
+    required this.outerEnumIntegerPart,
+    required this.outerEnumDefaultValuePart,
+    required this.outerEnumIntegerDefaultValuePart,
+    this.discriminatorKey,
+    this.discriminatorMappings = const {},
+    this.discriminatorImplicitMappings = const {},
+        
+    required this.additionalPropertiesPart,
   });
 
-  final PropertyReflection<UndefinedWrapper<
+  final PropertyReflection<EnumTest, UndefinedWrapper<
             EnumTestEnumStringEnum
->> enumString;
-  final PropertyReflection<
+>> enumStringPart;
+  static UndefinedWrapper<
+            EnumTestEnumStringEnum
+> _enumStringGetter(EnumTest parent) {
+    return parent.enumString;
+  }
+  static void _enumStringSetter(EnumTest parent, UndefinedWrapper<
+            EnumTestEnumStringEnum
+> value) {
+    parent.enumString = value;
+  }
+  final PropertyReflection<EnumTest, 
             EnumTestEnumStringRequiredEnum
-> enumStringRequired;
-  final PropertyReflection<UndefinedWrapper<
+> enumStringRequiredPart;
+  static 
+            EnumTestEnumStringRequiredEnum
+ _enumStringRequiredGetter(EnumTest parent) {
+    return parent.enumStringRequired;
+  }
+  static void _enumStringRequiredSetter(EnumTest parent, 
+            EnumTestEnumStringRequiredEnum
+ value) {
+    parent.enumStringRequired = value;
+  }
+  final PropertyReflection<EnumTest, UndefinedWrapper<
             EnumTestEnumIntegerEnum
->> enumInteger;
-  final PropertyReflection<UndefinedWrapper<
+>> enumIntegerPart;
+  static UndefinedWrapper<
+            EnumTestEnumIntegerEnum
+> _enumIntegerGetter(EnumTest parent) {
+    return parent.enumInteger;
+  }
+  static void _enumIntegerSetter(EnumTest parent, UndefinedWrapper<
+            EnumTestEnumIntegerEnum
+> value) {
+    parent.enumInteger = value;
+  }
+  final PropertyReflection<EnumTest, UndefinedWrapper<
             EnumTestEnumIntegerOnlyEnum
->> enumIntegerOnly;
-  final PropertyReflection<UndefinedWrapper<
+>> enumIntegerOnlyPart;
+  static UndefinedWrapper<
+            EnumTestEnumIntegerOnlyEnum
+> _enumIntegerOnlyGetter(EnumTest parent) {
+    return parent.enumIntegerOnly;
+  }
+  static void _enumIntegerOnlySetter(EnumTest parent, UndefinedWrapper<
+            EnumTestEnumIntegerOnlyEnum
+> value) {
+    parent.enumIntegerOnly = value;
+  }
+  final PropertyReflection<EnumTest, UndefinedWrapper<
             EnumTestEnumNumberEnum
->> enumNumber;
-  final PropertyReflection<UndefinedWrapper<
+>> enumNumberPart;
+  static UndefinedWrapper<
+            EnumTestEnumNumberEnum
+> _enumNumberGetter(EnumTest parent) {
+    return parent.enumNumber;
+  }
+  static void _enumNumberSetter(EnumTest parent, UndefinedWrapper<
+            EnumTestEnumNumberEnum
+> value) {
+    parent.enumNumber = value;
+  }
+  final PropertyReflection<EnumTest, UndefinedWrapper<
             OuterEnum
-?>> outerEnum;
-  final PropertyReflection<UndefinedWrapper<
+?>> outerEnumPart;
+  static UndefinedWrapper<
+            OuterEnum
+?> _outerEnumGetter(EnumTest parent) {
+    return parent.outerEnum;
+  }
+  static void _outerEnumSetter(EnumTest parent, UndefinedWrapper<
+            OuterEnum
+?> value) {
+    parent.outerEnum = value;
+  }
+  final PropertyReflection<EnumTest, UndefinedWrapper<
             OuterEnumInteger
->> outerEnumInteger;
-  final PropertyReflection<UndefinedWrapper<
+>> outerEnumIntegerPart;
+  static UndefinedWrapper<
+            OuterEnumInteger
+> _outerEnumIntegerGetter(EnumTest parent) {
+    return parent.outerEnumInteger;
+  }
+  static void _outerEnumIntegerSetter(EnumTest parent, UndefinedWrapper<
+            OuterEnumInteger
+> value) {
+    parent.outerEnumInteger = value;
+  }
+  final PropertyReflection<EnumTest, UndefinedWrapper<
             OuterEnumDefaultValue
->> outerEnumDefaultValue;
-  final PropertyReflection<UndefinedWrapper<
+>> outerEnumDefaultValuePart;
+  static UndefinedWrapper<
+            OuterEnumDefaultValue
+> _outerEnumDefaultValueGetter(EnumTest parent) {
+    return parent.outerEnumDefaultValue;
+  }
+  static void _outerEnumDefaultValueSetter(EnumTest parent, UndefinedWrapper<
+            OuterEnumDefaultValue
+> value) {
+    parent.outerEnumDefaultValue = value;
+  }
+  final PropertyReflection<EnumTest, UndefinedWrapper<
             OuterEnumIntegerDefaultValue
->> outerEnumIntegerDefaultValue;
+>> outerEnumIntegerDefaultValuePart;
+  static UndefinedWrapper<
+            OuterEnumIntegerDefaultValue
+> _outerEnumIntegerDefaultValueGetter(EnumTest parent) {
+    return parent.outerEnumIntegerDefaultValue;
+  }
+  static void _outerEnumIntegerDefaultValueSetter(EnumTest parent, UndefinedWrapper<
+            OuterEnumIntegerDefaultValue
+> value) {
+    parent.outerEnumIntegerDefaultValue = value;
+  }
+
+
 
   @override
-  List<PropertyReflection> get members => [
-    enumString,
-enumStringRequired,
-enumInteger,
-enumIntegerOnly,
-enumNumber,
-outerEnum,
-outerEnumInteger,
-outerEnumDefaultValue,
-outerEnumIntegerDefaultValue,
+  final Map<String, ClassReflection> discriminatorMappings;
+  @override
+  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  @override
+  final String? discriminatorKey;
+  @override
+  final String modelName;
+  @override
+  final String className;
+
+
+  @override
+  List<PropertyReflection<EnumTest, dynamic>> get properties => [
+    enumStringPart,
+enumStringRequiredPart,
+enumIntegerPart,
+enumIntegerOnlyPart,
+enumNumberPart,
+outerEnumPart,
+outerEnumIntegerPart,
+outerEnumDefaultValuePart,
+outerEnumIntegerDefaultValuePart,
   ];
+
+  final AdditionalPropertiesReflection<EnumTest, Object
+?> additionalPropertiesPart;
+
+  
+  
+  @override
+  List<PartReflection<EnumTest, dynamic>> get parts => [
+    ...super.parts,
+    additionalPropertiesPart,
+  ];
+  @override
+  List<AllOfReflection<EnumTest, dynamic>> get allOfs => [
+    
+  ];
+
 
   @override
   bool Function(Object? src) get canDeserializeFunction =>
@@ -151,6 +334,136 @@ outerEnumIntegerDefaultValue,
   @override
   Object? Function(EnumTest src) get serializeFunction =>
       (src) => src.serialize();
+
+  /// Gets an example of EnumTest.
+  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
+  ///  calling [aggregatedDiscriminators].
+  EnumTest example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+    final _reflection = this;
+    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
+    return EnumTest(
+      enumString: () {
+        PartReflection? _partReflection = _reflection.enumStringPart;
+        
+        return UndefinedWrapper(
+
+
+            exampleEnum(EnumTestEnumStringEnum.values)
+
+
+
+);
+      }(),
+      enumStringRequired: () {
+        PartReflection? _partReflection = _reflection.enumStringRequiredPart;
+        
+        return 
+
+
+            exampleEnum(EnumTestEnumStringRequiredEnum.values)
+
+
+
+;
+      }(),
+      enumInteger: () {
+        PartReflection? _partReflection = _reflection.enumIntegerPart;
+        
+        return UndefinedWrapper(
+
+
+            exampleEnum(EnumTestEnumIntegerEnum.values)
+
+
+
+);
+      }(),
+      enumIntegerOnly: () {
+        PartReflection? _partReflection = _reflection.enumIntegerOnlyPart;
+        
+        return UndefinedWrapper(
+
+
+            exampleEnum(EnumTestEnumIntegerOnlyEnum.values)
+
+
+
+);
+      }(),
+      enumNumber: () {
+        PartReflection? _partReflection = _reflection.enumNumberPart;
+        
+        return UndefinedWrapper(
+
+
+            exampleEnum(EnumTestEnumNumberEnum.values)
+
+
+
+);
+      }(),
+      outerEnum: () {
+        PartReflection? _partReflection = _reflection.outerEnumPart;
+        
+        return UndefinedWrapper(exampleNullable(() =>
+
+
+            
+            exampleEnum(OuterEnum.values)
+
+
+
+ ) );
+      }(),
+      outerEnumInteger: () {
+        PartReflection? _partReflection = _reflection.outerEnumIntegerPart;
+        
+        return UndefinedWrapper(
+
+
+            
+            exampleEnum(OuterEnumInteger.values)
+
+
+
+);
+      }(),
+      outerEnumDefaultValue: () {
+        PartReflection? _partReflection = _reflection.outerEnumDefaultValuePart;
+        
+        return UndefinedWrapper(
+
+
+            
+            exampleEnum(OuterEnumDefaultValue.values)
+
+
+
+);
+      }(),
+      outerEnumIntegerDefaultValue: () {
+        PartReflection? _partReflection = _reflection.outerEnumIntegerDefaultValuePart;
+        
+        return UndefinedWrapper(
+
+
+            
+            exampleEnum(OuterEnumIntegerDefaultValue.values)
+
+
+
+);
+      }(),
+      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+
+exampleObject()
+
+
+
+ ) )); }(),
+      
+    );
+  }
 }
 
 class EnumTestXmlReflection {

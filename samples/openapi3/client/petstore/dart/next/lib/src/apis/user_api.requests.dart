@@ -22,8 +22,22 @@ abstract class UserApiCreateUserRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = UserApiCreateUserRequestUnsafe;
+
+  
+  const factory UserApiCreateUserRequest.applicationJson({
+    required 
+            User
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = UserApiCreateUserRequestApplicationJson;
+  
 
   const UserApiCreateUserRequest({
     
@@ -114,13 +128,13 @@ abstract class UserApiCreateUserRequest {
 
 /// A version of [UserApiCreateUserRequest], where you can send arbitrary bytes in the body.
 class UserApiCreateUserRequestUnsafe extends UserApiCreateUserRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const UserApiCreateUserRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     super.extraHeaders,
@@ -132,7 +146,7 @@ class UserApiCreateUserRequestUnsafe extends UserApiCreateUserRequest {
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -181,10 +195,9 @@ class UserApiCreateUserRequestApplicationJson extends UserApiCreateUserRequest {
 
     final v = data;
     var serialized = v.serialize();
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -197,7 +210,7 @@ class UserApiCreateUserRequestApplicationJson extends UserApiCreateUserRequest {
         yield* _stringResult(json.encode(serialized));
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }
@@ -226,8 +239,25 @@ abstract class UserApiCreateUsersWithArrayInputRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = UserApiCreateUsersWithArrayInputRequestUnsafe;
+
+  
+  const factory UserApiCreateUsersWithArrayInputRequest.applicationJson({
+    required 
+    List<
+        
+            User
+>
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = UserApiCreateUsersWithArrayInputRequestApplicationJson;
+  
 
   const UserApiCreateUsersWithArrayInputRequest({
     
@@ -318,13 +348,13 @@ abstract class UserApiCreateUsersWithArrayInputRequest {
 
 /// A version of [UserApiCreateUsersWithArrayInputRequest], where you can send arbitrary bytes in the body.
 class UserApiCreateUsersWithArrayInputRequestUnsafe extends UserApiCreateUsersWithArrayInputRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const UserApiCreateUsersWithArrayInputRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     super.extraHeaders,
@@ -336,7 +366,7 @@ class UserApiCreateUsersWithArrayInputRequestUnsafe extends UserApiCreateUsersWi
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -388,10 +418,9 @@ class UserApiCreateUsersWithArrayInputRequestApplicationJson extends UserApiCrea
 
     final v = data;
     var serialized = v.map((v) => v.serialize()).toList();
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -404,7 +433,7 @@ class UserApiCreateUsersWithArrayInputRequestApplicationJson extends UserApiCrea
         yield* _stringResult(json.encode(serialized));
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }
@@ -433,8 +462,25 @@ abstract class UserApiCreateUsersWithListInputRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = UserApiCreateUsersWithListInputRequestUnsafe;
+
+  
+  const factory UserApiCreateUsersWithListInputRequest.applicationJson({
+    required 
+    List<
+        
+            User
+>
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = UserApiCreateUsersWithListInputRequestApplicationJson;
+  
 
   const UserApiCreateUsersWithListInputRequest({
     
@@ -525,13 +571,13 @@ abstract class UserApiCreateUsersWithListInputRequest {
 
 /// A version of [UserApiCreateUsersWithListInputRequest], where you can send arbitrary bytes in the body.
 class UserApiCreateUsersWithListInputRequestUnsafe extends UserApiCreateUsersWithListInputRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const UserApiCreateUsersWithListInputRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     super.extraHeaders,
@@ -543,7 +589,7 @@ class UserApiCreateUsersWithListInputRequestUnsafe extends UserApiCreateUsersWit
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -595,10 +641,9 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
 
     final v = data;
     var serialized = v.map((v) => v.serialize()).toList();
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -611,7 +656,7 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
         yield* _stringResult(json.encode(serialized));
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }
@@ -1083,8 +1128,27 @@ abstract class UserApiUpdateUserRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = UserApiUpdateUserRequestUnsafe;
+
+  
+  const factory UserApiUpdateUserRequest.applicationJson({
+    required 
+            User
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    required 
+            String
+ username,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = UserApiUpdateUserRequestApplicationJson;
+  
 
   const UserApiUpdateUserRequest({
     
@@ -1179,13 +1243,13 @@ abstract class UserApiUpdateUserRequest {
 
 /// A version of [UserApiUpdateUserRequest], where you can send arbitrary bytes in the body.
 class UserApiUpdateUserRequestUnsafe extends UserApiUpdateUserRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const UserApiUpdateUserRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     required super.username,
@@ -1200,7 +1264,7 @@ class UserApiUpdateUserRequestUnsafe extends UserApiUpdateUserRequest {
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -1252,10 +1316,9 @@ class UserApiUpdateUserRequestApplicationJson extends UserApiUpdateUserRequest {
 
     final v = data;
     var serialized = v.serialize();
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -1268,7 +1331,7 @@ class UserApiUpdateUserRequestApplicationJson extends UserApiUpdateUserRequest {
         yield* _stringResult(json.encode(serialized));
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }

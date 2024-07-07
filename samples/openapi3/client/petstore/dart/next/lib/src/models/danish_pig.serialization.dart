@@ -9,7 +9,7 @@ Map<String, dynamic> _$DanishPigToMap(DanishPig instance) {
   final _reflection = DanishPigReflection.instance;
   return <String, dynamic>{
     
-    _reflection.className.oasName: (
+    _reflection.classNamePart.oasName: (
             String
  v) {
       return v;
@@ -20,15 +20,20 @@ Map<String, dynamic> _$DanishPigToMap(DanishPig instance) {
 }
 
 DanishPig _$DanishPigFromMap(Map<String, dynamic> src) {
-  final _reflection = DanishPigReflection.instance;
+  const _reflection = DanishPigReflection.instance;
   return DanishPig.$all(
-    className: src.getRequiredMapped(_reflection.className.oasName, (v) => 
+    className: src.getRequiredMapped(_reflection.classNamePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -46,15 +51,21 @@ v
 
 bool _$DanishPigCanFromMap(Map<String, dynamic> src) {
   final _reflection = DanishPigReflection.instance;
-  if (!src.getOrUndefined(_reflection.className.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.classNamePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.className.required,
+    unDefined: () => !_reflection.classNamePart.required,
 )) {
     return false;
   }
@@ -64,7 +75,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -88,11 +99,14 @@ bool _$DanishPigCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$DanishPigSerialize(DanishPig src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$DanishPigSerialize(DanishPig src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

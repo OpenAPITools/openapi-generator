@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'whale.reflection.dart';
@@ -35,7 +35,6 @@ UndefinedWrapper<
 /// * [className] 
 class Whale with
 $OpenApiObjectMixin,
-
 
 WhaleMixin {
   @override
@@ -77,12 +76,12 @@ required  this.className     ,
   });
 
   static const $reflection = WhaleReflection.instance;
+  WhaleReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$WhaleToMap(this);

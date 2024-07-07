@@ -9,19 +9,19 @@ Map<String, dynamic> _$DogToMap(Dog instance) {
   final _reflection = DogReflection.instance;
   return <String, dynamic>{
     if (instance.color.isDefined)
-    _reflection.color.oasName: (
+    _reflection.colorPart.oasName: (
             String
  v) {
       return v;
     }(instance.color.valueRequired),
     if (instance.breed.isDefined)
-    _reflection.breed.oasName: (
+    _reflection.breedPart.oasName: (
             String
  v) {
       return v;
     }(instance.breed.valueRequired),
     
-    _reflection.className.oasName: (
+    _reflection.classNamePart.oasName: (
             String
  v) {
       return v;
@@ -32,39 +32,58 @@ Map<String, dynamic> _$DogToMap(Dog instance) {
 }
 
 Dog _$DogFromMap(Map<String, dynamic> src) {
-  final _reflection = DogReflection.instance;
+  const _reflection = DogReflection.instance;
+  final discriminatorKey = _reflection.discriminatorKey;
+  final discriminatorValue = src[discriminatorKey]?.toString();
+  //when we have a discriminator, we pick one model
+  final modelReflection = _reflection.tryGetDiscriminatorModel(discriminatorValue);
   return Dog.$all(
-    color: src.getOrUndefinedMapped(_reflection.color.oasName, (v) => 
+    color: src.getOrUndefinedMapped(_reflection.colorPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-breed: src.getOrUndefinedMapped(_reflection.breed.oasName, (v) => 
+breed: src.getOrUndefinedMapped(_reflection.breedPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-className: src.getRequiredMapped(_reflection.className.oasName, (v) => 
+className: src.getRequiredMapped(_reflection.classNamePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -82,39 +101,55 @@ v
 
 bool _$DogCanFromMap(Map<String, dynamic> src) {
   final _reflection = DogReflection.instance;
-  if (!src.getOrUndefined(_reflection.color.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.colorPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.color.required,
+    unDefined: () => !_reflection.colorPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.breed.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.breedPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.breed.required,
+    unDefined: () => !_reflection.breedPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.className.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.classNamePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.className.required,
+    unDefined: () => !_reflection.classNamePart.required,
 )) {
     return false;
   }
@@ -124,7 +159,17 @@ true
 ))) {
     return false;
   }
-  
+
+
+  final discriminatorKey = _reflection.discriminatorKey;
+  final discriminatorValue = src[discriminatorKey]?.toString();
+  //when we have a discriminator, we pick one model
+  final modelReflection = _reflection.tryGetDiscriminatorModel(discriminatorValue);
+  if (modelReflection != null) {
+    // a discriminator is defined AND it exists in the src.
+    return modelReflection.canDeserializeFunction(src);
+  }
+
   return true;
 }
 
@@ -149,11 +194,14 @@ bool _$DogCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$DogSerialize(Dog src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$DogSerialize(Dog src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

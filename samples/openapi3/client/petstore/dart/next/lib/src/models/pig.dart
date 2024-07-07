@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'pig.reflection.dart';
@@ -26,7 +26,6 @@ mixin PigMixin on
 /// Properties:
 class Pig with
 $OpenApiObjectMixin,
-
 
 PigMixin {
 
@@ -60,6 +59,7 @@ PigMixin {
   });
 
   static const $reflection = PigReflection.instance;
+  PigReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
@@ -72,7 +72,6 @@ PigMixin {
       
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$PigToMap(this);

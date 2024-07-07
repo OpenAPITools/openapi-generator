@@ -1,4 +1,4 @@
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 part 'values_api.requests.dart';
 part 'values_api.responses.dart';

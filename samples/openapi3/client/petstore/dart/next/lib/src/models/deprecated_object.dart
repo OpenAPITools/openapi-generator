@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'deprecated_object.reflection.dart';
@@ -28,7 +28,6 @@ mixin DeprecatedObjectMixin on
 class DeprecatedObject with
 $OpenApiObjectMixin,
 
-
 DeprecatedObjectMixin {
   @override
   UndefinedWrapper<
@@ -55,12 +54,12 @@ DeprecatedObjectMixin {
   });
 
   static const $reflection = DeprecatedObjectReflection.instance;
+  DeprecatedObjectReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$DeprecatedObjectToMap(this);

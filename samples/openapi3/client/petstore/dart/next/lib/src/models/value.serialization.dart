@@ -16,7 +16,7 @@ Map<String, dynamic> _$ValueToMap(Value instance) {
 }
 
 Value _$ValueFromMap(Map<String, dynamic> src) {
-  final _reflection = ValueReflection.instance;
+  const _reflection = ValueReflection.instance;
   return Value.$all(
         additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
 (
@@ -32,17 +32,18 @@ v
 
 bool _$ValueCanFromMap(Map<String, dynamic> src) {
   final _reflection = ValueReflection.instance;
+
     if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
 (
 true
 ))) {
     return false;
   }
-  
+
+
   final oneOfs = [
     () => Scalar.canDeserialize(src),
-  
-  ];
+    ];
   final validOneOfs = oneOfs.where((x) => x()).take(2).length;
   if (validOneOfs == 0 || validOneOfs > 1) {
     return false;
@@ -68,9 +69,7 @@ Value _$ValueDeserialize(Object? src) {
 )) ? UndefinedWrapper(Scalar.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -90,7 +89,6 @@ Value _$ValueDeserialize(Object? src) {
 )) ? UndefinedWrapper(
 (
 
-    
             
             v as List
             
@@ -100,9 +98,7 @@ Value _$ValueDeserialize(Object? src) {
 .map((v) => Scalar.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -153,11 +149,20 @@ bool _$ValueCanDeserialize(Object? src) {
 
 /// Serializes to a primitive Object (num, String, List, Map).
 Object? _$ValueSerialize(Value src) {
-  
-  
-  if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.serialize(); }
-  if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.map((v) => v.serialize()).toList(); }
-  return null;
+  Object? initialResult = () {
+    
+    
+    if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.serialize(); }
+    if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.map((v) => v.serialize()).toList(); }
+    return null;
+  }();
+  if (initialResult is Map<String, Object?>) {
+    return {
+      ...src.additionalProperties,
+      ...initialResult,
+    };
+  }
+  return initialResult;
 }
 
 

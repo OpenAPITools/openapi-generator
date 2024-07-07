@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'shape_or_null.reflection.dart';
@@ -22,7 +22,6 @@ mixin ShapeOrNullMixin on
 /// The value may be a shape or the 'null' value. This is introduced in OAS schema >= 3.1.
 class ShapeOrNull with
 $OpenApiObjectMixin,
-
 
 ShapeOrNullMixin {
 
@@ -56,6 +55,7 @@ ShapeOrNullMixin {
   });
 
   static const $reflection = ShapeOrNullReflection.instance;
+  ShapeOrNullReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
@@ -68,7 +68,6 @@ ShapeOrNullMixin {
       
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$ShapeOrNullToMap(this);

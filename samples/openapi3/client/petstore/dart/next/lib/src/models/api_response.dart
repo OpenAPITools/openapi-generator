@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'api_response.reflection.dart';
@@ -35,7 +35,6 @@ UndefinedWrapper<
 /// * [message] 
 class ApiResponse with
 $OpenApiObjectMixin,
-
 
 ApiResponseMixin {
   @override
@@ -79,12 +78,12 @@ ApiResponseMixin {
   });
 
   static const $reflection = ApiResponseReflection.instance;
+  ApiResponseReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$ApiResponseToMap(this);

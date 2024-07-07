@@ -1,4 +1,4 @@
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 part 'fake_classname_tags123_api.requests.dart';
 part 'fake_classname_tags123_api.responses.dart';

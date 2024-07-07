@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'number_only.reflection.dart';
@@ -25,7 +25,6 @@ mixin NumberOnlyMixin on
 /// * [justNumber] 
 class NumberOnly with
 $OpenApiObjectMixin,
-
 
 NumberOnlyMixin {
   @override
@@ -53,12 +52,12 @@ NumberOnlyMixin {
   });
 
   static const $reflection = NumberOnlyReflection.instance;
+  NumberOnlyReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$NumberOnlyToMap(this);

@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'pets_multicontent_test_post_request.reflection.dart';
@@ -38,7 +38,6 @@ UndefinedWrapper<
 /// * [profileImages] 
 class PetsMulticontentTestPostRequest with
 $OpenApiObjectMixin,
-
 
 PetsMulticontentTestPostRequestMixin {
   @override
@@ -85,12 +84,12 @@ PetsMulticontentTestPostRequestMixin {
   });
 
   static const $reflection = PetsMulticontentTestPostRequestReflection.instance;
+  PetsMulticontentTestPostRequestReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$PetsMulticontentTestPostRequestToMap(this);

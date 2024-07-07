@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'health_check_result.reflection.dart';
@@ -25,7 +25,6 @@ mixin HealthCheckResultMixin on
 /// * [nullableMessage] 
 class HealthCheckResult with
 $OpenApiObjectMixin,
-
 
 HealthCheckResultMixin {
   @override
@@ -53,12 +52,12 @@ HealthCheckResultMixin {
   });
 
   static const $reflection = HealthCheckResultReflection.instance;
+  HealthCheckResultReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$HealthCheckResultToMap(this);

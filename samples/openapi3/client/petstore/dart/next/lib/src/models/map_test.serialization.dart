@@ -9,7 +9,7 @@ Map<String, dynamic> _$MapTestToMap(MapTest instance) {
   final _reflection = MapTestReflection.instance;
   return <String, dynamic>{
     if (instance.mapMapOfString.isDefined)
-    _reflection.mapMapOfString.oasName: (
+    _reflection.mapMapOfStringPart.oasName: (
     Map<String, 
         
     Map<String, 
@@ -21,7 +21,7 @@ Map<String, dynamic> _$MapTestToMap(MapTest instance) {
       return v.map((k,v) => MapEntry(k, v.map((k,v) => MapEntry(k, v))));
     }(instance.mapMapOfString.valueRequired),
     if (instance.mapOfEnumString.isDefined)
-    _reflection.mapOfEnumString.oasName: (
+    _reflection.mapOfEnumStringPart.oasName: (
     Map<String, 
         
             MapTestMapOfEnumStringEnum
@@ -30,7 +30,7 @@ Map<String, dynamic> _$MapTestToMap(MapTest instance) {
       return v.map((k,v) => MapEntry(k, v.value));
     }(instance.mapOfEnumString.valueRequired),
     if (instance.directMap.isDefined)
-    _reflection.directMap.oasName: (
+    _reflection.directMapPart.oasName: (
     Map<String, 
         
             bool
@@ -39,7 +39,7 @@ Map<String, dynamic> _$MapTestToMap(MapTest instance) {
       return v.map((k,v) => MapEntry(k, v));
     }(instance.directMap.valueRequired),
     if (instance.indirectMap.isDefined)
-    _reflection.indirectMap.oasName: (
+    _reflection.indirectMapPart.oasName: (
     Map<String, 
         
             bool
@@ -53,12 +53,11 @@ Map<String, dynamic> _$MapTestToMap(MapTest instance) {
 }
 
 MapTest _$MapTestFromMap(Map<String, dynamic> src) {
-  final _reflection = MapTestReflection.instance;
+  const _reflection = MapTestReflection.instance;
   return MapTest.$all(
-    mapMapOfString: src.getOrUndefinedMapped(_reflection.mapMapOfString.oasName, (v) => 
+    mapMapOfString: src.getOrUndefinedMapped(_reflection.mapMapOfStringPart.oasName, (v) => 
 (
 
-    
             v as Map<String, dynamic>
             
             
@@ -67,7 +66,6 @@ MapTest _$MapTestFromMap(Map<String, dynamic> src) {
 .map((k,v) => MapEntry(k, 
 (
 
-    
             v as Map<String, dynamic>
             
             
@@ -76,10 +74,15 @@ MapTest _$MapTestFromMap(Map<String, dynamic> src) {
 .map((k,v) => MapEntry(k, 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -89,10 +92,9 @@ MapTest _$MapTestFromMap(Map<String, dynamic> src) {
 ))
 
 ),
-mapOfEnumString: src.getOrUndefinedMapped(_reflection.mapOfEnumString.oasName, (v) => 
+mapOfEnumString: src.getOrUndefinedMapped(_reflection.mapOfEnumStringPart.oasName, (v) => 
 (
 
-    
             v as Map<String, dynamic>
             
             
@@ -101,10 +103,15 @@ mapOfEnumString: src.getOrUndefinedMapped(_reflection.mapOfEnumString.oasName, (
 .map((k,v) => MapEntry(k, 
 (
 
-    
             
-                    MapTestMapOfEnumStringEnum.$safe(v as String)
-            
+                    MapTestMapOfEnumStringEnum.$safe(( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+))
 
 )
 
@@ -112,10 +119,9 @@ mapOfEnumString: src.getOrUndefinedMapped(_reflection.mapOfEnumString.oasName, (
 ))
 
 ),
-directMap: src.getOrUndefinedMapped(_reflection.directMap.oasName, (v) => 
+directMap: src.getOrUndefinedMapped(_reflection.directMapPart.oasName, (v) => 
 (
 
-    
             v as Map<String, dynamic>
             
             
@@ -124,10 +130,13 @@ directMap: src.getOrUndefinedMapped(_reflection.directMap.oasName, (v) =>
 .map((k,v) => MapEntry(k, 
 (
 
-    
             
-                    v as bool
-            
+                    ( v is bool ? v as bool :
+
+bool.parse(v.toString())
+
+
+)
 
 )
 
@@ -135,10 +144,9 @@ directMap: src.getOrUndefinedMapped(_reflection.directMap.oasName, (v) =>
 ))
 
 ),
-indirectMap: src.getOrUndefinedMapped(_reflection.indirectMap.oasName, (v) => 
+indirectMap: src.getOrUndefinedMapped(_reflection.indirectMapPart.oasName, (v) => 
 (
 
-    
             v as Map<String, dynamic>
             
             
@@ -147,10 +155,13 @@ indirectMap: src.getOrUndefinedMapped(_reflection.indirectMap.oasName, (v) =>
 .map((k,v) => MapEntry(k, 
 (
 
-    
             
-                    v as bool
-            
+                    ( v is bool ? v as bool :
+
+bool.parse(v.toString())
+
+
+)
 
 )
 
@@ -170,7 +181,8 @@ v
 
 bool _$MapTestCanFromMap(Map<String, dynamic> src) {
   final _reflection = MapTestReflection.instance;
-  if (!src.getOrUndefined(_reflection.mapMapOfString.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.mapMapOfStringPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -184,17 +196,22 @@ bool _$MapTestCanFromMap(Map<String, dynamic> src) {
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ))
             
 ))
             
 ),
-    unDefined: () => !_reflection.mapMapOfString.required,
+    unDefined: () => !_reflection.mapMapOfStringPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.mapOfEnumString.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.mapOfEnumStringPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -204,15 +221,20 @@ if (!src.getOrUndefined(_reflection.mapOfEnumString.oasName).split<bool>(
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+     && MapTestMapOfEnumStringEnum.canDeserialize(v)
+)
 ))
             
 ),
-    unDefined: () => !_reflection.mapOfEnumString.required,
+    unDefined: () => !_reflection.mapOfEnumStringPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.directMap.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.directMapPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -222,15 +244,20 @@ if (!src.getOrUndefined(_reflection.directMap.oasName).split<bool>(
 
     
             
-            v is bool
+            (v is bool
+    
+     || (bool.tryParse(v.toString()) != null)
+    
+    
+)
 ))
             
 ),
-    unDefined: () => !_reflection.directMap.required,
+    unDefined: () => !_reflection.directMapPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.indirectMap.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.indirectMapPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -240,11 +267,16 @@ if (!src.getOrUndefined(_reflection.indirectMap.oasName).split<bool>(
 
     
             
-            v is bool
+            (v is bool
+    
+     || (bool.tryParse(v.toString()) != null)
+    
+    
+)
 ))
             
 ),
-    unDefined: () => !_reflection.indirectMap.required,
+    unDefined: () => !_reflection.indirectMapPart.required,
 )) {
     return false;
   }
@@ -254,7 +286,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -278,11 +310,14 @@ bool _$MapTestCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$MapTestSerialize(MapTest src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$MapTestSerialize(MapTest src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

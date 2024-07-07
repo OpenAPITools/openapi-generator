@@ -9,13 +9,13 @@ Map<String, dynamic> _$EnumArraysToMap(EnumArrays instance) {
   final _reflection = EnumArraysReflection.instance;
   return <String, dynamic>{
     if (instance.justSymbol.isDefined)
-    _reflection.justSymbol.oasName: (
+    _reflection.justSymbolPart.oasName: (
             EnumArraysJustSymbolEnum
  v) {
       return v.value;
     }(instance.justSymbol.valueRequired),
     if (instance.arrayEnum.isDefined)
-    _reflection.arrayEnum.oasName: (
+    _reflection.arrayEnumPart.oasName: (
     List<
         
             EnumArraysArrayEnumEnum
@@ -29,24 +29,28 @@ Map<String, dynamic> _$EnumArraysToMap(EnumArrays instance) {
 }
 
 EnumArrays _$EnumArraysFromMap(Map<String, dynamic> src) {
-  final _reflection = EnumArraysReflection.instance;
+  const _reflection = EnumArraysReflection.instance;
   return EnumArrays.$all(
-    justSymbol: src.getOrUndefinedMapped(_reflection.justSymbol.oasName, (v) => 
+    justSymbol: src.getOrUndefinedMapped(_reflection.justSymbolPart.oasName, (v) => 
 (
 
-    
             
-                    EnumArraysJustSymbolEnum.$safe(v as String)
-            
+                    EnumArraysJustSymbolEnum.$safe(( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+))
 
 )
 
 
 ),
-arrayEnum: src.getOrUndefinedMapped(_reflection.arrayEnum.oasName, (v) => 
+arrayEnum: src.getOrUndefinedMapped(_reflection.arrayEnumPart.oasName, (v) => 
 (
 
-    
             
             v as List
             
@@ -56,10 +60,15 @@ arrayEnum: src.getOrUndefinedMapped(_reflection.arrayEnum.oasName, (v) =>
 .map((v) => 
 (
 
-    
             
-                    EnumArraysArrayEnumEnum.$safe(v as String)
-            
+                    EnumArraysArrayEnumEnum.$safe(( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+))
 
 )
 
@@ -78,19 +87,25 @@ v
 
 bool _$EnumArraysCanFromMap(Map<String, dynamic> src) {
   final _reflection = EnumArraysReflection.instance;
-  if (!src.getOrUndefined(_reflection.justSymbol.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.justSymbolPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+     && EnumArraysJustSymbolEnum.canDeserialize(v)
+)
 ),
-    unDefined: () => !_reflection.justSymbol.required,
+    unDefined: () => !_reflection.justSymbolPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.arrayEnum.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.arrayEnumPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -101,10 +116,15 @@ if (!src.getOrUndefined(_reflection.arrayEnum.oasName).split<bool>(
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+     && EnumArraysArrayEnumEnum.canDeserialize(v)
+)
 ))
 ),
-    unDefined: () => !_reflection.arrayEnum.required,
+    unDefined: () => !_reflection.arrayEnumPart.required,
 )) {
     return false;
   }
@@ -114,7 +134,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -138,11 +158,14 @@ bool _$EnumArraysCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$EnumArraysSerialize(EnumArrays src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$EnumArraysSerialize(EnumArrays src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'all_of_model_array_any_of_all_of_attributes.reflection.dart';
@@ -25,7 +25,6 @@ mixin AllOfModelArrayAnyOfAllOfAttributesMixin on
 /// * [C] 
 class AllOfModelArrayAnyOfAllOfAttributes with
 $OpenApiObjectMixin,
-
 
 AllOfModelArrayAnyOfAllOfAttributesMixin {
   @override
@@ -53,12 +52,12 @@ AllOfModelArrayAnyOfAllOfAttributesMixin {
   });
 
   static const $reflection = AllOfModelArrayAnyOfAllOfAttributesReflection.instance;
+  AllOfModelArrayAnyOfAllOfAttributesReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$AllOfModelArrayAnyOfAllOfAttributesToMap(this);

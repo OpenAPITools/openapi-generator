@@ -3,13 +3,13 @@ import 'package:openapi_infrastructure/openapi_infrastructure.dart';
 import 'apis/_exports.dart';
 
 /// A facade class as an entry point to the generated APIs
-class Openapi {
+class PetstoreApi {
   static final defaultBaseUrl = Uri.parse(r'http://petstore.swagger.io:80/v2');
 
   final NetworkingClientBase networkingClient;
   final Uri baseUrl;
 
-  Openapi({
+  PetstoreApi({
     required this.networkingClient,
     Uri? baseUrl,
   }) : baseUrl = defaultBaseUrl;

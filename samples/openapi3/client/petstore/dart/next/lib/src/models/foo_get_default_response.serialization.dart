@@ -9,7 +9,7 @@ Map<String, dynamic> _$FooGetDefaultResponseToMap(FooGetDefaultResponse instance
   final _reflection = FooGetDefaultResponseReflection.instance;
   return <String, dynamic>{
     if (instance.string.isDefined)
-    _reflection.string.oasName: (
+    _reflection.stringPart.oasName: (
             Foo
  v) {
       return v.serialize();
@@ -20,14 +20,12 @@ Map<String, dynamic> _$FooGetDefaultResponseToMap(FooGetDefaultResponse instance
 }
 
 FooGetDefaultResponse _$FooGetDefaultResponseFromMap(Map<String, dynamic> src) {
-  final _reflection = FooGetDefaultResponseReflection.instance;
+  const _reflection = FooGetDefaultResponseReflection.instance;
   return FooGetDefaultResponse.$all(
-    string: src.getOrUndefinedMapped(_reflection.string.oasName, (v) => Foo.deserialize
+    string: src.getOrUndefinedMapped(_reflection.stringPart.oasName, (v) => Foo.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -45,7 +43,8 @@ v
 
 bool _$FooGetDefaultResponseCanFromMap(Map<String, dynamic> src) {
   final _reflection = FooGetDefaultResponseReflection.instance;
-  if (!src.getOrUndefined(_reflection.string.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.stringPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -53,7 +52,7 @@ bool _$FooGetDefaultResponseCanFromMap(Map<String, dynamic> src) {
             Foo.canDeserialize(v)
             
 ),
-    unDefined: () => !_reflection.string.required,
+    unDefined: () => !_reflection.stringPart.required,
 )) {
     return false;
   }
@@ -63,7 +62,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -87,11 +86,14 @@ bool _$FooGetDefaultResponseCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$FooGetDefaultResponseSerialize(FooGetDefaultResponse src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$FooGetDefaultResponseSerialize(FooGetDefaultResponse src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part '__list.reflection.dart';
@@ -25,7 +25,6 @@ mixin $ListMixin on
 /// * [$123list] 
 class $List with
 $OpenApiObjectMixin,
-
 
 $ListMixin {
   @override
@@ -53,12 +52,12 @@ $ListMixin {
   });
 
   static const $reflection = $ListReflection.instance;
+  $ListReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$$ListToMap(this);

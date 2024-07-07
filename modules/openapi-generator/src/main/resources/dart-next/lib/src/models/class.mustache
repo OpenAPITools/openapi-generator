@@ -31,7 +31,6 @@ mixin {{classname}}Mixin on
 {{/isDeprecated}}
 class {{classname}} with
 $OpenApiObjectMixin,
-
 {{#allOf}}{{.}}Mixin,{{/allOf}}
 {{classname}}Mixin {
   {{#allVars}}
@@ -70,6 +69,7 @@ $OpenApiObjectMixin,
   });
 
   static const $reflection = {{classname}}Reflection.instance;
+  {{classname}}Reflection get $classReflection => $reflection;
 
   @override
   bool validate() {
@@ -89,7 +89,6 @@ $OpenApiObjectMixin,
     {{/composedSchemas}}
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _${{classname}}ToMap(this);

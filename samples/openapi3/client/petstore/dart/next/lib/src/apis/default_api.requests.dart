@@ -313,8 +313,97 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = DefaultApiPetsMulticontentTestPostRequestUnsafe;
+
+  
+  const factory DefaultApiPetsMulticontentTestPostRequest.applicationJson({
+    required 
+            Pet
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = DefaultApiPetsMulticontentTestPostRequestApplicationJson;
+  
+  const factory DefaultApiPetsMulticontentTestPostRequest.applicationXml({
+    required 
+            NewPet
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = DefaultApiPetsMulticontentTestPostRequestApplicationXml;
+  
+  const factory DefaultApiPetsMulticontentTestPostRequest.applicationXWwwFormUrlencoded({
+    required 
+            Triangle
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded;
+  
+  const factory DefaultApiPetsMulticontentTestPostRequest.textPlain({
+    required 
+            int
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = DefaultApiPetsMulticontentTestPostRequestTextPlain;
+  
+  const factory DefaultApiPetsMulticontentTestPostRequest.anyAny({
+    required Object
+? data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = DefaultApiPetsMulticontentTestPostRequestAnyAny;
+  
+  const factory DefaultApiPetsMulticontentTestPostRequest.textAny({
+    required 
+            String
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = DefaultApiPetsMulticontentTestPostRequestTextAny;
+  
+  const factory DefaultApiPetsMulticontentTestPostRequest.multipartFormData({
+    required 
+            PetsMulticontentTestPostRequest
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    AppendFormDataPartHandler? appendUnkownFormDataPart,
+    
+    UndefinedWrapper<
+            String
+> profileImagesHelloHeader,
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = DefaultApiPetsMulticontentTestPostRequestMultipartFormData;
+  
 
   const DefaultApiPetsMulticontentTestPostRequest({
     
@@ -405,13 +494,13 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
 
 /// A version of [DefaultApiPetsMulticontentTestPostRequest], where you can send arbitrary bytes in the body.
 class DefaultApiPetsMulticontentTestPostRequestUnsafe extends DefaultApiPetsMulticontentTestPostRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const DefaultApiPetsMulticontentTestPostRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     super.extraHeaders,
@@ -423,7 +512,7 @@ class DefaultApiPetsMulticontentTestPostRequestUnsafe extends DefaultApiPetsMult
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -472,10 +561,9 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationJson extends DefaultAp
 
     final v = data;
     var serialized = v.serialize();
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -488,7 +576,7 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationJson extends DefaultAp
         yield* _stringResult(json.encode(serialized));
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }
@@ -534,10 +622,9 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXml extends DefaultApi
 
     final v = data;
     var serialized = v.serialize();
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -550,7 +637,7 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXml extends DefaultApi
         break;
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }
@@ -596,10 +683,9 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded ext
 
     final v = data;
     var serialized = v.serialize();
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -636,7 +722,7 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded ext
         yield* _stringResult(resultString);
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }
@@ -682,10 +768,9 @@ class DefaultApiPetsMulticontentTestPostRequestTextPlain extends DefaultApiPetsM
 
     final v = data;
     var serialized = v;
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -696,7 +781,7 @@ class DefaultApiPetsMulticontentTestPostRequestTextPlain extends DefaultApiPetsM
     switch (resolvedMediaType) {
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }
@@ -741,10 +826,9 @@ class DefaultApiPetsMulticontentTestPostRequestAnyAny extends DefaultApiPetsMult
 
     final v = data;
     var serialized = v;
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -755,7 +839,7 @@ class DefaultApiPetsMulticontentTestPostRequestAnyAny extends DefaultApiPetsMult
     switch (resolvedMediaType) {
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }
@@ -801,10 +885,9 @@ class DefaultApiPetsMulticontentTestPostRequestTextAny extends DefaultApiPetsMul
 
     final v = data;
     var serialized = v;
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -815,7 +898,7 @@ class DefaultApiPetsMulticontentTestPostRequestTextAny extends DefaultApiPetsMul
     switch (resolvedMediaType) {
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }
@@ -875,10 +958,9 @@ class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends Default
 
     final v = data;
     var serialized = v.serialize();
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -936,7 +1018,7 @@ class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends Default
         yield* result.bodyBytesStream;
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }

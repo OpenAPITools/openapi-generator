@@ -1,0 +1,39 @@
+import 'package:petstore_api/_internal.dart';
+import 'package:test/test.dart';
+
+{{#models}}
+{{#model}}
+void main() {
+  group(r'{{{classname}}}', () {
+    {{#isEnum}}{{#allowableValues}}{{#enumVars}}
+    test(r'{{name}}', () {
+      expect({{{classname}}}.{{name}}().value, {{#isString}}r{{/isString}}{{{value}}});
+    });
+    {{/enumVars}}{{/allowableValues}}{{/isEnum}}
+    {{^isEnum}}
+    final reflection = {{{classname}}}.$reflection;
+
+    final exampleInstance = reflection.example();
+    Object? doSerialize() {
+      final result = exampleInstance.serialize();
+      return result;
+    }
+    test('serialize', () {
+      final serialized = doSerialize();
+      expect(serialized, isNotNull);
+    });
+
+    test('validate', () {
+      expect(exampleInstance.validate(), isTrue);
+    });
+    test('deserialize', () {
+      final serialized = doSerialize();
+      final deserialized = {{{classname}}}.deserialize(serialized);
+      expect(deserialized.validate(), isTrue);
+      expect(deserialized.serialize(), serialized);
+    });
+    {{/isEnum}}
+  });
+}
+{{/model}}
+{{/models}}

@@ -9,7 +9,7 @@ Map<String, dynamic> _$TestInlineFreeformAdditionalPropertiesRequestToMap(TestIn
   final _reflection = TestInlineFreeformAdditionalPropertiesRequestReflection.instance;
   return <String, dynamic>{
     if (instance.someProperty.isDefined)
-    _reflection.someProperty.oasName: (
+    _reflection.somePropertyPart.oasName: (
             String
  v) {
       return v;
@@ -20,15 +20,20 @@ Map<String, dynamic> _$TestInlineFreeformAdditionalPropertiesRequestToMap(TestIn
 }
 
 TestInlineFreeformAdditionalPropertiesRequest _$TestInlineFreeformAdditionalPropertiesRequestFromMap(Map<String, dynamic> src) {
-  final _reflection = TestInlineFreeformAdditionalPropertiesRequestReflection.instance;
+  const _reflection = TestInlineFreeformAdditionalPropertiesRequestReflection.instance;
   return TestInlineFreeformAdditionalPropertiesRequest.$all(
-    someProperty: src.getOrUndefinedMapped(_reflection.someProperty.oasName, (v) => 
+    someProperty: src.getOrUndefinedMapped(_reflection.somePropertyPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -46,15 +51,21 @@ v
 
 bool _$TestInlineFreeformAdditionalPropertiesRequestCanFromMap(Map<String, dynamic> src) {
   final _reflection = TestInlineFreeformAdditionalPropertiesRequestReflection.instance;
-  if (!src.getOrUndefined(_reflection.someProperty.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.somePropertyPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.someProperty.required,
+    unDefined: () => !_reflection.somePropertyPart.required,
 )) {
     return false;
   }
@@ -64,7 +75,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -88,11 +99,14 @@ bool _$TestInlineFreeformAdditionalPropertiesRequestCanDeserialize(Object? src) 
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$TestInlineFreeformAdditionalPropertiesRequestSerialize(TestInlineFreeformAdditionalPropertiesRequest src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$TestInlineFreeformAdditionalPropertiesRequestSerialize(TestInlineFreeformAdditionalPropertiesRequest src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

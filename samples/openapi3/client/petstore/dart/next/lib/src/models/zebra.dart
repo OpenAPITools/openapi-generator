@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'zebra.reflection.dart';
@@ -30,7 +30,6 @@ mixin ZebraMixin on
 /// * [className] 
 class Zebra with
 $OpenApiObjectMixin,
-
 
 ZebraMixin {
   @override
@@ -64,12 +63,12 @@ required  this.className     ,
   });
 
   static const $reflection = ZebraReflection.instance;
+  ZebraReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$ZebraToMap(this);
@@ -126,6 +125,10 @@ extension type const ZebraTypeEnum._(String value) {
       throw 'Invalid enum value $value';
     }
     return res;
+  }
+
+  static bool canDeserialize(Object? value) {
+    return value is String && values.where((element) => element.value == value).firstOrNull != null;
   }
 
   /// Creates a [ZebraTypeEnum] enum from a value without checking if it exists.

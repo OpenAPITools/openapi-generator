@@ -127,9 +127,18 @@ abstract class OpenApiParameterSerializationQuery
         !allowEmptyValue) {
       return template;
     }
+
+    var expanded = StdUriTemplate.expand('{?$parameterName$appendExplode}', {
+      parameterName: value,
+    });
+    if (expanded.startsWith('?')) {
+      expanded = expanded.substring(1);
+    }
+    final uriWithExpanded = Uri(query: expanded);
+
     return template.replace(queryParameters: {
       ...template.queryParameters,
-      parameterName: value,
+      ...uriWithExpanded.queryParameters,
     });
   }
 }
@@ -222,8 +231,8 @@ class OpenApiParameterSerializationHeader
 
   //Style is always "simple"
   String serialize(Object? value) {
-    return StdUriTemplate.expand('{$parameterName$appendExplode}', {
-      parameterName: value,
+    return StdUriTemplate.expand('{v$appendExplode}', {
+      'v': value,
     });
   }
 }

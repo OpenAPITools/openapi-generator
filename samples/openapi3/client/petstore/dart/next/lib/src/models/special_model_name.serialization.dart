@@ -9,13 +9,13 @@ Map<String, dynamic> _$SpecialModelNameToMap(SpecialModelName instance) {
   final _reflection = SpecialModelNameReflection.instance;
   return <String, dynamic>{
     if (instance.$specialPropertyName.isDefined)
-    _reflection.$specialPropertyName.oasName: (
+    _reflection.$specialPropertyNamePart.oasName: (
             int
  v) {
       return v;
     }(instance.$specialPropertyName.valueRequired),
     if (instance.specialModelName.isDefined)
-    _reflection.specialModelName.oasName: (
+    _reflection.specialModelNamePart.oasName: (
             String
  v) {
       return v;
@@ -26,27 +26,35 @@ Map<String, dynamic> _$SpecialModelNameToMap(SpecialModelName instance) {
 }
 
 SpecialModelName _$SpecialModelNameFromMap(Map<String, dynamic> src) {
-  final _reflection = SpecialModelNameReflection.instance;
+  const _reflection = SpecialModelNameReflection.instance;
   return SpecialModelName.$all(
-    $specialPropertyName: src.getOrUndefinedMapped(_reflection.$specialPropertyName.oasName, (v) => 
+    $specialPropertyName: src.getOrUndefinedMapped(_reflection.$specialPropertyNamePart.oasName, (v) => 
 (
 
-    
             
-                    v as int
-            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-specialModelName: src.getOrUndefinedMapped(_reflection.specialModelName.oasName, (v) => 
+specialModelName: src.getOrUndefinedMapped(_reflection.specialModelNamePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -64,27 +72,38 @@ v
 
 bool _$SpecialModelNameCanFromMap(Map<String, dynamic> src) {
   final _reflection = SpecialModelNameReflection.instance;
-  if (!src.getOrUndefined(_reflection.$specialPropertyName.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.$specialPropertyNamePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.$specialPropertyName.required,
+    unDefined: () => !_reflection.$specialPropertyNamePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.specialModelName.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.specialModelNamePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.specialModelName.required,
+    unDefined: () => !_reflection.specialModelNamePart.required,
 )) {
     return false;
   }
@@ -94,7 +113,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -118,11 +137,14 @@ bool _$SpecialModelNameCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$SpecialModelNameSerialize(SpecialModelName src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$SpecialModelNameSerialize(SpecialModelName src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

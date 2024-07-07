@@ -9,13 +9,13 @@ Map<String, dynamic> _$AnimalToMap(Animal instance) {
   final _reflection = AnimalReflection.instance;
   return <String, dynamic>{
     
-    _reflection.className.oasName: (
+    _reflection.classNamePart.oasName: (
             String
  v) {
       return v;
     }(instance.className),
     if (instance.color.isDefined)
-    _reflection.color.oasName: (
+    _reflection.colorPart.oasName: (
             String
  v) {
       return v;
@@ -26,27 +26,41 @@ Map<String, dynamic> _$AnimalToMap(Animal instance) {
 }
 
 Animal _$AnimalFromMap(Map<String, dynamic> src) {
-  final _reflection = AnimalReflection.instance;
+  const _reflection = AnimalReflection.instance;
+  final discriminatorKey = _reflection.discriminatorKey;
+  final discriminatorValue = src[discriminatorKey]?.toString();
+  //when we have a discriminator, we pick one model
+  final modelReflection = _reflection.tryGetDiscriminatorModel(discriminatorValue);
   return Animal.$all(
-    className: src.getRequiredMapped(_reflection.className.oasName, (v) => 
+    className: src.getRequiredMapped(_reflection.classNamePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-color: src.getOrUndefinedMapped(_reflection.color.oasName, (v) => 
+color: src.getOrUndefinedMapped(_reflection.colorPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -64,27 +78,38 @@ v
 
 bool _$AnimalCanFromMap(Map<String, dynamic> src) {
   final _reflection = AnimalReflection.instance;
-  if (!src.getOrUndefined(_reflection.className.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.classNamePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.className.required,
+    unDefined: () => !_reflection.classNamePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.color.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.colorPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.color.required,
+    unDefined: () => !_reflection.colorPart.required,
 )) {
     return false;
   }
@@ -94,7 +119,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -118,11 +143,14 @@ bool _$AnimalCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$AnimalSerialize(Animal src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$AnimalSerialize(Animal src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

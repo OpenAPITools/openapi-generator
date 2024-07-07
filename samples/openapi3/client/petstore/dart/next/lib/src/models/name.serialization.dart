@@ -9,25 +9,25 @@ Map<String, dynamic> _$NameToMap(Name instance) {
   final _reflection = NameReflection.instance;
   return <String, dynamic>{
     
-    _reflection.name.oasName: (
+    _reflection.namePart.oasName: (
             int
  v) {
       return v;
     }(instance.name),
     if (instance.snakeCase.isDefined)
-    _reflection.snakeCase.oasName: (
+    _reflection.snakeCasePart.oasName: (
             int
  v) {
       return v;
     }(instance.snakeCase.valueRequired),
     if (instance.property.isDefined)
-    _reflection.property.oasName: (
+    _reflection.propertyPart.oasName: (
             String
  v) {
       return v;
     }(instance.property.valueRequired),
     if (instance.$123number.isDefined)
-    _reflection.$123number.oasName: (
+    _reflection.$123numberPart.oasName: (
             int
  v) {
       return v;
@@ -38,51 +38,65 @@ Map<String, dynamic> _$NameToMap(Name instance) {
 }
 
 Name _$NameFromMap(Map<String, dynamic> src) {
-  final _reflection = NameReflection.instance;
+  const _reflection = NameReflection.instance;
   return Name.$all(
-    name: src.getRequiredMapped(_reflection.name.oasName, (v) => 
+    name: src.getRequiredMapped(_reflection.namePart.oasName, (v) => 
 (
 
-    
             
-                    v as int
-            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-snakeCase: src.getOrUndefinedMapped(_reflection.snakeCase.oasName, (v) => 
+snakeCase: src.getOrUndefinedMapped(_reflection.snakeCasePart.oasName, (v) => 
 (
 
-    
             
-                    v as int
-            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-property: src.getOrUndefinedMapped(_reflection.property.oasName, (v) => 
+property: src.getOrUndefinedMapped(_reflection.propertyPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-$123number: src.getOrUndefinedMapped(_reflection.$123number.oasName, (v) => 
+$123number: src.getOrUndefinedMapped(_reflection.$123numberPart.oasName, (v) => 
 (
 
-    
             
-                    v as int
-            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
@@ -100,51 +114,72 @@ v
 
 bool _$NameCanFromMap(Map<String, dynamic> src) {
   final _reflection = NameReflection.instance;
-  if (!src.getOrUndefined(_reflection.name.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.namePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.name.required,
+    unDefined: () => !_reflection.namePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.snakeCase.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.snakeCasePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.snakeCase.required,
+    unDefined: () => !_reflection.snakeCasePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.property.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.propertyPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.property.required,
+    unDefined: () => !_reflection.propertyPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.$123number.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.$123numberPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.$123number.required,
+    unDefined: () => !_reflection.$123numberPart.required,
 )) {
     return false;
   }
@@ -154,7 +189,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -178,11 +213,14 @@ bool _$NameCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$NameSerialize(Name src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$NameSerialize(Name src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

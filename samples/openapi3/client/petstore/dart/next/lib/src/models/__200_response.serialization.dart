@@ -9,13 +9,13 @@ Map<String, dynamic> _$$200ResponseToMap($200Response instance) {
   final _reflection = $200ResponseReflection.instance;
   return <String, dynamic>{
     if (instance.name.isDefined)
-    _reflection.name.oasName: (
+    _reflection.namePart.oasName: (
             int
  v) {
       return v;
     }(instance.name.valueRequired),
     if (instance.propertyClass.isDefined)
-    _reflection.propertyClass.oasName: (
+    _reflection.propertyClassPart.oasName: (
             String
  v) {
       return v;
@@ -26,27 +26,35 @@ Map<String, dynamic> _$$200ResponseToMap($200Response instance) {
 }
 
 $200Response _$$200ResponseFromMap(Map<String, dynamic> src) {
-  final _reflection = $200ResponseReflection.instance;
+  const _reflection = $200ResponseReflection.instance;
   return $200Response.$all(
-    name: src.getOrUndefinedMapped(_reflection.name.oasName, (v) => 
+    name: src.getOrUndefinedMapped(_reflection.namePart.oasName, (v) => 
 (
 
-    
             
-                    v as int
-            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-propertyClass: src.getOrUndefinedMapped(_reflection.propertyClass.oasName, (v) => 
+propertyClass: src.getOrUndefinedMapped(_reflection.propertyClassPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -64,27 +72,38 @@ v
 
 bool _$$200ResponseCanFromMap(Map<String, dynamic> src) {
   final _reflection = $200ResponseReflection.instance;
-  if (!src.getOrUndefined(_reflection.name.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.namePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.name.required,
+    unDefined: () => !_reflection.namePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.propertyClass.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.propertyClassPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.propertyClass.required,
+    unDefined: () => !_reflection.propertyClassPart.required,
 )) {
     return false;
   }
@@ -94,7 +113,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -118,11 +137,14 @@ bool _$$200ResponseCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$$200ResponseSerialize($200Response src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$$200ResponseSerialize($200Response src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

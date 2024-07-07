@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'array_test.reflection.dart';
@@ -50,7 +50,6 @@ UndefinedWrapper<
 /// * [arrayArrayOfModel] 
 class ArrayTest with
 $OpenApiObjectMixin,
-
 
 ArrayTestMixin {
   @override
@@ -109,12 +108,12 @@ ArrayTestMixin {
   });
 
   static const $reflection = ArrayTestReflection.instance;
+  ArrayTestReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$ArrayTestToMap(this);

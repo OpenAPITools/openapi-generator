@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'nullable_class.reflection.dart';
@@ -45,37 +45,37 @@ UndefinedWrapper<
 UndefinedWrapper<
     List<
         
-            Map<String, Object?>
+            $FreeFormObject
 >
 ?> get arrayNullableProp;
 UndefinedWrapper<
     List<
         
-            Map<String, Object?>
+            $FreeFormObject
 ?>
 ?> get arrayAndItemsNullableProp;
 UndefinedWrapper<
     List<
         
-            Map<String, Object?>
+            $FreeFormObject
 ?>
 > get arrayItemsNullable;
 UndefinedWrapper<
     Map<String, 
         
-            Map<String, Object?>
+            $FreeFormObject
 >
 ?> get objectNullableProp;
 UndefinedWrapper<
     Map<String, 
         
-            Map<String, Object?>
+            $FreeFormObject
 ?>
 ?> get objectAndItemsNullableProp;
 UndefinedWrapper<
     Map<String, 
         
-            Map<String, Object?>
+            $FreeFormObject
 ?>
 > get objectItemsNullable;
   
@@ -98,7 +98,6 @@ UndefinedWrapper<
 /// * [objectItemsNullable] 
 class NullableClass with
 $OpenApiObjectMixin,
-
 
 NullableClassMixin {
   @override
@@ -129,47 +128,47 @@ NullableClassMixin {
   UndefinedWrapper<
     List<
         
-            Map<String, Object?>
+            $FreeFormObject
 >
 ?> arrayNullableProp;
   @override
   UndefinedWrapper<
     List<
         
-            Map<String, Object?>
+            $FreeFormObject
 ?>
 ?> arrayAndItemsNullableProp;
   @override
   UndefinedWrapper<
     List<
         
-            Map<String, Object?>
+            $FreeFormObject
 ?>
 > arrayItemsNullable;
   @override
   UndefinedWrapper<
     Map<String, 
         
-            Map<String, Object?>
+            $FreeFormObject
 >
 ?> objectNullableProp;
   @override
   UndefinedWrapper<
     Map<String, 
         
-            Map<String, Object?>
+            $FreeFormObject
 ?>
 ?> objectAndItemsNullableProp;
   @override
   UndefinedWrapper<
     Map<String, 
         
-            Map<String, Object?>
+            $FreeFormObject
 ?>
 > objectItemsNullable;
 
   AdditionalProperties<
-            Map<String, Object?>
+            $FreeFormObject
 ?> additionalProperties;
 
   
@@ -233,12 +232,12 @@ NullableClassMixin {
   });
 
   static const $reflection = NullableClassReflection.instance;
+  NullableClassReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$NullableClassToMap(this);

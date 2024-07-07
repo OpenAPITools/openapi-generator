@@ -9,7 +9,7 @@ Map<String, dynamic> _$FooToMap(Foo instance) {
   final _reflection = FooReflection.instance;
   return <String, dynamic>{
     if (instance.bar.isDefined)
-    _reflection.bar.oasName: (
+    _reflection.barPart.oasName: (
             String
  v) {
       return v;
@@ -20,15 +20,20 @@ Map<String, dynamic> _$FooToMap(Foo instance) {
 }
 
 Foo _$FooFromMap(Map<String, dynamic> src) {
-  final _reflection = FooReflection.instance;
+  const _reflection = FooReflection.instance;
   return Foo.$all(
-    bar: src.getOrUndefinedMapped(_reflection.bar.oasName, (v) => 
+    bar: src.getOrUndefinedMapped(_reflection.barPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -46,15 +51,21 @@ v
 
 bool _$FooCanFromMap(Map<String, dynamic> src) {
   final _reflection = FooReflection.instance;
-  if (!src.getOrUndefined(_reflection.bar.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.barPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.bar.required,
+    unDefined: () => !_reflection.barPart.required,
 )) {
     return false;
   }
@@ -64,7 +75,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -88,11 +99,14 @@ bool _$FooCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$FooSerialize(Foo src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$FooSerialize(Foo src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'mammal.reflection.dart';
@@ -29,7 +29,6 @@ mixin MammalMixin on
 /// Properties:
 class Mammal with
 $OpenApiObjectMixin,
-
 
 MammalMixin {
 
@@ -70,6 +69,7 @@ MammalMixin {
   });
 
   static const $reflection = MammalReflection.instance;
+  MammalReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
@@ -82,7 +82,6 @@ MammalMixin {
       
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$MammalToMap(this);

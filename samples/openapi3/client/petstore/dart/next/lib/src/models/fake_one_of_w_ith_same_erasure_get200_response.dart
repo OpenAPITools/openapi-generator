@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'fake_one_of_w_ith_same_erasure_get200_response.reflection.dart';
@@ -28,7 +28,6 @@ mixin FakeOneOfWIthSameErasureGet200ResponseMixin on
 /// FakeOneOfWIthSameErasureGet200Response
 class FakeOneOfWIthSameErasureGet200Response with
 $OpenApiObjectMixin,
-
 
 FakeOneOfWIthSameErasureGet200ResponseMixin {
 
@@ -68,6 +67,7 @@ FakeOneOfWIthSameErasureGet200ResponseMixin {
   });
 
   static const $reflection = FakeOneOfWIthSameErasureGet200ResponseReflection.instance;
+  FakeOneOfWIthSameErasureGet200ResponseReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
@@ -80,7 +80,6 @@ FakeOneOfWIthSameErasureGet200ResponseMixin {
       
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$FakeOneOfWIthSameErasureGet200ResponseToMap(this);

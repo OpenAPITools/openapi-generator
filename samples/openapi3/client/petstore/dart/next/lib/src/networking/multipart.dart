@@ -1,4 +1,4 @@
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 typedef UnknownMediaTypeHandler = Stream<List<int>> Function(MediaType mediaType, Object? serialized, Encoding encoding, Map<String, PropertyEncodingRule> encodingRules);
 

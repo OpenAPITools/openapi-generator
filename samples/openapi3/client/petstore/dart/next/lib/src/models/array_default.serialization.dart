@@ -9,7 +9,7 @@ Map<String, dynamic> _$ArrayDefaultToMap(ArrayDefault instance) {
   final _reflection = ArrayDefaultReflection.instance;
   return <String, dynamic>{
     if (instance.withDefaultEmptyBracket.isDefined)
-    _reflection.withDefaultEmptyBracket.oasName: (
+    _reflection.withDefaultEmptyBracketPart.oasName: (
     List<
         
             String
@@ -18,7 +18,7 @@ Map<String, dynamic> _$ArrayDefaultToMap(ArrayDefault instance) {
       return v.map((v) => v).toList();
     }(instance.withDefaultEmptyBracket.valueRequired),
     if (instance.withoutDefault.isDefined)
-    _reflection.withoutDefault.oasName: (
+    _reflection.withoutDefaultPart.oasName: (
     List<
         
             String
@@ -32,12 +32,11 @@ Map<String, dynamic> _$ArrayDefaultToMap(ArrayDefault instance) {
 }
 
 ArrayDefault _$ArrayDefaultFromMap(Map<String, dynamic> src) {
-  final _reflection = ArrayDefaultReflection.instance;
+  const _reflection = ArrayDefaultReflection.instance;
   return ArrayDefault.$all(
-    withDefaultEmptyBracket: src.getOrUndefinedMapped(_reflection.withDefaultEmptyBracket.oasName, (v) => 
+    withDefaultEmptyBracket: src.getOrUndefinedMapped(_reflection.withDefaultEmptyBracketPart.oasName, (v) => 
 (
 
-    
             
             v as List
             
@@ -47,20 +46,24 @@ ArrayDefault _$ArrayDefaultFromMap(Map<String, dynamic> src) {
 .map((v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ).toList()
 ),
-withoutDefault: src.getOrUndefinedMapped(_reflection.withoutDefault.oasName, (v) => 
+withoutDefault: src.getOrUndefinedMapped(_reflection.withoutDefaultPart.oasName, (v) => 
 (
 
-    
             
             v as List
             
@@ -70,10 +73,15 @@ withoutDefault: src.getOrUndefinedMapped(_reflection.withoutDefault.oasName, (v)
 .map((v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -92,7 +100,8 @@ v
 
 bool _$ArrayDefaultCanFromMap(Map<String, dynamic> src) {
   final _reflection = ArrayDefaultReflection.instance;
-  if (!src.getOrUndefined(_reflection.withDefaultEmptyBracket.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.withDefaultEmptyBracketPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -103,14 +112,19 @@ bool _$ArrayDefaultCanFromMap(Map<String, dynamic> src) {
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ))
 ),
-    unDefined: () => !_reflection.withDefaultEmptyBracket.required,
+    unDefined: () => !_reflection.withDefaultEmptyBracketPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.withoutDefault.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.withoutDefaultPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -121,10 +135,15 @@ if (!src.getOrUndefined(_reflection.withoutDefault.oasName).split<bool>(
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ))
 ),
-    unDefined: () => !_reflection.withoutDefault.required,
+    unDefined: () => !_reflection.withoutDefaultPart.required,
 )) {
     return false;
   }
@@ -134,7 +153,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -158,11 +177,14 @@ bool _$ArrayDefaultCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$ArrayDefaultSerialize(ArrayDefault src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$ArrayDefaultSerialize(ArrayDefault src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

@@ -9,13 +9,13 @@ Map<String, dynamic> _$FreeFormObjectTestClassToMap(FreeFormObjectTestClass inst
   final _reflection = FreeFormObjectTestClassReflection.instance;
   return <String, dynamic>{
     if (instance.name.isDefined)
-    _reflection.name.oasName: (
+    _reflection.namePart.oasName: (
             String
  v) {
       return v;
     }(instance.name.valueRequired),
     if (instance.properties.isDefined)
-    _reflection.properties.oasName: (
+    _reflection.propertiesPart.oasName: (
             FreeFormObjectTestClassProperties
  v) {
       return v.serialize();
@@ -26,26 +26,29 @@ Map<String, dynamic> _$FreeFormObjectTestClassToMap(FreeFormObjectTestClass inst
 }
 
 FreeFormObjectTestClass _$FreeFormObjectTestClassFromMap(Map<String, dynamic> src) {
-  final _reflection = FreeFormObjectTestClassReflection.instance;
+  const _reflection = FreeFormObjectTestClassReflection.instance;
   return FreeFormObjectTestClass.$all(
-    name: src.getOrUndefinedMapped(_reflection.name.oasName, (v) => 
+    name: src.getOrUndefinedMapped(_reflection.namePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-properties: src.getOrUndefinedMapped(_reflection.properties.oasName, (v) => FreeFormObjectTestClassProperties.deserialize
+properties: src.getOrUndefinedMapped(_reflection.propertiesPart.oasName, (v) => FreeFormObjectTestClassProperties.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -63,19 +66,25 @@ v
 
 bool _$FreeFormObjectTestClassCanFromMap(Map<String, dynamic> src) {
   final _reflection = FreeFormObjectTestClassReflection.instance;
-  if (!src.getOrUndefined(_reflection.name.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.namePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.name.required,
+    unDefined: () => !_reflection.namePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.properties.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.propertiesPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -83,7 +92,7 @@ if (!src.getOrUndefined(_reflection.properties.oasName).split<bool>(
             FreeFormObjectTestClassProperties.canDeserialize(v)
             
 ),
-    unDefined: () => !_reflection.properties.required,
+    unDefined: () => !_reflection.propertiesPart.required,
 )) {
     return false;
   }
@@ -93,7 +102,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -117,11 +126,14 @@ bool _$FreeFormObjectTestClassCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$FreeFormObjectTestClassSerialize(FreeFormObjectTestClass src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$FreeFormObjectTestClassSerialize(FreeFormObjectTestClass src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

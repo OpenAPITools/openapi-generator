@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'apple_req.reflection.dart';
@@ -30,7 +30,6 @@ UndefinedWrapper<
 /// * [mealy] 
 class AppleReq with
 $OpenApiObjectMixin,
-
 
 AppleReqMixin {
   @override
@@ -63,12 +62,12 @@ AppleReqMixin {
   });
 
   static const $reflection = AppleReqReflection.instance;
+  AppleReqReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$AppleReqToMap(this);

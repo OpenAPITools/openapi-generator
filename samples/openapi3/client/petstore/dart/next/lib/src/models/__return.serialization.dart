@@ -9,7 +9,7 @@ Map<String, dynamic> _$$ReturnToMap($Return instance) {
   final _reflection = $ReturnReflection.instance;
   return <String, dynamic>{
     if (instance.$return.isDefined)
-    _reflection.$return.oasName: (
+    _reflection.$returnPart.oasName: (
             int
  v) {
       return v;
@@ -20,15 +20,18 @@ Map<String, dynamic> _$$ReturnToMap($Return instance) {
 }
 
 $Return _$$ReturnFromMap(Map<String, dynamic> src) {
-  final _reflection = $ReturnReflection.instance;
+  const _reflection = $ReturnReflection.instance;
   return $Return.$all(
-    $return: src.getOrUndefinedMapped(_reflection.$return.oasName, (v) => 
+    $return: src.getOrUndefinedMapped(_reflection.$returnPart.oasName, (v) => 
 (
 
-    
             
-                    v as int
-            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
@@ -46,15 +49,21 @@ v
 
 bool _$$ReturnCanFromMap(Map<String, dynamic> src) {
   final _reflection = $ReturnReflection.instance;
-  if (!src.getOrUndefined(_reflection.$return.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.$returnPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.$return.required,
+    unDefined: () => !_reflection.$returnPart.required,
 )) {
     return false;
   }
@@ -64,7 +73,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -88,11 +97,14 @@ bool _$$ReturnCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$$ReturnSerialize($Return src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$$ReturnSerialize($Return src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

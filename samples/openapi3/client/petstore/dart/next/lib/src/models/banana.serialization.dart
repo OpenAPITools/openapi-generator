@@ -9,7 +9,7 @@ Map<String, dynamic> _$BananaToMap(Banana instance) {
   final _reflection = BananaReflection.instance;
   return <String, dynamic>{
     if (instance.lengthCm.isDefined)
-    _reflection.lengthCm.oasName: (
+    _reflection.lengthCmPart.oasName: (
             num
  v) {
       return v;
@@ -20,15 +20,18 @@ Map<String, dynamic> _$BananaToMap(Banana instance) {
 }
 
 Banana _$BananaFromMap(Map<String, dynamic> src) {
-  final _reflection = BananaReflection.instance;
+  const _reflection = BananaReflection.instance;
   return Banana.$all(
-    lengthCm: src.getOrUndefinedMapped(_reflection.lengthCm.oasName, (v) => 
+    lengthCm: src.getOrUndefinedMapped(_reflection.lengthCmPart.oasName, (v) => 
 (
 
-    
             
-                    v as num
-            
+                    ( v is num ? v as num :
+num.parse(v.toString())
+
+
+
+)
 
 )
 
@@ -46,15 +49,21 @@ v
 
 bool _$BananaCanFromMap(Map<String, dynamic> src) {
   final _reflection = BananaReflection.instance;
-  if (!src.getOrUndefined(_reflection.lengthCm.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.lengthCmPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is num
+            (v is num
+     || (num.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.lengthCm.required,
+    unDefined: () => !_reflection.lengthCmPart.required,
 )) {
     return false;
   }
@@ -64,7 +73,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -88,11 +97,14 @@ bool _$BananaCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$BananaSerialize(Banana src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$BananaSerialize(Banana src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

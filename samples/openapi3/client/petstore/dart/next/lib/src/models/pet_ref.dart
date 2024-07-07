@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'pet_ref.reflection.dart';
@@ -56,7 +56,6 @@ UndefinedWrapper<
 /// * [status] - pet status in the store
 class PetRef with
 $OpenApiObjectMixin,
-
 
 PetRefMixin {
   @override
@@ -126,12 +125,12 @@ required  this.photoUrls     ,
   });
 
   static const $reflection = PetRefReflection.instance;
+  PetRefReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$PetRefToMap(this);
@@ -191,6 +190,10 @@ extension type const PetRefStatusEnum._(String value) {
       throw 'Invalid enum value $value';
     }
     return res;
+  }
+
+  static bool canDeserialize(Object? value) {
+    return value is String && values.where((element) => element.value == value).firstOrNull != null;
   }
 
   /// Creates a [PetRefStatusEnum] enum from a value without checking if it exists.

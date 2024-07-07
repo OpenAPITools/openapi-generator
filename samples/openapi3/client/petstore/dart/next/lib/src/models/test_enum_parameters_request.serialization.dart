@@ -9,7 +9,7 @@ Map<String, dynamic> _$TestEnumParametersRequestToMap(TestEnumParametersRequest 
   final _reflection = TestEnumParametersRequestReflection.instance;
   return <String, dynamic>{
     if (instance.enumFormStringArray.isDefined)
-    _reflection.enumFormStringArray.oasName: (
+    _reflection.enumFormStringArrayPart.oasName: (
     List<
         
             TestEnumParametersRequestEnumFormStringArrayEnum
@@ -18,7 +18,7 @@ Map<String, dynamic> _$TestEnumParametersRequestToMap(TestEnumParametersRequest 
       return v.map((v) => v.value).toList();
     }(instance.enumFormStringArray.valueRequired),
     if (instance.enumFormString.isDefined)
-    _reflection.enumFormString.oasName: (
+    _reflection.enumFormStringPart.oasName: (
             TestEnumParametersRequestEnumFormStringEnum
  v) {
       return v.value;
@@ -29,12 +29,11 @@ Map<String, dynamic> _$TestEnumParametersRequestToMap(TestEnumParametersRequest 
 }
 
 TestEnumParametersRequest _$TestEnumParametersRequestFromMap(Map<String, dynamic> src) {
-  final _reflection = TestEnumParametersRequestReflection.instance;
+  const _reflection = TestEnumParametersRequestReflection.instance;
   return TestEnumParametersRequest.$all(
-    enumFormStringArray: src.getOrUndefinedMapped(_reflection.enumFormStringArray.oasName, (v) => 
+    enumFormStringArray: src.getOrUndefinedMapped(_reflection.enumFormStringArrayPart.oasName, (v) => 
 (
 
-    
             
             v as List
             
@@ -44,23 +43,33 @@ TestEnumParametersRequest _$TestEnumParametersRequestFromMap(Map<String, dynamic
 .map((v) => 
 (
 
-    
             
-                    TestEnumParametersRequestEnumFormStringArrayEnum.$safe(v as String)
-            
+                    TestEnumParametersRequestEnumFormStringArrayEnum.$safe(( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+))
 
 )
 
 
 ).toList()
 ),
-enumFormString: src.getOrUndefinedMapped(_reflection.enumFormString.oasName, (v) => 
+enumFormString: src.getOrUndefinedMapped(_reflection.enumFormStringPart.oasName, (v) => 
 (
 
-    
             
-                    TestEnumParametersRequestEnumFormStringEnum.$safe(v as String)
-            
+                    TestEnumParametersRequestEnumFormStringEnum.$safe(( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+))
 
 )
 
@@ -78,7 +87,8 @@ v
 
 bool _$TestEnumParametersRequestCanFromMap(Map<String, dynamic> src) {
   final _reflection = TestEnumParametersRequestReflection.instance;
-  if (!src.getOrUndefined(_reflection.enumFormStringArray.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.enumFormStringArrayPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -89,22 +99,32 @@ bool _$TestEnumParametersRequestCanFromMap(Map<String, dynamic> src) {
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+     && TestEnumParametersRequestEnumFormStringArrayEnum.canDeserialize(v)
+)
 ))
 ),
-    unDefined: () => !_reflection.enumFormStringArray.required,
+    unDefined: () => !_reflection.enumFormStringArrayPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.enumFormString.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.enumFormStringPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+     && TestEnumParametersRequestEnumFormStringEnum.canDeserialize(v)
+)
 ),
-    unDefined: () => !_reflection.enumFormString.required,
+    unDefined: () => !_reflection.enumFormStringPart.required,
 )) {
     return false;
   }
@@ -114,7 +134,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -138,11 +158,14 @@ bool _$TestEnumParametersRequestCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$TestEnumParametersRequestSerialize(TestEnumParametersRequest src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$TestEnumParametersRequestSerialize(TestEnumParametersRequest src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

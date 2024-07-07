@@ -20,7 +20,11 @@ Map<String, dynamic> _$TriangleToMap(Triangle instance) {
 }
 
 Triangle _$TriangleFromMap(Map<String, dynamic> src) {
-  final _reflection = TriangleReflection.instance;
+  const _reflection = TriangleReflection.instance;
+  final discriminatorKey = _reflection.discriminatorKey;
+  final discriminatorValue = src[discriminatorKey]?.toString();
+  //when we have a discriminator, we pick one model
+  final modelReflection = _reflection.tryGetDiscriminatorModel(discriminatorValue);
   return Triangle.$all(
         additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
 (
@@ -29,27 +33,35 @@ v
 )
 ))),
     
-    oneOf0: EquilateralTriangle.canDeserialize(src) ? UndefinedWrapper(EquilateralTriangle.deserialize(src)) :  UndefinedWrapper.undefined(),
-    oneOf1: IsoscelesTriangle.canDeserialize(src) ? UndefinedWrapper(IsoscelesTriangle.deserialize(src)) :  UndefinedWrapper.undefined(),
-    oneOf2: ScaleneTriangle.canDeserialize(src) ? UndefinedWrapper(ScaleneTriangle.deserialize(src)) :  UndefinedWrapper.undefined(),
+    oneOf0: modelReflection is ClassReflection<EquilateralTriangle> ? UndefinedWrapper(modelReflection.deserializeFunction(src)) : UndefinedWrapper.undefined(),
+    oneOf1: modelReflection is ClassReflection<IsoscelesTriangle> ? UndefinedWrapper(modelReflection.deserializeFunction(src)) : UndefinedWrapper.undefined(),
+    oneOf2: modelReflection is ClassReflection<ScaleneTriangle> ? UndefinedWrapper(modelReflection.deserializeFunction(src)) : UndefinedWrapper.undefined(),
   );
 }
 
 bool _$TriangleCanFromMap(Map<String, dynamic> src) {
   final _reflection = TriangleReflection.instance;
+
     if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
 (
 true
 ))) {
     return false;
   }
-  
+
+
+  final discriminatorKey = _reflection.discriminatorKey;
+  final discriminatorValue = src[discriminatorKey]?.toString();
+  //when we have a discriminator, we pick one model
+  final modelReflection = _reflection.tryGetDiscriminatorModel(discriminatorValue);
+  if (modelReflection != null) {
+    // a discriminator is defined AND it exists in the src.
+    return modelReflection.canDeserializeFunction(src);
+  }
   final oneOfs = [
     () => EquilateralTriangle.canDeserialize(src),
-  
-    () => IsoscelesTriangle.canDeserialize(src),
-  
-    () => ScaleneTriangle.canDeserialize(src),
+      () => IsoscelesTriangle.canDeserialize(src),
+      () => ScaleneTriangle.canDeserialize(src),
   ];
   final validOneOfs = oneOfs.where((x) => x()).take(2).length;
   if (validOneOfs == 0 || validOneOfs > 1) {
@@ -76,9 +88,7 @@ Triangle _$TriangleDeserialize(Object? src) {
 )) ? UndefinedWrapper(EquilateralTriangle.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -92,9 +102,7 @@ Triangle _$TriangleDeserialize(Object? src) {
 )) ? UndefinedWrapper(IsoscelesTriangle.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -108,9 +116,7 @@ Triangle _$TriangleDeserialize(Object? src) {
 )) ? UndefinedWrapper(ScaleneTriangle.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -161,12 +167,21 @@ bool _$TriangleCanDeserialize(Object? src) {
 
 /// Serializes to a primitive Object (num, String, List, Map).
 Object? _$TriangleSerialize(Triangle src) {
-  
-  
-  if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.serialize(); }
-  if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.serialize(); }
-  if (src.oneOf2.isDefined) {final v = src.oneOf2.valueRequired; return v.serialize(); }
-  return null;
+  Object? initialResult = () {
+    
+    
+    if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.serialize(); }
+    if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.serialize(); }
+    if (src.oneOf2.isDefined) {final v = src.oneOf2.valueRequired; return v.serialize(); }
+    return null;
+  }();
+  if (initialResult is Map<String, Object?>) {
+    return {
+      ...src.additionalProperties,
+      ...initialResult,
+    };
+  }
+  return initialResult;
 }
 
 

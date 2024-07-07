@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'enum_arrays.reflection.dart';
@@ -33,7 +33,6 @@ UndefinedWrapper<
 /// * [arrayEnum] 
 class EnumArrays with
 $OpenApiObjectMixin,
-
 
 EnumArraysMixin {
   @override
@@ -72,12 +71,12 @@ EnumArraysMixin {
   });
 
   static const $reflection = EnumArraysReflection.instance;
+  EnumArraysReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$EnumArraysToMap(this);
@@ -135,6 +134,10 @@ extension type const EnumArraysJustSymbolEnum._(String value) {
     return res;
   }
 
+  static bool canDeserialize(Object? value) {
+    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  }
+
   /// Creates a [EnumArraysJustSymbolEnum] enum from a value without checking if it exists.
   const EnumArraysJustSymbolEnum.$unsafe(String value) : this._(value);
 
@@ -157,6 +160,10 @@ extension type const EnumArraysArrayEnumEnum._(String value) {
       throw 'Invalid enum value $value';
     }
     return res;
+  }
+
+  static bool canDeserialize(Object? value) {
+    return value is String && values.where((element) => element.value == value).firstOrNull != null;
   }
 
   /// Creates a [EnumArraysArrayEnumEnum] enum from a value without checking if it exists.

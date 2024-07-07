@@ -19,6 +19,10 @@ extension type const {{{classname}}}._({{dataType}} value) {
     return res;
   }
 
+  static bool canDeserialize(Object? value) {
+    return value is {{dataType}} && values.where((element) => element.value == value).firstOrNull != null;
+  }
+
   /// Creates a [{{{classname}}}] enum from a value without checking if it exists.
   const {{{classname}}}.$unsafe({{dataType}} value) : this._(value);
 

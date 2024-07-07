@@ -9,7 +9,7 @@ Map<String, dynamic> _$ArrayTestToMap(ArrayTest instance) {
   final _reflection = ArrayTestReflection.instance;
   return <String, dynamic>{
     if (instance.arrayOfString.isDefined)
-    _reflection.arrayOfString.oasName: (
+    _reflection.arrayOfStringPart.oasName: (
     List<
         
             String
@@ -18,7 +18,7 @@ Map<String, dynamic> _$ArrayTestToMap(ArrayTest instance) {
       return v.map((v) => v).toList();
     }(instance.arrayOfString.valueRequired),
     if (instance.arrayArrayOfInteger.isDefined)
-    _reflection.arrayArrayOfInteger.oasName: (
+    _reflection.arrayArrayOfIntegerPart.oasName: (
     List<
         
     List<
@@ -30,7 +30,7 @@ Map<String, dynamic> _$ArrayTestToMap(ArrayTest instance) {
       return v.map((v) => v.map((v) => v).toList()).toList();
     }(instance.arrayArrayOfInteger.valueRequired),
     if (instance.arrayArrayOfModel.isDefined)
-    _reflection.arrayArrayOfModel.oasName: (
+    _reflection.arrayArrayOfModelPart.oasName: (
     List<
         
     List<
@@ -47,12 +47,11 @@ Map<String, dynamic> _$ArrayTestToMap(ArrayTest instance) {
 }
 
 ArrayTest _$ArrayTestFromMap(Map<String, dynamic> src) {
-  final _reflection = ArrayTestReflection.instance;
+  const _reflection = ArrayTestReflection.instance;
   return ArrayTest.$all(
-    arrayOfString: src.getOrUndefinedMapped(_reflection.arrayOfString.oasName, (v) => 
+    arrayOfString: src.getOrUndefinedMapped(_reflection.arrayOfStringPart.oasName, (v) => 
 (
 
-    
             
             v as List
             
@@ -62,20 +61,24 @@ ArrayTest _$ArrayTestFromMap(Map<String, dynamic> src) {
 .map((v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ).toList()
 ),
-arrayArrayOfInteger: src.getOrUndefinedMapped(_reflection.arrayArrayOfInteger.oasName, (v) => 
+arrayArrayOfInteger: src.getOrUndefinedMapped(_reflection.arrayArrayOfIntegerPart.oasName, (v) => 
 (
 
-    
             
             v as List
             
@@ -85,7 +88,6 @@ arrayArrayOfInteger: src.getOrUndefinedMapped(_reflection.arrayArrayOfInteger.oa
 .map((v) => 
 (
 
-    
             
             v as List
             
@@ -95,10 +97,13 @@ arrayArrayOfInteger: src.getOrUndefinedMapped(_reflection.arrayArrayOfInteger.oa
 .map((v) => 
 (
 
-    
             
-                    v as int
-            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
@@ -106,10 +111,9 @@ arrayArrayOfInteger: src.getOrUndefinedMapped(_reflection.arrayArrayOfInteger.oa
 ).toList()
 ).toList()
 ),
-arrayArrayOfModel: src.getOrUndefinedMapped(_reflection.arrayArrayOfModel.oasName, (v) => 
+arrayArrayOfModel: src.getOrUndefinedMapped(_reflection.arrayArrayOfModelPart.oasName, (v) => 
 (
 
-    
             
             v as List
             
@@ -119,7 +123,6 @@ arrayArrayOfModel: src.getOrUndefinedMapped(_reflection.arrayArrayOfModel.oasNam
 .map((v) => 
 (
 
-    
             
             v as List
             
@@ -129,9 +132,7 @@ arrayArrayOfModel: src.getOrUndefinedMapped(_reflection.arrayArrayOfModel.oasNam
 .map((v) => ReadOnlyFirst.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -151,7 +152,8 @@ v
 
 bool _$ArrayTestCanFromMap(Map<String, dynamic> src) {
   final _reflection = ArrayTestReflection.instance;
-  if (!src.getOrUndefined(_reflection.arrayOfString.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.arrayOfStringPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -162,14 +164,19 @@ bool _$ArrayTestCanFromMap(Map<String, dynamic> src) {
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ))
 ),
-    unDefined: () => !_reflection.arrayOfString.required,
+    unDefined: () => !_reflection.arrayOfStringPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.arrayArrayOfInteger.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.arrayArrayOfIntegerPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -185,15 +192,20 @@ if (!src.getOrUndefined(_reflection.arrayArrayOfInteger.oasName).split<bool>(
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ))
 ))
 ),
-    unDefined: () => !_reflection.arrayArrayOfInteger.required,
+    unDefined: () => !_reflection.arrayArrayOfIntegerPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.arrayArrayOfModel.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.arrayArrayOfModelPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -213,7 +225,7 @@ if (!src.getOrUndefined(_reflection.arrayArrayOfModel.oasName).split<bool>(
 ))
 ))
 ),
-    unDefined: () => !_reflection.arrayArrayOfModel.required,
+    unDefined: () => !_reflection.arrayArrayOfModelPart.required,
 )) {
     return false;
   }
@@ -223,7 +235,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -247,11 +259,14 @@ bool _$ArrayTestCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$ArrayTestSerialize(ArrayTest src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$ArrayTestSerialize(ArrayTest src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

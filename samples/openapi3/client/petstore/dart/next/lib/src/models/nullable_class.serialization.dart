@@ -9,91 +9,91 @@ Map<String, dynamic> _$NullableClassToMap(NullableClass instance) {
   final _reflection = NullableClassReflection.instance;
   return <String, dynamic>{
     if (instance.integerProp.isDefined)
-    _reflection.integerProp.oasName: (
+    _reflection.integerPropPart.oasName: (
             int
 ? v) {
       return v;
     }(instance.integerProp.valueRequired),
     if (instance.numberProp.isDefined)
-    _reflection.numberProp.oasName: (
+    _reflection.numberPropPart.oasName: (
             num
 ? v) {
       return v;
     }(instance.numberProp.valueRequired),
     if (instance.booleanProp.isDefined)
-    _reflection.booleanProp.oasName: (
+    _reflection.booleanPropPart.oasName: (
             bool
 ? v) {
       return v;
     }(instance.booleanProp.valueRequired),
     if (instance.stringProp.isDefined)
-    _reflection.stringProp.oasName: (
+    _reflection.stringPropPart.oasName: (
             String
 ? v) {
       return v;
     }(instance.stringProp.valueRequired),
     if (instance.dateProp.isDefined)
-    _reflection.dateProp.oasName: (
+    _reflection.datePropPart.oasName: (
             DateTime
 ? v) {
       return v;
     }(instance.dateProp.valueRequired),
     if (instance.datetimeProp.isDefined)
-    _reflection.datetimeProp.oasName: (
+    _reflection.datetimePropPart.oasName: (
             DateTime
 ? v) {
       return v;
     }(instance.datetimeProp.valueRequired),
     if (instance.arrayNullableProp.isDefined)
-    _reflection.arrayNullableProp.oasName: (
+    _reflection.arrayNullablePropPart.oasName: (
     List<
         
-            Map<String, Object?>
+            $FreeFormObject
 >
 ? v) {
       return v?.map((v) => v).toList();
     }(instance.arrayNullableProp.valueRequired),
     if (instance.arrayAndItemsNullableProp.isDefined)
-    _reflection.arrayAndItemsNullableProp.oasName: (
+    _reflection.arrayAndItemsNullablePropPart.oasName: (
     List<
         
-            Map<String, Object?>
+            $FreeFormObject
 ?>
 ? v) {
       return v?.map((v) => v).toList();
     }(instance.arrayAndItemsNullableProp.valueRequired),
     if (instance.arrayItemsNullable.isDefined)
-    _reflection.arrayItemsNullable.oasName: (
+    _reflection.arrayItemsNullablePart.oasName: (
     List<
         
-            Map<String, Object?>
+            $FreeFormObject
 ?>
  v) {
       return v.map((v) => v).toList();
     }(instance.arrayItemsNullable.valueRequired),
     if (instance.objectNullableProp.isDefined)
-    _reflection.objectNullableProp.oasName: (
+    _reflection.objectNullablePropPart.oasName: (
     Map<String, 
         
-            Map<String, Object?>
+            $FreeFormObject
 >
 ? v) {
       return v;
     }(instance.objectNullableProp.valueRequired),
     if (instance.objectAndItemsNullableProp.isDefined)
-    _reflection.objectAndItemsNullableProp.oasName: (
+    _reflection.objectAndItemsNullablePropPart.oasName: (
     Map<String, 
         
-            Map<String, Object?>
+            $FreeFormObject
 ?>
 ? v) {
       return v;
     }(instance.objectAndItemsNullableProp.valueRequired),
     if (instance.objectItemsNullable.isDefined)
-    _reflection.objectItemsNullable.oasName: (
+    _reflection.objectItemsNullablePart.oasName: (
     Map<String, 
         
-            Map<String, Object?>
+            $FreeFormObject
 ?>
  v) {
       return v;
@@ -104,84 +104,105 @@ Map<String, dynamic> _$NullableClassToMap(NullableClass instance) {
 }
 
 NullableClass _$NullableClassFromMap(Map<String, dynamic> src) {
-  final _reflection = NullableClassReflection.instance;
+  const _reflection = NullableClassReflection.instance;
   return NullableClass.$all(
-    integerProp: src.getOrUndefinedMapped(_reflection.integerProp.oasName, (v) => 
+    integerProp: src.getOrUndefinedMapped(_reflection.integerPropPart.oasName, (v) => 
 (
 
-    
             
-                    v as int
-            ?
+                    (v == null ? null :  v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-numberProp: src.getOrUndefinedMapped(_reflection.numberProp.oasName, (v) => 
+numberProp: src.getOrUndefinedMapped(_reflection.numberPropPart.oasName, (v) => 
 (
 
-    
             
-                    v as num
-            ?
+                    (v == null ? null :  v is num ? v as num :
+num.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-booleanProp: src.getOrUndefinedMapped(_reflection.booleanProp.oasName, (v) => 
+booleanProp: src.getOrUndefinedMapped(_reflection.booleanPropPart.oasName, (v) => 
 (
 
-    
             
-                    v as bool
-            ?
+                    (v == null ? null :  v is bool ? v as bool :
+
+bool.parse(v.toString())
+
+
+)
 
 )
 
 
 ),
-stringProp: src.getOrUndefinedMapped(_reflection.stringProp.oasName, (v) => 
+stringProp: src.getOrUndefinedMapped(_reflection.stringPropPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            ?
+                    (v == null ? null :  v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-dateProp: src.getOrUndefinedMapped(_reflection.dateProp.oasName, (v) => 
+dateProp: src.getOrUndefinedMapped(_reflection.datePropPart.oasName, (v) => 
 (
 
-    
             
-                    v as DateTime
-            ?
+                    (v == null ? null :  v is DateTime ? v as DateTime :
+
+
+
+
+throwArgumentMismatch(DateTime, v)
+
+)
 
 )
 
 
 ),
-datetimeProp: src.getOrUndefinedMapped(_reflection.datetimeProp.oasName, (v) => 
+datetimeProp: src.getOrUndefinedMapped(_reflection.datetimePropPart.oasName, (v) => 
 (
 
-    
             
-                    v as DateTime
-            ?
+                    (v == null ? null :  v is DateTime ? v as DateTime :
+
+
+v is int ? DateTime.fromMillisecondsSinceEpoch(v as int) : DateTime.parse(v.toString())
+
+)
 
 )
 
 
 ),
-arrayNullableProp: src.getOrUndefinedMapped(_reflection.arrayNullableProp.oasName, (v) => 
+arrayNullableProp: src.getOrUndefinedMapped(_reflection.arrayNullablePropPart.oasName, (v) => 
 (
 
-    
             
             v as List
             ?
@@ -191,17 +212,24 @@ arrayNullableProp: src.getOrUndefinedMapped(_reflection.arrayNullableProp.oasNam
 ?.map((v) => 
 (
 
-    v as Map<String, dynamic>
+            
+                    ( v is $FreeFormObject ? v as $FreeFormObject :
+
+
+
+
+throwArgumentMismatch($FreeFormObject, v)
+
+)
 
 )
 
 
 ).toList()
 ),
-arrayAndItemsNullableProp: src.getOrUndefinedMapped(_reflection.arrayAndItemsNullableProp.oasName, (v) => 
+arrayAndItemsNullableProp: src.getOrUndefinedMapped(_reflection.arrayAndItemsNullablePropPart.oasName, (v) => 
 (
 
-    
             
             v as List
             ?
@@ -211,17 +239,24 @@ arrayAndItemsNullableProp: src.getOrUndefinedMapped(_reflection.arrayAndItemsNul
 ?.map((v) => 
 (
 
-    v as Map<String, dynamic>?
+            
+                    (v == null ? null :  v is $FreeFormObject ? v as $FreeFormObject :
+
+
+
+
+throwArgumentMismatch($FreeFormObject, v)
+
+)
 
 )
 
 
 ).toList()
 ),
-arrayItemsNullable: src.getOrUndefinedMapped(_reflection.arrayItemsNullable.oasName, (v) => 
+arrayItemsNullable: src.getOrUndefinedMapped(_reflection.arrayItemsNullablePart.oasName, (v) => 
 (
 
-    
             
             v as List
             
@@ -231,23 +266,41 @@ arrayItemsNullable: src.getOrUndefinedMapped(_reflection.arrayItemsNullable.oasN
 .map((v) => 
 (
 
-    v as Map<String, dynamic>?
+            
+                    (v == null ? null :  v is $FreeFormObject ? v as $FreeFormObject :
+
+
+
+
+throwArgumentMismatch($FreeFormObject, v)
+
+)
 
 )
 
 
 ).toList()
 ),
-objectNullableProp: src.getOrUndefinedMapped(_reflection.objectNullableProp.oasName, (v) => 
+objectNullableProp: src.getOrUndefinedMapped(_reflection.objectNullablePropPart.oasName, (v) => 
 (
 
-    v as Map<String, dynamic>?
+            v as Map<String, dynamic>
+            
+            ?
 
 )
 ?.map((k,v) => MapEntry(k, 
 (
 
-    v as Map<String, dynamic>
+            
+                    ( v is $FreeFormObject ? v as $FreeFormObject :
+
+
+
+
+throwArgumentMismatch($FreeFormObject, v)
+
+)
 
 )
 
@@ -255,16 +308,26 @@ objectNullableProp: src.getOrUndefinedMapped(_reflection.objectNullableProp.oasN
 ))
 
 ),
-objectAndItemsNullableProp: src.getOrUndefinedMapped(_reflection.objectAndItemsNullableProp.oasName, (v) => 
+objectAndItemsNullableProp: src.getOrUndefinedMapped(_reflection.objectAndItemsNullablePropPart.oasName, (v) => 
 (
 
-    v as Map<String, dynamic>?
+            v as Map<String, dynamic>
+            
+            ?
 
 )
 ?.map((k,v) => MapEntry(k, 
 (
 
-    v as Map<String, dynamic>?
+            
+                    (v == null ? null :  v is $FreeFormObject ? v as $FreeFormObject :
+
+
+
+
+throwArgumentMismatch($FreeFormObject, v)
+
+)
 
 )
 
@@ -272,16 +335,26 @@ objectAndItemsNullableProp: src.getOrUndefinedMapped(_reflection.objectAndItemsN
 ))
 
 ),
-objectItemsNullable: src.getOrUndefinedMapped(_reflection.objectItemsNullable.oasName, (v) => 
+objectItemsNullable: src.getOrUndefinedMapped(_reflection.objectItemsNullablePart.oasName, (v) => 
 (
 
-    v as Map<String, dynamic>
+            v as Map<String, dynamic>
+            
+            
 
 )
 .map((k,v) => MapEntry(k, 
 (
 
-    v as Map<String, dynamic>?
+            
+                    (v == null ? null :  v is $FreeFormObject ? v as $FreeFormObject :
+
+
+
+
+throwArgumentMismatch($FreeFormObject, v)
+
+)
 
 )
 
@@ -292,7 +365,15 @@ objectItemsNullable: src.getOrUndefinedMapped(_reflection.objectItemsNullable.oa
     additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
 (
 
-    v as Map<String, dynamic>?
+            
+                    (v == null ? null :  v is $FreeFormObject ? v as $FreeFormObject :
+
+
+
+
+throwArgumentMismatch($FreeFormObject, v)
+
+)
 
 )
 
@@ -304,79 +385,110 @@ objectItemsNullable: src.getOrUndefinedMapped(_reflection.objectItemsNullable.oa
 
 bool _$NullableClassCanFromMap(Map<String, dynamic> src) {
   final _reflection = NullableClassReflection.instance;
-  if (!src.getOrUndefined(_reflection.integerProp.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.integerPropPart.oasName).split<bool>(
     defined: (v) => v == null ? true :
 (
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.integerProp.required,
+    unDefined: () => !_reflection.integerPropPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.numberProp.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.numberPropPart.oasName).split<bool>(
     defined: (v) => v == null ? true :
 (
 
     
             
-            v is num
+            (v is num
+     || (num.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.numberProp.required,
+    unDefined: () => !_reflection.numberPropPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.booleanProp.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.booleanPropPart.oasName).split<bool>(
     defined: (v) => v == null ? true :
 (
 
     
             
-            v is bool
+            (v is bool
+    
+     || (bool.tryParse(v.toString()) != null)
+    
+    
+)
 ),
-    unDefined: () => !_reflection.booleanProp.required,
+    unDefined: () => !_reflection.booleanPropPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.stringProp.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.stringPropPart.oasName).split<bool>(
     defined: (v) => v == null ? true :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.stringProp.required,
+    unDefined: () => !_reflection.stringPropPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.dateProp.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.datePropPart.oasName).split<bool>(
     defined: (v) => v == null ? true :
 (
 
     
             
-            v is DateTime
+            (v is DateTime
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.dateProp.required,
+    unDefined: () => !_reflection.datePropPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.datetimeProp.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.datetimePropPart.oasName).split<bool>(
     defined: (v) => v == null ? true :
 (
 
     
             
-            v is DateTime
+            (v is DateTime
+    
+    
+     || (v is int || DateTime.tryParse(v.toString()) != null)
+    
+)
 ),
-    unDefined: () => !_reflection.datetimeProp.required,
+    unDefined: () => !_reflection.datetimePropPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.arrayNullableProp.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.arrayNullablePropPart.oasName).split<bool>(
     defined: (v) => v == null ? true :
 (
 
@@ -388,11 +500,11 @@ if (!src.getOrUndefined(_reflection.arrayNullableProp.oasName).split<bool>(
     v is Map<String, dynamic>
 ))
 ),
-    unDefined: () => !_reflection.arrayNullableProp.required,
+    unDefined: () => !_reflection.arrayNullablePropPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.arrayAndItemsNullableProp.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.arrayAndItemsNullablePropPart.oasName).split<bool>(
     defined: (v) => v == null ? true :
 (
 
@@ -404,11 +516,11 @@ if (!src.getOrUndefined(_reflection.arrayAndItemsNullableProp.oasName).split<boo
     v is Map<String, dynamic>
 ))
 ),
-    unDefined: () => !_reflection.arrayAndItemsNullableProp.required,
+    unDefined: () => !_reflection.arrayAndItemsNullablePropPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.arrayItemsNullable.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.arrayItemsNullablePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -420,37 +532,37 @@ if (!src.getOrUndefined(_reflection.arrayItemsNullable.oasName).split<bool>(
     v is Map<String, dynamic>
 ))
 ),
-    unDefined: () => !_reflection.arrayItemsNullable.required,
+    unDefined: () => !_reflection.arrayItemsNullablePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.objectNullableProp.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.objectNullablePropPart.oasName).split<bool>(
     defined: (v) => v == null ? true :
 (
 
     v is Map<String, dynamic>
 ),
-    unDefined: () => !_reflection.objectNullableProp.required,
+    unDefined: () => !_reflection.objectNullablePropPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.objectAndItemsNullableProp.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.objectAndItemsNullablePropPart.oasName).split<bool>(
     defined: (v) => v == null ? true :
 (
 
     v is Map<String, dynamic>
 ),
-    unDefined: () => !_reflection.objectAndItemsNullableProp.required,
+    unDefined: () => !_reflection.objectAndItemsNullablePropPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.objectItemsNullable.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.objectItemsNullablePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     v is Map<String, dynamic>
 ),
-    unDefined: () => !_reflection.objectItemsNullable.required,
+    unDefined: () => !_reflection.objectItemsNullablePart.required,
 )) {
     return false;
   }
@@ -461,7 +573,7 @@ if (!src.getOrUndefined(_reflection.objectItemsNullable.oasName).split<bool>(
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -485,11 +597,14 @@ bool _$NullableClassCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$NullableClassSerialize(NullableClass src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$NullableClassSerialize(NullableClass src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

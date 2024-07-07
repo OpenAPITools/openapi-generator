@@ -9,13 +9,13 @@ Map<String, dynamic> _$ZebraToMap(Zebra instance) {
   final _reflection = ZebraReflection.instance;
   return <String, dynamic>{
     if (instance.type.isDefined)
-    _reflection.type.oasName: (
+    _reflection.typePart.oasName: (
             ZebraTypeEnum
  v) {
       return v.value;
     }(instance.type.valueRequired),
     
-    _reflection.className.oasName: (
+    _reflection.classNamePart.oasName: (
             String
  v) {
       return v;
@@ -26,27 +26,37 @@ Map<String, dynamic> _$ZebraToMap(Zebra instance) {
 }
 
 Zebra _$ZebraFromMap(Map<String, dynamic> src) {
-  final _reflection = ZebraReflection.instance;
+  const _reflection = ZebraReflection.instance;
   return Zebra.$all(
-    type: src.getOrUndefinedMapped(_reflection.type.oasName, (v) => 
+    type: src.getOrUndefinedMapped(_reflection.typePart.oasName, (v) => 
 (
 
-    
             
-                    ZebraTypeEnum.$safe(v as String)
-            
+                    ZebraTypeEnum.$safe(( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+))
 
 )
 
 
 ),
-className: src.getRequiredMapped(_reflection.className.oasName, (v) => 
+className: src.getRequiredMapped(_reflection.classNamePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -64,27 +74,38 @@ v
 
 bool _$ZebraCanFromMap(Map<String, dynamic> src) {
   final _reflection = ZebraReflection.instance;
-  if (!src.getOrUndefined(_reflection.type.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.typePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+     && ZebraTypeEnum.canDeserialize(v)
+)
 ),
-    unDefined: () => !_reflection.type.required,
+    unDefined: () => !_reflection.typePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.className.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.classNamePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.className.required,
+    unDefined: () => !_reflection.classNamePart.required,
 )) {
     return false;
   }
@@ -94,7 +115,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -118,11 +139,14 @@ bool _$ZebraCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$ZebraSerialize(Zebra src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$ZebraSerialize(Zebra src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

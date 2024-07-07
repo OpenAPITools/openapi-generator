@@ -9,25 +9,25 @@ Map<String, dynamic> _$DrawingToMap(Drawing instance) {
   final _reflection = DrawingReflection.instance;
   return <String, dynamic>{
     if (instance.mainShape.isDefined)
-    _reflection.mainShape.oasName: (
+    _reflection.mainShapePart.oasName: (
             Shape
  v) {
       return v.serialize();
     }(instance.mainShape.valueRequired),
     if (instance.shapeOrNull.isDefined)
-    _reflection.shapeOrNull.oasName: (
+    _reflection.shapeOrNullPart.oasName: (
             ShapeOrNull
-? v) {
-      return v?.serialize();
+ v) {
+      return v.serialize();
     }(instance.shapeOrNull.valueRequired),
     if (instance.nullableShape.isDefined)
-    _reflection.nullableShape.oasName: (
+    _reflection.nullableShapePart.oasName: (
             NullableShape
 ? v) {
       return v?.serialize();
     }(instance.nullableShape.valueRequired),
     if (instance.shapes.isDefined)
-    _reflection.shapes.oasName: (
+    _reflection.shapesPart.oasName: (
     List<
         
             Shape
@@ -41,45 +41,38 @@ Map<String, dynamic> _$DrawingToMap(Drawing instance) {
 }
 
 Drawing _$DrawingFromMap(Map<String, dynamic> src) {
-  final _reflection = DrawingReflection.instance;
+  const _reflection = DrawingReflection.instance;
   return Drawing.$all(
-    mainShape: src.getOrUndefinedMapped(_reflection.mainShape.oasName, (v) => Shape.deserialize
+    mainShape: src.getOrUndefinedMapped(_reflection.mainShapePart.oasName, (v) => Shape.deserialize
 (
 
-    
             v
-
 
 )
 
 
 ),
-shapeOrNull: src.getOrUndefinedMapped(_reflection.shapeOrNull.oasName, (v) => ShapeOrNull.deserializeOrNull
+shapeOrNull: src.getOrUndefinedMapped(_reflection.shapeOrNullPart.oasName, (v) => ShapeOrNull.deserialize
 (
 
-    
             v
-
 
 )
 
 
 ),
-nullableShape: src.getOrUndefinedMapped(_reflection.nullableShape.oasName, (v) => NullableShape.deserializeOrNull
+nullableShape: src.getOrUndefinedMapped(_reflection.nullableShapePart.oasName, (v) => NullableShape.deserializeOrNull
 (
 
-    
             v
-
 
 )
 
 
 ),
-shapes: src.getOrUndefinedMapped(_reflection.shapes.oasName, (v) => 
+shapes: src.getOrUndefinedMapped(_reflection.shapesPart.oasName, (v) => 
 (
 
-    
             
             v as List
             
@@ -89,9 +82,7 @@ shapes: src.getOrUndefinedMapped(_reflection.shapes.oasName, (v) =>
 .map((v) => Shape.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -101,9 +92,7 @@ shapes: src.getOrUndefinedMapped(_reflection.shapes.oasName, (v) =>
     additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, Fruit.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -115,7 +104,8 @@ shapes: src.getOrUndefinedMapped(_reflection.shapes.oasName, (v) =>
 
 bool _$DrawingCanFromMap(Map<String, dynamic> src) {
   final _reflection = DrawingReflection.instance;
-  if (!src.getOrUndefined(_reflection.mainShape.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.mainShapePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -123,23 +113,23 @@ bool _$DrawingCanFromMap(Map<String, dynamic> src) {
             Shape.canDeserialize(v)
             
 ),
-    unDefined: () => !_reflection.mainShape.required,
+    unDefined: () => !_reflection.mainShapePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.shapeOrNull.oasName).split<bool>(
-    defined: (v) => v == null ? true :
+if (!src.getOrUndefined(_reflection.shapeOrNullPart.oasName).split<bool>(
+    defined: (v) => v == null ? false :
 (
 
     
             ShapeOrNull.canDeserialize(v)
             
 ),
-    unDefined: () => !_reflection.shapeOrNull.required,
+    unDefined: () => !_reflection.shapeOrNullPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.nullableShape.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.nullableShapePart.oasName).split<bool>(
     defined: (v) => v == null ? true :
 (
 
@@ -147,11 +137,11 @@ if (!src.getOrUndefined(_reflection.nullableShape.oasName).split<bool>(
             NullableShape.canDeserialize(v)
             
 ),
-    unDefined: () => !_reflection.nullableShape.required,
+    unDefined: () => !_reflection.nullableShapePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.shapes.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.shapesPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -165,7 +155,7 @@ if (!src.getOrUndefined(_reflection.shapes.oasName).split<bool>(
             
 ))
 ),
-    unDefined: () => !_reflection.shapes.required,
+    unDefined: () => !_reflection.shapesPart.required,
 )) {
     return false;
   }
@@ -178,7 +168,7 @@ if (!src.getOrUndefined(_reflection.shapes.oasName).split<bool>(
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -202,11 +192,14 @@ bool _$DrawingCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$DrawingSerialize(Drawing src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$DrawingSerialize(Drawing src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

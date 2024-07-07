@@ -9,19 +9,19 @@ Map<String, dynamic> _$PropertyNameCollisionToMap(PropertyNameCollision instance
   final _reflection = PropertyNameCollisionReflection.instance;
   return <String, dynamic>{
     if (instance.$type.isDefined)
-    _reflection.$type.oasName: (
+    _reflection.$typePart.oasName: (
             String
  v) {
       return v;
     }(instance.$type.valueRequired),
     if (instance.type.isDefined)
-    _reflection.type.oasName: (
+    _reflection.typePart.oasName: (
             String
  v) {
       return v;
     }(instance.type.valueRequired),
     if (instance.type$.isDefined)
-    _reflection.type$.oasName: (
+    _reflection.type$Part.oasName: (
             String
  v) {
       return v;
@@ -32,39 +32,54 @@ Map<String, dynamic> _$PropertyNameCollisionToMap(PropertyNameCollision instance
 }
 
 PropertyNameCollision _$PropertyNameCollisionFromMap(Map<String, dynamic> src) {
-  final _reflection = PropertyNameCollisionReflection.instance;
+  const _reflection = PropertyNameCollisionReflection.instance;
   return PropertyNameCollision.$all(
-    $type: src.getOrUndefinedMapped(_reflection.$type.oasName, (v) => 
+    $type: src.getOrUndefinedMapped(_reflection.$typePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-type: src.getOrUndefinedMapped(_reflection.type.oasName, (v) => 
+type: src.getOrUndefinedMapped(_reflection.typePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-type$: src.getOrUndefinedMapped(_reflection.type$.oasName, (v) => 
+type$: src.getOrUndefinedMapped(_reflection.type$Part.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -82,39 +97,55 @@ v
 
 bool _$PropertyNameCollisionCanFromMap(Map<String, dynamic> src) {
   final _reflection = PropertyNameCollisionReflection.instance;
-  if (!src.getOrUndefined(_reflection.$type.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.$typePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.$type.required,
+    unDefined: () => !_reflection.$typePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.type.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.typePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.type.required,
+    unDefined: () => !_reflection.typePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.type$.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.type$Part.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.type$.required,
+    unDefined: () => !_reflection.type$Part.required,
 )) {
     return false;
   }
@@ -124,7 +155,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -148,11 +179,14 @@ bool _$PropertyNameCollisionCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$PropertyNameCollisionSerialize(PropertyNameCollision src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$PropertyNameCollisionSerialize(PropertyNameCollision src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'scalar_any_of.reflection.dart';
@@ -25,7 +25,6 @@ mixin ScalarAnyOfMixin on
 /// Values of scalar type using anyOf
 class ScalarAnyOf with
 $OpenApiObjectMixin,
-
 
 ScalarAnyOfMixin {
 
@@ -69,6 +68,7 @@ ScalarAnyOfMixin {
   });
 
   static const $reflection = ScalarAnyOfReflection.instance;
+  ScalarAnyOfReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
@@ -81,7 +81,6 @@ ScalarAnyOfMixin {
       
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$ScalarAnyOfToMap(this);

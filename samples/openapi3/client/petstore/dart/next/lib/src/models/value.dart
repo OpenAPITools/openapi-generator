@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'value.reflection.dart';
@@ -25,7 +25,6 @@ mixin ValueMixin on
 /// Value
 class Value with
 $OpenApiObjectMixin,
-
 
 ValueMixin {
 
@@ -62,6 +61,7 @@ ValueMixin {
   });
 
   static const $reflection = ValueReflection.instance;
+  ValueReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
@@ -74,7 +74,6 @@ ValueMixin {
       
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$ValueToMap(this);

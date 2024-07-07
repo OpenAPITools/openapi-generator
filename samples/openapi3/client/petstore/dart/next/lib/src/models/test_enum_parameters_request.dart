@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'test_enum_parameters_request.reflection.dart';
@@ -33,7 +33,6 @@ UndefinedWrapper<
 /// * [enumFormString] - Form parameter enum test (string)
 class TestEnumParametersRequest with
 $OpenApiObjectMixin,
-
 
 TestEnumParametersRequestMixin {
   @override
@@ -76,12 +75,12 @@ TestEnumParametersRequestMixin {
   });
 
   static const $reflection = TestEnumParametersRequestReflection.instance;
+  TestEnumParametersRequestReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$TestEnumParametersRequestToMap(this);
@@ -141,6 +140,10 @@ extension type const TestEnumParametersRequestEnumFormStringArrayEnum._(String v
     return res;
   }
 
+  static bool canDeserialize(Object? value) {
+    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  }
+
   /// Creates a [TestEnumParametersRequestEnumFormStringArrayEnum] enum from a value without checking if it exists.
   const TestEnumParametersRequestEnumFormStringArrayEnum.$unsafe(String value) : this._(value);
 
@@ -167,6 +170,10 @@ extension type const TestEnumParametersRequestEnumFormStringEnum._(String value)
       throw 'Invalid enum value $value';
     }
     return res;
+  }
+
+  static bool canDeserialize(Object? value) {
+    return value is String && values.where((element) => element.value == value).firstOrNull != null;
   }
 
   /// Creates a [TestEnumParametersRequestEnumFormStringEnum] enum from a value without checking if it exists.

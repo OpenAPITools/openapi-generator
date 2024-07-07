@@ -6,42 +6,120 @@ part of 'special_model_name.dart';
 //class reflection
 
 class SpecialModelNameReflection extends ClassReflection<SpecialModelName> {
+  static SpecialModelNameReflection instanceGetter() => instance;
   static const instance = SpecialModelNameReflection._(
-    $specialPropertyName: PropertyReflection(
+    modelName: r'_special_model.name_',
+    className: r'SpecialModelName',
+    $specialPropertyNamePart: PropertyReflection<SpecialModelName, UndefinedWrapper<
+            int
+>>(
       dartName: r'$specialPropertyName',
       nullable: false,
       required: false,
       oasName: r'$special[property.name]',
       oasType: r'integer',
       pattern: null,
+      parentReflectionGetter:  instanceGetter,
+      isDiscriminator: false,
+      getter: _$specialPropertyNameGetter,
+      setter: _$specialPropertyNameSetter,
     ),
-    specialModelName: PropertyReflection(
+    specialModelNamePart: PropertyReflection<SpecialModelName, UndefinedWrapper<
+            String
+>>(
       dartName: r'specialModelName',
       nullable: false,
       required: false,
       oasName: r'_special_model.name_',
       oasType: r'string',
       pattern: null,
+      parentReflectionGetter:  instanceGetter,
+      isDiscriminator: false,
+      getter: _specialModelNameGetter,
+      setter: _specialModelNameSetter,
     ),
+    
+    
+    additionalPropertiesPart: AdditionalPropertiesReflection(
+      parentReflectionGetter: instanceGetter,
+      itemsReflection: ItemsReflection<SpecialModelName, Object
+?>(parentReflectionGetter: instanceGetter,),
+          ),
   );
   const SpecialModelNameReflection._({
-    required this.$specialPropertyName,
-  
-    required this.specialModelName,
+    required this.modelName,
+    required this.className,
+    required this.$specialPropertyNamePart,
+    required this.specialModelNamePart,
+    this.discriminatorKey,
+    this.discriminatorMappings = const {},
+    this.discriminatorImplicitMappings = const {},
+        
+    required this.additionalPropertiesPart,
   });
 
-  final PropertyReflection<UndefinedWrapper<
+  final PropertyReflection<SpecialModelName, UndefinedWrapper<
             int
->> $specialPropertyName;
-  final PropertyReflection<UndefinedWrapper<
+>> $specialPropertyNamePart;
+  static UndefinedWrapper<
+            int
+> _$specialPropertyNameGetter(SpecialModelName parent) {
+    return parent.$specialPropertyName;
+  }
+  static void _$specialPropertyNameSetter(SpecialModelName parent, UndefinedWrapper<
+            int
+> value) {
+    parent.$specialPropertyName = value;
+  }
+  final PropertyReflection<SpecialModelName, UndefinedWrapper<
             String
->> specialModelName;
+>> specialModelNamePart;
+  static UndefinedWrapper<
+            String
+> _specialModelNameGetter(SpecialModelName parent) {
+    return parent.specialModelName;
+  }
+  static void _specialModelNameSetter(SpecialModelName parent, UndefinedWrapper<
+            String
+> value) {
+    parent.specialModelName = value;
+  }
+
+
 
   @override
-  List<PropertyReflection> get members => [
-    $specialPropertyName,
-specialModelName,
+  final Map<String, ClassReflection> discriminatorMappings;
+  @override
+  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  @override
+  final String? discriminatorKey;
+  @override
+  final String modelName;
+  @override
+  final String className;
+
+
+  @override
+  List<PropertyReflection<SpecialModelName, dynamic>> get properties => [
+    $specialPropertyNamePart,
+specialModelNamePart,
   ];
+
+  final AdditionalPropertiesReflection<SpecialModelName, Object
+?> additionalPropertiesPart;
+
+  
+  
+  @override
+  List<PartReflection<SpecialModelName, dynamic>> get parts => [
+    ...super.parts,
+    additionalPropertiesPart,
+  ];
+  @override
+  List<AllOfReflection<SpecialModelName, dynamic>> get allOfs => [
+    
+  ];
+
 
   @override
   bool Function(Object? src) get canDeserializeFunction =>
@@ -53,6 +131,64 @@ specialModelName,
   @override
   Object? Function(SpecialModelName src) get serializeFunction =>
       (src) => src.serialize();
+
+  /// Gets an example of SpecialModelName.
+  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
+  ///  calling [aggregatedDiscriminators].
+  SpecialModelName example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+    final _reflection = this;
+    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
+    return SpecialModelName(
+      $specialPropertyName: () {
+        PartReflection? _partReflection = _reflection.$specialPropertyNamePart;
+        
+        return UndefinedWrapper(
+
+
+            
+            
+
+
+    
+    exampleint()
+
+
+);
+      }(),
+      specialModelName: () {
+        PartReflection? _partReflection = _reflection.specialModelNamePart;
+        
+        final disc = discriminators[r'_special_model.name_'];
+        if (disc != null) {
+          final result = exampleDiscriminator(_partReflection, disc);
+          if (result != null) {
+            return UndefinedWrapper(result);
+          }
+        }
+        
+        return UndefinedWrapper(
+
+
+            
+            
+
+
+    
+    exampleString()
+
+
+);
+      }(),
+      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+
+exampleObject()
+
+
+
+ ) )); }(),
+      
+    );
+  }
 }
 
 class SpecialModelNameXmlReflection {

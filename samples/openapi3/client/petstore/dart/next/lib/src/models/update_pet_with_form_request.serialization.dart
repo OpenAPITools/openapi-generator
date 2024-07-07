@@ -9,13 +9,13 @@ Map<String, dynamic> _$UpdatePetWithFormRequestToMap(UpdatePetWithFormRequest in
   final _reflection = UpdatePetWithFormRequestReflection.instance;
   return <String, dynamic>{
     if (instance.name.isDefined)
-    _reflection.name.oasName: (
+    _reflection.namePart.oasName: (
             String
  v) {
       return v;
     }(instance.name.valueRequired),
     if (instance.status.isDefined)
-    _reflection.status.oasName: (
+    _reflection.statusPart.oasName: (
             String
  v) {
       return v;
@@ -26,27 +26,37 @@ Map<String, dynamic> _$UpdatePetWithFormRequestToMap(UpdatePetWithFormRequest in
 }
 
 UpdatePetWithFormRequest _$UpdatePetWithFormRequestFromMap(Map<String, dynamic> src) {
-  final _reflection = UpdatePetWithFormRequestReflection.instance;
+  const _reflection = UpdatePetWithFormRequestReflection.instance;
   return UpdatePetWithFormRequest.$all(
-    name: src.getOrUndefinedMapped(_reflection.name.oasName, (v) => 
+    name: src.getOrUndefinedMapped(_reflection.namePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-status: src.getOrUndefinedMapped(_reflection.status.oasName, (v) => 
+status: src.getOrUndefinedMapped(_reflection.statusPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -64,27 +74,38 @@ v
 
 bool _$UpdatePetWithFormRequestCanFromMap(Map<String, dynamic> src) {
   final _reflection = UpdatePetWithFormRequestReflection.instance;
-  if (!src.getOrUndefined(_reflection.name.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.namePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.name.required,
+    unDefined: () => !_reflection.namePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.status.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.statusPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.status.required,
+    unDefined: () => !_reflection.statusPart.required,
 )) {
     return false;
   }
@@ -94,7 +115,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -118,11 +139,14 @@ bool _$UpdatePetWithFormRequestCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$UpdatePetWithFormRequestSerialize(UpdatePetWithFormRequest src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$UpdatePetWithFormRequestSerialize(UpdatePetWithFormRequest src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

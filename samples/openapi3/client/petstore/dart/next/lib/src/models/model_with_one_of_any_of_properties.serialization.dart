@@ -9,13 +9,13 @@ Map<String, dynamic> _$ModelWithOneOfAnyOfPropertiesToMap(ModelWithOneOfAnyOfPro
   final _reflection = ModelWithOneOfAnyOfPropertiesReflection.instance;
   return <String, dynamic>{
     if (instance.oneofProp.isDefined)
-    _reflection.oneofProp.oasName: (
+    _reflection.oneofPropPart.oasName: (
             ArrayOneOf
  v) {
       return v.serialize();
     }(instance.oneofProp.valueRequired),
     if (instance.anyofProp.isDefined)
-    _reflection.anyofProp.oasName: (
+    _reflection.anyofPropPart.oasName: (
             ArrayAnyOf
  v) {
       return v.serialize();
@@ -26,25 +26,21 @@ Map<String, dynamic> _$ModelWithOneOfAnyOfPropertiesToMap(ModelWithOneOfAnyOfPro
 }
 
 ModelWithOneOfAnyOfProperties _$ModelWithOneOfAnyOfPropertiesFromMap(Map<String, dynamic> src) {
-  final _reflection = ModelWithOneOfAnyOfPropertiesReflection.instance;
+  const _reflection = ModelWithOneOfAnyOfPropertiesReflection.instance;
   return ModelWithOneOfAnyOfProperties.$all(
-    oneofProp: src.getOrUndefinedMapped(_reflection.oneofProp.oasName, (v) => ArrayOneOf.deserialize
+    oneofProp: src.getOrUndefinedMapped(_reflection.oneofPropPart.oasName, (v) => ArrayOneOf.deserialize
 (
 
-    
             v
-
 
 )
 
 
 ),
-anyofProp: src.getOrUndefinedMapped(_reflection.anyofProp.oasName, (v) => ArrayAnyOf.deserialize
+anyofProp: src.getOrUndefinedMapped(_reflection.anyofPropPart.oasName, (v) => ArrayAnyOf.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -62,7 +58,8 @@ v
 
 bool _$ModelWithOneOfAnyOfPropertiesCanFromMap(Map<String, dynamic> src) {
   final _reflection = ModelWithOneOfAnyOfPropertiesReflection.instance;
-  if (!src.getOrUndefined(_reflection.oneofProp.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.oneofPropPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -70,11 +67,11 @@ bool _$ModelWithOneOfAnyOfPropertiesCanFromMap(Map<String, dynamic> src) {
             ArrayOneOf.canDeserialize(v)
             
 ),
-    unDefined: () => !_reflection.oneofProp.required,
+    unDefined: () => !_reflection.oneofPropPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.anyofProp.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.anyofPropPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -82,7 +79,7 @@ if (!src.getOrUndefined(_reflection.anyofProp.oasName).split<bool>(
             ArrayAnyOf.canDeserialize(v)
             
 ),
-    unDefined: () => !_reflection.anyofProp.required,
+    unDefined: () => !_reflection.anyofPropPart.required,
 )) {
     return false;
   }
@@ -92,7 +89,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -116,11 +113,14 @@ bool _$ModelWithOneOfAnyOfPropertiesCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$ModelWithOneOfAnyOfPropertiesSerialize(ModelWithOneOfAnyOfProperties src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$ModelWithOneOfAnyOfPropertiesSerialize(ModelWithOneOfAnyOfProperties src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

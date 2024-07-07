@@ -9,72 +9,72 @@ Map<String, dynamic> _$UserToMap(User instance) {
   final _reflection = UserReflection.instance;
   return <String, dynamic>{
     if (instance.id.isDefined)
-    _reflection.id.oasName: (
+    _reflection.idPart.oasName: (
             int
  v) {
       return v;
     }(instance.id.valueRequired),
     if (instance.username.isDefined)
-    _reflection.username.oasName: (
+    _reflection.usernamePart.oasName: (
             String
  v) {
       return v;
     }(instance.username.valueRequired),
     if (instance.firstName.isDefined)
-    _reflection.firstName.oasName: (
+    _reflection.firstNamePart.oasName: (
             String
  v) {
       return v;
     }(instance.firstName.valueRequired),
     if (instance.lastName.isDefined)
-    _reflection.lastName.oasName: (
+    _reflection.lastNamePart.oasName: (
             String
  v) {
       return v;
     }(instance.lastName.valueRequired),
     if (instance.email.isDefined)
-    _reflection.email.oasName: (
+    _reflection.emailPart.oasName: (
             String
  v) {
       return v;
     }(instance.email.valueRequired),
     if (instance.password.isDefined)
-    _reflection.password.oasName: (
+    _reflection.passwordPart.oasName: (
             String
  v) {
       return v;
     }(instance.password.valueRequired),
     if (instance.phone.isDefined)
-    _reflection.phone.oasName: (
+    _reflection.phonePart.oasName: (
             String
  v) {
       return v;
     }(instance.phone.valueRequired),
     if (instance.userStatus.isDefined)
-    _reflection.userStatus.oasName: (
+    _reflection.userStatusPart.oasName: (
             int
  v) {
       return v;
     }(instance.userStatus.valueRequired),
     if (instance.objectWithNoDeclaredProps.isDefined)
-    _reflection.objectWithNoDeclaredProps.oasName: (
-            Map<String, Object?>
+    _reflection.objectWithNoDeclaredPropsPart.oasName: (
+            $FreeFormObject
  v) {
       return v;
     }(instance.objectWithNoDeclaredProps.valueRequired),
     if (instance.objectWithNoDeclaredPropsNullable.isDefined)
-    _reflection.objectWithNoDeclaredPropsNullable.oasName: (
-            Map<String, Object?>
+    _reflection.objectWithNoDeclaredPropsNullablePart.oasName: (
+            $FreeFormObject
 ? v) {
       return v;
     }(instance.objectWithNoDeclaredPropsNullable.valueRequired),
     if (instance.anyTypeProp.isDefined)
-    _reflection.anyTypeProp.oasName: (Object
+    _reflection.anyTypePropPart.oasName: (Object
 ? v) {
       return v;
     }(instance.anyTypeProp.valueRequired),
     if (instance.anyTypePropNullable.isDefined)
-    _reflection.anyTypePropNullable.oasName: (Object
+    _reflection.anyTypePropNullablePart.oasName: (Object
 ? v) {
       return v;
     }(instance.anyTypePropNullable.valueRequired),
@@ -84,129 +84,181 @@ Map<String, dynamic> _$UserToMap(User instance) {
 }
 
 User _$UserFromMap(Map<String, dynamic> src) {
-  final _reflection = UserReflection.instance;
+  const _reflection = UserReflection.instance;
   return User.$all(
-    id: src.getOrUndefinedMapped(_reflection.id.oasName, (v) => 
+    id: src.getOrUndefinedMapped(_reflection.idPart.oasName, (v) => 
 (
 
-    
             
-                    v as int
-            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-username: src.getOrUndefinedMapped(_reflection.username.oasName, (v) => 
+username: src.getOrUndefinedMapped(_reflection.usernamePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-firstName: src.getOrUndefinedMapped(_reflection.firstName.oasName, (v) => 
+firstName: src.getOrUndefinedMapped(_reflection.firstNamePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-lastName: src.getOrUndefinedMapped(_reflection.lastName.oasName, (v) => 
+lastName: src.getOrUndefinedMapped(_reflection.lastNamePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-email: src.getOrUndefinedMapped(_reflection.email.oasName, (v) => 
+email: src.getOrUndefinedMapped(_reflection.emailPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-password: src.getOrUndefinedMapped(_reflection.password.oasName, (v) => 
+password: src.getOrUndefinedMapped(_reflection.passwordPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-phone: src.getOrUndefinedMapped(_reflection.phone.oasName, (v) => 
+phone: src.getOrUndefinedMapped(_reflection.phonePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-userStatus: src.getOrUndefinedMapped(_reflection.userStatus.oasName, (v) => 
+userStatus: src.getOrUndefinedMapped(_reflection.userStatusPart.oasName, (v) => 
 (
 
-    
             
-                    v as int
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
+
+)
+
+
+),
+objectWithNoDeclaredProps: src.getOrUndefinedMapped(_reflection.objectWithNoDeclaredPropsPart.oasName, (v) => 
+(
+
             
+                    ( v is $FreeFormObject ? v as $FreeFormObject :
+
+
+
+
+throwArgumentMismatch($FreeFormObject, v)
+
+)
 
 )
 
 
 ),
-objectWithNoDeclaredProps: src.getOrUndefinedMapped(_reflection.objectWithNoDeclaredProps.oasName, (v) => 
+objectWithNoDeclaredPropsNullable: src.getOrUndefinedMapped(_reflection.objectWithNoDeclaredPropsNullablePart.oasName, (v) => 
 (
 
-    v as Map<String, dynamic>
+            
+                    (v == null ? null :  v is $FreeFormObject ? v as $FreeFormObject :
+
+
+
+
+throwArgumentMismatch($FreeFormObject, v)
+
+)
 
 )
 
 
 ),
-objectWithNoDeclaredPropsNullable: src.getOrUndefinedMapped(_reflection.objectWithNoDeclaredPropsNullable.oasName, (v) => 
-(
-
-    v as Map<String, dynamic>?
-
-)
-
-
-),
-anyTypeProp: src.getOrUndefinedMapped(_reflection.anyTypeProp.oasName, (v) => 
+anyTypeProp: src.getOrUndefinedMapped(_reflection.anyTypePropPart.oasName, (v) => 
 (
 v
 
 )
 ),
-anyTypePropNullable: src.getOrUndefinedMapped(_reflection.anyTypePropNullable.oasName, (v) => 
+anyTypePropNullable: src.getOrUndefinedMapped(_reflection.anyTypePropNullablePart.oasName, (v) => 
 (
 v
 
@@ -224,137 +276,178 @@ v
 
 bool _$UserCanFromMap(Map<String, dynamic> src) {
   final _reflection = UserReflection.instance;
-  if (!src.getOrUndefined(_reflection.id.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.idPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.id.required,
+    unDefined: () => !_reflection.idPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.username.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.usernamePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.username.required,
+    unDefined: () => !_reflection.usernamePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.firstName.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.firstNamePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.firstName.required,
+    unDefined: () => !_reflection.firstNamePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.lastName.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.lastNamePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.lastName.required,
+    unDefined: () => !_reflection.lastNamePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.email.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.emailPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.email.required,
+    unDefined: () => !_reflection.emailPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.password.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.passwordPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.password.required,
+    unDefined: () => !_reflection.passwordPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.phone.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.phonePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.phone.required,
+    unDefined: () => !_reflection.phonePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.userStatus.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.userStatusPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.userStatus.required,
+    unDefined: () => !_reflection.userStatusPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.objectWithNoDeclaredProps.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.objectWithNoDeclaredPropsPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     v is Map<String, dynamic>
 ),
-    unDefined: () => !_reflection.objectWithNoDeclaredProps.required,
+    unDefined: () => !_reflection.objectWithNoDeclaredPropsPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.objectWithNoDeclaredPropsNullable.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.objectWithNoDeclaredPropsNullablePart.oasName).split<bool>(
     defined: (v) => v == null ? true :
 (
 
     v is Map<String, dynamic>
 ),
-    unDefined: () => !_reflection.objectWithNoDeclaredPropsNullable.required,
+    unDefined: () => !_reflection.objectWithNoDeclaredPropsNullablePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.anyTypeProp.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.anyTypePropPart.oasName).split<bool>(
     defined: (v) => v == null ? true :
 (
 true
 ),
-    unDefined: () => !_reflection.anyTypeProp.required,
+    unDefined: () => !_reflection.anyTypePropPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.anyTypePropNullable.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.anyTypePropNullablePart.oasName).split<bool>(
     defined: (v) => v == null ? true :
 (
 true
 ),
-    unDefined: () => !_reflection.anyTypePropNullable.required,
+    unDefined: () => !_reflection.anyTypePropNullablePart.required,
 )) {
     return false;
   }
@@ -364,7 +457,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -388,11 +481,14 @@ bool _$UserCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$UserSerialize(User src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$UserSerialize(User src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

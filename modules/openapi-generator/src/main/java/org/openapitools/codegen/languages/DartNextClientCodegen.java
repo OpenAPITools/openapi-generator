@@ -127,8 +127,8 @@ public class DartNextClientCodegen extends DefaultCodegen {
 
     protected String apiDocFolder = "doc" + File.separator;
     protected String modelDocFolder = "doc" + File.separator;
-    protected String apiTestFolder = "test" + File.separator;
-    protected String modelTestFolder = "test" + File.separator;
+    protected String apiTestFolder = "test" + File.separator + "apis" + File.separator;
+    protected String modelTestFolder = "test" + File.separator + "models" + File.separator;
 
     protected Map<String, String> imports = new HashMap<>();
 
@@ -241,7 +241,7 @@ public class DartNextClientCodegen extends DefaultCodegen {
         typeMapping.put("UUID", "String");
         typeMapping.put("URI", "Uri");
         typeMapping.put("ByteArray", "Uint8List");
-        typeMapping.put("object", "Map<String, Object?>");
+        typeMapping.put("object", "$FreeFormObject");
         typeMapping.put("AnyType", "Object");
 
         // Data types of the above values which are automatically imported
@@ -438,10 +438,16 @@ public class DartNextClientCodegen extends DefaultCodegen {
 
         String apisMustache = "lib/src/apis/";
         String modelsMustache = "lib/src/models/";
+        String testsMustache = "test/";
+        String modelsTestsMustache = testsMustache + "models/";
+        String apisTestsMustache = testsMustache + "apis/";
 
         modelTemplateFiles.put(modelsMustache + "model.mustache", ".dart");
         modelTemplateFiles.put(modelsMustache + "model.reflection.mustache", ".reflection.dart");
         modelTemplateFiles.put(modelsMustache + "model.serialization.mustache", ".serialization.dart");
+
+        modelTestTemplateFiles.put(modelsTestsMustache + "model_tests.mustache", ".dart");
+        apiTestTemplateFiles.put(apisTestsMustache + "api_tests.mustache", ".dart");
 
         apiTemplateFiles.put(apisMustache + "api.mustache", ".dart");
         apiTemplateFiles.put(apisMustache + "api_requests.mustache", ".requests.dart");
@@ -483,6 +489,9 @@ public class DartNextClientCodegen extends DefaultCodegen {
         supportingFiles
                 .add(new SupportingFile(serializationMustache + "additional_properties.mustache", serializationPath(),
                         "additional_properties.dart"));
+        supportingFiles
+                .add(new SupportingFile(serializationMustache + "examples.mustache", serializationPath(),
+                        "examples.dart"));
         supportingFiles
                 .add(new SupportingFile(serializationMustache + "open_api_object.mustache", serializationPath(),
                         "open_api_object.dart"));
@@ -571,14 +580,13 @@ public class DartNextClientCodegen extends DefaultCodegen {
             varLocation.put(kIsChild, isChild);
             varLocation.put(kIsParent, isParent);
             varLocation.put(kIsPure, isPure);
-            if (!isParent && (cm.oneOf == null || cm.oneOf.isEmpty())) {
-                // discriminator has no meaning here
-                if (cm.discriminator != null) {
-                    varLocation.put(kParentDiscriminator, cm.discriminator);
-                    cm.discriminator = null;
-                }
-
-            }
+            // if (!isParent && (cm.oneOf == null || cm.oneOf.isEmpty())) {
+            //     // discriminator has no meaning here
+            //     if (cm.discriminator != null) {
+            //         varLocation.put(kParentDiscriminator, cm.discriminator);
+            //         cm.discriminator = null;
+            //     }
+            // }
             // when pure:
             // vars = allVars = selfOnlyProperties = kSelfAndAncestorOnlyProps
             // ancestorOnlyProps = empty
@@ -1069,26 +1077,19 @@ public class DartNextClientCodegen extends DefaultCodegen {
     @Override
     public CodegenProperty fromProperty(String name, Schema p, boolean required,
             boolean schemaIsFromAdditionalProperties) {
-        // TODO Auto-generated method stub
-        return super.fromProperty(name, p, required, schemaIsFromAdditionalProperties);
+        var result = super.fromProperty(name, p, required,
+                schemaIsFromAdditionalProperties);
+        // Fix for DefaultGenerator setting isModel to false when it has both
+        // properties + additionalProperties.
+        Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
+        if (referencedSchema != null && !result.isModel &&
+                ModelUtils.isModel(referencedSchema) &&
+                referencedSchema.getProperties() != null &&
+                !referencedSchema.getProperties().isEmpty()) {
+            result.isModel = true;
+        }
+        return result;
     }
-
-    // @Override
-    // public CodegenProperty fromProperty(String name, Schema p, boolean required,
-    // boolean schemaIsFromAdditionalProperties) {
-    // var result = super.fromProperty(name, p, required,
-    // schemaIsFromAdditionalProperties);
-    // // Fix for DefaultGenerator setting isModel to false when it has both
-    // // properties + additionalProperties.
-    // Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
-    // if (referencedSchema != null && !result.isModel &&
-    // ModelUtils.isModel(referencedSchema) &&
-    // referencedSchema.getProperties() != null &&
-    // !referencedSchema.getProperties().isEmpty()) {
-    // result.isModel = true;
-    // }
-    // return result;
-    // }
 
     @Override
     public String getTypeDeclaration(Schema p) {

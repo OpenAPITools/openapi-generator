@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'free_form_object_test_class_properties.reflection.dart';
@@ -24,7 +24,6 @@ mixin FreeFormObjectTestClassPropertiesMixin on
 /// FreeFormObjectTestClassProperties
 class FreeFormObjectTestClassProperties with
 $OpenApiObjectMixin,
-
 
 FreeFormObjectTestClassPropertiesMixin {
 
@@ -60,6 +59,7 @@ FreeFormObjectTestClassPropertiesMixin {
   });
 
   static const $reflection = FreeFormObjectTestClassPropertiesReflection.instance;
+  FreeFormObjectTestClassPropertiesReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
@@ -72,7 +72,6 @@ FreeFormObjectTestClassPropertiesMixin {
       
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$FreeFormObjectTestClassPropertiesToMap(this);

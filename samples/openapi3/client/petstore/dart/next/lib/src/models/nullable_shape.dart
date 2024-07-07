@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'nullable_shape.reflection.dart';
@@ -22,7 +22,6 @@ mixin NullableShapeMixin on
 /// The value may be a shape or the 'null' value. The 'nullable' attribute was introduced in OAS schema >= 3.0 and has been deprecated in OAS schema >= 3.1.
 class NullableShape with
 $OpenApiObjectMixin,
-
 
 NullableShapeMixin {
 
@@ -56,6 +55,7 @@ NullableShapeMixin {
   });
 
   static const $reflection = NullableShapeReflection.instance;
+  NullableShapeReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
@@ -68,7 +68,6 @@ NullableShapeMixin {
       
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$NullableShapeToMap(this);

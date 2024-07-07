@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'user.reflection.dart';
@@ -49,10 +49,10 @@ UndefinedWrapper<
             int
 > get userStatus;
 UndefinedWrapper<
-            Map<String, Object?>
+            $FreeFormObject
 > get objectWithNoDeclaredProps;
 UndefinedWrapper<
-            Map<String, Object?>
+            $FreeFormObject
 ?> get objectWithNoDeclaredPropsNullable;
 UndefinedWrapper<Object
 ?> get anyTypeProp;
@@ -78,7 +78,6 @@ UndefinedWrapper<Object
 /// * [anyTypePropNullable] - test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The 'nullable' attribute does not change the allowed values.
 class User with
 $OpenApiObjectMixin,
-
 
 UserMixin {
   @override
@@ -115,11 +114,11 @@ UserMixin {
 > userStatus;
   @override
   UndefinedWrapper<
-            Map<String, Object?>
+            $FreeFormObject
 > objectWithNoDeclaredProps;
   @override
   UndefinedWrapper<
-            Map<String, Object?>
+            $FreeFormObject
 ?> objectWithNoDeclaredPropsNullable;
   @override
   UndefinedWrapper<Object
@@ -192,12 +191,12 @@ UserMixin {
   });
 
   static const $reflection = UserReflection.instance;
+  UserReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$UserToMap(this);

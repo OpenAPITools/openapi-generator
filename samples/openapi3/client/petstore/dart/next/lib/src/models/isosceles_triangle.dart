@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'isosceles_triangle.reflection.dart';
@@ -22,7 +22,6 @@ mixin IsoscelesTriangleMixin on
 /// * [triangleType] 
 class IsoscelesTriangle with
 $OpenApiObjectMixin,
-
 ShapeInterfaceMixin,TriangleInterfaceMixin,
 IsoscelesTriangleMixin {
   @override
@@ -53,6 +52,7 @@ required  this.triangleType     ,
   });
 
   static const $reflection = IsoscelesTriangleReflection.instance;
+  IsoscelesTriangleReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
@@ -60,7 +60,6 @@ required  this.triangleType     ,
       
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$IsoscelesTriangleToMap(this);

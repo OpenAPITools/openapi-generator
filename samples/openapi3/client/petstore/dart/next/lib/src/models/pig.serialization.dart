@@ -18,7 +18,11 @@ Map<String, dynamic> _$PigToMap(Pig instance) {
 }
 
 Pig _$PigFromMap(Map<String, dynamic> src) {
-  final _reflection = PigReflection.instance;
+  const _reflection = PigReflection.instance;
+  final discriminatorKey = _reflection.discriminatorKey;
+  final discriminatorValue = src[discriminatorKey]?.toString();
+  //when we have a discriminator, we pick one model
+  final modelReflection = _reflection.tryGetDiscriminatorModel(discriminatorValue);
   return Pig.$all(
         additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
 (
@@ -27,24 +31,33 @@ v
 )
 ))),
     
-    oneOf0: BasquePig.canDeserialize(src) ? UndefinedWrapper(BasquePig.deserialize(src)) :  UndefinedWrapper.undefined(),
-    oneOf1: DanishPig.canDeserialize(src) ? UndefinedWrapper(DanishPig.deserialize(src)) :  UndefinedWrapper.undefined(),
+    oneOf0: modelReflection is ClassReflection<BasquePig> ? UndefinedWrapper(modelReflection.deserializeFunction(src)) : UndefinedWrapper.undefined(),
+    oneOf1: modelReflection is ClassReflection<DanishPig> ? UndefinedWrapper(modelReflection.deserializeFunction(src)) : UndefinedWrapper.undefined(),
   );
 }
 
 bool _$PigCanFromMap(Map<String, dynamic> src) {
   final _reflection = PigReflection.instance;
+
     if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
 (
 true
 ))) {
     return false;
   }
-  
+
+
+  final discriminatorKey = _reflection.discriminatorKey;
+  final discriminatorValue = src[discriminatorKey]?.toString();
+  //when we have a discriminator, we pick one model
+  final modelReflection = _reflection.tryGetDiscriminatorModel(discriminatorValue);
+  if (modelReflection != null) {
+    // a discriminator is defined AND it exists in the src.
+    return modelReflection.canDeserializeFunction(src);
+  }
   final oneOfs = [
     () => BasquePig.canDeserialize(src),
-  
-    () => DanishPig.canDeserialize(src),
+      () => DanishPig.canDeserialize(src),
   ];
   final validOneOfs = oneOfs.where((x) => x()).take(2).length;
   if (validOneOfs == 0 || validOneOfs > 1) {
@@ -71,9 +84,7 @@ Pig _$PigDeserialize(Object? src) {
 )) ? UndefinedWrapper(BasquePig.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -87,9 +98,7 @@ Pig _$PigDeserialize(Object? src) {
 )) ? UndefinedWrapper(DanishPig.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -133,11 +142,20 @@ bool _$PigCanDeserialize(Object? src) {
 
 /// Serializes to a primitive Object (num, String, List, Map).
 Object? _$PigSerialize(Pig src) {
-  
-  
-  if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.serialize(); }
-  if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.serialize(); }
-  return null;
+  Object? initialResult = () {
+    
+    
+    if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.serialize(); }
+    if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.serialize(); }
+    return null;
+  }();
+  if (initialResult is Map<String, Object?>) {
+    return {
+      ...src.additionalProperties,
+      ...initialResult,
+    };
+  }
+  return initialResult;
 }
 
 

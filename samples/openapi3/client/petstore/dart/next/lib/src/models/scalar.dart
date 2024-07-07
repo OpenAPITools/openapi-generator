@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'scalar.reflection.dart';
@@ -25,7 +25,6 @@ mixin ScalarMixin on
 /// Values of scalar type
 class Scalar with
 $OpenApiObjectMixin,
-
 
 ScalarMixin {
 
@@ -66,6 +65,7 @@ ScalarMixin {
   });
 
   static const $reflection = ScalarReflection.instance;
+  ScalarReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
@@ -78,7 +78,6 @@ ScalarMixin {
       
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$ScalarToMap(this);

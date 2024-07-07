@@ -2,9 +2,7 @@
 (
 {{#isAnyType}}v{{/isAnyType}}
 {{^isAnyType}}
-    {{#isFreeFormObject}}v as Map<String, dynamic>{{#isNullable}}?{{/isNullable}}{{/isFreeFormObject}}
-    {{^isFreeFormObject}}
-        {{#isContainer}}
+    {{#isContainer}}
             {{#isMap}}v as Map<String, dynamic>{{/isMap}}
             {{#isArray}}v as List{{/isArray}}
             {{#isNullable}}?{{/isNullable}}
@@ -13,14 +11,13 @@
             {{#isModel}}v{{/isModel}}
             {{^isModel}}
                 {{#isEnum}}
-                    {{datatypeWithEnum}}.$safe(v as {{dataType}})
+                    {{datatypeWithEnum}}.$safe({{>types/deserialize_non_model}})
                 {{/isEnum}}
                 {{^isEnum}}
-                    v as {{dataType}}
+                    {{>types/deserialize_non_model}}
                 {{/isEnum}}
-            {{#isNullable}}?{{/isNullable}}{{/isModel}}
+            {{/isModel}}
         {{/isContainer}}
-    {{/isFreeFormObject}}
 {{/isAnyType}}
 {{!TODO: handle enums}}
 

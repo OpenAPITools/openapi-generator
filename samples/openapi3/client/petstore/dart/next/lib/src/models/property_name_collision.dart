@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'property_name_collision.reflection.dart';
@@ -35,7 +35,6 @@ UndefinedWrapper<
 /// * [type$] 
 class PropertyNameCollision with
 $OpenApiObjectMixin,
-
 
 PropertyNameCollisionMixin {
   @override
@@ -79,12 +78,12 @@ PropertyNameCollisionMixin {
   });
 
   static const $reflection = PropertyNameCollisionReflection.instance;
+  PropertyNameCollisionReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$PropertyNameCollisionToMap(this);

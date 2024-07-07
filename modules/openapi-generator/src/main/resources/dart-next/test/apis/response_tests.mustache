@@ -1,0 +1,26 @@
+group({{>lib/src/apis/response/response_class}}, () {
+  late {{>lib/src/apis/response/response_class}} response;
+  test('Unkown status code', () async {
+    response = await {{>lib/src/apis/response/response_class}}.fromResponse(
+      createFakeTextResponse(
+        statusCode: 2,
+        value: "value",
+      ),
+      context: {},
+    );
+    expect(response.statusCode, 2);
+  });
+  {{#responses}}
+  group({{>lib/src/apis/response/response_class_code}}, () {
+    test('Unkown mime', () async {
+
+    });
+    {{#content}}{{#entrySet}}{{#value}}{{#schema}}
+    test({{>lib/src/apis/response/response_class_code_mime}}, () async {
+
+    });
+    {{/schema}}{{/value}}{{/entrySet}}{{/content}}
+  });
+  {{/responses}}
+
+});

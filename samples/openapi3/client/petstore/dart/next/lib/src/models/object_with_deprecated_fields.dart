@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'object_with_deprecated_fields.reflection.dart';
@@ -43,7 +43,6 @@ UndefinedWrapper<
 /// * [bars] 
 class ObjectWithDeprecatedFields with
 $OpenApiObjectMixin,
-
 
 ObjectWithDeprecatedFieldsMixin {
   @override
@@ -98,12 +97,12 @@ ObjectWithDeprecatedFieldsMixin {
   });
 
   static const $reflection = ObjectWithDeprecatedFieldsReflection.instance;
+  ObjectWithDeprecatedFieldsReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$ObjectWithDeprecatedFieldsToMap(this);

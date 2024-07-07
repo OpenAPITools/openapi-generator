@@ -14,7 +14,7 @@ Map<String, dynamic> _$FakeAnyOfWIthSameErasureGet200ResponseToMap(FakeAnyOfWIth
 }
 
 FakeAnyOfWIthSameErasureGet200Response _$FakeAnyOfWIthSameErasureGet200ResponseFromMap(Map<String, dynamic> src) {
-  final _reflection = FakeAnyOfWIthSameErasureGet200ResponseReflection.instance;
+  const _reflection = FakeAnyOfWIthSameErasureGet200ResponseReflection.instance;
   return FakeAnyOfWIthSameErasureGet200Response.$all(
         additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
 (
@@ -30,13 +30,16 @@ v
 
 bool _$FakeAnyOfWIthSameErasureGet200ResponseCanFromMap(Map<String, dynamic> src) {
   final _reflection = FakeAnyOfWIthSameErasureGet200ResponseReflection.instance;
+
     if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
 (
 true
 ))) {
     return false;
   }
-  
+
+
+
   final anyOfs = [
   
   ];
@@ -67,12 +70,16 @@ FakeAnyOfWIthSameErasureGet200Response _$FakeAnyOfWIthSameErasureGet200ResponseD
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ))
 )) ? UndefinedWrapper(
 (
 
-    
             
             v as List
             
@@ -82,10 +89,15 @@ FakeAnyOfWIthSameErasureGet200Response _$FakeAnyOfWIthSameErasureGet200ResponseD
 .map((v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -102,12 +114,16 @@ FakeAnyOfWIthSameErasureGet200Response _$FakeAnyOfWIthSameErasureGet200ResponseD
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ))
 )) ? UndefinedWrapper(
 (
 
-    
             
             v as List
             
@@ -117,10 +133,13 @@ FakeAnyOfWIthSameErasureGet200Response _$FakeAnyOfWIthSameErasureGet200ResponseD
 .map((v) => 
 (
 
-    
             
-                    v as int
-            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
@@ -150,7 +169,12 @@ bool _$FakeAnyOfWIthSameErasureGet200ResponseCanDeserialize(Object? src) {
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ))
 ),
       () => v == null ? false :
@@ -163,7 +187,12 @@ bool _$FakeAnyOfWIthSameErasureGet200ResponseCanDeserialize(Object? src) {
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ))
 ),
     ];
@@ -177,13 +206,22 @@ bool _$FakeAnyOfWIthSameErasureGet200ResponseCanDeserialize(Object? src) {
 
 /// Serializes to a primitive Object (num, String, List, Map).
 Object? _$FakeAnyOfWIthSameErasureGet200ResponseSerialize(FakeAnyOfWIthSameErasureGet200Response src) {
-  
-  
-  if (src.anyOf0.isDefined) {final v = src.anyOf0.valueRequired; return v.map((v) => v).toList(); }
-  
-  if (src.anyOf1.isDefined) {final v = src.anyOf1.valueRequired; return v.map((v) => v).toList(); }
-  
-  return null;
+  Object? initialResult = () {
+    
+    
+    if (src.anyOf0.isDefined) {final v = src.anyOf0.valueRequired; return v.map((v) => v).toList(); }
+    
+    if (src.anyOf1.isDefined) {final v = src.anyOf1.valueRequired; return v.map((v) => v).toList(); }
+    
+    return null;
+  }();
+  if (initialResult is Map<String, Object?>) {
+    return {
+      ...src.additionalProperties,
+      ...initialResult,
+    };
+  }
+  return initialResult;
 }
 
 

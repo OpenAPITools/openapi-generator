@@ -9,7 +9,7 @@ Map<String, dynamic> _$AdditionalPropertiesClassToMap(AdditionalPropertiesClass 
   final _reflection = AdditionalPropertiesClassReflection.instance;
   return <String, dynamic>{
     if (instance.mapProperty.isDefined)
-    _reflection.mapProperty.oasName: (
+    _reflection.mapPropertyPart.oasName: (
     Map<String, 
         
             String
@@ -18,7 +18,7 @@ Map<String, dynamic> _$AdditionalPropertiesClassToMap(AdditionalPropertiesClass 
       return v.map((k,v) => MapEntry(k, v));
     }(instance.mapProperty.valueRequired),
     if (instance.mapOfMapProperty.isDefined)
-    _reflection.mapOfMapProperty.oasName: (
+    _reflection.mapOfMapPropertyPart.oasName: (
     Map<String, 
         
     Map<String, 
@@ -30,24 +30,24 @@ Map<String, dynamic> _$AdditionalPropertiesClassToMap(AdditionalPropertiesClass 
       return v.map((k,v) => MapEntry(k, v.map((k,v) => MapEntry(k, v))));
     }(instance.mapOfMapProperty.valueRequired),
     if (instance.anytype1.isDefined)
-    _reflection.anytype1.oasName: (Object
+    _reflection.anytype1Part.oasName: (Object
 ? v) {
       return v;
     }(instance.anytype1.valueRequired),
     if (instance.mapWithUndeclaredPropertiesAnytype1.isDefined)
-    _reflection.mapWithUndeclaredPropertiesAnytype1.oasName: (
-            Map<String, Object?>
+    _reflection.mapWithUndeclaredPropertiesAnytype1Part.oasName: (
+            $FreeFormObject
  v) {
       return v;
     }(instance.mapWithUndeclaredPropertiesAnytype1.valueRequired),
     if (instance.mapWithUndeclaredPropertiesAnytype2.isDefined)
-    _reflection.mapWithUndeclaredPropertiesAnytype2.oasName: (
-            Map<String, Object?>
+    _reflection.mapWithUndeclaredPropertiesAnytype2Part.oasName: (
+            $FreeFormObject
  v) {
       return v;
     }(instance.mapWithUndeclaredPropertiesAnytype2.valueRequired),
     if (instance.mapWithUndeclaredPropertiesAnytype3.isDefined)
-    _reflection.mapWithUndeclaredPropertiesAnytype3.oasName: (
+    _reflection.mapWithUndeclaredPropertiesAnytype3Part.oasName: (
     Map<String, 
         Object
 ?>
@@ -55,13 +55,13 @@ Map<String, dynamic> _$AdditionalPropertiesClassToMap(AdditionalPropertiesClass 
       return v;
     }(instance.mapWithUndeclaredPropertiesAnytype3.valueRequired),
     if (instance.emptyMap.isDefined)
-    _reflection.emptyMap.oasName: (
-            Map<String, Object?>
+    _reflection.emptyMapPart.oasName: (
+            $FreeFormObject
  v) {
       return v;
     }(instance.emptyMap.valueRequired),
     if (instance.mapWithUndeclaredPropertiesString.isDefined)
-    _reflection.mapWithUndeclaredPropertiesString.oasName: (
+    _reflection.mapWithUndeclaredPropertiesStringPart.oasName: (
     Map<String, 
         
             String
@@ -75,12 +75,11 @@ Map<String, dynamic> _$AdditionalPropertiesClassToMap(AdditionalPropertiesClass 
 }
 
 AdditionalPropertiesClass _$AdditionalPropertiesClassFromMap(Map<String, dynamic> src) {
-  final _reflection = AdditionalPropertiesClassReflection.instance;
+  const _reflection = AdditionalPropertiesClassReflection.instance;
   return AdditionalPropertiesClass.$all(
-    mapProperty: src.getOrUndefinedMapped(_reflection.mapProperty.oasName, (v) => 
+    mapProperty: src.getOrUndefinedMapped(_reflection.mapPropertyPart.oasName, (v) => 
 (
 
-    
             v as Map<String, dynamic>
             
             
@@ -89,10 +88,15 @@ AdditionalPropertiesClass _$AdditionalPropertiesClassFromMap(Map<String, dynamic
 .map((k,v) => MapEntry(k, 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -100,10 +104,9 @@ AdditionalPropertiesClass _$AdditionalPropertiesClassFromMap(Map<String, dynamic
 ))
 
 ),
-mapOfMapProperty: src.getOrUndefinedMapped(_reflection.mapOfMapProperty.oasName, (v) => 
+mapOfMapProperty: src.getOrUndefinedMapped(_reflection.mapOfMapPropertyPart.oasName, (v) => 
 (
 
-    
             v as Map<String, dynamic>
             
             
@@ -112,7 +115,6 @@ mapOfMapProperty: src.getOrUndefinedMapped(_reflection.mapOfMapProperty.oasName,
 .map((k,v) => MapEntry(k, 
 (
 
-    
             v as Map<String, dynamic>
             
             
@@ -121,10 +123,15 @@ mapOfMapProperty: src.getOrUndefinedMapped(_reflection.mapOfMapProperty.oasName,
 .map((k,v) => MapEntry(k, 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -134,34 +141,52 @@ mapOfMapProperty: src.getOrUndefinedMapped(_reflection.mapOfMapProperty.oasName,
 ))
 
 ),
-anytype1: src.getOrUndefinedMapped(_reflection.anytype1.oasName, (v) => 
+anytype1: src.getOrUndefinedMapped(_reflection.anytype1Part.oasName, (v) => 
 (
 v
 
 )
 ),
-mapWithUndeclaredPropertiesAnytype1: src.getOrUndefinedMapped(_reflection.mapWithUndeclaredPropertiesAnytype1.oasName, (v) => 
+mapWithUndeclaredPropertiesAnytype1: src.getOrUndefinedMapped(_reflection.mapWithUndeclaredPropertiesAnytype1Part.oasName, (v) => 
 (
 
-    v as Map<String, dynamic>
+            
+                    ( v is $FreeFormObject ? v as $FreeFormObject :
+
+
+
+
+throwArgumentMismatch($FreeFormObject, v)
+
+)
 
 )
 
 
 ),
-mapWithUndeclaredPropertiesAnytype2: src.getOrUndefinedMapped(_reflection.mapWithUndeclaredPropertiesAnytype2.oasName, (v) => 
+mapWithUndeclaredPropertiesAnytype2: src.getOrUndefinedMapped(_reflection.mapWithUndeclaredPropertiesAnytype2Part.oasName, (v) => 
 (
 
-    v as Map<String, dynamic>
+            
+                    ( v is $FreeFormObject ? v as $FreeFormObject :
+
+
+
+
+throwArgumentMismatch($FreeFormObject, v)
+
+)
 
 )
 
 
 ),
-mapWithUndeclaredPropertiesAnytype3: src.getOrUndefinedMapped(_reflection.mapWithUndeclaredPropertiesAnytype3.oasName, (v) => 
+mapWithUndeclaredPropertiesAnytype3: src.getOrUndefinedMapped(_reflection.mapWithUndeclaredPropertiesAnytype3Part.oasName, (v) => 
 (
 
-    v as Map<String, dynamic>
+            v as Map<String, dynamic>
+            
+            
 
 )
 .map((k,v) => MapEntry(k, 
@@ -172,19 +197,26 @@ v
 ))
 
 ),
-emptyMap: src.getOrUndefinedMapped(_reflection.emptyMap.oasName, (v) => 
+emptyMap: src.getOrUndefinedMapped(_reflection.emptyMapPart.oasName, (v) => 
 (
 
-    v as Map<String, dynamic>
+            
+                    ( v is $FreeFormObject ? v as $FreeFormObject :
+
+
+
+
+throwArgumentMismatch($FreeFormObject, v)
+
+)
 
 )
 
 
 ),
-mapWithUndeclaredPropertiesString: src.getOrUndefinedMapped(_reflection.mapWithUndeclaredPropertiesString.oasName, (v) => 
+mapWithUndeclaredPropertiesString: src.getOrUndefinedMapped(_reflection.mapWithUndeclaredPropertiesStringPart.oasName, (v) => 
 (
 
-    
             v as Map<String, dynamic>
             
             
@@ -193,10 +225,15 @@ mapWithUndeclaredPropertiesString: src.getOrUndefinedMapped(_reflection.mapWithU
 .map((k,v) => MapEntry(k, 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -216,7 +253,8 @@ v
 
 bool _$AdditionalPropertiesClassCanFromMap(Map<String, dynamic> src) {
   final _reflection = AdditionalPropertiesClassReflection.instance;
-  if (!src.getOrUndefined(_reflection.mapProperty.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.mapPropertyPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -226,15 +264,20 @@ bool _$AdditionalPropertiesClassCanFromMap(Map<String, dynamic> src) {
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ))
             
 ),
-    unDefined: () => !_reflection.mapProperty.required,
+    unDefined: () => !_reflection.mapPropertyPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.mapOfMapProperty.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.mapOfMapPropertyPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -248,66 +291,71 @@ if (!src.getOrUndefined(_reflection.mapOfMapProperty.oasName).split<bool>(
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ))
             
 ))
             
 ),
-    unDefined: () => !_reflection.mapOfMapProperty.required,
+    unDefined: () => !_reflection.mapOfMapPropertyPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.anytype1.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.anytype1Part.oasName).split<bool>(
     defined: (v) => v == null ? true :
 (
 true
 ),
-    unDefined: () => !_reflection.anytype1.required,
+    unDefined: () => !_reflection.anytype1Part.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.mapWithUndeclaredPropertiesAnytype1.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.mapWithUndeclaredPropertiesAnytype1Part.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     v is Map<String, dynamic>
 ),
-    unDefined: () => !_reflection.mapWithUndeclaredPropertiesAnytype1.required,
+    unDefined: () => !_reflection.mapWithUndeclaredPropertiesAnytype1Part.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.mapWithUndeclaredPropertiesAnytype2.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.mapWithUndeclaredPropertiesAnytype2Part.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     v is Map<String, dynamic>
 ),
-    unDefined: () => !_reflection.mapWithUndeclaredPropertiesAnytype2.required,
+    unDefined: () => !_reflection.mapWithUndeclaredPropertiesAnytype2Part.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.mapWithUndeclaredPropertiesAnytype3.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.mapWithUndeclaredPropertiesAnytype3Part.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     v is Map<String, dynamic>
 ),
-    unDefined: () => !_reflection.mapWithUndeclaredPropertiesAnytype3.required,
+    unDefined: () => !_reflection.mapWithUndeclaredPropertiesAnytype3Part.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.emptyMap.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.emptyMapPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     v is Map<String, dynamic>
 ),
-    unDefined: () => !_reflection.emptyMap.required,
+    unDefined: () => !_reflection.emptyMapPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.mapWithUndeclaredPropertiesString.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.mapWithUndeclaredPropertiesStringPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -317,11 +365,16 @@ if (!src.getOrUndefined(_reflection.mapWithUndeclaredPropertiesString.oasName).s
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ))
             
 ),
-    unDefined: () => !_reflection.mapWithUndeclaredPropertiesString.required,
+    unDefined: () => !_reflection.mapWithUndeclaredPropertiesStringPart.required,
 )) {
     return false;
   }
@@ -331,7 +384,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -355,11 +408,14 @@ bool _$AdditionalPropertiesClassCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$AdditionalPropertiesClassSerialize(AdditionalPropertiesClass src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$AdditionalPropertiesClassSerialize(AdditionalPropertiesClass src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

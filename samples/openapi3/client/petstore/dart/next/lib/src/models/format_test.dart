@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'format_test.reflection.dart';
@@ -110,7 +110,6 @@ UndefinedWrapper<
 /// * [patternWithDigitsAndDelimiter] - A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
 class FormatTest with
 $OpenApiObjectMixin,
-
 
 FormatTestMixin {
   @override
@@ -270,12 +269,12 @@ required  this.password     ,
   });
 
   static const $reflection = FormatTestReflection.instance;
+  FormatTestReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$FormatTestToMap(this);

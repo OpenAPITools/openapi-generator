@@ -9,13 +9,13 @@ Map<String, dynamic> _$SimpleQuadrilateralToMap(SimpleQuadrilateral instance) {
   final _reflection = SimpleQuadrilateralReflection.instance;
   return <String, dynamic>{
     
-    _reflection.quadrilateralType.oasName: (
+    _reflection.quadrilateralTypePart.oasName: (
             String
  v) {
       return v;
     }(instance.quadrilateralType),
     
-    _reflection.shapeType.oasName: (
+    _reflection.shapeTypePart.oasName: (
             String
  v) {
       return v;
@@ -26,27 +26,37 @@ Map<String, dynamic> _$SimpleQuadrilateralToMap(SimpleQuadrilateral instance) {
 }
 
 SimpleQuadrilateral _$SimpleQuadrilateralFromMap(Map<String, dynamic> src) {
-  final _reflection = SimpleQuadrilateralReflection.instance;
+  const _reflection = SimpleQuadrilateralReflection.instance;
   return SimpleQuadrilateral.$all(
-    quadrilateralType: src.getRequiredMapped(_reflection.quadrilateralType.oasName, (v) => 
+    quadrilateralType: src.getRequiredMapped(_reflection.quadrilateralTypePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-shapeType: src.getRequiredMapped(_reflection.shapeType.oasName, (v) => 
+shapeType: src.getRequiredMapped(_reflection.shapeTypePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -64,27 +74,38 @@ v
 
 bool _$SimpleQuadrilateralCanFromMap(Map<String, dynamic> src) {
   final _reflection = SimpleQuadrilateralReflection.instance;
-  if (!src.getOrUndefined(_reflection.quadrilateralType.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.quadrilateralTypePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.quadrilateralType.required,
+    unDefined: () => !_reflection.quadrilateralTypePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.shapeType.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.shapeTypePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.shapeType.required,
+    unDefined: () => !_reflection.shapeTypePart.required,
 )) {
     return false;
   }
@@ -94,7 +115,9 @@ true
 ))) {
     return false;
   }
-  
+
+
+
   return true;
 }
 
@@ -119,11 +142,14 @@ bool _$SimpleQuadrilateralCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$SimpleQuadrilateralSerialize(SimpleQuadrilateral src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$SimpleQuadrilateralSerialize(SimpleQuadrilateral src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

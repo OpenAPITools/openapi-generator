@@ -9,13 +9,13 @@ Map<String, dynamic> _$HasOnlyReadOnlyToMap(HasOnlyReadOnly instance) {
   final _reflection = HasOnlyReadOnlyReflection.instance;
   return <String, dynamic>{
     if (instance.bar.isDefined)
-    _reflection.bar.oasName: (
+    _reflection.barPart.oasName: (
             String
  v) {
       return v;
     }(instance.bar.valueRequired),
     if (instance.foo.isDefined)
-    _reflection.foo.oasName: (
+    _reflection.fooPart.oasName: (
             String
  v) {
       return v;
@@ -26,27 +26,37 @@ Map<String, dynamic> _$HasOnlyReadOnlyToMap(HasOnlyReadOnly instance) {
 }
 
 HasOnlyReadOnly _$HasOnlyReadOnlyFromMap(Map<String, dynamic> src) {
-  final _reflection = HasOnlyReadOnlyReflection.instance;
+  const _reflection = HasOnlyReadOnlyReflection.instance;
   return HasOnlyReadOnly.$all(
-    bar: src.getOrUndefinedMapped(_reflection.bar.oasName, (v) => 
+    bar: src.getOrUndefinedMapped(_reflection.barPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-foo: src.getOrUndefinedMapped(_reflection.foo.oasName, (v) => 
+foo: src.getOrUndefinedMapped(_reflection.fooPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -64,27 +74,38 @@ v
 
 bool _$HasOnlyReadOnlyCanFromMap(Map<String, dynamic> src) {
   final _reflection = HasOnlyReadOnlyReflection.instance;
-  if (!src.getOrUndefined(_reflection.bar.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.barPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.bar.required,
+    unDefined: () => !_reflection.barPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.foo.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.fooPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.foo.required,
+    unDefined: () => !_reflection.fooPart.required,
 )) {
     return false;
   }
@@ -94,7 +115,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -118,11 +139,14 @@ bool _$HasOnlyReadOnlyCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$HasOnlyReadOnlySerialize(HasOnlyReadOnly src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$HasOnlyReadOnlySerialize(HasOnlyReadOnly src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

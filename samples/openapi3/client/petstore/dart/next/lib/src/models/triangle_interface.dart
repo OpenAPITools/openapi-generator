@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'triangle_interface.reflection.dart';
@@ -26,7 +26,6 @@ mixin TriangleInterfaceMixin on
 class TriangleInterface with
 $OpenApiObjectMixin,
 
-
 TriangleInterfaceMixin {
   @override
   
@@ -51,12 +50,12 @@ TriangleInterfaceMixin {
   });
 
   static const $reflection = TriangleInterfaceReflection.instance;
+  TriangleInterfaceReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$TriangleInterfaceToMap(this);

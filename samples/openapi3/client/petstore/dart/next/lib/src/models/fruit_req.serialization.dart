@@ -18,7 +18,7 @@ Map<String, dynamic> _$FruitReqToMap(FruitReq instance) {
 }
 
 FruitReq _$FruitReqFromMap(Map<String, dynamic> src) {
-  final _reflection = FruitReqReflection.instance;
+  const _reflection = FruitReqReflection.instance;
   return FruitReq.$all(
         
     
@@ -29,11 +29,12 @@ FruitReq _$FruitReqFromMap(Map<String, dynamic> src) {
 
 bool _$FruitReqCanFromMap(Map<String, dynamic> src) {
   final _reflection = FruitReqReflection.instance;
-    
+
+  
+
   final oneOfs = [
     () => AppleReq.canDeserialize(src),
-  
-    () => BananaReq.canDeserialize(src),
+      () => BananaReq.canDeserialize(src),
   ];
   final validOneOfs = oneOfs.where((x) => x()).take(2).length;
   if (validOneOfs == 0 || validOneOfs > 1) {
@@ -60,9 +61,7 @@ FruitReq _$FruitReqDeserialize(Object? src) {
 )) ? UndefinedWrapper(AppleReq.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -76,9 +75,7 @@ FruitReq _$FruitReqDeserialize(Object? src) {
 )) ? UndefinedWrapper(BananaReq.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -122,11 +119,14 @@ bool _$FruitReqCanDeserialize(Object? src) {
 
 /// Serializes to a primitive Object (num, String, List, Map).
 Object? _$FruitReqSerialize(FruitReq src) {
-  
-  
-  if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.serialize(); }
-  if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.serialize(); }
-  return null;
+  Object? initialResult = () {
+    
+    
+    if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.serialize(); }
+    if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.serialize(); }
+    return null;
+  }();
+  return initialResult;
 }
 
 

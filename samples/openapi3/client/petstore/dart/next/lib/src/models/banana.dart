@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'banana.reflection.dart';
@@ -25,7 +25,6 @@ mixin BananaMixin on
 /// * [lengthCm] 
 class Banana with
 $OpenApiObjectMixin,
-
 
 BananaMixin {
   @override
@@ -53,12 +52,12 @@ BananaMixin {
   });
 
   static const $reflection = BananaReflection.instance;
+  BananaReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$BananaToMap(this);

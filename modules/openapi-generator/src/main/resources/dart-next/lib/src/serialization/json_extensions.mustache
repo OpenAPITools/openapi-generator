@@ -1,26 +1,26 @@
 import 'package:openapi_infrastructure/openapi_infrastructure.dart';
 
 extension UndefinedWrapperMapExtensions<TKey, TValue> on Map<TKey, TValue> {
-  UndefinedWrapper<TValue?> getOrUndefined(
+  UndefinedWrapper<TValue> getOrUndefined(
     TKey key,
   ) {
     if (!containsKey(key)) {
       return UndefinedWrapper.undefined();
     } else {
-      return UndefinedWrapper(this[key]);
+      return UndefinedWrapper(this[key] as TValue);
     }
   }
 
   UndefinedWrapper<T> getOrUndefinedMapped<T>(
     TKey key,
-    T Function(TValue? src) mapper,
+    T Function(TValue src) mapper,
   ) {
     return getOrUndefined(key).map(mapper);
   }
 
   T getRequiredMapped<T>(
     TKey key,
-    T Function(TValue? src) mapper,
+    T Function(TValue src) mapper,
   ) {
     if (!containsKey(key)) {
       throw ArgumentError(
@@ -28,7 +28,7 @@ extension UndefinedWrapperMapExtensions<TKey, TValue> on Map<TKey, TValue> {
         'key',
       );
     } else {
-      return mapper(this[key]);
+      return mapper(this[key] as TValue);
     }
   }
 }

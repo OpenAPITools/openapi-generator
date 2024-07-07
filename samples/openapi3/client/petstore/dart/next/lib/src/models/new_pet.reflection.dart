@@ -6,118 +6,297 @@ part of 'new_pet.dart';
 //class reflection
 
 class NewPetReflection extends ClassReflection<NewPet> {
+  static NewPetReflection instanceGetter() => instance;
   static const instance = NewPetReflection._(
-    id: PropertyReflection(
+    modelName: r'NewPet',
+    className: r'NewPet',
+    idPart: PropertyReflection<NewPet, UndefinedWrapper<
+            int
+>>(
       dartName: r'id',
       nullable: false,
       required: false,
       oasName: r'id',
       oasType: r'integer',
       pattern: null,
+      parentReflectionGetter:  instanceGetter,
+      isDiscriminator: false,
+      getter: _idGetter,
+      setter: _idSetter,
     ),
-    categoryInlineAllof: PropertyReflection(
+    categoryInlineAllofPart: PropertyReflection<NewPet, UndefinedWrapper<
+            NewPetCategoryInlineAllof
+>>(
       dartName: r'categoryInlineAllof',
       nullable: false,
       required: false,
       oasName: r'category_inline_allof',
       oasType: r'NewPetCategoryInlineAllof',
       pattern: null,
+      parentReflectionGetter:  instanceGetter,
+      isDiscriminator: false,
+      classReflection: NewPetCategoryInlineAllofReflection.instance,
+      getter: _categoryInlineAllofGetter,
+      setter: _categoryInlineAllofSetter,
     ),
-    categoryAllOfRef: PropertyReflection(
+    categoryAllOfRefPart: PropertyReflection<NewPet, UndefinedWrapper<
+            Category
+>>(
       dartName: r'categoryAllOfRef',
       nullable: false,
       required: false,
       oasName: r'category_allOf_ref',
       oasType: r'Category',
       pattern: null,
+      parentReflectionGetter:  instanceGetter,
+      isDiscriminator: false,
+      classReflection: CategoryReflection.instance,
+      getter: _categoryAllOfRefGetter,
+      setter: _categoryAllOfRefSetter,
     ),
-    name: PropertyReflection(
+    namePart: PropertyReflection<NewPet, 
+            String
+>(
       dartName: r'name',
       nullable: false,
       required: true,
       oasName: r'name',
       oasType: r'string',
       pattern: null,
+      parentReflectionGetter:  instanceGetter,
+      isDiscriminator: false,
+      getter: _nameGetter,
+      setter: _nameSetter,
     ),
-    photoUrls: PropertyReflection(
+    photoUrlsPart: PropertyReflection<NewPet, 
+    List<
+        
+            String
+>
+>(
       dartName: r'photoUrls',
       nullable: false,
       required: true,
       oasName: r'photoUrls',
       oasType: r'array',
       pattern: null,
+      parentReflectionGetter:  instanceGetter,
+      isDiscriminator: false,
+      itemsReflection: ItemsReflection<NewPet, 
+            String
+>(parentReflectionGetter: instanceGetter,),
+      getter: _photoUrlsGetter,
+      setter: _photoUrlsSetter,
     ),
-    tags: PropertyReflection(
+    tagsPart: PropertyReflection<NewPet, UndefinedWrapper<
+    List<
+        
+            Tag
+>
+>>(
       dartName: r'tags',
       nullable: false,
       required: false,
       oasName: r'tags',
       oasType: r'array',
       pattern: null,
+      parentReflectionGetter:  instanceGetter,
+      isDiscriminator: false,
+      itemsReflection: ItemsReflection<NewPet, 
+            Tag
+>(parentReflectionGetter: instanceGetter,classReflection: TagReflection.instance,),
+      getter: _tagsGetter,
+      setter: _tagsSetter,
     ),
-    status: PropertyReflection(
+    statusPart: PropertyReflection<NewPet, UndefinedWrapper<
+            NewPetStatusEnum
+>>(
       dartName: r'status',
       nullable: false,
       required: false,
       oasName: r'status',
       oasType: r'string',
       pattern: null,
+      parentReflectionGetter:  instanceGetter,
+      isDiscriminator: false,
+      getter: _statusGetter,
+      setter: _statusSetter,
     ),
+    
+    
+    additionalPropertiesPart: AdditionalPropertiesReflection(
+      parentReflectionGetter: instanceGetter,
+      itemsReflection: ItemsReflection<NewPet, Object
+?>(parentReflectionGetter: instanceGetter,),
+          ),
   );
   const NewPetReflection._({
-    required this.id,
-  
-    required this.categoryInlineAllof,
-  
-    required this.categoryAllOfRef,
-  
-    required this.name,
-  
-    required this.photoUrls,
-  
-    required this.tags,
-  
-    required this.status,
+    required this.modelName,
+    required this.className,
+    required this.idPart,
+    required this.categoryInlineAllofPart,
+    required this.categoryAllOfRefPart,
+    required this.namePart,
+    required this.photoUrlsPart,
+    required this.tagsPart,
+    required this.statusPart,
+    this.discriminatorKey,
+    this.discriminatorMappings = const {},
+    this.discriminatorImplicitMappings = const {},
+        
+    required this.additionalPropertiesPart,
   });
 
-  final PropertyReflection<UndefinedWrapper<
+  final PropertyReflection<NewPet, UndefinedWrapper<
             int
->> id;
-  final PropertyReflection<UndefinedWrapper<
+>> idPart;
+  static UndefinedWrapper<
+            int
+> _idGetter(NewPet parent) {
+    return parent.id;
+  }
+  static void _idSetter(NewPet parent, UndefinedWrapper<
+            int
+> value) {
+    parent.id = value;
+  }
+  final PropertyReflection<NewPet, UndefinedWrapper<
             NewPetCategoryInlineAllof
->> categoryInlineAllof;
-  final PropertyReflection<UndefinedWrapper<
+>> categoryInlineAllofPart;
+  static UndefinedWrapper<
+            NewPetCategoryInlineAllof
+> _categoryInlineAllofGetter(NewPet parent) {
+    return parent.categoryInlineAllof;
+  }
+  static void _categoryInlineAllofSetter(NewPet parent, UndefinedWrapper<
+            NewPetCategoryInlineAllof
+> value) {
+    parent.categoryInlineAllof = value;
+  }
+  final PropertyReflection<NewPet, UndefinedWrapper<
             Category
->> categoryAllOfRef;
-  final PropertyReflection<
+>> categoryAllOfRefPart;
+  static UndefinedWrapper<
+            Category
+> _categoryAllOfRefGetter(NewPet parent) {
+    return parent.categoryAllOfRef;
+  }
+  static void _categoryAllOfRefSetter(NewPet parent, UndefinedWrapper<
+            Category
+> value) {
+    parent.categoryAllOfRef = value;
+  }
+  final PropertyReflection<NewPet, 
             String
-> name;
-  final PropertyReflection<
+> namePart;
+  static 
+            String
+ _nameGetter(NewPet parent) {
+    return parent.name;
+  }
+  static void _nameSetter(NewPet parent, 
+            String
+ value) {
+    parent.name = value;
+  }
+  final PropertyReflection<NewPet, 
     List<
         
             String
 >
-> photoUrls;
-  final PropertyReflection<UndefinedWrapper<
+> photoUrlsPart;
+  static 
+    List<
+        
+            String
+>
+ _photoUrlsGetter(NewPet parent) {
+    return parent.photoUrls;
+  }
+  static void _photoUrlsSetter(NewPet parent, 
+    List<
+        
+            String
+>
+ value) {
+    parent.photoUrls = value;
+  }
+  final PropertyReflection<NewPet, UndefinedWrapper<
     List<
         
             Tag
 >
->> tags;
-  final PropertyReflection<UndefinedWrapper<
+>> tagsPart;
+  static UndefinedWrapper<
+    List<
+        
+            Tag
+>
+> _tagsGetter(NewPet parent) {
+    return parent.tags;
+  }
+  static void _tagsSetter(NewPet parent, UndefinedWrapper<
+    List<
+        
+            Tag
+>
+> value) {
+    parent.tags = value;
+  }
+  final PropertyReflection<NewPet, UndefinedWrapper<
             NewPetStatusEnum
->> status;
+>> statusPart;
+  static UndefinedWrapper<
+            NewPetStatusEnum
+> _statusGetter(NewPet parent) {
+    return parent.status;
+  }
+  static void _statusSetter(NewPet parent, UndefinedWrapper<
+            NewPetStatusEnum
+> value) {
+    parent.status = value;
+  }
+
+
 
   @override
-  List<PropertyReflection> get members => [
-    id,
-categoryInlineAllof,
-categoryAllOfRef,
-name,
-photoUrls,
-tags,
-status,
+  final Map<String, ClassReflection> discriminatorMappings;
+  @override
+  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  @override
+  final String? discriminatorKey;
+  @override
+  final String modelName;
+  @override
+  final String className;
+
+
+  @override
+  List<PropertyReflection<NewPet, dynamic>> get properties => [
+    idPart,
+categoryInlineAllofPart,
+categoryAllOfRefPart,
+namePart,
+photoUrlsPart,
+tagsPart,
+statusPart,
   ];
+
+  final AdditionalPropertiesReflection<NewPet, Object
+?> additionalPropertiesPart;
+
+  
+  
+  @override
+  List<PartReflection<NewPet, dynamic>> get parts => [
+    ...super.parts,
+    additionalPropertiesPart,
+  ];
+  @override
+  List<AllOfReflection<NewPet, dynamic>> get allOfs => [
+    
+  ];
+
 
   @override
   bool Function(Object? src) get canDeserializeFunction =>
@@ -129,6 +308,154 @@ status,
   @override
   Object? Function(NewPet src) get serializeFunction =>
       (src) => src.serialize();
+
+  /// Gets an example of NewPet.
+  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
+  ///  calling [aggregatedDiscriminators].
+  NewPet example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+    final _reflection = this;
+    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
+    return NewPet(
+      id: () {
+        PartReflection? _partReflection = _reflection.idPart;
+        
+        return UndefinedWrapper(
+
+
+            
+            
+
+
+    
+    exampleint()
+
+
+);
+      }(),
+      categoryInlineAllof: () {
+        PartReflection? _partReflection = _reflection.categoryInlineAllofPart;
+        
+        return UndefinedWrapper(
+
+
+            
+            
+
+
+    NewPetCategoryInlineAllof.$reflection.example()
+    
+
+
+);
+      }(),
+      categoryAllOfRef: () {
+        PartReflection? _partReflection = _reflection.categoryAllOfRefPart;
+        
+        return UndefinedWrapper(
+
+
+            
+            
+
+
+    Category.$reflection.example()
+    
+
+
+);
+      }(),
+      name: () {
+        PartReflection? _partReflection = _reflection.namePart;
+        
+        final disc = discriminators[r'name'];
+        if (disc != null) {
+          final result = exampleDiscriminator(_partReflection, disc);
+          if (result != null) {
+            return result;
+          }
+        }
+        
+        return 
+
+
+            
+            
+
+
+    
+    exampleString()
+
+
+;
+      }(),
+      photoUrls: () {
+        PartReflection? _partReflection = _reflection.photoUrlsPart;
+        
+        return 
+
+
+    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+
+
+            
+            
+
+
+    
+    exampleString()
+
+
+; })
+
+
+
+;
+      }(),
+      tags: () {
+        PartReflection? _partReflection = _reflection.tagsPart;
+        
+        return UndefinedWrapper(
+
+
+    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+
+
+            
+            
+
+
+    Tag.$reflection.example()
+    
+
+
+; })
+
+
+
+);
+      }(),
+      status: () {
+        PartReflection? _partReflection = _reflection.statusPart;
+        
+        return UndefinedWrapper(
+
+
+            exampleEnum(NewPetStatusEnum.values)
+
+
+
+);
+      }(),
+      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+
+exampleObject()
+
+
+
+ ) )); }(),
+      
+    );
+  }
 }
 
 class NewPetXmlReflection {

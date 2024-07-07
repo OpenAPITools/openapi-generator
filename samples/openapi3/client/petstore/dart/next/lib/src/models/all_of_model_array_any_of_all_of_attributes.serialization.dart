@@ -9,7 +9,7 @@ Map<String, dynamic> _$AllOfModelArrayAnyOfAllOfAttributesToMap(AllOfModelArrayA
   final _reflection = AllOfModelArrayAnyOfAllOfAttributesReflection.instance;
   return <String, dynamic>{
     if (instance.C.isDefined)
-    _reflection.C.oasName: (
+    _reflection.CPart.oasName: (
             AllOfModelArrayAnyOfAllOfAttributesC
  v) {
       return v.serialize();
@@ -20,14 +20,12 @@ Map<String, dynamic> _$AllOfModelArrayAnyOfAllOfAttributesToMap(AllOfModelArrayA
 }
 
 AllOfModelArrayAnyOfAllOfAttributes _$AllOfModelArrayAnyOfAllOfAttributesFromMap(Map<String, dynamic> src) {
-  final _reflection = AllOfModelArrayAnyOfAllOfAttributesReflection.instance;
+  const _reflection = AllOfModelArrayAnyOfAllOfAttributesReflection.instance;
   return AllOfModelArrayAnyOfAllOfAttributes.$all(
-    C: src.getOrUndefinedMapped(_reflection.C.oasName, (v) => AllOfModelArrayAnyOfAllOfAttributesC.deserialize
+    C: src.getOrUndefinedMapped(_reflection.CPart.oasName, (v) => AllOfModelArrayAnyOfAllOfAttributesC.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -45,7 +43,8 @@ v
 
 bool _$AllOfModelArrayAnyOfAllOfAttributesCanFromMap(Map<String, dynamic> src) {
   final _reflection = AllOfModelArrayAnyOfAllOfAttributesReflection.instance;
-  if (!src.getOrUndefined(_reflection.C.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.CPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -53,7 +52,7 @@ bool _$AllOfModelArrayAnyOfAllOfAttributesCanFromMap(Map<String, dynamic> src) {
             AllOfModelArrayAnyOfAllOfAttributesC.canDeserialize(v)
             
 ),
-    unDefined: () => !_reflection.C.required,
+    unDefined: () => !_reflection.CPart.required,
 )) {
     return false;
   }
@@ -63,7 +62,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -87,11 +86,14 @@ bool _$AllOfModelArrayAnyOfAllOfAttributesCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$AllOfModelArrayAnyOfAllOfAttributesSerialize(AllOfModelArrayAnyOfAllOfAttributes src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$AllOfModelArrayAnyOfAllOfAttributesSerialize(AllOfModelArrayAnyOfAllOfAttributes src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

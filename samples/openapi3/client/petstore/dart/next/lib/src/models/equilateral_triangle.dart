@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'equilateral_triangle.reflection.dart';
@@ -22,7 +22,6 @@ mixin EquilateralTriangleMixin on
 /// * [triangleType] 
 class EquilateralTriangle with
 $OpenApiObjectMixin,
-
 ShapeInterfaceMixin,TriangleInterfaceMixin,
 EquilateralTriangleMixin {
   @override
@@ -54,6 +53,7 @@ required  this.triangleType     ,
   });
 
   static const $reflection = EquilateralTriangleReflection.instance;
+  EquilateralTriangleReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
@@ -61,7 +61,6 @@ required  this.triangleType     ,
       
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$EquilateralTriangleToMap(this);

@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'array_default.reflection.dart';
@@ -36,7 +36,6 @@ UndefinedWrapper<
 /// * [withoutDefault] 
 class ArrayDefault with
 $OpenApiObjectMixin,
-
 
 ArrayDefaultMixin {
   @override
@@ -82,12 +81,12 @@ ArrayDefaultMixin {
   });
 
   static const $reflection = ArrayDefaultReflection.instance;
+  ArrayDefaultReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$ArrayDefaultToMap(this);

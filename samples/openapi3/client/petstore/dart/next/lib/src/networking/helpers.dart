@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 enum PatternMatchResult {
   exact,
@@ -18,6 +18,11 @@ extension PatternMatchResultHelper<T> on Iterable<(PatternMatchResult, T)> {
 }
 
 class OASNetworkingUtils {
+  static Encoding getEncodingOrDefault(MediaType contentType) {
+    final charset = contentType.parameters['charset'] ?? 'utf-8';
+    return Encoding.getByName(charset) ?? utf8;
+  }
+
   static PatternMatchResult matchesStatusCodePattern(
     int statusCode,
     String pattern,

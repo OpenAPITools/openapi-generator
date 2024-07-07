@@ -12,13 +12,19 @@ Map<String, dynamic> _$MammalToMap(Mammal instance) {
     
     if (instance.oneOf0.isDefined) ...instance.oneOf0.valueRequired.toMap(),
     
+    if (instance.oneOf1.isDefined) ...instance.oneOf1.valueRequired.toMap(),
+    
     if (instance.oneOf2.isDefined) ...instance.oneOf2.valueRequired.toMap(),
     
   };
 }
 
 Mammal _$MammalFromMap(Map<String, dynamic> src) {
-  final _reflection = MammalReflection.instance;
+  const _reflection = MammalReflection.instance;
+  final discriminatorKey = _reflection.discriminatorKey;
+  final discriminatorValue = src[discriminatorKey]?.toString();
+  //when we have a discriminator, we pick one model
+  final modelReflection = _reflection.tryGetDiscriminatorModel(discriminatorValue);
   return Mammal.$all(
         additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
 (
@@ -27,26 +33,35 @@ v
 )
 ))),
     
-    oneOf0: Whale.canDeserialize(src) ? UndefinedWrapper(Whale.deserialize(src)) :  UndefinedWrapper.undefined(),
-    oneOf1:  UndefinedWrapper.undefined(),
-    oneOf2: Pig.canDeserialize(src) ? UndefinedWrapper(Pig.deserialize(src)) :  UndefinedWrapper.undefined(),
+    oneOf0: modelReflection is ClassReflection<Whale> ? UndefinedWrapper(modelReflection.deserializeFunction(src)) : UndefinedWrapper.undefined(),
+    oneOf1: modelReflection is ClassReflection<Zebra> ? UndefinedWrapper(modelReflection.deserializeFunction(src)) : UndefinedWrapper.undefined(),
+    oneOf2: modelReflection is ClassReflection<Pig> ? UndefinedWrapper(modelReflection.deserializeFunction(src)) : UndefinedWrapper.undefined(),
   );
 }
 
 bool _$MammalCanFromMap(Map<String, dynamic> src) {
   final _reflection = MammalReflection.instance;
+
     if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
 (
 true
 ))) {
     return false;
   }
-  
+
+
+  final discriminatorKey = _reflection.discriminatorKey;
+  final discriminatorValue = src[discriminatorKey]?.toString();
+  //when we have a discriminator, we pick one model
+  final modelReflection = _reflection.tryGetDiscriminatorModel(discriminatorValue);
+  if (modelReflection != null) {
+    // a discriminator is defined AND it exists in the src.
+    return modelReflection.canDeserializeFunction(src);
+  }
   final oneOfs = [
     () => Whale.canDeserialize(src),
-  
-  
-    () => Pig.canDeserialize(src),
+      () => Zebra.canDeserialize(src),
+      () => Pig.canDeserialize(src),
   ];
   final validOneOfs = oneOfs.where((x) => x()).take(2).length;
   if (validOneOfs == 0 || validOneOfs > 1) {
@@ -73,9 +88,7 @@ Mammal _$MammalDeserialize(Object? src) {
 )) ? UndefinedWrapper(Whale.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -84,15 +97,12 @@ Mammal _$MammalDeserialize(Object? src) {
 (
 
     
+            Zebra.canDeserialize(v)
             
-            v is Zebra
-)) ? UndefinedWrapper(
+)) ? UndefinedWrapper(Zebra.deserialize
 (
 
-    
-            
-                    v as Zebra
-            
+            v
 
 )
 
@@ -106,9 +116,7 @@ Mammal _$MammalDeserialize(Object? src) {
 )) ? UndefinedWrapper(Pig.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -138,8 +146,8 @@ bool _$MammalCanDeserialize(Object? src) {
 (
 
     
+            Zebra.canDeserialize(v)
             
-            v is Zebra
 ),
       () => v == null ? false :
 (
@@ -159,12 +167,21 @@ bool _$MammalCanDeserialize(Object? src) {
 
 /// Serializes to a primitive Object (num, String, List, Map).
 Object? _$MammalSerialize(Mammal src) {
-  
-  
-  if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.serialize(); }
-  if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v; }
-  if (src.oneOf2.isDefined) {final v = src.oneOf2.valueRequired; return v.serialize(); }
-  return null;
+  Object? initialResult = () {
+    
+    
+    if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.serialize(); }
+    if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.serialize(); }
+    if (src.oneOf2.isDefined) {final v = src.oneOf2.valueRequired; return v.serialize(); }
+    return null;
+  }();
+  if (initialResult is Map<String, Object?>) {
+    return {
+      ...src.additionalProperties,
+      ...initialResult,
+    };
+  }
+  return initialResult;
 }
 
 

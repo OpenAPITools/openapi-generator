@@ -9,13 +9,13 @@ Map<String, dynamic> _$NewPetCategoryInlineAllofAllOfCategoryTagToMap(NewPetCate
   final _reflection = NewPetCategoryInlineAllofAllOfCategoryTagReflection.instance;
   return <String, dynamic>{
     if (instance.id.isDefined)
-    _reflection.id.oasName: (
+    _reflection.idPart.oasName: (
             int
  v) {
       return v;
     }(instance.id.valueRequired),
     if (instance.name.isDefined)
-    _reflection.name.oasName: (
+    _reflection.namePart.oasName: (
             String
  v) {
       return v;
@@ -26,27 +26,35 @@ Map<String, dynamic> _$NewPetCategoryInlineAllofAllOfCategoryTagToMap(NewPetCate
 }
 
 NewPetCategoryInlineAllofAllOfCategoryTag _$NewPetCategoryInlineAllofAllOfCategoryTagFromMap(Map<String, dynamic> src) {
-  final _reflection = NewPetCategoryInlineAllofAllOfCategoryTagReflection.instance;
+  const _reflection = NewPetCategoryInlineAllofAllOfCategoryTagReflection.instance;
   return NewPetCategoryInlineAllofAllOfCategoryTag.$all(
-    id: src.getOrUndefinedMapped(_reflection.id.oasName, (v) => 
+    id: src.getOrUndefinedMapped(_reflection.idPart.oasName, (v) => 
 (
 
-    
             
-                    v as int
-            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-name: src.getOrUndefinedMapped(_reflection.name.oasName, (v) => 
+name: src.getOrUndefinedMapped(_reflection.namePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -64,27 +72,38 @@ v
 
 bool _$NewPetCategoryInlineAllofAllOfCategoryTagCanFromMap(Map<String, dynamic> src) {
   final _reflection = NewPetCategoryInlineAllofAllOfCategoryTagReflection.instance;
-  if (!src.getOrUndefined(_reflection.id.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.idPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.id.required,
+    unDefined: () => !_reflection.idPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.name.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.namePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.name.required,
+    unDefined: () => !_reflection.namePart.required,
 )) {
     return false;
   }
@@ -94,7 +113,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -118,11 +137,14 @@ bool _$NewPetCategoryInlineAllofAllOfCategoryTagCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$NewPetCategoryInlineAllofAllOfCategoryTagSerialize(NewPetCategoryInlineAllofAllOfCategoryTag src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$NewPetCategoryInlineAllofAllOfCategoryTagSerialize(NewPetCategoryInlineAllofAllOfCategoryTag src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

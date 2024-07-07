@@ -9,7 +9,7 @@ Map<String, dynamic> _$ArrayOfArrayOfNumberOnlyToMap(ArrayOfArrayOfNumberOnly in
   final _reflection = ArrayOfArrayOfNumberOnlyReflection.instance;
   return <String, dynamic>{
     if (instance.arrayArrayNumber.isDefined)
-    _reflection.arrayArrayNumber.oasName: (
+    _reflection.arrayArrayNumberPart.oasName: (
     List<
         
     List<
@@ -26,12 +26,11 @@ Map<String, dynamic> _$ArrayOfArrayOfNumberOnlyToMap(ArrayOfArrayOfNumberOnly in
 }
 
 ArrayOfArrayOfNumberOnly _$ArrayOfArrayOfNumberOnlyFromMap(Map<String, dynamic> src) {
-  final _reflection = ArrayOfArrayOfNumberOnlyReflection.instance;
+  const _reflection = ArrayOfArrayOfNumberOnlyReflection.instance;
   return ArrayOfArrayOfNumberOnly.$all(
-    arrayArrayNumber: src.getOrUndefinedMapped(_reflection.arrayArrayNumber.oasName, (v) => 
+    arrayArrayNumber: src.getOrUndefinedMapped(_reflection.arrayArrayNumberPart.oasName, (v) => 
 (
 
-    
             
             v as List
             
@@ -41,7 +40,6 @@ ArrayOfArrayOfNumberOnly _$ArrayOfArrayOfNumberOnlyFromMap(Map<String, dynamic> 
 .map((v) => 
 (
 
-    
             
             v as List
             
@@ -51,10 +49,13 @@ ArrayOfArrayOfNumberOnly _$ArrayOfArrayOfNumberOnlyFromMap(Map<String, dynamic> 
 .map((v) => 
 (
 
-    
             
-                    v as num
-            
+                    ( v is num ? v as num :
+num.parse(v.toString())
+
+
+
+)
 
 )
 
@@ -74,7 +75,8 @@ v
 
 bool _$ArrayOfArrayOfNumberOnlyCanFromMap(Map<String, dynamic> src) {
   final _reflection = ArrayOfArrayOfNumberOnlyReflection.instance;
-  if (!src.getOrUndefined(_reflection.arrayArrayNumber.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.arrayArrayNumberPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -90,11 +92,16 @@ bool _$ArrayOfArrayOfNumberOnlyCanFromMap(Map<String, dynamic> src) {
 
     
             
-            v is num
+            (v is num
+     || (num.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ))
 ))
 ),
-    unDefined: () => !_reflection.arrayArrayNumber.required,
+    unDefined: () => !_reflection.arrayArrayNumberPart.required,
 )) {
     return false;
   }
@@ -104,7 +111,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -128,11 +135,14 @@ bool _$ArrayOfArrayOfNumberOnlyCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$ArrayOfArrayOfNumberOnlySerialize(ArrayOfArrayOfNumberOnly src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$ArrayOfArrayOfNumberOnlySerialize(ArrayOfArrayOfNumberOnly src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

@@ -9,19 +9,19 @@ Map<String, dynamic> _$NewPetCategoryInlineAllofToMap(NewPetCategoryInlineAllof 
   final _reflection = NewPetCategoryInlineAllofReflection.instance;
   return <String, dynamic>{
     if (instance.id.isDefined)
-    _reflection.id.oasName: (
+    _reflection.idPart.oasName: (
             int
  v) {
       return v;
     }(instance.id.valueRequired),
     
-    _reflection.name.oasName: (
+    _reflection.namePart.oasName: (
             String
  v) {
       return v;
     }(instance.name),
     if (instance.categoryTag.isDefined)
-    _reflection.categoryTag.oasName: (
+    _reflection.categoryTagPart.oasName: (
             NewPetCategoryInlineAllofAllOfCategoryTag
  v) {
       return v.serialize();
@@ -32,38 +32,44 @@ Map<String, dynamic> _$NewPetCategoryInlineAllofToMap(NewPetCategoryInlineAllof 
 }
 
 NewPetCategoryInlineAllof _$NewPetCategoryInlineAllofFromMap(Map<String, dynamic> src) {
-  final _reflection = NewPetCategoryInlineAllofReflection.instance;
+  const _reflection = NewPetCategoryInlineAllofReflection.instance;
   return NewPetCategoryInlineAllof.$all(
-    id: src.getOrUndefinedMapped(_reflection.id.oasName, (v) => 
+    id: src.getOrUndefinedMapped(_reflection.idPart.oasName, (v) => 
 (
 
-    
             
-                    v as int
-            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-name: src.getRequiredMapped(_reflection.name.oasName, (v) => 
+name: src.getRequiredMapped(_reflection.namePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-categoryTag: src.getOrUndefinedMapped(_reflection.categoryTag.oasName, (v) => NewPetCategoryInlineAllofAllOfCategoryTag.deserialize
+categoryTag: src.getOrUndefinedMapped(_reflection.categoryTagPart.oasName, (v) => NewPetCategoryInlineAllofAllOfCategoryTag.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -81,31 +87,42 @@ v
 
 bool _$NewPetCategoryInlineAllofCanFromMap(Map<String, dynamic> src) {
   final _reflection = NewPetCategoryInlineAllofReflection.instance;
-  if (!src.getOrUndefined(_reflection.id.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.idPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.id.required,
+    unDefined: () => !_reflection.idPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.name.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.namePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.name.required,
+    unDefined: () => !_reflection.namePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.categoryTag.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.categoryTagPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -113,7 +130,7 @@ if (!src.getOrUndefined(_reflection.categoryTag.oasName).split<bool>(
             NewPetCategoryInlineAllofAllOfCategoryTag.canDeserialize(v)
             
 ),
-    unDefined: () => !_reflection.categoryTag.required,
+    unDefined: () => !_reflection.categoryTagPart.required,
 )) {
     return false;
   }
@@ -123,7 +140,9 @@ true
 ))) {
     return false;
   }
-  
+
+
+
   return true;
 }
 
@@ -148,11 +167,14 @@ bool _$NewPetCategoryInlineAllofCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$NewPetCategoryInlineAllofSerialize(NewPetCategoryInlineAllof src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$NewPetCategoryInlineAllofSerialize(NewPetCategoryInlineAllof src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

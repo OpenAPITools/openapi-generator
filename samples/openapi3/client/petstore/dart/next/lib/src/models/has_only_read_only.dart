@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'has_only_read_only.reflection.dart';
@@ -30,7 +30,6 @@ UndefinedWrapper<
 /// * [foo] 
 class HasOnlyReadOnly with
 $OpenApiObjectMixin,
-
 
 HasOnlyReadOnlyMixin {
   @override
@@ -66,12 +65,12 @@ HasOnlyReadOnlyMixin {
   });
 
   static const $reflection = HasOnlyReadOnlyReflection.instance;
+  HasOnlyReadOnlyReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$HasOnlyReadOnlyToMap(this);

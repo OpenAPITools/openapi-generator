@@ -18,7 +18,7 @@ Map<String, dynamic> _$AllOfModelArrayAnyOfAllOfAttributesCToMap(AllOfModelArray
 }
 
 AllOfModelArrayAnyOfAllOfAttributesC _$AllOfModelArrayAnyOfAllOfAttributesCFromMap(Map<String, dynamic> src) {
-  final _reflection = AllOfModelArrayAnyOfAllOfAttributesCReflection.instance;
+  const _reflection = AllOfModelArrayAnyOfAllOfAttributesCReflection.instance;
   return AllOfModelArrayAnyOfAllOfAttributesC.$all(
         additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
 (
@@ -34,17 +34,18 @@ v
 
 bool _$AllOfModelArrayAnyOfAllOfAttributesCCanFromMap(Map<String, dynamic> src) {
   final _reflection = AllOfModelArrayAnyOfAllOfAttributesCReflection.instance;
+
     if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
 (
 true
 ))) {
     return false;
   }
-  
+
+
   final oneOfs = [
     () => Pet.canDeserialize(src),
-  
-    () => Order.canDeserialize(src),
+      () => Order.canDeserialize(src),
   ];
   final validOneOfs = oneOfs.where((x) => x()).take(2).length;
   if (validOneOfs == 0 || validOneOfs > 1) {
@@ -71,9 +72,7 @@ AllOfModelArrayAnyOfAllOfAttributesC _$AllOfModelArrayAnyOfAllOfAttributesCDeser
 )) ? UndefinedWrapper(Pet.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -87,9 +86,7 @@ AllOfModelArrayAnyOfAllOfAttributesC _$AllOfModelArrayAnyOfAllOfAttributesCDeser
 )) ? UndefinedWrapper(Order.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -133,11 +130,20 @@ bool _$AllOfModelArrayAnyOfAllOfAttributesCCanDeserialize(Object? src) {
 
 /// Serializes to a primitive Object (num, String, List, Map).
 Object? _$AllOfModelArrayAnyOfAllOfAttributesCSerialize(AllOfModelArrayAnyOfAllOfAttributesC src) {
-  
-  
-  if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.serialize(); }
-  if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.serialize(); }
-  return null;
+  Object? initialResult = () {
+    
+    
+    if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.serialize(); }
+    if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.serialize(); }
+    return null;
+  }();
+  if (initialResult is Map<String, Object?>) {
+    return {
+      ...src.additionalProperties,
+      ...initialResult,
+    };
+  }
+  return initialResult;
 }
 
 

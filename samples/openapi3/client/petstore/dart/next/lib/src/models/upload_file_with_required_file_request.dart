@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'upload_file_with_required_file_request.reflection.dart';
@@ -30,7 +30,6 @@ mixin UploadFileWithRequiredFileRequestMixin on
 /// * [requiredFile] - file to upload
 class UploadFileWithRequiredFileRequest with
 $OpenApiObjectMixin,
-
 
 UploadFileWithRequiredFileRequestMixin {
   @override
@@ -64,12 +63,12 @@ required  this.requiredFile     ,
   });
 
   static const $reflection = UploadFileWithRequiredFileRequestReflection.instance;
+  UploadFileWithRequiredFileRequestReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$UploadFileWithRequiredFileRequestToMap(this);

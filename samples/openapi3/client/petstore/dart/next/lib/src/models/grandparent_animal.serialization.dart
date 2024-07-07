@@ -9,7 +9,7 @@ Map<String, dynamic> _$GrandparentAnimalToMap(GrandparentAnimal instance) {
   final _reflection = GrandparentAnimalReflection.instance;
   return <String, dynamic>{
     
-    _reflection.petType.oasName: (
+    _reflection.petTypePart.oasName: (
             String
  v) {
       return v;
@@ -20,15 +20,24 @@ Map<String, dynamic> _$GrandparentAnimalToMap(GrandparentAnimal instance) {
 }
 
 GrandparentAnimal _$GrandparentAnimalFromMap(Map<String, dynamic> src) {
-  final _reflection = GrandparentAnimalReflection.instance;
+  const _reflection = GrandparentAnimalReflection.instance;
+  final discriminatorKey = _reflection.discriminatorKey;
+  final discriminatorValue = src[discriminatorKey]?.toString();
+  //when we have a discriminator, we pick one model
+  final modelReflection = _reflection.tryGetDiscriminatorModel(discriminatorValue);
   return GrandparentAnimal.$all(
-    petType: src.getRequiredMapped(_reflection.petType.oasName, (v) => 
+    petType: src.getRequiredMapped(_reflection.petTypePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -46,15 +55,21 @@ v
 
 bool _$GrandparentAnimalCanFromMap(Map<String, dynamic> src) {
   final _reflection = GrandparentAnimalReflection.instance;
-  if (!src.getOrUndefined(_reflection.petType.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.petTypePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.petType.required,
+    unDefined: () => !_reflection.petTypePart.required,
 )) {
     return false;
   }
@@ -64,7 +79,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -88,11 +103,14 @@ bool _$GrandparentAnimalCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$GrandparentAnimalSerialize(GrandparentAnimal src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$GrandparentAnimalSerialize(GrandparentAnimal src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

@@ -9,13 +9,13 @@ Map<String, dynamic> _$ReadOnlyFirstToMap(ReadOnlyFirst instance) {
   final _reflection = ReadOnlyFirstReflection.instance;
   return <String, dynamic>{
     if (instance.bar.isDefined)
-    _reflection.bar.oasName: (
+    _reflection.barPart.oasName: (
             String
  v) {
       return v;
     }(instance.bar.valueRequired),
     if (instance.baz.isDefined)
-    _reflection.baz.oasName: (
+    _reflection.bazPart.oasName: (
             String
  v) {
       return v;
@@ -26,27 +26,37 @@ Map<String, dynamic> _$ReadOnlyFirstToMap(ReadOnlyFirst instance) {
 }
 
 ReadOnlyFirst _$ReadOnlyFirstFromMap(Map<String, dynamic> src) {
-  final _reflection = ReadOnlyFirstReflection.instance;
+  const _reflection = ReadOnlyFirstReflection.instance;
   return ReadOnlyFirst.$all(
-    bar: src.getOrUndefinedMapped(_reflection.bar.oasName, (v) => 
+    bar: src.getOrUndefinedMapped(_reflection.barPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-baz: src.getOrUndefinedMapped(_reflection.baz.oasName, (v) => 
+baz: src.getOrUndefinedMapped(_reflection.bazPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -64,27 +74,38 @@ v
 
 bool _$ReadOnlyFirstCanFromMap(Map<String, dynamic> src) {
   final _reflection = ReadOnlyFirstReflection.instance;
-  if (!src.getOrUndefined(_reflection.bar.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.barPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.bar.required,
+    unDefined: () => !_reflection.barPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.baz.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.bazPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.baz.required,
+    unDefined: () => !_reflection.bazPart.required,
 )) {
     return false;
   }
@@ -94,7 +115,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -118,11 +139,14 @@ bool _$ReadOnlyFirstCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$ReadOnlyFirstSerialize(ReadOnlyFirst src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$ReadOnlyFirstSerialize(ReadOnlyFirst src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

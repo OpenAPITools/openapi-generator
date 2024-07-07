@@ -9,19 +9,19 @@ Map<String, dynamic> _$ArrayOfInlineAllOfToMap(ArrayOfInlineAllOf instance) {
   final _reflection = ArrayOfInlineAllOfReflection.instance;
   return <String, dynamic>{
     if (instance.id.isDefined)
-    _reflection.id.oasName: (
+    _reflection.idPart.oasName: (
             int
  v) {
       return v;
     }(instance.id.valueRequired),
     
-    _reflection.name.oasName: (
+    _reflection.namePart.oasName: (
             String
  v) {
       return v;
     }(instance.name),
     if (instance.arrayAllofDogProperty.isDefined)
-    _reflection.arrayAllofDogProperty.oasName: (
+    _reflection.arrayAllofDogPropertyPart.oasName: (
     List<
         
             ArrayOfInlineAllOfArrayAllofDogPropertyInner
@@ -35,36 +35,43 @@ Map<String, dynamic> _$ArrayOfInlineAllOfToMap(ArrayOfInlineAllOf instance) {
 }
 
 ArrayOfInlineAllOf _$ArrayOfInlineAllOfFromMap(Map<String, dynamic> src) {
-  final _reflection = ArrayOfInlineAllOfReflection.instance;
+  const _reflection = ArrayOfInlineAllOfReflection.instance;
   return ArrayOfInlineAllOf.$all(
-    id: src.getOrUndefinedMapped(_reflection.id.oasName, (v) => 
+    id: src.getOrUndefinedMapped(_reflection.idPart.oasName, (v) => 
 (
 
-    
             
-                    v as int
-            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-name: src.getRequiredMapped(_reflection.name.oasName, (v) => 
+name: src.getRequiredMapped(_reflection.namePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-arrayAllofDogProperty: src.getOrUndefinedMapped(_reflection.arrayAllofDogProperty.oasName, (v) => 
+arrayAllofDogProperty: src.getOrUndefinedMapped(_reflection.arrayAllofDogPropertyPart.oasName, (v) => 
 (
 
-    
             
             v as List
             
@@ -74,9 +81,7 @@ arrayAllofDogProperty: src.getOrUndefinedMapped(_reflection.arrayAllofDogPropert
 .map((v) => ArrayOfInlineAllOfArrayAllofDogPropertyInner.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -95,31 +100,42 @@ v
 
 bool _$ArrayOfInlineAllOfCanFromMap(Map<String, dynamic> src) {
   final _reflection = ArrayOfInlineAllOfReflection.instance;
-  if (!src.getOrUndefined(_reflection.id.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.idPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.id.required,
+    unDefined: () => !_reflection.idPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.name.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.namePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.name.required,
+    unDefined: () => !_reflection.namePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.arrayAllofDogProperty.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.arrayAllofDogPropertyPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -133,7 +149,7 @@ if (!src.getOrUndefined(_reflection.arrayAllofDogProperty.oasName).split<bool>(
             
 ))
 ),
-    unDefined: () => !_reflection.arrayAllofDogProperty.required,
+    unDefined: () => !_reflection.arrayAllofDogPropertyPart.required,
 )) {
     return false;
   }
@@ -143,7 +159,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -167,11 +183,14 @@ bool _$ArrayOfInlineAllOfCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$ArrayOfInlineAllOfSerialize(ArrayOfInlineAllOf src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$ArrayOfInlineAllOfSerialize(ArrayOfInlineAllOf src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

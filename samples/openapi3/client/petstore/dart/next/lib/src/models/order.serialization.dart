@@ -9,37 +9,37 @@ Map<String, dynamic> _$OrderToMap(Order instance) {
   final _reflection = OrderReflection.instance;
   return <String, dynamic>{
     if (instance.id.isDefined)
-    _reflection.id.oasName: (
+    _reflection.idPart.oasName: (
             int
  v) {
       return v;
     }(instance.id.valueRequired),
     if (instance.petId.isDefined)
-    _reflection.petId.oasName: (
+    _reflection.petIdPart.oasName: (
             int
  v) {
       return v;
     }(instance.petId.valueRequired),
     if (instance.quantity.isDefined)
-    _reflection.quantity.oasName: (
+    _reflection.quantityPart.oasName: (
             int
  v) {
       return v;
     }(instance.quantity.valueRequired),
     if (instance.shipDate.isDefined)
-    _reflection.shipDate.oasName: (
+    _reflection.shipDatePart.oasName: (
             DateTime
  v) {
       return v;
     }(instance.shipDate.valueRequired),
     if (instance.status.isDefined)
-    _reflection.status.oasName: (
+    _reflection.statusPart.oasName: (
             OrderStatusEnum
  v) {
       return v.value;
     }(instance.status.valueRequired),
     if (instance.complete.isDefined)
-    _reflection.complete.oasName: (
+    _reflection.completePart.oasName: (
             bool
  v) {
       return v;
@@ -50,75 +50,95 @@ Map<String, dynamic> _$OrderToMap(Order instance) {
 }
 
 Order _$OrderFromMap(Map<String, dynamic> src) {
-  final _reflection = OrderReflection.instance;
+  const _reflection = OrderReflection.instance;
   return Order.$all(
-    id: src.getOrUndefinedMapped(_reflection.id.oasName, (v) => 
+    id: src.getOrUndefinedMapped(_reflection.idPart.oasName, (v) => 
 (
 
-    
             
-                    v as int
-            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-petId: src.getOrUndefinedMapped(_reflection.petId.oasName, (v) => 
+petId: src.getOrUndefinedMapped(_reflection.petIdPart.oasName, (v) => 
 (
 
-    
             
-                    v as int
-            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-quantity: src.getOrUndefinedMapped(_reflection.quantity.oasName, (v) => 
+quantity: src.getOrUndefinedMapped(_reflection.quantityPart.oasName, (v) => 
 (
 
-    
             
-                    v as int
-            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-shipDate: src.getOrUndefinedMapped(_reflection.shipDate.oasName, (v) => 
+shipDate: src.getOrUndefinedMapped(_reflection.shipDatePart.oasName, (v) => 
 (
 
-    
             
-                    v as DateTime
-            
+                    ( v is DateTime ? v as DateTime :
+
+
+v is int ? DateTime.fromMillisecondsSinceEpoch(v as int) : DateTime.parse(v.toString())
+
+)
 
 )
 
 
 ),
-status: src.getOrUndefinedMapped(_reflection.status.oasName, (v) => 
+status: src.getOrUndefinedMapped(_reflection.statusPart.oasName, (v) => 
 (
 
-    
             
-                    OrderStatusEnum.$safe(v as String)
-            
+                    OrderStatusEnum.$safe(( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+))
 
 )
 
 
 ),
-complete: src.getOrUndefinedMapped(_reflection.complete.oasName, (v) => 
+complete: src.getOrUndefinedMapped(_reflection.completePart.oasName, (v) => 
 (
 
-    
             
-                    v as bool
-            
+                    ( v is bool ? v as bool :
+
+bool.parse(v.toString())
+
+
+)
 
 )
 
@@ -136,75 +156,106 @@ v
 
 bool _$OrderCanFromMap(Map<String, dynamic> src) {
   final _reflection = OrderReflection.instance;
-  if (!src.getOrUndefined(_reflection.id.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.idPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.id.required,
+    unDefined: () => !_reflection.idPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.petId.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.petIdPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.petId.required,
+    unDefined: () => !_reflection.petIdPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.quantity.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.quantityPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.quantity.required,
+    unDefined: () => !_reflection.quantityPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.shipDate.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.shipDatePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is DateTime
+            (v is DateTime
+    
+    
+     || (v is int || DateTime.tryParse(v.toString()) != null)
+    
+)
 ),
-    unDefined: () => !_reflection.shipDate.required,
+    unDefined: () => !_reflection.shipDatePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.status.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.statusPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+     && OrderStatusEnum.canDeserialize(v)
+)
 ),
-    unDefined: () => !_reflection.status.required,
+    unDefined: () => !_reflection.statusPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.complete.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.completePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is bool
+            (v is bool
+    
+     || (bool.tryParse(v.toString()) != null)
+    
+    
+)
 ),
-    unDefined: () => !_reflection.complete.required,
+    unDefined: () => !_reflection.completePart.required,
 )) {
     return false;
   }
@@ -214,7 +265,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -238,11 +289,14 @@ bool _$OrderCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$OrderSerialize(Order src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$OrderSerialize(Order src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

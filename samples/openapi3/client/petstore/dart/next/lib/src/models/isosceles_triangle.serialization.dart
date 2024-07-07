@@ -9,13 +9,13 @@ Map<String, dynamic> _$IsoscelesTriangleToMap(IsoscelesTriangle instance) {
   final _reflection = IsoscelesTriangleReflection.instance;
   return <String, dynamic>{
     
-    _reflection.shapeType.oasName: (
+    _reflection.shapeTypePart.oasName: (
             String
  v) {
       return v;
     }(instance.shapeType),
     
-    _reflection.triangleType.oasName: (
+    _reflection.triangleTypePart.oasName: (
             String
  v) {
       return v;
@@ -26,27 +26,37 @@ Map<String, dynamic> _$IsoscelesTriangleToMap(IsoscelesTriangle instance) {
 }
 
 IsoscelesTriangle _$IsoscelesTriangleFromMap(Map<String, dynamic> src) {
-  final _reflection = IsoscelesTriangleReflection.instance;
+  const _reflection = IsoscelesTriangleReflection.instance;
   return IsoscelesTriangle.$all(
-    shapeType: src.getRequiredMapped(_reflection.shapeType.oasName, (v) => 
+    shapeType: src.getRequiredMapped(_reflection.shapeTypePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-triangleType: src.getRequiredMapped(_reflection.triangleType.oasName, (v) => 
+triangleType: src.getRequiredMapped(_reflection.triangleTypePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -59,31 +69,44 @@ triangleType: src.getRequiredMapped(_reflection.triangleType.oasName, (v) =>
 
 bool _$IsoscelesTriangleCanFromMap(Map<String, dynamic> src) {
   final _reflection = IsoscelesTriangleReflection.instance;
-  if (!src.getOrUndefined(_reflection.shapeType.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.shapeTypePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.shapeType.required,
+    unDefined: () => !_reflection.shapeTypePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.triangleType.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.triangleTypePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.triangleType.required,
+    unDefined: () => !_reflection.triangleTypePart.required,
 )) {
     return false;
   }
-  
+
+
+
   return true;
 }
 
@@ -108,11 +131,14 @@ bool _$IsoscelesTriangleCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$IsoscelesTriangleSerialize(IsoscelesTriangle src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$IsoscelesTriangleSerialize(IsoscelesTriangle src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

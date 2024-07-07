@@ -9,7 +9,7 @@ Map<String, dynamic> _$FileToMap(File instance) {
   final _reflection = FileReflection.instance;
   return <String, dynamic>{
     if (instance.sourceURI.isDefined)
-    _reflection.sourceURI.oasName: (
+    _reflection.sourceURIPart.oasName: (
             String
  v) {
       return v;
@@ -20,15 +20,20 @@ Map<String, dynamic> _$FileToMap(File instance) {
 }
 
 File _$FileFromMap(Map<String, dynamic> src) {
-  final _reflection = FileReflection.instance;
+  const _reflection = FileReflection.instance;
   return File.$all(
-    sourceURI: src.getOrUndefinedMapped(_reflection.sourceURI.oasName, (v) => 
+    sourceURI: src.getOrUndefinedMapped(_reflection.sourceURIPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -46,15 +51,21 @@ v
 
 bool _$FileCanFromMap(Map<String, dynamic> src) {
   final _reflection = FileReflection.instance;
-  if (!src.getOrUndefined(_reflection.sourceURI.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.sourceURIPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.sourceURI.required,
+    unDefined: () => !_reflection.sourceURIPart.required,
 )) {
     return false;
   }
@@ -64,7 +75,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -88,11 +99,14 @@ bool _$FileCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$FileSerialize(File src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$FileSerialize(File src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

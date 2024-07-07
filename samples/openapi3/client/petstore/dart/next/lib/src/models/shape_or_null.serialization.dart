@@ -18,7 +18,11 @@ Map<String, dynamic> _$ShapeOrNullToMap(ShapeOrNull instance) {
 }
 
 ShapeOrNull _$ShapeOrNullFromMap(Map<String, dynamic> src) {
-  final _reflection = ShapeOrNullReflection.instance;
+  const _reflection = ShapeOrNullReflection.instance;
+  final discriminatorKey = _reflection.discriminatorKey;
+  final discriminatorValue = src[discriminatorKey]?.toString();
+  //when we have a discriminator, we pick one model
+  final modelReflection = _reflection.tryGetDiscriminatorModel(discriminatorValue);
   return ShapeOrNull.$all(
         additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
 (
@@ -27,24 +31,33 @@ v
 )
 ))),
     
-    oneOf0: Triangle.canDeserialize(src) ? UndefinedWrapper(Triangle.deserialize(src)) :  UndefinedWrapper.undefined(),
-    oneOf1: Quadrilateral.canDeserialize(src) ? UndefinedWrapper(Quadrilateral.deserialize(src)) :  UndefinedWrapper.undefined(),
+    oneOf0: modelReflection is ClassReflection<Triangle> ? UndefinedWrapper(modelReflection.deserializeFunction(src)) : UndefinedWrapper.undefined(),
+    oneOf1: modelReflection is ClassReflection<Quadrilateral> ? UndefinedWrapper(modelReflection.deserializeFunction(src)) : UndefinedWrapper.undefined(),
   );
 }
 
 bool _$ShapeOrNullCanFromMap(Map<String, dynamic> src) {
   final _reflection = ShapeOrNullReflection.instance;
+
     if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
 (
 true
 ))) {
     return false;
   }
-  
+
+
+  final discriminatorKey = _reflection.discriminatorKey;
+  final discriminatorValue = src[discriminatorKey]?.toString();
+  //when we have a discriminator, we pick one model
+  final modelReflection = _reflection.tryGetDiscriminatorModel(discriminatorValue);
+  if (modelReflection != null) {
+    // a discriminator is defined AND it exists in the src.
+    return modelReflection.canDeserializeFunction(src);
+  }
   final oneOfs = [
     () => Triangle.canDeserialize(src),
-  
-    () => Quadrilateral.canDeserialize(src),
+      () => Quadrilateral.canDeserialize(src),
   ];
   final validOneOfs = oneOfs.where((x) => x()).take(2).length;
   if (validOneOfs == 0 || validOneOfs > 1) {
@@ -71,9 +84,7 @@ ShapeOrNull _$ShapeOrNullDeserialize(Object? src) {
 )) ? UndefinedWrapper(Triangle.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -87,9 +98,7 @@ ShapeOrNull _$ShapeOrNullDeserialize(Object? src) {
 )) ? UndefinedWrapper(Quadrilateral.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -133,11 +142,20 @@ bool _$ShapeOrNullCanDeserialize(Object? src) {
 
 /// Serializes to a primitive Object (num, String, List, Map).
 Object? _$ShapeOrNullSerialize(ShapeOrNull src) {
-  
-  
-  if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.serialize(); }
-  if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.serialize(); }
-  return null;
+  Object? initialResult = () {
+    
+    
+    if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.serialize(); }
+    if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.serialize(); }
+    return null;
+  }();
+  if (initialResult is Map<String, Object?>) {
+    return {
+      ...src.additionalProperties,
+      ...initialResult,
+    };
+  }
+  return initialResult;
 }
 
 

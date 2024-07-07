@@ -9,7 +9,7 @@ Map<String, dynamic> _$ClassModelToMap(ClassModel instance) {
   final _reflection = ClassModelReflection.instance;
   return <String, dynamic>{
     if (instance.propertyClass.isDefined)
-    _reflection.propertyClass.oasName: (
+    _reflection.propertyClassPart.oasName: (
             String
  v) {
       return v;
@@ -20,15 +20,20 @@ Map<String, dynamic> _$ClassModelToMap(ClassModel instance) {
 }
 
 ClassModel _$ClassModelFromMap(Map<String, dynamic> src) {
-  final _reflection = ClassModelReflection.instance;
+  const _reflection = ClassModelReflection.instance;
   return ClassModel.$all(
-    propertyClass: src.getOrUndefinedMapped(_reflection.propertyClass.oasName, (v) => 
+    propertyClass: src.getOrUndefinedMapped(_reflection.propertyClassPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -46,15 +51,21 @@ v
 
 bool _$ClassModelCanFromMap(Map<String, dynamic> src) {
   final _reflection = ClassModelReflection.instance;
-  if (!src.getOrUndefined(_reflection.propertyClass.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.propertyClassPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.propertyClass.required,
+    unDefined: () => !_reflection.propertyClassPart.required,
 )) {
     return false;
   }
@@ -64,7 +75,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -88,11 +99,14 @@ bool _$ClassModelCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$ClassModelSerialize(ClassModel src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$ClassModelSerialize(ClassModel src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

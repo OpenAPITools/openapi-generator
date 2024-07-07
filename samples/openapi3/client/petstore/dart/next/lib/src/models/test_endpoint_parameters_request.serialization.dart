@@ -9,85 +9,85 @@ Map<String, dynamic> _$TestEndpointParametersRequestToMap(TestEndpointParameters
   final _reflection = TestEndpointParametersRequestReflection.instance;
   return <String, dynamic>{
     if (instance.integer.isDefined)
-    _reflection.integer.oasName: (
+    _reflection.integerPart.oasName: (
             int
  v) {
       return v;
     }(instance.integer.valueRequired),
     if (instance.int32.isDefined)
-    _reflection.int32.oasName: (
+    _reflection.int32Part.oasName: (
             int
  v) {
       return v;
     }(instance.int32.valueRequired),
     if (instance.int64.isDefined)
-    _reflection.int64.oasName: (
+    _reflection.int64Part.oasName: (
             int
  v) {
       return v;
     }(instance.int64.valueRequired),
     
-    _reflection.number.oasName: (
+    _reflection.numberPart.oasName: (
             num
  v) {
       return v;
     }(instance.number),
     if (instance.float.isDefined)
-    _reflection.float.oasName: (
+    _reflection.floatPart.oasName: (
             double
  v) {
       return v;
     }(instance.float.valueRequired),
     
-    _reflection.$double.oasName: (
+    _reflection.$doublePart.oasName: (
             double
  v) {
       return v;
     }(instance.$double),
     if (instance.string.isDefined)
-    _reflection.string.oasName: (
+    _reflection.stringPart.oasName: (
             String
  v) {
       return v;
     }(instance.string.valueRequired),
     
-    _reflection.patternWithoutDelimiter.oasName: (
+    _reflection.patternWithoutDelimiterPart.oasName: (
             String
  v) {
       return v;
     }(instance.patternWithoutDelimiter),
     
-    _reflection.byte.oasName: (
+    _reflection.bytePart.oasName: (
             Uint8List
  v) {
       return v;
     }(instance.byte),
     if (instance.binary.isDefined)
-    _reflection.binary.oasName: (
+    _reflection.binaryPart.oasName: (
             XFile
  v) {
       return v;
     }(instance.binary.valueRequired),
     if (instance.date.isDefined)
-    _reflection.date.oasName: (
+    _reflection.datePart.oasName: (
             DateTime
  v) {
       return v;
     }(instance.date.valueRequired),
     if (instance.dateTime.isDefined)
-    _reflection.dateTime.oasName: (
+    _reflection.dateTimePart.oasName: (
             DateTime
  v) {
       return v;
     }(instance.dateTime.valueRequired),
     if (instance.password.isDefined)
-    _reflection.password.oasName: (
+    _reflection.passwordPart.oasName: (
             String
  v) {
       return v;
     }(instance.password.valueRequired),
     if (instance.callback.isDefined)
-    _reflection.callback.oasName: (
+    _reflection.callbackPart.oasName: (
             String
  v) {
       return v;
@@ -98,171 +98,227 @@ Map<String, dynamic> _$TestEndpointParametersRequestToMap(TestEndpointParameters
 }
 
 TestEndpointParametersRequest _$TestEndpointParametersRequestFromMap(Map<String, dynamic> src) {
-  final _reflection = TestEndpointParametersRequestReflection.instance;
+  const _reflection = TestEndpointParametersRequestReflection.instance;
   return TestEndpointParametersRequest.$all(
-    integer: src.getOrUndefinedMapped(_reflection.integer.oasName, (v) => 
+    integer: src.getOrUndefinedMapped(_reflection.integerPart.oasName, (v) => 
 (
 
-    
             
-                    v as int
-            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-int32: src.getOrUndefinedMapped(_reflection.int32.oasName, (v) => 
+int32: src.getOrUndefinedMapped(_reflection.int32Part.oasName, (v) => 
 (
 
-    
             
-                    v as int
-            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-int64: src.getOrUndefinedMapped(_reflection.int64.oasName, (v) => 
+int64: src.getOrUndefinedMapped(_reflection.int64Part.oasName, (v) => 
 (
 
-    
             
-                    v as int
-            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-number: src.getRequiredMapped(_reflection.number.oasName, (v) => 
+number: src.getRequiredMapped(_reflection.numberPart.oasName, (v) => 
 (
 
-    
             
-                    v as num
-            
+                    ( v is num ? v as num :
+num.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-float: src.getOrUndefinedMapped(_reflection.float.oasName, (v) => 
+float: src.getOrUndefinedMapped(_reflection.floatPart.oasName, (v) => 
 (
 
-    
             
-                    v as double
-            
+                    ( v is double ? v as double :
+double.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-$double: src.getRequiredMapped(_reflection.$double.oasName, (v) => 
+$double: src.getRequiredMapped(_reflection.$doublePart.oasName, (v) => 
 (
 
-    
             
-                    v as double
-            
+                    ( v is double ? v as double :
+double.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-string: src.getOrUndefinedMapped(_reflection.string.oasName, (v) => 
+string: src.getOrUndefinedMapped(_reflection.stringPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-patternWithoutDelimiter: src.getRequiredMapped(_reflection.patternWithoutDelimiter.oasName, (v) => 
+patternWithoutDelimiter: src.getRequiredMapped(_reflection.patternWithoutDelimiterPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-byte: src.getRequiredMapped(_reflection.byte.oasName, (v) => 
+byte: src.getRequiredMapped(_reflection.bytePart.oasName, (v) => 
 (
 
-    
             
-                    v as Uint8List
-            
+                    ( v is Uint8List ? v as Uint8List :
+
+
+
+
+throwArgumentMismatch(Uint8List, v)
+
+)
 
 )
 
 
 ),
-binary: src.getOrUndefinedMapped(_reflection.binary.oasName, (v) => 
+binary: src.getOrUndefinedMapped(_reflection.binaryPart.oasName, (v) => 
 (
 
-    
             
-                    v as XFile
-            
+                    ( v is XFile ? v as XFile :
+
+
+
+
+throwArgumentMismatch(XFile, v)
+
+)
 
 )
 
 
 ),
-date: src.getOrUndefinedMapped(_reflection.date.oasName, (v) => 
+date: src.getOrUndefinedMapped(_reflection.datePart.oasName, (v) => 
 (
 
-    
             
-                    v as DateTime
-            
+                    ( v is DateTime ? v as DateTime :
+
+
+
+
+throwArgumentMismatch(DateTime, v)
+
+)
 
 )
 
 
 ),
-dateTime: src.getOrUndefinedMapped(_reflection.dateTime.oasName, (v) => 
+dateTime: src.getOrUndefinedMapped(_reflection.dateTimePart.oasName, (v) => 
 (
 
-    
             
-                    v as DateTime
-            
+                    ( v is DateTime ? v as DateTime :
+
+
+v is int ? DateTime.fromMillisecondsSinceEpoch(v as int) : DateTime.parse(v.toString())
+
+)
 
 )
 
 
 ),
-password: src.getOrUndefinedMapped(_reflection.password.oasName, (v) => 
+password: src.getOrUndefinedMapped(_reflection.passwordPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-callback: src.getOrUndefinedMapped(_reflection.callback.oasName, (v) => 
+callback: src.getOrUndefinedMapped(_reflection.callbackPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -280,171 +336,242 @@ v
 
 bool _$TestEndpointParametersRequestCanFromMap(Map<String, dynamic> src) {
   final _reflection = TestEndpointParametersRequestReflection.instance;
-  if (!src.getOrUndefined(_reflection.integer.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.integerPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.integer.required,
+    unDefined: () => !_reflection.integerPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.int32.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.int32Part.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.int32.required,
+    unDefined: () => !_reflection.int32Part.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.int64.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.int64Part.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.int64.required,
+    unDefined: () => !_reflection.int64Part.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.number.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.numberPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is num
+            (v is num
+     || (num.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.number.required,
+    unDefined: () => !_reflection.numberPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.float.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.floatPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is double
+            (v is double
+     || (double.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.float.required,
+    unDefined: () => !_reflection.floatPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.$double.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.$doublePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is double
+            (v is double
+     || (double.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.$double.required,
+    unDefined: () => !_reflection.$doublePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.string.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.stringPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.string.required,
+    unDefined: () => !_reflection.stringPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.patternWithoutDelimiter.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.patternWithoutDelimiterPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.patternWithoutDelimiter.required,
+    unDefined: () => !_reflection.patternWithoutDelimiterPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.byte.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.bytePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is Uint8List
+            (v is Uint8List
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.byte.required,
+    unDefined: () => !_reflection.bytePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.binary.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.binaryPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is XFile
+            (v is XFile
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.binary.required,
+    unDefined: () => !_reflection.binaryPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.date.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.datePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is DateTime
+            (v is DateTime
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.date.required,
+    unDefined: () => !_reflection.datePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.dateTime.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.dateTimePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is DateTime
+            (v is DateTime
+    
+    
+     || (v is int || DateTime.tryParse(v.toString()) != null)
+    
+)
 ),
-    unDefined: () => !_reflection.dateTime.required,
+    unDefined: () => !_reflection.dateTimePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.password.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.passwordPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.password.required,
+    unDefined: () => !_reflection.passwordPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.callback.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.callbackPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.callback.required,
+    unDefined: () => !_reflection.callbackPart.required,
 )) {
     return false;
   }
@@ -454,7 +581,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -478,11 +605,14 @@ bool _$TestEndpointParametersRequestCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$TestEndpointParametersRequestSerialize(TestEndpointParametersRequest src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$TestEndpointParametersRequestSerialize(TestEndpointParametersRequest src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

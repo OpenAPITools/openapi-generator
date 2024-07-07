@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'new_pet_category_inline_allof_all_of_category_tag.reflection.dart';
@@ -30,7 +30,6 @@ UndefinedWrapper<
 /// * [name] 
 class NewPetCategoryInlineAllofAllOfCategoryTag with
 $OpenApiObjectMixin,
-
 
 NewPetCategoryInlineAllofAllOfCategoryTagMixin {
   @override
@@ -66,12 +65,12 @@ NewPetCategoryInlineAllofAllOfCategoryTagMixin {
   });
 
   static const $reflection = NewPetCategoryInlineAllofAllOfCategoryTagReflection.instance;
+  NewPetCategoryInlineAllofAllOfCategoryTagReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$NewPetCategoryInlineAllofAllOfCategoryTagToMap(this);

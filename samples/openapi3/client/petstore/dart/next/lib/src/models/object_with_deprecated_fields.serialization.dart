@@ -9,25 +9,25 @@ Map<String, dynamic> _$ObjectWithDeprecatedFieldsToMap(ObjectWithDeprecatedField
   final _reflection = ObjectWithDeprecatedFieldsReflection.instance;
   return <String, dynamic>{
     if (instance.uuid.isDefined)
-    _reflection.uuid.oasName: (
+    _reflection.uuidPart.oasName: (
             String
  v) {
       return v;
     }(instance.uuid.valueRequired),
     if (instance.id.isDefined)
-    _reflection.id.oasName: (
+    _reflection.idPart.oasName: (
             num
  v) {
       return v;
     }(instance.id.valueRequired),
     if (instance.deprecatedRef.isDefined)
-    _reflection.deprecatedRef.oasName: (
+    _reflection.deprecatedRefPart.oasName: (
             DeprecatedObject
  v) {
       return v.serialize();
     }(instance.deprecatedRef.valueRequired),
     if (instance.bars.isDefined)
-    _reflection.bars.oasName: (
+    _reflection.barsPart.oasName: (
     List<
         
             String
@@ -41,47 +41,52 @@ Map<String, dynamic> _$ObjectWithDeprecatedFieldsToMap(ObjectWithDeprecatedField
 }
 
 ObjectWithDeprecatedFields _$ObjectWithDeprecatedFieldsFromMap(Map<String, dynamic> src) {
-  final _reflection = ObjectWithDeprecatedFieldsReflection.instance;
+  const _reflection = ObjectWithDeprecatedFieldsReflection.instance;
   return ObjectWithDeprecatedFields.$all(
-    uuid: src.getOrUndefinedMapped(_reflection.uuid.oasName, (v) => 
+    uuid: src.getOrUndefinedMapped(_reflection.uuidPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-id: src.getOrUndefinedMapped(_reflection.id.oasName, (v) => 
+id: src.getOrUndefinedMapped(_reflection.idPart.oasName, (v) => 
 (
 
-    
             
-                    v as num
-            
+                    ( v is num ? v as num :
+num.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-deprecatedRef: src.getOrUndefinedMapped(_reflection.deprecatedRef.oasName, (v) => DeprecatedObject.deserialize
+deprecatedRef: src.getOrUndefinedMapped(_reflection.deprecatedRefPart.oasName, (v) => DeprecatedObject.deserialize
 (
 
-    
             v
 
-
 )
 
 
 ),
-bars: src.getOrUndefinedMapped(_reflection.bars.oasName, (v) => 
+bars: src.getOrUndefinedMapped(_reflection.barsPart.oasName, (v) => 
 (
 
-    
             
             v as List
             
@@ -91,10 +96,15 @@ bars: src.getOrUndefinedMapped(_reflection.bars.oasName, (v) =>
 .map((v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -113,31 +123,42 @@ v
 
 bool _$ObjectWithDeprecatedFieldsCanFromMap(Map<String, dynamic> src) {
   final _reflection = ObjectWithDeprecatedFieldsReflection.instance;
-  if (!src.getOrUndefined(_reflection.uuid.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.uuidPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.uuid.required,
+    unDefined: () => !_reflection.uuidPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.id.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.idPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is num
+            (v is num
+     || (num.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.id.required,
+    unDefined: () => !_reflection.idPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.deprecatedRef.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.deprecatedRefPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -145,11 +166,11 @@ if (!src.getOrUndefined(_reflection.deprecatedRef.oasName).split<bool>(
             DeprecatedObject.canDeserialize(v)
             
 ),
-    unDefined: () => !_reflection.deprecatedRef.required,
+    unDefined: () => !_reflection.deprecatedRefPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.bars.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.barsPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -160,10 +181,15 @@ if (!src.getOrUndefined(_reflection.bars.oasName).split<bool>(
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ))
 ),
-    unDefined: () => !_reflection.bars.required,
+    unDefined: () => !_reflection.barsPart.required,
 )) {
     return false;
   }
@@ -173,7 +199,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -197,11 +223,14 @@ bool _$ObjectWithDeprecatedFieldsCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$ObjectWithDeprecatedFieldsSerialize(ObjectWithDeprecatedFields src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$ObjectWithDeprecatedFieldsSerialize(ObjectWithDeprecatedFields src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

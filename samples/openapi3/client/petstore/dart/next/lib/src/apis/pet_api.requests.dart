@@ -22,8 +22,34 @@ abstract class PetApiAddPetRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = PetApiAddPetRequestUnsafe;
+
+  
+  const factory PetApiAddPetRequest.applicationJson({
+    required 
+            Pet
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = PetApiAddPetRequestApplicationJson;
+  
+  const factory PetApiAddPetRequest.applicationXml({
+    required 
+            Pet
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = PetApiAddPetRequestApplicationXml;
+  
 
   const PetApiAddPetRequest({
     
@@ -114,13 +140,13 @@ abstract class PetApiAddPetRequest {
 
 /// A version of [PetApiAddPetRequest], where you can send arbitrary bytes in the body.
 class PetApiAddPetRequestUnsafe extends PetApiAddPetRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const PetApiAddPetRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     super.extraHeaders,
@@ -132,7 +158,7 @@ class PetApiAddPetRequestUnsafe extends PetApiAddPetRequest {
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -181,10 +207,9 @@ class PetApiAddPetRequestApplicationJson extends PetApiAddPetRequest {
 
     final v = data;
     var serialized = v.serialize();
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -197,7 +222,7 @@ class PetApiAddPetRequestApplicationJson extends PetApiAddPetRequest {
         yield* _stringResult(json.encode(serialized));
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }
@@ -243,10 +268,9 @@ class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
 
     final v = data;
     var serialized = v.serialize();
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -259,7 +283,7 @@ class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
         break;
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }
@@ -408,6 +432,10 @@ extension type const StatusEnum._(String value) {
       throw 'Invalid enum value $value';
     }
     return res;
+  }
+
+  static bool canDeserialize(Object? value) {
+    return value is String && values.where((element) => element.value == value).firstOrNull != null;
   }
 
   /// Creates a [StatusEnum] enum from a value without checking if it exists.
@@ -770,8 +798,34 @@ abstract class PetApiUpdatePetRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = PetApiUpdatePetRequestUnsafe;
+
+  
+  const factory PetApiUpdatePetRequest.applicationJson({
+    required 
+            Pet
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = PetApiUpdatePetRequestApplicationJson;
+  
+  const factory PetApiUpdatePetRequest.applicationXml({
+    required 
+            Pet
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = PetApiUpdatePetRequestApplicationXml;
+  
 
   const PetApiUpdatePetRequest({
     
@@ -862,13 +916,13 @@ abstract class PetApiUpdatePetRequest {
 
 /// A version of [PetApiUpdatePetRequest], where you can send arbitrary bytes in the body.
 class PetApiUpdatePetRequestUnsafe extends PetApiUpdatePetRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const PetApiUpdatePetRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     super.extraHeaders,
@@ -880,7 +934,7 @@ class PetApiUpdatePetRequestUnsafe extends PetApiUpdatePetRequest {
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -929,10 +983,9 @@ class PetApiUpdatePetRequestApplicationJson extends PetApiUpdatePetRequest {
 
     final v = data;
     var serialized = v.serialize();
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -945,7 +998,7 @@ class PetApiUpdatePetRequestApplicationJson extends PetApiUpdatePetRequest {
         yield* _stringResult(json.encode(serialized));
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }
@@ -991,10 +1044,9 @@ class PetApiUpdatePetRequestApplicationXml extends PetApiUpdatePetRequest {
 
     final v = data;
     var serialized = v.serialize();
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -1007,7 +1059,7 @@ class PetApiUpdatePetRequestApplicationXml extends PetApiUpdatePetRequest {
         break;
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }
@@ -1048,8 +1100,10 @@ abstract class PetApiUpdatePetWithFormRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = PetApiUpdatePetWithFormRequestUnsafe;
+
+  
 
   const PetApiUpdatePetWithFormRequest({
     
@@ -1145,13 +1199,13 @@ abstract class PetApiUpdatePetWithFormRequest {
 
 /// A version of [PetApiUpdatePetWithFormRequest], where you can send arbitrary bytes in the body.
 class PetApiUpdatePetWithFormRequestUnsafe extends PetApiUpdatePetWithFormRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const PetApiUpdatePetWithFormRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     required super.petId,
@@ -1167,7 +1221,7 @@ class PetApiUpdatePetWithFormRequestUnsafe extends PetApiUpdatePetWithFormReques
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -1211,8 +1265,10 @@ abstract class PetApiUploadFileRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = PetApiUploadFileRequestUnsafe;
+
+  
 
   const PetApiUploadFileRequest({
     
@@ -1308,13 +1364,13 @@ abstract class PetApiUploadFileRequest {
 
 /// A version of [PetApiUploadFileRequest], where you can send arbitrary bytes in the body.
 class PetApiUploadFileRequestUnsafe extends PetApiUploadFileRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const PetApiUploadFileRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     required super.petId,
@@ -1330,7 +1386,7 @@ class PetApiUploadFileRequestUnsafe extends PetApiUploadFileRequest {
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -1374,8 +1430,10 @@ abstract class PetApiUploadFileWithRequiredFileRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = PetApiUploadFileWithRequiredFileRequestUnsafe;
+
+  
 
   const PetApiUploadFileWithRequiredFileRequest({
     
@@ -1471,13 +1529,13 @@ abstract class PetApiUploadFileWithRequiredFileRequest {
 
 /// A version of [PetApiUploadFileWithRequiredFileRequest], where you can send arbitrary bytes in the body.
 class PetApiUploadFileWithRequiredFileRequestUnsafe extends PetApiUploadFileWithRequiredFileRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const PetApiUploadFileWithRequiredFileRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     required super.petId,
@@ -1493,7 +1551,7 @@ class PetApiUploadFileWithRequiredFileRequestUnsafe extends PetApiUploadFileWith
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }

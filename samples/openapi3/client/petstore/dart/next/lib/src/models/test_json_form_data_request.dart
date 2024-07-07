@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'test_json_form_data_request.reflection.dart';
@@ -30,7 +30,6 @@ mixin TestJsonFormDataRequestMixin on
 /// * [param2] - field2
 class TestJsonFormDataRequest with
 $OpenApiObjectMixin,
-
 
 TestJsonFormDataRequestMixin {
   @override
@@ -62,12 +61,12 @@ required  this.param2     ,
   });
 
   static const $reflection = TestJsonFormDataRequestReflection.instance;
+  TestJsonFormDataRequestReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$TestJsonFormDataRequestToMap(this);

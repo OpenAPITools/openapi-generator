@@ -9,7 +9,7 @@ Map<String, dynamic> _$FruitToMap(Fruit instance) {
   final _reflection = FruitReflection.instance;
   return <String, dynamic>{
     if (instance.color.isDefined)
-    _reflection.color.oasName: (
+    _reflection.colorPart.oasName: (
             String
  v) {
       return v;
@@ -24,15 +24,20 @@ Map<String, dynamic> _$FruitToMap(Fruit instance) {
 }
 
 Fruit _$FruitFromMap(Map<String, dynamic> src) {
-  final _reflection = FruitReflection.instance;
+  const _reflection = FruitReflection.instance;
   return Fruit.$all(
-    color: src.getOrUndefinedMapped(_reflection.color.oasName, (v) => 
+    color: src.getOrUndefinedMapped(_reflection.colorPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -47,23 +52,29 @@ Fruit _$FruitFromMap(Map<String, dynamic> src) {
 
 bool _$FruitCanFromMap(Map<String, dynamic> src) {
   final _reflection = FruitReflection.instance;
-  if (!src.getOrUndefined(_reflection.color.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.colorPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.color.required,
+    unDefined: () => !_reflection.colorPart.required,
 )) {
     return false;
   }
-  
+
+
   final oneOfs = [
     () => Apple.canDeserialize(src),
-  
-    () => Banana.canDeserialize(src),
+      () => Banana.canDeserialize(src),
   ];
   final validOneOfs = oneOfs.where((x) => x()).take(2).length;
   if (validOneOfs == 0 || validOneOfs > 1) {
@@ -114,11 +125,14 @@ bool _$FruitCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$FruitSerialize(Fruit src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$FruitSerialize(Fruit src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

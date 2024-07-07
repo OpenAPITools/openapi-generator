@@ -9,7 +9,7 @@ Map<String, dynamic> _$QuadrilateralInterfaceToMap(QuadrilateralInterface instan
   final _reflection = QuadrilateralInterfaceReflection.instance;
   return <String, dynamic>{
     
-    _reflection.quadrilateralType.oasName: (
+    _reflection.quadrilateralTypePart.oasName: (
             String
  v) {
       return v;
@@ -20,15 +20,20 @@ Map<String, dynamic> _$QuadrilateralInterfaceToMap(QuadrilateralInterface instan
 }
 
 QuadrilateralInterface _$QuadrilateralInterfaceFromMap(Map<String, dynamic> src) {
-  final _reflection = QuadrilateralInterfaceReflection.instance;
+  const _reflection = QuadrilateralInterfaceReflection.instance;
   return QuadrilateralInterface.$all(
-    quadrilateralType: src.getRequiredMapped(_reflection.quadrilateralType.oasName, (v) => 
+    quadrilateralType: src.getRequiredMapped(_reflection.quadrilateralTypePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -46,15 +51,21 @@ v
 
 bool _$QuadrilateralInterfaceCanFromMap(Map<String, dynamic> src) {
   final _reflection = QuadrilateralInterfaceReflection.instance;
-  if (!src.getOrUndefined(_reflection.quadrilateralType.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.quadrilateralTypePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.quadrilateralType.required,
+    unDefined: () => !_reflection.quadrilateralTypePart.required,
 )) {
     return false;
   }
@@ -64,7 +75,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -88,11 +99,14 @@ bool _$QuadrilateralInterfaceCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$QuadrilateralInterfaceSerialize(QuadrilateralInterface src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$QuadrilateralInterfaceSerialize(QuadrilateralInterface src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

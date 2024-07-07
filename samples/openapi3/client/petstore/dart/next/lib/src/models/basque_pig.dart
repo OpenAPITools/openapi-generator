@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'basque_pig.reflection.dart';
@@ -26,7 +26,6 @@ mixin BasquePigMixin on
 class BasquePig with
 $OpenApiObjectMixin,
 
-
 BasquePigMixin {
   @override
   
@@ -51,12 +50,12 @@ BasquePigMixin {
   });
 
   static const $reflection = BasquePigReflection.instance;
+  BasquePigReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$BasquePigToMap(this);

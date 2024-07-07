@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_type_check
+// ignore_for_file: unnecessary_type_check, unnecessary_null_comparison, unnecessary_cast
 
 part of 'fake_api.dart';
 
@@ -59,6 +59,7 @@ class FakeApiFakeGetFreeFormObjectGetResponse200 extends FakeApiFakeGetFreeFormO
     super.bodyBytesStream,
   });
 
+
   T split200<T>({
     
     required T Function(FakeApiFakeGetFreeFormObjectGetResponse200ApplicationJson response) onApplicationJson,
@@ -102,17 +103,15 @@ class FakeApiFakeGetFreeFormObjectGetResponse200 extends FakeApiFakeGetFreeFormO
 
 /// Represent the response when content-type is application/json.
 class FakeApiFakeGetFreeFormObjectGetResponse200ApplicationJson extends FakeApiFakeGetFreeFormObjectGetResponse200 {
-  final UndefinedWrapper<
+  final 
             FreeFormObjectTestClass
-> body;
+? body;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   FakeApiFakeGetFreeFormObjectGetResponse200ApplicationJson({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -122,11 +121,13 @@ class FakeApiFakeGetFreeFormObjectGetResponse200ApplicationJson extends FakeApiF
   });
 
   static Future<FakeApiFakeGetFreeFormObjectGetResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
-    switch (contentType) {
+  final encodingRules = <String, PropertyEncodingRule>{
       
+    };
+
+    switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
         if (v == null ? false :
@@ -139,9 +140,7 @@ class FakeApiFakeGetFreeFormObjectGetResponse200ApplicationJson extends FakeApiF
           final res = FreeFormObjectTestClass.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -152,7 +151,8 @@ class FakeApiFakeGetFreeFormObjectGetResponse200ApplicationJson extends FakeApiF
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
             context: context,
-            body: UndefinedWrapper(res),
+            body: res,
+            
           );
         } else {
           // since we consumed the stream, we need to publish our read result.
@@ -162,10 +162,10 @@ class FakeApiFakeGetFreeFormObjectGetResponse200ApplicationJson extends FakeApiF
             reasonPhrase: response.reasonPhrase,
             context: context,
             rawJson: v,
+            
           );
         }
-      
-      
+      default:
     }
     return FakeApiFakeGetFreeFormObjectGetResponse200ApplicationJson(
       headers: response.headers,
@@ -173,6 +173,7 @@ class FakeApiFakeGetFreeFormObjectGetResponse200ApplicationJson extends FakeApiF
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }
@@ -234,6 +235,7 @@ class FakeApiFakeOuterBooleanSerializeResponse200 extends FakeApiFakeOuterBoolea
     super.bodyBytesStream,
   });
 
+
   T split200<T>({
     
     required T Function(FakeApiFakeOuterBooleanSerializeResponse200AnyAny response) onAnyAny,
@@ -277,15 +279,13 @@ class FakeApiFakeOuterBooleanSerializeResponse200 extends FakeApiFakeOuterBoolea
 
 /// Represent the response when content-type is */*.
 class FakeApiFakeOuterBooleanSerializeResponse200AnyAny extends FakeApiFakeOuterBooleanSerializeResponse200 {
-  final UndefinedWrapper<
+  final 
             bool
-> body;
+? body;
 
 
   FakeApiFakeOuterBooleanSerializeResponse200AnyAny({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -294,11 +294,12 @@ class FakeApiFakeOuterBooleanSerializeResponse200AnyAny extends FakeApiFakeOuter
   });
 
   static Future<FakeApiFakeOuterBooleanSerializeResponse200AnyAny> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+  final encodingRules = <String, PropertyEncodingRule>{
+      
+    };
+
     switch (contentType) {
-      
-      
+      default:
     }
     return FakeApiFakeOuterBooleanSerializeResponse200AnyAny(
       headers: response.headers,
@@ -306,6 +307,7 @@ class FakeApiFakeOuterBooleanSerializeResponse200AnyAny extends FakeApiFakeOuter
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }
@@ -367,6 +369,7 @@ class FakeApiFakeOuterCompositeSerializeResponse200 extends FakeApiFakeOuterComp
     super.bodyBytesStream,
   });
 
+
   T split200<T>({
     
     required T Function(FakeApiFakeOuterCompositeSerializeResponse200AnyAny response) onAnyAny,
@@ -410,15 +413,13 @@ class FakeApiFakeOuterCompositeSerializeResponse200 extends FakeApiFakeOuterComp
 
 /// Represent the response when content-type is */*.
 class FakeApiFakeOuterCompositeSerializeResponse200AnyAny extends FakeApiFakeOuterCompositeSerializeResponse200 {
-  final UndefinedWrapper<
+  final 
             OuterComposite
-> body;
+? body;
 
 
   FakeApiFakeOuterCompositeSerializeResponse200AnyAny({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -427,11 +428,12 @@ class FakeApiFakeOuterCompositeSerializeResponse200AnyAny extends FakeApiFakeOut
   });
 
   static Future<FakeApiFakeOuterCompositeSerializeResponse200AnyAny> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+  final encodingRules = <String, PropertyEncodingRule>{
+      
+    };
+
     switch (contentType) {
-      
-      
+      default:
     }
     return FakeApiFakeOuterCompositeSerializeResponse200AnyAny(
       headers: response.headers,
@@ -439,6 +441,7 @@ class FakeApiFakeOuterCompositeSerializeResponse200AnyAny extends FakeApiFakeOut
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }
@@ -500,6 +503,7 @@ class FakeApiFakeOuterNumberSerializeResponse200 extends FakeApiFakeOuterNumberS
     super.bodyBytesStream,
   });
 
+
   T split200<T>({
     
     required T Function(FakeApiFakeOuterNumberSerializeResponse200AnyAny response) onAnyAny,
@@ -543,15 +547,13 @@ class FakeApiFakeOuterNumberSerializeResponse200 extends FakeApiFakeOuterNumberS
 
 /// Represent the response when content-type is */*.
 class FakeApiFakeOuterNumberSerializeResponse200AnyAny extends FakeApiFakeOuterNumberSerializeResponse200 {
-  final UndefinedWrapper<
+  final 
             num
-> body;
+? body;
 
 
   FakeApiFakeOuterNumberSerializeResponse200AnyAny({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -560,11 +562,12 @@ class FakeApiFakeOuterNumberSerializeResponse200AnyAny extends FakeApiFakeOuterN
   });
 
   static Future<FakeApiFakeOuterNumberSerializeResponse200AnyAny> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+  final encodingRules = <String, PropertyEncodingRule>{
+      
+    };
+
     switch (contentType) {
-      
-      
+      default:
     }
     return FakeApiFakeOuterNumberSerializeResponse200AnyAny(
       headers: response.headers,
@@ -572,6 +575,7 @@ class FakeApiFakeOuterNumberSerializeResponse200AnyAny extends FakeApiFakeOuterN
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }
@@ -633,6 +637,7 @@ class FakeApiFakeOuterStringSerializeResponse200 extends FakeApiFakeOuterStringS
     super.bodyBytesStream,
   });
 
+
   T split200<T>({
     
     required T Function(FakeApiFakeOuterStringSerializeResponse200AnyAny response) onAnyAny,
@@ -676,15 +681,13 @@ class FakeApiFakeOuterStringSerializeResponse200 extends FakeApiFakeOuterStringS
 
 /// Represent the response when content-type is */*.
 class FakeApiFakeOuterStringSerializeResponse200AnyAny extends FakeApiFakeOuterStringSerializeResponse200 {
-  final UndefinedWrapper<
+  final 
             String
-> body;
+? body;
 
 
   FakeApiFakeOuterStringSerializeResponse200AnyAny({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -693,11 +696,12 @@ class FakeApiFakeOuterStringSerializeResponse200AnyAny extends FakeApiFakeOuterS
   });
 
   static Future<FakeApiFakeOuterStringSerializeResponse200AnyAny> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+  final encodingRules = <String, PropertyEncodingRule>{
+      
+    };
+
     switch (contentType) {
-      
-      
+      default:
     }
     return FakeApiFakeOuterStringSerializeResponse200AnyAny(
       headers: response.headers,
@@ -705,6 +709,7 @@ class FakeApiFakeOuterStringSerializeResponse200AnyAny extends FakeApiFakeOuterS
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }
@@ -766,6 +771,7 @@ class FakeApiFakeUploadRefRequestBodiesResponse200 extends FakeApiFakeUploadRefR
     super.bodyBytesStream,
   });
 
+
   T split200<T>({
     
     required T Function(FakeApiFakeUploadRefRequestBodiesResponse200ApplicationJson response) onApplicationJson,
@@ -809,17 +815,15 @@ class FakeApiFakeUploadRefRequestBodiesResponse200 extends FakeApiFakeUploadRefR
 
 /// Represent the response when content-type is application/json.
 class FakeApiFakeUploadRefRequestBodiesResponse200ApplicationJson extends FakeApiFakeUploadRefRequestBodiesResponse200 {
-  final UndefinedWrapper<
+  final 
             ApiResponse
-> body;
+? body;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   FakeApiFakeUploadRefRequestBodiesResponse200ApplicationJson({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -829,11 +833,13 @@ class FakeApiFakeUploadRefRequestBodiesResponse200ApplicationJson extends FakeAp
   });
 
   static Future<FakeApiFakeUploadRefRequestBodiesResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
-    switch (contentType) {
+  final encodingRules = <String, PropertyEncodingRule>{
       
+    };
+
+    switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
         if (v == null ? false :
@@ -846,9 +852,7 @@ class FakeApiFakeUploadRefRequestBodiesResponse200ApplicationJson extends FakeAp
           final res = ApiResponse.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -859,7 +863,8 @@ class FakeApiFakeUploadRefRequestBodiesResponse200ApplicationJson extends FakeAp
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
             context: context,
-            body: UndefinedWrapper(res),
+            body: res,
+            
           );
         } else {
           // since we consumed the stream, we need to publish our read result.
@@ -869,10 +874,10 @@ class FakeApiFakeUploadRefRequestBodiesResponse200ApplicationJson extends FakeAp
             reasonPhrase: response.reasonPhrase,
             context: context,
             rawJson: v,
+            
           );
         }
-      
-      
+      default:
     }
     return FakeApiFakeUploadRefRequestBodiesResponse200ApplicationJson(
       headers: response.headers,
@@ -880,6 +885,7 @@ class FakeApiFakeUploadRefRequestBodiesResponse200ApplicationJson extends FakeAp
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }
@@ -941,6 +947,7 @@ class FakeApiGetFakeArrayofenumsResponse200 extends FakeApiGetFakeArrayofenumsRe
     super.bodyBytesStream,
   });
 
+
   T split200<T>({
     
     required T Function(FakeApiGetFakeArrayofenumsResponse200ApplicationJson response) onApplicationJson,
@@ -984,20 +991,18 @@ class FakeApiGetFakeArrayofenumsResponse200 extends FakeApiGetFakeArrayofenumsRe
 
 /// Represent the response when content-type is application/json.
 class FakeApiGetFakeArrayofenumsResponse200ApplicationJson extends FakeApiGetFakeArrayofenumsResponse200 {
-  final UndefinedWrapper<
+  final 
     List<
         
             OuterEnum
 ?>
-> body;
+? body;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   FakeApiGetFakeArrayofenumsResponse200ApplicationJson({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -1007,11 +1012,13 @@ class FakeApiGetFakeArrayofenumsResponse200ApplicationJson extends FakeApiGetFak
   });
 
   static Future<FakeApiGetFakeArrayofenumsResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
-    switch (contentType) {
+  final encodingRules = <String, PropertyEncodingRule>{
       
+    };
+
+    switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
         if (v == null ? false :
@@ -1024,13 +1031,17 @@ class FakeApiGetFakeArrayofenumsResponse200ApplicationJson extends FakeApiGetFak
 
     
             
-            v is OuterEnum
+            (v is OuterEnum
+    
+    
+    
+    
+)
 ))
 )) {
           final res = 
 (
 
-    
             
             v as List
             
@@ -1040,10 +1051,15 @@ class FakeApiGetFakeArrayofenumsResponse200ApplicationJson extends FakeApiGetFak
 .map((v) => 
 (
 
-    
             
-                    v as OuterEnum
-            ?
+                    (v == null ? null :  v is OuterEnum ? v as OuterEnum :
+
+
+
+
+throwArgumentMismatch(OuterEnum, v)
+
+)
 
 )
 
@@ -1055,7 +1071,8 @@ class FakeApiGetFakeArrayofenumsResponse200ApplicationJson extends FakeApiGetFak
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
             context: context,
-            body: UndefinedWrapper(res),
+            body: res,
+            
           );
         } else {
           // since we consumed the stream, we need to publish our read result.
@@ -1065,10 +1082,10 @@ class FakeApiGetFakeArrayofenumsResponse200ApplicationJson extends FakeApiGetFak
             reasonPhrase: response.reasonPhrase,
             context: context,
             rawJson: v,
+            
           );
         }
-      
-      
+      default:
     }
     return FakeApiGetFakeArrayofenumsResponse200ApplicationJson(
       headers: response.headers,
@@ -1076,6 +1093,7 @@ class FakeApiGetFakeArrayofenumsResponse200ApplicationJson extends FakeApiGetFak
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }
@@ -1137,6 +1155,7 @@ class FakeApiGetFakeHealthResponse200 extends FakeApiGetFakeHealthResponse {
     super.bodyBytesStream,
   });
 
+
   T split200<T>({
     
     required T Function(FakeApiGetFakeHealthResponse200ApplicationJson response) onApplicationJson,
@@ -1180,17 +1199,15 @@ class FakeApiGetFakeHealthResponse200 extends FakeApiGetFakeHealthResponse {
 
 /// Represent the response when content-type is application/json.
 class FakeApiGetFakeHealthResponse200ApplicationJson extends FakeApiGetFakeHealthResponse200 {
-  final UndefinedWrapper<
+  final 
             HealthCheckResult
-> body;
+? body;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   FakeApiGetFakeHealthResponse200ApplicationJson({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -1200,11 +1217,13 @@ class FakeApiGetFakeHealthResponse200ApplicationJson extends FakeApiGetFakeHealt
   });
 
   static Future<FakeApiGetFakeHealthResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
-    switch (contentType) {
+  final encodingRules = <String, PropertyEncodingRule>{
       
+    };
+
+    switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
         if (v == null ? false :
@@ -1217,9 +1236,7 @@ class FakeApiGetFakeHealthResponse200ApplicationJson extends FakeApiGetFakeHealt
           final res = HealthCheckResult.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -1230,7 +1247,8 @@ class FakeApiGetFakeHealthResponse200ApplicationJson extends FakeApiGetFakeHealt
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
             context: context,
-            body: UndefinedWrapper(res),
+            body: res,
+            
           );
         } else {
           // since we consumed the stream, we need to publish our read result.
@@ -1240,10 +1258,10 @@ class FakeApiGetFakeHealthResponse200ApplicationJson extends FakeApiGetFakeHealt
             reasonPhrase: response.reasonPhrase,
             context: context,
             rawJson: v,
+            
           );
         }
-      
-      
+      default:
     }
     return FakeApiGetFakeHealthResponse200ApplicationJson(
       headers: response.headers,
@@ -1251,6 +1269,7 @@ class FakeApiGetFakeHealthResponse200ApplicationJson extends FakeApiGetFakeHealt
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }
@@ -1311,6 +1330,7 @@ class FakeApiGetParameterNameMappingResponse200 extends FakeApiGetParameterNameM
     required super.context,
     super.bodyBytesStream,
   });
+
 
 
 
@@ -1386,6 +1406,7 @@ class FakeApiTestAdditionalPropertiesReferenceResponse200 extends FakeApiTestAdd
 
 
 
+
   static Future<FakeApiTestAdditionalPropertiesReferenceResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
     return FakeApiTestAdditionalPropertiesReferenceResponse200(
       headers: response.headers,
@@ -1455,6 +1476,7 @@ class FakeApiTestBodyWithFileSchemaResponse200 extends FakeApiTestBodyWithFileSc
     required super.context,
     super.bodyBytesStream,
   });
+
 
 
 
@@ -1530,6 +1552,7 @@ class FakeApiTestBodyWithQueryParamsResponse200 extends FakeApiTestBodyWithQuery
 
 
 
+
   static Future<FakeApiTestBodyWithQueryParamsResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
     return FakeApiTestBodyWithQueryParamsResponse200(
       headers: response.headers,
@@ -1600,6 +1623,7 @@ class FakeApiTestClientModelResponse200 extends FakeApiTestClientModelResponse {
     super.bodyBytesStream,
   });
 
+
   T split200<T>({
     
     required T Function(FakeApiTestClientModelResponse200ApplicationJson response) onApplicationJson,
@@ -1643,17 +1667,15 @@ class FakeApiTestClientModelResponse200 extends FakeApiTestClientModelResponse {
 
 /// Represent the response when content-type is application/json.
 class FakeApiTestClientModelResponse200ApplicationJson extends FakeApiTestClientModelResponse200 {
-  final UndefinedWrapper<
+  final 
             Client
-> body;
+? body;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   FakeApiTestClientModelResponse200ApplicationJson({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -1663,11 +1685,13 @@ class FakeApiTestClientModelResponse200ApplicationJson extends FakeApiTestClient
   });
 
   static Future<FakeApiTestClientModelResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
-    switch (contentType) {
+  final encodingRules = <String, PropertyEncodingRule>{
       
+    };
+
+    switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
         if (v == null ? false :
@@ -1680,9 +1704,7 @@ class FakeApiTestClientModelResponse200ApplicationJson extends FakeApiTestClient
           final res = Client.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -1693,7 +1715,8 @@ class FakeApiTestClientModelResponse200ApplicationJson extends FakeApiTestClient
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
             context: context,
-            body: UndefinedWrapper(res),
+            body: res,
+            
           );
         } else {
           // since we consumed the stream, we need to publish our read result.
@@ -1703,10 +1726,10 @@ class FakeApiTestClientModelResponse200ApplicationJson extends FakeApiTestClient
             reasonPhrase: response.reasonPhrase,
             context: context,
             rawJson: v,
+            
           );
         }
-      
-      
+      default:
     }
     return FakeApiTestClientModelResponse200ApplicationJson(
       headers: response.headers,
@@ -1714,6 +1737,7 @@ class FakeApiTestClientModelResponse200ApplicationJson extends FakeApiTestClient
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }
@@ -1783,6 +1807,7 @@ class FakeApiTestEndpointParametersResponse400 extends FakeApiTestEndpointParame
 
 
 
+
   static Future<FakeApiTestEndpointParametersResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
     return FakeApiTestEndpointParametersResponse400(
       headers: response.headers,
@@ -1804,6 +1829,7 @@ class FakeApiTestEndpointParametersResponse404 extends FakeApiTestEndpointParame
     required super.context,
     super.bodyBytesStream,
   });
+
 
 
 
@@ -1885,6 +1911,7 @@ class FakeApiTestEnumParametersResponse400 extends FakeApiTestEnumParametersResp
 
 
 
+
   static Future<FakeApiTestEnumParametersResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
     return FakeApiTestEnumParametersResponse400(
       headers: response.headers,
@@ -1906,6 +1933,7 @@ class FakeApiTestEnumParametersResponse404 extends FakeApiTestEnumParametersResp
     required super.context,
     super.bodyBytesStream,
   });
+
 
 
 
@@ -1981,6 +2009,7 @@ class FakeApiTestGroupParametersResponse400 extends FakeApiTestGroupParametersRe
 
 
 
+
   static Future<FakeApiTestGroupParametersResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
     return FakeApiTestGroupParametersResponse400(
       headers: response.headers,
@@ -2050,6 +2079,7 @@ class FakeApiTestInlineAdditionalPropertiesResponse200 extends FakeApiTestInline
     required super.context,
     super.bodyBytesStream,
   });
+
 
 
 
@@ -2125,6 +2155,7 @@ class FakeApiTestInlineFreeformAdditionalPropertiesResponse200 extends FakeApiTe
 
 
 
+
   static Future<FakeApiTestInlineFreeformAdditionalPropertiesResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
     return FakeApiTestInlineFreeformAdditionalPropertiesResponse200(
       headers: response.headers,
@@ -2194,6 +2225,7 @@ class FakeApiTestJsonFormDataResponse200 extends FakeApiTestJsonFormDataResponse
     required super.context,
     super.bodyBytesStream,
   });
+
 
 
 
@@ -2269,6 +2301,7 @@ class FakeApiTestQueryParameterCollectionFormatResponse200 extends FakeApiTestQu
 
 
 
+
   static Future<FakeApiTestQueryParameterCollectionFormatResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
     return FakeApiTestQueryParameterCollectionFormatResponse200(
       headers: response.headers,
@@ -2338,6 +2371,7 @@ class FakeApiTestStringMapReferenceResponse200 extends FakeApiTestStringMapRefer
     required super.context,
     super.bodyBytesStream,
   });
+
 
 
 

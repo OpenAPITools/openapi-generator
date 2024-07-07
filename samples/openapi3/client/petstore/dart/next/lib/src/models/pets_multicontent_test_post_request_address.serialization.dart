@@ -9,13 +9,13 @@ Map<String, dynamic> _$PetsMulticontentTestPostRequestAddressToMap(PetsMulticont
   final _reflection = PetsMulticontentTestPostRequestAddressReflection.instance;
   return <String, dynamic>{
     if (instance.street.isDefined)
-    _reflection.street.oasName: (
+    _reflection.streetPart.oasName: (
             String
  v) {
       return v;
     }(instance.street.valueRequired),
     if (instance.city.isDefined)
-    _reflection.city.oasName: (
+    _reflection.cityPart.oasName: (
             String
  v) {
       return v;
@@ -26,27 +26,37 @@ Map<String, dynamic> _$PetsMulticontentTestPostRequestAddressToMap(PetsMulticont
 }
 
 PetsMulticontentTestPostRequestAddress _$PetsMulticontentTestPostRequestAddressFromMap(Map<String, dynamic> src) {
-  final _reflection = PetsMulticontentTestPostRequestAddressReflection.instance;
+  const _reflection = PetsMulticontentTestPostRequestAddressReflection.instance;
   return PetsMulticontentTestPostRequestAddress.$all(
-    street: src.getOrUndefinedMapped(_reflection.street.oasName, (v) => 
+    street: src.getOrUndefinedMapped(_reflection.streetPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-city: src.getOrUndefinedMapped(_reflection.city.oasName, (v) => 
+city: src.getOrUndefinedMapped(_reflection.cityPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -64,27 +74,38 @@ v
 
 bool _$PetsMulticontentTestPostRequestAddressCanFromMap(Map<String, dynamic> src) {
   final _reflection = PetsMulticontentTestPostRequestAddressReflection.instance;
-  if (!src.getOrUndefined(_reflection.street.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.streetPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.street.required,
+    unDefined: () => !_reflection.streetPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.city.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.cityPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.city.required,
+    unDefined: () => !_reflection.cityPart.required,
 )) {
     return false;
   }
@@ -94,7 +115,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -118,11 +139,14 @@ bool _$PetsMulticontentTestPostRequestAddressCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$PetsMulticontentTestPostRequestAddressSerialize(PetsMulticontentTestPostRequestAddress src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$PetsMulticontentTestPostRequestAddressSerialize(PetsMulticontentTestPostRequestAddress src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

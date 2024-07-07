@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'pet_with_required_tags.reflection.dart';
@@ -56,7 +56,6 @@ UndefinedWrapper<
 /// * [status] - pet status in the store
 class PetWithRequiredTags with
 $OpenApiObjectMixin,
-
 
 PetWithRequiredTagsMixin {
   @override
@@ -124,12 +123,12 @@ required  this.tags     ,
   });
 
   static const $reflection = PetWithRequiredTagsReflection.instance;
+  PetWithRequiredTagsReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$PetWithRequiredTagsToMap(this);
@@ -189,6 +188,10 @@ extension type const PetWithRequiredTagsStatusEnum._(String value) {
       throw 'Invalid enum value $value';
     }
     return res;
+  }
+
+  static bool canDeserialize(Object? value) {
+    return value is String && values.where((element) => element.value == value).firstOrNull != null;
   }
 
   /// Creates a [PetWithRequiredTagsStatusEnum] enum from a value without checking if it exists.

@@ -9,7 +9,7 @@ Map<String, dynamic> _$NumberOnlyToMap(NumberOnly instance) {
   final _reflection = NumberOnlyReflection.instance;
   return <String, dynamic>{
     if (instance.justNumber.isDefined)
-    _reflection.justNumber.oasName: (
+    _reflection.justNumberPart.oasName: (
             num
  v) {
       return v;
@@ -20,15 +20,18 @@ Map<String, dynamic> _$NumberOnlyToMap(NumberOnly instance) {
 }
 
 NumberOnly _$NumberOnlyFromMap(Map<String, dynamic> src) {
-  final _reflection = NumberOnlyReflection.instance;
+  const _reflection = NumberOnlyReflection.instance;
   return NumberOnly.$all(
-    justNumber: src.getOrUndefinedMapped(_reflection.justNumber.oasName, (v) => 
+    justNumber: src.getOrUndefinedMapped(_reflection.justNumberPart.oasName, (v) => 
 (
 
-    
             
-                    v as num
-            
+                    ( v is num ? v as num :
+num.parse(v.toString())
+
+
+
+)
 
 )
 
@@ -46,15 +49,21 @@ v
 
 bool _$NumberOnlyCanFromMap(Map<String, dynamic> src) {
   final _reflection = NumberOnlyReflection.instance;
-  if (!src.getOrUndefined(_reflection.justNumber.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.justNumberPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is num
+            (v is num
+     || (num.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.justNumber.required,
+    unDefined: () => !_reflection.justNumberPart.required,
 )) {
     return false;
   }
@@ -64,7 +73,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -88,11 +97,14 @@ bool _$NumberOnlyCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$NumberOnlySerialize(NumberOnly src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$NumberOnlySerialize(NumberOnly src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

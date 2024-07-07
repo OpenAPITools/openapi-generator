@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_type_check
+// ignore_for_file: unnecessary_type_check, unnecessary_null_comparison, unnecessary_cast
 
 part of 'fake_classname_tags123_api.dart';
 
@@ -59,6 +59,7 @@ class FakeClassnameTags123ApiTestClassnameResponse200 extends FakeClassnameTags1
     super.bodyBytesStream,
   });
 
+
   T split200<T>({
     
     required T Function(FakeClassnameTags123ApiTestClassnameResponse200ApplicationJson response) onApplicationJson,
@@ -102,17 +103,15 @@ class FakeClassnameTags123ApiTestClassnameResponse200 extends FakeClassnameTags1
 
 /// Represent the response when content-type is application/json.
 class FakeClassnameTags123ApiTestClassnameResponse200ApplicationJson extends FakeClassnameTags123ApiTestClassnameResponse200 {
-  final UndefinedWrapper<
+  final 
             Client
-> body;
+? body;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   FakeClassnameTags123ApiTestClassnameResponse200ApplicationJson({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -122,11 +121,13 @@ class FakeClassnameTags123ApiTestClassnameResponse200ApplicationJson extends Fak
   });
 
   static Future<FakeClassnameTags123ApiTestClassnameResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
-    switch (contentType) {
+  final encodingRules = <String, PropertyEncodingRule>{
       
+    };
+
+    switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
         if (v == null ? false :
@@ -139,9 +140,7 @@ class FakeClassnameTags123ApiTestClassnameResponse200ApplicationJson extends Fak
           final res = Client.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -152,7 +151,8 @@ class FakeClassnameTags123ApiTestClassnameResponse200ApplicationJson extends Fak
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
             context: context,
-            body: UndefinedWrapper(res),
+            body: res,
+            
           );
         } else {
           // since we consumed the stream, we need to publish our read result.
@@ -162,10 +162,10 @@ class FakeClassnameTags123ApiTestClassnameResponse200ApplicationJson extends Fak
             reasonPhrase: response.reasonPhrase,
             context: context,
             rawJson: v,
+            
           );
         }
-      
-      
+      default:
     }
     return FakeClassnameTags123ApiTestClassnameResponse200ApplicationJson(
       headers: response.headers,
@@ -173,6 +173,7 @@ class FakeClassnameTags123ApiTestClassnameResponse200ApplicationJson extends Fak
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }

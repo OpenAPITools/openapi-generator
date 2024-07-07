@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'scalene_triangle.reflection.dart';
@@ -22,7 +22,6 @@ mixin ScaleneTriangleMixin on
 /// * [triangleType] 
 class ScaleneTriangle with
 $OpenApiObjectMixin,
-
 ShapeInterfaceMixin,TriangleInterfaceMixin,
 ScaleneTriangleMixin {
   @override
@@ -54,6 +53,7 @@ required  this.triangleType     ,
   });
 
   static const $reflection = ScaleneTriangleReflection.instance;
+  ScaleneTriangleReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
@@ -61,7 +61,6 @@ required  this.triangleType     ,
       
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$ScaleneTriangleToMap(this);

@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_type_check
+// ignore_for_file: unnecessary_type_check, unnecessary_null_comparison, unnecessary_cast
 
 part of 'store_api.dart';
 
@@ -67,6 +67,7 @@ class StoreApiDeleteOrderResponse400 extends StoreApiDeleteOrderResponse {
 
 
 
+
   static Future<StoreApiDeleteOrderResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
     return StoreApiDeleteOrderResponse400(
       headers: response.headers,
@@ -88,6 +89,7 @@ class StoreApiDeleteOrderResponse404 extends StoreApiDeleteOrderResponse {
     required super.context,
     super.bodyBytesStream,
   });
+
 
 
 
@@ -161,6 +163,7 @@ class StoreApiGetInventoryResponse200 extends StoreApiGetInventoryResponse {
     super.bodyBytesStream,
   });
 
+
   T split200<T>({
     
     required T Function(StoreApiGetInventoryResponse200ApplicationJson response) onApplicationJson,
@@ -204,20 +207,18 @@ class StoreApiGetInventoryResponse200 extends StoreApiGetInventoryResponse {
 
 /// Represent the response when content-type is application/json.
 class StoreApiGetInventoryResponse200ApplicationJson extends StoreApiGetInventoryResponse200 {
-  final UndefinedWrapper<
+  final 
     Map<String, 
         
             int
 >
-> body;
+? body;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   StoreApiGetInventoryResponse200ApplicationJson({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -227,11 +228,13 @@ class StoreApiGetInventoryResponse200ApplicationJson extends StoreApiGetInventor
   });
 
   static Future<StoreApiGetInventoryResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
-    switch (contentType) {
+  final encodingRules = <String, PropertyEncodingRule>{
       
+    };
+
+    switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
         if (v == null ? false :
@@ -243,14 +246,18 @@ class StoreApiGetInventoryResponse200ApplicationJson extends StoreApiGetInventor
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ))
             
 )) {
           final res = 
 (
 
-    
             v as Map<String, dynamic>
             
             
@@ -259,10 +266,13 @@ class StoreApiGetInventoryResponse200ApplicationJson extends StoreApiGetInventor
 .map((k,v) => MapEntry(k, 
 (
 
-    
             
-                    v as int
-            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
@@ -275,7 +285,8 @@ class StoreApiGetInventoryResponse200ApplicationJson extends StoreApiGetInventor
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
             context: context,
-            body: UndefinedWrapper(res),
+            body: res,
+            
           );
         } else {
           // since we consumed the stream, we need to publish our read result.
@@ -285,10 +296,10 @@ class StoreApiGetInventoryResponse200ApplicationJson extends StoreApiGetInventor
             reasonPhrase: response.reasonPhrase,
             context: context,
             rawJson: v,
+            
           );
         }
-      
-      
+      default:
     }
     return StoreApiGetInventoryResponse200ApplicationJson(
       headers: response.headers,
@@ -296,6 +307,7 @@ class StoreApiGetInventoryResponse200ApplicationJson extends StoreApiGetInventor
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }
@@ -369,6 +381,7 @@ class StoreApiGetOrderByIdResponse200 extends StoreApiGetOrderByIdResponse {
     super.bodyBytesStream,
   });
 
+
   T split200<T>({
     
     required T Function(StoreApiGetOrderByIdResponse200ApplicationXml response) onApplicationXml,
@@ -420,17 +433,15 @@ class StoreApiGetOrderByIdResponse200 extends StoreApiGetOrderByIdResponse {
 
 /// Represent the response when content-type is application/xml.
 class StoreApiGetOrderByIdResponse200ApplicationXml extends StoreApiGetOrderByIdResponse200 {
-  final UndefinedWrapper<
+  final 
             Order
-> body;
+? body;
 
   /// The raw result of calling XmlDocument.parse
   final XmlDocument? rawXml;
 
   StoreApiGetOrderByIdResponse200ApplicationXml({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -440,12 +451,13 @@ class StoreApiGetOrderByIdResponse200ApplicationXml extends StoreApiGetOrderById
   });
 
   static Future<StoreApiGetOrderByIdResponse200ApplicationXml> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+  final encodingRules = <String, PropertyEncodingRule>{
+      
+    };
+
     switch (contentType) {
-      
-      
       case MediaType(type: 'application', subtype: 'xml'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = XmlDocument.parse(serialized);
         // check if v can be deserialized to xml
@@ -455,8 +467,9 @@ class StoreApiGetOrderByIdResponse200ApplicationXml extends StoreApiGetOrderById
           reasonPhrase: response.reasonPhrase,
           context: context,
           rawXml: v,
+          
         );
-      
+      default:
     }
     return StoreApiGetOrderByIdResponse200ApplicationXml(
       headers: response.headers,
@@ -464,23 +477,22 @@ class StoreApiGetOrderByIdResponse200ApplicationXml extends StoreApiGetOrderById
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }
 
 /// Represent the response when content-type is application/json.
 class StoreApiGetOrderByIdResponse200ApplicationJson extends StoreApiGetOrderByIdResponse200 {
-  final UndefinedWrapper<
+  final 
             Order
-> body;
+? body;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   StoreApiGetOrderByIdResponse200ApplicationJson({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -490,11 +502,13 @@ class StoreApiGetOrderByIdResponse200ApplicationJson extends StoreApiGetOrderByI
   });
 
   static Future<StoreApiGetOrderByIdResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
-    switch (contentType) {
+  final encodingRules = <String, PropertyEncodingRule>{
       
+    };
+
+    switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
         if (v == null ? false :
@@ -507,9 +521,7 @@ class StoreApiGetOrderByIdResponse200ApplicationJson extends StoreApiGetOrderByI
           final res = Order.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -520,7 +532,8 @@ class StoreApiGetOrderByIdResponse200ApplicationJson extends StoreApiGetOrderByI
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
             context: context,
-            body: UndefinedWrapper(res),
+            body: res,
+            
           );
         } else {
           // since we consumed the stream, we need to publish our read result.
@@ -530,10 +543,10 @@ class StoreApiGetOrderByIdResponse200ApplicationJson extends StoreApiGetOrderByI
             reasonPhrase: response.reasonPhrase,
             context: context,
             rawJson: v,
+            
           );
         }
-      
-      
+      default:
     }
     return StoreApiGetOrderByIdResponse200ApplicationJson(
       headers: response.headers,
@@ -541,6 +554,7 @@ class StoreApiGetOrderByIdResponse200ApplicationJson extends StoreApiGetOrderByI
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }
@@ -553,6 +567,7 @@ class StoreApiGetOrderByIdResponse400 extends StoreApiGetOrderByIdResponse {
     required super.context,
     super.bodyBytesStream,
   });
+
 
 
 
@@ -577,6 +592,7 @@ class StoreApiGetOrderByIdResponse404 extends StoreApiGetOrderByIdResponse {
     required super.context,
     super.bodyBytesStream,
   });
+
 
 
 
@@ -656,6 +672,7 @@ class StoreApiPlaceOrderResponse200 extends StoreApiPlaceOrderResponse {
     super.bodyBytesStream,
   });
 
+
   T split200<T>({
     
     required T Function(StoreApiPlaceOrderResponse200ApplicationXml response) onApplicationXml,
@@ -707,17 +724,15 @@ class StoreApiPlaceOrderResponse200 extends StoreApiPlaceOrderResponse {
 
 /// Represent the response when content-type is application/xml.
 class StoreApiPlaceOrderResponse200ApplicationXml extends StoreApiPlaceOrderResponse200 {
-  final UndefinedWrapper<
+  final 
             Order
-> body;
+? body;
 
   /// The raw result of calling XmlDocument.parse
   final XmlDocument? rawXml;
 
   StoreApiPlaceOrderResponse200ApplicationXml({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -727,12 +742,13 @@ class StoreApiPlaceOrderResponse200ApplicationXml extends StoreApiPlaceOrderResp
   });
 
   static Future<StoreApiPlaceOrderResponse200ApplicationXml> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+  final encodingRules = <String, PropertyEncodingRule>{
+      
+    };
+
     switch (contentType) {
-      
-      
       case MediaType(type: 'application', subtype: 'xml'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = XmlDocument.parse(serialized);
         // check if v can be deserialized to xml
@@ -742,8 +758,9 @@ class StoreApiPlaceOrderResponse200ApplicationXml extends StoreApiPlaceOrderResp
           reasonPhrase: response.reasonPhrase,
           context: context,
           rawXml: v,
+          
         );
-      
+      default:
     }
     return StoreApiPlaceOrderResponse200ApplicationXml(
       headers: response.headers,
@@ -751,23 +768,22 @@ class StoreApiPlaceOrderResponse200ApplicationXml extends StoreApiPlaceOrderResp
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }
 
 /// Represent the response when content-type is application/json.
 class StoreApiPlaceOrderResponse200ApplicationJson extends StoreApiPlaceOrderResponse200 {
-  final UndefinedWrapper<
+  final 
             Order
-> body;
+? body;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   StoreApiPlaceOrderResponse200ApplicationJson({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -777,11 +793,13 @@ class StoreApiPlaceOrderResponse200ApplicationJson extends StoreApiPlaceOrderRes
   });
 
   static Future<StoreApiPlaceOrderResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
-    switch (contentType) {
+  final encodingRules = <String, PropertyEncodingRule>{
       
+    };
+
+    switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
         if (v == null ? false :
@@ -794,9 +812,7 @@ class StoreApiPlaceOrderResponse200ApplicationJson extends StoreApiPlaceOrderRes
           final res = Order.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -807,7 +823,8 @@ class StoreApiPlaceOrderResponse200ApplicationJson extends StoreApiPlaceOrderRes
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
             context: context,
-            body: UndefinedWrapper(res),
+            body: res,
+            
           );
         } else {
           // since we consumed the stream, we need to publish our read result.
@@ -817,10 +834,10 @@ class StoreApiPlaceOrderResponse200ApplicationJson extends StoreApiPlaceOrderRes
             reasonPhrase: response.reasonPhrase,
             context: context,
             rawJson: v,
+            
           );
         }
-      
-      
+      default:
     }
     return StoreApiPlaceOrderResponse200ApplicationJson(
       headers: response.headers,
@@ -828,6 +845,7 @@ class StoreApiPlaceOrderResponse200ApplicationJson extends StoreApiPlaceOrderRes
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }
@@ -840,6 +858,7 @@ class StoreApiPlaceOrderResponse400 extends StoreApiPlaceOrderResponse {
     required super.context,
     super.bodyBytesStream,
   });
+
 
 
 

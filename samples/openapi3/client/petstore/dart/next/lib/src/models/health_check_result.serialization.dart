@@ -9,7 +9,7 @@ Map<String, dynamic> _$HealthCheckResultToMap(HealthCheckResult instance) {
   final _reflection = HealthCheckResultReflection.instance;
   return <String, dynamic>{
     if (instance.nullableMessage.isDefined)
-    _reflection.nullableMessage.oasName: (
+    _reflection.nullableMessagePart.oasName: (
             String
 ? v) {
       return v;
@@ -20,15 +20,20 @@ Map<String, dynamic> _$HealthCheckResultToMap(HealthCheckResult instance) {
 }
 
 HealthCheckResult _$HealthCheckResultFromMap(Map<String, dynamic> src) {
-  final _reflection = HealthCheckResultReflection.instance;
+  const _reflection = HealthCheckResultReflection.instance;
   return HealthCheckResult.$all(
-    nullableMessage: src.getOrUndefinedMapped(_reflection.nullableMessage.oasName, (v) => 
+    nullableMessage: src.getOrUndefinedMapped(_reflection.nullableMessagePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            ?
+                    (v == null ? null :  v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -46,15 +51,21 @@ v
 
 bool _$HealthCheckResultCanFromMap(Map<String, dynamic> src) {
   final _reflection = HealthCheckResultReflection.instance;
-  if (!src.getOrUndefined(_reflection.nullableMessage.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.nullableMessagePart.oasName).split<bool>(
     defined: (v) => v == null ? true :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.nullableMessage.required,
+    unDefined: () => !_reflection.nullableMessagePart.required,
 )) {
     return false;
   }
@@ -64,7 +75,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -88,11 +99,14 @@ bool _$HealthCheckResultCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$HealthCheckResultSerialize(HealthCheckResult src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$HealthCheckResultSerialize(HealthCheckResult src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

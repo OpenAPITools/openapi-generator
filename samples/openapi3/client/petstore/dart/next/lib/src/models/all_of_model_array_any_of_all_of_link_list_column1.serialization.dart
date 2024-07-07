@@ -9,7 +9,7 @@ Map<String, dynamic> _$AllOfModelArrayAnyOfAllOfLinkListColumn1ToMap(AllOfModelA
   final _reflection = AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection.instance;
   return <String, dynamic>{
     
-    _reflection.value.oasName: (
+    _reflection.valuePart.oasName: (
     List<
         
             AllOfModelArrayAnyOfAllOfLinkListColumn1Value
@@ -23,12 +23,11 @@ Map<String, dynamic> _$AllOfModelArrayAnyOfAllOfLinkListColumn1ToMap(AllOfModelA
 }
 
 AllOfModelArrayAnyOfAllOfLinkListColumn1 _$AllOfModelArrayAnyOfAllOfLinkListColumn1FromMap(Map<String, dynamic> src) {
-  final _reflection = AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection.instance;
+  const _reflection = AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection.instance;
   return AllOfModelArrayAnyOfAllOfLinkListColumn1.$all(
-    value: src.getRequiredMapped(_reflection.value.oasName, (v) => 
+    value: src.getRequiredMapped(_reflection.valuePart.oasName, (v) => 
 (
 
-    
             
             v as List
             
@@ -38,9 +37,7 @@ AllOfModelArrayAnyOfAllOfLinkListColumn1 _$AllOfModelArrayAnyOfAllOfLinkListColu
 .map((v) => AllOfModelArrayAnyOfAllOfLinkListColumn1Value.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -59,7 +56,8 @@ v
 
 bool _$AllOfModelArrayAnyOfAllOfLinkListColumn1CanFromMap(Map<String, dynamic> src) {
   final _reflection = AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection.instance;
-  if (!src.getOrUndefined(_reflection.value.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.valuePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -73,7 +71,7 @@ bool _$AllOfModelArrayAnyOfAllOfLinkListColumn1CanFromMap(Map<String, dynamic> s
             
 ))
 ),
-    unDefined: () => !_reflection.value.required,
+    unDefined: () => !_reflection.valuePart.required,
 )) {
     return false;
   }
@@ -83,7 +81,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -107,11 +105,14 @@ bool _$AllOfModelArrayAnyOfAllOfLinkListColumn1CanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$AllOfModelArrayAnyOfAllOfLinkListColumn1Serialize(AllOfModelArrayAnyOfAllOfLinkListColumn1 src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$AllOfModelArrayAnyOfAllOfLinkListColumn1Serialize(AllOfModelArrayAnyOfAllOfLinkListColumn1 src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

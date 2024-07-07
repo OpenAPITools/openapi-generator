@@ -9,13 +9,13 @@ Map<String, dynamic> _$VariableToMap(Variable instance) {
   final _reflection = VariableReflection.instance;
   return <String, dynamic>{
     
-    _reflection.name.oasName: (
+    _reflection.namePart.oasName: (
             String
  v) {
       return v;
     }(instance.name),
     
-    _reflection.value.oasName: (
+    _reflection.valuePart.oasName: (
             Value
  v) {
       return v.serialize();
@@ -26,26 +26,29 @@ Map<String, dynamic> _$VariableToMap(Variable instance) {
 }
 
 Variable _$VariableFromMap(Map<String, dynamic> src) {
-  final _reflection = VariableReflection.instance;
+  const _reflection = VariableReflection.instance;
   return Variable.$all(
-    name: src.getRequiredMapped(_reflection.name.oasName, (v) => 
+    name: src.getRequiredMapped(_reflection.namePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-value: src.getRequiredMapped(_reflection.value.oasName, (v) => Value.deserialize
+value: src.getRequiredMapped(_reflection.valuePart.oasName, (v) => Value.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -63,19 +66,25 @@ v
 
 bool _$VariableCanFromMap(Map<String, dynamic> src) {
   final _reflection = VariableReflection.instance;
-  if (!src.getOrUndefined(_reflection.name.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.namePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.name.required,
+    unDefined: () => !_reflection.namePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.value.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.valuePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -83,7 +92,7 @@ if (!src.getOrUndefined(_reflection.value.oasName).split<bool>(
             Value.canDeserialize(v)
             
 ),
-    unDefined: () => !_reflection.value.required,
+    unDefined: () => !_reflection.valuePart.required,
 )) {
     return false;
   }
@@ -93,7 +102,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -117,11 +126,14 @@ bool _$VariableCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$VariableSerialize(Variable src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$VariableSerialize(Variable src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

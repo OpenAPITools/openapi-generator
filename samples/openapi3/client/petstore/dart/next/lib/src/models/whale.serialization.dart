@@ -9,19 +9,19 @@ Map<String, dynamic> _$WhaleToMap(Whale instance) {
   final _reflection = WhaleReflection.instance;
   return <String, dynamic>{
     if (instance.hasBaleen.isDefined)
-    _reflection.hasBaleen.oasName: (
+    _reflection.hasBaleenPart.oasName: (
             bool
  v) {
       return v;
     }(instance.hasBaleen.valueRequired),
     if (instance.hasTeeth.isDefined)
-    _reflection.hasTeeth.oasName: (
+    _reflection.hasTeethPart.oasName: (
             bool
  v) {
       return v;
     }(instance.hasTeeth.valueRequired),
     
-    _reflection.className.oasName: (
+    _reflection.classNamePart.oasName: (
             String
  v) {
       return v;
@@ -32,39 +32,50 @@ Map<String, dynamic> _$WhaleToMap(Whale instance) {
 }
 
 Whale _$WhaleFromMap(Map<String, dynamic> src) {
-  final _reflection = WhaleReflection.instance;
+  const _reflection = WhaleReflection.instance;
   return Whale.$all(
-    hasBaleen: src.getOrUndefinedMapped(_reflection.hasBaleen.oasName, (v) => 
+    hasBaleen: src.getOrUndefinedMapped(_reflection.hasBaleenPart.oasName, (v) => 
 (
 
-    
             
-                    v as bool
-            
+                    ( v is bool ? v as bool :
+
+bool.parse(v.toString())
+
+
+)
 
 )
 
 
 ),
-hasTeeth: src.getOrUndefinedMapped(_reflection.hasTeeth.oasName, (v) => 
+hasTeeth: src.getOrUndefinedMapped(_reflection.hasTeethPart.oasName, (v) => 
 (
 
-    
             
-                    v as bool
-            
+                    ( v is bool ? v as bool :
+
+bool.parse(v.toString())
+
+
+)
 
 )
 
 
 ),
-className: src.getRequiredMapped(_reflection.className.oasName, (v) => 
+className: src.getRequiredMapped(_reflection.classNamePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -82,39 +93,55 @@ v
 
 bool _$WhaleCanFromMap(Map<String, dynamic> src) {
   final _reflection = WhaleReflection.instance;
-  if (!src.getOrUndefined(_reflection.hasBaleen.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.hasBaleenPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is bool
+            (v is bool
+    
+     || (bool.tryParse(v.toString()) != null)
+    
+    
+)
 ),
-    unDefined: () => !_reflection.hasBaleen.required,
+    unDefined: () => !_reflection.hasBaleenPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.hasTeeth.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.hasTeethPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is bool
+            (v is bool
+    
+     || (bool.tryParse(v.toString()) != null)
+    
+    
+)
 ),
-    unDefined: () => !_reflection.hasTeeth.required,
+    unDefined: () => !_reflection.hasTeethPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.className.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.classNamePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.className.required,
+    unDefined: () => !_reflection.classNamePart.required,
 )) {
     return false;
   }
@@ -124,7 +151,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -148,11 +175,14 @@ bool _$WhaleCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$WhaleSerialize(Whale src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$WhaleSerialize(Whale src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

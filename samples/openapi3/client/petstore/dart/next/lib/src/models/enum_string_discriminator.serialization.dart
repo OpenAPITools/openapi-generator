@@ -9,7 +9,7 @@ Map<String, dynamic> _$EnumStringDiscriminatorToMap(EnumStringDiscriminator inst
   final _reflection = EnumStringDiscriminatorReflection.instance;
   return <String, dynamic>{
     
-    _reflection.enumStrType.oasName: (
+    _reflection.enumStrTypePart.oasName: (
             EnumStringDiscriminatorEnumStrTypeEnum
  v) {
       return v.value;
@@ -20,15 +20,24 @@ Map<String, dynamic> _$EnumStringDiscriminatorToMap(EnumStringDiscriminator inst
 }
 
 EnumStringDiscriminator _$EnumStringDiscriminatorFromMap(Map<String, dynamic> src) {
-  final _reflection = EnumStringDiscriminatorReflection.instance;
+  const _reflection = EnumStringDiscriminatorReflection.instance;
+  final discriminatorKey = _reflection.discriminatorKey;
+  final discriminatorValue = src[discriminatorKey]?.toString();
+  //when we have a discriminator, we pick one model
+  final modelReflection = _reflection.tryGetDiscriminatorModel(discriminatorValue);
   return EnumStringDiscriminator.$all(
-    enumStrType: src.getRequiredMapped(_reflection.enumStrType.oasName, (v) => 
+    enumStrType: src.getRequiredMapped(_reflection.enumStrTypePart.oasName, (v) => 
 (
 
-    
             
-                    EnumStringDiscriminatorEnumStrTypeEnum.$safe(v as String)
-            
+                    EnumStringDiscriminatorEnumStrTypeEnum.$safe(( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+))
 
 )
 
@@ -46,15 +55,21 @@ v
 
 bool _$EnumStringDiscriminatorCanFromMap(Map<String, dynamic> src) {
   final _reflection = EnumStringDiscriminatorReflection.instance;
-  if (!src.getOrUndefined(_reflection.enumStrType.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.enumStrTypePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+     && EnumStringDiscriminatorEnumStrTypeEnum.canDeserialize(v)
+)
 ),
-    unDefined: () => !_reflection.enumStrType.required,
+    unDefined: () => !_reflection.enumStrTypePart.required,
 )) {
     return false;
   }
@@ -64,7 +79,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -88,11 +103,14 @@ bool _$EnumStringDiscriminatorCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$EnumStringDiscriminatorSerialize(EnumStringDiscriminator src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$EnumStringDiscriminatorSerialize(EnumStringDiscriminator src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

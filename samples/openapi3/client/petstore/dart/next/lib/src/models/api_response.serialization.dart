@@ -9,19 +9,19 @@ Map<String, dynamic> _$ApiResponseToMap(ApiResponse instance) {
   final _reflection = ApiResponseReflection.instance;
   return <String, dynamic>{
     if (instance.code.isDefined)
-    _reflection.code.oasName: (
+    _reflection.codePart.oasName: (
             int
  v) {
       return v;
     }(instance.code.valueRequired),
     if (instance.type.isDefined)
-    _reflection.type.oasName: (
+    _reflection.typePart.oasName: (
             String
  v) {
       return v;
     }(instance.type.valueRequired),
     if (instance.message.isDefined)
-    _reflection.message.oasName: (
+    _reflection.messagePart.oasName: (
             String
  v) {
       return v;
@@ -32,39 +32,52 @@ Map<String, dynamic> _$ApiResponseToMap(ApiResponse instance) {
 }
 
 ApiResponse _$ApiResponseFromMap(Map<String, dynamic> src) {
-  final _reflection = ApiResponseReflection.instance;
+  const _reflection = ApiResponseReflection.instance;
   return ApiResponse.$all(
-    code: src.getOrUndefinedMapped(_reflection.code.oasName, (v) => 
+    code: src.getOrUndefinedMapped(_reflection.codePart.oasName, (v) => 
 (
 
-    
             
-                    v as int
-            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-type: src.getOrUndefinedMapped(_reflection.type.oasName, (v) => 
+type: src.getOrUndefinedMapped(_reflection.typePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-message: src.getOrUndefinedMapped(_reflection.message.oasName, (v) => 
+message: src.getOrUndefinedMapped(_reflection.messagePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -82,39 +95,55 @@ v
 
 bool _$ApiResponseCanFromMap(Map<String, dynamic> src) {
   final _reflection = ApiResponseReflection.instance;
-  if (!src.getOrUndefined(_reflection.code.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.codePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.code.required,
+    unDefined: () => !_reflection.codePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.type.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.typePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.type.required,
+    unDefined: () => !_reflection.typePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.message.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.messagePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.message.required,
+    unDefined: () => !_reflection.messagePart.required,
 )) {
     return false;
   }
@@ -124,7 +153,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -148,11 +177,14 @@ bool _$ApiResponseCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$ApiResponseSerialize(ApiResponse src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$ApiResponseSerialize(ApiResponse src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

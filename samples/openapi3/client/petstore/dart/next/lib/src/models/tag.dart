@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'tag.reflection.dart';
@@ -30,7 +30,6 @@ UndefinedWrapper<
 /// * [name] 
 class Tag with
 $OpenApiObjectMixin,
-
 
 TagMixin {
   @override
@@ -66,12 +65,12 @@ TagMixin {
   });
 
   static const $reflection = TagReflection.instance;
+  TagReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$TagToMap(this);

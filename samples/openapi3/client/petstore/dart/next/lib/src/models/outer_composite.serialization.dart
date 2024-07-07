@@ -9,19 +9,19 @@ Map<String, dynamic> _$OuterCompositeToMap(OuterComposite instance) {
   final _reflection = OuterCompositeReflection.instance;
   return <String, dynamic>{
     if (instance.myNumber.isDefined)
-    _reflection.myNumber.oasName: (
+    _reflection.myNumberPart.oasName: (
             num
  v) {
       return v;
     }(instance.myNumber.valueRequired),
     if (instance.myString.isDefined)
-    _reflection.myString.oasName: (
+    _reflection.myStringPart.oasName: (
             String
  v) {
       return v;
     }(instance.myString.valueRequired),
     if (instance.myBoolean.isDefined)
-    _reflection.myBoolean.oasName: (
+    _reflection.myBooleanPart.oasName: (
             bool
  v) {
       return v;
@@ -32,39 +32,50 @@ Map<String, dynamic> _$OuterCompositeToMap(OuterComposite instance) {
 }
 
 OuterComposite _$OuterCompositeFromMap(Map<String, dynamic> src) {
-  final _reflection = OuterCompositeReflection.instance;
+  const _reflection = OuterCompositeReflection.instance;
   return OuterComposite.$all(
-    myNumber: src.getOrUndefinedMapped(_reflection.myNumber.oasName, (v) => 
+    myNumber: src.getOrUndefinedMapped(_reflection.myNumberPart.oasName, (v) => 
 (
 
-    
             
-                    v as num
-            
+                    ( v is num ? v as num :
+num.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-myString: src.getOrUndefinedMapped(_reflection.myString.oasName, (v) => 
+myString: src.getOrUndefinedMapped(_reflection.myStringPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-myBoolean: src.getOrUndefinedMapped(_reflection.myBoolean.oasName, (v) => 
+myBoolean: src.getOrUndefinedMapped(_reflection.myBooleanPart.oasName, (v) => 
 (
 
-    
             
-                    v as bool
-            
+                    ( v is bool ? v as bool :
+
+bool.parse(v.toString())
+
+
+)
 
 )
 
@@ -82,39 +93,55 @@ v
 
 bool _$OuterCompositeCanFromMap(Map<String, dynamic> src) {
   final _reflection = OuterCompositeReflection.instance;
-  if (!src.getOrUndefined(_reflection.myNumber.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.myNumberPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is num
+            (v is num
+     || (num.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.myNumber.required,
+    unDefined: () => !_reflection.myNumberPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.myString.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.myStringPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.myString.required,
+    unDefined: () => !_reflection.myStringPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.myBoolean.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.myBooleanPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is bool
+            (v is bool
+    
+     || (bool.tryParse(v.toString()) != null)
+    
+    
+)
 ),
-    unDefined: () => !_reflection.myBoolean.required,
+    unDefined: () => !_reflection.myBooleanPart.required,
 )) {
     return false;
   }
@@ -124,7 +151,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -148,11 +175,14 @@ bool _$OuterCompositeCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$OuterCompositeSerialize(OuterComposite src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$OuterCompositeSerialize(OuterComposite src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

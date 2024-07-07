@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'animal.reflection.dart';
@@ -30,7 +30,6 @@ UndefinedWrapper<
 /// * [color] 
 class Animal with
 $OpenApiObjectMixin,
-
 
 AnimalMixin {
   @override
@@ -68,12 +67,12 @@ AnimalMixin {
   });
 
   static const $reflection = AnimalReflection.instance;
+  AnimalReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$AnimalToMap(this);

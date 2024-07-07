@@ -9,7 +9,7 @@ Map<String, dynamic> _$ParentPetToMap(ParentPet instance) {
   final _reflection = ParentPetReflection.instance;
   return <String, dynamic>{
     
-    _reflection.petType.oasName: (
+    _reflection.petTypePart.oasName: (
             String
  v) {
       return v;
@@ -20,15 +20,24 @@ Map<String, dynamic> _$ParentPetToMap(ParentPet instance) {
 }
 
 ParentPet _$ParentPetFromMap(Map<String, dynamic> src) {
-  final _reflection = ParentPetReflection.instance;
+  const _reflection = ParentPetReflection.instance;
+  final discriminatorKey = _reflection.discriminatorKey;
+  final discriminatorValue = src[discriminatorKey]?.toString();
+  //when we have a discriminator, we pick one model
+  final modelReflection = _reflection.tryGetDiscriminatorModel(discriminatorValue);
   return ParentPet.$all(
-    petType: src.getRequiredMapped(_reflection.petType.oasName, (v) => 
+    petType: src.getRequiredMapped(_reflection.petTypePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -46,15 +55,21 @@ v
 
 bool _$ParentPetCanFromMap(Map<String, dynamic> src) {
   final _reflection = ParentPetReflection.instance;
-  if (!src.getOrUndefined(_reflection.petType.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.petTypePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.petType.required,
+    unDefined: () => !_reflection.petTypePart.required,
 )) {
     return false;
   }
@@ -64,7 +79,17 @@ true
 ))) {
     return false;
   }
-  
+
+
+  final discriminatorKey = _reflection.discriminatorKey;
+  final discriminatorValue = src[discriminatorKey]?.toString();
+  //when we have a discriminator, we pick one model
+  final modelReflection = _reflection.tryGetDiscriminatorModel(discriminatorValue);
+  if (modelReflection != null) {
+    // a discriminator is defined AND it exists in the src.
+    return modelReflection.canDeserializeFunction(src);
+  }
+
   return true;
 }
 
@@ -89,11 +114,14 @@ bool _$ParentPetCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$ParentPetSerialize(ParentPet src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$ParentPetSerialize(ParentPet src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

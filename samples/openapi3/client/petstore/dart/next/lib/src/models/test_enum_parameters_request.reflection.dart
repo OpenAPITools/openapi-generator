@@ -6,45 +6,135 @@ part of 'test_enum_parameters_request.dart';
 //class reflection
 
 class TestEnumParametersRequestReflection extends ClassReflection<TestEnumParametersRequest> {
+  static TestEnumParametersRequestReflection instanceGetter() => instance;
   static const instance = TestEnumParametersRequestReflection._(
-    enumFormStringArray: PropertyReflection(
+    modelName: r'testEnumParameters_request',
+    className: r'TestEnumParametersRequest',
+    enumFormStringArrayPart: PropertyReflection<TestEnumParametersRequest, UndefinedWrapper<
+    List<
+        
+            TestEnumParametersRequestEnumFormStringArrayEnum
+>
+>>(
       dartName: r'enumFormStringArray',
       nullable: false,
       required: false,
       oasName: r'enum_form_string_array',
       oasType: r'array',
       pattern: null,
+      parentReflectionGetter:  instanceGetter,
+      isDiscriminator: false,
+      itemsReflection: ItemsReflection<TestEnumParametersRequest, 
+            TestEnumParametersRequestEnumFormStringArrayEnum
+>(parentReflectionGetter: instanceGetter,),
+      getter: _enumFormStringArrayGetter,
+      setter: _enumFormStringArraySetter,
     ),
-    enumFormString: PropertyReflection(
+    enumFormStringPart: PropertyReflection<TestEnumParametersRequest, UndefinedWrapper<
+            TestEnumParametersRequestEnumFormStringEnum
+>>(
       dartName: r'enumFormString',
       nullable: false,
       required: false,
       oasName: r'enum_form_string',
       oasType: r'string',
       pattern: null,
+      parentReflectionGetter:  instanceGetter,
+      isDiscriminator: false,
+      getter: _enumFormStringGetter,
+      setter: _enumFormStringSetter,
     ),
+    
+    
+    additionalPropertiesPart: AdditionalPropertiesReflection(
+      parentReflectionGetter: instanceGetter,
+      itemsReflection: ItemsReflection<TestEnumParametersRequest, Object
+?>(parentReflectionGetter: instanceGetter,),
+          ),
   );
   const TestEnumParametersRequestReflection._({
-    required this.enumFormStringArray,
-  
-    required this.enumFormString,
+    required this.modelName,
+    required this.className,
+    required this.enumFormStringArrayPart,
+    required this.enumFormStringPart,
+    this.discriminatorKey,
+    this.discriminatorMappings = const {},
+    this.discriminatorImplicitMappings = const {},
+        
+    required this.additionalPropertiesPart,
   });
 
-  final PropertyReflection<UndefinedWrapper<
+  final PropertyReflection<TestEnumParametersRequest, UndefinedWrapper<
     List<
         
             TestEnumParametersRequestEnumFormStringArrayEnum
 >
->> enumFormStringArray;
-  final PropertyReflection<UndefinedWrapper<
+>> enumFormStringArrayPart;
+  static UndefinedWrapper<
+    List<
+        
+            TestEnumParametersRequestEnumFormStringArrayEnum
+>
+> _enumFormStringArrayGetter(TestEnumParametersRequest parent) {
+    return parent.enumFormStringArray;
+  }
+  static void _enumFormStringArraySetter(TestEnumParametersRequest parent, UndefinedWrapper<
+    List<
+        
+            TestEnumParametersRequestEnumFormStringArrayEnum
+>
+> value) {
+    parent.enumFormStringArray = value;
+  }
+  final PropertyReflection<TestEnumParametersRequest, UndefinedWrapper<
             TestEnumParametersRequestEnumFormStringEnum
->> enumFormString;
+>> enumFormStringPart;
+  static UndefinedWrapper<
+            TestEnumParametersRequestEnumFormStringEnum
+> _enumFormStringGetter(TestEnumParametersRequest parent) {
+    return parent.enumFormString;
+  }
+  static void _enumFormStringSetter(TestEnumParametersRequest parent, UndefinedWrapper<
+            TestEnumParametersRequestEnumFormStringEnum
+> value) {
+    parent.enumFormString = value;
+  }
+
+
 
   @override
-  List<PropertyReflection> get members => [
-    enumFormStringArray,
-enumFormString,
+  final Map<String, ClassReflection> discriminatorMappings;
+  @override
+  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  @override
+  final String? discriminatorKey;
+  @override
+  final String modelName;
+  @override
+  final String className;
+
+
+  @override
+  List<PropertyReflection<TestEnumParametersRequest, dynamic>> get properties => [
+    enumFormStringArrayPart,
+enumFormStringPart,
   ];
+
+  final AdditionalPropertiesReflection<TestEnumParametersRequest, Object
+?> additionalPropertiesPart;
+
+  
+  
+  @override
+  List<PartReflection<TestEnumParametersRequest, dynamic>> get parts => [
+    ...super.parts,
+    additionalPropertiesPart,
+  ];
+  @override
+  List<AllOfReflection<TestEnumParametersRequest, dynamic>> get allOfs => [
+    
+  ];
+
 
   @override
   bool Function(Object? src) get canDeserializeFunction =>
@@ -56,6 +146,55 @@ enumFormString,
   @override
   Object? Function(TestEnumParametersRequest src) get serializeFunction =>
       (src) => src.serialize();
+
+  /// Gets an example of TestEnumParametersRequest.
+  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
+  ///  calling [aggregatedDiscriminators].
+  TestEnumParametersRequest example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+    final _reflection = this;
+    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
+    return TestEnumParametersRequest(
+      enumFormStringArray: () {
+        PartReflection? _partReflection = _reflection.enumFormStringArrayPart;
+        
+        return UndefinedWrapper(
+
+
+    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+
+
+            exampleEnum(TestEnumParametersRequestEnumFormStringArrayEnum.values)
+
+
+
+; })
+
+
+
+);
+      }(),
+      enumFormString: () {
+        PartReflection? _partReflection = _reflection.enumFormStringPart;
+        
+        return UndefinedWrapper(
+
+
+            exampleEnum(TestEnumParametersRequestEnumFormStringEnum.values)
+
+
+
+);
+      }(),
+      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+
+exampleObject()
+
+
+
+ ) )); }(),
+      
+    );
+  }
 }
 
 class TestEnumParametersRequestXmlReflection {

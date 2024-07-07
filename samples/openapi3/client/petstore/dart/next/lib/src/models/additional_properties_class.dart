@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'additional_properties_class.reflection.dart';
@@ -38,10 +38,10 @@ UndefinedWrapper<
 UndefinedWrapper<Object
 ?> get anytype1;
 UndefinedWrapper<
-            Map<String, Object?>
+            $FreeFormObject
 > get mapWithUndeclaredPropertiesAnytype1;
 UndefinedWrapper<
-            Map<String, Object?>
+            $FreeFormObject
 > get mapWithUndeclaredPropertiesAnytype2;
 UndefinedWrapper<
     Map<String, 
@@ -49,7 +49,7 @@ UndefinedWrapper<
 ?>
 > get mapWithUndeclaredPropertiesAnytype3;
 UndefinedWrapper<
-            Map<String, Object?>
+            $FreeFormObject
 > get emptyMap;
 UndefinedWrapper<
     Map<String, 
@@ -74,7 +74,6 @@ UndefinedWrapper<
 class AdditionalPropertiesClass with
 $OpenApiObjectMixin,
 
-
 AdditionalPropertiesClassMixin {
   @override
   UndefinedWrapper<
@@ -98,11 +97,11 @@ AdditionalPropertiesClassMixin {
 ?> anytype1;
   @override
   UndefinedWrapper<
-            Map<String, Object?>
+            $FreeFormObject
 > mapWithUndeclaredPropertiesAnytype1;
   @override
   UndefinedWrapper<
-            Map<String, Object?>
+            $FreeFormObject
 > mapWithUndeclaredPropertiesAnytype2;
   @override
   UndefinedWrapper<
@@ -112,7 +111,7 @@ AdditionalPropertiesClassMixin {
 > mapWithUndeclaredPropertiesAnytype3;
   @override
   UndefinedWrapper<
-            Map<String, Object?>
+            $FreeFormObject
 > emptyMap;
   @override
   UndefinedWrapper<
@@ -170,12 +169,12 @@ AdditionalPropertiesClassMixin {
   });
 
   static const $reflection = AdditionalPropertiesClassReflection.instance;
+  AdditionalPropertiesClassReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$AdditionalPropertiesClassToMap(this);

@@ -14,7 +14,7 @@ Map<String, dynamic> _$ArrayOneOfToMap(ArrayOneOf instance) {
 }
 
 ArrayOneOf _$ArrayOneOfFromMap(Map<String, dynamic> src) {
-  final _reflection = ArrayOneOfReflection.instance;
+  const _reflection = ArrayOneOfReflection.instance;
   return ArrayOneOf.$all(
         additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
 (
@@ -30,16 +30,17 @@ v
 
 bool _$ArrayOneOfCanFromMap(Map<String, dynamic> src) {
   final _reflection = ArrayOneOfReflection.instance;
+
     if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
 (
 true
 ))) {
     return false;
   }
-  
+
+
   final oneOfs = [
-  
-  ];
+    ];
   final validOneOfs = oneOfs.where((x) => x()).take(2).length;
   if (validOneOfs == 0 || validOneOfs > 1) {
     return false;
@@ -61,14 +62,22 @@ ArrayOneOf _$ArrayOneOfDeserialize(Object? src) {
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 )) ? UndefinedWrapper(
 (
 
-    
             
-                    v as int
-            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
@@ -83,12 +92,16 @@ ArrayOneOf _$ArrayOneOfDeserialize(Object? src) {
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ))
 )) ? UndefinedWrapper(
 (
 
-    
             
             v as List
             
@@ -98,10 +111,15 @@ ArrayOneOf _$ArrayOneOfDeserialize(Object? src) {
 .map((v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -126,7 +144,12 @@ bool _$ArrayOneOfCanDeserialize(Object? src) {
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
       () => v == null ? false :
 (
@@ -138,7 +161,12 @@ bool _$ArrayOneOfCanDeserialize(Object? src) {
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ))
 ),
     ];
@@ -152,11 +180,20 @@ bool _$ArrayOneOfCanDeserialize(Object? src) {
 
 /// Serializes to a primitive Object (num, String, List, Map).
 Object? _$ArrayOneOfSerialize(ArrayOneOf src) {
-  
-  
-  if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v; }
-  if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.map((v) => v).toList(); }
-  return null;
+  Object? initialResult = () {
+    
+    
+    if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v; }
+    if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.map((v) => v).toList(); }
+    return null;
+  }();
+  if (initialResult is Map<String, Object?>) {
+    return {
+      ...src.additionalProperties,
+      ...initialResult,
+    };
+  }
+  return initialResult;
 }
 
 

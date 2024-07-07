@@ -16,7 +16,7 @@ Map<String, dynamic> _$AllOfModelArrayAnyOfAllOfLinkListColumn1ValueToMap(AllOfM
 }
 
 AllOfModelArrayAnyOfAllOfLinkListColumn1Value _$AllOfModelArrayAnyOfAllOfLinkListColumn1ValueFromMap(Map<String, dynamic> src) {
-  final _reflection = AllOfModelArrayAnyOfAllOfLinkListColumn1ValueReflection.instance;
+  const _reflection = AllOfModelArrayAnyOfAllOfLinkListColumn1ValueReflection.instance;
   return AllOfModelArrayAnyOfAllOfLinkListColumn1Value.$all(
         additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
 (
@@ -32,13 +32,16 @@ v
 
 bool _$AllOfModelArrayAnyOfAllOfLinkListColumn1ValueCanFromMap(Map<String, dynamic> src) {
   final _reflection = AllOfModelArrayAnyOfAllOfLinkListColumn1ValueReflection.instance;
+
     if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
 (
 true
 ))) {
     return false;
   }
-  
+
+
+
   final anyOfs = [
     () => User.canDeserialize(src),
   
@@ -70,9 +73,7 @@ AllOfModelArrayAnyOfAllOfLinkListColumn1Value _$AllOfModelArrayAnyOfAllOfLinkLis
 )) ? UndefinedWrapper(User.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -87,9 +88,7 @@ AllOfModelArrayAnyOfAllOfLinkListColumn1Value _$AllOfModelArrayAnyOfAllOfLinkLis
 )) ? UndefinedWrapper(Tag.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -133,13 +132,22 @@ bool _$AllOfModelArrayAnyOfAllOfLinkListColumn1ValueCanDeserialize(Object? src) 
 
 /// Serializes to a primitive Object (num, String, List, Map).
 Object? _$AllOfModelArrayAnyOfAllOfLinkListColumn1ValueSerialize(AllOfModelArrayAnyOfAllOfLinkListColumn1Value src) {
-  
-  
-  if (src.anyOf0.isDefined) {final v = src.anyOf0.valueRequired; return v.serialize(); }
-  
-  if (src.anyOf1.isDefined) {final v = src.anyOf1.valueRequired; return v.serialize(); }
-  
-  return null;
+  Object? initialResult = () {
+    
+    
+    if (src.anyOf0.isDefined) {final v = src.anyOf0.valueRequired; return v.serialize(); }
+    
+    if (src.anyOf1.isDefined) {final v = src.anyOf1.valueRequired; return v.serialize(); }
+    
+    return null;
+  }();
+  if (initialResult is Map<String, Object?>) {
+    return {
+      ...src.additionalProperties,
+      ...initialResult,
+    };
+  }
+  return initialResult;
 }
 
 

@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'outer_enum_integer_default_value.reflection.dart';
@@ -21,6 +21,10 @@ extension type const OuterEnumIntegerDefaultValue._(int value) {
       throw 'Invalid enum value $value';
     }
     return res;
+  }
+
+  static bool canDeserialize(Object? value) {
+    return value is int && values.where((element) => element.value == value).firstOrNull != null;
   }
 
   /// Creates a [OuterEnumIntegerDefaultValue] enum from a value without checking if it exists.

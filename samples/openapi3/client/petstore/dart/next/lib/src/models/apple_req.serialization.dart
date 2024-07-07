@@ -9,13 +9,13 @@ Map<String, dynamic> _$AppleReqToMap(AppleReq instance) {
   final _reflection = AppleReqReflection.instance;
   return <String, dynamic>{
     
-    _reflection.cultivar.oasName: (
+    _reflection.cultivarPart.oasName: (
             String
  v) {
       return v;
     }(instance.cultivar),
     if (instance.mealy.isDefined)
-    _reflection.mealy.oasName: (
+    _reflection.mealyPart.oasName: (
             bool
  v) {
       return v;
@@ -26,27 +26,35 @@ Map<String, dynamic> _$AppleReqToMap(AppleReq instance) {
 }
 
 AppleReq _$AppleReqFromMap(Map<String, dynamic> src) {
-  final _reflection = AppleReqReflection.instance;
+  const _reflection = AppleReqReflection.instance;
   return AppleReq.$all(
-    cultivar: src.getRequiredMapped(_reflection.cultivar.oasName, (v) => 
+    cultivar: src.getRequiredMapped(_reflection.cultivarPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-mealy: src.getOrUndefinedMapped(_reflection.mealy.oasName, (v) => 
+mealy: src.getOrUndefinedMapped(_reflection.mealyPart.oasName, (v) => 
 (
 
-    
             
-                    v as bool
-            
+                    ( v is bool ? v as bool :
+
+bool.parse(v.toString())
+
+
+)
 
 )
 
@@ -59,31 +67,42 @@ mealy: src.getOrUndefinedMapped(_reflection.mealy.oasName, (v) =>
 
 bool _$AppleReqCanFromMap(Map<String, dynamic> src) {
   final _reflection = AppleReqReflection.instance;
-  if (!src.getOrUndefined(_reflection.cultivar.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.cultivarPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.cultivar.required,
+    unDefined: () => !_reflection.cultivarPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.mealy.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.mealyPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is bool
+            (v is bool
+    
+     || (bool.tryParse(v.toString()) != null)
+    
+    
+)
 ),
-    unDefined: () => !_reflection.mealy.required,
+    unDefined: () => !_reflection.mealyPart.required,
 )) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -107,11 +126,14 @@ bool _$AppleReqCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$AppleReqSerialize(AppleReq src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$AppleReqSerialize(AppleReq src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

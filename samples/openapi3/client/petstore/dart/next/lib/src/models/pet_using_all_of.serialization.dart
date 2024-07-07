@@ -9,25 +9,25 @@ Map<String, dynamic> _$PetUsingAllOfToMap(PetUsingAllOf instance) {
   final _reflection = PetUsingAllOfReflection.instance;
   return <String, dynamic>{
     if (instance.id.isDefined)
-    _reflection.id.oasName: (
+    _reflection.idPart.oasName: (
             int
  v) {
       return v;
     }(instance.id.valueRequired),
     if (instance.category.isDefined)
-    _reflection.category.oasName: (
+    _reflection.categoryPart.oasName: (
             Category
  v) {
       return v.serialize();
     }(instance.category.valueRequired),
     
-    _reflection.name.oasName: (
+    _reflection.namePart.oasName: (
             String
  v) {
       return v;
     }(instance.name),
     
-    _reflection.photoUrls.oasName: (
+    _reflection.photoUrlsPart.oasName: (
     List<
         
             String
@@ -36,7 +36,7 @@ Map<String, dynamic> _$PetUsingAllOfToMap(PetUsingAllOf instance) {
       return v.map((v) => v).toList();
     }(instance.photoUrls),
     if (instance.tags.isDefined)
-    _reflection.tags.oasName: (
+    _reflection.tagsPart.oasName: (
     List<
         
             Tag
@@ -45,7 +45,7 @@ Map<String, dynamic> _$PetUsingAllOfToMap(PetUsingAllOf instance) {
       return v.map((v) => v.serialize()).toList();
     }(instance.tags.valueRequired),
     if (instance.status.isDefined)
-    _reflection.status.oasName: (
+    _reflection.statusPart.oasName: (
             PetUsingAllOfStatusEnum
  v) {
       return v.value;
@@ -56,47 +56,52 @@ Map<String, dynamic> _$PetUsingAllOfToMap(PetUsingAllOf instance) {
 }
 
 PetUsingAllOf _$PetUsingAllOfFromMap(Map<String, dynamic> src) {
-  final _reflection = PetUsingAllOfReflection.instance;
+  const _reflection = PetUsingAllOfReflection.instance;
   return PetUsingAllOf.$all(
-    id: src.getOrUndefinedMapped(_reflection.id.oasName, (v) => 
+    id: src.getOrUndefinedMapped(_reflection.idPart.oasName, (v) => 
 (
 
-    
             
-                    v as int
-            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-category: src.getOrUndefinedMapped(_reflection.category.oasName, (v) => Category.deserialize
+category: src.getOrUndefinedMapped(_reflection.categoryPart.oasName, (v) => Category.deserialize
 (
 
-    
             v
 
+)
+
+
+),
+name: src.getRequiredMapped(_reflection.namePart.oasName, (v) => 
+(
+
+            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-name: src.getRequiredMapped(_reflection.name.oasName, (v) => 
+photoUrls: src.getRequiredMapped(_reflection.photoUrlsPart.oasName, (v) => 
 (
 
-    
-            
-                    v as String
-            
-
-)
-
-
-),
-photoUrls: src.getRequiredMapped(_reflection.photoUrls.oasName, (v) => 
-(
-
-    
             
             v as List
             
@@ -106,20 +111,24 @@ photoUrls: src.getRequiredMapped(_reflection.photoUrls.oasName, (v) =>
 .map((v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ).toList()
 ),
-tags: src.getOrUndefinedMapped(_reflection.tags.oasName, (v) => 
+tags: src.getOrUndefinedMapped(_reflection.tagsPart.oasName, (v) => 
 (
 
-    
             
             v as List
             
@@ -129,22 +138,25 @@ tags: src.getOrUndefinedMapped(_reflection.tags.oasName, (v) =>
 .map((v) => Tag.deserialize
 (
 
-    
             v
-
 
 )
 
 
 ).toList()
 ),
-status: src.getOrUndefinedMapped(_reflection.status.oasName, (v) => 
+status: src.getOrUndefinedMapped(_reflection.statusPart.oasName, (v) => 
 (
 
-    
             
-                    PetUsingAllOfStatusEnum.$safe(v as String)
-            
+                    PetUsingAllOfStatusEnum.$safe(( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+))
 
 )
 
@@ -162,19 +174,25 @@ v
 
 bool _$PetUsingAllOfCanFromMap(Map<String, dynamic> src) {
   final _reflection = PetUsingAllOfReflection.instance;
-  if (!src.getOrUndefined(_reflection.id.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.idPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.id.required,
+    unDefined: () => !_reflection.idPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.category.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.categoryPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -182,23 +200,28 @@ if (!src.getOrUndefined(_reflection.category.oasName).split<bool>(
             Category.canDeserialize(v)
             
 ),
-    unDefined: () => !_reflection.category.required,
+    unDefined: () => !_reflection.categoryPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.name.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.namePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.name.required,
+    unDefined: () => !_reflection.namePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.photoUrls.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.photoUrlsPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -209,14 +232,19 @@ if (!src.getOrUndefined(_reflection.photoUrls.oasName).split<bool>(
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ))
 ),
-    unDefined: () => !_reflection.photoUrls.required,
+    unDefined: () => !_reflection.photoUrlsPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.tags.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.tagsPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -230,19 +258,24 @@ if (!src.getOrUndefined(_reflection.tags.oasName).split<bool>(
             
 ))
 ),
-    unDefined: () => !_reflection.tags.required,
+    unDefined: () => !_reflection.tagsPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.status.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.statusPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+     && PetUsingAllOfStatusEnum.canDeserialize(v)
+)
 ),
-    unDefined: () => !_reflection.status.required,
+    unDefined: () => !_reflection.statusPart.required,
 )) {
     return false;
   }
@@ -252,7 +285,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -276,11 +309,14 @@ bool _$PetUsingAllOfCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$PetUsingAllOfSerialize(PetUsingAllOf src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$PetUsingAllOfSerialize(PetUsingAllOf src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'update_pet_with_form_request.reflection.dart';
@@ -30,7 +30,6 @@ UndefinedWrapper<
 /// * [status] - Updated status of the pet
 class UpdatePetWithFormRequest with
 $OpenApiObjectMixin,
-
 
 UpdatePetWithFormRequestMixin {
   @override
@@ -66,12 +65,12 @@ UpdatePetWithFormRequestMixin {
   });
 
   static const $reflection = UpdatePetWithFormRequestReflection.instance;
+  UpdatePetWithFormRequestReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$UpdatePetWithFormRequestToMap(this);

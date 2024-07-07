@@ -9,13 +9,13 @@ Map<String, dynamic> _$UploadFileWithRequiredFileRequestToMap(UploadFileWithRequ
   final _reflection = UploadFileWithRequiredFileRequestReflection.instance;
   return <String, dynamic>{
     if (instance.additionalMetadata.isDefined)
-    _reflection.additionalMetadata.oasName: (
+    _reflection.additionalMetadataPart.oasName: (
             String
  v) {
       return v;
     }(instance.additionalMetadata.valueRequired),
     
-    _reflection.requiredFile.oasName: (
+    _reflection.requiredFilePart.oasName: (
             XFile
  v) {
       return v;
@@ -26,27 +26,37 @@ Map<String, dynamic> _$UploadFileWithRequiredFileRequestToMap(UploadFileWithRequ
 }
 
 UploadFileWithRequiredFileRequest _$UploadFileWithRequiredFileRequestFromMap(Map<String, dynamic> src) {
-  final _reflection = UploadFileWithRequiredFileRequestReflection.instance;
+  const _reflection = UploadFileWithRequiredFileRequestReflection.instance;
   return UploadFileWithRequiredFileRequest.$all(
-    additionalMetadata: src.getOrUndefinedMapped(_reflection.additionalMetadata.oasName, (v) => 
+    additionalMetadata: src.getOrUndefinedMapped(_reflection.additionalMetadataPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-requiredFile: src.getRequiredMapped(_reflection.requiredFile.oasName, (v) => 
+requiredFile: src.getRequiredMapped(_reflection.requiredFilePart.oasName, (v) => 
 (
 
-    
             
-                    v as XFile
-            
+                    ( v is XFile ? v as XFile :
+
+
+
+
+throwArgumentMismatch(XFile, v)
+
+)
 
 )
 
@@ -64,27 +74,38 @@ v
 
 bool _$UploadFileWithRequiredFileRequestCanFromMap(Map<String, dynamic> src) {
   final _reflection = UploadFileWithRequiredFileRequestReflection.instance;
-  if (!src.getOrUndefined(_reflection.additionalMetadata.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.additionalMetadataPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.additionalMetadata.required,
+    unDefined: () => !_reflection.additionalMetadataPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.requiredFile.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.requiredFilePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is XFile
+            (v is XFile
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.requiredFile.required,
+    unDefined: () => !_reflection.requiredFilePart.required,
 )) {
     return false;
   }
@@ -94,7 +115,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -118,11 +139,14 @@ bool _$UploadFileWithRequiredFileRequestCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$UploadFileWithRequiredFileRequestSerialize(UploadFileWithRequiredFileRequest src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$UploadFileWithRequiredFileRequestSerialize(UploadFileWithRequiredFileRequest src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

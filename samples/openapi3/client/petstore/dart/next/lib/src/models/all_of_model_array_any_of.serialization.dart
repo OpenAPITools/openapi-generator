@@ -9,25 +9,25 @@ Map<String, dynamic> _$AllOfModelArrayAnyOfToMap(AllOfModelArrayAnyOf instance) 
   final _reflection = AllOfModelArrayAnyOfReflection.instance;
   return <String, dynamic>{
     
-    _reflection.name.oasName: (
+    _reflection.namePart.oasName: (
             String
  v) {
       return v;
     }(instance.name),
     if (instance.attributes.isDefined)
-    _reflection.attributes.oasName: (
+    _reflection.attributesPart.oasName: (
             AllOfModelArrayAnyOfAllOfAttributes
  v) {
       return v.serialize();
     }(instance.attributes.valueRequired),
     if (instance.id.isDefined)
-    _reflection.id.oasName: (
+    _reflection.idPart.oasName: (
             int
  v) {
       return v;
     }(instance.id.valueRequired),
     if (instance.linkListColumn1.isDefined)
-    _reflection.linkListColumn1.oasName: (
+    _reflection.linkListColumn1Part.oasName: (
             AllOfModelArrayAnyOfAllOfLinkListColumn1
  v) {
       return v.serialize();
@@ -38,49 +38,53 @@ Map<String, dynamic> _$AllOfModelArrayAnyOfToMap(AllOfModelArrayAnyOf instance) 
 }
 
 AllOfModelArrayAnyOf _$AllOfModelArrayAnyOfFromMap(Map<String, dynamic> src) {
-  final _reflection = AllOfModelArrayAnyOfReflection.instance;
+  const _reflection = AllOfModelArrayAnyOfReflection.instance;
   return AllOfModelArrayAnyOf.$all(
-    name: src.getRequiredMapped(_reflection.name.oasName, (v) => 
+    name: src.getRequiredMapped(_reflection.namePart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-attributes: src.getOrUndefinedMapped(_reflection.attributes.oasName, (v) => AllOfModelArrayAnyOfAllOfAttributes.deserialize
+attributes: src.getOrUndefinedMapped(_reflection.attributesPart.oasName, (v) => AllOfModelArrayAnyOfAllOfAttributes.deserialize
 (
 
-    
             v
 
+)
+
+
+),
+id: src.getOrUndefinedMapped(_reflection.idPart.oasName, (v) => 
+(
+
+            
+                    ( v is int ? v as int :
+int.parse(v.toString())
+
+
+
+)
 
 )
 
 
 ),
-id: src.getOrUndefinedMapped(_reflection.id.oasName, (v) => 
+linkListColumn1: src.getOrUndefinedMapped(_reflection.linkListColumn1Part.oasName, (v) => AllOfModelArrayAnyOfAllOfLinkListColumn1.deserialize
 (
 
-    
-            
-                    v as int
-            
-
-)
-
-
-),
-linkListColumn1: src.getOrUndefinedMapped(_reflection.linkListColumn1.oasName, (v) => AllOfModelArrayAnyOfAllOfLinkListColumn1.deserialize
-(
-
-    
             v
-
 
 )
 
@@ -98,19 +102,25 @@ v
 
 bool _$AllOfModelArrayAnyOfCanFromMap(Map<String, dynamic> src) {
   final _reflection = AllOfModelArrayAnyOfReflection.instance;
-  if (!src.getOrUndefined(_reflection.name.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.namePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.name.required,
+    unDefined: () => !_reflection.namePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.attributes.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.attributesPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -118,23 +128,28 @@ if (!src.getOrUndefined(_reflection.attributes.oasName).split<bool>(
             AllOfModelArrayAnyOfAllOfAttributes.canDeserialize(v)
             
 ),
-    unDefined: () => !_reflection.attributes.required,
+    unDefined: () => !_reflection.attributesPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.id.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.idPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is int
+            (v is int
+     || (int.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.id.required,
+    unDefined: () => !_reflection.idPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.linkListColumn1.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.linkListColumn1Part.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -142,7 +157,7 @@ if (!src.getOrUndefined(_reflection.linkListColumn1.oasName).split<bool>(
             AllOfModelArrayAnyOfAllOfLinkListColumn1.canDeserialize(v)
             
 ),
-    unDefined: () => !_reflection.linkListColumn1.required,
+    unDefined: () => !_reflection.linkListColumn1Part.required,
 )) {
     return false;
   }
@@ -152,7 +167,9 @@ true
 ))) {
     return false;
   }
-  
+
+
+
   return true;
 }
 
@@ -177,11 +194,14 @@ bool _$AllOfModelArrayAnyOfCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$AllOfModelArrayAnyOfSerialize(AllOfModelArrayAnyOf src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$AllOfModelArrayAnyOfSerialize(AllOfModelArrayAnyOf src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'all_of_model_array_any_of_all_of_link_list_column1_value.reflection.dart';
@@ -26,7 +26,6 @@ mixin AllOfModelArrayAnyOfAllOfLinkListColumn1ValueMixin on
 /// Properties:
 class AllOfModelArrayAnyOfAllOfLinkListColumn1Value with
 $OpenApiObjectMixin,
-
 
 AllOfModelArrayAnyOfAllOfLinkListColumn1ValueMixin {
 
@@ -62,6 +61,7 @@ AllOfModelArrayAnyOfAllOfLinkListColumn1ValueMixin {
   });
 
   static const $reflection = AllOfModelArrayAnyOfAllOfLinkListColumn1ValueReflection.instance;
+  AllOfModelArrayAnyOfAllOfLinkListColumn1ValueReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
@@ -74,7 +74,6 @@ AllOfModelArrayAnyOfAllOfLinkListColumn1ValueMixin {
       
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$AllOfModelArrayAnyOfAllOfLinkListColumn1ValueToMap(this);

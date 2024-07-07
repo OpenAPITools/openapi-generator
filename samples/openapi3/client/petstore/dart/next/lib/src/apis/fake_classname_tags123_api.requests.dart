@@ -22,8 +22,22 @@ abstract class FakeClassnameTags123ApiTestClassnameRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = FakeClassnameTags123ApiTestClassnameRequestUnsafe;
+
+  
+  const factory FakeClassnameTags123ApiTestClassnameRequest.applicationJson({
+    required 
+            Client
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = FakeClassnameTags123ApiTestClassnameRequestApplicationJson;
+  
 
   const FakeClassnameTags123ApiTestClassnameRequest({
     
@@ -114,13 +128,13 @@ abstract class FakeClassnameTags123ApiTestClassnameRequest {
 
 /// A version of [FakeClassnameTags123ApiTestClassnameRequest], where you can send arbitrary bytes in the body.
 class FakeClassnameTags123ApiTestClassnameRequestUnsafe extends FakeClassnameTags123ApiTestClassnameRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const FakeClassnameTags123ApiTestClassnameRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     super.extraHeaders,
@@ -132,7 +146,7 @@ class FakeClassnameTags123ApiTestClassnameRequestUnsafe extends FakeClassnameTag
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -181,10 +195,9 @@ class FakeClassnameTags123ApiTestClassnameRequestApplicationJson extends FakeCla
 
     final v = data;
     var serialized = v.serialize();
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -197,7 +210,7 @@ class FakeClassnameTags123ApiTestClassnameRequestApplicationJson extends FakeCla
         yield* _stringResult(json.encode(serialized));
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }

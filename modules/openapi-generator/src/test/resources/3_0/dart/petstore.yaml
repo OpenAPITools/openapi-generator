@@ -1407,8 +1407,93 @@ paths:
                     schema:
                       type: string
       responses:
+        '200':
+          description: 'Successful'
+          content:
+            text/plain:
+              schema:
+                type: integer
+            '*/*':
+              schema: {}
+            'text/*':
+              schema:
+                type: string
+            multipart/form-data:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  address:
+                    type: object
+                    properties:
+                      street:
+                        type: string
+                      city:
+                        type: string
+                  profileImages:
+                    type: array
+                    items:
+                      type: string
+                      format: binary
+              encoding:
+                address:
+                  contentType: 'application/json'
+                profileImages:
+                  headers:
+                    hello:
+                      schema:
+                        type: string
         '201':
-          description: Created
+          description: 'Created'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/NewPet'
+            application/x-www-form-urlencoded:
+              schema:
+                $ref: '#/components/schemas/Triangle'
+              encoding:
+                name:
+                  style: 'form'
+                  explode: true
+        "2XX":
+          headers:
+            X-Rate-Limit:
+              schema:
+                type: integer
+              description: 'Calls per hour allowed by the user'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: The number of requests left for the time window.
+            X-RateLimit-Reset:
+              schema:
+                type: string
+                format: date-time
+              description: The UTC date/time at which the current rate limit window resets.
+          description: 'Anything 2XX'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        default:
+          description: 'Anything'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/x-www-form-urlencoded:
+              schema:
+                $ref: '#/components/schemas/Triangle'
+              encoding:
+                name:
+                  style: 'form'
+                  explode: true
   /values:
     get:
       tags:
@@ -1453,9 +1538,9 @@ servers:
         default: 'petstore'
       port:
         enum:
-          - 80
-          - 8080
-        default: 80
+          - '80'
+          - '8080'
+        default: '80'
   - url: https://localhost:8080/{version}
     description: The local server
     variables:
@@ -2319,7 +2404,6 @@ components:
        additionalProperties: false
     fruitReq:
        oneOf:
-          - type: 'null'
           - $ref: '#/components/schemas/appleReq'
           - $ref: '#/components/schemas/bananaReq'
        additionalProperties: false
@@ -2382,7 +2466,6 @@ components:
       description: The value may be a shape or the 'null' value.
         This is introduced in OAS schema >= 3.1.
       oneOf:
-        - type: 'null'
         - $ref: '#/components/schemas/Triangle'
         - $ref: '#/components/schemas/Quadrilateral'
       discriminator:

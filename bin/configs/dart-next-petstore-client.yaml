@@ -4,6 +4,7 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/dart/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/dart-next
 additionalProperties:
   hideGenerationTimestamp: "true"
+  pubName: petstore_api
 nameMappings:
   _type: $type
   type_: type$

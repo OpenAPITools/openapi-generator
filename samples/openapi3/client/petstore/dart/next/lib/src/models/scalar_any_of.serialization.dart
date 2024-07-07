@@ -14,7 +14,7 @@ Map<String, dynamic> _$ScalarAnyOfToMap(ScalarAnyOf instance) {
 }
 
 ScalarAnyOf _$ScalarAnyOfFromMap(Map<String, dynamic> src) {
-  final _reflection = ScalarAnyOfReflection.instance;
+  const _reflection = ScalarAnyOfReflection.instance;
   return ScalarAnyOf.$all(
         additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
 (
@@ -31,13 +31,16 @@ v
 
 bool _$ScalarAnyOfCanFromMap(Map<String, dynamic> src) {
   final _reflection = ScalarAnyOfReflection.instance;
+
     if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
 (
 true
 ))) {
     return false;
   }
-  
+
+
+
   final anyOfs = [
   
   
@@ -64,14 +67,24 @@ ScalarAnyOf _$ScalarAnyOfDeserialize(Object? src) {
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 )) ? UndefinedWrapper(
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -82,14 +95,22 @@ ScalarAnyOf _$ScalarAnyOfDeserialize(Object? src) {
 
     
             
-            v is num
+            (v is num
+     || (num.tryParse(v.toString()) != null)
+    
+    
+    
+)
 )) ? UndefinedWrapper(
 (
 
-    
             
-                    v as num
-            
+                    ( v is num ? v as num :
+num.parse(v.toString())
+
+
+
+)
 
 )
 
@@ -100,14 +121,22 @@ ScalarAnyOf _$ScalarAnyOfDeserialize(Object? src) {
 
     
             
-            v is bool
+            (v is bool
+    
+     || (bool.tryParse(v.toString()) != null)
+    
+    
+)
 )) ? UndefinedWrapper(
 (
 
-    
             
-                    v as bool
-            
+                    ( v is bool ? v as bool :
+
+bool.parse(v.toString())
+
+
+)
 
 )
 
@@ -131,21 +160,36 @@ bool _$ScalarAnyOfCanDeserialize(Object? src) {
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
       () => v == null ? false :
 (
 
     
             
-            v is num
+            (v is num
+     || (num.tryParse(v.toString()) != null)
+    
+    
+    
+)
 ),
       () => v == null ? false :
 (
 
     
             
-            v is bool
+            (v is bool
+    
+     || (bool.tryParse(v.toString()) != null)
+    
+    
+)
 ),
     ];
     final validAnyOfs = anyOfs.where((x) => x()).take(1).length;
@@ -158,15 +202,24 @@ bool _$ScalarAnyOfCanDeserialize(Object? src) {
 
 /// Serializes to a primitive Object (num, String, List, Map).
 Object? _$ScalarAnyOfSerialize(ScalarAnyOf src) {
-  
-  
-  if (src.anyOf0.isDefined) {final v = src.anyOf0.valueRequired; return v; }
-  
-  if (src.anyOf1.isDefined) {final v = src.anyOf1.valueRequired; return v; }
-  
-  if (src.anyOf2.isDefined) {final v = src.anyOf2.valueRequired; return v; }
-  
-  return null;
+  Object? initialResult = () {
+    
+    
+    if (src.anyOf0.isDefined) {final v = src.anyOf0.valueRequired; return v; }
+    
+    if (src.anyOf1.isDefined) {final v = src.anyOf1.valueRequired; return v; }
+    
+    if (src.anyOf2.isDefined) {final v = src.anyOf2.valueRequired; return v; }
+    
+    return null;
+  }();
+  if (initialResult is Map<String, Object?>) {
+    return {
+      ...src.additionalProperties,
+      ...initialResult,
+    };
+  }
+  return initialResult;
 }
 
 

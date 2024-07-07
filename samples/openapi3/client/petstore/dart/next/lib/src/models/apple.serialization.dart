@@ -9,13 +9,13 @@ Map<String, dynamic> _$AppleToMap(Apple instance) {
   final _reflection = AppleReflection.instance;
   return <String, dynamic>{
     if (instance.cultivar.isDefined)
-    _reflection.cultivar.oasName: (
+    _reflection.cultivarPart.oasName: (
             String
  v) {
       return v;
     }(instance.cultivar.valueRequired),
     if (instance.origin.isDefined)
-    _reflection.origin.oasName: (
+    _reflection.originPart.oasName: (
             String
  v) {
       return v;
@@ -26,27 +26,37 @@ Map<String, dynamic> _$AppleToMap(Apple instance) {
 }
 
 Apple _$AppleFromMap(Map<String, dynamic> src) {
-  final _reflection = AppleReflection.instance;
+  const _reflection = AppleReflection.instance;
   return Apple.$all(
-    cultivar: src.getOrUndefinedMapped(_reflection.cultivar.oasName, (v) => 
+    cultivar: src.getOrUndefinedMapped(_reflection.cultivarPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-origin: src.getOrUndefinedMapped(_reflection.origin.oasName, (v) => 
+origin: src.getOrUndefinedMapped(_reflection.originPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -64,27 +74,38 @@ v
 
 bool _$AppleCanFromMap(Map<String, dynamic> src) {
   final _reflection = AppleReflection.instance;
-  if (!src.getOrUndefined(_reflection.cultivar.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.cultivarPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.cultivar.required,
+    unDefined: () => !_reflection.cultivarPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.origin.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.originPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.origin.required,
+    unDefined: () => !_reflection.originPart.required,
 )) {
     return false;
   }
@@ -94,7 +115,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -118,11 +139,14 @@ bool _$AppleCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$AppleSerialize(Apple src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$AppleSerialize(Apple src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

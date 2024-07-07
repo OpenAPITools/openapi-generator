@@ -9,13 +9,13 @@ Map<String, dynamic> _$ArrayOfInlineAllOfArrayAllofDogPropertyInnerToMap(ArrayOf
   final _reflection = ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection.instance;
   return <String, dynamic>{
     if (instance.breed.isDefined)
-    _reflection.breed.oasName: (
+    _reflection.breedPart.oasName: (
             String
  v) {
       return v;
     }(instance.breed.valueRequired),
     if (instance.color.isDefined)
-    _reflection.color.oasName: (
+    _reflection.colorPart.oasName: (
             String
  v) {
       return v;
@@ -26,27 +26,37 @@ Map<String, dynamic> _$ArrayOfInlineAllOfArrayAllofDogPropertyInnerToMap(ArrayOf
 }
 
 ArrayOfInlineAllOfArrayAllofDogPropertyInner _$ArrayOfInlineAllOfArrayAllofDogPropertyInnerFromMap(Map<String, dynamic> src) {
-  final _reflection = ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection.instance;
+  const _reflection = ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection.instance;
   return ArrayOfInlineAllOfArrayAllofDogPropertyInner.$all(
-    breed: src.getOrUndefinedMapped(_reflection.breed.oasName, (v) => 
+    breed: src.getOrUndefinedMapped(_reflection.breedPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-color: src.getOrUndefinedMapped(_reflection.color.oasName, (v) => 
+color: src.getOrUndefinedMapped(_reflection.colorPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -64,27 +74,38 @@ v
 
 bool _$ArrayOfInlineAllOfArrayAllofDogPropertyInnerCanFromMap(Map<String, dynamic> src) {
   final _reflection = ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection.instance;
-  if (!src.getOrUndefined(_reflection.breed.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.breedPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.breed.required,
+    unDefined: () => !_reflection.breedPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.color.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.colorPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.color.required,
+    unDefined: () => !_reflection.colorPart.required,
 )) {
     return false;
   }
@@ -94,7 +115,9 @@ true
 ))) {
     return false;
   }
-  
+
+
+
   return true;
 }
 
@@ -119,11 +142,14 @@ bool _$ArrayOfInlineAllOfArrayAllofDogPropertyInnerCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$ArrayOfInlineAllOfArrayAllofDogPropertyInnerSerialize(ArrayOfInlineAllOfArrayAllofDogPropertyInner src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$ArrayOfInlineAllOfArrayAllofDogPropertyInnerSerialize(ArrayOfInlineAllOfArrayAllofDogPropertyInner src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

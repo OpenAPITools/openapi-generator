@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'complex_quadrilateral.reflection.dart';
@@ -22,7 +22,6 @@ mixin ComplexQuadrilateralMixin on
 /// * [shapeType] 
 class ComplexQuadrilateral with
 $OpenApiObjectMixin,
-
 QuadrilateralInterfaceMixin,ShapeInterfaceMixin,
 ComplexQuadrilateralMixin {
   @override
@@ -54,6 +53,7 @@ required  this.shapeType     ,
   });
 
   static const $reflection = ComplexQuadrilateralReflection.instance;
+  ComplexQuadrilateralReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
@@ -61,7 +61,6 @@ required  this.shapeType     ,
       
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$ComplexQuadrilateralToMap(this);

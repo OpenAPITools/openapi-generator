@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'file_schema_test_class.reflection.dart';
@@ -33,7 +33,6 @@ UndefinedWrapper<
 /// * [files] 
 class FileSchemaTestClass with
 $OpenApiObjectMixin,
-
 
 FileSchemaTestClassMixin {
   @override
@@ -72,12 +71,12 @@ FileSchemaTestClassMixin {
   });
 
   static const $reflection = FileSchemaTestClassReflection.instance;
+  FileSchemaTestClassReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$FileSchemaTestClassToMap(this);

@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'category.reflection.dart';
@@ -30,7 +30,6 @@ mixin CategoryMixin on
 /// * [name] 
 class Category with
 $OpenApiObjectMixin,
-
 
 CategoryMixin {
   @override
@@ -68,12 +67,12 @@ CategoryMixin {
   });
 
   static const $reflection = CategoryReflection.instance;
+  CategoryReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$CategoryToMap(this);

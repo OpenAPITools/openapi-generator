@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'order.reflection.dart';
@@ -50,7 +50,6 @@ UndefinedWrapper<
 /// * [complete] 
 class Order with
 $OpenApiObjectMixin,
-
 
 OrderMixin {
   @override
@@ -122,12 +121,12 @@ OrderMixin {
   });
 
   static const $reflection = OrderReflection.instance;
+  OrderReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$OrderToMap(this);
@@ -187,6 +186,10 @@ extension type const OrderStatusEnum._(String value) {
       throw 'Invalid enum value $value';
     }
     return res;
+  }
+
+  static bool canDeserialize(Object? value) {
+    return value is String && values.where((element) => element.value == value).firstOrNull != null;
   }
 
   /// Creates a [OrderStatusEnum] enum from a value without checking if it exists.

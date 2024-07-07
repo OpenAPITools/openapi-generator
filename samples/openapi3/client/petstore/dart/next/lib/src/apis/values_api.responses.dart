@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_type_check
+// ignore_for_file: unnecessary_type_check, unnecessary_null_comparison, unnecessary_cast
 
 part of 'values_api.dart';
 
@@ -65,6 +65,7 @@ class ValuesApiGetSomeValuesResponse200 extends ValuesApiGetSomeValuesResponse {
     super.bodyBytesStream,
   });
 
+
   T split200<T>({
     
     required T Function(ValuesApiGetSomeValuesResponse200ApplicationJson response) onApplicationJson,
@@ -108,17 +109,15 @@ class ValuesApiGetSomeValuesResponse200 extends ValuesApiGetSomeValuesResponse {
 
 /// Represent the response when content-type is application/json.
 class ValuesApiGetSomeValuesResponse200ApplicationJson extends ValuesApiGetSomeValuesResponse200 {
-  final UndefinedWrapper<
+  final 
             Variable
-> body;
+? body;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   ValuesApiGetSomeValuesResponse200ApplicationJson({
-     this.body = const UndefinedWrapper
-        .undefined()
-,
+    this.body,
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
@@ -128,11 +127,13 @@ class ValuesApiGetSomeValuesResponse200ApplicationJson extends ValuesApiGetSomeV
   });
 
   static Future<ValuesApiGetSomeValuesResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
-    final charset = contentType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
-    switch (contentType) {
+  final encodingRules = <String, PropertyEncodingRule>{
       
+    };
+
+    switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
         if (v == null ? false :
@@ -145,9 +146,7 @@ class ValuesApiGetSomeValuesResponse200ApplicationJson extends ValuesApiGetSomeV
           final res = Variable.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -158,7 +157,8 @@ class ValuesApiGetSomeValuesResponse200ApplicationJson extends ValuesApiGetSomeV
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
             context: context,
-            body: UndefinedWrapper(res),
+            body: res,
+            
           );
         } else {
           // since we consumed the stream, we need to publish our read result.
@@ -168,10 +168,10 @@ class ValuesApiGetSomeValuesResponse200ApplicationJson extends ValuesApiGetSomeV
             reasonPhrase: response.reasonPhrase,
             context: context,
             rawJson: v,
+            
           );
         }
-      
-      
+      default:
     }
     return ValuesApiGetSomeValuesResponse200ApplicationJson(
       headers: response.headers,
@@ -179,6 +179,7 @@ class ValuesApiGetSomeValuesResponse200ApplicationJson extends ValuesApiGetSomeV
       reasonPhrase: response.reasonPhrase,
       context: context,
       bodyBytesStream: response.bodyBytesStream,
+      
     );
   }
 }
@@ -191,6 +192,7 @@ class ValuesApiGetSomeValuesResponse400 extends ValuesApiGetSomeValuesResponse {
     required super.context,
     super.bodyBytesStream,
   });
+
 
 
 

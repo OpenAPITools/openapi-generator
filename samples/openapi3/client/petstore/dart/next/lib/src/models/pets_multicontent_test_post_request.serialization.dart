@@ -9,19 +9,19 @@ Map<String, dynamic> _$PetsMulticontentTestPostRequestToMap(PetsMulticontentTest
   final _reflection = PetsMulticontentTestPostRequestReflection.instance;
   return <String, dynamic>{
     if (instance.id.isDefined)
-    _reflection.id.oasName: (
+    _reflection.idPart.oasName: (
             String
  v) {
       return v;
     }(instance.id.valueRequired),
     if (instance.address.isDefined)
-    _reflection.address.oasName: (
+    _reflection.addressPart.oasName: (
             PetsMulticontentTestPostRequestAddress
  v) {
       return v.serialize();
     }(instance.address.valueRequired),
     if (instance.profileImages.isDefined)
-    _reflection.profileImages.oasName: (
+    _reflection.profileImagesPart.oasName: (
     List<
         
             XFile
@@ -35,35 +35,37 @@ Map<String, dynamic> _$PetsMulticontentTestPostRequestToMap(PetsMulticontentTest
 }
 
 PetsMulticontentTestPostRequest _$PetsMulticontentTestPostRequestFromMap(Map<String, dynamic> src) {
-  final _reflection = PetsMulticontentTestPostRequestReflection.instance;
+  const _reflection = PetsMulticontentTestPostRequestReflection.instance;
   return PetsMulticontentTestPostRequest.$all(
-    id: src.getOrUndefinedMapped(_reflection.id.oasName, (v) => 
+    id: src.getOrUndefinedMapped(_reflection.idPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
 
 ),
-address: src.getOrUndefinedMapped(_reflection.address.oasName, (v) => PetsMulticontentTestPostRequestAddress.deserialize
+address: src.getOrUndefinedMapped(_reflection.addressPart.oasName, (v) => PetsMulticontentTestPostRequestAddress.deserialize
 (
 
-    
             v
 
-
 )
 
 
 ),
-profileImages: src.getOrUndefinedMapped(_reflection.profileImages.oasName, (v) => 
+profileImages: src.getOrUndefinedMapped(_reflection.profileImagesPart.oasName, (v) => 
 (
 
-    
             
             v as List
             
@@ -73,10 +75,15 @@ profileImages: src.getOrUndefinedMapped(_reflection.profileImages.oasName, (v) =
 .map((v) => 
 (
 
-    
             
-                    v as XFile
-            
+                    ( v is XFile ? v as XFile :
+
+
+
+
+throwArgumentMismatch(XFile, v)
+
+)
 
 )
 
@@ -95,19 +102,25 @@ v
 
 bool _$PetsMulticontentTestPostRequestCanFromMap(Map<String, dynamic> src) {
   final _reflection = PetsMulticontentTestPostRequestReflection.instance;
-  if (!src.getOrUndefined(_reflection.id.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.idPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.id.required,
+    unDefined: () => !_reflection.idPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.address.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.addressPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -115,11 +128,11 @@ if (!src.getOrUndefined(_reflection.address.oasName).split<bool>(
             PetsMulticontentTestPostRequestAddress.canDeserialize(v)
             
 ),
-    unDefined: () => !_reflection.address.required,
+    unDefined: () => !_reflection.addressPart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.profileImages.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.profileImagesPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -130,10 +143,15 @@ if (!src.getOrUndefined(_reflection.profileImages.oasName).split<bool>(
 
     
             
-            v is XFile
+            (v is XFile
+    
+    
+    
+    
+)
 ))
 ),
-    unDefined: () => !_reflection.profileImages.required,
+    unDefined: () => !_reflection.profileImagesPart.required,
 )) {
     return false;
   }
@@ -143,7 +161,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -167,11 +185,14 @@ bool _$PetsMulticontentTestPostRequestCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$PetsMulticontentTestPostRequestSerialize(PetsMulticontentTestPostRequest src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$PetsMulticontentTestPostRequestSerialize(PetsMulticontentTestPostRequest src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

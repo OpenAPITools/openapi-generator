@@ -9,7 +9,7 @@ Map<String, dynamic> _$$ListToMap($List instance) {
   final _reflection = $ListReflection.instance;
   return <String, dynamic>{
     if (instance.$123list.isDefined)
-    _reflection.$123list.oasName: (
+    _reflection.$123listPart.oasName: (
             String
  v) {
       return v;
@@ -20,15 +20,20 @@ Map<String, dynamic> _$$ListToMap($List instance) {
 }
 
 $List _$$ListFromMap(Map<String, dynamic> src) {
-  final _reflection = $ListReflection.instance;
+  const _reflection = $ListReflection.instance;
   return $List.$all(
-    $123list: src.getOrUndefinedMapped(_reflection.$123list.oasName, (v) => 
+    $123list: src.getOrUndefinedMapped(_reflection.$123listPart.oasName, (v) => 
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -46,15 +51,21 @@ v
 
 bool _$$ListCanFromMap(Map<String, dynamic> src) {
   final _reflection = $ListReflection.instance;
-  if (!src.getOrUndefined(_reflection.$123list.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.$123listPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
-    unDefined: () => !_reflection.$123list.required,
+    unDefined: () => !_reflection.$123listPart.required,
 )) {
     return false;
   }
@@ -64,7 +75,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -88,11 +99,14 @@ bool _$$ListCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$$ListSerialize($List src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$$ListSerialize($List src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

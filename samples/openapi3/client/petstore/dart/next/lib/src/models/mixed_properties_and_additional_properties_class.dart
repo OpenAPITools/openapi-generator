@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'mixed_properties_and_additional_properties_class.reflection.dart';
@@ -38,7 +38,6 @@ UndefinedWrapper<
 /// * [map] 
 class MixedPropertiesAndAdditionalPropertiesClass with
 $OpenApiObjectMixin,
-
 
 MixedPropertiesAndAdditionalPropertiesClassMixin {
   @override
@@ -85,12 +84,12 @@ MixedPropertiesAndAdditionalPropertiesClassMixin {
   });
 
   static const $reflection = MixedPropertiesAndAdditionalPropertiesClassReflection.instance;
+  MixedPropertiesAndAdditionalPropertiesClassReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$MixedPropertiesAndAdditionalPropertiesClassToMap(this);

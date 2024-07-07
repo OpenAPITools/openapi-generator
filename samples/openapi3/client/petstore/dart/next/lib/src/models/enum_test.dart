@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'enum_test.reflection.dart';
@@ -65,7 +65,6 @@ UndefinedWrapper<
 /// * [outerEnumIntegerDefaultValue] 
 class EnumTest with
 $OpenApiObjectMixin,
-
 
 EnumTestMixin {
   @override
@@ -155,12 +154,12 @@ required  this.enumStringRequired     ,
   });
 
   static const $reflection = EnumTestReflection.instance;
+  EnumTestReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$EnumTestToMap(this);
@@ -219,6 +218,10 @@ extension type const EnumTestEnumStringEnum._(String value) {
     return res;
   }
 
+  static bool canDeserialize(Object? value) {
+    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  }
+
   /// Creates a [EnumTestEnumStringEnum] enum from a value without checking if it exists.
   const EnumTestEnumStringEnum.$unsafe(String value) : this._(value);
 
@@ -243,6 +246,10 @@ extension type const EnumTestEnumStringRequiredEnum._(String value) {
       throw 'Invalid enum value $value';
     }
     return res;
+  }
+
+  static bool canDeserialize(Object? value) {
+    return value is String && values.where((element) => element.value == value).firstOrNull != null;
   }
 
   /// Creates a [EnumTestEnumStringRequiredEnum] enum from a value without checking if it exists.
@@ -270,6 +277,10 @@ extension type const EnumTestEnumIntegerEnum._(int value) {
     return res;
   }
 
+  static bool canDeserialize(Object? value) {
+    return value is int && values.where((element) => element.value == value).firstOrNull != null;
+  }
+
   /// Creates a [EnumTestEnumIntegerEnum] enum from a value without checking if it exists.
   const EnumTestEnumIntegerEnum.$unsafe(int value) : this._(value);
 
@@ -294,6 +305,10 @@ extension type const EnumTestEnumIntegerOnlyEnum._(int value) {
     return res;
   }
 
+  static bool canDeserialize(Object? value) {
+    return value is int && values.where((element) => element.value == value).firstOrNull != null;
+  }
+
   /// Creates a [EnumTestEnumIntegerOnlyEnum] enum from a value without checking if it exists.
   const EnumTestEnumIntegerOnlyEnum.$unsafe(int value) : this._(value);
 
@@ -316,6 +331,10 @@ extension type const EnumTestEnumNumberEnum._(double value) {
       throw 'Invalid enum value $value';
     }
     return res;
+  }
+
+  static bool canDeserialize(Object? value) {
+    return value is double && values.where((element) => element.value == value).firstOrNull != null;
   }
 
   /// Creates a [EnumTestEnumNumberEnum] enum from a value without checking if it exists.

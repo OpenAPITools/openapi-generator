@@ -14,7 +14,7 @@ Map<String, dynamic> _$FreeFormObjectTestClassPropertiesToMap(FreeFormObjectTest
 }
 
 FreeFormObjectTestClassProperties _$FreeFormObjectTestClassPropertiesFromMap(Map<String, dynamic> src) {
-  final _reflection = FreeFormObjectTestClassPropertiesReflection.instance;
+  const _reflection = FreeFormObjectTestClassPropertiesReflection.instance;
   return FreeFormObjectTestClassProperties.$all(
         additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
 (
@@ -30,16 +30,17 @@ v
 
 bool _$FreeFormObjectTestClassPropertiesCanFromMap(Map<String, dynamic> src) {
   final _reflection = FreeFormObjectTestClassPropertiesReflection.instance;
+
     if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
 (
 true
 ))) {
     return false;
   }
-  
+
+
   final oneOfs = [
-  
-  ];
+    ];
   final validOneOfs = oneOfs.where((x) => x()).take(2).length;
   if (validOneOfs == 0 || validOneOfs > 1) {
     return false;
@@ -61,14 +62,24 @@ FreeFormObjectTestClassProperties _$FreeFormObjectTestClassPropertiesDeserialize
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 )) ? UndefinedWrapper(
 (
 
-    
             
-                    v as String
-            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
 
 )
 
@@ -80,7 +91,9 @@ FreeFormObjectTestClassProperties _$FreeFormObjectTestClassPropertiesDeserialize
 )) ? UndefinedWrapper(
 (
 
-    v as Map<String, dynamic>
+            v as Map<String, dynamic>
+            
+            
 
 )
 .map((k,v) => MapEntry(k, 
@@ -109,7 +122,12 @@ bool _$FreeFormObjectTestClassPropertiesCanDeserialize(Object? src) {
 
     
             
-            v is String
+            (v is String
+    
+    
+    
+    
+)
 ),
       () => v == null ? false :
 (
@@ -127,11 +145,20 @@ bool _$FreeFormObjectTestClassPropertiesCanDeserialize(Object? src) {
 
 /// Serializes to a primitive Object (num, String, List, Map).
 Object? _$FreeFormObjectTestClassPropertiesSerialize(FreeFormObjectTestClassProperties src) {
-  
-  
-  if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v; }
-  if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v; }
-  return null;
+  Object? initialResult = () {
+    
+    
+    if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v; }
+    if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v; }
+    return null;
+  }();
+  if (initialResult is Map<String, Object?>) {
+    return {
+      ...src.additionalProperties,
+      ...initialResult,
+    };
+  }
+  return initialResult;
 }
 
 

@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'pet_composition.reflection.dart';
@@ -26,7 +26,6 @@ mixin PetCompositionMixin on
 /// * [status] - pet status in the store
 class PetComposition with
 $OpenApiObjectMixin,
-
 PetMixin,
 PetCompositionMixin {
   @override
@@ -96,6 +95,7 @@ required  this.name     ,
   });
 
   static const $reflection = PetCompositionReflection.instance;
+  PetCompositionReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
@@ -103,7 +103,6 @@ required  this.name     ,
       
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$PetCompositionToMap(this);

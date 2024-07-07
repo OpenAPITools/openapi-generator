@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'array_of_inline_all_of_array_allof_dog_property_inner.reflection.dart';
@@ -30,7 +30,6 @@ UndefinedWrapper<
 /// * [color] 
 class ArrayOfInlineAllOfArrayAllofDogPropertyInner with
 $OpenApiObjectMixin,
-
 
 ArrayOfInlineAllOfArrayAllofDogPropertyInnerMixin {
   @override
@@ -66,6 +65,7 @@ ArrayOfInlineAllOfArrayAllofDogPropertyInnerMixin {
   });
 
   static const $reflection = ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection.instance;
+  ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
@@ -73,7 +73,6 @@ ArrayOfInlineAllOfArrayAllofDogPropertyInnerMixin {
       
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$ArrayOfInlineAllOfArrayAllofDogPropertyInnerToMap(this);

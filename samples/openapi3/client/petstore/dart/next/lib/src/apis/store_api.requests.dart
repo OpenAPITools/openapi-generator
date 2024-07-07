@@ -335,8 +335,22 @@ abstract class StoreApiPlaceOrderRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = StoreApiPlaceOrderRequestUnsafe;
+
+  
+  const factory StoreApiPlaceOrderRequest.applicationJson({
+    required 
+            Order
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = StoreApiPlaceOrderRequestApplicationJson;
+  
 
   const StoreApiPlaceOrderRequest({
     
@@ -427,13 +441,13 @@ abstract class StoreApiPlaceOrderRequest {
 
 /// A version of [StoreApiPlaceOrderRequest], where you can send arbitrary bytes in the body.
 class StoreApiPlaceOrderRequestUnsafe extends StoreApiPlaceOrderRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const StoreApiPlaceOrderRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     super.extraHeaders,
@@ -445,7 +459,7 @@ class StoreApiPlaceOrderRequestUnsafe extends StoreApiPlaceOrderRequest {
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -494,10 +508,9 @@ class StoreApiPlaceOrderRequestApplicationJson extends StoreApiPlaceOrderRequest
 
     final v = data;
     var serialized = v.serialize();
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -510,7 +523,7 @@ class StoreApiPlaceOrderRequestApplicationJson extends StoreApiPlaceOrderRequest
         yield* _stringResult(json.encode(serialized));
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }

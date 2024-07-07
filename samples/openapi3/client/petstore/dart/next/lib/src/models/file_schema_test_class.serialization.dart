@@ -9,13 +9,13 @@ Map<String, dynamic> _$FileSchemaTestClassToMap(FileSchemaTestClass instance) {
   final _reflection = FileSchemaTestClassReflection.instance;
   return <String, dynamic>{
     if (instance.file.isDefined)
-    _reflection.file.oasName: (
+    _reflection.filePart.oasName: (
             File
  v) {
       return v.serialize();
     }(instance.file.valueRequired),
     if (instance.files.isDefined)
-    _reflection.files.oasName: (
+    _reflection.filesPart.oasName: (
     List<
         
             File
@@ -29,23 +29,20 @@ Map<String, dynamic> _$FileSchemaTestClassToMap(FileSchemaTestClass instance) {
 }
 
 FileSchemaTestClass _$FileSchemaTestClassFromMap(Map<String, dynamic> src) {
-  final _reflection = FileSchemaTestClassReflection.instance;
+  const _reflection = FileSchemaTestClassReflection.instance;
   return FileSchemaTestClass.$all(
-    file: src.getOrUndefinedMapped(_reflection.file.oasName, (v) => File.deserialize
+    file: src.getOrUndefinedMapped(_reflection.filePart.oasName, (v) => File.deserialize
 (
 
-    
             v
-
 
 )
 
 
 ),
-files: src.getOrUndefinedMapped(_reflection.files.oasName, (v) => 
+files: src.getOrUndefinedMapped(_reflection.filesPart.oasName, (v) => 
 (
 
-    
             
             v as List
             
@@ -55,9 +52,7 @@ files: src.getOrUndefinedMapped(_reflection.files.oasName, (v) =>
 .map((v) => File.deserialize
 (
 
-    
             v
-
 
 )
 
@@ -76,7 +71,8 @@ v
 
 bool _$FileSchemaTestClassCanFromMap(Map<String, dynamic> src) {
   final _reflection = FileSchemaTestClassReflection.instance;
-  if (!src.getOrUndefined(_reflection.file.oasName).split<bool>(
+
+  if (!src.getOrUndefined(_reflection.filePart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -84,11 +80,11 @@ bool _$FileSchemaTestClassCanFromMap(Map<String, dynamic> src) {
             File.canDeserialize(v)
             
 ),
-    unDefined: () => !_reflection.file.required,
+    unDefined: () => !_reflection.filePart.required,
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.files.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.filesPart.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
@@ -102,7 +98,7 @@ if (!src.getOrUndefined(_reflection.files.oasName).split<bool>(
             
 ))
 ),
-    unDefined: () => !_reflection.files.required,
+    unDefined: () => !_reflection.filesPart.required,
 )) {
     return false;
   }
@@ -112,7 +108,7 @@ true
 ))) {
     return false;
   }
-  
+
   return true;
 }
 
@@ -136,11 +132,14 @@ bool _$FileSchemaTestClassCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Map<String,dynamic> _$FileSchemaTestClassSerialize(FileSchemaTestClass src) {
-  
-  return src.toMap();
-  
-  
+Map<String, dynamic> _$FileSchemaTestClassSerialize(FileSchemaTestClass src) {
+  Map<String, dynamic> initialResult = () {
+    
+    return src.toMap();
+    
+    
+  }();
+  return initialResult;
 }
 
 

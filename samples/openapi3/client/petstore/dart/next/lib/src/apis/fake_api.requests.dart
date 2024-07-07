@@ -119,8 +119,22 @@ abstract class FakeApiFakeOuterBooleanSerializeRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiFakeOuterBooleanSerializeRequestUnsafe;
+
+  
+  const factory FakeApiFakeOuterBooleanSerializeRequest.applicationJson({
+    required 
+            bool
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = FakeApiFakeOuterBooleanSerializeRequestApplicationJson;
+  
 
   const FakeApiFakeOuterBooleanSerializeRequest({
     
@@ -211,13 +225,13 @@ abstract class FakeApiFakeOuterBooleanSerializeRequest {
 
 /// A version of [FakeApiFakeOuterBooleanSerializeRequest], where you can send arbitrary bytes in the body.
 class FakeApiFakeOuterBooleanSerializeRequestUnsafe extends FakeApiFakeOuterBooleanSerializeRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const FakeApiFakeOuterBooleanSerializeRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     super.extraHeaders,
@@ -229,7 +243,7 @@ class FakeApiFakeOuterBooleanSerializeRequestUnsafe extends FakeApiFakeOuterBool
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -278,10 +292,9 @@ class FakeApiFakeOuterBooleanSerializeRequestApplicationJson extends FakeApiFake
 
     final v = data;
     var serialized = v;
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -294,7 +307,7 @@ class FakeApiFakeOuterBooleanSerializeRequestApplicationJson extends FakeApiFake
         yield* _stringResult(json.encode(serialized));
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }
@@ -323,8 +336,22 @@ abstract class FakeApiFakeOuterCompositeSerializeRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiFakeOuterCompositeSerializeRequestUnsafe;
+
+  
+  const factory FakeApiFakeOuterCompositeSerializeRequest.applicationJson({
+    required 
+            OuterComposite
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = FakeApiFakeOuterCompositeSerializeRequestApplicationJson;
+  
 
   const FakeApiFakeOuterCompositeSerializeRequest({
     
@@ -415,13 +442,13 @@ abstract class FakeApiFakeOuterCompositeSerializeRequest {
 
 /// A version of [FakeApiFakeOuterCompositeSerializeRequest], where you can send arbitrary bytes in the body.
 class FakeApiFakeOuterCompositeSerializeRequestUnsafe extends FakeApiFakeOuterCompositeSerializeRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const FakeApiFakeOuterCompositeSerializeRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     super.extraHeaders,
@@ -433,7 +460,7 @@ class FakeApiFakeOuterCompositeSerializeRequestUnsafe extends FakeApiFakeOuterCo
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -482,10 +509,9 @@ class FakeApiFakeOuterCompositeSerializeRequestApplicationJson extends FakeApiFa
 
     final v = data;
     var serialized = v.serialize();
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -498,7 +524,7 @@ class FakeApiFakeOuterCompositeSerializeRequestApplicationJson extends FakeApiFa
         yield* _stringResult(json.encode(serialized));
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }
@@ -527,8 +553,22 @@ abstract class FakeApiFakeOuterNumberSerializeRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiFakeOuterNumberSerializeRequestUnsafe;
+
+  
+  const factory FakeApiFakeOuterNumberSerializeRequest.applicationJson({
+    required 
+            num
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = FakeApiFakeOuterNumberSerializeRequestApplicationJson;
+  
 
   const FakeApiFakeOuterNumberSerializeRequest({
     
@@ -619,13 +659,13 @@ abstract class FakeApiFakeOuterNumberSerializeRequest {
 
 /// A version of [FakeApiFakeOuterNumberSerializeRequest], where you can send arbitrary bytes in the body.
 class FakeApiFakeOuterNumberSerializeRequestUnsafe extends FakeApiFakeOuterNumberSerializeRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const FakeApiFakeOuterNumberSerializeRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     super.extraHeaders,
@@ -637,7 +677,7 @@ class FakeApiFakeOuterNumberSerializeRequestUnsafe extends FakeApiFakeOuterNumbe
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -686,10 +726,9 @@ class FakeApiFakeOuterNumberSerializeRequestApplicationJson extends FakeApiFakeO
 
     final v = data;
     var serialized = v;
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -702,7 +741,7 @@ class FakeApiFakeOuterNumberSerializeRequestApplicationJson extends FakeApiFakeO
         yield* _stringResult(json.encode(serialized));
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }
@@ -731,8 +770,22 @@ abstract class FakeApiFakeOuterStringSerializeRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiFakeOuterStringSerializeRequestUnsafe;
+
+  
+  const factory FakeApiFakeOuterStringSerializeRequest.applicationJson({
+    required 
+            String
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = FakeApiFakeOuterStringSerializeRequestApplicationJson;
+  
 
   const FakeApiFakeOuterStringSerializeRequest({
     
@@ -823,13 +876,13 @@ abstract class FakeApiFakeOuterStringSerializeRequest {
 
 /// A version of [FakeApiFakeOuterStringSerializeRequest], where you can send arbitrary bytes in the body.
 class FakeApiFakeOuterStringSerializeRequestUnsafe extends FakeApiFakeOuterStringSerializeRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const FakeApiFakeOuterStringSerializeRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     super.extraHeaders,
@@ -841,7 +894,7 @@ class FakeApiFakeOuterStringSerializeRequestUnsafe extends FakeApiFakeOuterStrin
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -890,10 +943,9 @@ class FakeApiFakeOuterStringSerializeRequestApplicationJson extends FakeApiFakeO
 
     final v = data;
     var serialized = v;
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -906,7 +958,7 @@ class FakeApiFakeOuterStringSerializeRequestApplicationJson extends FakeApiFakeO
         yield* _stringResult(json.encode(serialized));
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }
@@ -947,8 +999,10 @@ abstract class FakeApiFakeUploadRefRequestBodiesRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiFakeUploadRefRequestBodiesRequestUnsafe;
+
+  
 
   const FakeApiFakeUploadRefRequestBodiesRequest({
     
@@ -1044,13 +1098,13 @@ abstract class FakeApiFakeUploadRefRequestBodiesRequest {
 
 /// A version of [FakeApiFakeUploadRefRequestBodiesRequest], where you can send arbitrary bytes in the body.
 class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRefRequestBodiesRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const FakeApiFakeUploadRefRequestBodiesRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     required super.petId,
@@ -1066,7 +1120,7 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -1424,8 +1478,24 @@ abstract class FakeApiTestAdditionalPropertiesReferenceRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiTestAdditionalPropertiesReferenceRequestUnsafe;
+
+  
+  const factory FakeApiTestAdditionalPropertiesReferenceRequest.applicationJson({
+    required 
+    Map<String, 
+        Object
+?>
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = FakeApiTestAdditionalPropertiesReferenceRequestApplicationJson;
+  
 
   const FakeApiTestAdditionalPropertiesReferenceRequest({
     
@@ -1516,13 +1586,13 @@ abstract class FakeApiTestAdditionalPropertiesReferenceRequest {
 
 /// A version of [FakeApiTestAdditionalPropertiesReferenceRequest], where you can send arbitrary bytes in the body.
 class FakeApiTestAdditionalPropertiesReferenceRequestUnsafe extends FakeApiTestAdditionalPropertiesReferenceRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const FakeApiTestAdditionalPropertiesReferenceRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     super.extraHeaders,
@@ -1534,7 +1604,7 @@ class FakeApiTestAdditionalPropertiesReferenceRequestUnsafe extends FakeApiTestA
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -1585,10 +1655,9 @@ class FakeApiTestAdditionalPropertiesReferenceRequestApplicationJson extends Fak
 
     final v = data;
     var serialized = v;
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -1601,7 +1670,7 @@ class FakeApiTestAdditionalPropertiesReferenceRequestApplicationJson extends Fak
         yield* _stringResult(json.encode(serialized));
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }
@@ -1630,8 +1699,22 @@ abstract class FakeApiTestBodyWithFileSchemaRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiTestBodyWithFileSchemaRequestUnsafe;
+
+  
+  const factory FakeApiTestBodyWithFileSchemaRequest.applicationJson({
+    required 
+            FileSchemaTestClass
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = FakeApiTestBodyWithFileSchemaRequestApplicationJson;
+  
 
   const FakeApiTestBodyWithFileSchemaRequest({
     
@@ -1722,13 +1805,13 @@ abstract class FakeApiTestBodyWithFileSchemaRequest {
 
 /// A version of [FakeApiTestBodyWithFileSchemaRequest], where you can send arbitrary bytes in the body.
 class FakeApiTestBodyWithFileSchemaRequestUnsafe extends FakeApiTestBodyWithFileSchemaRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const FakeApiTestBodyWithFileSchemaRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     super.extraHeaders,
@@ -1740,7 +1823,7 @@ class FakeApiTestBodyWithFileSchemaRequestUnsafe extends FakeApiTestBodyWithFile
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -1789,10 +1872,9 @@ class FakeApiTestBodyWithFileSchemaRequestApplicationJson extends FakeApiTestBod
 
     final v = data;
     var serialized = v.serialize();
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -1805,7 +1887,7 @@ class FakeApiTestBodyWithFileSchemaRequestApplicationJson extends FakeApiTestBod
         yield* _stringResult(json.encode(serialized));
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }
@@ -1845,8 +1927,27 @@ abstract class FakeApiTestBodyWithQueryParamsRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiTestBodyWithQueryParamsRequestUnsafe;
+
+  
+  const factory FakeApiTestBodyWithQueryParamsRequest.applicationJson({
+    required 
+            User
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    required 
+            String
+ query,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = FakeApiTestBodyWithQueryParamsRequestApplicationJson;
+  
 
   const FakeApiTestBodyWithQueryParamsRequest({
     
@@ -1941,13 +2042,13 @@ abstract class FakeApiTestBodyWithQueryParamsRequest {
 
 /// A version of [FakeApiTestBodyWithQueryParamsRequest], where you can send arbitrary bytes in the body.
 class FakeApiTestBodyWithQueryParamsRequestUnsafe extends FakeApiTestBodyWithQueryParamsRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const FakeApiTestBodyWithQueryParamsRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     required super.query,
@@ -1962,7 +2063,7 @@ class FakeApiTestBodyWithQueryParamsRequestUnsafe extends FakeApiTestBodyWithQue
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -2014,10 +2115,9 @@ class FakeApiTestBodyWithQueryParamsRequestApplicationJson extends FakeApiTestBo
 
     final v = data;
     var serialized = v.serialize();
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -2030,7 +2130,7 @@ class FakeApiTestBodyWithQueryParamsRequestApplicationJson extends FakeApiTestBo
         yield* _stringResult(json.encode(serialized));
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }
@@ -2059,8 +2159,22 @@ abstract class FakeApiTestClientModelRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiTestClientModelRequestUnsafe;
+
+  
+  const factory FakeApiTestClientModelRequest.applicationJson({
+    required 
+            Client
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = FakeApiTestClientModelRequestApplicationJson;
+  
 
   const FakeApiTestClientModelRequest({
     
@@ -2151,13 +2265,13 @@ abstract class FakeApiTestClientModelRequest {
 
 /// A version of [FakeApiTestClientModelRequest], where you can send arbitrary bytes in the body.
 class FakeApiTestClientModelRequestUnsafe extends FakeApiTestClientModelRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const FakeApiTestClientModelRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     super.extraHeaders,
@@ -2169,7 +2283,7 @@ class FakeApiTestClientModelRequestUnsafe extends FakeApiTestClientModelRequest 
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -2218,10 +2332,9 @@ class FakeApiTestClientModelRequestApplicationJson extends FakeApiTestClientMode
 
     final v = data;
     var serialized = v.serialize();
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -2234,7 +2347,7 @@ class FakeApiTestClientModelRequestApplicationJson extends FakeApiTestClientMode
         yield* _stringResult(json.encode(serialized));
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }
@@ -2276,8 +2389,10 @@ abstract class FakeApiTestEndpointParametersRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiTestEndpointParametersRequestUnsafe;
+
+  
 
   const FakeApiTestEndpointParametersRequest({
     
@@ -2381,13 +2496,13 @@ abstract class FakeApiTestEndpointParametersRequest {
 
 /// A version of [FakeApiTestEndpointParametersRequest], where you can send arbitrary bytes in the body.
 class FakeApiTestEndpointParametersRequestUnsafe extends FakeApiTestEndpointParametersRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const FakeApiTestEndpointParametersRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     
@@ -2412,7 +2527,7 @@ class FakeApiTestEndpointParametersRequestUnsafe extends FakeApiTestEndpointPara
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -2440,6 +2555,10 @@ extension type const EnumHeaderStringArrayEnum._(String value) {
       throw 'Invalid enum value $value';
     }
     return res;
+  }
+
+  static bool canDeserialize(Object? value) {
+    return value is String && values.where((element) => element.value == value).firstOrNull != null;
   }
 
   /// Creates a [EnumHeaderStringArrayEnum] enum from a value without checking if it exists.
@@ -2470,6 +2589,10 @@ extension type const EnumHeaderStringEnum._(String value) {
     return res;
   }
 
+  static bool canDeserialize(Object? value) {
+    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  }
+
   /// Creates a [EnumHeaderStringEnum] enum from a value without checking if it exists.
   const EnumHeaderStringEnum.$unsafe(String value) : this._(value);
 
@@ -2495,6 +2618,10 @@ extension type const EnumQueryStringArrayEnum._(String value) {
       throw 'Invalid enum value $value';
     }
     return res;
+  }
+
+  static bool canDeserialize(Object? value) {
+    return value is String && values.where((element) => element.value == value).firstOrNull != null;
   }
 
   /// Creates a [EnumQueryStringArrayEnum] enum from a value without checking if it exists.
@@ -2525,6 +2652,10 @@ extension type const EnumQueryStringEnum._(String value) {
     return res;
   }
 
+  static bool canDeserialize(Object? value) {
+    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  }
+
   /// Creates a [EnumQueryStringEnum] enum from a value without checking if it exists.
   const EnumQueryStringEnum.$unsafe(String value) : this._(value);
 
@@ -2550,6 +2681,10 @@ extension type const EnumQueryIntegerEnum._(int value) {
       throw 'Invalid enum value $value';
     }
     return res;
+  }
+
+  static bool canDeserialize(Object? value) {
+    return value is int && values.where((element) => element.value == value).firstOrNull != null;
   }
 
   /// Creates a [EnumQueryIntegerEnum] enum from a value without checking if it exists.
@@ -2578,6 +2713,10 @@ extension type const EnumQueryDoubleEnum._(double value) {
     return res;
   }
 
+  static bool canDeserialize(Object? value) {
+    return value is double && values.where((element) => element.value == value).firstOrNull != null;
+  }
+
   /// Creates a [EnumQueryDoubleEnum] enum from a value without checking if it exists.
   const EnumQueryDoubleEnum.$unsafe(double value) : this._(value);
 
@@ -2602,6 +2741,10 @@ extension type const EnumFormStringArrayEnum._(String value) {
       throw 'Invalid enum value $value';
     }
     return res;
+  }
+
+  static bool canDeserialize(Object? value) {
+    return value is String && values.where((element) => element.value == value).firstOrNull != null;
   }
 
   /// Creates a [EnumFormStringArrayEnum] enum from a value without checking if it exists.
@@ -2630,6 +2773,10 @@ extension type const EnumFormStringEnum._(String value) {
       throw 'Invalid enum value $value';
     }
     return res;
+  }
+
+  static bool canDeserialize(Object? value) {
+    return value is String && values.where((element) => element.value == value).firstOrNull != null;
   }
 
   /// Creates a [EnumFormStringEnum] enum from a value without checking if it exists.
@@ -3039,8 +3186,25 @@ abstract class FakeApiTestInlineAdditionalPropertiesRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiTestInlineAdditionalPropertiesRequestUnsafe;
+
+  
+  const factory FakeApiTestInlineAdditionalPropertiesRequest.applicationJson({
+    required 
+    Map<String, 
+        
+            String
+>
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = FakeApiTestInlineAdditionalPropertiesRequestApplicationJson;
+  
 
   const FakeApiTestInlineAdditionalPropertiesRequest({
     
@@ -3131,13 +3295,13 @@ abstract class FakeApiTestInlineAdditionalPropertiesRequest {
 
 /// A version of [FakeApiTestInlineAdditionalPropertiesRequest], where you can send arbitrary bytes in the body.
 class FakeApiTestInlineAdditionalPropertiesRequestUnsafe extends FakeApiTestInlineAdditionalPropertiesRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const FakeApiTestInlineAdditionalPropertiesRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     super.extraHeaders,
@@ -3149,7 +3313,7 @@ class FakeApiTestInlineAdditionalPropertiesRequestUnsafe extends FakeApiTestInli
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -3201,10 +3365,9 @@ class FakeApiTestInlineAdditionalPropertiesRequestApplicationJson extends FakeAp
 
     final v = data;
     var serialized = v.map((k,v) => MapEntry(k, v));
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -3217,7 +3380,7 @@ class FakeApiTestInlineAdditionalPropertiesRequestApplicationJson extends FakeAp
         yield* _stringResult(json.encode(serialized));
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }
@@ -3246,8 +3409,22 @@ abstract class FakeApiTestInlineFreeformAdditionalPropertiesRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiTestInlineFreeformAdditionalPropertiesRequestUnsafe;
+
+  
+  const factory FakeApiTestInlineFreeformAdditionalPropertiesRequest.applicationJson({
+    required 
+            TestInlineFreeformAdditionalPropertiesRequest
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson;
+  
 
   const FakeApiTestInlineFreeformAdditionalPropertiesRequest({
     
@@ -3338,13 +3515,13 @@ abstract class FakeApiTestInlineFreeformAdditionalPropertiesRequest {
 
 /// A version of [FakeApiTestInlineFreeformAdditionalPropertiesRequest], where you can send arbitrary bytes in the body.
 class FakeApiTestInlineFreeformAdditionalPropertiesRequestUnsafe extends FakeApiTestInlineFreeformAdditionalPropertiesRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const FakeApiTestInlineFreeformAdditionalPropertiesRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     super.extraHeaders,
@@ -3356,7 +3533,7 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestUnsafe extends FakeApi
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -3404,11 +3581,10 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson extend
     final resolvedMediaType = MediaType.parse(contentType);
 
     final v = data;
-    var serialized = v;
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    var serialized = v.serialize();
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -3421,7 +3597,7 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson extend
         yield* _stringResult(json.encode(serialized));
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }
@@ -3635,8 +3811,10 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiTestQueryParameterCollectionFormatRequestUnsafe;
+
+  
 
   const FakeApiTestQueryParameterCollectionFormatRequest({
     
@@ -3746,13 +3924,13 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
 
 /// A version of [FakeApiTestQueryParameterCollectionFormatRequest], where you can send arbitrary bytes in the body.
 class FakeApiTestQueryParameterCollectionFormatRequestUnsafe extends FakeApiTestQueryParameterCollectionFormatRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const FakeApiTestQueryParameterCollectionFormatRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     required super.pipe,
@@ -3778,7 +3956,7 @@ class FakeApiTestQueryParameterCollectionFormatRequestUnsafe extends FakeApiTest
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -3810,8 +3988,25 @@ abstract class FakeApiTestStringMapReferenceRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
-    Stream<Uint8List>? body,
+    Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiTestStringMapReferenceRequestUnsafe;
+
+  
+  const factory FakeApiTestStringMapReferenceRequest.applicationJson({
+    required 
+    Map<String, 
+        
+            String
+>
+ data,
+    UnknownMediaTypeHandler? handleUnkownMediaType,
+    
+    
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+  }) = FakeApiTestStringMapReferenceRequestApplicationJson;
+  
 
   const FakeApiTestStringMapReferenceRequest({
     
@@ -3902,13 +4097,13 @@ abstract class FakeApiTestStringMapReferenceRequest {
 
 /// A version of [FakeApiTestStringMapReferenceRequest], where you can send arbitrary bytes in the body.
 class FakeApiTestStringMapReferenceRequestUnsafe extends FakeApiTestStringMapReferenceRequest {
-  final Stream<Uint8List>? body;
+  final Stream<Uint8List>? bodyBytesStream;
 
   @override
   final String contentType;
 
   const FakeApiTestStringMapReferenceRequestUnsafe({
-    this.body,
+    this.bodyBytesStream,
     this.contentType = 'application/octet-stream',
     
     super.extraHeaders,
@@ -3920,7 +4115,7 @@ class FakeApiTestStringMapReferenceRequestUnsafe extends FakeApiTestStringMapRef
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
-    final body = this.body;
+    final body = this.bodyBytesStream;
     if (body == null) {
       return;
     }
@@ -3972,10 +4167,9 @@ class FakeApiTestStringMapReferenceRequestApplicationJson extends FakeApiTestStr
 
     final v = data;
     var serialized = v.map((k,v) => MapEntry(k, v));
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
-    final encoding = Encoding.getByName(charset) ?? utf8;
+    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
     Stream<List<int>> _stringResult(String src) {
-      return encoding.encoder.bind(Stream.value(src));
+      return Stream.value(encoding.encode(src));
     }
     final encodingRules = <String, PropertyEncodingRule>{
       
@@ -3988,7 +4182,7 @@ class FakeApiTestStringMapReferenceRequestApplicationJson extends FakeApiTestStr
         yield* _stringResult(json.encode(serialized));
       default:
         final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType!=null) {
+        if (handleUnkownMediaType != null) {
           yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
           return;
         }

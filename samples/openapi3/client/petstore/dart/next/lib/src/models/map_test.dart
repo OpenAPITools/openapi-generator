@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'map_test.reflection.dart';
@@ -55,7 +55,6 @@ UndefinedWrapper<
 /// * [indirectMap] 
 class MapTest with
 $OpenApiObjectMixin,
-
 
 MapTestMixin {
   @override
@@ -122,12 +121,12 @@ MapTestMixin {
   });
 
   static const $reflection = MapTestReflection.instance;
+  MapTestReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$MapTestToMap(this);
@@ -183,6 +182,10 @@ extension type const MapTestMapOfEnumStringEnum._(String value) {
       throw 'Invalid enum value $value';
     }
     return res;
+  }
+
+  static bool canDeserialize(Object? value) {
+    return value is String && values.where((element) => element.value == value).firstOrNull != null;
   }
 
   /// Creates a [MapTestMapOfEnumStringEnum] enum from a value without checking if it exists.

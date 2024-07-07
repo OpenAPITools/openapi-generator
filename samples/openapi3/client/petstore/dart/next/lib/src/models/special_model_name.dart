@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'special_model_name.reflection.dart';
@@ -30,7 +30,6 @@ UndefinedWrapper<
 /// * [specialModelName] 
 class SpecialModelName with
 $OpenApiObjectMixin,
-
 
 SpecialModelNameMixin {
   @override
@@ -66,12 +65,12 @@ SpecialModelNameMixin {
   });
 
   static const $reflection = SpecialModelNameReflection.instance;
+  SpecialModelNameReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$SpecialModelNameToMap(this);

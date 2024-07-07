@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'enum_string_discriminator.reflection.dart';
@@ -26,7 +26,6 @@ mixin EnumStringDiscriminatorMixin on
 class EnumStringDiscriminator with
 $OpenApiObjectMixin,
 
-
 EnumStringDiscriminatorMixin {
   @override
   
@@ -51,12 +50,12 @@ EnumStringDiscriminatorMixin {
   });
 
   static const $reflection = EnumStringDiscriminatorReflection.instance;
+  EnumStringDiscriminatorReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$EnumStringDiscriminatorToMap(this);
@@ -114,6 +113,10 @@ extension type const EnumStringDiscriminatorEnumStrTypeEnum._(String value) {
       throw 'Invalid enum value $value';
     }
     return res;
+  }
+
+  static bool canDeserialize(Object? value) {
+    return value is String && values.where((element) => element.value == value).firstOrNull != null;
   }
 
   /// Creates a [EnumStringDiscriminatorEnumStrTypeEnum] enum from a value without checking if it exists.

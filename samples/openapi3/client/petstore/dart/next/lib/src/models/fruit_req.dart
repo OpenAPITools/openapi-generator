@@ -1,6 +1,6 @@
 // Model def
 
-import 'package:openapi/_internal.dart';
+import 'package:petstore_api/_internal.dart';
 
 
 part 'fruit_req.reflection.dart';
@@ -26,7 +26,6 @@ mixin FruitReqMixin on
 /// Properties:
 class FruitReq with
 $OpenApiObjectMixin,
-
 
 FruitReqMixin {
 
@@ -59,6 +58,7 @@ FruitReqMixin {
   });
 
   static const $reflection = FruitReqReflection.instance;
+  FruitReqReflection get $classReflection => $reflection;
 
   @override
   bool validate() {
@@ -71,7 +71,6 @@ FruitReqMixin {
       
     return super.validate();
   }
-
 
   Map<String, dynamic> toMap() {
     return _$FruitReqToMap(this);
