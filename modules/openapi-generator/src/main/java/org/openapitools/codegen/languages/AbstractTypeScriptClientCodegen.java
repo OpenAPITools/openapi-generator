@@ -240,18 +240,24 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @SuppressWarnings("squid:S5164")
     protected static final ThreadLocal<SimpleDateFormat> SNAPSHOT_SUFFIX_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT));
 
-    @Getter protected MODEL_PROPERTY_NAMING_TYPE modelPropertyNaming = MODEL_PROPERTY_NAMING_TYPE.original;
+    @Getter
+    protected MODEL_PROPERTY_NAMING_TYPE modelPropertyNaming = MODEL_PROPERTY_NAMING_TYPE.original;
     protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.PascalCase;
-    @Getter protected PARAM_NAMING_TYPE paramNaming = PARAM_NAMING_TYPE.camelCase;
+    @Getter
+    protected PARAM_NAMING_TYPE paramNaming = PARAM_NAMING_TYPE.camelCase;
     protected boolean enumPropertyNamingReplaceSpecialChar = false;
-    @Getter @Setter
+    @Getter
+    @Setter
     protected Boolean supportsES6 = false;
-    @Getter @Setter
+    @Getter
+    @Setter
     protected Boolean nullSafeAdditionalProps = false;
     protected HashSet<String> languageGenericTypes;
-    @Getter @Setter
+    @Getter
+    @Setter
     protected String npmName = null;
-    @Getter @Setter
+    @Getter
+    @Setter
     protected String npmVersion = "1.0.0";
 
     protected String enumSuffix = "Enum";

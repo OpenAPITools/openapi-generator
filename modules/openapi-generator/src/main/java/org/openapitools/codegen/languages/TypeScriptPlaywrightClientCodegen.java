@@ -73,6 +73,7 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
     protected boolean withoutRuntimeChecks = false;
     protected boolean stringEnums = false;
     protected String fileNaming = PASCAL_CASE;
+    protected String testFolder = "spec";
 
     // "Saga and Record" mode.
     public static final String SAGAS_AND_RECORDS = "sagasAndRecords";
@@ -114,6 +115,8 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
         embeddedTemplateDir = templateDir = "typescript-playwright";
 
         this.apiTemplateFiles.put("apis.mustache", ".ts");
+        this.modelTestTemplateFiles.put("model_test.mustache", ".ts");
+        this.apiTestTemplateFiles.put("api_test.mustache", ".ts");
 
         this.addExtraReservedWords();
 
@@ -1610,5 +1613,25 @@ public class TypeScriptPlaywrightClientCodegen extends AbstractTypeScriptClientC
             sb.append(", hasReturnPassthroughVoid=").append(hasReturnPassthroughVoid);
             return sb.toString();
         }
+    }
+
+    @Override
+    public String toApiTestFilename(String name) {
+        return toApiFilename(name) + ".spec";
+    }
+
+    @Override
+    public String toModelTestFilename(String name) {
+        return toModelFilename(name) + ".spec";
+    }
+
+    @Override
+    public String apiTestFileFolder() {
+        return outputFolder + File.separator + testFolder + File.separator + "apis";
+    }
+
+    @Override
+    public String modelTestFileFolder() {
+        return outputFolder + File.separator + testFolder + File.separator + "models";
     }
 }
