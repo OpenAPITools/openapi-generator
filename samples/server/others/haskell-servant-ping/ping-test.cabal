@@ -1,6 +1,6 @@
-name:                {{package}}
+name:                ping-test
 version:             0.1.0.0
-synopsis:            Auto-generated API bindings for {{package}}
+synopsis:            Auto-generated API bindings for ping-test
 description:         Please see README.md
 homepage:            https://openapi-generator.tech
 author:              Author Name Here
@@ -12,8 +12,8 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      lib
-  exposed-modules:     {{title}}.API
-                     , {{title}}.Types
+  exposed-modules:     PingTest.API
+                     , PingTest.Types
   ghc-options:         -Wall
   build-depends:       base
                      , aeson
@@ -39,12 +39,4 @@ library
                      , swagger2
                      , uuid
                      , bytestring
-{{#authMethods}}
-{{#isBasicBearer}}
-                     , wai-extra
-{{/isBasicBearer}}
-{{#isBasicBasic}}
-                     , wai-extra
-{{/isBasicBasic}}
-{{/authMethods}}
   default-language:    Haskell2010
