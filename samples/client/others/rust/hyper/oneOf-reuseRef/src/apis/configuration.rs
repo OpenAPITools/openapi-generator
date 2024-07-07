@@ -9,12 +9,14 @@
  */
 
 use hyper;
+use hyper_util::client::legacy::connect::Connect;
+use hyper_util::client::legacy::Client;
 
-pub struct Configuration<C: hyper::client::connect::Connect>
+pub struct Configuration<C: Connect>
     where C: Clone + std::marker::Send + Sync + 'static {
     pub base_path: String,
     pub user_agent: Option<String>,
-    pub client: hyper::client::Client<C>,
+    pub client: Client<C, String>,
     pub basic_auth: Option<BasicAuth>,
     pub oauth_access_token: Option<String>,
     pub api_key: Option<ApiKey>,
@@ -28,9 +30,9 @@ pub struct ApiKey {
     pub key: String,
 }
 
-impl<C: hyper::client::connect::Connect> Configuration<C>
+impl<C: Connect> Configuration<C>
     where C: Clone + std::marker::Send + Sync {
-    pub fn new(client: hyper::client::Client<C>) -> Configuration<C> {
+    pub fn new(client: Client<C, String>) -> Configuration<C> {
         Configuration {
             base_path: "http://api.example.xyz/v1".to_owned(),
             user_agent: Some("OpenAPI-Generator/1.0.0/rust".to_owned()),

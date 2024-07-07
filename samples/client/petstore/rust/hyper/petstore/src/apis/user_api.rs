@@ -15,18 +15,19 @@ use std::pin::Pin;
 use std::option::Option;
 
 use hyper;
+use hyper_util::client::legacy::connect::Connect;
 use futures::Future;
 
 use crate::models;
 use super::{Error, configuration};
 use super::request as __internal_request;
 
-pub struct UserApiClient<C: hyper::client::connect::Connect>
+pub struct UserApiClient<C: Connect>
     where C: Clone + std::marker::Send + Sync + 'static {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::connect::Connect> UserApiClient<C>
+impl<C: Connect> UserApiClient<C>
     where C: Clone + std::marker::Send + Sync {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> UserApiClient<C> {
         UserApiClient {
@@ -46,7 +47,7 @@ pub trait UserApi {
     fn update_user(&self, username: &str, user: models::User) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
 }
 
-impl<C: hyper::client::connect::Connect>UserApi for UserApiClient<C>
+impl<C: Connect>UserApi for UserApiClient<C>
     where C: Clone + std::marker::Send + Sync {
     #[allow(unused_mut)]
     fn create_user(&self, user: models::User) -> Pin<Box<dyn Future<Output = Result<(), Error>>>> {

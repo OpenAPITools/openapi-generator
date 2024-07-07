@@ -15,18 +15,19 @@ use std::pin::Pin;
 use std::option::Option;
 
 use hyper;
+use hyper_util::client::legacy::connect::Connect;
 use futures::Future;
 
 use crate::models;
 use super::{Error, configuration};
 use super::request as __internal_request;
 
-pub struct PetApiClient<C: hyper::client::connect::Connect>
+pub struct PetApiClient<C: Connect>
     where C: Clone + std::marker::Send + Sync + 'static {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::connect::Connect> PetApiClient<C>
+impl<C: Connect> PetApiClient<C>
     where C: Clone + std::marker::Send + Sync {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> PetApiClient<C> {
         PetApiClient {
@@ -46,7 +47,7 @@ pub trait PetApi {
     fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Pin<Box<dyn Future<Output = Result<models::ApiResponse, Error>>>>;
 }
 
-impl<C: hyper::client::connect::Connect>PetApi for PetApiClient<C>
+impl<C: Connect>PetApi for PetApiClient<C>
     where C: Clone + std::marker::Send + Sync {
     #[allow(unused_mut)]
     fn add_pet(&self, pet: models::Pet) -> Pin<Box<dyn Future<Output = Result<models::Pet, Error>>>> {
