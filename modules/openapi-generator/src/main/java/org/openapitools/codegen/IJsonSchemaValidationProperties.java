@@ -111,8 +111,8 @@ public interface IJsonSchemaValidationProperties {
      *     - <code>categoryOneOf</code> is a parameter of class <code>GetAccountVideos_categoryOneOf_parameter</code>, a model parameter that correctly prefixed by its namespace: <code>org::openapitools::server::model::GetAccountVideos_categoryOneOf_parameter</code><br>
      *     - but that <code>GetAccountVideos_categoryOneOf_parameter</code> class is inside an <code>std::optional</code><br>
      *     <br>
-     *   Then a correct generation of that parameter can be (for C++) <code>const std::optional<org::openapitools::server::model::GetAccountVideos_categoryOneOf_parameter> &categoryOneOf</code><br>
-         *   but using #isModel alone without #isOptional in mustache might produce <code>const org::openapitools::server::model::std::optional<org::openapitools::server::model::GetAccountVideos_categoryOneOf_parameter> &categoryOneOf</code> instead, that do not compile.
+     *   Then a correct generation of that parameter can be (for C++) <code>const std::optional&lt;org::openapitools::server::model::GetAccountVideos_categoryOneOf_parameter&gt; &amp;categoryOneOf</code><br>
+         *   but using #isModel alone without #isOptional in mustache might produce <code>const org::openapitools::server::model::std::optional&lt;org::openapitools::server::model::GetAccountVideos_categoryOneOf_parameter&gt; &amp;categoryOneOf</code> instead, that do not compile.
      */
     boolean getIsOptional();
     void setIsOptional(boolean isOptional);
