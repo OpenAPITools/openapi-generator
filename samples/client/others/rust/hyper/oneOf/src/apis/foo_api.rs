@@ -15,18 +15,19 @@ use std::pin::Pin;
 use std::option::Option;
 
 use hyper;
+use hyper_util::client::legacy::connect::Connect;
 use futures::Future;
 
 use crate::models;
 use super::{Error, configuration};
 use super::request as __internal_request;
 
-pub struct FooApiClient<C: hyper::client::connect::Connect>
+pub struct FooApiClient<C: Connect>
     where C: Clone + std::marker::Send + Sync + 'static {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::connect::Connect> FooApiClient<C>
+impl<C: Connect> FooApiClient<C>
     where C: Clone + std::marker::Send + Sync {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> FooApiClient<C> {
         FooApiClient {
@@ -40,7 +41,7 @@ pub trait FooApi {
     fn get_all_foos(&self, ) -> Pin<Box<dyn Future<Output = Result<Vec<models::FooRefOrValue>, Error>>>>;
 }
 
-impl<C: hyper::client::connect::Connect>FooApi for FooApiClient<C>
+impl<C: Connect>FooApi for FooApiClient<C>
     where C: Clone + std::marker::Send + Sync {
     #[allow(unused_mut)]
     fn create_foo(&self, foo: Option<models::Foo>) -> Pin<Box<dyn Future<Output = Result<models::FooRefOrValue, Error>>>> {

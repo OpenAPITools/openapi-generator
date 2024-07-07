@@ -15,18 +15,19 @@ use std::pin::Pin;
 use std::option::Option;
 
 use hyper;
+use hyper_util::client::legacy::connect::Connect;
 use futures::Future;
 
 use crate::models;
 use super::{Error, configuration};
 use super::request as __internal_request;
 
-pub struct DefaultApiClient<C: hyper::client::connect::Connect>
+pub struct DefaultApiClient<C: Connect>
     where C: Clone + std::marker::Send + Sync + 'static {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::connect::Connect> DefaultApiClient<C>
+impl<C: Connect> DefaultApiClient<C>
     where C: Clone + std::marker::Send + Sync {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> DefaultApiClient<C> {
         DefaultApiClient {
@@ -40,7 +41,7 @@ pub trait DefaultApi {
     fn test(&self, body: Option<serde_json::Value>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
 }
 
-impl<C: hyper::client::connect::Connect>DefaultApi for DefaultApiClient<C>
+impl<C: Connect>DefaultApi for DefaultApiClient<C>
     where C: Clone + std::marker::Send + Sync {
     #[allow(unused_mut)]
     fn root_get(&self, ) -> Pin<Box<dyn Future<Output = Result<models::Fruit, Error>>>> {
