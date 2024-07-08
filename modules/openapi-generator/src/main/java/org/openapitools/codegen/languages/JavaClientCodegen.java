@@ -136,10 +136,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Setter protected String errorObjectType;
     protected String authFolder;
     /**
-     * -- GETTER --
      *  Serialization library.
-     *
-     * @return 'gson' or 'jackson'
      */
     @Getter protected String serializationLibrary = null;
     @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup

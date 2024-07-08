@@ -2,7 +2,7 @@ aiofiles==23.1.0
 aniso8601==7.0.0
 async-exit-stack==1.0.1
 async-generator==1.10
-certifi==2023.7.22
+certifi==2024.7.4
 chardet==4.0.0
 click==7.1.2
 dnspython==2.6.1
