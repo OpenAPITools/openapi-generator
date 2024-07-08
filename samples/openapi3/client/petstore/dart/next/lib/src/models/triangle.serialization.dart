@@ -8,6 +8,13 @@ part of 'triangle.dart';
 Map<String, dynamic> _$TriangleToMap(Triangle instance) {
   final _reflection = TriangleReflection.instance;
   return <String, dynamic>{
+    
+    _reflection.triangleTypePart.oasName: (
+            String
+
+ v) {
+      return v;
+    }(instance.triangleType),
     ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
     if (instance.oneOf0.isDefined) ...instance.oneOf0.valueRequired.toMap(),
@@ -26,7 +33,24 @@ Triangle _$TriangleFromMap(Map<String, dynamic> src) {
   //when we have a discriminator, we pick one model
   final modelReflection = _reflection.tryGetDiscriminatorModel(discriminatorValue);
   return Triangle.$all(
-        additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+    triangleType: src.getRequiredMapped(_reflection.triangleTypePart.oasName, (v) => 
+(
+
+            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
+
+)
+
+
+),
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
 (
 v
 
@@ -42,7 +66,24 @@ v
 bool _$TriangleCanFromMap(Map<String, dynamic> src) {
   final _reflection = TriangleReflection.instance;
 
-    if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+  if (!src.getOrUndefined(_reflection.triangleTypePart.oasName).split<bool>(
+    defined: (v) => v == null ? false :
+(
+
+    
+            
+            (v is String
+    
+    
+    
+    
+)
+),
+    unDefined: () => !_reflection.triangleTypePart.required,
+)) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
 (
 true
 ))) {
@@ -76,55 +117,8 @@ Triangle _$TriangleDeserialize(Object? src) {
   if (src is Map<String, dynamic>) {
     return _$TriangleFromMap(src);
   } else {
-    
-    final v = src;
-    return Triangle.$all(
-      oneOf0: (v == null ? false :
-(
-
-    
-            EquilateralTriangle.canDeserialize(v)
-            
-)) ? UndefinedWrapper(EquilateralTriangle.deserialize
-(
-
-            v
-
-)
-
-
-) : UndefinedWrapper.undefined(),      oneOf1: (v == null ? false :
-(
-
-    
-            IsoscelesTriangle.canDeserialize(v)
-            
-)) ? UndefinedWrapper(IsoscelesTriangle.deserialize
-(
-
-            v
-
-)
-
-
-) : UndefinedWrapper.undefined(),      oneOf2: (v == null ? false :
-(
-
-    
-            ScaleneTriangle.canDeserialize(v)
-            
-)) ? UndefinedWrapper(ScaleneTriangle.deserialize
-(
-
-            v
-
-)
-
-
-) : UndefinedWrapper.undefined(),
-      // Additional Properties only make sense if the src is a Map<String, dynamic>
-      additionalProperties: AdditionalProperties(),
-    );
+        
+    throw UnimplementedError();
     
   }
 }
@@ -166,21 +160,12 @@ bool _$TriangleCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$TriangleSerialize(Triangle src) {
-  Object? initialResult = () {
+Map<String, dynamic> _$TriangleSerialize(Triangle src) {
+  Map<String, dynamic> initialResult = () {
     
+      return _$TriangleToMap(src);
     
-    if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.serialize(); }
-    if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.serialize(); }
-    if (src.oneOf2.isDefined) {final v = src.oneOf2.valueRequired; return v.serialize(); }
-    return null;
   }();
-  if (initialResult is Map<String, Object?>) {
-    return {
-      ...src.additionalProperties,
-      ...initialResult,
-    };
-  }
   return initialResult;
 }
 

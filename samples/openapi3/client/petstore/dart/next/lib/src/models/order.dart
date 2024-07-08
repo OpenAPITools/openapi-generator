@@ -20,21 +20,27 @@ mixin OrderMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
+
 > get id;
 UndefinedWrapper<
             int
+
 > get petId;
 UndefinedWrapper<
             int
+
 > get quantity;
 UndefinedWrapper<
             DateTime
+
 > get shipDate;
 UndefinedWrapper<
             OrderStatusEnum
+
 > get status;
 UndefinedWrapper<
             bool
+
 > get complete;
   
 }
@@ -55,29 +61,36 @@ OrderMixin {
   @override
   UndefinedWrapper<
             int
+
 > id;
   @override
   UndefinedWrapper<
             int
+
 > petId;
   @override
   UndefinedWrapper<
             int
+
 > quantity;
   @override
   UndefinedWrapper<
             DateTime
+
 > shipDate;
   @override
   UndefinedWrapper<
             OrderStatusEnum
+
 > status;
   @override
   UndefinedWrapper<
             bool
+
 > complete;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

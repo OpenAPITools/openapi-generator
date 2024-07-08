@@ -12,6 +12,7 @@ class PetsMulticontentTestPostRequestAddressReflection extends ClassReflection<P
     className: r'PetsMulticontentTestPostRequestAddress',
     streetPart: PropertyReflection<PetsMulticontentTestPostRequestAddress, UndefinedWrapper<
             String
+
 >>(
       dartName: r'street',
       nullable: false,
@@ -26,6 +27,7 @@ class PetsMulticontentTestPostRequestAddressReflection extends ClassReflection<P
     ),
     cityPart: PropertyReflection<PetsMulticontentTestPostRequestAddress, UndefinedWrapper<
             String
+
 >>(
       dartName: r'city',
       nullable: false,
@@ -43,6 +45,7 @@ class PetsMulticontentTestPostRequestAddressReflection extends ClassReflection<P
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<PetsMulticontentTestPostRequestAddress, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -60,27 +63,33 @@ class PetsMulticontentTestPostRequestAddressReflection extends ClassReflection<P
 
   final PropertyReflection<PetsMulticontentTestPostRequestAddress, UndefinedWrapper<
             String
+
 >> streetPart;
   static UndefinedWrapper<
             String
+
 > _streetGetter(PetsMulticontentTestPostRequestAddress parent) {
     return parent.street;
   }
   static void _streetSetter(PetsMulticontentTestPostRequestAddress parent, UndefinedWrapper<
             String
+
 > value) {
     parent.street = value;
   }
   final PropertyReflection<PetsMulticontentTestPostRequestAddress, UndefinedWrapper<
             String
+
 >> cityPart;
   static UndefinedWrapper<
             String
+
 > _cityGetter(PetsMulticontentTestPostRequestAddress parent) {
     return parent.city;
   }
   static void _citySetter(PetsMulticontentTestPostRequestAddress parent, UndefinedWrapper<
             String
+
 > value) {
     parent.city = value;
   }
@@ -106,6 +115,7 @@ cityPart,
   ];
 
   final AdditionalPropertiesReflection<PetsMulticontentTestPostRequestAddress, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -135,22 +145,24 @@ cityPart,
   /// Gets an example of PetsMulticontentTestPostRequestAddress.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  PetsMulticontentTestPostRequestAddress example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  PetsMulticontentTestPostRequestAddress example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return PetsMulticontentTestPostRequestAddress(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = PetsMulticontentTestPostRequestAddress(
       street: () {
-        PartReflection? _partReflection = _reflection.streetPart;
-        
-        final disc = discriminators[r'street'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -161,20 +173,15 @@ cityPart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[streetPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       city: () {
-        PartReflection? _partReflection = _reflection.cityPart;
-        
-        final disc = discriminators[r'city'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -185,19 +192,26 @@ cityPart,
     exampleString()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        final preSelectedResult = discriminatorExampleResults[cityPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class PetsMulticontentTestPostRequestAddressXmlReflection {
     const PetsMulticontentTestPostRequestAddressXmlReflection();

@@ -13,7 +13,9 @@ Map<String, dynamic> _$AdditionalPropertiesClassToMap(AdditionalPropertiesClass 
     Map<String, 
         
             String
+
 >
+
  v) {
       return v.map((k,v) => MapEntry(k, v));
     }(instance.mapProperty.valueRequired),
@@ -24,25 +26,31 @@ Map<String, dynamic> _$AdditionalPropertiesClassToMap(AdditionalPropertiesClass 
     Map<String, 
         
             String
+
 >
+
 >
+
  v) {
       return v.map((k,v) => MapEntry(k, v.map((k,v) => MapEntry(k, v))));
     }(instance.mapOfMapProperty.valueRequired),
     if (instance.anytype1.isDefined)
     _reflection.anytype1Part.oasName: (Object
+
 ? v) {
       return v;
     }(instance.anytype1.valueRequired),
     if (instance.mapWithUndeclaredPropertiesAnytype1.isDefined)
     _reflection.mapWithUndeclaredPropertiesAnytype1Part.oasName: (
             $FreeFormObject
+
  v) {
       return v;
     }(instance.mapWithUndeclaredPropertiesAnytype1.valueRequired),
     if (instance.mapWithUndeclaredPropertiesAnytype2.isDefined)
     _reflection.mapWithUndeclaredPropertiesAnytype2Part.oasName: (
             $FreeFormObject
+
  v) {
       return v;
     }(instance.mapWithUndeclaredPropertiesAnytype2.valueRequired),
@@ -50,13 +58,16 @@ Map<String, dynamic> _$AdditionalPropertiesClassToMap(AdditionalPropertiesClass 
     _reflection.mapWithUndeclaredPropertiesAnytype3Part.oasName: (
     Map<String, 
         Object
+
 ?>
+
  v) {
       return v;
     }(instance.mapWithUndeclaredPropertiesAnytype3.valueRequired),
     if (instance.emptyMap.isDefined)
     _reflection.emptyMapPart.oasName: (
             $FreeFormObject
+
  v) {
       return v;
     }(instance.emptyMap.valueRequired),
@@ -65,7 +76,9 @@ Map<String, dynamic> _$AdditionalPropertiesClassToMap(AdditionalPropertiesClass 
     Map<String, 
         
             String
+
 >
+
  v) {
       return v.map((k,v) => MapEntry(k, v));
     }(instance.mapWithUndeclaredPropertiesString.valueRequired),
@@ -411,8 +424,7 @@ bool _$AdditionalPropertiesClassCanDeserialize(Object? src) {
 Map<String, dynamic> _$AdditionalPropertiesClassSerialize(AdditionalPropertiesClass src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$AdditionalPropertiesClassToMap(src);
     
   }();
   return initialResult;

@@ -12,6 +12,7 @@ class TriangleInterfaceReflection extends ClassReflection<TriangleInterface> {
     className: r'TriangleInterface',
     triangleTypePart: PropertyReflection<TriangleInterface, 
             String
+
 >(
       dartName: r'triangleType',
       nullable: false,
@@ -29,6 +30,7 @@ class TriangleInterfaceReflection extends ClassReflection<TriangleInterface> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<TriangleInterface, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -45,14 +47,17 @@ class TriangleInterfaceReflection extends ClassReflection<TriangleInterface> {
 
   final PropertyReflection<TriangleInterface, 
             String
+
 > triangleTypePart;
   static 
             String
+
  _triangleTypeGetter(TriangleInterface parent) {
     return parent.triangleType;
   }
   static void _triangleTypeSetter(TriangleInterface parent, 
             String
+
  value) {
     parent.triangleType = value;
   }
@@ -77,6 +82,7 @@ class TriangleInterfaceReflection extends ClassReflection<TriangleInterface> {
   ];
 
   final AdditionalPropertiesReflection<TriangleInterface, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -106,22 +112,24 @@ class TriangleInterfaceReflection extends ClassReflection<TriangleInterface> {
   /// Gets an example of TriangleInterface.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  TriangleInterface example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  TriangleInterface example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return TriangleInterface(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = TriangleInterface(
       triangleType: () {
-        PartReflection? _partReflection = _reflection.triangleTypePart;
-        
-        final disc = discriminators[r'triangleType'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -133,18 +141,25 @@ class TriangleInterfaceReflection extends ClassReflection<TriangleInterface> {
 
 
 ;
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+        final preSelectedResult = discriminatorExampleResults[triangleTypePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class TriangleInterfaceXmlReflection {
     const TriangleInterfaceXmlReflection();

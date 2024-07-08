@@ -15,6 +15,7 @@ mixin BasquePigMixin on
   $OpenApiObjectMixin {
   
             String
+
  get className;
   
 }
@@ -30,9 +31,11 @@ BasquePigMixin {
   @override
   
             String
+
  className;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

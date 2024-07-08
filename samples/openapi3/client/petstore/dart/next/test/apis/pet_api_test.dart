@@ -88,7 +88,7 @@ void main() {
             
 
 
-    Pet.$reflection.example()
+    PetReflection.instance.example()
     
 
 
@@ -117,7 +117,7 @@ void main() {
             
 
 
-    Pet.$reflection.example()
+    PetReflection.instance.example()
     
 
 
@@ -254,7 +254,7 @@ apiKey: UndefinedWrapper(
 status:  
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             exampleEnum(StatusEnum.values)
@@ -330,7 +330,7 @@ status:
 tags:  
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
@@ -501,7 +501,7 @@ petId:
             
 
 
-    Pet.$reflection.example()
+    PetReflection.instance.example()
     
 
 
@@ -530,7 +530,7 @@ petId:
             
 
 
-    Pet.$reflection.example()
+    PetReflection.instance.example()
     
 
 

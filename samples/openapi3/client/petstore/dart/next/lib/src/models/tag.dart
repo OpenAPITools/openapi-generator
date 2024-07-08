@@ -16,9 +16,11 @@ mixin TagMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
+
 > get id;
 UndefinedWrapper<
             String
+
 > get name;
   
 }
@@ -35,13 +37,16 @@ TagMixin {
   @override
   UndefinedWrapper<
             int
+
 > id;
   @override
   UndefinedWrapper<
             String
+
 > name;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

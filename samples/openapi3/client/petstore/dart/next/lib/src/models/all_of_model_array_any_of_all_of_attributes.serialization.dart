@@ -11,6 +11,7 @@ Map<String, dynamic> _$AllOfModelArrayAnyOfAllOfAttributesToMap(AllOfModelArrayA
     if (instance.C.isDefined)
     _reflection.CPart.oasName: (
             AllOfModelArrayAnyOfAllOfAttributesC
+
  v) {
       return v.serialize();
     }(instance.C.valueRequired),
@@ -89,8 +90,7 @@ bool _$AllOfModelArrayAnyOfAllOfAttributesCanDeserialize(Object? src) {
 Map<String, dynamic> _$AllOfModelArrayAnyOfAllOfAttributesSerialize(AllOfModelArrayAnyOfAllOfAttributes src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$AllOfModelArrayAnyOfAllOfAttributesToMap(src);
     
   }();
   return initialResult;

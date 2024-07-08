@@ -12,6 +12,7 @@ class HasOnlyReadOnlyReflection extends ClassReflection<HasOnlyReadOnly> {
     className: r'HasOnlyReadOnly',
     barPart: PropertyReflection<HasOnlyReadOnly, UndefinedWrapper<
             String
+
 >>(
       dartName: r'bar',
       nullable: false,
@@ -26,6 +27,7 @@ class HasOnlyReadOnlyReflection extends ClassReflection<HasOnlyReadOnly> {
     ),
     fooPart: PropertyReflection<HasOnlyReadOnly, UndefinedWrapper<
             String
+
 >>(
       dartName: r'foo',
       nullable: false,
@@ -43,6 +45,7 @@ class HasOnlyReadOnlyReflection extends ClassReflection<HasOnlyReadOnly> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<HasOnlyReadOnly, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -60,27 +63,33 @@ class HasOnlyReadOnlyReflection extends ClassReflection<HasOnlyReadOnly> {
 
   final PropertyReflection<HasOnlyReadOnly, UndefinedWrapper<
             String
+
 >> barPart;
   static UndefinedWrapper<
             String
+
 > _barGetter(HasOnlyReadOnly parent) {
     return parent.bar;
   }
   static void _barSetter(HasOnlyReadOnly parent, UndefinedWrapper<
             String
+
 > value) {
     parent.bar = value;
   }
   final PropertyReflection<HasOnlyReadOnly, UndefinedWrapper<
             String
+
 >> fooPart;
   static UndefinedWrapper<
             String
+
 > _fooGetter(HasOnlyReadOnly parent) {
     return parent.foo;
   }
   static void _fooSetter(HasOnlyReadOnly parent, UndefinedWrapper<
             String
+
 > value) {
     parent.foo = value;
   }
@@ -106,6 +115,7 @@ fooPart,
   ];
 
   final AdditionalPropertiesReflection<HasOnlyReadOnly, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -135,22 +145,24 @@ fooPart,
   /// Gets an example of HasOnlyReadOnly.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  HasOnlyReadOnly example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  HasOnlyReadOnly example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return HasOnlyReadOnly(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = HasOnlyReadOnly(
       bar: () {
-        PartReflection? _partReflection = _reflection.barPart;
-        
-        final disc = discriminators[r'bar'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -161,20 +173,15 @@ fooPart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[barPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       foo: () {
-        PartReflection? _partReflection = _reflection.fooPart;
-        
-        final disc = discriminators[r'foo'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -185,19 +192,26 @@ fooPart,
     exampleString()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        final preSelectedResult = discriminatorExampleResults[fooPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class HasOnlyReadOnlyXmlReflection {
     const HasOnlyReadOnlyXmlReflection();

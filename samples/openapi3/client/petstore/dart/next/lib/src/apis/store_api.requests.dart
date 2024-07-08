@@ -19,6 +19,7 @@ part of 'store_api.dart';
   /// spec name: order_id
   final 
             String
+
  orderId;
   
 
@@ -224,6 +225,7 @@ part of 'store_api.dart';
   /// spec name: order_id
   final 
             int
+
  orderId;
   
 
@@ -342,6 +344,7 @@ abstract class StoreApiPlaceOrderRequest {
   const factory StoreApiPlaceOrderRequest.applicationJson({
     required 
             Order
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -478,6 +481,7 @@ class StoreApiPlaceOrderRequestApplicationJson extends StoreApiPlaceOrderRequest
 
   final 
             Order
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.

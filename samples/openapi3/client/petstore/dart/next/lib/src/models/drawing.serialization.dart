@@ -11,18 +11,21 @@ Map<String, dynamic> _$DrawingToMap(Drawing instance) {
     if (instance.mainShape.isDefined)
     _reflection.mainShapePart.oasName: (
             Shape
+
  v) {
       return v.serialize();
     }(instance.mainShape.valueRequired),
     if (instance.shapeOrNull.isDefined)
     _reflection.shapeOrNullPart.oasName: (
             ShapeOrNull
+
  v) {
       return v.serialize();
     }(instance.shapeOrNull.valueRequired),
     if (instance.nullableShape.isDefined)
     _reflection.nullableShapePart.oasName: (
             NullableShape
+
 ? v) {
       return v?.serialize();
     }(instance.nullableShape.valueRequired),
@@ -31,7 +34,9 @@ Map<String, dynamic> _$DrawingToMap(Drawing instance) {
     List<
         
             Shape
+
 >
+
  v) {
       return v.map((v) => v.serialize()).toList();
     }(instance.shapes.valueRequired),
@@ -195,8 +200,7 @@ bool _$DrawingCanDeserialize(Object? src) {
 Map<String, dynamic> _$DrawingSerialize(Drawing src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$DrawingToMap(src);
     
   }();
   return initialResult;

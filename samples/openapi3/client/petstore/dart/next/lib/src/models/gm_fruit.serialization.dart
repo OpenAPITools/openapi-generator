@@ -11,12 +11,13 @@ Map<String, dynamic> _$GmFruitToMap(GmFruit instance) {
     if (instance.color.isDefined)
     _reflection.colorPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.color.valueRequired),
     
     
-    if (instance.anyOf0.isDefined) ...?instance.anyOf0.valueRequired?.toMap(),
+    if (instance.anyOf0.isDefined) ...instance.anyOf0.valueRequired.toMap(),
     if (instance.anyOf1.isDefined) ...instance.anyOf1.valueRequired.toMap(),
   };
 }
@@ -128,8 +129,7 @@ bool _$GmFruitCanDeserialize(Object? src) {
 Map<String, dynamic> _$GmFruitSerialize(GmFruit src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$GmFruitToMap(src);
     
   }();
   return initialResult;

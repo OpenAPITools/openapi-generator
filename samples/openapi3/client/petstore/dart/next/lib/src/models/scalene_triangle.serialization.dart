@@ -11,12 +11,14 @@ Map<String, dynamic> _$ScaleneTriangleToMap(ScaleneTriangle instance) {
     
     _reflection.shapeTypePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.shapeType),
     
     _reflection.triangleTypePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.triangleType),
@@ -145,8 +147,7 @@ bool _$ScaleneTriangleCanDeserialize(Object? src) {
 Map<String, dynamic> _$ScaleneTriangleSerialize(ScaleneTriangle src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$ScaleneTriangleToMap(src);
     
   }();
   return initialResult;

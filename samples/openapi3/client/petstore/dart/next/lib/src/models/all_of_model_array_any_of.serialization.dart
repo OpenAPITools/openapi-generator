@@ -11,24 +11,28 @@ Map<String, dynamic> _$AllOfModelArrayAnyOfToMap(AllOfModelArrayAnyOf instance) 
     
     _reflection.namePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.name),
     if (instance.attributes.isDefined)
     _reflection.attributesPart.oasName: (
             AllOfModelArrayAnyOfAllOfAttributes
+
  v) {
       return v.serialize();
     }(instance.attributes.valueRequired),
     if (instance.id.isDefined)
     _reflection.idPart.oasName: (
             int
+
  v) {
       return v;
     }(instance.id.valueRequired),
     if (instance.linkListColumn1.isDefined)
     _reflection.linkListColumn1Part.oasName: (
             AllOfModelArrayAnyOfAllOfLinkListColumn1
+
  v) {
       return v.serialize();
     }(instance.linkListColumn1.valueRequired),
@@ -197,8 +201,7 @@ bool _$AllOfModelArrayAnyOfCanDeserialize(Object? src) {
 Map<String, dynamic> _$AllOfModelArrayAnyOfSerialize(AllOfModelArrayAnyOf src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$AllOfModelArrayAnyOfToMap(src);
     
   }();
   return initialResult;

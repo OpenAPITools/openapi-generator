@@ -282,7 +282,7 @@ orderId:
             
 
 
-    Order.$reflection.example()
+    OrderReflection.instance.example()
     
 
 

@@ -11,18 +11,21 @@ Map<String, dynamic> _$PropertyNameCollisionToMap(PropertyNameCollision instance
     if (instance.$type.isDefined)
     _reflection.$typePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.$type.valueRequired),
     if (instance.type.isDefined)
     _reflection.typePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.type.valueRequired),
     if (instance.type$.isDefined)
     _reflection.type$Part.oasName: (
             String
+
  v) {
       return v;
     }(instance.type$.valueRequired),
@@ -182,8 +185,7 @@ bool _$PropertyNameCollisionCanDeserialize(Object? src) {
 Map<String, dynamic> _$PropertyNameCollisionSerialize(PropertyNameCollision src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$PropertyNameCollisionToMap(src);
     
   }();
   return initialResult;

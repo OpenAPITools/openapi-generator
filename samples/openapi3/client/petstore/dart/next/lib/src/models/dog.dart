@@ -15,6 +15,7 @@ mixin DogMixin on
   AnimalMixin, $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 > get breed;
   
 }
@@ -32,17 +33,21 @@ DogMixin {
   @override
   UndefinedWrapper<
             String
+
 > color;
   @override
   UndefinedWrapper<
             String
+
 > breed;
   @override
   
             String
+
  className;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   
@@ -76,7 +81,6 @@ required  this.className     ,
 
   @override
   bool validate() {
-      
       
     return super.validate();
   }

@@ -17,12 +17,15 @@ mixin NewPetCategoryInlineAllofMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
+
 > get id;
 
             String
+
  get name;
 UndefinedWrapper<
             NewPetCategoryInlineAllofAllOfCategoryTag
+
 > get categoryTag;
   
 }
@@ -40,17 +43,21 @@ NewPetCategoryInlineAllofMixin {
   @override
   UndefinedWrapper<
             int
+
 > id;
   @override
   
             String
+
  name;
   @override
   UndefinedWrapper<
             NewPetCategoryInlineAllofAllOfCategoryTag
+
 > categoryTag;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   
@@ -84,7 +91,6 @@ NewPetCategoryInlineAllofMixin {
 
   @override
   bool validate() {
-      
       
     return super.validate();
   }

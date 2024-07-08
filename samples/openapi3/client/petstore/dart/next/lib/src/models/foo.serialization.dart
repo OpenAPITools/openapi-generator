@@ -11,6 +11,7 @@ Map<String, dynamic> _$FooToMap(Foo instance) {
     if (instance.bar.isDefined)
     _reflection.barPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.bar.valueRequired),
@@ -102,8 +103,7 @@ bool _$FooCanDeserialize(Object? src) {
 Map<String, dynamic> _$FooSerialize(Foo src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$FooToMap(src);
     
   }();
   return initialResult;

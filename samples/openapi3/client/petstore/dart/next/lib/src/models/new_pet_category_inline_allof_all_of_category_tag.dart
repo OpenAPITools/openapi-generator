@@ -16,9 +16,11 @@ mixin NewPetCategoryInlineAllofAllOfCategoryTagMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
+
 > get id;
 UndefinedWrapper<
             String
+
 > get name;
   
 }
@@ -35,13 +37,16 @@ NewPetCategoryInlineAllofAllOfCategoryTagMixin {
   @override
   UndefinedWrapper<
             int
+
 > id;
   @override
   UndefinedWrapper<
             String
+
 > name;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

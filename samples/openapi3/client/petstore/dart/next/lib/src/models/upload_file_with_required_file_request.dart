@@ -16,9 +16,11 @@ mixin UploadFileWithRequiredFileRequestMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 > get additionalMetadata;
 
             XFile
+
  get requiredFile;
   
 }
@@ -35,13 +37,16 @@ UploadFileWithRequiredFileRequestMixin {
   @override
   UndefinedWrapper<
             String
+
 > additionalMetadata;
   @override
   
             XFile
+
  requiredFile;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

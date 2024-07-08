@@ -12,6 +12,7 @@ class FooGetDefaultResponseReflection extends ClassReflection<FooGetDefaultRespo
     className: r'FooGetDefaultResponse',
     stringPart: PropertyReflection<FooGetDefaultResponse, UndefinedWrapper<
             Foo
+
 >>(
       dartName: r'string',
       nullable: false,
@@ -30,6 +31,7 @@ class FooGetDefaultResponseReflection extends ClassReflection<FooGetDefaultRespo
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<FooGetDefaultResponse, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -46,14 +48,17 @@ class FooGetDefaultResponseReflection extends ClassReflection<FooGetDefaultRespo
 
   final PropertyReflection<FooGetDefaultResponse, UndefinedWrapper<
             Foo
+
 >> stringPart;
   static UndefinedWrapper<
             Foo
+
 > _stringGetter(FooGetDefaultResponse parent) {
     return parent.string;
   }
   static void _stringSetter(FooGetDefaultResponse parent, UndefinedWrapper<
             Foo
+
 > value) {
     parent.string = value;
   }
@@ -78,6 +83,7 @@ class FooGetDefaultResponseReflection extends ClassReflection<FooGetDefaultRespo
   ];
 
   final AdditionalPropertiesReflection<FooGetDefaultResponse, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -107,37 +113,50 @@ class FooGetDefaultResponseReflection extends ClassReflection<FooGetDefaultRespo
   /// Gets an example of FooGetDefaultResponse.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  FooGetDefaultResponse example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  FooGetDefaultResponse example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return FooGetDefaultResponse(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = FooGetDefaultResponse(
       string: () {
-        PartReflection? _partReflection = _reflection.stringPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
             
 
 
-    Foo.$reflection.example()
+    FooReflection.instance.example()
     
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class FooGetDefaultResponseXmlReflection {
     const FooGetDefaultResponseXmlReflection();

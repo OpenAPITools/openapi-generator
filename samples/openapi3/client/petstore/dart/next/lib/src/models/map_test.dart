@@ -22,26 +22,35 @@ mixin MapTestMixin on
     Map<String, 
         
             String
+
 >
+
 >
+
 > get mapMapOfString;
 UndefinedWrapper<
     Map<String, 
         
             MapTestMapOfEnumStringEnum
+
 >
+
 > get mapOfEnumString;
 UndefinedWrapper<
     Map<String, 
         
             bool
+
 >
+
 > get directMap;
 UndefinedWrapper<
     Map<String, 
         
             bool
+
 >
+
 > get indirectMap;
   
 }
@@ -64,32 +73,42 @@ MapTestMixin {
     Map<String, 
         
             String
+
 >
+
 >
+
 > mapMapOfString;
   @override
   UndefinedWrapper<
     Map<String, 
         
             MapTestMapOfEnumStringEnum
+
 >
+
 > mapOfEnumString;
   @override
   UndefinedWrapper<
     Map<String, 
         
             bool
+
 >
+
 > directMap;
   @override
   UndefinedWrapper<
     Map<String, 
         
             bool
+
 >
+
 > indirectMap;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

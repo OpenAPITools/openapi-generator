@@ -16,9 +16,11 @@ mixin AllOfModelArrayAnyOfMixin on
   CategoryMixin, $OpenApiObjectMixin {
   UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfLinkListColumn1
+
 > get linkListColumn1;
 UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfAttributes
+
 > get attributes;
   
 }
@@ -37,21 +39,26 @@ AllOfModelArrayAnyOfMixin {
   @override
   
             String
+
  name;
   @override
   UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfAttributes
+
 > attributes;
   @override
   UndefinedWrapper<
             int
+
 > id;
   @override
   UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfLinkListColumn1
+
 > linkListColumn1;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   
@@ -89,7 +96,6 @@ AllOfModelArrayAnyOfMixin {
 
   @override
   bool validate() {
-      
       
     return super.validate();
   }

@@ -11,18 +11,21 @@ Map<String, dynamic> _$NewPetCategoryInlineAllofToMap(NewPetCategoryInlineAllof 
     if (instance.id.isDefined)
     _reflection.idPart.oasName: (
             int
+
  v) {
       return v;
     }(instance.id.valueRequired),
     
     _reflection.namePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.name),
     if (instance.categoryTag.isDefined)
     _reflection.categoryTagPart.oasName: (
             NewPetCategoryInlineAllofAllOfCategoryTag
+
  v) {
       return v.serialize();
     }(instance.categoryTag.valueRequired),
@@ -170,8 +173,7 @@ bool _$NewPetCategoryInlineAllofCanDeserialize(Object? src) {
 Map<String, dynamic> _$NewPetCategoryInlineAllofSerialize(NewPetCategoryInlineAllof src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$NewPetCategoryInlineAllofToMap(src);
     
   }();
   return initialResult;

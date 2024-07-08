@@ -111,6 +111,7 @@ class ValuesApiGetSomeValuesResponse200 extends ValuesApiGetSomeValuesResponse {
 class ValuesApiGetSomeValuesResponse200ApplicationJson extends ValuesApiGetSomeValuesResponse200 {
   final 
             Variable
+
 ? body;
 
   /// The raw result of calling jsonDecode

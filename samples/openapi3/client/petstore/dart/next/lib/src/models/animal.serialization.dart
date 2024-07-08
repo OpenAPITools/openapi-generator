@@ -11,12 +11,14 @@ Map<String, dynamic> _$AnimalToMap(Animal instance) {
     
     _reflection.classNamePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.className),
     if (instance.color.isDefined)
     _reflection.colorPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.color.valueRequired),
@@ -146,8 +148,7 @@ bool _$AnimalCanDeserialize(Object? src) {
 Map<String, dynamic> _$AnimalSerialize(Animal src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$AnimalToMap(src);
     
   }();
   return initialResult;

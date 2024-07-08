@@ -11,70 +11,82 @@ Map<String, dynamic> _$UserToMap(User instance) {
     if (instance.id.isDefined)
     _reflection.idPart.oasName: (
             int
+
  v) {
       return v;
     }(instance.id.valueRequired),
     if (instance.username.isDefined)
     _reflection.usernamePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.username.valueRequired),
     if (instance.firstName.isDefined)
     _reflection.firstNamePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.firstName.valueRequired),
     if (instance.lastName.isDefined)
     _reflection.lastNamePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.lastName.valueRequired),
     if (instance.email.isDefined)
     _reflection.emailPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.email.valueRequired),
     if (instance.password.isDefined)
     _reflection.passwordPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.password.valueRequired),
     if (instance.phone.isDefined)
     _reflection.phonePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.phone.valueRequired),
     if (instance.userStatus.isDefined)
     _reflection.userStatusPart.oasName: (
             int
+
  v) {
       return v;
     }(instance.userStatus.valueRequired),
     if (instance.objectWithNoDeclaredProps.isDefined)
     _reflection.objectWithNoDeclaredPropsPart.oasName: (
             $FreeFormObject
+
  v) {
       return v;
     }(instance.objectWithNoDeclaredProps.valueRequired),
     if (instance.objectWithNoDeclaredPropsNullable.isDefined)
     _reflection.objectWithNoDeclaredPropsNullablePart.oasName: (
             $FreeFormObject
+
 ? v) {
       return v;
     }(instance.objectWithNoDeclaredPropsNullable.valueRequired),
     if (instance.anyTypeProp.isDefined)
     _reflection.anyTypePropPart.oasName: (Object
+
 ? v) {
       return v;
     }(instance.anyTypeProp.valueRequired),
     if (instance.anyTypePropNullable.isDefined)
     _reflection.anyTypePropNullablePart.oasName: (Object
+
 ? v) {
       return v;
     }(instance.anyTypePropNullable.valueRequired),
@@ -484,8 +496,7 @@ bool _$UserCanDeserialize(Object? src) {
 Map<String, dynamic> _$UserSerialize(User src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$UserToMap(src);
     
   }();
   return initialResult;

@@ -11,12 +11,14 @@ Map<String, dynamic> _$EquilateralTriangleToMap(EquilateralTriangle instance) {
     
     _reflection.shapeTypePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.shapeType),
     
     _reflection.triangleTypePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.triangleType),
@@ -145,8 +147,7 @@ bool _$EquilateralTriangleCanDeserialize(Object? src) {
 Map<String, dynamic> _$EquilateralTriangleSerialize(EquilateralTriangle src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$EquilateralTriangleToMap(src);
     
   }();
   return initialResult;

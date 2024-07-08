@@ -540,6 +540,18 @@ public class DartNextClientCodegen extends DefaultCodegen {
                 var hasAnyOfOrOneOf = ((model.anyOf != null && !model.anyOf.isEmpty())
                         || (model.oneOf != null && !model.oneOf.isEmpty()));
                 model.vendorExtensions.put("hasAnyOfOrOneOf", hasAnyOfOrOneOf);
+                // if (model.discriminator != null) {
+                //     //if there is a discriminator, make sure it exists in vars.
+                //     var discriminatorPropertyResult = model.requiredVars.stream()
+                //             .filter(t -> t.baseName.equals(model.discriminator.getPropertyBaseName())).findFirst();
+
+                //     if (discriminatorPropertyResult.isPresent()) {
+                //         final CodegenProperty discriminatorProperty = discriminatorPropertyResult.get();
+                //         if (!model.vars.stream().anyMatch(v -> v.baseName.equals(discriminatorProperty.baseName))) {
+                //             model.vars.add(discriminatorProperty);
+                //         }
+                //     }
+                // }
                 allModels.put(model.getClassname(), model);
             }
         }
@@ -659,7 +671,7 @@ public class DartNextClientCodegen extends DefaultCodegen {
             }
             for (CodegenProperty p : cm.getVars()) {
                 p.isInherited = ancestorOnlyProperties.containsKey(p.getName());
-                if (!p.isInherited && !compositeProperties.contains(p.getName())) {
+                if (!p.isInherited && (!compositeProperties.contains(p.getName()) || p.isDiscriminator)) {
                     selfOnlyProperties.put(p.getName(), p);
                 }
             }

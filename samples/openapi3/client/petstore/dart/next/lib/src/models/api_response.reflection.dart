@@ -12,6 +12,7 @@ class ApiResponseReflection extends ClassReflection<ApiResponse> {
     className: r'ApiResponse',
     codePart: PropertyReflection<ApiResponse, UndefinedWrapper<
             int
+
 >>(
       dartName: r'code',
       nullable: false,
@@ -26,6 +27,7 @@ class ApiResponseReflection extends ClassReflection<ApiResponse> {
     ),
     typePart: PropertyReflection<ApiResponse, UndefinedWrapper<
             String
+
 >>(
       dartName: r'type',
       nullable: false,
@@ -40,6 +42,7 @@ class ApiResponseReflection extends ClassReflection<ApiResponse> {
     ),
     messagePart: PropertyReflection<ApiResponse, UndefinedWrapper<
             String
+
 >>(
       dartName: r'message',
       nullable: false,
@@ -57,6 +60,7 @@ class ApiResponseReflection extends ClassReflection<ApiResponse> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<ApiResponse, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -75,40 +79,49 @@ class ApiResponseReflection extends ClassReflection<ApiResponse> {
 
   final PropertyReflection<ApiResponse, UndefinedWrapper<
             int
+
 >> codePart;
   static UndefinedWrapper<
             int
+
 > _codeGetter(ApiResponse parent) {
     return parent.code;
   }
   static void _codeSetter(ApiResponse parent, UndefinedWrapper<
             int
+
 > value) {
     parent.code = value;
   }
   final PropertyReflection<ApiResponse, UndefinedWrapper<
             String
+
 >> typePart;
   static UndefinedWrapper<
             String
+
 > _typeGetter(ApiResponse parent) {
     return parent.type;
   }
   static void _typeSetter(ApiResponse parent, UndefinedWrapper<
             String
+
 > value) {
     parent.type = value;
   }
   final PropertyReflection<ApiResponse, UndefinedWrapper<
             String
+
 >> messagePart;
   static UndefinedWrapper<
             String
+
 > _messageGetter(ApiResponse parent) {
     return parent.message;
   }
   static void _messageSetter(ApiResponse parent, UndefinedWrapper<
             String
+
 > value) {
     parent.message = value;
   }
@@ -135,6 +148,7 @@ messagePart,
   ];
 
   final AdditionalPropertiesReflection<ApiResponse, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -164,14 +178,24 @@ messagePart,
   /// Gets an example of ApiResponse.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  ApiResponse example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  ApiResponse example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return ApiResponse(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = ApiResponse(
       code: () {
-        PartReflection? _partReflection = _reflection.codePart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -182,20 +206,11 @@ messagePart,
     exampleint()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       type: () {
-        PartReflection? _partReflection = _reflection.typePart;
-        
-        final disc = discriminators[r'type'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -206,20 +221,15 @@ messagePart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[typePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       message: () {
-        PartReflection? _partReflection = _reflection.messagePart;
-        
-        final disc = discriminators[r'message'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -230,19 +240,26 @@ messagePart,
     exampleString()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        final preSelectedResult = discriminatorExampleResults[messagePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class ApiResponseXmlReflection {
     const ApiResponseXmlReflection();

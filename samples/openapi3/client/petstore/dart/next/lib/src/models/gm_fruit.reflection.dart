@@ -12,6 +12,7 @@ class GmFruitReflection extends ClassReflection<GmFruit> {
     className: r'GmFruit',
     colorPart: PropertyReflection<GmFruit, UndefinedWrapper<
             String
+
 >>(
       dartName: r'color',
       nullable: false,
@@ -26,12 +27,12 @@ class GmFruitReflection extends ClassReflection<GmFruit> {
     ),
     
     
-    anyOf0Part: AnyOfReflection(
+    anyOf0Part: GmFruitAnyOf0(
       parentReflectionGetter: instanceGetter,
       classReflection: AppleReflection.instance,
     ),
     
-    anyOf1Part: AnyOfReflection(
+    anyOf1Part: GmFruitAnyOf1(
       parentReflectionGetter: instanceGetter,
       classReflection: BananaReflection.instance,
     ),
@@ -53,14 +54,17 @@ class GmFruitReflection extends ClassReflection<GmFruit> {
 
   final PropertyReflection<GmFruit, UndefinedWrapper<
             String
+
 >> colorPart;
   static UndefinedWrapper<
             String
+
 > _colorGetter(GmFruit parent) {
     return parent.color;
   }
   static void _colorSetter(GmFruit parent, UndefinedWrapper<
             String
+
 > value) {
     parent.color = value;
   }
@@ -87,13 +91,9 @@ class GmFruitReflection extends ClassReflection<GmFruit> {
   
   
   
-  final AnyOfReflection<GmFruit, 
-            Apple
-?> anyOf0Part;
+  final GmFruitAnyOf0 anyOf0Part;
   
-  final AnyOfReflection<GmFruit, 
-            Banana
-> anyOf1Part;
+  final GmFruitAnyOf1 anyOf1Part;
   
   @override
   List<PartReflection<GmFruit, dynamic>> get parts => [
@@ -127,22 +127,24 @@ class GmFruitReflection extends ClassReflection<GmFruit> {
   /// Gets an example of GmFruit.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  GmFruit example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  GmFruit example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return GmFruit(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = GmFruit(
       color: () {
-        PartReflection? _partReflection = _reflection.colorPart;
-        
-        final disc = discriminators[r'color'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -153,41 +155,78 @@ class GmFruitReflection extends ClassReflection<GmFruit> {
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[colorPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       
-      
-      anyOf0: () {
-        PartReflection? _partReflection = _reflection.anyOf0Part;
-        return UndefinedWrapper(exampleNullable(() =>
-
-
-            
-            
-
-
-    Apple.$reflection.example(discriminators: discriminators)
-    
-
-
- ) );
-      }(),
-      anyOf1: () {
-        PartReflection? _partReflection = _reflection.anyOf1Part;
-        return UndefinedWrapper(
-
-
-            
-            
-
-
-    Banana.$reflection.example(discriminators: discriminators)
-    
-
-
-);
-      }(),
     );
+    
+    exampleResult.anyOf0 = anyOf0Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
+    
+    exampleResult.anyOf1 = anyOf1Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
+    
+    return exampleResult;
+  }
+}
+
+class GmFruitAnyOf0 extends AnyOfReflection<GmFruit, 
+            Apple
+> {
+  const GmFruitAnyOf0({
+    super.classReflection,
+    required GmFruitReflection Function() super.parentReflectionGetter,
+    super.itemsReflection,
+  });
+
+  UndefinedWrapper<
+            Apple
+> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+    if (discriminatorExampleResults.isNotEmpty) {
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == classReflection)) {
+        return UndefinedWrapper.undefined();
+      }
+    }
+    return UndefinedWrapper(
+            
+            
+
+
+    AppleReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
+    
+);
+  }
+}
+class GmFruitAnyOf1 extends AnyOfReflection<GmFruit, 
+            Banana
+> {
+  const GmFruitAnyOf1({
+    super.classReflection,
+    required GmFruitReflection Function() super.parentReflectionGetter,
+    super.itemsReflection,
+  });
+
+  UndefinedWrapper<
+            Banana
+> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+    if (discriminatorExampleResults.isNotEmpty) {
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == classReflection)) {
+        return UndefinedWrapper.undefined();
+      }
+    }
+    return UndefinedWrapper(
+            
+            
+
+
+    BananaReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
+    
+);
   }
 }
 

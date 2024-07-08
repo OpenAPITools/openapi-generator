@@ -12,23 +12,26 @@ class FakeOneOfWIthSameErasureGet200ResponseReflection extends ClassReflection<F
     className: r'FakeOneOfWIthSameErasureGet200Response',
     
     
-    oneOf0Part: OneOfReflection(
+    oneOf0Part: FakeOneOfWIthSameErasureGet200ResponseOneOf0(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<FakeOneOfWIthSameErasureGet200Response, 
             String
+
 >(parentReflectionGetter: instanceGetter,),
           ),
     
-    oneOf1Part: OneOfReflection(
+    oneOf1Part: FakeOneOfWIthSameErasureGet200ResponseOneOf1(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<FakeOneOfWIthSameErasureGet200Response, 
             int
+
 >(parentReflectionGetter: instanceGetter,),
           ),
     
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<FakeOneOfWIthSameErasureGet200Response, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -66,23 +69,14 @@ class FakeOneOfWIthSameErasureGet200ResponseReflection extends ClassReflection<F
       ];
 
   final AdditionalPropertiesReflection<FakeOneOfWIthSameErasureGet200Response, Object
+
 ?> additionalPropertiesPart;
 
   
   
-  final OneOfReflection<FakeOneOfWIthSameErasureGet200Response, 
-    List<
-        
-            String
->
-> oneOf0Part;
+  final FakeOneOfWIthSameErasureGet200ResponseOneOf0 oneOf0Part;
   
-  final OneOfReflection<FakeOneOfWIthSameErasureGet200Response, 
-    List<
-        
-            int
->
-> oneOf1Part;
+  final FakeOneOfWIthSameErasureGet200ResponseOneOf1 oneOf1Part;
   
   @override
   List<PartReflection<FakeOneOfWIthSameErasureGet200Response, dynamic>> get parts => [
@@ -117,24 +111,76 @@ class FakeOneOfWIthSameErasureGet200ResponseReflection extends ClassReflection<F
   /// Gets an example of FakeOneOfWIthSameErasureGet200Response.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  FakeOneOfWIthSameErasureGet200Response example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  FakeOneOfWIthSameErasureGet200Response example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return FakeOneOfWIthSameErasureGet200Response(
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = FakeOneOfWIthSameErasureGet200Response(
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
-      oneOf0: () {
-        PartReflection? _partReflection = _reflection.oneOf0Part;
-        return UndefinedWrapper(
+    );
+    
+    exampleResult.oneOf0 = oneOf0Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
+    
+    exampleResult.oneOf1 = oneOf1Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
+    
+    return exampleResult;
+  }
+}
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+class FakeOneOfWIthSameErasureGet200ResponseOneOf0 extends OneOfReflection<FakeOneOfWIthSameErasureGet200Response, 
+    List<
+        
+            String
+
+>
+> {
+  const FakeOneOfWIthSameErasureGet200ResponseOneOf0({
+    super.classReflection,
+    required FakeOneOfWIthSameErasureGet200ResponseReflection Function() super.parentReflectionGetter,
+    super.itemsReflection,
+  });
+
+  UndefinedWrapper<
+    List<
+        
+            String
+
+>
+> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+    if (discriminatorExampleResults.isEmpty) {
+      //return undefined for non-first oneOfs.
+      // An example SHOULD be generated
+    } else {
+      // if this reflection wasn't a result of any property, don't generate an example.
+
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == classReflection)) {
+        // if there are no discriminator examples targetting the current class:
+        return UndefinedWrapper.undefined();
+      } else {
+        // An example SHOULD be generated
+      }
+    }
+    return UndefinedWrapper(
+    exampleList(() { return 
 
 
             
@@ -147,12 +193,59 @@ exampleObject()
 
 ; })
 
+);
+  }
+}
 
+class FakeOneOfWIthSameErasureGet200ResponseOneOf1 extends OneOfReflection<FakeOneOfWIthSameErasureGet200Response, 
+    List<
+        
+            int
+
+>
+> {
+  const FakeOneOfWIthSameErasureGet200ResponseOneOf1({
+    super.classReflection,
+    required FakeOneOfWIthSameErasureGet200ResponseReflection Function() super.parentReflectionGetter,
+    super.itemsReflection,
+  });
+
+  UndefinedWrapper<
+    List<
+        
+            int
+
+>
+> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+    if (discriminatorExampleResults.isEmpty) {
+      //return undefined for non-first oneOfs.
+      return UndefinedWrapper.undefined();
+    } else {
+      // if this reflection wasn't a result of any property, don't generate an example.
+
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == classReflection)) {
+        // if there are no discriminator examples targetting the current class:
+        return UndefinedWrapper.undefined();
+      } else {
+        // An example SHOULD be generated
+      }
+    }
+    return UndefinedWrapper(
+    exampleList(() { return 
+
+
+            
+            
+
+
+    
+    exampleint()
+
+
+; })
 
 );
-      }(),
-      
-    );
   }
 }
 

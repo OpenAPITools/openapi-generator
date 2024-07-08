@@ -29,6 +29,7 @@ abstract class FakeClassnameTags123ApiTestClassnameRequest {
   const factory FakeClassnameTags123ApiTestClassnameRequest.applicationJson({
     required 
             Client
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -165,6 +166,7 @@ class FakeClassnameTags123ApiTestClassnameRequestApplicationJson extends FakeCla
 
   final 
             Client
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.

@@ -18,13 +18,17 @@ mixin ArrayDefaultMixin on
     List<
         
             String
+
 >
+
 > get withDefaultEmptyBracket;
 UndefinedWrapper<
     List<
         
             String
+
 >
+
 > get withoutDefault;
   
 }
@@ -43,17 +47,22 @@ ArrayDefaultMixin {
     List<
         
             String
+
 >
+
 > withDefaultEmptyBracket;
   @override
   UndefinedWrapper<
     List<
         
             String
+
 >
+
 > withoutDefault;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

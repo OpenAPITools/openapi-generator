@@ -21,9 +21,11 @@ ParentPetMixin {
   @override
   
             String
+
  petType;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   
@@ -45,7 +47,6 @@ ParentPetMixin {
 
   @override
   bool validate() {
-      
       
     return super.validate();
   }

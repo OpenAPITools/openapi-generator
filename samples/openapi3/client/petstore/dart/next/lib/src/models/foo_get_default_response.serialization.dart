@@ -11,6 +11,7 @@ Map<String, dynamic> _$FooGetDefaultResponseToMap(FooGetDefaultResponse instance
     if (instance.string.isDefined)
     _reflection.stringPart.oasName: (
             Foo
+
  v) {
       return v.serialize();
     }(instance.string.valueRequired),
@@ -89,8 +90,7 @@ bool _$FooGetDefaultResponseCanDeserialize(Object? src) {
 Map<String, dynamic> _$FooGetDefaultResponseSerialize(FooGetDefaultResponse src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$FooGetDefaultResponseToMap(src);
     
   }();
   return initialResult;

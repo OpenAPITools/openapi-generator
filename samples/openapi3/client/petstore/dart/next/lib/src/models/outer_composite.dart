@@ -17,12 +17,15 @@ mixin OuterCompositeMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             num
+
 > get myNumber;
 UndefinedWrapper<
             String
+
 > get myString;
 UndefinedWrapper<
             bool
+
 > get myBoolean;
   
 }
@@ -40,17 +43,21 @@ OuterCompositeMixin {
   @override
   UndefinedWrapper<
             num
+
 > myNumber;
   @override
   UndefinedWrapper<
             String
+
 > myString;
   @override
   UndefinedWrapper<
             bool
+
 > myBoolean;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

@@ -12,6 +12,7 @@ class PetReflection extends ClassReflection<Pet> {
     className: r'Pet',
     idPart: PropertyReflection<Pet, UndefinedWrapper<
             int
+
 >>(
       dartName: r'id',
       nullable: false,
@@ -26,6 +27,7 @@ class PetReflection extends ClassReflection<Pet> {
     ),
     categoryPart: PropertyReflection<Pet, UndefinedWrapper<
             Category
+
 >>(
       dartName: r'category',
       nullable: false,
@@ -41,6 +43,7 @@ class PetReflection extends ClassReflection<Pet> {
     ),
     namePart: PropertyReflection<Pet, 
             String
+
 >(
       dartName: r'name',
       nullable: false,
@@ -57,7 +60,9 @@ class PetReflection extends ClassReflection<Pet> {
     List<
         
             String
+
 >
+
 >(
       dartName: r'photoUrls',
       nullable: false,
@@ -69,6 +74,7 @@ class PetReflection extends ClassReflection<Pet> {
       isDiscriminator: false,
       itemsReflection: ItemsReflection<Pet, 
             String
+
 >(parentReflectionGetter: instanceGetter,),
       getter: _photoUrlsGetter,
       setter: _photoUrlsSetter,
@@ -77,7 +83,9 @@ class PetReflection extends ClassReflection<Pet> {
     List<
         
             Tag
+
 >
+
 >>(
       dartName: r'tags',
       nullable: false,
@@ -89,12 +97,14 @@ class PetReflection extends ClassReflection<Pet> {
       isDiscriminator: false,
       itemsReflection: ItemsReflection<Pet, 
             Tag
+
 >(parentReflectionGetter: instanceGetter,classReflection: TagReflection.instance,),
       getter: _tagsGetter,
       setter: _tagsSetter,
     ),
     statusPart: PropertyReflection<Pet, UndefinedWrapper<
             PetStatusEnum
+
 >>(
       dartName: r'status',
       nullable: false,
@@ -112,6 +122,7 @@ class PetReflection extends ClassReflection<Pet> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<Pet, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -133,40 +144,49 @@ class PetReflection extends ClassReflection<Pet> {
 
   final PropertyReflection<Pet, UndefinedWrapper<
             int
+
 >> idPart;
   static UndefinedWrapper<
             int
+
 > _idGetter(Pet parent) {
     return parent.id;
   }
   static void _idSetter(Pet parent, UndefinedWrapper<
             int
+
 > value) {
     parent.id = value;
   }
   final PropertyReflection<Pet, UndefinedWrapper<
             Category
+
 >> categoryPart;
   static UndefinedWrapper<
             Category
+
 > _categoryGetter(Pet parent) {
     return parent.category;
   }
   static void _categorySetter(Pet parent, UndefinedWrapper<
             Category
+
 > value) {
     parent.category = value;
   }
   final PropertyReflection<Pet, 
             String
+
 > namePart;
   static 
             String
+
  _nameGetter(Pet parent) {
     return parent.name;
   }
   static void _nameSetter(Pet parent, 
             String
+
  value) {
     parent.name = value;
   }
@@ -174,13 +194,17 @@ class PetReflection extends ClassReflection<Pet> {
     List<
         
             String
+
 >
+
 > photoUrlsPart;
   static 
     List<
         
             String
+
 >
+
  _photoUrlsGetter(Pet parent) {
     return parent.photoUrls;
   }
@@ -188,7 +212,9 @@ class PetReflection extends ClassReflection<Pet> {
     List<
         
             String
+
 >
+
  value) {
     parent.photoUrls = value;
   }
@@ -196,13 +222,17 @@ class PetReflection extends ClassReflection<Pet> {
     List<
         
             Tag
+
 >
+
 >> tagsPart;
   static UndefinedWrapper<
     List<
         
             Tag
+
 >
+
 > _tagsGetter(Pet parent) {
     return parent.tags;
   }
@@ -210,20 +240,25 @@ class PetReflection extends ClassReflection<Pet> {
     List<
         
             Tag
+
 >
+
 > value) {
     parent.tags = value;
   }
   final PropertyReflection<Pet, UndefinedWrapper<
             PetStatusEnum
+
 >> statusPart;
   static UndefinedWrapper<
             PetStatusEnum
+
 > _statusGetter(Pet parent) {
     return parent.status;
   }
   static void _statusSetter(Pet parent, UndefinedWrapper<
             PetStatusEnum
+
 > value) {
     parent.status = value;
   }
@@ -253,6 +288,7 @@ statusPart,
   ];
 
   final AdditionalPropertiesReflection<Pet, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -282,14 +318,24 @@ statusPart,
   /// Gets an example of Pet.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  Pet example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  Pet example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return Pet(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = Pet(
       id: () {
-        PartReflection? _partReflection = _reflection.idPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -300,55 +346,48 @@ statusPart,
     exampleint()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       category: () {
-        PartReflection? _partReflection = _reflection.categoryPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
             
 
 
-    Category.$reflection.example()
+    CategoryReflection.instance.example()
     
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       name: () {
-        PartReflection? _partReflection = _reflection.namePart;
-        
-        final disc = discriminators[r'name'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
+        var result = 
+
+
+            
+            
+
+
+    
+    exampleString()
+
+
+;
+        final preSelectedResult = discriminatorExampleResults[namePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
         }
-        
-        return 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-      }(),
+        return result;
+      } (),
       photoUrls: () {
-        PartReflection? _partReflection = _reflection.photoUrlsPart;
-        
-        return 
+        var result = 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
@@ -364,21 +403,20 @@ statusPart,
 
 
 ;
-      }(),
+        return result;
+      } (),
       tags: () {
-        PartReflection? _partReflection = _reflection.tagsPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
             
 
 
-    Tag.$reflection.example()
+    TagReflection.instance.example()
     
 
 
@@ -386,31 +424,33 @@ statusPart,
 
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       status: () {
-        PartReflection? _partReflection = _reflection.statusPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             exampleEnum(PetStatusEnum.values)
 
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class PetXmlReflection {
     const PetXmlReflection();

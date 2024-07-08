@@ -11,6 +11,7 @@ Map<String, dynamic> _$GrandparentAnimalToMap(GrandparentAnimal instance) {
     
     _reflection.petTypePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.petType),
@@ -106,8 +107,7 @@ bool _$GrandparentAnimalCanDeserialize(Object? src) {
 Map<String, dynamic> _$GrandparentAnimalSerialize(GrandparentAnimal src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$GrandparentAnimalToMap(src);
     
   }();
   return initialResult;

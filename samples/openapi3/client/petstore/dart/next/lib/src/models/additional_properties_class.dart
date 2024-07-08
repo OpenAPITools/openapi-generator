@@ -24,7 +24,9 @@ mixin AdditionalPropertiesClassMixin on
     Map<String, 
         
             String
+
 >
+
 > get mapProperty;
 UndefinedWrapper<
     Map<String, 
@@ -32,30 +34,41 @@ UndefinedWrapper<
     Map<String, 
         
             String
+
 >
+
 >
+
 > get mapOfMapProperty;
 UndefinedWrapper<Object
+
 ?> get anytype1;
 UndefinedWrapper<
             $FreeFormObject
+
 > get mapWithUndeclaredPropertiesAnytype1;
 UndefinedWrapper<
             $FreeFormObject
+
 > get mapWithUndeclaredPropertiesAnytype2;
 UndefinedWrapper<
     Map<String, 
         Object
+
 ?>
+
 > get mapWithUndeclaredPropertiesAnytype3;
 UndefinedWrapper<
             $FreeFormObject
+
 > get emptyMap;
 UndefinedWrapper<
     Map<String, 
         
             String
+
 >
+
 > get mapWithUndeclaredPropertiesString;
   
 }
@@ -80,7 +93,9 @@ AdditionalPropertiesClassMixin {
     Map<String, 
         
             String
+
 >
+
 > mapProperty;
   @override
   UndefinedWrapper<
@@ -89,39 +104,51 @@ AdditionalPropertiesClassMixin {
     Map<String, 
         
             String
+
 >
+
 >
+
 > mapOfMapProperty;
   @override
   UndefinedWrapper<Object
+
 ?> anytype1;
   @override
   UndefinedWrapper<
             $FreeFormObject
+
 > mapWithUndeclaredPropertiesAnytype1;
   @override
   UndefinedWrapper<
             $FreeFormObject
+
 > mapWithUndeclaredPropertiesAnytype2;
   @override
   UndefinedWrapper<
     Map<String, 
         Object
+
 ?>
+
 > mapWithUndeclaredPropertiesAnytype3;
   @override
   UndefinedWrapper<
             $FreeFormObject
+
 > emptyMap;
   @override
   UndefinedWrapper<
     Map<String, 
         
             String
+
 >
+
 > mapWithUndeclaredPropertiesString;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

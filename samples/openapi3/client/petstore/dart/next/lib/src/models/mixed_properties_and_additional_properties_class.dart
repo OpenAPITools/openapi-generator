@@ -17,15 +17,19 @@ mixin MixedPropertiesAndAdditionalPropertiesClassMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 > get uuid;
 UndefinedWrapper<
             DateTime
+
 > get dateTime;
 UndefinedWrapper<
     Map<String, 
         
             Animal
+
 >
+
 > get map;
   
 }
@@ -43,20 +47,25 @@ MixedPropertiesAndAdditionalPropertiesClassMixin {
   @override
   UndefinedWrapper<
             String
+
 > uuid;
   @override
   UndefinedWrapper<
             DateTime
+
 > dateTime;
   @override
   UndefinedWrapper<
     Map<String, 
         
             Animal
+
 >
+
 > map;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

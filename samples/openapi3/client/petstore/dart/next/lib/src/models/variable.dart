@@ -16,9 +16,11 @@ mixin VariableMixin on
   $OpenApiObjectMixin {
   
             String
+
  get name;
 
             Value
+
  get value;
   
 }
@@ -35,13 +37,16 @@ VariableMixin {
   @override
   
             String
+
  name;
   @override
   
             Value
+
  value;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

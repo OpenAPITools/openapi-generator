@@ -11,9 +11,9 @@ Map<String, dynamic> _${{classname}}ToMap({{classname}} instance) {
     {{/allVars}}
     {{#additionalProperties}}...instance.additionalProperties.map((key, v) => MapEntry(key, {{>types/serialize_recursive}})),{{/additionalProperties}}
     {{#composedSchemas}}{{#oneOf}}{{#isModel}}
-    if (instance.{{name}}.isDefined) ...{{#isNullable}}?{{/isNullable}}instance.{{name}}.valueRequired{{#isNullable}}?{{/isNullable}}.toMap(),
+    if (instance.{{name}}.isDefined) ...instance.{{name}}.valueRequired.toMap(),
     {{/isModel}}{{/oneOf}}{{#anyOf}}{{#isModel}}
-    if (instance.{{name}}.isDefined) ...{{#isNullable}}?{{/isNullable}}instance.{{name}}.valueRequired{{#isNullable}}?{{/isNullable}}.toMap(),{{/isModel}}{{/anyOf}}{{/composedSchemas}}
+    if (instance.{{name}}.isDefined) ...instance.{{name}}.valueRequired.toMap(),{{/isModel}}{{/anyOf}}{{/composedSchemas}}
   };
 }
 
@@ -154,16 +154,22 @@ bool _${{classname}}CanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-{{#allVars}}{{#-first}}Map<String, dynamic>{{/-first}}{{/allVars}}{{^allVars}}Object?{{/allVars}} _${{classname}}Serialize({{classname}} src) {
-  {{#allVars}}{{#-first}}Map<String, dynamic>{{/-first}}{{/allVars}}{{^allVars}}Object?{{/allVars}} initialResult = () {
+{{#allVars}}{{#-first}}Map<String, dynamic>{{/-first}}{{/allVars}}{{^allVars}}{{#discriminator}}Map<String, dynamic>{{/discriminator}}{{^discriminator}}Object?{{/discriminator}}{{/allVars}} _${{classname}}Serialize({{classname}} src) {
+  {{#allVars}}{{#-first}}Map<String, dynamic>{{/-first}}{{/allVars}}{{^allVars}}{{#discriminator}}Map<String, dynamic>{{/discriminator}}{{^discriminator}}Object?{{/discriminator}}{{/allVars}} initialResult = () {
     {{#allVars}}{{#-first}}
-    return src.toMap();
+      return _${{classname}}ToMap(src);
     {{/-first}}{{/allVars}}
-    {{^allVars}}{{#vendorExtensions.hasAnyOfOrOneOf}}{{#composedSchemas}}{{#oneOf}}
-    if (src.{{name}}.isDefined) {final v = src.{{name}}.valueRequired; return {{>types/serialize_recursive}}; }{{/oneOf}}{{#anyOf}}
-    if (src.{{name}}.isDefined) {final v = src.{{name}}.valueRequired; return {{>types/serialize_recursive}}; }
-    {{/anyOf}}{{/composedSchemas}}
-    return null;{{/vendorExtensions.hasAnyOfOrOneOf}}{{/allVars}}
+    {{^allVars}}
+      {{#discriminator}}
+        return _${{classname}}ToMap(src);
+      {{/discriminator}}
+      {{^discriminator}}{{#vendorExtensions.hasAnyOfOrOneOf}}{{#composedSchemas}}{{#oneOf}}
+        if (src.{{name}}.isDefined) {final v = src.{{name}}.valueRequired; return {{>types/serialize_recursive}}; }{{/oneOf}}{{#anyOf}}
+        if (src.{{name}}.isDefined) {final v = src.{{name}}.valueRequired; return {{>types/serialize_recursive}}; }
+        {{/anyOf}}{{/composedSchemas}}
+        return null;{{/vendorExtensions.hasAnyOfOrOneOf}}
+      {{/discriminator}}
+    {{/allVars}}
   }();
   {{^allVars}}
   {{#additionalProperties}}

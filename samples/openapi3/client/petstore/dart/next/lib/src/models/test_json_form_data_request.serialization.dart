@@ -11,12 +11,14 @@ Map<String, dynamic> _$TestJsonFormDataRequestToMap(TestJsonFormDataRequest inst
     
     _reflection.paramPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.param),
     
     _reflection.param2Part.oasName: (
             String
+
  v) {
       return v;
     }(instance.param2),
@@ -142,8 +144,7 @@ bool _$TestJsonFormDataRequestCanDeserialize(Object? src) {
 Map<String, dynamic> _$TestJsonFormDataRequestSerialize(TestJsonFormDataRequest src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$TestJsonFormDataRequestToMap(src);
     
   }();
   return initialResult;

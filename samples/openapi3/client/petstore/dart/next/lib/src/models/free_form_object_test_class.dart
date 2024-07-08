@@ -16,9 +16,11 @@ mixin FreeFormObjectTestClassMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 > get name;
 UndefinedWrapper<
             FreeFormObjectTestClassProperties
+
 > get properties;
   
 }
@@ -35,13 +37,16 @@ FreeFormObjectTestClassMixin {
   @override
   UndefinedWrapper<
             String
+
 > name;
   @override
   UndefinedWrapper<
             FreeFormObjectTestClassProperties
+
 > properties;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

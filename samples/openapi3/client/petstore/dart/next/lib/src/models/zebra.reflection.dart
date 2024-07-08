@@ -12,6 +12,7 @@ class ZebraReflection extends ClassReflection<Zebra> {
     className: r'Zebra',
     typePart: PropertyReflection<Zebra, UndefinedWrapper<
             ZebraTypeEnum
+
 >>(
       dartName: r'type',
       nullable: false,
@@ -26,6 +27,7 @@ class ZebraReflection extends ClassReflection<Zebra> {
     ),
     classNamePart: PropertyReflection<Zebra, 
             String
+
 >(
       dartName: r'className',
       nullable: false,
@@ -43,6 +45,7 @@ class ZebraReflection extends ClassReflection<Zebra> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<Zebra, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -60,27 +63,33 @@ class ZebraReflection extends ClassReflection<Zebra> {
 
   final PropertyReflection<Zebra, UndefinedWrapper<
             ZebraTypeEnum
+
 >> typePart;
   static UndefinedWrapper<
             ZebraTypeEnum
+
 > _typeGetter(Zebra parent) {
     return parent.type;
   }
   static void _typeSetter(Zebra parent, UndefinedWrapper<
             ZebraTypeEnum
+
 > value) {
     parent.type = value;
   }
   final PropertyReflection<Zebra, 
             String
+
 > classNamePart;
   static 
             String
+
  _classNameGetter(Zebra parent) {
     return parent.className;
   }
   static void _classNameSetter(Zebra parent, 
             String
+
  value) {
     parent.className = value;
   }
@@ -106,6 +115,7 @@ classNamePart,
   ];
 
   final AdditionalPropertiesReflection<Zebra, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -135,34 +145,35 @@ classNamePart,
   /// Gets an example of Zebra.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  Zebra example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  Zebra example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return Zebra(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = Zebra(
       type: () {
-        PartReflection? _partReflection = _reflection.typePart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             exampleEnum(ZebraTypeEnum.values)
 
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       className: () {
-        PartReflection? _partReflection = _reflection.classNamePart;
-        
-        final disc = discriminators[r'className'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -174,18 +185,25 @@ classNamePart,
 
 
 ;
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+        final preSelectedResult = discriminatorExampleResults[classNamePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class ZebraXmlReflection {
     const ZebraXmlReflection();

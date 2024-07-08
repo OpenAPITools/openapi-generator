@@ -15,6 +15,7 @@ mixin HealthCheckResultMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 ?> get nullableMessage;
   
 }
@@ -30,9 +31,11 @@ HealthCheckResultMixin {
   @override
   UndefinedWrapper<
             String
+
 ?> nullableMessage;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

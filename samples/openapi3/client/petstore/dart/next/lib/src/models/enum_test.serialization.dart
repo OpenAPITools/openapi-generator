@@ -11,54 +11,63 @@ Map<String, dynamic> _$EnumTestToMap(EnumTest instance) {
     if (instance.enumString.isDefined)
     _reflection.enumStringPart.oasName: (
             EnumTestEnumStringEnum
+
  v) {
       return v.value;
     }(instance.enumString.valueRequired),
     
     _reflection.enumStringRequiredPart.oasName: (
             EnumTestEnumStringRequiredEnum
+
  v) {
       return v.value;
     }(instance.enumStringRequired),
     if (instance.enumInteger.isDefined)
     _reflection.enumIntegerPart.oasName: (
             EnumTestEnumIntegerEnum
+
  v) {
       return v.value;
     }(instance.enumInteger.valueRequired),
     if (instance.enumIntegerOnly.isDefined)
     _reflection.enumIntegerOnlyPart.oasName: (
             EnumTestEnumIntegerOnlyEnum
+
  v) {
       return v.value;
     }(instance.enumIntegerOnly.valueRequired),
     if (instance.enumNumber.isDefined)
     _reflection.enumNumberPart.oasName: (
             EnumTestEnumNumberEnum
+
  v) {
       return v.value;
     }(instance.enumNumber.valueRequired),
     if (instance.outerEnum.isDefined)
     _reflection.outerEnumPart.oasName: (
             OuterEnum
+
 ? v) {
       return v;
     }(instance.outerEnum.valueRequired),
     if (instance.outerEnumInteger.isDefined)
     _reflection.outerEnumIntegerPart.oasName: (
             OuterEnumInteger
+
  v) {
       return v;
     }(instance.outerEnumInteger.valueRequired),
     if (instance.outerEnumDefaultValue.isDefined)
     _reflection.outerEnumDefaultValuePart.oasName: (
             OuterEnumDefaultValue
+
  v) {
       return v;
     }(instance.outerEnumDefaultValue.valueRequired),
     if (instance.outerEnumIntegerDefaultValue.isDefined)
     _reflection.outerEnumIntegerDefaultValuePart.oasName: (
             OuterEnumIntegerDefaultValue
+
  v) {
       return v;
     }(instance.outerEnumIntegerDefaultValue.valueRequired),
@@ -416,8 +425,7 @@ bool _$EnumTestCanDeserialize(Object? src) {
 Map<String, dynamic> _$EnumTestSerialize(EnumTest src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$EnumTestToMap(src);
     
   }();
   return initialResult;

@@ -27,13 +27,16 @@ SimpleQuadrilateralMixin {
   @override
   
             String
+
  quadrilateralType;
   @override
   
             String
+
  shapeType;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   
@@ -57,7 +60,6 @@ required  this.shapeType     ,
 
   @override
   bool validate() {
-      
       
     return super.validate();
   }

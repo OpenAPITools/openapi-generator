@@ -11,84 +11,98 @@ Map<String, dynamic> _$TestEndpointParametersRequestToMap(TestEndpointParameters
     if (instance.integer.isDefined)
     _reflection.integerPart.oasName: (
             int
+
  v) {
       return v;
     }(instance.integer.valueRequired),
     if (instance.int32.isDefined)
     _reflection.int32Part.oasName: (
             int
+
  v) {
       return v;
     }(instance.int32.valueRequired),
     if (instance.int64.isDefined)
     _reflection.int64Part.oasName: (
             int
+
  v) {
       return v;
     }(instance.int64.valueRequired),
     
     _reflection.numberPart.oasName: (
             num
+
  v) {
       return v;
     }(instance.number),
     if (instance.float.isDefined)
     _reflection.floatPart.oasName: (
             double
+
  v) {
       return v;
     }(instance.float.valueRequired),
     
     _reflection.$doublePart.oasName: (
             double
+
  v) {
       return v;
     }(instance.$double),
     if (instance.string.isDefined)
     _reflection.stringPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.string.valueRequired),
     
     _reflection.patternWithoutDelimiterPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.patternWithoutDelimiter),
     
     _reflection.bytePart.oasName: (
             Uint8List
+
  v) {
       return v;
     }(instance.byte),
     if (instance.binary.isDefined)
     _reflection.binaryPart.oasName: (
             XFile
+
  v) {
       return v;
     }(instance.binary.valueRequired),
     if (instance.date.isDefined)
     _reflection.datePart.oasName: (
             DateTime
+
  v) {
       return v;
     }(instance.date.valueRequired),
     if (instance.dateTime.isDefined)
     _reflection.dateTimePart.oasName: (
             DateTime
+
  v) {
       return v;
     }(instance.dateTime.valueRequired),
     if (instance.password.isDefined)
     _reflection.passwordPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.password.valueRequired),
     if (instance.callback.isDefined)
     _reflection.callbackPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.callback.valueRequired),
@@ -608,8 +622,7 @@ bool _$TestEndpointParametersRequestCanDeserialize(Object? src) {
 Map<String, dynamic> _$TestEndpointParametersRequestSerialize(TestEndpointParametersRequest src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$TestEndpointParametersRequestToMap(src);
     
   }();
   return initialResult;

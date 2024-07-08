@@ -10,9 +10,14 @@ part 'quadrilateral.serialization.dart';
 /// QuadrilateralMixin
 ///
 /// Properties:
+/// * [quadrilateralType] 
 mixin QuadrilateralMixin on
   $OpenApiObjectMixin {
-    
+  
+            String
+
+ get quadrilateralType;
+  
   UndefinedWrapper<
             SimpleQuadrilateral
 > get oneOf0;
@@ -24,12 +29,19 @@ mixin QuadrilateralMixin on
 /// Quadrilateral
 ///
 /// Properties:
+/// * [quadrilateralType] 
 class Quadrilateral with
 $OpenApiObjectMixin,
 
 QuadrilateralMixin {
+  @override
+  
+            String
+
+ quadrilateralType;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   
@@ -45,14 +57,16 @@ QuadrilateralMixin {
   
 
   Quadrilateral.$all({
-        required this.additionalProperties,
+        required this.quadrilateralType,
+    required this.additionalProperties,
     
     required this.oneOf0,
     required this.oneOf1,
   });
 
   Quadrilateral({
-        this.additionalProperties = const AdditionalProperties(),
+    required  this.quadrilateralType     ,
+    this.additionalProperties = const AdditionalProperties(),
     
     this.oneOf0 = const UndefinedWrapper.undefined(),
     this.oneOf1 = const UndefinedWrapper.undefined(),
@@ -64,11 +78,10 @@ QuadrilateralMixin {
   @override
   bool validate() {
       final oneOfs = [oneOf0,oneOf1,].where((e) => e.isDefined).take(2);
-      if (oneOfs.length != 1) {
-        // there must be EXACTLY one "oneOf" schema.
+      if (oneOfs.length > 1) {
+        // there must be AT MOST one "oneOf" schema.
         return false;
       }
-      
       
     return super.validate();
   }
@@ -108,7 +121,7 @@ QuadrilateralMixin {
     return _$QuadrilateralCanDeserialize(src);
   }
   /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
+  Map<String,dynamic> serialize() {
     return _$QuadrilateralSerialize(this);
   }
 }

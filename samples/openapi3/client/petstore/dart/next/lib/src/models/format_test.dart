@@ -32,57 +32,75 @@ mixin FormatTestMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
+
 > get integer;
 UndefinedWrapper<
             int
+
 > get int32;
 UndefinedWrapper<
             int
+
 > get int64;
 
             num
+
  get number;
 UndefinedWrapper<
             double
+
 > get float;
 UndefinedWrapper<
             double
+
 > get $double;
 UndefinedWrapper<
             double
+
 > get decimal;
 UndefinedWrapper<
             String
+
 > get string;
 
             Uint8List
+
  get byte;
 UndefinedWrapper<
             String
+
 > get base64Str;
 UndefinedWrapper<
             XFile
+
 > get binary;
 
             DateTime
+
  get date;
 UndefinedWrapper<
             DateTime
+
 > get dateTime;
 UndefinedWrapper<
             String
+
 > get uuid;
 UndefinedWrapper<
             String
+
 > get uuidWithDefault;
 
             String
+
  get password;
 UndefinedWrapper<
             String
+
 > get patternWithDigits;
 UndefinedWrapper<
             String
+
 > get patternWithDigitsAndDelimiter;
   
 }
@@ -115,77 +133,96 @@ FormatTestMixin {
   @override
   UndefinedWrapper<
             int
+
 > integer;
   @override
   UndefinedWrapper<
             int
+
 > int32;
   @override
   UndefinedWrapper<
             int
+
 > int64;
   @override
   
             num
+
  number;
   @override
   UndefinedWrapper<
             double
+
 > float;
   @override
   UndefinedWrapper<
             double
+
 > $double;
   @override
   UndefinedWrapper<
             double
+
 > decimal;
   @override
   UndefinedWrapper<
             String
+
 > string;
   @override
   
             Uint8List
+
  byte;
   @override
   UndefinedWrapper<
             String
+
 > base64Str;
   @override
   UndefinedWrapper<
             XFile
+
 > binary;
   @override
   
             DateTime
+
  date;
   @override
   UndefinedWrapper<
             DateTime
+
 > dateTime;
   @override
   UndefinedWrapper<
             String
+
 > uuid;
   @override
   UndefinedWrapper<
             String
+
 > uuidWithDefault;
   @override
   
             String
+
  password;
   @override
   UndefinedWrapper<
             String
+
 > patternWithDigits;
   @override
   UndefinedWrapper<
             String
+
 > patternWithDigitsAndDelimiter;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

@@ -12,6 +12,7 @@ class GrandparentAnimalReflection extends ClassReflection<GrandparentAnimal> {
     className: r'GrandparentAnimal',
     petTypePart: PropertyReflection<GrandparentAnimal, 
             String
+
 >(
       dartName: r'petType',
       nullable: false,
@@ -34,6 +35,7 @@ class GrandparentAnimalReflection extends ClassReflection<GrandparentAnimal> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<GrandparentAnimal, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -50,14 +52,17 @@ class GrandparentAnimalReflection extends ClassReflection<GrandparentAnimal> {
 
   final PropertyReflection<GrandparentAnimal, 
             String
+
 > petTypePart;
   static 
             String
+
  _petTypeGetter(GrandparentAnimal parent) {
     return parent.petType;
   }
   static void _petTypeSetter(GrandparentAnimal parent, 
             String
+
  value) {
     parent.petType = value;
   }
@@ -82,6 +87,7 @@ class GrandparentAnimalReflection extends ClassReflection<GrandparentAnimal> {
   ];
 
   final AdditionalPropertiesReflection<GrandparentAnimal, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -111,22 +117,24 @@ class GrandparentAnimalReflection extends ClassReflection<GrandparentAnimal> {
   /// Gets an example of GrandparentAnimal.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  GrandparentAnimal example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  GrandparentAnimal example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return GrandparentAnimal(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = GrandparentAnimal(
       petType: () {
-        PartReflection? _partReflection = _reflection.petTypePart;
-        
-        final disc = discriminators[r'pet_type'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -138,18 +146,25 @@ class GrandparentAnimalReflection extends ClassReflection<GrandparentAnimal> {
 
 
 ;
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+        final preSelectedResult = discriminatorExampleResults[petTypePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class GrandparentAnimalXmlReflection {
     const GrandparentAnimalXmlReflection();

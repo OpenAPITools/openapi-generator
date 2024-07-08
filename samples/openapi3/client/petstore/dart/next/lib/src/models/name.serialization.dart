@@ -11,24 +11,28 @@ Map<String, dynamic> _$NameToMap(Name instance) {
     
     _reflection.namePart.oasName: (
             int
+
  v) {
       return v;
     }(instance.name),
     if (instance.snakeCase.isDefined)
     _reflection.snakeCasePart.oasName: (
             int
+
  v) {
       return v;
     }(instance.snakeCase.valueRequired),
     if (instance.property.isDefined)
     _reflection.propertyPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.property.valueRequired),
     if (instance.$123number.isDefined)
     _reflection.$123numberPart.oasName: (
             int
+
  v) {
       return v;
     }(instance.$123number.valueRequired),
@@ -216,8 +220,7 @@ bool _$NameCanDeserialize(Object? src) {
 Map<String, dynamic> _$NameSerialize(Name src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$NameToMap(src);
     
   }();
   return initialResult;

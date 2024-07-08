@@ -267,7 +267,9 @@ class PetApiFindPetsByStatusResponse200ApplicationXml extends PetApiFindPetsBySt
     List<
         
             Pet
+
 >
+
 ? body;
 
   /// The raw result of calling XmlDocument.parse
@@ -321,7 +323,9 @@ class PetApiFindPetsByStatusResponse200ApplicationJson extends PetApiFindPetsByS
     List<
         
             Pet
+
 >
+
 ? body;
 
   /// The raw result of calling jsonDecode
@@ -558,7 +562,9 @@ class PetApiFindPetsByTagsResponse200ApplicationXml extends PetApiFindPetsByTags
     List<
         
             Pet
+
 >
+
 ? body;
 
   /// The raw result of calling XmlDocument.parse
@@ -613,7 +619,9 @@ class PetApiFindPetsByTagsResponse200ApplicationJson extends PetApiFindPetsByTag
     List<
         
             Pet
+
 >
+
 ? body;
 
   /// The raw result of calling jsonDecode
@@ -852,6 +860,7 @@ class PetApiGetPetByIdResponse200 extends PetApiGetPetByIdResponse {
 class PetApiGetPetByIdResponse200ApplicationXml extends PetApiGetPetByIdResponse200 {
   final 
             Pet
+
 ? body;
 
   /// The raw result of calling XmlDocument.parse
@@ -903,6 +912,7 @@ class PetApiGetPetByIdResponse200ApplicationXml extends PetApiGetPetByIdResponse
 class PetApiGetPetByIdResponse200ApplicationJson extends PetApiGetPetByIdResponse200 {
   final 
             Pet
+
 ? body;
 
   /// The raw result of calling jsonDecode
@@ -1337,6 +1347,7 @@ class PetApiUploadFileResponse200 extends PetApiUploadFileResponse {
 class PetApiUploadFileResponse200ApplicationJson extends PetApiUploadFileResponse200 {
   final 
             ApiResponse
+
 ? body;
 
   /// The raw result of calling jsonDecode
@@ -1513,6 +1524,7 @@ class PetApiUploadFileWithRequiredFileResponse200 extends PetApiUploadFileWithRe
 class PetApiUploadFileWithRequiredFileResponse200ApplicationJson extends PetApiUploadFileWithRequiredFileResponse200 {
   final 
             ApiResponse
+
 ? body;
 
   /// The raw result of calling jsonDecode

@@ -16,9 +16,11 @@ mixin AnimalMixin on
   $OpenApiObjectMixin {
   
             String
+
  get className;
 UndefinedWrapper<
             String
+
 > get color;
   
 }
@@ -35,13 +37,16 @@ AnimalMixin {
   @override
   
             String
+
  className;
   @override
   UndefinedWrapper<
             String
+
 > color;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

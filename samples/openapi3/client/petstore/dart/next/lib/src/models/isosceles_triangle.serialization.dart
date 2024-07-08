@@ -11,12 +11,14 @@ Map<String, dynamic> _$IsoscelesTriangleToMap(IsoscelesTriangle instance) {
     
     _reflection.shapeTypePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.shapeType),
     
     _reflection.triangleTypePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.triangleType),
@@ -134,8 +136,7 @@ bool _$IsoscelesTriangleCanDeserialize(Object? src) {
 Map<String, dynamic> _$IsoscelesTriangleSerialize(IsoscelesTriangle src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$IsoscelesTriangleToMap(src);
     
   }();
   return initialResult;

@@ -204,14 +204,14 @@ bool _$ScalarAnyOfCanDeserialize(Object? src) {
 Object? _$ScalarAnyOfSerialize(ScalarAnyOf src) {
   Object? initialResult = () {
     
-    
-    if (src.anyOf0.isDefined) {final v = src.anyOf0.valueRequired; return v; }
-    
-    if (src.anyOf1.isDefined) {final v = src.anyOf1.valueRequired; return v; }
-    
-    if (src.anyOf2.isDefined) {final v = src.anyOf2.valueRequired; return v; }
-    
-    return null;
+      
+        if (src.anyOf0.isDefined) {final v = src.anyOf0.valueRequired; return v; }
+        
+        if (src.anyOf1.isDefined) {final v = src.anyOf1.valueRequired; return v; }
+        
+        if (src.anyOf2.isDefined) {final v = src.anyOf2.valueRequired; return v; }
+        
+        return null;
   }();
   if (initialResult is Map<String, Object?>) {
     return {

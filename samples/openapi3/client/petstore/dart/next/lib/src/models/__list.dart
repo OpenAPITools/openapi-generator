@@ -15,6 +15,7 @@ mixin $ListMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 > get $123list;
   
 }
@@ -30,9 +31,11 @@ $ListMixin {
   @override
   UndefinedWrapper<
             String
+
 > $123list;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

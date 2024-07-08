@@ -17,12 +17,15 @@ mixin PropertyNameCollisionMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 > get $type;
 UndefinedWrapper<
             String
+
 > get type;
 UndefinedWrapper<
             String
+
 > get type$;
   
 }
@@ -40,17 +43,21 @@ PropertyNameCollisionMixin {
   @override
   UndefinedWrapper<
             String
+
 > $type;
   @override
   UndefinedWrapper<
             String
+
 > type;
   @override
   UndefinedWrapper<
             String
+
 > type$;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

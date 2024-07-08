@@ -29,6 +29,7 @@ $OpenApiObjectMixin,
 ScalarMixin {
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   
@@ -70,11 +71,10 @@ ScalarMixin {
   @override
   bool validate() {
       final oneOfs = [oneOf0,oneOf1,oneOf2,].where((e) => e.isDefined).take(2);
-      if (oneOfs.length != 1) {
-        // there must be EXACTLY one "oneOf" schema.
+      if (oneOfs.length > 1) {
+        // there must be AT MOST one "oneOf" schema.
         return false;
       }
-      
       
     return super.validate();
   }

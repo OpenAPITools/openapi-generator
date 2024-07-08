@@ -10,30 +10,45 @@ class TriangleReflection extends ClassReflection<Triangle> {
   static const instance = TriangleReflection._(
     modelName: r'Triangle',
     className: r'Triangle',
+    triangleTypePart: PropertyReflection<Triangle, 
+            String
+
+>(
+      dartName: r'triangleType',
+      nullable: false,
+      required: true,
+      oasName: r'triangleType',
+      oasType: r'string',
+      pattern: null,
+      parentReflectionGetter:  instanceGetter,
+      isDiscriminator: true,
+      getter: _triangleTypeGetter,
+      setter: _triangleTypeSetter,
+    ),
     discriminatorKey: r'triangleType',
     discriminatorImplicitMappings: const {
-      r'EquilateralTriangle': EquilateralTriangle.$reflection,
-      r'IsoscelesTriangle': IsoscelesTriangle.$reflection,
-      r'ScaleneTriangle': ScaleneTriangle.$reflection,
+      r'EquilateralTriangle': EquilateralTriangleReflection.instance,
+      r'IsoscelesTriangle': IsoscelesTriangleReflection.instance,
+      r'ScaleneTriangle': ScaleneTriangleReflection.instance,
     },
     discriminatorMappings: const {
-      r'EquilateralTriangle': EquilateralTriangle.$reflection,
-      r'IsoscelesTriangle': IsoscelesTriangle.$reflection,
-      r'ScaleneTriangle': ScaleneTriangle.$reflection,
+      r'EquilateralTriangle': EquilateralTriangleReflection.instance,
+      r'IsoscelesTriangle': IsoscelesTriangleReflection.instance,
+      r'ScaleneTriangle': ScaleneTriangleReflection.instance,
     },
     
     
-    oneOf0Part: OneOfReflection(
+    oneOf0Part: TriangleOneOf0(
       parentReflectionGetter: instanceGetter,
       classReflection: EquilateralTriangleReflection.instance,
     ),
     
-    oneOf1Part: OneOfReflection(
+    oneOf1Part: TriangleOneOf1(
       parentReflectionGetter: instanceGetter,
       classReflection: IsoscelesTriangleReflection.instance,
     ),
     
-    oneOf2Part: OneOfReflection(
+    oneOf2Part: TriangleOneOf2(
       parentReflectionGetter: instanceGetter,
       classReflection: ScaleneTriangleReflection.instance,
     ),
@@ -41,12 +56,14 @@ class TriangleReflection extends ClassReflection<Triangle> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<Triangle, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
   const TriangleReflection._({
     required this.modelName,
     required this.className,
+    required this.triangleTypePart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
     this.discriminatorImplicitMappings = const {},
@@ -60,6 +77,22 @@ class TriangleReflection extends ClassReflection<Triangle> {
     required this.additionalPropertiesPart,
   });
 
+  final PropertyReflection<Triangle, 
+            String
+
+> triangleTypePart;
+  static 
+            String
+
+ _triangleTypeGetter(Triangle parent) {
+    return parent.triangleType;
+  }
+  static void _triangleTypeSetter(Triangle parent, 
+            String
+
+ value) {
+    parent.triangleType = value;
+  }
 
 
 
@@ -77,24 +110,20 @@ class TriangleReflection extends ClassReflection<Triangle> {
 
   @override
   List<PropertyReflection<Triangle, dynamic>> get properties => [
-      ];
+    triangleTypePart,
+  ];
 
   final AdditionalPropertiesReflection<Triangle, Object
+
 ?> additionalPropertiesPart;
 
   
   
-  final OneOfReflection<Triangle, 
-            EquilateralTriangle
-> oneOf0Part;
+  final TriangleOneOf0 oneOf0Part;
   
-  final OneOfReflection<Triangle, 
-            IsoscelesTriangle
-> oneOf1Part;
+  final TriangleOneOf1 oneOf1Part;
   
-  final OneOfReflection<Triangle, 
-            ScaleneTriangle
-> oneOf2Part;
+  final TriangleOneOf2 oneOf2Part;
   
   @override
   List<PartReflection<Triangle, dynamic>> get parts => [
@@ -129,35 +158,169 @@ class TriangleReflection extends ClassReflection<Triangle> {
   /// Gets an example of Triangle.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  Triangle example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  Triangle example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return Triangle(
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = Triangle(
+      triangleType: () {
+        var result = 
+
+
+            
+            
+
+
+    
+    exampleString()
+
+
+;
+        final preSelectedResult = discriminatorExampleResults[triangleTypePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
-      oneOf0: () {
-        PartReflection? _partReflection = _reflection.oneOf0Part;
-        return UndefinedWrapper(
-
-
-            
-            
-
-
-    EquilateralTriangle.$reflection.example(discriminators: discriminators)
-    
-
-
-);
-      }(),
-      
     );
+    
+    exampleResult.oneOf0 = oneOf0Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
+    
+    exampleResult.oneOf1 = oneOf1Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
+    
+    exampleResult.oneOf2 = oneOf2Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
+    
+    return exampleResult;
+  }
+}
+
+
+class TriangleOneOf0 extends OneOfReflection<Triangle, 
+            EquilateralTriangle
+> {
+  const TriangleOneOf0({
+    super.classReflection,
+    required TriangleReflection Function() super.parentReflectionGetter,
+    super.itemsReflection,
+  });
+
+  UndefinedWrapper<
+            EquilateralTriangle
+> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+    if (discriminatorExampleResults.isEmpty) {
+      //return undefined for non-first oneOfs.
+      // An example SHOULD be generated
+    } else {
+      // if this reflection wasn't a result of any property, don't generate an example.
+
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == classReflection)) {
+        // if there are no discriminator examples targetting the current class:
+        return UndefinedWrapper.undefined();
+      } else {
+        // An example SHOULD be generated
+      }
+    }
+    return UndefinedWrapper(
+            
+            
+
+
+    EquilateralTriangleReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
+    
+);
+  }
+}
+
+class TriangleOneOf1 extends OneOfReflection<Triangle, 
+            IsoscelesTriangle
+> {
+  const TriangleOneOf1({
+    super.classReflection,
+    required TriangleReflection Function() super.parentReflectionGetter,
+    super.itemsReflection,
+  });
+
+  UndefinedWrapper<
+            IsoscelesTriangle
+> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+    if (discriminatorExampleResults.isEmpty) {
+      //return undefined for non-first oneOfs.
+      return UndefinedWrapper.undefined();
+    } else {
+      // if this reflection wasn't a result of any property, don't generate an example.
+
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == classReflection)) {
+        // if there are no discriminator examples targetting the current class:
+        return UndefinedWrapper.undefined();
+      } else {
+        // An example SHOULD be generated
+      }
+    }
+    return UndefinedWrapper(
+            
+            
+
+
+    IsoscelesTriangleReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
+    
+);
+  }
+}
+
+class TriangleOneOf2 extends OneOfReflection<Triangle, 
+            ScaleneTriangle
+> {
+  const TriangleOneOf2({
+    super.classReflection,
+    required TriangleReflection Function() super.parentReflectionGetter,
+    super.itemsReflection,
+  });
+
+  UndefinedWrapper<
+            ScaleneTriangle
+> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+    if (discriminatorExampleResults.isEmpty) {
+      //return undefined for non-first oneOfs.
+      return UndefinedWrapper.undefined();
+    } else {
+      // if this reflection wasn't a result of any property, don't generate an example.
+
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == classReflection)) {
+        // if there are no discriminator examples targetting the current class:
+        return UndefinedWrapper.undefined();
+      } else {
+        // An example SHOULD be generated
+      }
+    }
+    return UndefinedWrapper(
+            
+            
+
+
+    ScaleneTriangleReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
+    
+);
   }
 }
 

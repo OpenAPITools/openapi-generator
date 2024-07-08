@@ -18,15 +18,19 @@ mixin NameMixin on
   $OpenApiObjectMixin {
   
             int
+
  get name;
 UndefinedWrapper<
             int
+
 > get snakeCase;
 UndefinedWrapper<
             String
+
 > get property;
 UndefinedWrapper<
             int
+
 > get $123number;
   
 }
@@ -45,21 +49,26 @@ NameMixin {
   @override
   
             int
+
  name;
   @override
   UndefinedWrapper<
             int
+
 > snakeCase;
   @override
   UndefinedWrapper<
             String
+
 > property;
   @override
   UndefinedWrapper<
             int
+
 > $123number;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

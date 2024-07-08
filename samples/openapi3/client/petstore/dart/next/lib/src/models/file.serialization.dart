@@ -11,6 +11,7 @@ Map<String, dynamic> _$FileToMap(File instance) {
     if (instance.sourceURI.isDefined)
     _reflection.sourceURIPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.sourceURI.valueRequired),
@@ -102,8 +103,7 @@ bool _$FileCanDeserialize(Object? src) {
 Map<String, dynamic> _$FileSerialize(File src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$FileToMap(src);
     
   }();
   return initialResult;

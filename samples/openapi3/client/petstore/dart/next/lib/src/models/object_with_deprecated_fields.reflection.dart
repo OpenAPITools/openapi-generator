@@ -12,6 +12,7 @@ class ObjectWithDeprecatedFieldsReflection extends ClassReflection<ObjectWithDep
     className: r'ObjectWithDeprecatedFields',
     uuidPart: PropertyReflection<ObjectWithDeprecatedFields, UndefinedWrapper<
             String
+
 >>(
       dartName: r'uuid',
       nullable: false,
@@ -26,6 +27,7 @@ class ObjectWithDeprecatedFieldsReflection extends ClassReflection<ObjectWithDep
     ),
     idPart: PropertyReflection<ObjectWithDeprecatedFields, UndefinedWrapper<
             num
+
 >>(
       dartName: r'id',
       nullable: false,
@@ -40,6 +42,7 @@ class ObjectWithDeprecatedFieldsReflection extends ClassReflection<ObjectWithDep
     ),
     deprecatedRefPart: PropertyReflection<ObjectWithDeprecatedFields, UndefinedWrapper<
             DeprecatedObject
+
 >>(
       dartName: r'deprecatedRef',
       nullable: false,
@@ -57,7 +60,9 @@ class ObjectWithDeprecatedFieldsReflection extends ClassReflection<ObjectWithDep
     List<
         
             String
+
 >
+
 >>(
       dartName: r'bars',
       nullable: false,
@@ -69,6 +74,7 @@ class ObjectWithDeprecatedFieldsReflection extends ClassReflection<ObjectWithDep
       isDiscriminator: false,
       itemsReflection: ItemsReflection<ObjectWithDeprecatedFields, 
             String
+
 >(parentReflectionGetter: instanceGetter,),
       getter: _barsGetter,
       setter: _barsSetter,
@@ -78,6 +84,7 @@ class ObjectWithDeprecatedFieldsReflection extends ClassReflection<ObjectWithDep
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<ObjectWithDeprecatedFields, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -97,40 +104,49 @@ class ObjectWithDeprecatedFieldsReflection extends ClassReflection<ObjectWithDep
 
   final PropertyReflection<ObjectWithDeprecatedFields, UndefinedWrapper<
             String
+
 >> uuidPart;
   static UndefinedWrapper<
             String
+
 > _uuidGetter(ObjectWithDeprecatedFields parent) {
     return parent.uuid;
   }
   static void _uuidSetter(ObjectWithDeprecatedFields parent, UndefinedWrapper<
             String
+
 > value) {
     parent.uuid = value;
   }
   final PropertyReflection<ObjectWithDeprecatedFields, UndefinedWrapper<
             num
+
 >> idPart;
   static UndefinedWrapper<
             num
+
 > _idGetter(ObjectWithDeprecatedFields parent) {
     return parent.id;
   }
   static void _idSetter(ObjectWithDeprecatedFields parent, UndefinedWrapper<
             num
+
 > value) {
     parent.id = value;
   }
   final PropertyReflection<ObjectWithDeprecatedFields, UndefinedWrapper<
             DeprecatedObject
+
 >> deprecatedRefPart;
   static UndefinedWrapper<
             DeprecatedObject
+
 > _deprecatedRefGetter(ObjectWithDeprecatedFields parent) {
     return parent.deprecatedRef;
   }
   static void _deprecatedRefSetter(ObjectWithDeprecatedFields parent, UndefinedWrapper<
             DeprecatedObject
+
 > value) {
     parent.deprecatedRef = value;
   }
@@ -138,13 +154,17 @@ class ObjectWithDeprecatedFieldsReflection extends ClassReflection<ObjectWithDep
     List<
         
             String
+
 >
+
 >> barsPart;
   static UndefinedWrapper<
     List<
         
             String
+
 >
+
 > _barsGetter(ObjectWithDeprecatedFields parent) {
     return parent.bars;
   }
@@ -152,7 +172,9 @@ class ObjectWithDeprecatedFieldsReflection extends ClassReflection<ObjectWithDep
     List<
         
             String
+
 >
+
 > value) {
     parent.bars = value;
   }
@@ -180,6 +202,7 @@ barsPart,
   ];
 
   final AdditionalPropertiesReflection<ObjectWithDeprecatedFields, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -209,22 +232,24 @@ barsPart,
   /// Gets an example of ObjectWithDeprecatedFields.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  ObjectWithDeprecatedFields example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  ObjectWithDeprecatedFields example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return ObjectWithDeprecatedFields(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = ObjectWithDeprecatedFields(
       uuid: () {
-        PartReflection? _partReflection = _reflection.uuidPart;
-        
-        final disc = discriminators[r'uuid'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -235,12 +260,15 @@ barsPart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[uuidPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       id: () {
-        PartReflection? _partReflection = _reflection.idPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -251,31 +279,29 @@ barsPart,
     examplenum()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       deprecatedRef: () {
-        PartReflection? _partReflection = _reflection.deprecatedRefPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
             
 
 
-    DeprecatedObject.$reflection.example()
+    DeprecatedObjectReflection.instance.example()
     
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       bars: () {
-        PartReflection? _partReflection = _reflection.barsPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
@@ -290,19 +316,22 @@ barsPart,
 
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class ObjectWithDeprecatedFieldsXmlReflection {
     const ObjectWithDeprecatedFieldsXmlReflection();

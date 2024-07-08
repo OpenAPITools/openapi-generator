@@ -12,6 +12,7 @@ class CategoryReflection extends ClassReflection<Category> {
     className: r'Category',
     idPart: PropertyReflection<Category, UndefinedWrapper<
             int
+
 >>(
       dartName: r'id',
       nullable: false,
@@ -26,6 +27,7 @@ class CategoryReflection extends ClassReflection<Category> {
     ),
     namePart: PropertyReflection<Category, 
             String
+
 >(
       dartName: r'name',
       nullable: false,
@@ -43,6 +45,7 @@ class CategoryReflection extends ClassReflection<Category> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<Category, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -60,27 +63,33 @@ class CategoryReflection extends ClassReflection<Category> {
 
   final PropertyReflection<Category, UndefinedWrapper<
             int
+
 >> idPart;
   static UndefinedWrapper<
             int
+
 > _idGetter(Category parent) {
     return parent.id;
   }
   static void _idSetter(Category parent, UndefinedWrapper<
             int
+
 > value) {
     parent.id = value;
   }
   final PropertyReflection<Category, 
             String
+
 > namePart;
   static 
             String
+
  _nameGetter(Category parent) {
     return parent.name;
   }
   static void _nameSetter(Category parent, 
             String
+
  value) {
     parent.name = value;
   }
@@ -106,6 +115,7 @@ namePart,
   ];
 
   final AdditionalPropertiesReflection<Category, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -135,14 +145,24 @@ namePart,
   /// Gets an example of Category.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  Category example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  Category example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return Category(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = Category(
       id: () {
-        PartReflection? _partReflection = _reflection.idPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -153,20 +173,11 @@ namePart,
     exampleint()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       name: () {
-        PartReflection? _partReflection = _reflection.namePart;
-        
-        final disc = discriminators[r'name'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -178,18 +189,25 @@ namePart,
 
 
 ;
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+        final preSelectedResult = discriminatorExampleResults[namePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class CategoryXmlReflection {
     const CategoryXmlReflection();

@@ -12,6 +12,7 @@ class BasquePigReflection extends ClassReflection<BasquePig> {
     className: r'BasquePig',
     classNamePart: PropertyReflection<BasquePig, 
             String
+
 >(
       dartName: r'className',
       nullable: false,
@@ -29,6 +30,7 @@ class BasquePigReflection extends ClassReflection<BasquePig> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<BasquePig, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -45,14 +47,17 @@ class BasquePigReflection extends ClassReflection<BasquePig> {
 
   final PropertyReflection<BasquePig, 
             String
+
 > classNamePart;
   static 
             String
+
  _classNameGetter(BasquePig parent) {
     return parent.className;
   }
   static void _classNameSetter(BasquePig parent, 
             String
+
  value) {
     parent.className = value;
   }
@@ -77,6 +82,7 @@ class BasquePigReflection extends ClassReflection<BasquePig> {
   ];
 
   final AdditionalPropertiesReflection<BasquePig, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -106,22 +112,24 @@ class BasquePigReflection extends ClassReflection<BasquePig> {
   /// Gets an example of BasquePig.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  BasquePig example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  BasquePig example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return BasquePig(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = BasquePig(
       className: () {
-        PartReflection? _partReflection = _reflection.classNamePart;
-        
-        final disc = discriminators[r'className'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -133,18 +141,25 @@ class BasquePigReflection extends ClassReflection<BasquePig> {
 
 
 ;
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+        final preSelectedResult = discriminatorExampleResults[classNamePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class BasquePigXmlReflection {
     const BasquePigXmlReflection();

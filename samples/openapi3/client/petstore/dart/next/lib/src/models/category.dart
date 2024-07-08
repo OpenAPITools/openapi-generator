@@ -16,9 +16,11 @@ mixin CategoryMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
+
 > get id;
 
             String
+
  get name;
   
 }
@@ -35,13 +37,16 @@ CategoryMixin {
   @override
   UndefinedWrapper<
             int
+
 > id;
   @override
   
             String
+
  name;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

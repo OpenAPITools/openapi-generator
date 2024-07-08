@@ -88,7 +88,7 @@ void main() {
             
 
 
-    Client.$reflection.example()
+    ClientReflection.instance.example()
     
 
 

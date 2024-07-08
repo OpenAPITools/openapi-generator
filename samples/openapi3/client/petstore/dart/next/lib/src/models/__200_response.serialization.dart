@@ -11,12 +11,14 @@ Map<String, dynamic> _$$200ResponseToMap($200Response instance) {
     if (instance.name.isDefined)
     _reflection.namePart.oasName: (
             int
+
  v) {
       return v;
     }(instance.name.valueRequired),
     if (instance.propertyClass.isDefined)
     _reflection.propertyClassPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.propertyClass.valueRequired),
@@ -140,8 +142,7 @@ bool _$$200ResponseCanDeserialize(Object? src) {
 Map<String, dynamic> _$$200ResponseSerialize($200Response src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$$200ResponseToMap(src);
     
   }();
   return initialResult;

@@ -13,7 +13,9 @@ Map<String, dynamic> _$ArrayDefaultToMap(ArrayDefault instance) {
     List<
         
             String
+
 >
+
  v) {
       return v.map((v) => v).toList();
     }(instance.withDefaultEmptyBracket.valueRequired),
@@ -22,7 +24,9 @@ Map<String, dynamic> _$ArrayDefaultToMap(ArrayDefault instance) {
     List<
         
             String
+
 >
+
  v) {
       return v.map((v) => v).toList();
     }(instance.withoutDefault.valueRequired),
@@ -180,8 +184,7 @@ bool _$ArrayDefaultCanDeserialize(Object? src) {
 Map<String, dynamic> _$ArrayDefaultSerialize(ArrayDefault src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$ArrayDefaultToMap(src);
     
   }();
   return initialResult;

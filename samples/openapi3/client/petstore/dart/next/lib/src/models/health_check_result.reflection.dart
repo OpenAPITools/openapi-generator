@@ -12,6 +12,7 @@ class HealthCheckResultReflection extends ClassReflection<HealthCheckResult> {
     className: r'HealthCheckResult',
     nullableMessagePart: PropertyReflection<HealthCheckResult, UndefinedWrapper<
             String
+
 ?>>(
       dartName: r'nullableMessage',
       nullable: true,
@@ -29,6 +30,7 @@ class HealthCheckResultReflection extends ClassReflection<HealthCheckResult> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<HealthCheckResult, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -45,14 +47,17 @@ class HealthCheckResultReflection extends ClassReflection<HealthCheckResult> {
 
   final PropertyReflection<HealthCheckResult, UndefinedWrapper<
             String
+
 ?>> nullableMessagePart;
   static UndefinedWrapper<
             String
+
 ?> _nullableMessageGetter(HealthCheckResult parent) {
     return parent.nullableMessage;
   }
   static void _nullableMessageSetter(HealthCheckResult parent, UndefinedWrapper<
             String
+
 ?> value) {
     parent.nullableMessage = value;
   }
@@ -77,6 +82,7 @@ class HealthCheckResultReflection extends ClassReflection<HealthCheckResult> {
   ];
 
   final AdditionalPropertiesReflection<HealthCheckResult, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -106,22 +112,24 @@ class HealthCheckResultReflection extends ClassReflection<HealthCheckResult> {
   /// Gets an example of HealthCheckResult.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  HealthCheckResult example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  HealthCheckResult example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return HealthCheckResult(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = HealthCheckResult(
       nullableMessage: () {
-        PartReflection? _partReflection = _reflection.nullableMessagePart;
-        
-        final disc = discriminators[r'NullableMessage'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(exampleNullable(() =>
+        var result = exampleNullable(() =>
 
 
             
@@ -132,19 +140,26 @@ class HealthCheckResultReflection extends ClassReflection<HealthCheckResult> {
     exampleString()
 
 
- ) );
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+ ) ;
+        final preSelectedResult = discriminatorExampleResults[nullableMessagePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class HealthCheckResultXmlReflection {
     const HealthCheckResultXmlReflection();

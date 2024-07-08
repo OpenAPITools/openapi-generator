@@ -11,18 +11,21 @@ Map<String, dynamic> _$CatToMap(Cat instance) {
     if (instance.color.isDefined)
     _reflection.colorPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.color.valueRequired),
     if (instance.declawed.isDefined)
     _reflection.declawedPart.oasName: (
             bool
+
  v) {
       return v;
     }(instance.declawed.valueRequired),
     
     _reflection.classNamePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.className),
@@ -195,8 +198,7 @@ bool _$CatCanDeserialize(Object? src) {
 Map<String, dynamic> _$CatSerialize(Cat src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$CatToMap(src);
     
   }();
   return initialResult;

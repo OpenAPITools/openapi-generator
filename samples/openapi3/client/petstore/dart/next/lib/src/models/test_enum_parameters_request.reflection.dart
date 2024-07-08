@@ -14,7 +14,9 @@ class TestEnumParametersRequestReflection extends ClassReflection<TestEnumParame
     List<
         
             TestEnumParametersRequestEnumFormStringArrayEnum
+
 >
+
 >>(
       dartName: r'enumFormStringArray',
       nullable: false,
@@ -26,12 +28,14 @@ class TestEnumParametersRequestReflection extends ClassReflection<TestEnumParame
       isDiscriminator: false,
       itemsReflection: ItemsReflection<TestEnumParametersRequest, 
             TestEnumParametersRequestEnumFormStringArrayEnum
+
 >(parentReflectionGetter: instanceGetter,),
       getter: _enumFormStringArrayGetter,
       setter: _enumFormStringArraySetter,
     ),
     enumFormStringPart: PropertyReflection<TestEnumParametersRequest, UndefinedWrapper<
             TestEnumParametersRequestEnumFormStringEnum
+
 >>(
       dartName: r'enumFormString',
       nullable: false,
@@ -49,6 +53,7 @@ class TestEnumParametersRequestReflection extends ClassReflection<TestEnumParame
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<TestEnumParametersRequest, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -68,13 +73,17 @@ class TestEnumParametersRequestReflection extends ClassReflection<TestEnumParame
     List<
         
             TestEnumParametersRequestEnumFormStringArrayEnum
+
 >
+
 >> enumFormStringArrayPart;
   static UndefinedWrapper<
     List<
         
             TestEnumParametersRequestEnumFormStringArrayEnum
+
 >
+
 > _enumFormStringArrayGetter(TestEnumParametersRequest parent) {
     return parent.enumFormStringArray;
   }
@@ -82,20 +91,25 @@ class TestEnumParametersRequestReflection extends ClassReflection<TestEnumParame
     List<
         
             TestEnumParametersRequestEnumFormStringArrayEnum
+
 >
+
 > value) {
     parent.enumFormStringArray = value;
   }
   final PropertyReflection<TestEnumParametersRequest, UndefinedWrapper<
             TestEnumParametersRequestEnumFormStringEnum
+
 >> enumFormStringPart;
   static UndefinedWrapper<
             TestEnumParametersRequestEnumFormStringEnum
+
 > _enumFormStringGetter(TestEnumParametersRequest parent) {
     return parent.enumFormString;
   }
   static void _enumFormStringSetter(TestEnumParametersRequest parent, UndefinedWrapper<
             TestEnumParametersRequestEnumFormStringEnum
+
 > value) {
     parent.enumFormString = value;
   }
@@ -121,6 +135,7 @@ enumFormStringPart,
   ];
 
   final AdditionalPropertiesReflection<TestEnumParametersRequest, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -150,17 +165,27 @@ enumFormStringPart,
   /// Gets an example of TestEnumParametersRequest.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  TestEnumParametersRequest example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  TestEnumParametersRequest example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return TestEnumParametersRequest(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = TestEnumParametersRequest(
       enumFormStringArray: () {
-        PartReflection? _partReflection = _reflection.enumFormStringArrayPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             exampleEnum(TestEnumParametersRequestEnumFormStringArrayEnum.values)
@@ -171,31 +196,33 @@ enumFormStringPart,
 
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       enumFormString: () {
-        PartReflection? _partReflection = _reflection.enumFormStringPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             exampleEnum(TestEnumParametersRequestEnumFormStringEnum.values)
 
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class TestEnumParametersRequestXmlReflection {
     const TestEnumParametersRequestXmlReflection();

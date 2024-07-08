@@ -12,6 +12,7 @@ class ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection extends ClassReflec
     className: r'ArrayOfInlineAllOfArrayAllofDogPropertyInner',
     breedPart: PropertyReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner, UndefinedWrapper<
             String
+
 >>(
       dartName: r'breed',
       nullable: false,
@@ -26,6 +27,7 @@ class ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection extends ClassReflec
     ),
     colorPart: PropertyReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner, UndefinedWrapper<
             String
+
 >>(
       dartName: r'color',
       nullable: false,
@@ -43,6 +45,7 @@ class ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection extends ClassReflec
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -60,27 +63,33 @@ class ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection extends ClassReflec
 
   final PropertyReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner, UndefinedWrapper<
             String
+
 >> breedPart;
   static UndefinedWrapper<
             String
+
 > _breedGetter(ArrayOfInlineAllOfArrayAllofDogPropertyInner parent) {
     return parent.breed;
   }
   static void _breedSetter(ArrayOfInlineAllOfArrayAllofDogPropertyInner parent, UndefinedWrapper<
             String
+
 > value) {
     parent.breed = value;
   }
   final PropertyReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner, UndefinedWrapper<
             String
+
 >> colorPart;
   static UndefinedWrapper<
             String
+
 > _colorGetter(ArrayOfInlineAllOfArrayAllofDogPropertyInner parent) {
     return parent.color;
   }
   static void _colorSetter(ArrayOfInlineAllOfArrayAllofDogPropertyInner parent, UndefinedWrapper<
             String
+
 > value) {
     parent.color = value;
   }
@@ -106,6 +115,7 @@ colorPart,
   ];
 
   final AdditionalPropertiesReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -143,22 +153,24 @@ colorPart,
   /// Gets an example of ArrayOfInlineAllOfArrayAllofDogPropertyInner.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  ArrayOfInlineAllOfArrayAllofDogPropertyInner example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  ArrayOfInlineAllOfArrayAllofDogPropertyInner example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return ArrayOfInlineAllOfArrayAllofDogPropertyInner(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = ArrayOfInlineAllOfArrayAllofDogPropertyInner(
       breed: () {
-        PartReflection? _partReflection = _reflection.breedPart;
-        
-        final disc = discriminators[r'breed'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -169,20 +181,15 @@ colorPart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[breedPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       color: () {
-        PartReflection? _partReflection = _reflection.colorPart;
-        
-        final disc = discriminators[r'color'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -193,19 +200,26 @@ colorPart,
     exampleString()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        final preSelectedResult = discriminatorExampleResults[colorPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class ArrayOfInlineAllOfArrayAllofDogPropertyInnerXmlReflection {
     const ArrayOfInlineAllOfArrayAllofDogPropertyInnerXmlReflection();

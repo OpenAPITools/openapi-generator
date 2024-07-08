@@ -12,6 +12,7 @@ class AppleReqReflection extends ClassReflection<AppleReq> {
     className: r'AppleReq',
     cultivarPart: PropertyReflection<AppleReq, 
             String
+
 >(
       dartName: r'cultivar',
       nullable: false,
@@ -26,6 +27,7 @@ class AppleReqReflection extends ClassReflection<AppleReq> {
     ),
     mealyPart: PropertyReflection<AppleReq, UndefinedWrapper<
             bool
+
 >>(
       dartName: r'mealy',
       nullable: false,
@@ -54,27 +56,33 @@ class AppleReqReflection extends ClassReflection<AppleReq> {
 
   final PropertyReflection<AppleReq, 
             String
+
 > cultivarPart;
   static 
             String
+
  _cultivarGetter(AppleReq parent) {
     return parent.cultivar;
   }
   static void _cultivarSetter(AppleReq parent, 
             String
+
  value) {
     parent.cultivar = value;
   }
   final PropertyReflection<AppleReq, UndefinedWrapper<
             bool
+
 >> mealyPart;
   static UndefinedWrapper<
             bool
+
 > _mealyGetter(AppleReq parent) {
     return parent.mealy;
   }
   static void _mealySetter(AppleReq parent, UndefinedWrapper<
             bool
+
 > value) {
     parent.mealy = value;
   }
@@ -126,22 +134,24 @@ mealyPart,
   /// Gets an example of AppleReq.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  AppleReq example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  AppleReq example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return AppleReq(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = AppleReq(
       cultivar: () {
-        PartReflection? _partReflection = _reflection.cultivarPart;
-        
-        final disc = discriminators[r'cultivar'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -153,11 +163,14 @@ mealyPart,
 
 
 ;
-      }(),
+        final preSelectedResult = discriminatorExampleResults[cultivarPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
       mealy: () {
-        PartReflection? _partReflection = _reflection.mealyPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -168,13 +181,16 @@ mealyPart,
     examplebool()
 
 
-);
-      }(),
-      
+;
+        return UndefinedWrapper(result);
+      } (),
       
     );
+    
+    return exampleResult;
   }
 }
+
 
 class AppleReqXmlReflection {
     const AppleReqXmlReflection();

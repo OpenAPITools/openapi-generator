@@ -15,6 +15,7 @@ mixin FileMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 > get sourceURI;
   
 }
@@ -30,9 +31,11 @@ FileMixin {
   @override
   UndefinedWrapper<
             String
+
 > sourceURI;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

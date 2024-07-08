@@ -12,6 +12,7 @@ class TagReflection extends ClassReflection<Tag> {
     className: r'Tag',
     idPart: PropertyReflection<Tag, UndefinedWrapper<
             int
+
 >>(
       dartName: r'id',
       nullable: false,
@@ -26,6 +27,7 @@ class TagReflection extends ClassReflection<Tag> {
     ),
     namePart: PropertyReflection<Tag, UndefinedWrapper<
             String
+
 >>(
       dartName: r'name',
       nullable: false,
@@ -43,6 +45,7 @@ class TagReflection extends ClassReflection<Tag> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<Tag, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -60,27 +63,33 @@ class TagReflection extends ClassReflection<Tag> {
 
   final PropertyReflection<Tag, UndefinedWrapper<
             int
+
 >> idPart;
   static UndefinedWrapper<
             int
+
 > _idGetter(Tag parent) {
     return parent.id;
   }
   static void _idSetter(Tag parent, UndefinedWrapper<
             int
+
 > value) {
     parent.id = value;
   }
   final PropertyReflection<Tag, UndefinedWrapper<
             String
+
 >> namePart;
   static UndefinedWrapper<
             String
+
 > _nameGetter(Tag parent) {
     return parent.name;
   }
   static void _nameSetter(Tag parent, UndefinedWrapper<
             String
+
 > value) {
     parent.name = value;
   }
@@ -106,6 +115,7 @@ namePart,
   ];
 
   final AdditionalPropertiesReflection<Tag, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -135,14 +145,24 @@ namePart,
   /// Gets an example of Tag.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  Tag example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  Tag example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return Tag(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = Tag(
       id: () {
-        PartReflection? _partReflection = _reflection.idPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -153,20 +173,11 @@ namePart,
     exampleint()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       name: () {
-        PartReflection? _partReflection = _reflection.namePart;
-        
-        final disc = discriminators[r'name'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -177,19 +188,26 @@ namePart,
     exampleString()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        final preSelectedResult = discriminatorExampleResults[namePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class TagXmlReflection {
     const TagXmlReflection();

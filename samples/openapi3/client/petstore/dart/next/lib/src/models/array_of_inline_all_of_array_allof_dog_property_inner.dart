@@ -16,9 +16,11 @@ mixin ArrayOfInlineAllOfArrayAllofDogPropertyInnerMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 > get breed;
 UndefinedWrapper<
             String
+
 > get color;
   
 }
@@ -35,13 +37,16 @@ ArrayOfInlineAllOfArrayAllofDogPropertyInnerMixin {
   @override
   UndefinedWrapper<
             String
+
 > breed;
   @override
   UndefinedWrapper<
             String
+
 > color;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   
@@ -69,7 +74,6 @@ ArrayOfInlineAllOfArrayAllofDogPropertyInnerMixin {
 
   @override
   bool validate() {
-      
       
     return super.validate();
   }

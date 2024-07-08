@@ -10,9 +10,14 @@ part 'mammal.serialization.dart';
 /// MammalMixin
 ///
 /// Properties:
+/// * [className] 
 mixin MammalMixin on
   $OpenApiObjectMixin {
-    
+  
+            String
+
+ get className;
+  
   UndefinedWrapper<
             Whale
 > get oneOf0;
@@ -27,12 +32,19 @@ mixin MammalMixin on
 /// Mammal
 ///
 /// Properties:
+/// * [className] 
 class Mammal with
 $OpenApiObjectMixin,
 
 MammalMixin {
+  @override
+  
+            String
+
+ className;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   
@@ -53,7 +65,8 @@ MammalMixin {
   
 
   Mammal.$all({
-        required this.additionalProperties,
+        required this.className,
+    required this.additionalProperties,
     
     required this.oneOf0,
     required this.oneOf1,
@@ -61,7 +74,8 @@ MammalMixin {
   });
 
   Mammal({
-        this.additionalProperties = const AdditionalProperties(),
+    required  this.className     ,
+    this.additionalProperties = const AdditionalProperties(),
     
     this.oneOf0 = const UndefinedWrapper.undefined(),
     this.oneOf1 = const UndefinedWrapper.undefined(),
@@ -74,11 +88,10 @@ MammalMixin {
   @override
   bool validate() {
       final oneOfs = [oneOf0,oneOf1,oneOf2,].where((e) => e.isDefined).take(2);
-      if (oneOfs.length != 1) {
-        // there must be EXACTLY one "oneOf" schema.
+      if (oneOfs.length > 1) {
+        // there must be AT MOST one "oneOf" schema.
         return false;
       }
-      
       
     return super.validate();
   }
@@ -118,7 +131,7 @@ MammalMixin {
     return _$MammalCanDeserialize(src);
   }
   /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
+  Map<String,dynamic> serialize() {
     return _$MammalSerialize(this);
   }
 }

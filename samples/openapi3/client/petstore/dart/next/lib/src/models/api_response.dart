@@ -17,12 +17,15 @@ mixin ApiResponseMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
+
 > get code;
 UndefinedWrapper<
             String
+
 > get type;
 UndefinedWrapper<
             String
+
 > get message;
   
 }
@@ -40,17 +43,21 @@ ApiResponseMixin {
   @override
   UndefinedWrapper<
             int
+
 > code;
   @override
   UndefinedWrapper<
             String
+
 > type;
   @override
   UndefinedWrapper<
             String
+
 > message;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

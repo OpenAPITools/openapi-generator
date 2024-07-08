@@ -15,6 +15,7 @@ mixin CatMixin on
   AnimalMixin, $OpenApiObjectMixin {
   UndefinedWrapper<
             bool
+
 > get declawed;
   
 }
@@ -32,17 +33,21 @@ CatMixin {
   @override
   UndefinedWrapper<
             String
+
 > color;
   @override
   UndefinedWrapper<
             bool
+
 > declawed;
   @override
   
             String
+
  className;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   
@@ -76,7 +81,6 @@ required  this.className     ,
 
   @override
   bool validate() {
-      
       
     return super.validate();
   }

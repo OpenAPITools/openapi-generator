@@ -16,9 +16,11 @@ mixin TestJsonFormDataRequestMixin on
   $OpenApiObjectMixin {
   
             String
+
  get param;
 
             String
+
  get param2;
   
 }
@@ -35,13 +37,16 @@ TestJsonFormDataRequestMixin {
   @override
   
             String
+
  param;
   @override
   
             String
+
  param2;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

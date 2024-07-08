@@ -12,6 +12,7 @@ class FooReflection extends ClassReflection<Foo> {
     className: r'Foo',
     barPart: PropertyReflection<Foo, UndefinedWrapper<
             String
+
 >>(
       dartName: r'bar',
       nullable: false,
@@ -29,6 +30,7 @@ class FooReflection extends ClassReflection<Foo> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<Foo, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -45,14 +47,17 @@ class FooReflection extends ClassReflection<Foo> {
 
   final PropertyReflection<Foo, UndefinedWrapper<
             String
+
 >> barPart;
   static UndefinedWrapper<
             String
+
 > _barGetter(Foo parent) {
     return parent.bar;
   }
   static void _barSetter(Foo parent, UndefinedWrapper<
             String
+
 > value) {
     parent.bar = value;
   }
@@ -77,6 +82,7 @@ class FooReflection extends ClassReflection<Foo> {
   ];
 
   final AdditionalPropertiesReflection<Foo, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -106,22 +112,24 @@ class FooReflection extends ClassReflection<Foo> {
   /// Gets an example of Foo.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  Foo example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  Foo example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return Foo(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = Foo(
       bar: () {
-        PartReflection? _partReflection = _reflection.barPart;
-        
-        final disc = discriminators[r'bar'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -132,19 +140,26 @@ class FooReflection extends ClassReflection<Foo> {
     exampleString()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        final preSelectedResult = discriminatorExampleResults[barPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class FooXmlReflection {
     const FooXmlReflection();

@@ -11,12 +11,14 @@ Map<String, dynamic> _$PetsMulticontentTestPostRequestAddressToMap(PetsMulticont
     if (instance.street.isDefined)
     _reflection.streetPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.street.valueRequired),
     if (instance.city.isDefined)
     _reflection.cityPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.city.valueRequired),
@@ -142,8 +144,7 @@ bool _$PetsMulticontentTestPostRequestAddressCanDeserialize(Object? src) {
 Map<String, dynamic> _$PetsMulticontentTestPostRequestAddressSerialize(PetsMulticontentTestPostRequestAddress src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$PetsMulticontentTestPostRequestAddressToMap(src);
     
   }();
   return initialResult;

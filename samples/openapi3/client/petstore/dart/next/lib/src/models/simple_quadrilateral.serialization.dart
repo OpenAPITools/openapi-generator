@@ -11,12 +11,14 @@ Map<String, dynamic> _$SimpleQuadrilateralToMap(SimpleQuadrilateral instance) {
     
     _reflection.quadrilateralTypePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.quadrilateralType),
     
     _reflection.shapeTypePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.shapeType),
@@ -145,8 +147,7 @@ bool _$SimpleQuadrilateralCanDeserialize(Object? src) {
 Map<String, dynamic> _$SimpleQuadrilateralSerialize(SimpleQuadrilateral src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$SimpleQuadrilateralToMap(src);
     
   }();
   return initialResult;

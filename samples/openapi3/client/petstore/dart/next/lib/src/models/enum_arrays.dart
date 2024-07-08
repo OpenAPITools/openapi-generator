@@ -16,12 +16,15 @@ mixin EnumArraysMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             EnumArraysJustSymbolEnum
+
 > get justSymbol;
 UndefinedWrapper<
     List<
         
             EnumArraysArrayEnumEnum
+
 >
+
 > get arrayEnum;
   
 }
@@ -38,16 +41,20 @@ EnumArraysMixin {
   @override
   UndefinedWrapper<
             EnumArraysJustSymbolEnum
+
 > justSymbol;
   @override
   UndefinedWrapper<
     List<
         
             EnumArraysArrayEnumEnum
+
 >
+
 > arrayEnum;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

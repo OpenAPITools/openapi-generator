@@ -11,6 +11,7 @@ Map<String, dynamic> _$EnumStringDiscriminatorToMap(EnumStringDiscriminator inst
     
     _reflection.enumStrTypePart.oasName: (
             EnumStringDiscriminatorEnumStrTypeEnum
+
  v) {
       return v.value;
     }(instance.enumStrType),
@@ -106,8 +107,7 @@ bool _$EnumStringDiscriminatorCanDeserialize(Object? src) {
 Map<String, dynamic> _$EnumStringDiscriminatorSerialize(EnumStringDiscriminator src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$EnumStringDiscriminatorToMap(src);
     
   }();
   return initialResult;

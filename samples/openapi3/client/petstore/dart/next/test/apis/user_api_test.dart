@@ -88,7 +88,7 @@ void main() {
             
 
 
-    User.$reflection.example()
+    UserReflection.instance.example()
     
 
 
@@ -161,14 +161,14 @@ void main() {
             data: 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
             
 
 
-    User.$reflection.example()
+    UserReflection.instance.example()
     
 
 
@@ -245,14 +245,14 @@ void main() {
             data: 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
             
 
 
-    User.$reflection.example()
+    UserReflection.instance.example()
     
 
 
@@ -622,7 +622,7 @@ username:
             
 
 
-    User.$reflection.example()
+    UserReflection.instance.example()
     
 
 

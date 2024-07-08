@@ -15,6 +15,7 @@ mixin EnumStringDiscriminatorMixin on
   $OpenApiObjectMixin {
   
             EnumStringDiscriminatorEnumStrTypeEnum
+
  get enumStrType;
   
 }
@@ -30,9 +31,11 @@ EnumStringDiscriminatorMixin {
   @override
   
             EnumStringDiscriminatorEnumStrTypeEnum
+
  enumStrType;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

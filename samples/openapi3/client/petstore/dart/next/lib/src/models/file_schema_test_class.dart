@@ -16,12 +16,15 @@ mixin FileSchemaTestClassMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             File
+
 > get file;
 UndefinedWrapper<
     List<
         
             File
+
 >
+
 > get files;
   
 }
@@ -38,16 +41,20 @@ FileSchemaTestClassMixin {
   @override
   UndefinedWrapper<
             File
+
 > file;
   @override
   UndefinedWrapper<
     List<
         
             File
+
 >
+
 > files;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

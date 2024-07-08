@@ -105,6 +105,7 @@ class FakeClassnameTags123ApiTestClassnameResponse200 extends FakeClassnameTags1
 class FakeClassnameTags123ApiTestClassnameResponse200ApplicationJson extends FakeClassnameTags123ApiTestClassnameResponse200 {
   final 
             Client
+
 ? body;
 
   /// The raw result of calling jsonDecode

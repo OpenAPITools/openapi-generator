@@ -12,6 +12,7 @@ class VariableReflection extends ClassReflection<Variable> {
     className: r'Variable',
     namePart: PropertyReflection<Variable, 
             String
+
 >(
       dartName: r'name',
       nullable: false,
@@ -26,6 +27,7 @@ class VariableReflection extends ClassReflection<Variable> {
     ),
     valuePart: PropertyReflection<Variable, 
             Value
+
 >(
       dartName: r'value',
       nullable: false,
@@ -44,6 +46,7 @@ class VariableReflection extends ClassReflection<Variable> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<Variable, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -61,27 +64,33 @@ class VariableReflection extends ClassReflection<Variable> {
 
   final PropertyReflection<Variable, 
             String
+
 > namePart;
   static 
             String
+
  _nameGetter(Variable parent) {
     return parent.name;
   }
   static void _nameSetter(Variable parent, 
             String
+
  value) {
     parent.name = value;
   }
   final PropertyReflection<Variable, 
             Value
+
 > valuePart;
   static 
             Value
+
  _valueGetter(Variable parent) {
     return parent.value;
   }
   static void _valueSetter(Variable parent, 
             Value
+
  value) {
     parent.value = value;
   }
@@ -107,6 +116,7 @@ valuePart,
   ];
 
   final AdditionalPropertiesReflection<Variable, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -136,22 +146,24 @@ valuePart,
   /// Gets an example of Variable.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  Variable example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  Variable example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return Variable(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = Variable(
       name: () {
-        PartReflection? _partReflection = _reflection.namePart;
-        
-        final disc = discriminators[r'name'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -163,34 +175,40 @@ valuePart,
 
 
 ;
-      }(),
+        final preSelectedResult = discriminatorExampleResults[namePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
       value: () {
-        PartReflection? _partReflection = _reflection.valuePart;
-        
-        return 
+        var result = 
 
 
             
             
 
 
-    Value.$reflection.example()
+    ValueReflection.instance.example()
     
 
 
 ;
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+        return result;
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class VariableXmlReflection {
     const VariableXmlReflection();

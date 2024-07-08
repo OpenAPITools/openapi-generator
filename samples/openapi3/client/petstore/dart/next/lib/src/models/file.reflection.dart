@@ -12,6 +12,7 @@ class FileReflection extends ClassReflection<File> {
     className: r'File',
     sourceURIPart: PropertyReflection<File, UndefinedWrapper<
             String
+
 >>(
       dartName: r'sourceURI',
       nullable: false,
@@ -29,6 +30,7 @@ class FileReflection extends ClassReflection<File> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<File, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -45,14 +47,17 @@ class FileReflection extends ClassReflection<File> {
 
   final PropertyReflection<File, UndefinedWrapper<
             String
+
 >> sourceURIPart;
   static UndefinedWrapper<
             String
+
 > _sourceURIGetter(File parent) {
     return parent.sourceURI;
   }
   static void _sourceURISetter(File parent, UndefinedWrapper<
             String
+
 > value) {
     parent.sourceURI = value;
   }
@@ -77,6 +82,7 @@ class FileReflection extends ClassReflection<File> {
   ];
 
   final AdditionalPropertiesReflection<File, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -106,22 +112,24 @@ class FileReflection extends ClassReflection<File> {
   /// Gets an example of File.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  File example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  File example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return File(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = File(
       sourceURI: () {
-        PartReflection? _partReflection = _reflection.sourceURIPart;
-        
-        final disc = discriminators[r'sourceURI'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -132,19 +140,26 @@ class FileReflection extends ClassReflection<File> {
     exampleString()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        final preSelectedResult = discriminatorExampleResults[sourceURIPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class FileXmlReflection {
     const FileXmlReflection();

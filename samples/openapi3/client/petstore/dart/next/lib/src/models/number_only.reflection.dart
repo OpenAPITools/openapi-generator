@@ -12,6 +12,7 @@ class NumberOnlyReflection extends ClassReflection<NumberOnly> {
     className: r'NumberOnly',
     justNumberPart: PropertyReflection<NumberOnly, UndefinedWrapper<
             num
+
 >>(
       dartName: r'justNumber',
       nullable: false,
@@ -29,6 +30,7 @@ class NumberOnlyReflection extends ClassReflection<NumberOnly> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<NumberOnly, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -45,14 +47,17 @@ class NumberOnlyReflection extends ClassReflection<NumberOnly> {
 
   final PropertyReflection<NumberOnly, UndefinedWrapper<
             num
+
 >> justNumberPart;
   static UndefinedWrapper<
             num
+
 > _justNumberGetter(NumberOnly parent) {
     return parent.justNumber;
   }
   static void _justNumberSetter(NumberOnly parent, UndefinedWrapper<
             num
+
 > value) {
     parent.justNumber = value;
   }
@@ -77,6 +82,7 @@ class NumberOnlyReflection extends ClassReflection<NumberOnly> {
   ];
 
   final AdditionalPropertiesReflection<NumberOnly, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -106,14 +112,24 @@ class NumberOnlyReflection extends ClassReflection<NumberOnly> {
   /// Gets an example of NumberOnly.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  NumberOnly example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  NumberOnly example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return NumberOnly(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = NumberOnly(
       justNumber: () {
-        PartReflection? _partReflection = _reflection.justNumberPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -124,19 +140,22 @@ class NumberOnlyReflection extends ClassReflection<NumberOnly> {
     examplenum()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class NumberOnlyXmlReflection {
     const NumberOnlyXmlReflection();

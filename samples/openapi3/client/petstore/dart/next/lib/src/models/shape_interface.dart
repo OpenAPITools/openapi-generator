@@ -15,6 +15,7 @@ mixin ShapeInterfaceMixin on
   $OpenApiObjectMixin {
   
             String
+
  get shapeType;
   
 }
@@ -30,9 +31,11 @@ ShapeInterfaceMixin {
   @override
   
             String
+
  shapeType;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

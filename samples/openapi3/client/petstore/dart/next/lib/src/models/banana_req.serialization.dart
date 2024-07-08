@@ -11,12 +11,14 @@ Map<String, dynamic> _$BananaReqToMap(BananaReq instance) {
     
     _reflection.lengthCmPart.oasName: (
             num
+
  v) {
       return v;
     }(instance.lengthCm),
     if (instance.sweet.isDefined)
     _reflection.sweetPart.oasName: (
             bool
+
  v) {
       return v;
     }(instance.sweet.valueRequired),
@@ -127,8 +129,7 @@ bool _$BananaReqCanDeserialize(Object? src) {
 Map<String, dynamic> _$BananaReqSerialize(BananaReq src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$BananaReqToMap(src);
     
   }();
   return initialResult;

@@ -11,12 +11,14 @@ Map<String, dynamic> _$MixedPropertiesAndAdditionalPropertiesClassToMap(MixedPro
     if (instance.uuid.isDefined)
     _reflection.uuidPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.uuid.valueRequired),
     if (instance.dateTime.isDefined)
     _reflection.dateTimePart.oasName: (
             DateTime
+
  v) {
       return v;
     }(instance.dateTime.valueRequired),
@@ -25,7 +27,9 @@ Map<String, dynamic> _$MixedPropertiesAndAdditionalPropertiesClassToMap(MixedPro
     Map<String, 
         
             Animal
+
 >
+
  v) {
       return v.map((k,v) => MapEntry(k, v.serialize()));
     }(instance.map.valueRequired),
@@ -186,8 +190,7 @@ bool _$MixedPropertiesAndAdditionalPropertiesClassCanDeserialize(Object? src) {
 Map<String, dynamic> _$MixedPropertiesAndAdditionalPropertiesClassSerialize(MixedPropertiesAndAdditionalPropertiesClass src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$MixedPropertiesAndAdditionalPropertiesClassToMap(src);
     
   }();
   return initialResult;

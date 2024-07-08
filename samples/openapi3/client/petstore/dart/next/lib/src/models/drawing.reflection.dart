@@ -12,6 +12,7 @@ class DrawingReflection extends ClassReflection<Drawing> {
     className: r'Drawing',
     mainShapePart: PropertyReflection<Drawing, UndefinedWrapper<
             Shape
+
 >>(
       dartName: r'mainShape',
       nullable: false,
@@ -27,6 +28,7 @@ class DrawingReflection extends ClassReflection<Drawing> {
     ),
     shapeOrNullPart: PropertyReflection<Drawing, UndefinedWrapper<
             ShapeOrNull
+
 >>(
       dartName: r'shapeOrNull',
       nullable: false,
@@ -42,6 +44,7 @@ class DrawingReflection extends ClassReflection<Drawing> {
     ),
     nullableShapePart: PropertyReflection<Drawing, UndefinedWrapper<
             NullableShape
+
 ?>>(
       dartName: r'nullableShape',
       nullable: true,
@@ -59,7 +62,9 @@ class DrawingReflection extends ClassReflection<Drawing> {
     List<
         
             Shape
+
 >
+
 >>(
       dartName: r'shapes',
       nullable: false,
@@ -71,6 +76,7 @@ class DrawingReflection extends ClassReflection<Drawing> {
       isDiscriminator: false,
       itemsReflection: ItemsReflection<Drawing, 
             Shape
+
 >(parentReflectionGetter: instanceGetter,classReflection: ShapeReflection.instance,),
       getter: _shapesGetter,
       setter: _shapesSetter,
@@ -81,6 +87,7 @@ class DrawingReflection extends ClassReflection<Drawing> {
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<Drawing, 
             Fruit
+
 >(parentReflectionGetter: instanceGetter,classReflection: FruitReflection.instance,),
       classReflection: FruitReflection.instance,
     ),
@@ -101,40 +108,49 @@ class DrawingReflection extends ClassReflection<Drawing> {
 
   final PropertyReflection<Drawing, UndefinedWrapper<
             Shape
+
 >> mainShapePart;
   static UndefinedWrapper<
             Shape
+
 > _mainShapeGetter(Drawing parent) {
     return parent.mainShape;
   }
   static void _mainShapeSetter(Drawing parent, UndefinedWrapper<
             Shape
+
 > value) {
     parent.mainShape = value;
   }
   final PropertyReflection<Drawing, UndefinedWrapper<
             ShapeOrNull
+
 >> shapeOrNullPart;
   static UndefinedWrapper<
             ShapeOrNull
+
 > _shapeOrNullGetter(Drawing parent) {
     return parent.shapeOrNull;
   }
   static void _shapeOrNullSetter(Drawing parent, UndefinedWrapper<
             ShapeOrNull
+
 > value) {
     parent.shapeOrNull = value;
   }
   final PropertyReflection<Drawing, UndefinedWrapper<
             NullableShape
+
 ?>> nullableShapePart;
   static UndefinedWrapper<
             NullableShape
+
 ?> _nullableShapeGetter(Drawing parent) {
     return parent.nullableShape;
   }
   static void _nullableShapeSetter(Drawing parent, UndefinedWrapper<
             NullableShape
+
 ?> value) {
     parent.nullableShape = value;
   }
@@ -142,13 +158,17 @@ class DrawingReflection extends ClassReflection<Drawing> {
     List<
         
             Shape
+
 >
+
 >> shapesPart;
   static UndefinedWrapper<
     List<
         
             Shape
+
 >
+
 > _shapesGetter(Drawing parent) {
     return parent.shapes;
   }
@@ -156,7 +176,9 @@ class DrawingReflection extends ClassReflection<Drawing> {
     List<
         
             Shape
+
 >
+
 > value) {
     parent.shapes = value;
   }
@@ -185,6 +207,7 @@ shapesPart,
 
   final AdditionalPropertiesReflection<Drawing, 
             Fruit
+
 > additionalPropertiesPart;
 
   
@@ -214,72 +237,79 @@ shapesPart,
   /// Gets an example of Drawing.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  Drawing example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  Drawing example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return Drawing(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = Drawing(
       mainShape: () {
-        PartReflection? _partReflection = _reflection.mainShapePart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
             
 
 
-    Shape.$reflection.example()
+    ShapeReflection.instance.example()
     
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       shapeOrNull: () {
-        PartReflection? _partReflection = _reflection.shapeOrNullPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
             
 
 
-    ShapeOrNull.$reflection.example()
+    ShapeOrNullReflection.instance.example()
     
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       nullableShape: () {
-        PartReflection? _partReflection = _reflection.nullableShapePart;
-        
-        return UndefinedWrapper(exampleNullable(() =>
+        var result = exampleNullable(() =>
 
 
             
             
 
 
-    NullableShape.$reflection.example()
+    NullableShapeReflection.instance.example()
     
 
 
- ) );
-      }(),
+ ) ;
+        return UndefinedWrapper(result);
+      } (),
       shapes: () {
-        PartReflection? _partReflection = _reflection.shapesPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
             
 
 
-    Shape.$reflection.example()
+    ShapeReflection.instance.example()
     
 
 
@@ -287,24 +317,27 @@ shapesPart,
 
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => 
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => 
 
 
             
             
 
 
-    Fruit.$reflection.example()
+    FruitReflection.instance.example()
     
 
 
 )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class DrawingXmlReflection {
     const DrawingXmlReflection();

@@ -12,6 +12,7 @@ class UploadFileRequestReflection extends ClassReflection<UploadFileRequest> {
     className: r'UploadFileRequest',
     additionalMetadataPart: PropertyReflection<UploadFileRequest, UndefinedWrapper<
             String
+
 >>(
       dartName: r'additionalMetadata',
       nullable: false,
@@ -26,6 +27,7 @@ class UploadFileRequestReflection extends ClassReflection<UploadFileRequest> {
     ),
     filePart: PropertyReflection<UploadFileRequest, UndefinedWrapper<
             XFile
+
 >>(
       dartName: r'file',
       nullable: false,
@@ -43,6 +45,7 @@ class UploadFileRequestReflection extends ClassReflection<UploadFileRequest> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<UploadFileRequest, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -60,27 +63,33 @@ class UploadFileRequestReflection extends ClassReflection<UploadFileRequest> {
 
   final PropertyReflection<UploadFileRequest, UndefinedWrapper<
             String
+
 >> additionalMetadataPart;
   static UndefinedWrapper<
             String
+
 > _additionalMetadataGetter(UploadFileRequest parent) {
     return parent.additionalMetadata;
   }
   static void _additionalMetadataSetter(UploadFileRequest parent, UndefinedWrapper<
             String
+
 > value) {
     parent.additionalMetadata = value;
   }
   final PropertyReflection<UploadFileRequest, UndefinedWrapper<
             XFile
+
 >> filePart;
   static UndefinedWrapper<
             XFile
+
 > _fileGetter(UploadFileRequest parent) {
     return parent.file;
   }
   static void _fileSetter(UploadFileRequest parent, UndefinedWrapper<
             XFile
+
 > value) {
     parent.file = value;
   }
@@ -106,6 +115,7 @@ filePart,
   ];
 
   final AdditionalPropertiesReflection<UploadFileRequest, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -135,22 +145,24 @@ filePart,
   /// Gets an example of UploadFileRequest.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  UploadFileRequest example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  UploadFileRequest example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return UploadFileRequest(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = UploadFileRequest(
       additionalMetadata: () {
-        PartReflection? _partReflection = _reflection.additionalMetadataPart;
-        
-        final disc = discriminators[r'additionalMetadata'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -161,12 +173,15 @@ filePart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[additionalMetadataPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       file: () {
-        PartReflection? _partReflection = _reflection.filePart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -177,19 +192,22 @@ filePart,
     exampleXFile()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class UploadFileRequestXmlReflection {
     const UploadFileRequestXmlReflection();

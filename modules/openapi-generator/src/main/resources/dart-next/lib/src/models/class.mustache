@@ -14,8 +14,8 @@ mixin {{classname}}Mixin on
   {{#vars}}{{>types/variable}} get {{name}};
   {{/vars}}
   {{#composedSchemas}}{{#oneOf}}
-  UndefinedWrapper<{{>types/variable_recursive}}> get {{name}};{{/oneOf}}{{#anyOf}}
-  UndefinedWrapper<{{>types/variable_recursive}}> get {{name}};{{/anyOf}}{{/composedSchemas}}
+  UndefinedWrapper<{{>types/variable_recursive_nonnullable}}> get {{name}};{{/oneOf}}{{#anyOf}}
+  UndefinedWrapper<{{>types/variable_recursive_nonnullable}}> get {{name}};{{/anyOf}}{{/composedSchemas}}
 }
 
 /// {{{description}}}{{^description}}{{classname}}{{/description}}
@@ -43,10 +43,10 @@ $OpenApiObjectMixin,
 
   {{#composedSchemas}}{{#oneOf}}
   @override
-  UndefinedWrapper<{{>types/variable_recursive}}> {{name}};
+  UndefinedWrapper<{{>types/variable_recursive_nonnullable}}> {{name}};
   {{/oneOf}}{{#anyOf}}
   @override
-  UndefinedWrapper<{{>types/variable_recursive}}> {{name}};
+  UndefinedWrapper<{{>types/variable_recursive_nonnullable}}> {{name}};
   {{/anyOf}}{{/composedSchemas}}
 
   {{classname}}.$all({
@@ -75,17 +75,11 @@ $OpenApiObjectMixin,
   bool validate() {
     {{#composedSchemas}}
       {{#oneOf}}{{#-first}}final oneOfs = [{{/-first}}{{name}},{{#-last}}].where((e) => e.isDefined).take(2);
-      if (oneOfs.length != 1) {
-        // there must be EXACTLY one "oneOf" schema.
+      if (oneOfs.length > 1) {
+        // there must be AT MOST one "oneOf" schema.
         return false;
       }
       {{/-last}}{{/oneOf}}
-      {{#anyOf}}{{#-first}}final anyOfs = [{{/-first}}{{name}},{{#-last}}].where((e) => e.isDefined).take(1);
-      if (anyOfs.length == 0) {
-        // there must be AT LEAST one "anyOf" schema.
-        return false;
-      }
-      {{/-last}}{{/anyOf}}
     {{/composedSchemas}}
     return super.validate();
   }

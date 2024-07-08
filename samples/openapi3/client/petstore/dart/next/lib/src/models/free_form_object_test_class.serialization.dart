@@ -11,12 +11,14 @@ Map<String, dynamic> _$FreeFormObjectTestClassToMap(FreeFormObjectTestClass inst
     if (instance.name.isDefined)
     _reflection.namePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.name.valueRequired),
     if (instance.properties.isDefined)
     _reflection.propertiesPart.oasName: (
             FreeFormObjectTestClassProperties
+
  v) {
       return v.serialize();
     }(instance.properties.valueRequired),
@@ -129,8 +131,7 @@ bool _$FreeFormObjectTestClassCanDeserialize(Object? src) {
 Map<String, dynamic> _$FreeFormObjectTestClassSerialize(FreeFormObjectTestClass src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$FreeFormObjectTestClassToMap(src);
     
   }();
   return initialResult;

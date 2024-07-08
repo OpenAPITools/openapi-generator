@@ -12,6 +12,7 @@ class FileSchemaTestClassReflection extends ClassReflection<FileSchemaTestClass>
     className: r'FileSchemaTestClass',
     filePart: PropertyReflection<FileSchemaTestClass, UndefinedWrapper<
             File
+
 >>(
       dartName: r'file',
       nullable: false,
@@ -29,7 +30,9 @@ class FileSchemaTestClassReflection extends ClassReflection<FileSchemaTestClass>
     List<
         
             File
+
 >
+
 >>(
       dartName: r'files',
       nullable: false,
@@ -41,6 +44,7 @@ class FileSchemaTestClassReflection extends ClassReflection<FileSchemaTestClass>
       isDiscriminator: false,
       itemsReflection: ItemsReflection<FileSchemaTestClass, 
             File
+
 >(parentReflectionGetter: instanceGetter,classReflection: FileReflection.instance,),
       getter: _filesGetter,
       setter: _filesSetter,
@@ -50,6 +54,7 @@ class FileSchemaTestClassReflection extends ClassReflection<FileSchemaTestClass>
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<FileSchemaTestClass, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -67,14 +72,17 @@ class FileSchemaTestClassReflection extends ClassReflection<FileSchemaTestClass>
 
   final PropertyReflection<FileSchemaTestClass, UndefinedWrapper<
             File
+
 >> filePart;
   static UndefinedWrapper<
             File
+
 > _fileGetter(FileSchemaTestClass parent) {
     return parent.file;
   }
   static void _fileSetter(FileSchemaTestClass parent, UndefinedWrapper<
             File
+
 > value) {
     parent.file = value;
   }
@@ -82,13 +90,17 @@ class FileSchemaTestClassReflection extends ClassReflection<FileSchemaTestClass>
     List<
         
             File
+
 >
+
 >> filesPart;
   static UndefinedWrapper<
     List<
         
             File
+
 >
+
 > _filesGetter(FileSchemaTestClass parent) {
     return parent.files;
   }
@@ -96,7 +108,9 @@ class FileSchemaTestClassReflection extends ClassReflection<FileSchemaTestClass>
     List<
         
             File
+
 >
+
 > value) {
     parent.files = value;
   }
@@ -122,6 +136,7 @@ filesPart,
   ];
 
   final AdditionalPropertiesReflection<FileSchemaTestClass, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -151,40 +166,49 @@ filesPart,
   /// Gets an example of FileSchemaTestClass.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  FileSchemaTestClass example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  FileSchemaTestClass example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return FileSchemaTestClass(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = FileSchemaTestClass(
       file: () {
-        PartReflection? _partReflection = _reflection.filePart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
             
 
 
-    File.$reflection.example()
+    FileReflection.instance.example()
     
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       files: () {
-        PartReflection? _partReflection = _reflection.filesPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
             
 
 
-    File.$reflection.example()
+    FileReflection.instance.example()
     
 
 
@@ -192,19 +216,22 @@ filesPart,
 
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class FileSchemaTestClassXmlReflection {
     const FileSchemaTestClassXmlReflection();

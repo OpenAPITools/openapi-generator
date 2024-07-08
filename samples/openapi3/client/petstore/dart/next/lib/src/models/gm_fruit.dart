@@ -15,11 +15,12 @@ mixin GmFruitMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 > get color;
   
   UndefinedWrapper<
             Apple
-?> get anyOf0;
+> get anyOf0;
   UndefinedWrapper<
             Banana
 > get anyOf1;
@@ -36,6 +37,7 @@ GmFruitMixin {
   @override
   UndefinedWrapper<
             String
+
 > color;
 
 
@@ -44,7 +46,7 @@ GmFruitMixin {
   @override
   UndefinedWrapper<
             Apple
-?> anyOf0;
+> anyOf0;
   
   @override
   UndefinedWrapper<
@@ -77,12 +79,6 @@ GmFruitMixin {
 
   @override
   bool validate() {
-      
-      final anyOfs = [anyOf0,anyOf1,].where((e) => e.isDefined).take(1);
-      if (anyOfs.length == 0) {
-        // there must be AT LEAST one "anyOf" schema.
-        return false;
-      }
       
     return super.validate();
   }

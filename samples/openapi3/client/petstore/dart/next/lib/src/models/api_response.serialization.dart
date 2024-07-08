@@ -11,18 +11,21 @@ Map<String, dynamic> _$ApiResponseToMap(ApiResponse instance) {
     if (instance.code.isDefined)
     _reflection.codePart.oasName: (
             int
+
  v) {
       return v;
     }(instance.code.valueRequired),
     if (instance.type.isDefined)
     _reflection.typePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.type.valueRequired),
     if (instance.message.isDefined)
     _reflection.messagePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.message.valueRequired),
@@ -180,8 +183,7 @@ bool _$ApiResponseCanDeserialize(Object? src) {
 Map<String, dynamic> _$ApiResponseSerialize(ApiResponse src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$ApiResponseToMap(src);
     
   }();
   return initialResult;

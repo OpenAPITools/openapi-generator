@@ -11,18 +11,21 @@ Map<String, dynamic> _$WhaleToMap(Whale instance) {
     if (instance.hasBaleen.isDefined)
     _reflection.hasBaleenPart.oasName: (
             bool
+
  v) {
       return v;
     }(instance.hasBaleen.valueRequired),
     if (instance.hasTeeth.isDefined)
     _reflection.hasTeethPart.oasName: (
             bool
+
  v) {
       return v;
     }(instance.hasTeeth.valueRequired),
     
     _reflection.classNamePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.className),
@@ -178,8 +181,7 @@ bool _$WhaleCanDeserialize(Object? src) {
 Map<String, dynamic> _$WhaleSerialize(Whale src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$WhaleToMap(src);
     
   }();
   return initialResult;

@@ -11,18 +11,21 @@ Map<String, dynamic> _$DogToMap(Dog instance) {
     if (instance.color.isDefined)
     _reflection.colorPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.color.valueRequired),
     if (instance.breed.isDefined)
     _reflection.breedPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.breed.valueRequired),
     
     _reflection.classNamePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.className),
@@ -197,8 +200,7 @@ bool _$DogCanDeserialize(Object? src) {
 Map<String, dynamic> _$DogSerialize(Dog src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$DogToMap(src);
     
   }();
   return initialResult;

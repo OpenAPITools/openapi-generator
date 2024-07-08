@@ -14,7 +14,9 @@ class AdditionalPropertiesClassReflection extends ClassReflection<AdditionalProp
     Map<String, 
         
             String
+
 >
+
 >>(
       dartName: r'mapProperty',
       nullable: false,
@@ -26,6 +28,7 @@ class AdditionalPropertiesClassReflection extends ClassReflection<AdditionalProp
       isDiscriminator: false,
       itemsReflection: ItemsReflection<AdditionalPropertiesClass, 
             String
+
 >(parentReflectionGetter: instanceGetter,),
       getter: _mapPropertyGetter,
       setter: _mapPropertySetter,
@@ -36,8 +39,11 @@ class AdditionalPropertiesClassReflection extends ClassReflection<AdditionalProp
     Map<String, 
         
             String
+
 >
+
 >
+
 >>(
       dartName: r'mapOfMapProperty',
       nullable: false,
@@ -51,14 +57,18 @@ class AdditionalPropertiesClassReflection extends ClassReflection<AdditionalProp
     Map<String, 
         
             String
+
 >
+
 >(parentReflectionGetter: instanceGetter,itemsReflection: ItemsReflection<AdditionalPropertiesClass, 
             String
+
 >(parentReflectionGetter: instanceGetter,)),
       getter: _mapOfMapPropertyGetter,
       setter: _mapOfMapPropertySetter,
     ),
     anytype1Part: PropertyReflection<AdditionalPropertiesClass, UndefinedWrapper<Object
+
 ?>>(
       dartName: r'anytype1',
       nullable: true,
@@ -73,6 +83,7 @@ class AdditionalPropertiesClassReflection extends ClassReflection<AdditionalProp
     ),
     mapWithUndeclaredPropertiesAnytype1Part: PropertyReflection<AdditionalPropertiesClass, UndefinedWrapper<
             $FreeFormObject
+
 >>(
       dartName: r'mapWithUndeclaredPropertiesAnytype1',
       nullable: false,
@@ -87,6 +98,7 @@ class AdditionalPropertiesClassReflection extends ClassReflection<AdditionalProp
     ),
     mapWithUndeclaredPropertiesAnytype2Part: PropertyReflection<AdditionalPropertiesClass, UndefinedWrapper<
             $FreeFormObject
+
 >>(
       dartName: r'mapWithUndeclaredPropertiesAnytype2',
       nullable: false,
@@ -102,7 +114,9 @@ class AdditionalPropertiesClassReflection extends ClassReflection<AdditionalProp
     mapWithUndeclaredPropertiesAnytype3Part: PropertyReflection<AdditionalPropertiesClass, UndefinedWrapper<
     Map<String, 
         Object
+
 ?>
+
 >>(
       dartName: r'mapWithUndeclaredPropertiesAnytype3',
       nullable: false,
@@ -113,12 +127,14 @@ class AdditionalPropertiesClassReflection extends ClassReflection<AdditionalProp
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
       itemsReflection: ItemsReflection<AdditionalPropertiesClass, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
       getter: _mapWithUndeclaredPropertiesAnytype3Getter,
       setter: _mapWithUndeclaredPropertiesAnytype3Setter,
     ),
     emptyMapPart: PropertyReflection<AdditionalPropertiesClass, UndefinedWrapper<
             $FreeFormObject
+
 >>(
       dartName: r'emptyMap',
       nullable: false,
@@ -135,7 +151,9 @@ class AdditionalPropertiesClassReflection extends ClassReflection<AdditionalProp
     Map<String, 
         
             String
+
 >
+
 >>(
       dartName: r'mapWithUndeclaredPropertiesString',
       nullable: false,
@@ -147,6 +165,7 @@ class AdditionalPropertiesClassReflection extends ClassReflection<AdditionalProp
       isDiscriminator: false,
       itemsReflection: ItemsReflection<AdditionalPropertiesClass, 
             String
+
 >(parentReflectionGetter: instanceGetter,),
       getter: _mapWithUndeclaredPropertiesStringGetter,
       setter: _mapWithUndeclaredPropertiesStringSetter,
@@ -156,6 +175,7 @@ class AdditionalPropertiesClassReflection extends ClassReflection<AdditionalProp
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<AdditionalPropertiesClass, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -181,13 +201,17 @@ class AdditionalPropertiesClassReflection extends ClassReflection<AdditionalProp
     Map<String, 
         
             String
+
 >
+
 >> mapPropertyPart;
   static UndefinedWrapper<
     Map<String, 
         
             String
+
 >
+
 > _mapPropertyGetter(AdditionalPropertiesClass parent) {
     return parent.mapProperty;
   }
@@ -195,7 +219,9 @@ class AdditionalPropertiesClassReflection extends ClassReflection<AdditionalProp
     Map<String, 
         
             String
+
 >
+
 > value) {
     parent.mapProperty = value;
   }
@@ -205,8 +231,11 @@ class AdditionalPropertiesClassReflection extends ClassReflection<AdditionalProp
     Map<String, 
         
             String
+
 >
+
 >
+
 >> mapOfMapPropertyPart;
   static UndefinedWrapper<
     Map<String, 
@@ -214,8 +243,11 @@ class AdditionalPropertiesClassReflection extends ClassReflection<AdditionalProp
     Map<String, 
         
             String
+
 >
+
 >
+
 > _mapOfMapPropertyGetter(AdditionalPropertiesClass parent) {
     return parent.mapOfMapProperty;
   }
@@ -225,76 +257,97 @@ class AdditionalPropertiesClassReflection extends ClassReflection<AdditionalProp
     Map<String, 
         
             String
+
 >
+
 >
+
 > value) {
     parent.mapOfMapProperty = value;
   }
   final PropertyReflection<AdditionalPropertiesClass, UndefinedWrapper<Object
+
 ?>> anytype1Part;
   static UndefinedWrapper<Object
+
 ?> _anytype1Getter(AdditionalPropertiesClass parent) {
     return parent.anytype1;
   }
   static void _anytype1Setter(AdditionalPropertiesClass parent, UndefinedWrapper<Object
+
 ?> value) {
     parent.anytype1 = value;
   }
   final PropertyReflection<AdditionalPropertiesClass, UndefinedWrapper<
             $FreeFormObject
+
 >> mapWithUndeclaredPropertiesAnytype1Part;
   static UndefinedWrapper<
             $FreeFormObject
+
 > _mapWithUndeclaredPropertiesAnytype1Getter(AdditionalPropertiesClass parent) {
     return parent.mapWithUndeclaredPropertiesAnytype1;
   }
   static void _mapWithUndeclaredPropertiesAnytype1Setter(AdditionalPropertiesClass parent, UndefinedWrapper<
             $FreeFormObject
+
 > value) {
     parent.mapWithUndeclaredPropertiesAnytype1 = value;
   }
   final PropertyReflection<AdditionalPropertiesClass, UndefinedWrapper<
             $FreeFormObject
+
 >> mapWithUndeclaredPropertiesAnytype2Part;
   static UndefinedWrapper<
             $FreeFormObject
+
 > _mapWithUndeclaredPropertiesAnytype2Getter(AdditionalPropertiesClass parent) {
     return parent.mapWithUndeclaredPropertiesAnytype2;
   }
   static void _mapWithUndeclaredPropertiesAnytype2Setter(AdditionalPropertiesClass parent, UndefinedWrapper<
             $FreeFormObject
+
 > value) {
     parent.mapWithUndeclaredPropertiesAnytype2 = value;
   }
   final PropertyReflection<AdditionalPropertiesClass, UndefinedWrapper<
     Map<String, 
         Object
+
 ?>
+
 >> mapWithUndeclaredPropertiesAnytype3Part;
   static UndefinedWrapper<
     Map<String, 
         Object
+
 ?>
+
 > _mapWithUndeclaredPropertiesAnytype3Getter(AdditionalPropertiesClass parent) {
     return parent.mapWithUndeclaredPropertiesAnytype3;
   }
   static void _mapWithUndeclaredPropertiesAnytype3Setter(AdditionalPropertiesClass parent, UndefinedWrapper<
     Map<String, 
         Object
+
 ?>
+
 > value) {
     parent.mapWithUndeclaredPropertiesAnytype3 = value;
   }
   final PropertyReflection<AdditionalPropertiesClass, UndefinedWrapper<
             $FreeFormObject
+
 >> emptyMapPart;
   static UndefinedWrapper<
             $FreeFormObject
+
 > _emptyMapGetter(AdditionalPropertiesClass parent) {
     return parent.emptyMap;
   }
   static void _emptyMapSetter(AdditionalPropertiesClass parent, UndefinedWrapper<
             $FreeFormObject
+
 > value) {
     parent.emptyMap = value;
   }
@@ -302,13 +355,17 @@ class AdditionalPropertiesClassReflection extends ClassReflection<AdditionalProp
     Map<String, 
         
             String
+
 >
+
 >> mapWithUndeclaredPropertiesStringPart;
   static UndefinedWrapper<
     Map<String, 
         
             String
+
 >
+
 > _mapWithUndeclaredPropertiesStringGetter(AdditionalPropertiesClass parent) {
     return parent.mapWithUndeclaredPropertiesString;
   }
@@ -316,7 +373,9 @@ class AdditionalPropertiesClassReflection extends ClassReflection<AdditionalProp
     Map<String, 
         
             String
+
 >
+
 > value) {
     parent.mapWithUndeclaredPropertiesString = value;
   }
@@ -348,6 +407,7 @@ mapWithUndeclaredPropertiesStringPart,
   ];
 
   final AdditionalPropertiesReflection<AdditionalPropertiesClass, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -377,17 +437,27 @@ mapWithUndeclaredPropertiesStringPart,
   /// Gets an example of AdditionalPropertiesClass.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  AdditionalPropertiesClass example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  AdditionalPropertiesClass example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return AdditionalPropertiesClass(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = AdditionalPropertiesClass(
       mapProperty: () {
-        PartReflection? _partReflection = _reflection.mapPropertyPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleMap(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleMap(() { return 
 
 
             
@@ -402,18 +472,17 @@ mapWithUndeclaredPropertiesStringPart,
 
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       mapOfMapProperty: () {
-        PartReflection? _partReflection = _reflection.mapOfMapPropertyPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleMap(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleMap(() { return 
 
 
-    exampleMap(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleMap(() { return 
 
 
             
@@ -432,23 +501,21 @@ mapWithUndeclaredPropertiesStringPart,
 
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       anytype1: () {
-        PartReflection? _partReflection = _reflection.anytype1Part;
-        
-        return UndefinedWrapper(exampleNullable(() =>
+        var result = exampleNullable(() =>
 
 exampleObject()
 
 
 
- ) );
-      }(),
+ ) ;
+        return UndefinedWrapper(result);
+      } (),
       mapWithUndeclaredPropertiesAnytype1: () {
-        PartReflection? _partReflection = _reflection.mapWithUndeclaredPropertiesAnytype1Part;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -459,12 +526,11 @@ exampleObject()
     example$FreeFormObject()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       mapWithUndeclaredPropertiesAnytype2: () {
-        PartReflection? _partReflection = _reflection.mapWithUndeclaredPropertiesAnytype2Part;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -475,15 +541,14 @@ exampleObject()
     example$FreeFormObject()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       mapWithUndeclaredPropertiesAnytype3: () {
-        PartReflection? _partReflection = _reflection.mapWithUndeclaredPropertiesAnytype3Part;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleMap(() { _partReflection = _partReflection?.itemsReflection; return exampleNullable(() =>
+    exampleMap(() { return exampleNullable(() =>
 
 exampleObject()
 
@@ -493,12 +558,11 @@ exampleObject()
 
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       emptyMap: () {
-        PartReflection? _partReflection = _reflection.emptyMapPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -509,15 +573,14 @@ exampleObject()
     example$FreeFormObject()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       mapWithUndeclaredPropertiesString: () {
-        PartReflection? _partReflection = _reflection.mapWithUndeclaredPropertiesStringPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleMap(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleMap(() { return 
 
 
             
@@ -532,19 +595,22 @@ exampleObject()
 
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class AdditionalPropertiesClassXmlReflection {
     const AdditionalPropertiesClassXmlReflection();

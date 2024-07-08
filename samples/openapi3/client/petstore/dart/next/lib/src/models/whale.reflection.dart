@@ -12,6 +12,7 @@ class WhaleReflection extends ClassReflection<Whale> {
     className: r'Whale',
     hasBaleenPart: PropertyReflection<Whale, UndefinedWrapper<
             bool
+
 >>(
       dartName: r'hasBaleen',
       nullable: false,
@@ -26,6 +27,7 @@ class WhaleReflection extends ClassReflection<Whale> {
     ),
     hasTeethPart: PropertyReflection<Whale, UndefinedWrapper<
             bool
+
 >>(
       dartName: r'hasTeeth',
       nullable: false,
@@ -40,6 +42,7 @@ class WhaleReflection extends ClassReflection<Whale> {
     ),
     classNamePart: PropertyReflection<Whale, 
             String
+
 >(
       dartName: r'className',
       nullable: false,
@@ -57,6 +60,7 @@ class WhaleReflection extends ClassReflection<Whale> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<Whale, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -75,40 +79,49 @@ class WhaleReflection extends ClassReflection<Whale> {
 
   final PropertyReflection<Whale, UndefinedWrapper<
             bool
+
 >> hasBaleenPart;
   static UndefinedWrapper<
             bool
+
 > _hasBaleenGetter(Whale parent) {
     return parent.hasBaleen;
   }
   static void _hasBaleenSetter(Whale parent, UndefinedWrapper<
             bool
+
 > value) {
     parent.hasBaleen = value;
   }
   final PropertyReflection<Whale, UndefinedWrapper<
             bool
+
 >> hasTeethPart;
   static UndefinedWrapper<
             bool
+
 > _hasTeethGetter(Whale parent) {
     return parent.hasTeeth;
   }
   static void _hasTeethSetter(Whale parent, UndefinedWrapper<
             bool
+
 > value) {
     parent.hasTeeth = value;
   }
   final PropertyReflection<Whale, 
             String
+
 > classNamePart;
   static 
             String
+
  _classNameGetter(Whale parent) {
     return parent.className;
   }
   static void _classNameSetter(Whale parent, 
             String
+
  value) {
     parent.className = value;
   }
@@ -135,6 +148,7 @@ classNamePart,
   ];
 
   final AdditionalPropertiesReflection<Whale, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -164,14 +178,24 @@ classNamePart,
   /// Gets an example of Whale.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  Whale example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  Whale example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return Whale(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = Whale(
       hasBaleen: () {
-        PartReflection? _partReflection = _reflection.hasBaleenPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -182,12 +206,11 @@ classNamePart,
     examplebool()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       hasTeeth: () {
-        PartReflection? _partReflection = _reflection.hasTeethPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -198,20 +221,11 @@ classNamePart,
     examplebool()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       className: () {
-        PartReflection? _partReflection = _reflection.classNamePart;
-        
-        final disc = discriminators[r'className'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -223,18 +237,25 @@ classNamePart,
 
 
 ;
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+        final preSelectedResult = discriminatorExampleResults[classNamePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class WhaleXmlReflection {
     const WhaleXmlReflection();

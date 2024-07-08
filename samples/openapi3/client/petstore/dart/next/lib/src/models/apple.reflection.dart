@@ -12,6 +12,7 @@ class AppleReflection extends ClassReflection<Apple> {
     className: r'Apple',
     cultivarPart: PropertyReflection<Apple, UndefinedWrapper<
             String
+
 >>(
       dartName: r'cultivar',
       nullable: false,
@@ -26,6 +27,7 @@ class AppleReflection extends ClassReflection<Apple> {
     ),
     originPart: PropertyReflection<Apple, UndefinedWrapper<
             String
+
 >>(
       dartName: r'origin',
       nullable: false,
@@ -43,6 +45,7 @@ class AppleReflection extends ClassReflection<Apple> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<Apple, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -60,27 +63,33 @@ class AppleReflection extends ClassReflection<Apple> {
 
   final PropertyReflection<Apple, UndefinedWrapper<
             String
+
 >> cultivarPart;
   static UndefinedWrapper<
             String
+
 > _cultivarGetter(Apple parent) {
     return parent.cultivar;
   }
   static void _cultivarSetter(Apple parent, UndefinedWrapper<
             String
+
 > value) {
     parent.cultivar = value;
   }
   final PropertyReflection<Apple, UndefinedWrapper<
             String
+
 >> originPart;
   static UndefinedWrapper<
             String
+
 > _originGetter(Apple parent) {
     return parent.origin;
   }
   static void _originSetter(Apple parent, UndefinedWrapper<
             String
+
 > value) {
     parent.origin = value;
   }
@@ -106,6 +115,7 @@ originPart,
   ];
 
   final AdditionalPropertiesReflection<Apple, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -135,22 +145,24 @@ originPart,
   /// Gets an example of Apple.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  Apple example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  Apple example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return Apple(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = Apple(
       cultivar: () {
-        PartReflection? _partReflection = _reflection.cultivarPart;
-        
-        final disc = discriminators[r'cultivar'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -161,20 +173,15 @@ originPart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[cultivarPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       origin: () {
-        PartReflection? _partReflection = _reflection.originPart;
-        
-        final disc = discriminators[r'origin'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -185,19 +192,26 @@ originPart,
     exampleString()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        final preSelectedResult = discriminatorExampleResults[originPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class AppleXmlReflection {
     const AppleXmlReflection();

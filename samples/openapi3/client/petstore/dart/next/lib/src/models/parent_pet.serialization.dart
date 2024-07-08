@@ -11,6 +11,7 @@ Map<String, dynamic> _$ParentPetToMap(ParentPet instance) {
     
     _reflection.petTypePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.petType),
@@ -117,8 +118,7 @@ bool _$ParentPetCanDeserialize(Object? src) {
 Map<String, dynamic> _$ParentPetSerialize(ParentPet src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$ParentPetToMap(src);
     
   }();
   return initialResult;

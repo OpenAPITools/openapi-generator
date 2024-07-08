@@ -11,18 +11,21 @@ Map<String, dynamic> _$OuterCompositeToMap(OuterComposite instance) {
     if (instance.myNumber.isDefined)
     _reflection.myNumberPart.oasName: (
             num
+
  v) {
       return v;
     }(instance.myNumber.valueRequired),
     if (instance.myString.isDefined)
     _reflection.myStringPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.myString.valueRequired),
     if (instance.myBoolean.isDefined)
     _reflection.myBooleanPart.oasName: (
             bool
+
  v) {
       return v;
     }(instance.myBoolean.valueRequired),
@@ -178,8 +181,7 @@ bool _$OuterCompositeCanDeserialize(Object? src) {
 Map<String, dynamic> _$OuterCompositeSerialize(OuterComposite src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$OuterCompositeToMap(src);
     
   }();
   return initialResult;

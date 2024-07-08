@@ -16,9 +16,11 @@ mixin UpdatePetWithFormRequestMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 > get name;
 UndefinedWrapper<
             String
+
 > get status;
   
 }
@@ -35,13 +37,16 @@ UpdatePetWithFormRequestMixin {
   @override
   UndefinedWrapper<
             String
+
 > name;
   @override
   UndefinedWrapper<
             String
+
 > status;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

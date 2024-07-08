@@ -11,12 +11,14 @@ Map<String, dynamic> _$ModelWithOneOfAnyOfPropertiesToMap(ModelWithOneOfAnyOfPro
     if (instance.oneofProp.isDefined)
     _reflection.oneofPropPart.oasName: (
             ArrayOneOf
+
  v) {
       return v.serialize();
     }(instance.oneofProp.valueRequired),
     if (instance.anyofProp.isDefined)
     _reflection.anyofPropPart.oasName: (
             ArrayAnyOf
+
  v) {
       return v.serialize();
     }(instance.anyofProp.valueRequired),
@@ -116,8 +118,7 @@ bool _$ModelWithOneOfAnyOfPropertiesCanDeserialize(Object? src) {
 Map<String, dynamic> _$ModelWithOneOfAnyOfPropertiesSerialize(ModelWithOneOfAnyOfProperties src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$ModelWithOneOfAnyOfPropertiesToMap(src);
     
   }();
   return initialResult;

@@ -12,6 +12,7 @@ class PetWithRequiredTagsReflection extends ClassReflection<PetWithRequiredTags>
     className: r'PetWithRequiredTags',
     idPart: PropertyReflection<PetWithRequiredTags, UndefinedWrapper<
             int
+
 >>(
       dartName: r'id',
       nullable: false,
@@ -26,6 +27,7 @@ class PetWithRequiredTagsReflection extends ClassReflection<PetWithRequiredTags>
     ),
     categoryPart: PropertyReflection<PetWithRequiredTags, UndefinedWrapper<
             Category
+
 >>(
       dartName: r'category',
       nullable: false,
@@ -41,6 +43,7 @@ class PetWithRequiredTagsReflection extends ClassReflection<PetWithRequiredTags>
     ),
     namePart: PropertyReflection<PetWithRequiredTags, 
             String
+
 >(
       dartName: r'name',
       nullable: false,
@@ -57,7 +60,9 @@ class PetWithRequiredTagsReflection extends ClassReflection<PetWithRequiredTags>
     List<
         
             String
+
 >
+
 >(
       dartName: r'photoUrls',
       nullable: false,
@@ -69,6 +74,7 @@ class PetWithRequiredTagsReflection extends ClassReflection<PetWithRequiredTags>
       isDiscriminator: false,
       itemsReflection: ItemsReflection<PetWithRequiredTags, 
             String
+
 >(parentReflectionGetter: instanceGetter,),
       getter: _photoUrlsGetter,
       setter: _photoUrlsSetter,
@@ -77,7 +83,9 @@ class PetWithRequiredTagsReflection extends ClassReflection<PetWithRequiredTags>
     List<
         
             Tag
+
 >
+
 >(
       dartName: r'tags',
       nullable: false,
@@ -89,12 +97,14 @@ class PetWithRequiredTagsReflection extends ClassReflection<PetWithRequiredTags>
       isDiscriminator: false,
       itemsReflection: ItemsReflection<PetWithRequiredTags, 
             Tag
+
 >(parentReflectionGetter: instanceGetter,classReflection: TagReflection.instance,),
       getter: _tagsGetter,
       setter: _tagsSetter,
     ),
     statusPart: PropertyReflection<PetWithRequiredTags, UndefinedWrapper<
             PetWithRequiredTagsStatusEnum
+
 >>(
       dartName: r'status',
       nullable: false,
@@ -112,6 +122,7 @@ class PetWithRequiredTagsReflection extends ClassReflection<PetWithRequiredTags>
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<PetWithRequiredTags, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -133,40 +144,49 @@ class PetWithRequiredTagsReflection extends ClassReflection<PetWithRequiredTags>
 
   final PropertyReflection<PetWithRequiredTags, UndefinedWrapper<
             int
+
 >> idPart;
   static UndefinedWrapper<
             int
+
 > _idGetter(PetWithRequiredTags parent) {
     return parent.id;
   }
   static void _idSetter(PetWithRequiredTags parent, UndefinedWrapper<
             int
+
 > value) {
     parent.id = value;
   }
   final PropertyReflection<PetWithRequiredTags, UndefinedWrapper<
             Category
+
 >> categoryPart;
   static UndefinedWrapper<
             Category
+
 > _categoryGetter(PetWithRequiredTags parent) {
     return parent.category;
   }
   static void _categorySetter(PetWithRequiredTags parent, UndefinedWrapper<
             Category
+
 > value) {
     parent.category = value;
   }
   final PropertyReflection<PetWithRequiredTags, 
             String
+
 > namePart;
   static 
             String
+
  _nameGetter(PetWithRequiredTags parent) {
     return parent.name;
   }
   static void _nameSetter(PetWithRequiredTags parent, 
             String
+
  value) {
     parent.name = value;
   }
@@ -174,13 +194,17 @@ class PetWithRequiredTagsReflection extends ClassReflection<PetWithRequiredTags>
     List<
         
             String
+
 >
+
 > photoUrlsPart;
   static 
     List<
         
             String
+
 >
+
  _photoUrlsGetter(PetWithRequiredTags parent) {
     return parent.photoUrls;
   }
@@ -188,7 +212,9 @@ class PetWithRequiredTagsReflection extends ClassReflection<PetWithRequiredTags>
     List<
         
             String
+
 >
+
  value) {
     parent.photoUrls = value;
   }
@@ -196,13 +222,17 @@ class PetWithRequiredTagsReflection extends ClassReflection<PetWithRequiredTags>
     List<
         
             Tag
+
 >
+
 > tagsPart;
   static 
     List<
         
             Tag
+
 >
+
  _tagsGetter(PetWithRequiredTags parent) {
     return parent.tags;
   }
@@ -210,20 +240,25 @@ class PetWithRequiredTagsReflection extends ClassReflection<PetWithRequiredTags>
     List<
         
             Tag
+
 >
+
  value) {
     parent.tags = value;
   }
   final PropertyReflection<PetWithRequiredTags, UndefinedWrapper<
             PetWithRequiredTagsStatusEnum
+
 >> statusPart;
   static UndefinedWrapper<
             PetWithRequiredTagsStatusEnum
+
 > _statusGetter(PetWithRequiredTags parent) {
     return parent.status;
   }
   static void _statusSetter(PetWithRequiredTags parent, UndefinedWrapper<
             PetWithRequiredTagsStatusEnum
+
 > value) {
     parent.status = value;
   }
@@ -253,6 +288,7 @@ statusPart,
   ];
 
   final AdditionalPropertiesReflection<PetWithRequiredTags, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -282,14 +318,24 @@ statusPart,
   /// Gets an example of PetWithRequiredTags.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  PetWithRequiredTags example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  PetWithRequiredTags example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return PetWithRequiredTags(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = PetWithRequiredTags(
       id: () {
-        PartReflection? _partReflection = _reflection.idPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -300,55 +346,48 @@ statusPart,
     exampleint()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       category: () {
-        PartReflection? _partReflection = _reflection.categoryPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
             
 
 
-    Category.$reflection.example()
+    CategoryReflection.instance.example()
     
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       name: () {
-        PartReflection? _partReflection = _reflection.namePart;
-        
-        final disc = discriminators[r'name'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
+        var result = 
+
+
+            
+            
+
+
+    
+    exampleString()
+
+
+;
+        final preSelectedResult = discriminatorExampleResults[namePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
         }
-        
-        return 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-      }(),
+        return result;
+      } (),
       photoUrls: () {
-        PartReflection? _partReflection = _reflection.photoUrlsPart;
-        
-        return 
+        var result = 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
@@ -364,21 +403,20 @@ statusPart,
 
 
 ;
-      }(),
+        return result;
+      } (),
       tags: () {
-        PartReflection? _partReflection = _reflection.tagsPart;
-        
-        return 
+        var result = 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
             
 
 
-    Tag.$reflection.example()
+    TagReflection.instance.example()
     
 
 
@@ -387,30 +425,32 @@ statusPart,
 
 
 ;
-      }(),
+        return result;
+      } (),
       status: () {
-        PartReflection? _partReflection = _reflection.statusPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             exampleEnum(PetWithRequiredTagsStatusEnum.values)
 
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class PetWithRequiredTagsXmlReflection {
     const PetWithRequiredTagsXmlReflection();

@@ -19,7 +19,9 @@ mixin ArrayTestMixin on
     List<
         
             String
+
 >
+
 > get arrayOfString;
 UndefinedWrapper<
     List<
@@ -27,8 +29,11 @@ UndefinedWrapper<
     List<
         
             int
+
 >
+
 >
+
 > get arrayArrayOfInteger;
 UndefinedWrapper<
     List<
@@ -36,8 +41,11 @@ UndefinedWrapper<
     List<
         
             ReadOnlyFirst
+
 >
+
 >
+
 > get arrayArrayOfModel;
   
 }
@@ -57,7 +65,9 @@ ArrayTestMixin {
     List<
         
             String
+
 >
+
 > arrayOfString;
   @override
   UndefinedWrapper<
@@ -66,8 +76,11 @@ ArrayTestMixin {
     List<
         
             int
+
 >
+
 >
+
 > arrayArrayOfInteger;
   @override
   UndefinedWrapper<
@@ -76,11 +89,15 @@ ArrayTestMixin {
     List<
         
             ReadOnlyFirst
+
 >
+
 >
+
 > arrayArrayOfModel;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

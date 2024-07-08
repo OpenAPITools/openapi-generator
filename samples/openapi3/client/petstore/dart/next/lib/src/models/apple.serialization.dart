@@ -11,12 +11,14 @@ Map<String, dynamic> _$AppleToMap(Apple instance) {
     if (instance.cultivar.isDefined)
     _reflection.cultivarPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.cultivar.valueRequired),
     if (instance.origin.isDefined)
     _reflection.originPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.origin.valueRequired),
@@ -142,8 +144,7 @@ bool _$AppleCanDeserialize(Object? src) {
 Map<String, dynamic> _$AppleSerialize(Apple src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$AppleToMap(src);
     
   }();
   return initialResult;

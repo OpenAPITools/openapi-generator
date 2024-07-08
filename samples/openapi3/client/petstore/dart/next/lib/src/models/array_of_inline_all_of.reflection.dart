@@ -12,6 +12,7 @@ class ArrayOfInlineAllOfReflection extends ClassReflection<ArrayOfInlineAllOf> {
     className: r'ArrayOfInlineAllOf',
     idPart: PropertyReflection<ArrayOfInlineAllOf, UndefinedWrapper<
             int
+
 >>(
       dartName: r'id',
       nullable: false,
@@ -26,6 +27,7 @@ class ArrayOfInlineAllOfReflection extends ClassReflection<ArrayOfInlineAllOf> {
     ),
     namePart: PropertyReflection<ArrayOfInlineAllOf, 
             String
+
 >(
       dartName: r'name',
       nullable: false,
@@ -42,7 +44,9 @@ class ArrayOfInlineAllOfReflection extends ClassReflection<ArrayOfInlineAllOf> {
     List<
         
             ArrayOfInlineAllOfArrayAllofDogPropertyInner
+
 >
+
 >>(
       dartName: r'arrayAllofDogProperty',
       nullable: false,
@@ -54,6 +58,7 @@ class ArrayOfInlineAllOfReflection extends ClassReflection<ArrayOfInlineAllOf> {
       isDiscriminator: false,
       itemsReflection: ItemsReflection<ArrayOfInlineAllOf, 
             ArrayOfInlineAllOfArrayAllofDogPropertyInner
+
 >(parentReflectionGetter: instanceGetter,classReflection: ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection.instance,),
       getter: _arrayAllofDogPropertyGetter,
       setter: _arrayAllofDogPropertySetter,
@@ -63,6 +68,7 @@ class ArrayOfInlineAllOfReflection extends ClassReflection<ArrayOfInlineAllOf> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<ArrayOfInlineAllOf, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -81,27 +87,33 @@ class ArrayOfInlineAllOfReflection extends ClassReflection<ArrayOfInlineAllOf> {
 
   final PropertyReflection<ArrayOfInlineAllOf, UndefinedWrapper<
             int
+
 >> idPart;
   static UndefinedWrapper<
             int
+
 > _idGetter(ArrayOfInlineAllOf parent) {
     return parent.id;
   }
   static void _idSetter(ArrayOfInlineAllOf parent, UndefinedWrapper<
             int
+
 > value) {
     parent.id = value;
   }
   final PropertyReflection<ArrayOfInlineAllOf, 
             String
+
 > namePart;
   static 
             String
+
  _nameGetter(ArrayOfInlineAllOf parent) {
     return parent.name;
   }
   static void _nameSetter(ArrayOfInlineAllOf parent, 
             String
+
  value) {
     parent.name = value;
   }
@@ -109,13 +121,17 @@ class ArrayOfInlineAllOfReflection extends ClassReflection<ArrayOfInlineAllOf> {
     List<
         
             ArrayOfInlineAllOfArrayAllofDogPropertyInner
+
 >
+
 >> arrayAllofDogPropertyPart;
   static UndefinedWrapper<
     List<
         
             ArrayOfInlineAllOfArrayAllofDogPropertyInner
+
 >
+
 > _arrayAllofDogPropertyGetter(ArrayOfInlineAllOf parent) {
     return parent.arrayAllofDogProperty;
   }
@@ -123,7 +139,9 @@ class ArrayOfInlineAllOfReflection extends ClassReflection<ArrayOfInlineAllOf> {
     List<
         
             ArrayOfInlineAllOfArrayAllofDogPropertyInner
+
 >
+
 > value) {
     parent.arrayAllofDogProperty = value;
   }
@@ -150,6 +168,7 @@ arrayAllofDogPropertyPart,
   ];
 
   final AdditionalPropertiesReflection<ArrayOfInlineAllOf, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -179,14 +198,24 @@ arrayAllofDogPropertyPart,
   /// Gets an example of ArrayOfInlineAllOf.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  ArrayOfInlineAllOf example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  ArrayOfInlineAllOf example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return ArrayOfInlineAllOf(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = ArrayOfInlineAllOf(
       id: () {
-        PartReflection? _partReflection = _reflection.idPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -197,20 +226,11 @@ arrayAllofDogPropertyPart,
     exampleint()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       name: () {
-        PartReflection? _partReflection = _reflection.namePart;
-        
-        final disc = discriminators[r'name'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -222,21 +242,24 @@ arrayAllofDogPropertyPart,
 
 
 ;
-      }(),
+        final preSelectedResult = discriminatorExampleResults[namePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
       arrayAllofDogProperty: () {
-        PartReflection? _partReflection = _reflection.arrayAllofDogPropertyPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
             
 
 
-    ArrayOfInlineAllOfArrayAllofDogPropertyInner.$reflection.example()
+    ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection.instance.example()
     
 
 
@@ -244,19 +267,22 @@ arrayAllofDogPropertyPart,
 
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class ArrayOfInlineAllOfXmlReflection {
     const ArrayOfInlineAllOfXmlReflection();

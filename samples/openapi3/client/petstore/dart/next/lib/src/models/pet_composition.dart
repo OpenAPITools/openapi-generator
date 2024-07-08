@@ -33,33 +33,42 @@ PetCompositionMixin {
     List<
         
             String
+
 >
+
  photoUrls;
   @override
   
             String
+
  name;
   @override
   UndefinedWrapper<
             int
+
 > id;
   @override
   UndefinedWrapper<
             Category
+
 > category;
   @override
   UndefinedWrapper<
     List<
         
             Tag
+
 >
+
 > tags;
   @override
   UndefinedWrapper<
             PetStatusEnum
+
 > status;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   
@@ -99,7 +108,6 @@ required  this.name     ,
 
   @override
   bool validate() {
-      
       
     return super.validate();
   }

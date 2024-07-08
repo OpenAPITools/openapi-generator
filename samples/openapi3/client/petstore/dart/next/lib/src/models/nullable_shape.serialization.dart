@@ -141,14 +141,11 @@ bool _$NullableShapeCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$NullableShapeSerialize(NullableShape src) {
-  Object? initialResult = () {
+Map<String, dynamic> _$NullableShapeSerialize(NullableShape src) {
+  Map<String, dynamic> initialResult = () {
     
-    
-    if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.serialize(); }
-    if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.serialize(); }
-    return null;
-  }();
+        return _$NullableShapeToMap(src);
+        }();
   if (initialResult is Map<String, Object?>) {
     return {
       ...src.additionalProperties,

@@ -18,18 +18,23 @@ mixin DrawingMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             Shape
+
 > get mainShape;
 UndefinedWrapper<
             ShapeOrNull
+
 > get shapeOrNull;
 UndefinedWrapper<
             NullableShape
+
 ?> get nullableShape;
 UndefinedWrapper<
     List<
         
             Shape
+
 >
+
 > get shapes;
   
 }
@@ -48,25 +53,31 @@ DrawingMixin {
   @override
   UndefinedWrapper<
             Shape
+
 > mainShape;
   @override
   UndefinedWrapper<
             ShapeOrNull
+
 > shapeOrNull;
   @override
   UndefinedWrapper<
             NullableShape
+
 ?> nullableShape;
   @override
   UndefinedWrapper<
     List<
         
             Shape
+
 >
+
 > shapes;
 
   AdditionalProperties<
             Fruit
+
 > additionalProperties;
 
   

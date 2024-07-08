@@ -12,6 +12,7 @@ class NewPetCategoryInlineAllofReflection extends ClassReflection<NewPetCategory
     className: r'NewPetCategoryInlineAllof',
     idPart: PropertyReflection<NewPetCategoryInlineAllof, UndefinedWrapper<
             int
+
 >>(
       dartName: r'id',
       nullable: false,
@@ -26,6 +27,7 @@ class NewPetCategoryInlineAllofReflection extends ClassReflection<NewPetCategory
     ),
     namePart: PropertyReflection<NewPetCategoryInlineAllof, 
             String
+
 >(
       dartName: r'name',
       nullable: false,
@@ -40,6 +42,7 @@ class NewPetCategoryInlineAllofReflection extends ClassReflection<NewPetCategory
     ),
     categoryTagPart: PropertyReflection<NewPetCategoryInlineAllof, UndefinedWrapper<
             NewPetCategoryInlineAllofAllOfCategoryTag
+
 >>(
       dartName: r'categoryTag',
       nullable: false,
@@ -58,6 +61,7 @@ class NewPetCategoryInlineAllofReflection extends ClassReflection<NewPetCategory
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<NewPetCategoryInlineAllof, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -76,40 +80,49 @@ class NewPetCategoryInlineAllofReflection extends ClassReflection<NewPetCategory
 
   final PropertyReflection<NewPetCategoryInlineAllof, UndefinedWrapper<
             int
+
 >> idPart;
   static UndefinedWrapper<
             int
+
 > _idGetter(NewPetCategoryInlineAllof parent) {
     return parent.id;
   }
   static void _idSetter(NewPetCategoryInlineAllof parent, UndefinedWrapper<
             int
+
 > value) {
     parent.id = value;
   }
   final PropertyReflection<NewPetCategoryInlineAllof, 
             String
+
 > namePart;
   static 
             String
+
  _nameGetter(NewPetCategoryInlineAllof parent) {
     return parent.name;
   }
   static void _nameSetter(NewPetCategoryInlineAllof parent, 
             String
+
  value) {
     parent.name = value;
   }
   final PropertyReflection<NewPetCategoryInlineAllof, UndefinedWrapper<
             NewPetCategoryInlineAllofAllOfCategoryTag
+
 >> categoryTagPart;
   static UndefinedWrapper<
             NewPetCategoryInlineAllofAllOfCategoryTag
+
 > _categoryTagGetter(NewPetCategoryInlineAllof parent) {
     return parent.categoryTag;
   }
   static void _categoryTagSetter(NewPetCategoryInlineAllof parent, UndefinedWrapper<
             NewPetCategoryInlineAllofAllOfCategoryTag
+
 > value) {
     parent.categoryTag = value;
   }
@@ -136,6 +149,7 @@ categoryTagPart,
   ];
 
   final AdditionalPropertiesReflection<NewPetCategoryInlineAllof, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -173,14 +187,24 @@ categoryTagPart,
   /// Gets an example of NewPetCategoryInlineAllof.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  NewPetCategoryInlineAllof example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  NewPetCategoryInlineAllof example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return NewPetCategoryInlineAllof(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = NewPetCategoryInlineAllof(
       id: () {
-        PartReflection? _partReflection = _reflection.idPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -191,20 +215,11 @@ categoryTagPart,
     exampleint()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       name: () {
-        PartReflection? _partReflection = _reflection.namePart;
-        
-        final disc = discriminators[r'name'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -216,34 +231,40 @@ categoryTagPart,
 
 
 ;
-      }(),
+        final preSelectedResult = discriminatorExampleResults[namePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
       categoryTag: () {
-        PartReflection? _partReflection = _reflection.categoryTagPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
             
 
 
-    NewPetCategoryInlineAllofAllOfCategoryTag.$reflection.example()
+    NewPetCategoryInlineAllofAllOfCategoryTagReflection.instance.example()
     
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class NewPetCategoryInlineAllofXmlReflection {
     const NewPetCategoryInlineAllofXmlReflection();

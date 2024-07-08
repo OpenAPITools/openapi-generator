@@ -16,9 +16,11 @@ mixin PetsMulticontentTestPostRequestAddressMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 > get street;
 UndefinedWrapper<
             String
+
 > get city;
   
 }
@@ -35,13 +37,16 @@ PetsMulticontentTestPostRequestAddressMixin {
   @override
   UndefinedWrapper<
             String
+
 > street;
   @override
   UndefinedWrapper<
             String
+
 > city;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

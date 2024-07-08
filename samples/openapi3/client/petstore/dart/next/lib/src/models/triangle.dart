@@ -10,9 +10,14 @@ part 'triangle.serialization.dart';
 /// TriangleMixin
 ///
 /// Properties:
+/// * [triangleType] 
 mixin TriangleMixin on
   $OpenApiObjectMixin {
-    
+  
+            String
+
+ get triangleType;
+  
   UndefinedWrapper<
             EquilateralTriangle
 > get oneOf0;
@@ -27,12 +32,19 @@ mixin TriangleMixin on
 /// Triangle
 ///
 /// Properties:
+/// * [triangleType] 
 class Triangle with
 $OpenApiObjectMixin,
 
 TriangleMixin {
+  @override
+  
+            String
+
+ triangleType;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   
@@ -53,7 +65,8 @@ TriangleMixin {
   
 
   Triangle.$all({
-        required this.additionalProperties,
+        required this.triangleType,
+    required this.additionalProperties,
     
     required this.oneOf0,
     required this.oneOf1,
@@ -61,7 +74,8 @@ TriangleMixin {
   });
 
   Triangle({
-        this.additionalProperties = const AdditionalProperties(),
+    required  this.triangleType     ,
+    this.additionalProperties = const AdditionalProperties(),
     
     this.oneOf0 = const UndefinedWrapper.undefined(),
     this.oneOf1 = const UndefinedWrapper.undefined(),
@@ -74,11 +88,10 @@ TriangleMixin {
   @override
   bool validate() {
       final oneOfs = [oneOf0,oneOf1,oneOf2,].where((e) => e.isDefined).take(2);
-      if (oneOfs.length != 1) {
-        // there must be EXACTLY one "oneOf" schema.
+      if (oneOfs.length > 1) {
+        // there must be AT MOST one "oneOf" schema.
         return false;
       }
-      
       
     return super.validate();
   }
@@ -118,7 +131,7 @@ TriangleMixin {
     return _$TriangleCanDeserialize(src);
   }
   /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
+  Map<String,dynamic> serialize() {
     return _$TriangleSerialize(this);
   }
 }

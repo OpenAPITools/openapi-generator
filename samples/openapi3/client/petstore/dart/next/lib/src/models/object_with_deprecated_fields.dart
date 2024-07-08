@@ -18,18 +18,23 @@ mixin ObjectWithDeprecatedFieldsMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 > get uuid;
 UndefinedWrapper<
             num
+
 > get id;
 UndefinedWrapper<
             DeprecatedObject
+
 > get deprecatedRef;
 UndefinedWrapper<
     List<
         
             String
+
 >
+
 > get bars;
   
 }
@@ -48,24 +53,30 @@ ObjectWithDeprecatedFieldsMixin {
   @override
   UndefinedWrapper<
             String
+
 > uuid;
   @override
   UndefinedWrapper<
             num
+
 > id;
   @override
   UndefinedWrapper<
             DeprecatedObject
+
 > deprecatedRef;
   @override
   UndefinedWrapper<
     List<
         
             String
+
 >
+
 > bars;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

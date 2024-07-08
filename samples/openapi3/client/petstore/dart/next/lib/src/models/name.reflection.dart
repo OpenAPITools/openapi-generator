@@ -12,6 +12,7 @@ class NameReflection extends ClassReflection<Name> {
     className: r'Name',
     namePart: PropertyReflection<Name, 
             int
+
 >(
       dartName: r'name',
       nullable: false,
@@ -26,6 +27,7 @@ class NameReflection extends ClassReflection<Name> {
     ),
     snakeCasePart: PropertyReflection<Name, UndefinedWrapper<
             int
+
 >>(
       dartName: r'snakeCase',
       nullable: false,
@@ -40,6 +42,7 @@ class NameReflection extends ClassReflection<Name> {
     ),
     propertyPart: PropertyReflection<Name, UndefinedWrapper<
             String
+
 >>(
       dartName: r'property',
       nullable: false,
@@ -54,6 +57,7 @@ class NameReflection extends ClassReflection<Name> {
     ),
     $123numberPart: PropertyReflection<Name, UndefinedWrapper<
             int
+
 >>(
       dartName: r'$123number',
       nullable: false,
@@ -71,6 +75,7 @@ class NameReflection extends ClassReflection<Name> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<Name, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -90,53 +95,65 @@ class NameReflection extends ClassReflection<Name> {
 
   final PropertyReflection<Name, 
             int
+
 > namePart;
   static 
             int
+
  _nameGetter(Name parent) {
     return parent.name;
   }
   static void _nameSetter(Name parent, 
             int
+
  value) {
     parent.name = value;
   }
   final PropertyReflection<Name, UndefinedWrapper<
             int
+
 >> snakeCasePart;
   static UndefinedWrapper<
             int
+
 > _snakeCaseGetter(Name parent) {
     return parent.snakeCase;
   }
   static void _snakeCaseSetter(Name parent, UndefinedWrapper<
             int
+
 > value) {
     parent.snakeCase = value;
   }
   final PropertyReflection<Name, UndefinedWrapper<
             String
+
 >> propertyPart;
   static UndefinedWrapper<
             String
+
 > _propertyGetter(Name parent) {
     return parent.property;
   }
   static void _propertySetter(Name parent, UndefinedWrapper<
             String
+
 > value) {
     parent.property = value;
   }
   final PropertyReflection<Name, UndefinedWrapper<
             int
+
 >> $123numberPart;
   static UndefinedWrapper<
             int
+
 > _$123numberGetter(Name parent) {
     return parent.$123number;
   }
   static void _$123numberSetter(Name parent, UndefinedWrapper<
             int
+
 > value) {
     parent.$123number = value;
   }
@@ -164,6 +181,7 @@ $123numberPart,
   ];
 
   final AdditionalPropertiesReflection<Name, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -193,14 +211,24 @@ $123numberPart,
   /// Gets an example of Name.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  Name example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  Name example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return Name(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = Name(
       name: () {
-        PartReflection? _partReflection = _reflection.namePart;
-        
-        return 
+        var result = 
 
 
             
@@ -212,11 +240,10 @@ $123numberPart,
 
 
 ;
-      }(),
+        return result;
+      } (),
       snakeCase: () {
-        PartReflection? _partReflection = _reflection.snakeCasePart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -227,20 +254,11 @@ $123numberPart,
     exampleint()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       property: () {
-        PartReflection? _partReflection = _reflection.propertyPart;
-        
-        final disc = discriminators[r'property'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -251,12 +269,15 @@ $123numberPart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[propertyPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       $123number: () {
-        PartReflection? _partReflection = _reflection.$123numberPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -267,19 +288,22 @@ $123numberPart,
     exampleint()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class NameXmlReflection {
     const NameXmlReflection();

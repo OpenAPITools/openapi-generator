@@ -20,21 +20,27 @@ mixin CapitalizationMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 > get smallCamel;
 UndefinedWrapper<
             String
+
 > get capitalCamel;
 UndefinedWrapper<
             String
+
 > get smallSnake;
 UndefinedWrapper<
             String
+
 > get capitalSnake;
 UndefinedWrapper<
             String
+
 > get scAETHFlowPoints;
 UndefinedWrapper<
             String
+
 > get ATT_NAME;
   
 }
@@ -55,29 +61,36 @@ CapitalizationMixin {
   @override
   UndefinedWrapper<
             String
+
 > smallCamel;
   @override
   UndefinedWrapper<
             String
+
 > capitalCamel;
   @override
   UndefinedWrapper<
             String
+
 > smallSnake;
   @override
   UndefinedWrapper<
             String
+
 > capitalSnake;
   @override
   UndefinedWrapper<
             String
+
 > scAETHFlowPoints;
   @override
   UndefinedWrapper<
             String
+
 > ATT_NAME;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

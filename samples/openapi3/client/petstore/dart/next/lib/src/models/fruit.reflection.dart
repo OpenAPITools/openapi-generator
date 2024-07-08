@@ -12,6 +12,7 @@ class FruitReflection extends ClassReflection<Fruit> {
     className: r'Fruit',
     colorPart: PropertyReflection<Fruit, UndefinedWrapper<
             String
+
 >>(
       dartName: r'color',
       nullable: false,
@@ -26,12 +27,12 @@ class FruitReflection extends ClassReflection<Fruit> {
     ),
     
     
-    oneOf0Part: OneOfReflection(
+    oneOf0Part: FruitOneOf0(
       parentReflectionGetter: instanceGetter,
       classReflection: AppleReflection.instance,
     ),
     
-    oneOf1Part: OneOfReflection(
+    oneOf1Part: FruitOneOf1(
       parentReflectionGetter: instanceGetter,
       classReflection: BananaReflection.instance,
     ),
@@ -53,14 +54,17 @@ class FruitReflection extends ClassReflection<Fruit> {
 
   final PropertyReflection<Fruit, UndefinedWrapper<
             String
+
 >> colorPart;
   static UndefinedWrapper<
             String
+
 > _colorGetter(Fruit parent) {
     return parent.color;
   }
   static void _colorSetter(Fruit parent, UndefinedWrapper<
             String
+
 > value) {
     parent.color = value;
   }
@@ -87,13 +91,9 @@ class FruitReflection extends ClassReflection<Fruit> {
   
   
   
-  final OneOfReflection<Fruit, 
-            Apple
-?> oneOf0Part;
+  final FruitOneOf0 oneOf0Part;
   
-  final OneOfReflection<Fruit, 
-            Banana
-> oneOf1Part;
+  final FruitOneOf1 oneOf1Part;
   
   @override
   List<PartReflection<Fruit, dynamic>> get parts => [
@@ -127,22 +127,24 @@ class FruitReflection extends ClassReflection<Fruit> {
   /// Gets an example of Fruit.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  Fruit example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  Fruit example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return Fruit(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = Fruit(
       color: () {
-        PartReflection? _partReflection = _reflection.colorPart;
-        
-        final disc = discriminators[r'color'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -153,27 +155,96 @@ class FruitReflection extends ClassReflection<Fruit> {
     exampleString()
 
 
-);
-      }(),
-      
-      
-      oneOf0: () {
-        PartReflection? _partReflection = _reflection.oneOf0Part;
-        return UndefinedWrapper(exampleNullable(() =>
-
-
-            
-            
-
-
-    Apple.$reflection.example(discriminators: discriminators)
-    
-
-
- ) );
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[colorPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       
     );
+    
+    exampleResult.oneOf0 = oneOf0Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
+    
+    exampleResult.oneOf1 = oneOf1Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
+    
+    return exampleResult;
+  }
+}
+
+
+class FruitOneOf0 extends OneOfReflection<Fruit, 
+            Apple
+> {
+  const FruitOneOf0({
+    super.classReflection,
+    required FruitReflection Function() super.parentReflectionGetter,
+    super.itemsReflection,
+  });
+
+  UndefinedWrapper<
+            Apple
+> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+    if (discriminatorExampleResults.isEmpty) {
+      //return undefined for non-first oneOfs.
+      // An example SHOULD be generated
+    } else {
+      // if this reflection wasn't a result of any property, don't generate an example.
+
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == classReflection)) {
+        // if there are no discriminator examples targetting the current class:
+        return UndefinedWrapper.undefined();
+      } else {
+        // An example SHOULD be generated
+      }
+    }
+    return UndefinedWrapper(
+            
+            
+
+
+    AppleReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
+    
+);
+  }
+}
+
+class FruitOneOf1 extends OneOfReflection<Fruit, 
+            Banana
+> {
+  const FruitOneOf1({
+    super.classReflection,
+    required FruitReflection Function() super.parentReflectionGetter,
+    super.itemsReflection,
+  });
+
+  UndefinedWrapper<
+            Banana
+> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+    if (discriminatorExampleResults.isEmpty) {
+      //return undefined for non-first oneOfs.
+      return UndefinedWrapper.undefined();
+    } else {
+      // if this reflection wasn't a result of any property, don't generate an example.
+
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == classReflection)) {
+        // if there are no discriminator examples targetting the current class:
+        return UndefinedWrapper.undefined();
+      } else {
+        // An example SHOULD be generated
+      }
+    }
+    return UndefinedWrapper(
+            
+            
+
+
+    BananaReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
+    
+);
   }
 }
 

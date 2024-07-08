@@ -12,6 +12,7 @@ class SpecialModelNameReflection extends ClassReflection<SpecialModelName> {
     className: r'SpecialModelName',
     $specialPropertyNamePart: PropertyReflection<SpecialModelName, UndefinedWrapper<
             int
+
 >>(
       dartName: r'$specialPropertyName',
       nullable: false,
@@ -26,6 +27,7 @@ class SpecialModelNameReflection extends ClassReflection<SpecialModelName> {
     ),
     specialModelNamePart: PropertyReflection<SpecialModelName, UndefinedWrapper<
             String
+
 >>(
       dartName: r'specialModelName',
       nullable: false,
@@ -43,6 +45,7 @@ class SpecialModelNameReflection extends ClassReflection<SpecialModelName> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<SpecialModelName, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -60,27 +63,33 @@ class SpecialModelNameReflection extends ClassReflection<SpecialModelName> {
 
   final PropertyReflection<SpecialModelName, UndefinedWrapper<
             int
+
 >> $specialPropertyNamePart;
   static UndefinedWrapper<
             int
+
 > _$specialPropertyNameGetter(SpecialModelName parent) {
     return parent.$specialPropertyName;
   }
   static void _$specialPropertyNameSetter(SpecialModelName parent, UndefinedWrapper<
             int
+
 > value) {
     parent.$specialPropertyName = value;
   }
   final PropertyReflection<SpecialModelName, UndefinedWrapper<
             String
+
 >> specialModelNamePart;
   static UndefinedWrapper<
             String
+
 > _specialModelNameGetter(SpecialModelName parent) {
     return parent.specialModelName;
   }
   static void _specialModelNameSetter(SpecialModelName parent, UndefinedWrapper<
             String
+
 > value) {
     parent.specialModelName = value;
   }
@@ -106,6 +115,7 @@ specialModelNamePart,
   ];
 
   final AdditionalPropertiesReflection<SpecialModelName, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -135,14 +145,24 @@ specialModelNamePart,
   /// Gets an example of SpecialModelName.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  SpecialModelName example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  SpecialModelName example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return SpecialModelName(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = SpecialModelName(
       $specialPropertyName: () {
-        PartReflection? _partReflection = _reflection.$specialPropertyNamePart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -153,20 +173,11 @@ specialModelNamePart,
     exampleint()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       specialModelName: () {
-        PartReflection? _partReflection = _reflection.specialModelNamePart;
-        
-        final disc = discriminators[r'_special_model.name_'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -177,19 +188,26 @@ specialModelNamePart,
     exampleString()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        final preSelectedResult = discriminatorExampleResults[specialModelNamePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class SpecialModelNameXmlReflection {
     const SpecialModelNameXmlReflection();

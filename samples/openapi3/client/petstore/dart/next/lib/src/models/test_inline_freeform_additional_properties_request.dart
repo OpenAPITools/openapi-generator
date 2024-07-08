@@ -15,6 +15,7 @@ mixin TestInlineFreeformAdditionalPropertiesRequestMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 > get someProperty;
   
 }
@@ -30,9 +31,11 @@ TestInlineFreeformAdditionalPropertiesRequestMixin {
   @override
   UndefinedWrapper<
             String
+
 > someProperty;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

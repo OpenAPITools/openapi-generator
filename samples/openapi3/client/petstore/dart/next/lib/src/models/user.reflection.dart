@@ -12,6 +12,7 @@ class UserReflection extends ClassReflection<User> {
     className: r'User',
     idPart: PropertyReflection<User, UndefinedWrapper<
             int
+
 >>(
       dartName: r'id',
       nullable: false,
@@ -26,6 +27,7 @@ class UserReflection extends ClassReflection<User> {
     ),
     usernamePart: PropertyReflection<User, UndefinedWrapper<
             String
+
 >>(
       dartName: r'username',
       nullable: false,
@@ -40,6 +42,7 @@ class UserReflection extends ClassReflection<User> {
     ),
     firstNamePart: PropertyReflection<User, UndefinedWrapper<
             String
+
 >>(
       dartName: r'firstName',
       nullable: false,
@@ -54,6 +57,7 @@ class UserReflection extends ClassReflection<User> {
     ),
     lastNamePart: PropertyReflection<User, UndefinedWrapper<
             String
+
 >>(
       dartName: r'lastName',
       nullable: false,
@@ -68,6 +72,7 @@ class UserReflection extends ClassReflection<User> {
     ),
     emailPart: PropertyReflection<User, UndefinedWrapper<
             String
+
 >>(
       dartName: r'email',
       nullable: false,
@@ -82,6 +87,7 @@ class UserReflection extends ClassReflection<User> {
     ),
     passwordPart: PropertyReflection<User, UndefinedWrapper<
             String
+
 >>(
       dartName: r'password',
       nullable: false,
@@ -96,6 +102,7 @@ class UserReflection extends ClassReflection<User> {
     ),
     phonePart: PropertyReflection<User, UndefinedWrapper<
             String
+
 >>(
       dartName: r'phone',
       nullable: false,
@@ -110,6 +117,7 @@ class UserReflection extends ClassReflection<User> {
     ),
     userStatusPart: PropertyReflection<User, UndefinedWrapper<
             int
+
 >>(
       dartName: r'userStatus',
       nullable: false,
@@ -124,6 +132,7 @@ class UserReflection extends ClassReflection<User> {
     ),
     objectWithNoDeclaredPropsPart: PropertyReflection<User, UndefinedWrapper<
             $FreeFormObject
+
 >>(
       dartName: r'objectWithNoDeclaredProps',
       nullable: false,
@@ -138,6 +147,7 @@ class UserReflection extends ClassReflection<User> {
     ),
     objectWithNoDeclaredPropsNullablePart: PropertyReflection<User, UndefinedWrapper<
             $FreeFormObject
+
 ?>>(
       dartName: r'objectWithNoDeclaredPropsNullable',
       nullable: true,
@@ -151,6 +161,7 @@ class UserReflection extends ClassReflection<User> {
       setter: _objectWithNoDeclaredPropsNullableSetter,
     ),
     anyTypePropPart: PropertyReflection<User, UndefinedWrapper<Object
+
 ?>>(
       dartName: r'anyTypeProp',
       nullable: true,
@@ -164,6 +175,7 @@ class UserReflection extends ClassReflection<User> {
       setter: _anyTypePropSetter,
     ),
     anyTypePropNullablePart: PropertyReflection<User, UndefinedWrapper<Object
+
 ?>>(
       dartName: r'anyTypePropNullable',
       nullable: true,
@@ -181,6 +193,7 @@ class UserReflection extends ClassReflection<User> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<User, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -208,151 +221,187 @@ class UserReflection extends ClassReflection<User> {
 
   final PropertyReflection<User, UndefinedWrapper<
             int
+
 >> idPart;
   static UndefinedWrapper<
             int
+
 > _idGetter(User parent) {
     return parent.id;
   }
   static void _idSetter(User parent, UndefinedWrapper<
             int
+
 > value) {
     parent.id = value;
   }
   final PropertyReflection<User, UndefinedWrapper<
             String
+
 >> usernamePart;
   static UndefinedWrapper<
             String
+
 > _usernameGetter(User parent) {
     return parent.username;
   }
   static void _usernameSetter(User parent, UndefinedWrapper<
             String
+
 > value) {
     parent.username = value;
   }
   final PropertyReflection<User, UndefinedWrapper<
             String
+
 >> firstNamePart;
   static UndefinedWrapper<
             String
+
 > _firstNameGetter(User parent) {
     return parent.firstName;
   }
   static void _firstNameSetter(User parent, UndefinedWrapper<
             String
+
 > value) {
     parent.firstName = value;
   }
   final PropertyReflection<User, UndefinedWrapper<
             String
+
 >> lastNamePart;
   static UndefinedWrapper<
             String
+
 > _lastNameGetter(User parent) {
     return parent.lastName;
   }
   static void _lastNameSetter(User parent, UndefinedWrapper<
             String
+
 > value) {
     parent.lastName = value;
   }
   final PropertyReflection<User, UndefinedWrapper<
             String
+
 >> emailPart;
   static UndefinedWrapper<
             String
+
 > _emailGetter(User parent) {
     return parent.email;
   }
   static void _emailSetter(User parent, UndefinedWrapper<
             String
+
 > value) {
     parent.email = value;
   }
   final PropertyReflection<User, UndefinedWrapper<
             String
+
 >> passwordPart;
   static UndefinedWrapper<
             String
+
 > _passwordGetter(User parent) {
     return parent.password;
   }
   static void _passwordSetter(User parent, UndefinedWrapper<
             String
+
 > value) {
     parent.password = value;
   }
   final PropertyReflection<User, UndefinedWrapper<
             String
+
 >> phonePart;
   static UndefinedWrapper<
             String
+
 > _phoneGetter(User parent) {
     return parent.phone;
   }
   static void _phoneSetter(User parent, UndefinedWrapper<
             String
+
 > value) {
     parent.phone = value;
   }
   final PropertyReflection<User, UndefinedWrapper<
             int
+
 >> userStatusPart;
   static UndefinedWrapper<
             int
+
 > _userStatusGetter(User parent) {
     return parent.userStatus;
   }
   static void _userStatusSetter(User parent, UndefinedWrapper<
             int
+
 > value) {
     parent.userStatus = value;
   }
   final PropertyReflection<User, UndefinedWrapper<
             $FreeFormObject
+
 >> objectWithNoDeclaredPropsPart;
   static UndefinedWrapper<
             $FreeFormObject
+
 > _objectWithNoDeclaredPropsGetter(User parent) {
     return parent.objectWithNoDeclaredProps;
   }
   static void _objectWithNoDeclaredPropsSetter(User parent, UndefinedWrapper<
             $FreeFormObject
+
 > value) {
     parent.objectWithNoDeclaredProps = value;
   }
   final PropertyReflection<User, UndefinedWrapper<
             $FreeFormObject
+
 ?>> objectWithNoDeclaredPropsNullablePart;
   static UndefinedWrapper<
             $FreeFormObject
+
 ?> _objectWithNoDeclaredPropsNullableGetter(User parent) {
     return parent.objectWithNoDeclaredPropsNullable;
   }
   static void _objectWithNoDeclaredPropsNullableSetter(User parent, UndefinedWrapper<
             $FreeFormObject
+
 ?> value) {
     parent.objectWithNoDeclaredPropsNullable = value;
   }
   final PropertyReflection<User, UndefinedWrapper<Object
+
 ?>> anyTypePropPart;
   static UndefinedWrapper<Object
+
 ?> _anyTypePropGetter(User parent) {
     return parent.anyTypeProp;
   }
   static void _anyTypePropSetter(User parent, UndefinedWrapper<Object
+
 ?> value) {
     parent.anyTypeProp = value;
   }
   final PropertyReflection<User, UndefinedWrapper<Object
+
 ?>> anyTypePropNullablePart;
   static UndefinedWrapper<Object
+
 ?> _anyTypePropNullableGetter(User parent) {
     return parent.anyTypePropNullable;
   }
   static void _anyTypePropNullableSetter(User parent, UndefinedWrapper<Object
+
 ?> value) {
     parent.anyTypePropNullable = value;
   }
@@ -388,6 +437,7 @@ anyTypePropNullablePart,
   ];
 
   final AdditionalPropertiesReflection<User, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -417,14 +467,24 @@ anyTypePropNullablePart,
   /// Gets an example of User.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  User example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  User example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return User(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = User(
       id: () {
-        PartReflection? _partReflection = _reflection.idPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -435,20 +495,11 @@ anyTypePropNullablePart,
     exampleint()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       username: () {
-        PartReflection? _partReflection = _reflection.usernamePart;
-        
-        final disc = discriminators[r'username'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -459,20 +510,15 @@ anyTypePropNullablePart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[usernamePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       firstName: () {
-        PartReflection? _partReflection = _reflection.firstNamePart;
-        
-        final disc = discriminators[r'firstName'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -483,20 +529,15 @@ anyTypePropNullablePart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[firstNamePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       lastName: () {
-        PartReflection? _partReflection = _reflection.lastNamePart;
-        
-        final disc = discriminators[r'lastName'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -507,20 +548,15 @@ anyTypePropNullablePart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[lastNamePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       email: () {
-        PartReflection? _partReflection = _reflection.emailPart;
-        
-        final disc = discriminators[r'email'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -531,20 +567,15 @@ anyTypePropNullablePart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[emailPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       password: () {
-        PartReflection? _partReflection = _reflection.passwordPart;
-        
-        final disc = discriminators[r'password'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -555,20 +586,15 @@ anyTypePropNullablePart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[passwordPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       phone: () {
-        PartReflection? _partReflection = _reflection.phonePart;
-        
-        final disc = discriminators[r'phone'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -579,12 +605,15 @@ anyTypePropNullablePart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[phonePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       userStatus: () {
-        PartReflection? _partReflection = _reflection.userStatusPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -595,12 +624,11 @@ anyTypePropNullablePart,
     exampleint()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       objectWithNoDeclaredProps: () {
-        PartReflection? _partReflection = _reflection.objectWithNoDeclaredPropsPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -611,12 +639,11 @@ anyTypePropNullablePart,
     example$FreeFormObject()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       objectWithNoDeclaredPropsNullable: () {
-        PartReflection? _partReflection = _reflection.objectWithNoDeclaredPropsNullablePart;
-        
-        return UndefinedWrapper(exampleNullable(() =>
+        var result = exampleNullable(() =>
 
 
             
@@ -627,41 +654,42 @@ anyTypePropNullablePart,
     example$FreeFormObject()
 
 
- ) );
-      }(),
+ ) ;
+        return UndefinedWrapper(result);
+      } (),
       anyTypeProp: () {
-        PartReflection? _partReflection = _reflection.anyTypePropPart;
-        
-        return UndefinedWrapper(exampleNullable(() =>
+        var result = exampleNullable(() =>
 
 exampleObject()
 
 
 
- ) );
-      }(),
+ ) ;
+        return UndefinedWrapper(result);
+      } (),
       anyTypePropNullable: () {
-        PartReflection? _partReflection = _reflection.anyTypePropNullablePart;
-        
-        return UndefinedWrapper(exampleNullable(() =>
+        var result = exampleNullable(() =>
 
 exampleObject()
 
 
 
- ) );
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+ ) ;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class UserXmlReflection {
     const UserXmlReflection();

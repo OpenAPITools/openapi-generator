@@ -17,12 +17,15 @@ mixin WhaleMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             bool
+
 > get hasBaleen;
 UndefinedWrapper<
             bool
+
 > get hasTeeth;
 
             String
+
  get className;
   
 }
@@ -40,17 +43,21 @@ WhaleMixin {
   @override
   UndefinedWrapper<
             bool
+
 > hasBaleen;
   @override
   UndefinedWrapper<
             bool
+
 > hasTeeth;
   @override
   
             String
+
  className;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

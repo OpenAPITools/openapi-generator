@@ -12,6 +12,7 @@ class DogReflection extends ClassReflection<Dog> {
     className: r'Dog',
     colorPart: PropertyReflection<Dog, UndefinedWrapper<
             String
+
 >>(
       dartName: r'color',
       nullable: false,
@@ -26,6 +27,7 @@ class DogReflection extends ClassReflection<Dog> {
     ),
     breedPart: PropertyReflection<Dog, UndefinedWrapper<
             String
+
 >>(
       dartName: r'breed',
       nullable: false,
@@ -40,6 +42,7 @@ class DogReflection extends ClassReflection<Dog> {
     ),
     classNamePart: PropertyReflection<Dog, 
             String
+
 >(
       dartName: r'className',
       nullable: false,
@@ -62,6 +65,7 @@ class DogReflection extends ClassReflection<Dog> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<Dog, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -80,40 +84,49 @@ class DogReflection extends ClassReflection<Dog> {
 
   final PropertyReflection<Dog, UndefinedWrapper<
             String
+
 >> colorPart;
   static UndefinedWrapper<
             String
+
 > _colorGetter(Dog parent) {
     return parent.color;
   }
   static void _colorSetter(Dog parent, UndefinedWrapper<
             String
+
 > value) {
     parent.color = value;
   }
   final PropertyReflection<Dog, UndefinedWrapper<
             String
+
 >> breedPart;
   static UndefinedWrapper<
             String
+
 > _breedGetter(Dog parent) {
     return parent.breed;
   }
   static void _breedSetter(Dog parent, UndefinedWrapper<
             String
+
 > value) {
     parent.breed = value;
   }
   final PropertyReflection<Dog, 
             String
+
 > classNamePart;
   static 
             String
+
  _classNameGetter(Dog parent) {
     return parent.className;
   }
   static void _classNameSetter(Dog parent, 
             String
+
  value) {
     parent.className = value;
   }
@@ -140,6 +153,7 @@ classNamePart,
   ];
 
   final AdditionalPropertiesReflection<Dog, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -177,70 +191,24 @@ classNamePart,
   /// Gets an example of Dog.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  Dog example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  Dog example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return Dog(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = Dog(
       color: () {
-        PartReflection? _partReflection = _reflection.colorPart;
-        
-        final disc = discriminators[r'color'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-);
-      }(),
-      breed: () {
-        PartReflection? _partReflection = _reflection.breedPart;
-        
-        final disc = discriminators[r'breed'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-);
-      }(),
-      className: () {
-        PartReflection? _partReflection = _reflection.classNamePart;
-        
-        final disc = discriminators[r'className'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -252,18 +220,63 @@ classNamePart,
 
 
 ;
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+        final preSelectedResult = discriminatorExampleResults[colorPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      breed: () {
+        var result = 
+
+
+            
+            
+
+
+    
+    exampleString()
+
+
+;
+        final preSelectedResult = discriminatorExampleResults[breedPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      className: () {
+        var result = 
+
+
+            
+            
+
+
+    
+    exampleString()
+
+
+;
+        final preSelectedResult = discriminatorExampleResults[classNamePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class DogXmlReflection {
     const DogXmlReflection();

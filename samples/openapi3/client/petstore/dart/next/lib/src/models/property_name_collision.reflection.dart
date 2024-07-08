@@ -12,6 +12,7 @@ class PropertyNameCollisionReflection extends ClassReflection<PropertyNameCollis
     className: r'PropertyNameCollision',
     $typePart: PropertyReflection<PropertyNameCollision, UndefinedWrapper<
             String
+
 >>(
       dartName: r'$type',
       nullable: false,
@@ -26,6 +27,7 @@ class PropertyNameCollisionReflection extends ClassReflection<PropertyNameCollis
     ),
     typePart: PropertyReflection<PropertyNameCollision, UndefinedWrapper<
             String
+
 >>(
       dartName: r'type',
       nullable: false,
@@ -40,6 +42,7 @@ class PropertyNameCollisionReflection extends ClassReflection<PropertyNameCollis
     ),
     type$Part: PropertyReflection<PropertyNameCollision, UndefinedWrapper<
             String
+
 >>(
       dartName: r'type$',
       nullable: false,
@@ -57,6 +60,7 @@ class PropertyNameCollisionReflection extends ClassReflection<PropertyNameCollis
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<PropertyNameCollision, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -75,40 +79,49 @@ class PropertyNameCollisionReflection extends ClassReflection<PropertyNameCollis
 
   final PropertyReflection<PropertyNameCollision, UndefinedWrapper<
             String
+
 >> $typePart;
   static UndefinedWrapper<
             String
+
 > _$typeGetter(PropertyNameCollision parent) {
     return parent.$type;
   }
   static void _$typeSetter(PropertyNameCollision parent, UndefinedWrapper<
             String
+
 > value) {
     parent.$type = value;
   }
   final PropertyReflection<PropertyNameCollision, UndefinedWrapper<
             String
+
 >> typePart;
   static UndefinedWrapper<
             String
+
 > _typeGetter(PropertyNameCollision parent) {
     return parent.type;
   }
   static void _typeSetter(PropertyNameCollision parent, UndefinedWrapper<
             String
+
 > value) {
     parent.type = value;
   }
   final PropertyReflection<PropertyNameCollision, UndefinedWrapper<
             String
+
 >> type$Part;
   static UndefinedWrapper<
             String
+
 > _type$Getter(PropertyNameCollision parent) {
     return parent.type$;
   }
   static void _type$Setter(PropertyNameCollision parent, UndefinedWrapper<
             String
+
 > value) {
     parent.type$ = value;
   }
@@ -135,6 +148,7 @@ type$Part,
   ];
 
   final AdditionalPropertiesReflection<PropertyNameCollision, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -164,22 +178,24 @@ type$Part,
   /// Gets an example of PropertyNameCollision.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  PropertyNameCollision example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  PropertyNameCollision example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return PropertyNameCollision(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = PropertyNameCollision(
       $type: () {
-        PartReflection? _partReflection = _reflection.$typePart;
-        
-        final disc = discriminators[r'_type'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -190,20 +206,15 @@ type$Part,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[$typePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       type: () {
-        PartReflection? _partReflection = _reflection.typePart;
-        
-        final disc = discriminators[r'type'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -214,20 +225,15 @@ type$Part,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[typePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       type$: () {
-        PartReflection? _partReflection = _reflection.type$Part;
-        
-        final disc = discriminators[r'type_'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -238,19 +244,26 @@ type$Part,
     exampleString()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        final preSelectedResult = discriminatorExampleResults[type$Part.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class PropertyNameCollisionXmlReflection {
     const PropertyNameCollisionXmlReflection();

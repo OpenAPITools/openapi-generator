@@ -16,8 +16,11 @@ class MapTestReflection extends ClassReflection<MapTest> {
     Map<String, 
         
             String
+
 >
+
 >
+
 >>(
       dartName: r'mapMapOfString',
       nullable: false,
@@ -31,9 +34,12 @@ class MapTestReflection extends ClassReflection<MapTest> {
     Map<String, 
         
             String
+
 >
+
 >(parentReflectionGetter: instanceGetter,itemsReflection: ItemsReflection<MapTest, 
             String
+
 >(parentReflectionGetter: instanceGetter,)),
       getter: _mapMapOfStringGetter,
       setter: _mapMapOfStringSetter,
@@ -42,7 +48,9 @@ class MapTestReflection extends ClassReflection<MapTest> {
     Map<String, 
         
             MapTestMapOfEnumStringEnum
+
 >
+
 >>(
       dartName: r'mapOfEnumString',
       nullable: false,
@@ -54,6 +62,7 @@ class MapTestReflection extends ClassReflection<MapTest> {
       isDiscriminator: false,
       itemsReflection: ItemsReflection<MapTest, 
             MapTestMapOfEnumStringEnum
+
 >(parentReflectionGetter: instanceGetter,),
       getter: _mapOfEnumStringGetter,
       setter: _mapOfEnumStringSetter,
@@ -62,7 +71,9 @@ class MapTestReflection extends ClassReflection<MapTest> {
     Map<String, 
         
             bool
+
 >
+
 >>(
       dartName: r'directMap',
       nullable: false,
@@ -74,6 +85,7 @@ class MapTestReflection extends ClassReflection<MapTest> {
       isDiscriminator: false,
       itemsReflection: ItemsReflection<MapTest, 
             bool
+
 >(parentReflectionGetter: instanceGetter,),
       getter: _directMapGetter,
       setter: _directMapSetter,
@@ -82,7 +94,9 @@ class MapTestReflection extends ClassReflection<MapTest> {
     Map<String, 
         
             bool
+
 >
+
 >>(
       dartName: r'indirectMap',
       nullable: false,
@@ -94,6 +108,7 @@ class MapTestReflection extends ClassReflection<MapTest> {
       isDiscriminator: false,
       itemsReflection: ItemsReflection<MapTest, 
             bool
+
 >(parentReflectionGetter: instanceGetter,),
       getter: _indirectMapGetter,
       setter: _indirectMapSetter,
@@ -103,6 +118,7 @@ class MapTestReflection extends ClassReflection<MapTest> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<MapTest, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -126,8 +142,11 @@ class MapTestReflection extends ClassReflection<MapTest> {
     Map<String, 
         
             String
+
 >
+
 >
+
 >> mapMapOfStringPart;
   static UndefinedWrapper<
     Map<String, 
@@ -135,8 +154,11 @@ class MapTestReflection extends ClassReflection<MapTest> {
     Map<String, 
         
             String
+
 >
+
 >
+
 > _mapMapOfStringGetter(MapTest parent) {
     return parent.mapMapOfString;
   }
@@ -146,8 +168,11 @@ class MapTestReflection extends ClassReflection<MapTest> {
     Map<String, 
         
             String
+
 >
+
 >
+
 > value) {
     parent.mapMapOfString = value;
   }
@@ -155,13 +180,17 @@ class MapTestReflection extends ClassReflection<MapTest> {
     Map<String, 
         
             MapTestMapOfEnumStringEnum
+
 >
+
 >> mapOfEnumStringPart;
   static UndefinedWrapper<
     Map<String, 
         
             MapTestMapOfEnumStringEnum
+
 >
+
 > _mapOfEnumStringGetter(MapTest parent) {
     return parent.mapOfEnumString;
   }
@@ -169,7 +198,9 @@ class MapTestReflection extends ClassReflection<MapTest> {
     Map<String, 
         
             MapTestMapOfEnumStringEnum
+
 >
+
 > value) {
     parent.mapOfEnumString = value;
   }
@@ -177,13 +208,17 @@ class MapTestReflection extends ClassReflection<MapTest> {
     Map<String, 
         
             bool
+
 >
+
 >> directMapPart;
   static UndefinedWrapper<
     Map<String, 
         
             bool
+
 >
+
 > _directMapGetter(MapTest parent) {
     return parent.directMap;
   }
@@ -191,7 +226,9 @@ class MapTestReflection extends ClassReflection<MapTest> {
     Map<String, 
         
             bool
+
 >
+
 > value) {
     parent.directMap = value;
   }
@@ -199,13 +236,17 @@ class MapTestReflection extends ClassReflection<MapTest> {
     Map<String, 
         
             bool
+
 >
+
 >> indirectMapPart;
   static UndefinedWrapper<
     Map<String, 
         
             bool
+
 >
+
 > _indirectMapGetter(MapTest parent) {
     return parent.indirectMap;
   }
@@ -213,7 +254,9 @@ class MapTestReflection extends ClassReflection<MapTest> {
     Map<String, 
         
             bool
+
 >
+
 > value) {
     parent.indirectMap = value;
   }
@@ -241,6 +284,7 @@ indirectMapPart,
   ];
 
   final AdditionalPropertiesReflection<MapTest, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -270,20 +314,30 @@ indirectMapPart,
   /// Gets an example of MapTest.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  MapTest example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  MapTest example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return MapTest(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = MapTest(
       mapMapOfString: () {
-        PartReflection? _partReflection = _reflection.mapMapOfStringPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleMap(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleMap(() { return 
 
 
-    exampleMap(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleMap(() { return 
 
 
             
@@ -302,15 +356,14 @@ indirectMapPart,
 
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       mapOfEnumString: () {
-        PartReflection? _partReflection = _reflection.mapOfEnumStringPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleMap(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleMap(() { return 
 
 
             exampleEnum(MapTestMapOfEnumStringEnum.values)
@@ -321,15 +374,14 @@ indirectMapPart,
 
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       directMap: () {
-        PartReflection? _partReflection = _reflection.directMapPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleMap(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleMap(() { return 
 
 
             
@@ -344,15 +396,14 @@ indirectMapPart,
 
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       indirectMap: () {
-        PartReflection? _partReflection = _reflection.indirectMapPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleMap(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleMap(() { return 
 
 
             
@@ -367,19 +418,22 @@ indirectMapPart,
 
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class MapTestXmlReflection {
     const MapTestXmlReflection();

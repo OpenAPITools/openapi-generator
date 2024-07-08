@@ -11,6 +11,7 @@ Map<String, dynamic> _$BasquePigToMap(BasquePig instance) {
     
     _reflection.classNamePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.className),
@@ -102,8 +103,7 @@ bool _$BasquePigCanDeserialize(Object? src) {
 Map<String, dynamic> _$BasquePigSerialize(BasquePig src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$BasquePigToMap(src);
     
   }();
   return initialResult;

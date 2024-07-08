@@ -28,45 +28,59 @@ mixin TestEndpointParametersRequestMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
+
 > get integer;
 UndefinedWrapper<
             int
+
 > get int32;
 UndefinedWrapper<
             int
+
 > get int64;
 
             num
+
  get number;
 UndefinedWrapper<
             double
+
 > get float;
 
             double
+
  get $double;
 UndefinedWrapper<
             String
+
 > get string;
 
             String
+
  get patternWithoutDelimiter;
 
             Uint8List
+
  get byte;
 UndefinedWrapper<
             XFile
+
 > get binary;
 UndefinedWrapper<
             DateTime
+
 > get date;
 UndefinedWrapper<
             DateTime
+
 > get dateTime;
 UndefinedWrapper<
             String
+
 > get password;
 UndefinedWrapper<
             String
+
 > get callback;
   
 }
@@ -95,61 +109,76 @@ TestEndpointParametersRequestMixin {
   @override
   UndefinedWrapper<
             int
+
 > integer;
   @override
   UndefinedWrapper<
             int
+
 > int32;
   @override
   UndefinedWrapper<
             int
+
 > int64;
   @override
   
             num
+
  number;
   @override
   UndefinedWrapper<
             double
+
 > float;
   @override
   
             double
+
  $double;
   @override
   UndefinedWrapper<
             String
+
 > string;
   @override
   
             String
+
  patternWithoutDelimiter;
   @override
   
             Uint8List
+
  byte;
   @override
   UndefinedWrapper<
             XFile
+
 > binary;
   @override
   UndefinedWrapper<
             DateTime
+
 > date;
   @override
   UndefinedWrapper<
             DateTime
+
 > dateTime;
   @override
   UndefinedWrapper<
             String
+
 > password;
   @override
   UndefinedWrapper<
             String
+
 > callback;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

@@ -11,12 +11,14 @@ Map<String, dynamic> _$ReadOnlyFirstToMap(ReadOnlyFirst instance) {
     if (instance.bar.isDefined)
     _reflection.barPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.bar.valueRequired),
     if (instance.baz.isDefined)
     _reflection.bazPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.baz.valueRequired),
@@ -142,8 +144,7 @@ bool _$ReadOnlyFirstCanDeserialize(Object? src) {
 Map<String, dynamic> _$ReadOnlyFirstSerialize(ReadOnlyFirst src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$ReadOnlyFirstToMap(src);
     
   }();
   return initialResult;

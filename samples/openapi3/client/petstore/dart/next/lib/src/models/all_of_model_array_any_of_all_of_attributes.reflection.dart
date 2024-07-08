@@ -12,6 +12,7 @@ class AllOfModelArrayAnyOfAllOfAttributesReflection extends ClassReflection<AllO
     className: r'AllOfModelArrayAnyOfAllOfAttributes',
     CPart: PropertyReflection<AllOfModelArrayAnyOfAllOfAttributes, UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfAttributesC
+
 >>(
       dartName: r'C',
       nullable: false,
@@ -30,6 +31,7 @@ class AllOfModelArrayAnyOfAllOfAttributesReflection extends ClassReflection<AllO
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<AllOfModelArrayAnyOfAllOfAttributes, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -46,14 +48,17 @@ class AllOfModelArrayAnyOfAllOfAttributesReflection extends ClassReflection<AllO
 
   final PropertyReflection<AllOfModelArrayAnyOfAllOfAttributes, UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfAttributesC
+
 >> CPart;
   static UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfAttributesC
+
 > _CGetter(AllOfModelArrayAnyOfAllOfAttributes parent) {
     return parent.C;
   }
   static void _CSetter(AllOfModelArrayAnyOfAllOfAttributes parent, UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfAttributesC
+
 > value) {
     parent.C = value;
   }
@@ -78,6 +83,7 @@ class AllOfModelArrayAnyOfAllOfAttributesReflection extends ClassReflection<AllO
   ];
 
   final AdditionalPropertiesReflection<AllOfModelArrayAnyOfAllOfAttributes, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -107,37 +113,50 @@ class AllOfModelArrayAnyOfAllOfAttributesReflection extends ClassReflection<AllO
   /// Gets an example of AllOfModelArrayAnyOfAllOfAttributes.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  AllOfModelArrayAnyOfAllOfAttributes example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  AllOfModelArrayAnyOfAllOfAttributes example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return AllOfModelArrayAnyOfAllOfAttributes(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = AllOfModelArrayAnyOfAllOfAttributes(
       C: () {
-        PartReflection? _partReflection = _reflection.CPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
             
 
 
-    AllOfModelArrayAnyOfAllOfAttributesC.$reflection.example()
+    AllOfModelArrayAnyOfAllOfAttributesCReflection.instance.example()
     
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class AllOfModelArrayAnyOfAllOfAttributesXmlReflection {
     const AllOfModelArrayAnyOfAllOfAttributesXmlReflection();

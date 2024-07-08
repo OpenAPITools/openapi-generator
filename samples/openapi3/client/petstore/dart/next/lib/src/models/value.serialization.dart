@@ -151,10 +151,10 @@ bool _$ValueCanDeserialize(Object? src) {
 Object? _$ValueSerialize(Value src) {
   Object? initialResult = () {
     
-    
-    if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.serialize(); }
-    if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.map((v) => v.serialize()).toList(); }
-    return null;
+      
+        if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.serialize(); }
+        if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.map((v) => v.serialize()).toList(); }
+        return null;
   }();
   if (initialResult is Map<String, Object?>) {
     return {

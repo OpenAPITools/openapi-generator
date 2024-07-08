@@ -17,15 +17,19 @@ mixin PetsMulticontentTestPostRequestMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 > get id;
 UndefinedWrapper<
             PetsMulticontentTestPostRequestAddress
+
 > get address;
 UndefinedWrapper<
     List<
         
             XFile
+
 >
+
 > get profileImages;
   
 }
@@ -43,20 +47,25 @@ PetsMulticontentTestPostRequestMixin {
   @override
   UndefinedWrapper<
             String
+
 > id;
   @override
   UndefinedWrapper<
             PetsMulticontentTestPostRequestAddress
+
 > address;
   @override
   UndefinedWrapper<
     List<
         
             XFile
+
 >
+
 > profileImages;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

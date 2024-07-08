@@ -12,6 +12,7 @@ class EnumStringDiscriminatorReflection extends ClassReflection<EnumStringDiscri
     className: r'EnumStringDiscriminator',
     enumStrTypePart: PropertyReflection<EnumStringDiscriminator, 
             EnumStringDiscriminatorEnumStrTypeEnum
+
 >(
       dartName: r'enumStrType',
       nullable: false,
@@ -34,6 +35,7 @@ class EnumStringDiscriminatorReflection extends ClassReflection<EnumStringDiscri
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<EnumStringDiscriminator, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -50,14 +52,17 @@ class EnumStringDiscriminatorReflection extends ClassReflection<EnumStringDiscri
 
   final PropertyReflection<EnumStringDiscriminator, 
             EnumStringDiscriminatorEnumStrTypeEnum
+
 > enumStrTypePart;
   static 
             EnumStringDiscriminatorEnumStrTypeEnum
+
  _enumStrTypeGetter(EnumStringDiscriminator parent) {
     return parent.enumStrType;
   }
   static void _enumStrTypeSetter(EnumStringDiscriminator parent, 
             EnumStringDiscriminatorEnumStrTypeEnum
+
  value) {
     parent.enumStrType = value;
   }
@@ -82,6 +87,7 @@ class EnumStringDiscriminatorReflection extends ClassReflection<EnumStringDiscri
   ];
 
   final AdditionalPropertiesReflection<EnumStringDiscriminator, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -111,14 +117,24 @@ class EnumStringDiscriminatorReflection extends ClassReflection<EnumStringDiscri
   /// Gets an example of EnumStringDiscriminator.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  EnumStringDiscriminator example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  EnumStringDiscriminator example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return EnumStringDiscriminator(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = EnumStringDiscriminator(
       enumStrType: () {
-        PartReflection? _partReflection = _reflection.enumStrTypePart;
-        
-        return 
+        var result = 
 
 
             exampleEnum(EnumStringDiscriminatorEnumStrTypeEnum.values)
@@ -126,18 +142,21 @@ class EnumStringDiscriminatorReflection extends ClassReflection<EnumStringDiscri
 
 
 ;
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+        return result;
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class EnumStringDiscriminatorXmlReflection {
     const EnumStringDiscriminatorXmlReflection();

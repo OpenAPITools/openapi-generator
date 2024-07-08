@@ -11,6 +11,7 @@ Map<String, dynamic> _$DanishPigToMap(DanishPig instance) {
     
     _reflection.classNamePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.className),
@@ -102,8 +103,7 @@ bool _$DanishPigCanDeserialize(Object? src) {
 Map<String, dynamic> _$DanishPigSerialize(DanishPig src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$DanishPigToMap(src);
     
   }();
   return initialResult;

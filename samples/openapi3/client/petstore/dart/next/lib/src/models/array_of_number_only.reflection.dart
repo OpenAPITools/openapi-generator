@@ -14,7 +14,9 @@ class ArrayOfNumberOnlyReflection extends ClassReflection<ArrayOfNumberOnly> {
     List<
         
             num
+
 >
+
 >>(
       dartName: r'arrayNumber',
       nullable: false,
@@ -26,6 +28,7 @@ class ArrayOfNumberOnlyReflection extends ClassReflection<ArrayOfNumberOnly> {
       isDiscriminator: false,
       itemsReflection: ItemsReflection<ArrayOfNumberOnly, 
             num
+
 >(parentReflectionGetter: instanceGetter,),
       getter: _arrayNumberGetter,
       setter: _arrayNumberSetter,
@@ -35,6 +38,7 @@ class ArrayOfNumberOnlyReflection extends ClassReflection<ArrayOfNumberOnly> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<ArrayOfNumberOnly, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -53,13 +57,17 @@ class ArrayOfNumberOnlyReflection extends ClassReflection<ArrayOfNumberOnly> {
     List<
         
             num
+
 >
+
 >> arrayNumberPart;
   static UndefinedWrapper<
     List<
         
             num
+
 >
+
 > _arrayNumberGetter(ArrayOfNumberOnly parent) {
     return parent.arrayNumber;
   }
@@ -67,7 +75,9 @@ class ArrayOfNumberOnlyReflection extends ClassReflection<ArrayOfNumberOnly> {
     List<
         
             num
+
 >
+
 > value) {
     parent.arrayNumber = value;
   }
@@ -92,6 +102,7 @@ class ArrayOfNumberOnlyReflection extends ClassReflection<ArrayOfNumberOnly> {
   ];
 
   final AdditionalPropertiesReflection<ArrayOfNumberOnly, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -121,17 +132,27 @@ class ArrayOfNumberOnlyReflection extends ClassReflection<ArrayOfNumberOnly> {
   /// Gets an example of ArrayOfNumberOnly.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  ArrayOfNumberOnly example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  ArrayOfNumberOnly example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return ArrayOfNumberOnly(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = ArrayOfNumberOnly(
       arrayNumber: () {
-        PartReflection? _partReflection = _reflection.arrayNumberPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
@@ -146,19 +167,22 @@ class ArrayOfNumberOnlyReflection extends ClassReflection<ArrayOfNumberOnly> {
 
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class ArrayOfNumberOnlyXmlReflection {
     const ArrayOfNumberOnlyXmlReflection();

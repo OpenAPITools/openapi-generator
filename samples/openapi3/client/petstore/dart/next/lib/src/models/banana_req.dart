@@ -16,9 +16,11 @@ mixin BananaReqMixin on
   $OpenApiObjectMixin {
   
             num
+
  get lengthCm;
 UndefinedWrapper<
             bool
+
 > get sweet;
   
 }
@@ -35,10 +37,12 @@ BananaReqMixin {
   @override
   
             num
+
  lengthCm;
   @override
   UndefinedWrapper<
             bool
+
 > sweet;
 
 

@@ -70,17 +70,12 @@ DateTime exampleDateTime() {
       isUtc: true);
 }
 
-String? exampleDiscriminator(PartReflection? _partReflection, (ClassReflection<dynamic>, PropertyReflection<dynamic, dynamic>) discriminator) {
-  final classReflection = discriminator.$1;
-  final discriminatorKey = classReflection.discriminatorKey;
-
-  // if (classReflection != null && discriminatorKey == key) {
-  //   final ret = classReflection
-  //           .discriminatorMappings.keys.firstOrNull ??
-  //       classReflection.discriminatorImplicitMappings.keys.firstOrNull;
-  //   if (ret != null) {
-  //     return ret;
-  //   }
-  // }
-  return null;
+MapEntry<DiscriminatorValue, ClassReflection>? exampleDiscriminator(
+  Map<DiscriminatorValue, ClassReflection<dynamic>> discriminatorMappings,
+) {
+  if (discriminatorMappings.isEmpty) {
+    return null;
+  }
+  final pickResult = $examplesRandom.nextInt(discriminatorMappings.length);
+  return discriminatorMappings.entries.elementAt(pickResult);
 }

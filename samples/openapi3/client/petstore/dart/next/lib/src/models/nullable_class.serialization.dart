@@ -11,36 +11,42 @@ Map<String, dynamic> _$NullableClassToMap(NullableClass instance) {
     if (instance.integerProp.isDefined)
     _reflection.integerPropPart.oasName: (
             int
+
 ? v) {
       return v;
     }(instance.integerProp.valueRequired),
     if (instance.numberProp.isDefined)
     _reflection.numberPropPart.oasName: (
             num
+
 ? v) {
       return v;
     }(instance.numberProp.valueRequired),
     if (instance.booleanProp.isDefined)
     _reflection.booleanPropPart.oasName: (
             bool
+
 ? v) {
       return v;
     }(instance.booleanProp.valueRequired),
     if (instance.stringProp.isDefined)
     _reflection.stringPropPart.oasName: (
             String
+
 ? v) {
       return v;
     }(instance.stringProp.valueRequired),
     if (instance.dateProp.isDefined)
     _reflection.datePropPart.oasName: (
             DateTime
+
 ? v) {
       return v;
     }(instance.dateProp.valueRequired),
     if (instance.datetimeProp.isDefined)
     _reflection.datetimePropPart.oasName: (
             DateTime
+
 ? v) {
       return v;
     }(instance.datetimeProp.valueRequired),
@@ -49,7 +55,9 @@ Map<String, dynamic> _$NullableClassToMap(NullableClass instance) {
     List<
         
             $FreeFormObject
+
 >
+
 ? v) {
       return v?.map((v) => v).toList();
     }(instance.arrayNullableProp.valueRequired),
@@ -58,7 +66,9 @@ Map<String, dynamic> _$NullableClassToMap(NullableClass instance) {
     List<
         
             $FreeFormObject
+
 ?>
+
 ? v) {
       return v?.map((v) => v).toList();
     }(instance.arrayAndItemsNullableProp.valueRequired),
@@ -67,7 +77,9 @@ Map<String, dynamic> _$NullableClassToMap(NullableClass instance) {
     List<
         
             $FreeFormObject
+
 ?>
+
  v) {
       return v.map((v) => v).toList();
     }(instance.arrayItemsNullable.valueRequired),
@@ -76,7 +88,9 @@ Map<String, dynamic> _$NullableClassToMap(NullableClass instance) {
     Map<String, 
         
             $FreeFormObject
+
 >
+
 ? v) {
       return v;
     }(instance.objectNullableProp.valueRequired),
@@ -85,7 +99,9 @@ Map<String, dynamic> _$NullableClassToMap(NullableClass instance) {
     Map<String, 
         
             $FreeFormObject
+
 ?>
+
 ? v) {
       return v;
     }(instance.objectAndItemsNullableProp.valueRequired),
@@ -94,7 +110,9 @@ Map<String, dynamic> _$NullableClassToMap(NullableClass instance) {
     Map<String, 
         
             $FreeFormObject
+
 ?>
+
  v) {
       return v;
     }(instance.objectItemsNullable.valueRequired),
@@ -600,8 +618,7 @@ bool _$NullableClassCanDeserialize(Object? src) {
 Map<String, dynamic> _$NullableClassSerialize(NullableClass src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$NullableClassToMap(src);
     
   }();
   return initialResult;

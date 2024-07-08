@@ -18,10 +18,13 @@ mixin TestEnumParametersRequestMixin on
     List<
         
             TestEnumParametersRequestEnumFormStringArrayEnum
+
 >
+
 > get enumFormStringArray;
 UndefinedWrapper<
             TestEnumParametersRequestEnumFormStringEnum
+
 > get enumFormString;
   
 }
@@ -40,14 +43,18 @@ TestEnumParametersRequestMixin {
     List<
         
             TestEnumParametersRequestEnumFormStringArrayEnum
+
 >
+
 > enumFormStringArray;
   @override
   UndefinedWrapper<
             TestEnumParametersRequestEnumFormStringEnum
+
 > enumFormString;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

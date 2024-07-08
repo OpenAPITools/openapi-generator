@@ -141,14 +141,11 @@ bool _$ShapeOrNullCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$ShapeOrNullSerialize(ShapeOrNull src) {
-  Object? initialResult = () {
+Map<String, dynamic> _$ShapeOrNullSerialize(ShapeOrNull src) {
+  Map<String, dynamic> initialResult = () {
     
-    
-    if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.serialize(); }
-    if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.serialize(); }
-    return null;
-  }();
+        return _$ShapeOrNullToMap(src);
+        }();
   if (initialResult is Map<String, Object?>) {
     return {
       ...src.additionalProperties,

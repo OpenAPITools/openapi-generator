@@ -13,25 +13,30 @@ Map<String, dynamic> _$PetCompositionToMap(PetComposition instance) {
     List<
         
             String
+
 >
+
  v) {
       return v.map((v) => v).toList();
     }(instance.photoUrls),
     
     _reflection.namePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.name),
     if (instance.id.isDefined)
     _reflection.idPart.oasName: (
             int
+
  v) {
       return v;
     }(instance.id.valueRequired),
     if (instance.category.isDefined)
     _reflection.categoryPart.oasName: (
             Category
+
  v) {
       return v.serialize();
     }(instance.category.valueRequired),
@@ -40,13 +45,16 @@ Map<String, dynamic> _$PetCompositionToMap(PetComposition instance) {
     List<
         
             Tag
+
 >
+
  v) {
       return v.map((v) => v.serialize()).toList();
     }(instance.tags.valueRequired),
     if (instance.status.isDefined)
     _reflection.statusPart.oasName: (
             PetStatusEnum
+
  v) {
       return v.value;
     }(instance.status.valueRequired),
@@ -315,8 +323,7 @@ bool _$PetCompositionCanDeserialize(Object? src) {
 Map<String, dynamic> _$PetCompositionSerialize(PetComposition src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$PetCompositionToMap(src);
     
   }();
   return initialResult;

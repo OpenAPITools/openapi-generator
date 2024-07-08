@@ -12,6 +12,7 @@ class FreeFormObjectTestClassReflection extends ClassReflection<FreeFormObjectTe
     className: r'FreeFormObjectTestClass',
     namePart: PropertyReflection<FreeFormObjectTestClass, UndefinedWrapper<
             String
+
 >>(
       dartName: r'name',
       nullable: false,
@@ -26,6 +27,7 @@ class FreeFormObjectTestClassReflection extends ClassReflection<FreeFormObjectTe
     ),
     propertiesPart: PropertyReflection<FreeFormObjectTestClass, UndefinedWrapper<
             FreeFormObjectTestClassProperties
+
 >>(
       dartName: r'properties',
       nullable: false,
@@ -44,6 +46,7 @@ class FreeFormObjectTestClassReflection extends ClassReflection<FreeFormObjectTe
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<FreeFormObjectTestClass, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -61,27 +64,33 @@ class FreeFormObjectTestClassReflection extends ClassReflection<FreeFormObjectTe
 
   final PropertyReflection<FreeFormObjectTestClass, UndefinedWrapper<
             String
+
 >> namePart;
   static UndefinedWrapper<
             String
+
 > _nameGetter(FreeFormObjectTestClass parent) {
     return parent.name;
   }
   static void _nameSetter(FreeFormObjectTestClass parent, UndefinedWrapper<
             String
+
 > value) {
     parent.name = value;
   }
   final PropertyReflection<FreeFormObjectTestClass, UndefinedWrapper<
             FreeFormObjectTestClassProperties
+
 >> propertiesPart;
   static UndefinedWrapper<
             FreeFormObjectTestClassProperties
+
 > _propertiesGetter(FreeFormObjectTestClass parent) {
     return parent.properties;
   }
   static void _propertiesSetter(FreeFormObjectTestClass parent, UndefinedWrapper<
             FreeFormObjectTestClassProperties
+
 > value) {
     parent.properties = value;
   }
@@ -107,6 +116,7 @@ propertiesPart,
   ];
 
   final AdditionalPropertiesReflection<FreeFormObjectTestClass, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -136,22 +146,24 @@ propertiesPart,
   /// Gets an example of FreeFormObjectTestClass.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  FreeFormObjectTestClass example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  FreeFormObjectTestClass example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return FreeFormObjectTestClass(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = FreeFormObjectTestClass(
       name: () {
-        PartReflection? _partReflection = _reflection.namePart;
-        
-        final disc = discriminators[r'name'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -162,35 +174,41 @@ propertiesPart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[namePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       properties: () {
-        PartReflection? _partReflection = _reflection.propertiesPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
             
 
 
-    FreeFormObjectTestClassProperties.$reflection.example()
+    FreeFormObjectTestClassPropertiesReflection.instance.example()
     
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class FreeFormObjectTestClassXmlReflection {
     const FreeFormObjectTestClassXmlReflection();

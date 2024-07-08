@@ -26,57 +26,75 @@ mixin NullableClassMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
+
 ?> get integerProp;
 UndefinedWrapper<
             num
+
 ?> get numberProp;
 UndefinedWrapper<
             bool
+
 ?> get booleanProp;
 UndefinedWrapper<
             String
+
 ?> get stringProp;
 UndefinedWrapper<
             DateTime
+
 ?> get dateProp;
 UndefinedWrapper<
             DateTime
+
 ?> get datetimeProp;
 UndefinedWrapper<
     List<
         
             $FreeFormObject
+
 >
+
 ?> get arrayNullableProp;
 UndefinedWrapper<
     List<
         
             $FreeFormObject
+
 ?>
+
 ?> get arrayAndItemsNullableProp;
 UndefinedWrapper<
     List<
         
             $FreeFormObject
+
 ?>
+
 > get arrayItemsNullable;
 UndefinedWrapper<
     Map<String, 
         
             $FreeFormObject
+
 >
+
 ?> get objectNullableProp;
 UndefinedWrapper<
     Map<String, 
         
             $FreeFormObject
+
 ?>
+
 ?> get objectAndItemsNullableProp;
 UndefinedWrapper<
     Map<String, 
         
             $FreeFormObject
+
 ?>
+
 > get objectItemsNullable;
   
 }
@@ -103,72 +121,91 @@ NullableClassMixin {
   @override
   UndefinedWrapper<
             int
+
 ?> integerProp;
   @override
   UndefinedWrapper<
             num
+
 ?> numberProp;
   @override
   UndefinedWrapper<
             bool
+
 ?> booleanProp;
   @override
   UndefinedWrapper<
             String
+
 ?> stringProp;
   @override
   UndefinedWrapper<
             DateTime
+
 ?> dateProp;
   @override
   UndefinedWrapper<
             DateTime
+
 ?> datetimeProp;
   @override
   UndefinedWrapper<
     List<
         
             $FreeFormObject
+
 >
+
 ?> arrayNullableProp;
   @override
   UndefinedWrapper<
     List<
         
             $FreeFormObject
+
 ?>
+
 ?> arrayAndItemsNullableProp;
   @override
   UndefinedWrapper<
     List<
         
             $FreeFormObject
+
 ?>
+
 > arrayItemsNullable;
   @override
   UndefinedWrapper<
     Map<String, 
         
             $FreeFormObject
+
 >
+
 ?> objectNullableProp;
   @override
   UndefinedWrapper<
     Map<String, 
         
             $FreeFormObject
+
 ?>
+
 ?> objectAndItemsNullableProp;
   @override
   UndefinedWrapper<
     Map<String, 
         
             $FreeFormObject
+
 ?>
+
 > objectItemsNullable;
 
   AdditionalProperties<
             $FreeFormObject
+
 ?> additionalProperties;
 
   

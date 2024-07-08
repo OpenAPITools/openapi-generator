@@ -126,6 +126,7 @@ abstract class FakeApiFakeOuterBooleanSerializeRequest {
   const factory FakeApiFakeOuterBooleanSerializeRequest.applicationJson({
     required 
             bool
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -262,6 +263,7 @@ class FakeApiFakeOuterBooleanSerializeRequestApplicationJson extends FakeApiFake
 
   final 
             bool
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -343,6 +345,7 @@ abstract class FakeApiFakeOuterCompositeSerializeRequest {
   const factory FakeApiFakeOuterCompositeSerializeRequest.applicationJson({
     required 
             OuterComposite
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -479,6 +482,7 @@ class FakeApiFakeOuterCompositeSerializeRequestApplicationJson extends FakeApiFa
 
   final 
             OuterComposite
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -560,6 +564,7 @@ abstract class FakeApiFakeOuterNumberSerializeRequest {
   const factory FakeApiFakeOuterNumberSerializeRequest.applicationJson({
     required 
             num
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -696,6 +701,7 @@ class FakeApiFakeOuterNumberSerializeRequestApplicationJson extends FakeApiFakeO
 
   final 
             num
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -777,6 +783,7 @@ abstract class FakeApiFakeOuterStringSerializeRequest {
   const factory FakeApiFakeOuterStringSerializeRequest.applicationJson({
     required 
             String
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -913,6 +920,7 @@ class FakeApiFakeOuterStringSerializeRequestApplicationJson extends FakeApiFakeO
 
   final 
             String
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -985,6 +993,7 @@ abstract class FakeApiFakeUploadRefRequestBodiesRequest {
   /// spec name: petId
   final 
             int
+
  petId;
   
   
@@ -994,6 +1003,7 @@ abstract class FakeApiFakeUploadRefRequestBodiesRequest {
     
     required 
             int
+
  petId,
     
     Map<String, String> extraHeaders,
@@ -1343,6 +1353,7 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
   /// spec name: _type
   final 
             int
+
  $type;
   
   
@@ -1350,6 +1361,7 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
   /// spec name: type
   final 
             String
+
  type;
   
   
@@ -1357,6 +1369,7 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
   /// spec name: type_
   final 
             String
+
  type$;
   
 
@@ -1486,7 +1499,9 @@ abstract class FakeApiTestAdditionalPropertiesReferenceRequest {
     required 
     Map<String, 
         Object
+
 ?>
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -1624,7 +1639,9 @@ class FakeApiTestAdditionalPropertiesReferenceRequestApplicationJson extends Fak
   final 
     Map<String, 
         Object
+
 ?>
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -1706,6 +1723,7 @@ abstract class FakeApiTestBodyWithFileSchemaRequest {
   const factory FakeApiTestBodyWithFileSchemaRequest.applicationJson({
     required 
             FileSchemaTestClass
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -1842,6 +1860,7 @@ class FakeApiTestBodyWithFileSchemaRequestApplicationJson extends FakeApiTestBod
 
   final 
             FileSchemaTestClass
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -1914,6 +1933,7 @@ abstract class FakeApiTestBodyWithQueryParamsRequest {
   /// spec name: query
   final 
             String
+
  query;
   
   
@@ -1922,6 +1942,7 @@ abstract class FakeApiTestBodyWithQueryParamsRequest {
     
     required 
             String
+
  query,
     
     Map<String, String> extraHeaders,
@@ -1934,12 +1955,14 @@ abstract class FakeApiTestBodyWithQueryParamsRequest {
   const factory FakeApiTestBodyWithQueryParamsRequest.applicationJson({
     required 
             User
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
     
     required 
             String
+
  query,
     
     
@@ -2082,6 +2105,7 @@ class FakeApiTestBodyWithQueryParamsRequestApplicationJson extends FakeApiTestBo
 
   final 
             User
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -2166,6 +2190,7 @@ abstract class FakeApiTestClientModelRequest {
   const factory FakeApiTestClientModelRequest.applicationJson({
     required 
             Client
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -2302,6 +2327,7 @@ class FakeApiTestClientModelRequestApplicationJson extends FakeApiTestClientMode
 
   final 
             Client
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -2807,7 +2833,9 @@ extension type const EnumFormStringEnum._(String value) {
     List<
         
             EnumHeaderStringArrayEnum
+
 >
+
 > enumHeaderStringArray;
   
   
@@ -2815,6 +2843,7 @@ extension type const EnumFormStringEnum._(String value) {
   /// spec name: enum_header_string
   final UndefinedWrapper<
             EnumHeaderStringEnum
+
 > enumHeaderString;
   
   
@@ -2824,7 +2853,9 @@ extension type const EnumFormStringEnum._(String value) {
     List<
         
             EnumQueryStringArrayEnum
+
 >
+
 > enumQueryStringArray;
   
   
@@ -2832,6 +2863,7 @@ extension type const EnumFormStringEnum._(String value) {
   /// spec name: enum_query_string
   final UndefinedWrapper<
             EnumQueryStringEnum
+
 > enumQueryString;
   
   
@@ -2839,6 +2871,7 @@ extension type const EnumFormStringEnum._(String value) {
   /// spec name: enum_query_integer
   final UndefinedWrapper<
             EnumQueryIntegerEnum
+
 > enumQueryInteger;
   
   
@@ -2846,6 +2879,7 @@ extension type const EnumFormStringEnum._(String value) {
   /// spec name: enum_query_double
   final UndefinedWrapper<
             EnumQueryDoubleEnum
+
 > enumQueryDouble;
   
   
@@ -3008,6 +3042,7 @@ extension type const EnumFormStringEnum._(String value) {
   /// spec name: required_string_group
   final 
             int
+
  requiredStringGroup;
   
   
@@ -3015,6 +3050,7 @@ extension type const EnumFormStringEnum._(String value) {
   /// spec name: required_boolean_group
   final 
             bool
+
  requiredBooleanGroup;
   
   
@@ -3022,6 +3058,7 @@ extension type const EnumFormStringEnum._(String value) {
   /// spec name: required_int64_group
   final 
             int
+
  requiredInt64Group;
   
   
@@ -3029,6 +3066,7 @@ extension type const EnumFormStringEnum._(String value) {
   /// spec name: string_group
   final UndefinedWrapper<
             int
+
 > stringGroup;
   
   
@@ -3036,6 +3074,7 @@ extension type const EnumFormStringEnum._(String value) {
   /// spec name: boolean_group
   final UndefinedWrapper<
             bool
+
 > booleanGroup;
   
   
@@ -3043,6 +3082,7 @@ extension type const EnumFormStringEnum._(String value) {
   /// spec name: int64_group
   final UndefinedWrapper<
             int
+
 > int64Group;
   
 
@@ -3195,7 +3235,9 @@ abstract class FakeApiTestInlineAdditionalPropertiesRequest {
     Map<String, 
         
             String
+
 >
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -3334,7 +3376,9 @@ class FakeApiTestInlineAdditionalPropertiesRequestApplicationJson extends FakeAp
     Map<String, 
         
             String
+
 >
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -3416,6 +3460,7 @@ abstract class FakeApiTestInlineFreeformAdditionalPropertiesRequest {
   const factory FakeApiTestInlineFreeformAdditionalPropertiesRequest.applicationJson({
     required 
             TestInlineFreeformAdditionalPropertiesRequest
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -3552,6 +3597,7 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson extend
 
   final 
             TestInlineFreeformAdditionalPropertiesRequest
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -3727,7 +3773,9 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
     List<
         
             String
+
 >
+
  pipe;
   
   
@@ -3737,7 +3785,9 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
     List<
         
             String
+
 >
+
  ioutil;
   
   
@@ -3747,7 +3797,9 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
     List<
         
             String
+
 >
+
  http;
   
   
@@ -3757,7 +3809,9 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
     List<
         
             String
+
 >
+
  url;
   
   
@@ -3767,7 +3821,9 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
     List<
         
             String
+
 >
+
  context;
   
 
@@ -3777,35 +3833,45 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
     List<
         
             String
+
 >
+
  pipe,
     
     required 
     List<
         
             String
+
 >
+
  ioutil,
     
     required 
     List<
         
             String
+
 >
+
  http,
     
     required 
     List<
         
             String
+
 >
+
  url,
     
     required 
     List<
         
             String
+
 >
+
  context,
     
     Map<String, String> extraHeaders,
@@ -3997,7 +4063,9 @@ abstract class FakeApiTestStringMapReferenceRequest {
     Map<String, 
         
             String
+
 >
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -4136,7 +4204,9 @@ class FakeApiTestStringMapReferenceRequestApplicationJson extends FakeApiTestStr
     Map<String, 
         
             String
+
 >
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.

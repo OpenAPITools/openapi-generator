@@ -16,9 +16,11 @@ mixin AppleMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 > get cultivar;
 UndefinedWrapper<
             String
+
 > get origin;
   
 }
@@ -35,13 +37,16 @@ AppleMixin {
   @override
   UndefinedWrapper<
             String
+
 > cultivar;
   @override
   UndefinedWrapper<
             String
+
 > origin;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

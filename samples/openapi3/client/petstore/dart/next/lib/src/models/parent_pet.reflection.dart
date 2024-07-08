@@ -12,6 +12,7 @@ class ParentPetReflection extends ClassReflection<ParentPet> {
     className: r'ParentPet',
     petTypePart: PropertyReflection<ParentPet, 
             String
+
 >(
       dartName: r'petType',
       nullable: false,
@@ -34,6 +35,7 @@ class ParentPetReflection extends ClassReflection<ParentPet> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<ParentPet, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -50,14 +52,17 @@ class ParentPetReflection extends ClassReflection<ParentPet> {
 
   final PropertyReflection<ParentPet, 
             String
+
 > petTypePart;
   static 
             String
+
  _petTypeGetter(ParentPet parent) {
     return parent.petType;
   }
   static void _petTypeSetter(ParentPet parent, 
             String
+
  value) {
     parent.petType = value;
   }
@@ -82,6 +87,7 @@ class ParentPetReflection extends ClassReflection<ParentPet> {
   ];
 
   final AdditionalPropertiesReflection<ParentPet, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -119,22 +125,24 @@ class ParentPetReflection extends ClassReflection<ParentPet> {
   /// Gets an example of ParentPet.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  ParentPet example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  ParentPet example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return ParentPet(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = ParentPet(
       petType: () {
-        PartReflection? _partReflection = _reflection.petTypePart;
-        
-        final disc = discriminators[r'pet_type'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -146,18 +154,25 @@ class ParentPetReflection extends ClassReflection<ParentPet> {
 
 
 ;
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+        final preSelectedResult = discriminatorExampleResults[petTypePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class ParentPetXmlReflection {
     const ParentPetXmlReflection();

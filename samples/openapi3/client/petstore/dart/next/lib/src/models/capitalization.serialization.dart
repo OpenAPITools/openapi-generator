@@ -11,36 +11,42 @@ Map<String, dynamic> _$CapitalizationToMap(Capitalization instance) {
     if (instance.smallCamel.isDefined)
     _reflection.smallCamelPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.smallCamel.valueRequired),
     if (instance.capitalCamel.isDefined)
     _reflection.capitalCamelPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.capitalCamel.valueRequired),
     if (instance.smallSnake.isDefined)
     _reflection.smallSnakePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.smallSnake.valueRequired),
     if (instance.capitalSnake.isDefined)
     _reflection.capitalSnakePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.capitalSnake.valueRequired),
     if (instance.scAETHFlowPoints.isDefined)
     _reflection.scAETHFlowPointsPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.scAETHFlowPoints.valueRequired),
     if (instance.ATT_NAME.isDefined)
     _reflection.ATT_NAMEPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.ATT_NAME.valueRequired),
@@ -302,8 +308,7 @@ bool _$CapitalizationCanDeserialize(Object? src) {
 Map<String, dynamic> _$CapitalizationSerialize(Capitalization src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$CapitalizationToMap(src);
     
   }();
   return initialResult;

@@ -11,12 +11,14 @@ Map<String, dynamic> _$UploadFileWithRequiredFileRequestToMap(UploadFileWithRequ
     if (instance.additionalMetadata.isDefined)
     _reflection.additionalMetadataPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.additionalMetadata.valueRequired),
     
     _reflection.requiredFilePart.oasName: (
             XFile
+
  v) {
       return v;
     }(instance.requiredFile),
@@ -142,8 +144,7 @@ bool _$UploadFileWithRequiredFileRequestCanDeserialize(Object? src) {
 Map<String, dynamic> _$UploadFileWithRequiredFileRequestSerialize(UploadFileWithRequiredFileRequest src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$UploadFileWithRequiredFileRequestToMap(src);
     
   }();
   return initialResult;

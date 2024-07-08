@@ -2,7 +2,7 @@
 
 {{#isAnyType}}exampleObject(){{/isAnyType}}
 {{^isAnyType}}
-    {{#isContainer}}example{{dataType}}(() { _partReflection = _partReflection?.itemsReflection; return {{#items}}{{>lib/src/models/reflection/example_recursive}}{{/items}}; })
+    {{#isContainer}}example{{dataType}}(() { return {{#items}}{{>lib/src/models/reflection/example_recursive}}{{/items}}; })
     {{/isContainer}}
     {{^isContainer}}
         {{#isEnum}}exampleEnum({{{datatypeWithEnum}}}.values){{/isEnum}}
@@ -13,7 +13,7 @@
 {{/isAnyType}}
 
 {{^isAnyType}}{{^isContainer}}{{^isEnum}}{{^isEnumRef}}
-    {{#isModel}}{{dataType}}.$reflection.example(){{/isModel}}
+    {{#isModel}}{{dataType}}Reflection.instance.example(){{/isModel}}
     {{^isModel}}example{{dataType}}(){{/isModel}}
 {{/isEnumRef}}{{/isEnum}}{{/isContainer}}{{/isAnyType}}
 

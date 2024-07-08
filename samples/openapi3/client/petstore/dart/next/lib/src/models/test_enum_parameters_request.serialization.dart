@@ -13,13 +13,16 @@ Map<String, dynamic> _$TestEnumParametersRequestToMap(TestEnumParametersRequest 
     List<
         
             TestEnumParametersRequestEnumFormStringArrayEnum
+
 >
+
  v) {
       return v.map((v) => v.value).toList();
     }(instance.enumFormStringArray.valueRequired),
     if (instance.enumFormString.isDefined)
     _reflection.enumFormStringPart.oasName: (
             TestEnumParametersRequestEnumFormStringEnum
+
  v) {
       return v.value;
     }(instance.enumFormString.valueRequired),
@@ -161,8 +164,7 @@ bool _$TestEnumParametersRequestCanDeserialize(Object? src) {
 Map<String, dynamic> _$TestEnumParametersRequestSerialize(TestEnumParametersRequest src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$TestEnumParametersRequestToMap(src);
     
   }();
   return initialResult;

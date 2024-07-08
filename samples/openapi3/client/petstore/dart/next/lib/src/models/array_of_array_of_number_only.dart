@@ -19,8 +19,11 @@ mixin ArrayOfArrayOfNumberOnlyMixin on
     List<
         
             num
+
 >
+
 >
+
 > get arrayArrayNumber;
   
 }
@@ -40,11 +43,15 @@ ArrayOfArrayOfNumberOnlyMixin {
     List<
         
             num
+
 >
+
 >
+
 > arrayArrayNumber;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

@@ -3,6 +3,15 @@ import 'package:test/test.dart';
 
 void main() {
   group(r'OuterEnum', () {
+    test('values not empty', () {
+      expect(OuterEnum.values, isNotEmpty);
+    });
+
+    test('unsafe', () {
+      final example = 'abc';
+      expect(OuterEnum.$unsafe(example), example);
+    });
+
     
     test(r'placed', () {
       expect(OuterEnum.placed().value, r'placed');

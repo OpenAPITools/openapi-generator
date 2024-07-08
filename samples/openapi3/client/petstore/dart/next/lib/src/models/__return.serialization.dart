@@ -11,6 +11,7 @@ Map<String, dynamic> _$$ReturnToMap($Return instance) {
     if (instance.$return.isDefined)
     _reflection.$returnPart.oasName: (
             int
+
  v) {
       return v;
     }(instance.$return.valueRequired),
@@ -100,8 +101,7 @@ bool _$$ReturnCanDeserialize(Object? src) {
 Map<String, dynamic> _$$ReturnSerialize($Return src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$$ReturnToMap(src);
     
   }();
   return initialResult;

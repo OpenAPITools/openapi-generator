@@ -15,6 +15,7 @@ mixin $ReturnMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
+
 > get $return;
   
 }
@@ -30,9 +31,11 @@ $ReturnMixin {
   @override
   UndefinedWrapper<
             int
+
 > $return;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

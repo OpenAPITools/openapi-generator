@@ -448,6 +448,7 @@ class UserApiGetUserByNameResponse200 extends UserApiGetUserByNameResponse {
 class UserApiGetUserByNameResponse200ApplicationXml extends UserApiGetUserByNameResponse200 {
   final 
             User
+
 ? body;
 
   /// The raw result of calling XmlDocument.parse
@@ -499,6 +500,7 @@ class UserApiGetUserByNameResponse200ApplicationXml extends UserApiGetUserByName
 class UserApiGetUserByNameResponse200ApplicationJson extends UserApiGetUserByNameResponse200 {
   final 
             User
+
 ? body;
 
   /// The raw result of calling jsonDecode
@@ -693,9 +695,11 @@ class UserApiLoginUserResponse200 extends UserApiLoginUserResponse {
 
   final UndefinedWrapper<
             int
+
 > xRateLimit;
   final UndefinedWrapper<
             DateTime
+
 > xExpiresAfter;
 
   T split200<T>({
@@ -751,6 +755,7 @@ class UserApiLoginUserResponse200 extends UserApiLoginUserResponse {
 class UserApiLoginUserResponse200ApplicationXml extends UserApiLoginUserResponse200 {
   final 
             String
+
 ? body;
 
   /// The raw result of calling XmlDocument.parse
@@ -864,6 +869,7 @@ v is int ? DateTime.fromMillisecondsSinceEpoch(v as int) : DateTime.parse(v.toSt
 class UserApiLoginUserResponse200ApplicationJson extends UserApiLoginUserResponse200 {
   final 
             String
+
 ? body;
 
   /// The raw result of calling jsonDecode

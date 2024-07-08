@@ -12,23 +12,26 @@ class FakeAnyOfWIthSameErasureGet200ResponseReflection extends ClassReflection<F
     className: r'FakeAnyOfWIthSameErasureGet200Response',
     
     
-    anyOf0Part: AnyOfReflection(
+    anyOf0Part: FakeAnyOfWIthSameErasureGet200ResponseAnyOf0(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<FakeAnyOfWIthSameErasureGet200Response, 
             String
+
 >(parentReflectionGetter: instanceGetter,),
           ),
     
-    anyOf1Part: AnyOfReflection(
+    anyOf1Part: FakeAnyOfWIthSameErasureGet200ResponseAnyOf1(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<FakeAnyOfWIthSameErasureGet200Response, 
             int
+
 >(parentReflectionGetter: instanceGetter,),
           ),
     
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<FakeAnyOfWIthSameErasureGet200Response, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -66,23 +69,14 @@ class FakeAnyOfWIthSameErasureGet200ResponseReflection extends ClassReflection<F
       ];
 
   final AdditionalPropertiesReflection<FakeAnyOfWIthSameErasureGet200Response, Object
+
 ?> additionalPropertiesPart;
 
   
   
-  final AnyOfReflection<FakeAnyOfWIthSameErasureGet200Response, 
-    List<
-        
-            String
->
-> anyOf0Part;
+  final FakeAnyOfWIthSameErasureGet200ResponseAnyOf0 anyOf0Part;
   
-  final AnyOfReflection<FakeAnyOfWIthSameErasureGet200Response, 
-    List<
-        
-            int
->
-> anyOf1Part;
+  final FakeAnyOfWIthSameErasureGet200ResponseAnyOf1 anyOf1Part;
   
   @override
   List<PartReflection<FakeAnyOfWIthSameErasureGet200Response, dynamic>> get parts => [
@@ -117,24 +111,67 @@ class FakeAnyOfWIthSameErasureGet200ResponseReflection extends ClassReflection<F
   /// Gets an example of FakeAnyOfWIthSameErasureGet200Response.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  FakeAnyOfWIthSameErasureGet200Response example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  FakeAnyOfWIthSameErasureGet200Response example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return FakeAnyOfWIthSameErasureGet200Response(
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = FakeAnyOfWIthSameErasureGet200Response(
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
-      anyOf0: () {
-        PartReflection? _partReflection = _reflection.anyOf0Part;
-        return UndefinedWrapper(
+    );
+    
+    exampleResult.anyOf0 = anyOf0Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
+    
+    exampleResult.anyOf1 = anyOf1Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
+    
+    return exampleResult;
+  }
+}
 
+class FakeAnyOfWIthSameErasureGet200ResponseAnyOf0 extends AnyOfReflection<FakeAnyOfWIthSameErasureGet200Response, 
+    List<
+        
+            String
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+>
+> {
+  const FakeAnyOfWIthSameErasureGet200ResponseAnyOf0({
+    super.classReflection,
+    required FakeAnyOfWIthSameErasureGet200ResponseReflection Function() super.parentReflectionGetter,
+    super.itemsReflection,
+  });
+
+  UndefinedWrapper<
+    List<
+        
+            String
+
+>
+> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+    if (discriminatorExampleResults.isNotEmpty) {
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == classReflection)) {
+        return UndefinedWrapper.undefined();
+      }
+    }
+    return UndefinedWrapper(
+    exampleList(() { return 
 
 
             
@@ -147,16 +184,37 @@ exampleObject()
 
 ; })
 
-
-
 );
-      }(),
-      anyOf1: () {
-        PartReflection? _partReflection = _reflection.anyOf1Part;
-        return UndefinedWrapper(
+  }
+}
+class FakeAnyOfWIthSameErasureGet200ResponseAnyOf1 extends AnyOfReflection<FakeAnyOfWIthSameErasureGet200Response, 
+    List<
+        
+            int
 
+>
+> {
+  const FakeAnyOfWIthSameErasureGet200ResponseAnyOf1({
+    super.classReflection,
+    required FakeAnyOfWIthSameErasureGet200ResponseReflection Function() super.parentReflectionGetter,
+    super.itemsReflection,
+  });
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+  UndefinedWrapper<
+    List<
+        
+            int
+
+>
+> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+    if (discriminatorExampleResults.isNotEmpty) {
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == classReflection)) {
+        return UndefinedWrapper.undefined();
+      }
+    }
+    return UndefinedWrapper(
+    exampleList(() { return 
 
 
             
@@ -169,11 +227,7 @@ exampleObject()
 
 ; })
 
-
-
 );
-      }(),
-    );
   }
 }
 

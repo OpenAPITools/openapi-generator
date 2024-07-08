@@ -16,6 +16,7 @@ mixin DeprecatedObjectMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 > get name;
   
 }
@@ -32,9 +33,11 @@ DeprecatedObjectMixin {
   @override
   UndefinedWrapper<
             String
+
 > name;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

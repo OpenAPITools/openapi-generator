@@ -11,6 +11,7 @@ Map<String, dynamic> _$TriangleInterfaceToMap(TriangleInterface instance) {
     
     _reflection.triangleTypePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.triangleType),
@@ -102,8 +103,7 @@ bool _$TriangleInterfaceCanDeserialize(Object? src) {
 Map<String, dynamic> _$TriangleInterfaceSerialize(TriangleInterface src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$TriangleInterfaceToMap(src);
     
   }();
   return initialResult;

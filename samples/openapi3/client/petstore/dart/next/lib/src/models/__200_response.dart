@@ -16,9 +16,11 @@ mixin $200ResponseMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
+
 > get name;
 UndefinedWrapper<
             String
+
 > get propertyClass;
   
 }
@@ -35,13 +37,16 @@ $200ResponseMixin {
   @override
   UndefinedWrapper<
             int
+
 > name;
   @override
   UndefinedWrapper<
             String
+
 > propertyClass;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

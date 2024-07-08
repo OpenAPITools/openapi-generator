@@ -21,30 +21,39 @@ mixin NewPetMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
+
 > get id;
 UndefinedWrapper<
             NewPetCategoryInlineAllof
+
 > get categoryInlineAllof;
 UndefinedWrapper<
             Category
+
 > get categoryAllOfRef;
 
             String
+
  get name;
 
     List<
         
             String
+
 >
+
  get photoUrls;
 UndefinedWrapper<
     List<
         
             Tag
+
 >
+
 > get tags;
 UndefinedWrapper<
             NewPetStatusEnum
+
 > get status;
   
 }
@@ -66,39 +75,49 @@ NewPetMixin {
   @override
   UndefinedWrapper<
             int
+
 > id;
   @override
   UndefinedWrapper<
             NewPetCategoryInlineAllof
+
 > categoryInlineAllof;
   @override
   UndefinedWrapper<
             Category
+
 > categoryAllOfRef;
   @override
   
             String
+
  name;
   @override
   
     List<
         
             String
+
 >
+
  photoUrls;
   @override
   UndefinedWrapper<
     List<
         
             Tag
+
 >
+
 > tags;
   @override
   UndefinedWrapper<
             NewPetStatusEnum
+
 > status;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

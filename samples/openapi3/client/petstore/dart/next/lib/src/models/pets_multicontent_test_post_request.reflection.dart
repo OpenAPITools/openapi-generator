@@ -12,6 +12,7 @@ class PetsMulticontentTestPostRequestReflection extends ClassReflection<PetsMult
     className: r'PetsMulticontentTestPostRequest',
     idPart: PropertyReflection<PetsMulticontentTestPostRequest, UndefinedWrapper<
             String
+
 >>(
       dartName: r'id',
       nullable: false,
@@ -26,6 +27,7 @@ class PetsMulticontentTestPostRequestReflection extends ClassReflection<PetsMult
     ),
     addressPart: PropertyReflection<PetsMulticontentTestPostRequest, UndefinedWrapper<
             PetsMulticontentTestPostRequestAddress
+
 >>(
       dartName: r'address',
       nullable: false,
@@ -43,7 +45,9 @@ class PetsMulticontentTestPostRequestReflection extends ClassReflection<PetsMult
     List<
         
             XFile
+
 >
+
 >>(
       dartName: r'profileImages',
       nullable: false,
@@ -55,6 +59,7 @@ class PetsMulticontentTestPostRequestReflection extends ClassReflection<PetsMult
       isDiscriminator: false,
       itemsReflection: ItemsReflection<PetsMulticontentTestPostRequest, 
             XFile
+
 >(parentReflectionGetter: instanceGetter,),
       getter: _profileImagesGetter,
       setter: _profileImagesSetter,
@@ -64,6 +69,7 @@ class PetsMulticontentTestPostRequestReflection extends ClassReflection<PetsMult
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<PetsMulticontentTestPostRequest, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -82,27 +88,33 @@ class PetsMulticontentTestPostRequestReflection extends ClassReflection<PetsMult
 
   final PropertyReflection<PetsMulticontentTestPostRequest, UndefinedWrapper<
             String
+
 >> idPart;
   static UndefinedWrapper<
             String
+
 > _idGetter(PetsMulticontentTestPostRequest parent) {
     return parent.id;
   }
   static void _idSetter(PetsMulticontentTestPostRequest parent, UndefinedWrapper<
             String
+
 > value) {
     parent.id = value;
   }
   final PropertyReflection<PetsMulticontentTestPostRequest, UndefinedWrapper<
             PetsMulticontentTestPostRequestAddress
+
 >> addressPart;
   static UndefinedWrapper<
             PetsMulticontentTestPostRequestAddress
+
 > _addressGetter(PetsMulticontentTestPostRequest parent) {
     return parent.address;
   }
   static void _addressSetter(PetsMulticontentTestPostRequest parent, UndefinedWrapper<
             PetsMulticontentTestPostRequestAddress
+
 > value) {
     parent.address = value;
   }
@@ -110,13 +122,17 @@ class PetsMulticontentTestPostRequestReflection extends ClassReflection<PetsMult
     List<
         
             XFile
+
 >
+
 >> profileImagesPart;
   static UndefinedWrapper<
     List<
         
             XFile
+
 >
+
 > _profileImagesGetter(PetsMulticontentTestPostRequest parent) {
     return parent.profileImages;
   }
@@ -124,7 +140,9 @@ class PetsMulticontentTestPostRequestReflection extends ClassReflection<PetsMult
     List<
         
             XFile
+
 >
+
 > value) {
     parent.profileImages = value;
   }
@@ -151,6 +169,7 @@ profileImagesPart,
   ];
 
   final AdditionalPropertiesReflection<PetsMulticontentTestPostRequest, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -180,22 +199,24 @@ profileImagesPart,
   /// Gets an example of PetsMulticontentTestPostRequest.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  PetsMulticontentTestPostRequest example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  PetsMulticontentTestPostRequest example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return PetsMulticontentTestPostRequest(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = PetsMulticontentTestPostRequest(
       id: () {
-        PartReflection? _partReflection = _reflection.idPart;
-        
-        final disc = discriminators[r'id'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -206,31 +227,33 @@ profileImagesPart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[idPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       address: () {
-        PartReflection? _partReflection = _reflection.addressPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
             
 
 
-    PetsMulticontentTestPostRequestAddress.$reflection.example()
+    PetsMulticontentTestPostRequestAddressReflection.instance.example()
     
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       profileImages: () {
-        PartReflection? _partReflection = _reflection.profileImagesPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
@@ -245,19 +268,22 @@ profileImagesPart,
 
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class PetsMulticontentTestPostRequestXmlReflection {
     const PetsMulticontentTestPostRequestXmlReflection();

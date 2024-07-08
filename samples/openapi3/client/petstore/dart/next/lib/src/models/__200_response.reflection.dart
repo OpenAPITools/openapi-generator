@@ -12,6 +12,7 @@ class $200ResponseReflection extends ClassReflection<$200Response> {
     className: r'$200Response',
     namePart: PropertyReflection<$200Response, UndefinedWrapper<
             int
+
 >>(
       dartName: r'name',
       nullable: false,
@@ -26,6 +27,7 @@ class $200ResponseReflection extends ClassReflection<$200Response> {
     ),
     propertyClassPart: PropertyReflection<$200Response, UndefinedWrapper<
             String
+
 >>(
       dartName: r'propertyClass',
       nullable: false,
@@ -43,6 +45,7 @@ class $200ResponseReflection extends ClassReflection<$200Response> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<$200Response, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -60,27 +63,33 @@ class $200ResponseReflection extends ClassReflection<$200Response> {
 
   final PropertyReflection<$200Response, UndefinedWrapper<
             int
+
 >> namePart;
   static UndefinedWrapper<
             int
+
 > _nameGetter($200Response parent) {
     return parent.name;
   }
   static void _nameSetter($200Response parent, UndefinedWrapper<
             int
+
 > value) {
     parent.name = value;
   }
   final PropertyReflection<$200Response, UndefinedWrapper<
             String
+
 >> propertyClassPart;
   static UndefinedWrapper<
             String
+
 > _propertyClassGetter($200Response parent) {
     return parent.propertyClass;
   }
   static void _propertyClassSetter($200Response parent, UndefinedWrapper<
             String
+
 > value) {
     parent.propertyClass = value;
   }
@@ -106,6 +115,7 @@ propertyClassPart,
   ];
 
   final AdditionalPropertiesReflection<$200Response, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -135,14 +145,24 @@ propertyClassPart,
   /// Gets an example of $200Response.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  $200Response example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  $200Response example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return $200Response(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = $200Response(
       name: () {
-        PartReflection? _partReflection = _reflection.namePart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -153,20 +173,11 @@ propertyClassPart,
     exampleint()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       propertyClass: () {
-        PartReflection? _partReflection = _reflection.propertyClassPart;
-        
-        final disc = discriminators[r'class'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -177,19 +188,26 @@ propertyClassPart,
     exampleString()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        final preSelectedResult = discriminatorExampleResults[propertyClassPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class $200ResponseXmlReflection {
     const $200ResponseXmlReflection();

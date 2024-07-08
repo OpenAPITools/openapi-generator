@@ -11,6 +11,7 @@ Map<String, dynamic> _$HealthCheckResultToMap(HealthCheckResult instance) {
     if (instance.nullableMessage.isDefined)
     _reflection.nullableMessagePart.oasName: (
             String
+
 ? v) {
       return v;
     }(instance.nullableMessage.valueRequired),
@@ -102,8 +103,7 @@ bool _$HealthCheckResultCanDeserialize(Object? src) {
 Map<String, dynamic> _$HealthCheckResultSerialize(HealthCheckResult src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$HealthCheckResultToMap(src);
     
   }();
   return initialResult;

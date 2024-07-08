@@ -27,10 +27,12 @@ IsoscelesTriangleMixin {
   @override
   
             String
+
  shapeType;
   @override
   
             String
+
  triangleType;
 
 
@@ -56,7 +58,6 @@ required  this.triangleType     ,
 
   @override
   bool validate() {
-      
       
     return super.validate();
   }

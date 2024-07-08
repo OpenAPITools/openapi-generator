@@ -147,10 +147,10 @@ bool _$FreeFormObjectTestClassPropertiesCanDeserialize(Object? src) {
 Object? _$FreeFormObjectTestClassPropertiesSerialize(FreeFormObjectTestClassProperties src) {
   Object? initialResult = () {
     
-    
-    if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v; }
-    if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v; }
-    return null;
+      
+        if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v; }
+        if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v; }
+        return null;
   }();
   if (initialResult is Map<String, Object?>) {
     return {

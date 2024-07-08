@@ -13,7 +13,9 @@ Map<String, dynamic> _$ArrayOfNumberOnlyToMap(ArrayOfNumberOnly instance) {
     List<
         
             num
+
 >
+
  v) {
       return v.map((v) => v).toList();
     }(instance.arrayNumber.valueRequired),
@@ -119,8 +121,7 @@ bool _$ArrayOfNumberOnlyCanDeserialize(Object? src) {
 Map<String, dynamic> _$ArrayOfNumberOnlySerialize(ArrayOfNumberOnly src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$ArrayOfNumberOnlyToMap(src);
     
   }();
   return initialResult;

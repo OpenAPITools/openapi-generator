@@ -15,6 +15,7 @@ mixin DanishPigMixin on
   $OpenApiObjectMixin {
   
             String
+
  get className;
   
 }
@@ -30,9 +31,11 @@ DanishPigMixin {
   @override
   
             String
+
  className;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

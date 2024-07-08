@@ -11,12 +11,13 @@ Map<String, dynamic> _$FruitToMap(Fruit instance) {
     if (instance.color.isDefined)
     _reflection.colorPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.color.valueRequired),
     
     
-    if (instance.oneOf0.isDefined) ...?instance.oneOf0.valueRequired?.toMap(),
+    if (instance.oneOf0.isDefined) ...instance.oneOf0.valueRequired.toMap(),
     
     if (instance.oneOf1.isDefined) ...instance.oneOf1.valueRequired.toMap(),
     
@@ -128,8 +129,7 @@ bool _$FruitCanDeserialize(Object? src) {
 Map<String, dynamic> _$FruitSerialize(Fruit src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$FruitToMap(src);
     
   }();
   return initialResult;

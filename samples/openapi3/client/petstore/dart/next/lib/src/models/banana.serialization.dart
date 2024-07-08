@@ -8,12 +8,13 @@ part of 'banana.dart';
 Map<String, dynamic> _$BananaToMap(Banana instance) {
   final _reflection = BananaReflection.instance;
   return <String, dynamic>{
-    if (instance.lengthCm.isDefined)
+    
     _reflection.lengthCmPart.oasName: (
             num
+
  v) {
       return v;
-    }(instance.lengthCm.valueRequired),
+    }(instance.lengthCm),
     ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
@@ -22,7 +23,7 @@ Map<String, dynamic> _$BananaToMap(Banana instance) {
 Banana _$BananaFromMap(Map<String, dynamic> src) {
   const _reflection = BananaReflection.instance;
   return Banana.$all(
-    lengthCm: src.getOrUndefinedMapped(_reflection.lengthCmPart.oasName, (v) => 
+    lengthCm: src.getRequiredMapped(_reflection.lengthCmPart.oasName, (v) => 
 (
 
             
@@ -100,8 +101,7 @@ bool _$BananaCanDeserialize(Object? src) {
 Map<String, dynamic> _$BananaSerialize(Banana src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$BananaToMap(src);
     
   }();
   return initialResult;

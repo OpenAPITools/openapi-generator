@@ -12,6 +12,7 @@ class EnumArraysReflection extends ClassReflection<EnumArrays> {
     className: r'EnumArrays',
     justSymbolPart: PropertyReflection<EnumArrays, UndefinedWrapper<
             EnumArraysJustSymbolEnum
+
 >>(
       dartName: r'justSymbol',
       nullable: false,
@@ -28,7 +29,9 @@ class EnumArraysReflection extends ClassReflection<EnumArrays> {
     List<
         
             EnumArraysArrayEnumEnum
+
 >
+
 >>(
       dartName: r'arrayEnum',
       nullable: false,
@@ -40,6 +43,7 @@ class EnumArraysReflection extends ClassReflection<EnumArrays> {
       isDiscriminator: false,
       itemsReflection: ItemsReflection<EnumArrays, 
             EnumArraysArrayEnumEnum
+
 >(parentReflectionGetter: instanceGetter,),
       getter: _arrayEnumGetter,
       setter: _arrayEnumSetter,
@@ -49,6 +53,7 @@ class EnumArraysReflection extends ClassReflection<EnumArrays> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<EnumArrays, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -66,14 +71,17 @@ class EnumArraysReflection extends ClassReflection<EnumArrays> {
 
   final PropertyReflection<EnumArrays, UndefinedWrapper<
             EnumArraysJustSymbolEnum
+
 >> justSymbolPart;
   static UndefinedWrapper<
             EnumArraysJustSymbolEnum
+
 > _justSymbolGetter(EnumArrays parent) {
     return parent.justSymbol;
   }
   static void _justSymbolSetter(EnumArrays parent, UndefinedWrapper<
             EnumArraysJustSymbolEnum
+
 > value) {
     parent.justSymbol = value;
   }
@@ -81,13 +89,17 @@ class EnumArraysReflection extends ClassReflection<EnumArrays> {
     List<
         
             EnumArraysArrayEnumEnum
+
 >
+
 >> arrayEnumPart;
   static UndefinedWrapper<
     List<
         
             EnumArraysArrayEnumEnum
+
 >
+
 > _arrayEnumGetter(EnumArrays parent) {
     return parent.arrayEnum;
   }
@@ -95,7 +107,9 @@ class EnumArraysReflection extends ClassReflection<EnumArrays> {
     List<
         
             EnumArraysArrayEnumEnum
+
 >
+
 > value) {
     parent.arrayEnum = value;
   }
@@ -121,6 +135,7 @@ arrayEnumPart,
   ];
 
   final AdditionalPropertiesReflection<EnumArrays, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -150,29 +165,38 @@ arrayEnumPart,
   /// Gets an example of EnumArrays.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  EnumArrays example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  EnumArrays example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return EnumArrays(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = EnumArrays(
       justSymbol: () {
-        PartReflection? _partReflection = _reflection.justSymbolPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             exampleEnum(EnumArraysJustSymbolEnum.values)
 
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       arrayEnum: () {
-        PartReflection? _partReflection = _reflection.arrayEnumPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             exampleEnum(EnumArraysArrayEnumEnum.values)
@@ -183,19 +207,22 @@ arrayEnumPart,
 
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class EnumArraysXmlReflection {
     const EnumArraysXmlReflection();

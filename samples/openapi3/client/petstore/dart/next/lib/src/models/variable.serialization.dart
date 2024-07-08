@@ -11,12 +11,14 @@ Map<String, dynamic> _$VariableToMap(Variable instance) {
     
     _reflection.namePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.name),
     
     _reflection.valuePart.oasName: (
             Value
+
  v) {
       return v.serialize();
     }(instance.value),
@@ -129,8 +131,7 @@ bool _$VariableCanDeserialize(Object? src) {
 Map<String, dynamic> _$VariableSerialize(Variable src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$VariableToMap(src);
     
   }();
   return initialResult;

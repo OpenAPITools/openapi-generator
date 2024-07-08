@@ -12,6 +12,7 @@ class ScaleneTriangleReflection extends ClassReflection<ScaleneTriangle> {
     className: r'ScaleneTriangle',
     shapeTypePart: PropertyReflection<ScaleneTriangle, 
             String
+
 >(
       dartName: r'shapeType',
       nullable: false,
@@ -26,6 +27,7 @@ class ScaleneTriangleReflection extends ClassReflection<ScaleneTriangle> {
     ),
     triangleTypePart: PropertyReflection<ScaleneTriangle, 
             String
+
 >(
       dartName: r'triangleType',
       nullable: false,
@@ -43,6 +45,7 @@ class ScaleneTriangleReflection extends ClassReflection<ScaleneTriangle> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<ScaleneTriangle, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -60,27 +63,33 @@ class ScaleneTriangleReflection extends ClassReflection<ScaleneTriangle> {
 
   final PropertyReflection<ScaleneTriangle, 
             String
+
 > shapeTypePart;
   static 
             String
+
  _shapeTypeGetter(ScaleneTriangle parent) {
     return parent.shapeType;
   }
   static void _shapeTypeSetter(ScaleneTriangle parent, 
             String
+
  value) {
     parent.shapeType = value;
   }
   final PropertyReflection<ScaleneTriangle, 
             String
+
 > triangleTypePart;
   static 
             String
+
  _triangleTypeGetter(ScaleneTriangle parent) {
     return parent.triangleType;
   }
   static void _triangleTypeSetter(ScaleneTriangle parent, 
             String
+
  value) {
     parent.triangleType = value;
   }
@@ -106,6 +115,7 @@ triangleTypePart,
   ];
 
   final AdditionalPropertiesReflection<ScaleneTriangle, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -143,22 +153,24 @@ triangleTypePart,
   /// Gets an example of ScaleneTriangle.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  ScaleneTriangle example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  ScaleneTriangle example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return ScaleneTriangle(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = ScaleneTriangle(
       shapeType: () {
-        PartReflection? _partReflection = _reflection.shapeTypePart;
-        
-        final disc = discriminators[r'shapeType'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -170,19 +182,14 @@ triangleTypePart,
 
 
 ;
-      }(),
+        final preSelectedResult = discriminatorExampleResults[shapeTypePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
       triangleType: () {
-        PartReflection? _partReflection = _reflection.triangleTypePart;
-        
-        final disc = discriminators[r'triangleType'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -194,18 +201,25 @@ triangleTypePart,
 
 
 ;
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+        final preSelectedResult = discriminatorExampleResults[triangleTypePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class ScaleneTriangleXmlReflection {
     const ScaleneTriangleXmlReflection();

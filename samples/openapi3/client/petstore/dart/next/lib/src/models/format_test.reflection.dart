@@ -12,6 +12,7 @@ class FormatTestReflection extends ClassReflection<FormatTest> {
     className: r'FormatTest',
     integerPart: PropertyReflection<FormatTest, UndefinedWrapper<
             int
+
 >>(
       dartName: r'integer',
       nullable: false,
@@ -26,6 +27,7 @@ class FormatTestReflection extends ClassReflection<FormatTest> {
     ),
     int32Part: PropertyReflection<FormatTest, UndefinedWrapper<
             int
+
 >>(
       dartName: r'int32',
       nullable: false,
@@ -40,6 +42,7 @@ class FormatTestReflection extends ClassReflection<FormatTest> {
     ),
     int64Part: PropertyReflection<FormatTest, UndefinedWrapper<
             int
+
 >>(
       dartName: r'int64',
       nullable: false,
@@ -54,6 +57,7 @@ class FormatTestReflection extends ClassReflection<FormatTest> {
     ),
     numberPart: PropertyReflection<FormatTest, 
             num
+
 >(
       dartName: r'number',
       nullable: false,
@@ -68,6 +72,7 @@ class FormatTestReflection extends ClassReflection<FormatTest> {
     ),
     floatPart: PropertyReflection<FormatTest, UndefinedWrapper<
             double
+
 >>(
       dartName: r'float',
       nullable: false,
@@ -82,6 +87,7 @@ class FormatTestReflection extends ClassReflection<FormatTest> {
     ),
     $doublePart: PropertyReflection<FormatTest, UndefinedWrapper<
             double
+
 >>(
       dartName: r'$double',
       nullable: false,
@@ -96,6 +102,7 @@ class FormatTestReflection extends ClassReflection<FormatTest> {
     ),
     decimalPart: PropertyReflection<FormatTest, UndefinedWrapper<
             double
+
 >>(
       dartName: r'decimal',
       nullable: false,
@@ -110,6 +117,7 @@ class FormatTestReflection extends ClassReflection<FormatTest> {
     ),
     stringPart: PropertyReflection<FormatTest, UndefinedWrapper<
             String
+
 >>(
       dartName: r'string',
       nullable: false,
@@ -124,6 +132,7 @@ class FormatTestReflection extends ClassReflection<FormatTest> {
     ),
     bytePart: PropertyReflection<FormatTest, 
             Uint8List
+
 >(
       dartName: r'byte',
       nullable: false,
@@ -138,6 +147,7 @@ class FormatTestReflection extends ClassReflection<FormatTest> {
     ),
     base64StrPart: PropertyReflection<FormatTest, UndefinedWrapper<
             String
+
 >>(
       dartName: r'base64Str',
       nullable: false,
@@ -152,6 +162,7 @@ class FormatTestReflection extends ClassReflection<FormatTest> {
     ),
     binaryPart: PropertyReflection<FormatTest, UndefinedWrapper<
             XFile
+
 >>(
       dartName: r'binary',
       nullable: false,
@@ -166,6 +177,7 @@ class FormatTestReflection extends ClassReflection<FormatTest> {
     ),
     datePart: PropertyReflection<FormatTest, 
             DateTime
+
 >(
       dartName: r'date',
       nullable: false,
@@ -180,6 +192,7 @@ class FormatTestReflection extends ClassReflection<FormatTest> {
     ),
     dateTimePart: PropertyReflection<FormatTest, UndefinedWrapper<
             DateTime
+
 >>(
       dartName: r'dateTime',
       nullable: false,
@@ -194,6 +207,7 @@ class FormatTestReflection extends ClassReflection<FormatTest> {
     ),
     uuidPart: PropertyReflection<FormatTest, UndefinedWrapper<
             String
+
 >>(
       dartName: r'uuid',
       nullable: false,
@@ -208,6 +222,7 @@ class FormatTestReflection extends ClassReflection<FormatTest> {
     ),
     uuidWithDefaultPart: PropertyReflection<FormatTest, UndefinedWrapper<
             String
+
 >>(
       dartName: r'uuidWithDefault',
       nullable: false,
@@ -222,6 +237,7 @@ class FormatTestReflection extends ClassReflection<FormatTest> {
     ),
     passwordPart: PropertyReflection<FormatTest, 
             String
+
 >(
       dartName: r'password',
       nullable: false,
@@ -236,6 +252,7 @@ class FormatTestReflection extends ClassReflection<FormatTest> {
     ),
     patternWithDigitsPart: PropertyReflection<FormatTest, UndefinedWrapper<
             String
+
 >>(
       dartName: r'patternWithDigits',
       nullable: false,
@@ -250,6 +267,7 @@ class FormatTestReflection extends ClassReflection<FormatTest> {
     ),
     patternWithDigitsAndDelimiterPart: PropertyReflection<FormatTest, UndefinedWrapper<
             String
+
 >>(
       dartName: r'patternWithDigitsAndDelimiter',
       nullable: false,
@@ -267,6 +285,7 @@ class FormatTestReflection extends ClassReflection<FormatTest> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<FormatTest, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -300,235 +319,289 @@ class FormatTestReflection extends ClassReflection<FormatTest> {
 
   final PropertyReflection<FormatTest, UndefinedWrapper<
             int
+
 >> integerPart;
   static UndefinedWrapper<
             int
+
 > _integerGetter(FormatTest parent) {
     return parent.integer;
   }
   static void _integerSetter(FormatTest parent, UndefinedWrapper<
             int
+
 > value) {
     parent.integer = value;
   }
   final PropertyReflection<FormatTest, UndefinedWrapper<
             int
+
 >> int32Part;
   static UndefinedWrapper<
             int
+
 > _int32Getter(FormatTest parent) {
     return parent.int32;
   }
   static void _int32Setter(FormatTest parent, UndefinedWrapper<
             int
+
 > value) {
     parent.int32 = value;
   }
   final PropertyReflection<FormatTest, UndefinedWrapper<
             int
+
 >> int64Part;
   static UndefinedWrapper<
             int
+
 > _int64Getter(FormatTest parent) {
     return parent.int64;
   }
   static void _int64Setter(FormatTest parent, UndefinedWrapper<
             int
+
 > value) {
     parent.int64 = value;
   }
   final PropertyReflection<FormatTest, 
             num
+
 > numberPart;
   static 
             num
+
  _numberGetter(FormatTest parent) {
     return parent.number;
   }
   static void _numberSetter(FormatTest parent, 
             num
+
  value) {
     parent.number = value;
   }
   final PropertyReflection<FormatTest, UndefinedWrapper<
             double
+
 >> floatPart;
   static UndefinedWrapper<
             double
+
 > _floatGetter(FormatTest parent) {
     return parent.float;
   }
   static void _floatSetter(FormatTest parent, UndefinedWrapper<
             double
+
 > value) {
     parent.float = value;
   }
   final PropertyReflection<FormatTest, UndefinedWrapper<
             double
+
 >> $doublePart;
   static UndefinedWrapper<
             double
+
 > _$doubleGetter(FormatTest parent) {
     return parent.$double;
   }
   static void _$doubleSetter(FormatTest parent, UndefinedWrapper<
             double
+
 > value) {
     parent.$double = value;
   }
   final PropertyReflection<FormatTest, UndefinedWrapper<
             double
+
 >> decimalPart;
   static UndefinedWrapper<
             double
+
 > _decimalGetter(FormatTest parent) {
     return parent.decimal;
   }
   static void _decimalSetter(FormatTest parent, UndefinedWrapper<
             double
+
 > value) {
     parent.decimal = value;
   }
   final PropertyReflection<FormatTest, UndefinedWrapper<
             String
+
 >> stringPart;
   static UndefinedWrapper<
             String
+
 > _stringGetter(FormatTest parent) {
     return parent.string;
   }
   static void _stringSetter(FormatTest parent, UndefinedWrapper<
             String
+
 > value) {
     parent.string = value;
   }
   final PropertyReflection<FormatTest, 
             Uint8List
+
 > bytePart;
   static 
             Uint8List
+
  _byteGetter(FormatTest parent) {
     return parent.byte;
   }
   static void _byteSetter(FormatTest parent, 
             Uint8List
+
  value) {
     parent.byte = value;
   }
   final PropertyReflection<FormatTest, UndefinedWrapper<
             String
+
 >> base64StrPart;
   static UndefinedWrapper<
             String
+
 > _base64StrGetter(FormatTest parent) {
     return parent.base64Str;
   }
   static void _base64StrSetter(FormatTest parent, UndefinedWrapper<
             String
+
 > value) {
     parent.base64Str = value;
   }
   final PropertyReflection<FormatTest, UndefinedWrapper<
             XFile
+
 >> binaryPart;
   static UndefinedWrapper<
             XFile
+
 > _binaryGetter(FormatTest parent) {
     return parent.binary;
   }
   static void _binarySetter(FormatTest parent, UndefinedWrapper<
             XFile
+
 > value) {
     parent.binary = value;
   }
   final PropertyReflection<FormatTest, 
             DateTime
+
 > datePart;
   static 
             DateTime
+
  _dateGetter(FormatTest parent) {
     return parent.date;
   }
   static void _dateSetter(FormatTest parent, 
             DateTime
+
  value) {
     parent.date = value;
   }
   final PropertyReflection<FormatTest, UndefinedWrapper<
             DateTime
+
 >> dateTimePart;
   static UndefinedWrapper<
             DateTime
+
 > _dateTimeGetter(FormatTest parent) {
     return parent.dateTime;
   }
   static void _dateTimeSetter(FormatTest parent, UndefinedWrapper<
             DateTime
+
 > value) {
     parent.dateTime = value;
   }
   final PropertyReflection<FormatTest, UndefinedWrapper<
             String
+
 >> uuidPart;
   static UndefinedWrapper<
             String
+
 > _uuidGetter(FormatTest parent) {
     return parent.uuid;
   }
   static void _uuidSetter(FormatTest parent, UndefinedWrapper<
             String
+
 > value) {
     parent.uuid = value;
   }
   final PropertyReflection<FormatTest, UndefinedWrapper<
             String
+
 >> uuidWithDefaultPart;
   static UndefinedWrapper<
             String
+
 > _uuidWithDefaultGetter(FormatTest parent) {
     return parent.uuidWithDefault;
   }
   static void _uuidWithDefaultSetter(FormatTest parent, UndefinedWrapper<
             String
+
 > value) {
     parent.uuidWithDefault = value;
   }
   final PropertyReflection<FormatTest, 
             String
+
 > passwordPart;
   static 
             String
+
  _passwordGetter(FormatTest parent) {
     return parent.password;
   }
   static void _passwordSetter(FormatTest parent, 
             String
+
  value) {
     parent.password = value;
   }
   final PropertyReflection<FormatTest, UndefinedWrapper<
             String
+
 >> patternWithDigitsPart;
   static UndefinedWrapper<
             String
+
 > _patternWithDigitsGetter(FormatTest parent) {
     return parent.patternWithDigits;
   }
   static void _patternWithDigitsSetter(FormatTest parent, UndefinedWrapper<
             String
+
 > value) {
     parent.patternWithDigits = value;
   }
   final PropertyReflection<FormatTest, UndefinedWrapper<
             String
+
 >> patternWithDigitsAndDelimiterPart;
   static UndefinedWrapper<
             String
+
 > _patternWithDigitsAndDelimiterGetter(FormatTest parent) {
     return parent.patternWithDigitsAndDelimiter;
   }
   static void _patternWithDigitsAndDelimiterSetter(FormatTest parent, UndefinedWrapper<
             String
+
 > value) {
     parent.patternWithDigitsAndDelimiter = value;
   }
@@ -570,6 +643,7 @@ patternWithDigitsAndDelimiterPart,
   ];
 
   final AdditionalPropertiesReflection<FormatTest, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -599,14 +673,24 @@ patternWithDigitsAndDelimiterPart,
   /// Gets an example of FormatTest.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  FormatTest example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  FormatTest example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return FormatTest(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = FormatTest(
       integer: () {
-        PartReflection? _partReflection = _reflection.integerPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -617,12 +701,11 @@ patternWithDigitsAndDelimiterPart,
     exampleint()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       int32: () {
-        PartReflection? _partReflection = _reflection.int32Part;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -633,12 +716,11 @@ patternWithDigitsAndDelimiterPart,
     exampleint()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       int64: () {
-        PartReflection? _partReflection = _reflection.int64Part;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -649,12 +731,11 @@ patternWithDigitsAndDelimiterPart,
     exampleint()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       number: () {
-        PartReflection? _partReflection = _reflection.numberPart;
-        
-        return 
+        var result = 
 
 
             
@@ -666,11 +747,10 @@ patternWithDigitsAndDelimiterPart,
 
 
 ;
-      }(),
+        return result;
+      } (),
       float: () {
-        PartReflection? _partReflection = _reflection.floatPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -681,12 +761,11 @@ patternWithDigitsAndDelimiterPart,
     exampledouble()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       $double: () {
-        PartReflection? _partReflection = _reflection.$doublePart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -697,12 +776,11 @@ patternWithDigitsAndDelimiterPart,
     exampledouble()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       decimal: () {
-        PartReflection? _partReflection = _reflection.decimalPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -713,20 +791,11 @@ patternWithDigitsAndDelimiterPart,
     exampledouble()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       string: () {
-        PartReflection? _partReflection = _reflection.stringPart;
-        
-        final disc = discriminators[r'string'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -737,12 +806,15 @@ patternWithDigitsAndDelimiterPart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[stringPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       byte: () {
-        PartReflection? _partReflection = _reflection.bytePart;
-        
-        return 
+        var result = 
 
 
             
@@ -754,19 +826,10 @@ patternWithDigitsAndDelimiterPart,
 
 
 ;
-      }(),
+        return result;
+      } (),
       base64Str: () {
-        PartReflection? _partReflection = _reflection.base64StrPart;
-        
-        final disc = discriminators[r'base64Str'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -777,12 +840,15 @@ patternWithDigitsAndDelimiterPart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[base64StrPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       binary: () {
-        PartReflection? _partReflection = _reflection.binaryPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -793,12 +859,11 @@ patternWithDigitsAndDelimiterPart,
     exampleXFile()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       date: () {
-        PartReflection? _partReflection = _reflection.datePart;
-        
-        return 
+        var result = 
 
 
             
@@ -810,11 +875,10 @@ patternWithDigitsAndDelimiterPart,
 
 
 ;
-      }(),
+        return result;
+      } (),
       dateTime: () {
-        PartReflection? _partReflection = _reflection.dateTimePart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -825,68 +889,11 @@ patternWithDigitsAndDelimiterPart,
     exampleDateTime()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       uuid: () {
-        PartReflection? _partReflection = _reflection.uuidPart;
-        
-        final disc = discriminators[r'uuid'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-);
-      }(),
-      uuidWithDefault: () {
-        PartReflection? _partReflection = _reflection.uuidWithDefaultPart;
-        
-        final disc = discriminators[r'uuid_with_default'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-);
-      }(),
-      password: () {
-        PartReflection? _partReflection = _reflection.passwordPart;
-        
-        final disc = discriminators[r'password'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -898,19 +905,52 @@ patternWithDigitsAndDelimiterPart,
 
 
 ;
-      }(),
+        final preSelectedResult = discriminatorExampleResults[uuidPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      uuidWithDefault: () {
+        var result = 
+
+
+            
+            
+
+
+    
+    exampleString()
+
+
+;
+        final preSelectedResult = discriminatorExampleResults[uuidWithDefaultPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      password: () {
+        var result = 
+
+
+            
+            
+
+
+    
+    exampleString()
+
+
+;
+        final preSelectedResult = discriminatorExampleResults[passwordPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
       patternWithDigits: () {
-        PartReflection? _partReflection = _reflection.patternWithDigitsPart;
-        
-        final disc = discriminators[r'pattern_with_digits'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -921,20 +961,15 @@ patternWithDigitsAndDelimiterPart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[patternWithDigitsPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       patternWithDigitsAndDelimiter: () {
-        PartReflection? _partReflection = _reflection.patternWithDigitsAndDelimiterPart;
-        
-        final disc = discriminators[r'pattern_with_digits_and_delimiter'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -945,19 +980,26 @@ patternWithDigitsAndDelimiterPart,
     exampleString()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        final preSelectedResult = discriminatorExampleResults[patternWithDigitsAndDelimiterPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class FormatTestXmlReflection {
     const FormatTestXmlReflection();

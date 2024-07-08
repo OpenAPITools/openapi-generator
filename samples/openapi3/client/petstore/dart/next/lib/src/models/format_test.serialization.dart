@@ -11,108 +11,126 @@ Map<String, dynamic> _$FormatTestToMap(FormatTest instance) {
     if (instance.integer.isDefined)
     _reflection.integerPart.oasName: (
             int
+
  v) {
       return v;
     }(instance.integer.valueRequired),
     if (instance.int32.isDefined)
     _reflection.int32Part.oasName: (
             int
+
  v) {
       return v;
     }(instance.int32.valueRequired),
     if (instance.int64.isDefined)
     _reflection.int64Part.oasName: (
             int
+
  v) {
       return v;
     }(instance.int64.valueRequired),
     
     _reflection.numberPart.oasName: (
             num
+
  v) {
       return v;
     }(instance.number),
     if (instance.float.isDefined)
     _reflection.floatPart.oasName: (
             double
+
  v) {
       return v;
     }(instance.float.valueRequired),
     if (instance.$double.isDefined)
     _reflection.$doublePart.oasName: (
             double
+
  v) {
       return v;
     }(instance.$double.valueRequired),
     if (instance.decimal.isDefined)
     _reflection.decimalPart.oasName: (
             double
+
  v) {
       return v;
     }(instance.decimal.valueRequired),
     if (instance.string.isDefined)
     _reflection.stringPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.string.valueRequired),
     
     _reflection.bytePart.oasName: (
             Uint8List
+
  v) {
       return v;
     }(instance.byte),
     if (instance.base64Str.isDefined)
     _reflection.base64StrPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.base64Str.valueRequired),
     if (instance.binary.isDefined)
     _reflection.binaryPart.oasName: (
             XFile
+
  v) {
       return v;
     }(instance.binary.valueRequired),
     
     _reflection.datePart.oasName: (
             DateTime
+
  v) {
       return v;
     }(instance.date),
     if (instance.dateTime.isDefined)
     _reflection.dateTimePart.oasName: (
             DateTime
+
  v) {
       return v;
     }(instance.dateTime.valueRequired),
     if (instance.uuid.isDefined)
     _reflection.uuidPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.uuid.valueRequired),
     if (instance.uuidWithDefault.isDefined)
     _reflection.uuidWithDefaultPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.uuidWithDefault.valueRequired),
     
     _reflection.passwordPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.password),
     if (instance.patternWithDigits.isDefined)
     _reflection.patternWithDigitsPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.patternWithDigits.valueRequired),
     if (instance.patternWithDigitsAndDelimiter.isDefined)
     _reflection.patternWithDigitsAndDelimiterPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.patternWithDigitsAndDelimiter.valueRequired),
@@ -768,8 +786,7 @@ bool _$FormatTestCanDeserialize(Object? src) {
 Map<String, dynamic> _$FormatTestSerialize(FormatTest src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$FormatTestToMap(src);
     
   }();
   return initialResult;

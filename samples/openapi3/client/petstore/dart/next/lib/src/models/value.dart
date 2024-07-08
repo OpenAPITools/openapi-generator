@@ -18,6 +18,7 @@ mixin ValueMixin on
     List<
         
             Scalar
+
 >
 > get oneOf1;
 }
@@ -29,6 +30,7 @@ $OpenApiObjectMixin,
 ValueMixin {
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   
@@ -42,6 +44,7 @@ ValueMixin {
     List<
         
             Scalar
+
 >
 > oneOf1;
   
@@ -66,11 +69,10 @@ ValueMixin {
   @override
   bool validate() {
       final oneOfs = [oneOf0,oneOf1,].where((e) => e.isDefined).take(2);
-      if (oneOfs.length != 1) {
-        // there must be EXACTLY one "oneOf" schema.
+      if (oneOfs.length > 1) {
+        // there must be AT MOST one "oneOf" schema.
         return false;
       }
-      
       
     return super.validate();
   }

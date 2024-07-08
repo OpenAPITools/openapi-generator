@@ -12,6 +12,7 @@ class TestJsonFormDataRequestReflection extends ClassReflection<TestJsonFormData
     className: r'TestJsonFormDataRequest',
     paramPart: PropertyReflection<TestJsonFormDataRequest, 
             String
+
 >(
       dartName: r'param',
       nullable: false,
@@ -26,6 +27,7 @@ class TestJsonFormDataRequestReflection extends ClassReflection<TestJsonFormData
     ),
     param2Part: PropertyReflection<TestJsonFormDataRequest, 
             String
+
 >(
       dartName: r'param2',
       nullable: false,
@@ -43,6 +45,7 @@ class TestJsonFormDataRequestReflection extends ClassReflection<TestJsonFormData
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<TestJsonFormDataRequest, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -60,27 +63,33 @@ class TestJsonFormDataRequestReflection extends ClassReflection<TestJsonFormData
 
   final PropertyReflection<TestJsonFormDataRequest, 
             String
+
 > paramPart;
   static 
             String
+
  _paramGetter(TestJsonFormDataRequest parent) {
     return parent.param;
   }
   static void _paramSetter(TestJsonFormDataRequest parent, 
             String
+
  value) {
     parent.param = value;
   }
   final PropertyReflection<TestJsonFormDataRequest, 
             String
+
 > param2Part;
   static 
             String
+
  _param2Getter(TestJsonFormDataRequest parent) {
     return parent.param2;
   }
   static void _param2Setter(TestJsonFormDataRequest parent, 
             String
+
  value) {
     parent.param2 = value;
   }
@@ -106,6 +115,7 @@ param2Part,
   ];
 
   final AdditionalPropertiesReflection<TestJsonFormDataRequest, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -135,22 +145,24 @@ param2Part,
   /// Gets an example of TestJsonFormDataRequest.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  TestJsonFormDataRequest example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  TestJsonFormDataRequest example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return TestJsonFormDataRequest(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = TestJsonFormDataRequest(
       param: () {
-        PartReflection? _partReflection = _reflection.paramPart;
-        
-        final disc = discriminators[r'param'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -162,19 +174,14 @@ param2Part,
 
 
 ;
-      }(),
+        final preSelectedResult = discriminatorExampleResults[paramPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
       param2: () {
-        PartReflection? _partReflection = _reflection.param2Part;
-        
-        final disc = discriminators[r'param2'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -186,18 +193,25 @@ param2Part,
 
 
 ;
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+        final preSelectedResult = discriminatorExampleResults[param2Part.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class TestJsonFormDataRequestXmlReflection {
     const TestJsonFormDataRequestXmlReflection();

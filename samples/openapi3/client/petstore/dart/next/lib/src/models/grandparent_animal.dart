@@ -15,6 +15,7 @@ mixin GrandparentAnimalMixin on
   $OpenApiObjectMixin {
   
             String
+
  get petType;
   
 }
@@ -30,9 +31,11 @@ GrandparentAnimalMixin {
   @override
   
             String
+
  petType;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

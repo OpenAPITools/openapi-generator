@@ -29,6 +29,7 @@ abstract class UserApiCreateUserRequest {
   const factory UserApiCreateUserRequest.applicationJson({
     required 
             User
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -165,6 +166,7 @@ class UserApiCreateUserRequestApplicationJson extends UserApiCreateUserRequest {
 
   final 
             User
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -248,7 +250,9 @@ abstract class UserApiCreateUsersWithArrayInputRequest {
     List<
         
             User
+
 >
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -387,7 +391,9 @@ class UserApiCreateUsersWithArrayInputRequestApplicationJson extends UserApiCrea
     List<
         
             User
+
 >
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -471,7 +477,9 @@ abstract class UserApiCreateUsersWithListInputRequest {
     List<
         
             User
+
 >
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -610,7 +618,9 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
     List<
         
             User
+
 >
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -682,6 +692,7 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
   /// spec name: username
   final 
             String
+
  username;
   
 
@@ -790,6 +801,7 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
   /// spec name: username
   final 
             String
+
  username;
   
 
@@ -898,6 +910,7 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
   /// spec name: username
   final 
             String
+
  username;
   
   
@@ -905,6 +918,7 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
   /// spec name: password
   final 
             String
+
  password;
   
 
@@ -1115,6 +1129,7 @@ abstract class UserApiUpdateUserRequest {
   /// spec name: username
   final 
             String
+
  username;
   
   
@@ -1123,6 +1138,7 @@ abstract class UserApiUpdateUserRequest {
     
     required 
             String
+
  username,
     
     Map<String, String> extraHeaders,
@@ -1135,12 +1151,14 @@ abstract class UserApiUpdateUserRequest {
   const factory UserApiUpdateUserRequest.applicationJson({
     required 
             User
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
     
     required 
             String
+
  username,
     
     
@@ -1283,6 +1301,7 @@ class UserApiUpdateUserRequestApplicationJson extends UserApiUpdateUserRequest {
 
   final 
             User
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.

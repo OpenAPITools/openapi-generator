@@ -14,7 +14,9 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
     List<
         
             String
+
 >
+
 >>(
       dartName: r'arrayOfString',
       nullable: false,
@@ -26,6 +28,7 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
       isDiscriminator: false,
       itemsReflection: ItemsReflection<ArrayTest, 
             String
+
 >(parentReflectionGetter: instanceGetter,),
       getter: _arrayOfStringGetter,
       setter: _arrayOfStringSetter,
@@ -36,8 +39,11 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
     List<
         
             int
+
 >
+
 >
+
 >>(
       dartName: r'arrayArrayOfInteger',
       nullable: false,
@@ -51,9 +57,12 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
     List<
         
             int
+
 >
+
 >(parentReflectionGetter: instanceGetter,itemsReflection: ItemsReflection<ArrayTest, 
             int
+
 >(parentReflectionGetter: instanceGetter,)),
       getter: _arrayArrayOfIntegerGetter,
       setter: _arrayArrayOfIntegerSetter,
@@ -64,8 +73,11 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
     List<
         
             ReadOnlyFirst
+
 >
+
 >
+
 >>(
       dartName: r'arrayArrayOfModel',
       nullable: false,
@@ -79,9 +91,12 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
     List<
         
             ReadOnlyFirst
+
 >
+
 >(parentReflectionGetter: instanceGetter,itemsReflection: ItemsReflection<ArrayTest, 
             ReadOnlyFirst
+
 >(parentReflectionGetter: instanceGetter,classReflection: ReadOnlyFirstReflection.instance,)),
       getter: _arrayArrayOfModelGetter,
       setter: _arrayArrayOfModelSetter,
@@ -91,6 +106,7 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<ArrayTest, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -111,13 +127,17 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
     List<
         
             String
+
 >
+
 >> arrayOfStringPart;
   static UndefinedWrapper<
     List<
         
             String
+
 >
+
 > _arrayOfStringGetter(ArrayTest parent) {
     return parent.arrayOfString;
   }
@@ -125,7 +145,9 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
     List<
         
             String
+
 >
+
 > value) {
     parent.arrayOfString = value;
   }
@@ -135,8 +157,11 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
     List<
         
             int
+
 >
+
 >
+
 >> arrayArrayOfIntegerPart;
   static UndefinedWrapper<
     List<
@@ -144,8 +169,11 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
     List<
         
             int
+
 >
+
 >
+
 > _arrayArrayOfIntegerGetter(ArrayTest parent) {
     return parent.arrayArrayOfInteger;
   }
@@ -155,8 +183,11 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
     List<
         
             int
+
 >
+
 >
+
 > value) {
     parent.arrayArrayOfInteger = value;
   }
@@ -166,8 +197,11 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
     List<
         
             ReadOnlyFirst
+
 >
+
 >
+
 >> arrayArrayOfModelPart;
   static UndefinedWrapper<
     List<
@@ -175,8 +209,11 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
     List<
         
             ReadOnlyFirst
+
 >
+
 >
+
 > _arrayArrayOfModelGetter(ArrayTest parent) {
     return parent.arrayArrayOfModel;
   }
@@ -186,8 +223,11 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
     List<
         
             ReadOnlyFirst
+
 >
+
 >
+
 > value) {
     parent.arrayArrayOfModel = value;
   }
@@ -214,6 +254,7 @@ arrayArrayOfModelPart,
   ];
 
   final AdditionalPropertiesReflection<ArrayTest, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -243,17 +284,27 @@ arrayArrayOfModelPart,
   /// Gets an example of ArrayTest.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  ArrayTest example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  ArrayTest example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return ArrayTest(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = ArrayTest(
       arrayOfString: () {
-        PartReflection? _partReflection = _reflection.arrayOfStringPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
@@ -268,18 +319,17 @@ arrayArrayOfModelPart,
 
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       arrayArrayOfInteger: () {
-        PartReflection? _partReflection = _reflection.arrayArrayOfIntegerPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
@@ -298,25 +348,24 @@ arrayArrayOfModelPart,
 
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       arrayArrayOfModel: () {
-        PartReflection? _partReflection = _reflection.arrayArrayOfModelPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
             
 
 
-    ReadOnlyFirst.$reflection.example()
+    ReadOnlyFirstReflection.instance.example()
     
 
 
@@ -328,19 +377,22 @@ arrayArrayOfModelPart,
 
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class ArrayTestXmlReflection {
     const ArrayTestXmlReflection();

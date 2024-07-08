@@ -16,9 +16,11 @@ mixin AppleReqMixin on
   $OpenApiObjectMixin {
   
             String
+
  get cultivar;
 UndefinedWrapper<
             bool
+
 > get mealy;
   
 }
@@ -35,10 +37,12 @@ AppleReqMixin {
   @override
   
             String
+
  cultivar;
   @override
   UndefinedWrapper<
             bool
+
 > mealy;
 
 

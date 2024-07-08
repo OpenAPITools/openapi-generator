@@ -11,6 +11,7 @@ Map<String, dynamic> _$ClientToMap(Client instance) {
     if (instance.client.isDefined)
     _reflection.clientPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.client.valueRequired),
@@ -102,8 +103,7 @@ bool _$ClientCanDeserialize(Object? src) {
 Map<String, dynamic> _$ClientSerialize(Client src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$ClientToMap(src);
     
   }();
   return initialResult;

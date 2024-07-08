@@ -12,6 +12,7 @@ class UploadFileWithRequiredFileRequestReflection extends ClassReflection<Upload
     className: r'UploadFileWithRequiredFileRequest',
     additionalMetadataPart: PropertyReflection<UploadFileWithRequiredFileRequest, UndefinedWrapper<
             String
+
 >>(
       dartName: r'additionalMetadata',
       nullable: false,
@@ -26,6 +27,7 @@ class UploadFileWithRequiredFileRequestReflection extends ClassReflection<Upload
     ),
     requiredFilePart: PropertyReflection<UploadFileWithRequiredFileRequest, 
             XFile
+
 >(
       dartName: r'requiredFile',
       nullable: false,
@@ -43,6 +45,7 @@ class UploadFileWithRequiredFileRequestReflection extends ClassReflection<Upload
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<UploadFileWithRequiredFileRequest, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -60,27 +63,33 @@ class UploadFileWithRequiredFileRequestReflection extends ClassReflection<Upload
 
   final PropertyReflection<UploadFileWithRequiredFileRequest, UndefinedWrapper<
             String
+
 >> additionalMetadataPart;
   static UndefinedWrapper<
             String
+
 > _additionalMetadataGetter(UploadFileWithRequiredFileRequest parent) {
     return parent.additionalMetadata;
   }
   static void _additionalMetadataSetter(UploadFileWithRequiredFileRequest parent, UndefinedWrapper<
             String
+
 > value) {
     parent.additionalMetadata = value;
   }
   final PropertyReflection<UploadFileWithRequiredFileRequest, 
             XFile
+
 > requiredFilePart;
   static 
             XFile
+
  _requiredFileGetter(UploadFileWithRequiredFileRequest parent) {
     return parent.requiredFile;
   }
   static void _requiredFileSetter(UploadFileWithRequiredFileRequest parent, 
             XFile
+
  value) {
     parent.requiredFile = value;
   }
@@ -106,6 +115,7 @@ requiredFilePart,
   ];
 
   final AdditionalPropertiesReflection<UploadFileWithRequiredFileRequest, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -135,22 +145,24 @@ requiredFilePart,
   /// Gets an example of UploadFileWithRequiredFileRequest.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  UploadFileWithRequiredFileRequest example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  UploadFileWithRequiredFileRequest example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return UploadFileWithRequiredFileRequest(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = UploadFileWithRequiredFileRequest(
       additionalMetadata: () {
-        PartReflection? _partReflection = _reflection.additionalMetadataPart;
-        
-        final disc = discriminators[r'additionalMetadata'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -161,12 +173,15 @@ requiredFilePart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[additionalMetadataPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       requiredFile: () {
-        PartReflection? _partReflection = _reflection.requiredFilePart;
-        
-        return 
+        var result = 
 
 
             
@@ -178,18 +193,21 @@ requiredFilePart,
 
 
 ;
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+        return result;
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class UploadFileWithRequiredFileRequestXmlReflection {
     const UploadFileWithRequiredFileRequestXmlReflection();

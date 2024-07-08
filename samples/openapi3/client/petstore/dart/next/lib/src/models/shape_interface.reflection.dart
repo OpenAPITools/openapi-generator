@@ -12,6 +12,7 @@ class ShapeInterfaceReflection extends ClassReflection<ShapeInterface> {
     className: r'ShapeInterface',
     shapeTypePart: PropertyReflection<ShapeInterface, 
             String
+
 >(
       dartName: r'shapeType',
       nullable: false,
@@ -29,6 +30,7 @@ class ShapeInterfaceReflection extends ClassReflection<ShapeInterface> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<ShapeInterface, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -45,14 +47,17 @@ class ShapeInterfaceReflection extends ClassReflection<ShapeInterface> {
 
   final PropertyReflection<ShapeInterface, 
             String
+
 > shapeTypePart;
   static 
             String
+
  _shapeTypeGetter(ShapeInterface parent) {
     return parent.shapeType;
   }
   static void _shapeTypeSetter(ShapeInterface parent, 
             String
+
  value) {
     parent.shapeType = value;
   }
@@ -77,6 +82,7 @@ class ShapeInterfaceReflection extends ClassReflection<ShapeInterface> {
   ];
 
   final AdditionalPropertiesReflection<ShapeInterface, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -106,22 +112,24 @@ class ShapeInterfaceReflection extends ClassReflection<ShapeInterface> {
   /// Gets an example of ShapeInterface.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  ShapeInterface example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  ShapeInterface example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return ShapeInterface(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = ShapeInterface(
       shapeType: () {
-        PartReflection? _partReflection = _reflection.shapeTypePart;
-        
-        final disc = discriminators[r'shapeType'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -133,18 +141,25 @@ class ShapeInterfaceReflection extends ClassReflection<ShapeInterface> {
 
 
 ;
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+        final preSelectedResult = discriminatorExampleResults[shapeTypePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class ShapeInterfaceXmlReflection {
     const ShapeInterfaceXmlReflection();

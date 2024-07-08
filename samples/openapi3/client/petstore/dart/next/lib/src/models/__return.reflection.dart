@@ -12,6 +12,7 @@ class $ReturnReflection extends ClassReflection<$Return> {
     className: r'$Return',
     $returnPart: PropertyReflection<$Return, UndefinedWrapper<
             int
+
 >>(
       dartName: r'$return',
       nullable: false,
@@ -29,6 +30,7 @@ class $ReturnReflection extends ClassReflection<$Return> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<$Return, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -45,14 +47,17 @@ class $ReturnReflection extends ClassReflection<$Return> {
 
   final PropertyReflection<$Return, UndefinedWrapper<
             int
+
 >> $returnPart;
   static UndefinedWrapper<
             int
+
 > _$returnGetter($Return parent) {
     return parent.$return;
   }
   static void _$returnSetter($Return parent, UndefinedWrapper<
             int
+
 > value) {
     parent.$return = value;
   }
@@ -77,6 +82,7 @@ class $ReturnReflection extends ClassReflection<$Return> {
   ];
 
   final AdditionalPropertiesReflection<$Return, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -106,14 +112,24 @@ class $ReturnReflection extends ClassReflection<$Return> {
   /// Gets an example of $Return.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  $Return example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  $Return example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return $Return(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = $Return(
       $return: () {
-        PartReflection? _partReflection = _reflection.$returnPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -124,19 +140,22 @@ class $ReturnReflection extends ClassReflection<$Return> {
     exampleint()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class $ReturnXmlReflection {
     const $ReturnXmlReflection();

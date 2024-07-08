@@ -12,6 +12,7 @@ class OrderReflection extends ClassReflection<Order> {
     className: r'Order',
     idPart: PropertyReflection<Order, UndefinedWrapper<
             int
+
 >>(
       dartName: r'id',
       nullable: false,
@@ -26,6 +27,7 @@ class OrderReflection extends ClassReflection<Order> {
     ),
     petIdPart: PropertyReflection<Order, UndefinedWrapper<
             int
+
 >>(
       dartName: r'petId',
       nullable: false,
@@ -40,6 +42,7 @@ class OrderReflection extends ClassReflection<Order> {
     ),
     quantityPart: PropertyReflection<Order, UndefinedWrapper<
             int
+
 >>(
       dartName: r'quantity',
       nullable: false,
@@ -54,6 +57,7 @@ class OrderReflection extends ClassReflection<Order> {
     ),
     shipDatePart: PropertyReflection<Order, UndefinedWrapper<
             DateTime
+
 >>(
       dartName: r'shipDate',
       nullable: false,
@@ -68,6 +72,7 @@ class OrderReflection extends ClassReflection<Order> {
     ),
     statusPart: PropertyReflection<Order, UndefinedWrapper<
             OrderStatusEnum
+
 >>(
       dartName: r'status',
       nullable: false,
@@ -82,6 +87,7 @@ class OrderReflection extends ClassReflection<Order> {
     ),
     completePart: PropertyReflection<Order, UndefinedWrapper<
             bool
+
 >>(
       dartName: r'complete',
       nullable: false,
@@ -99,6 +105,7 @@ class OrderReflection extends ClassReflection<Order> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<Order, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -120,79 +127,97 @@ class OrderReflection extends ClassReflection<Order> {
 
   final PropertyReflection<Order, UndefinedWrapper<
             int
+
 >> idPart;
   static UndefinedWrapper<
             int
+
 > _idGetter(Order parent) {
     return parent.id;
   }
   static void _idSetter(Order parent, UndefinedWrapper<
             int
+
 > value) {
     parent.id = value;
   }
   final PropertyReflection<Order, UndefinedWrapper<
             int
+
 >> petIdPart;
   static UndefinedWrapper<
             int
+
 > _petIdGetter(Order parent) {
     return parent.petId;
   }
   static void _petIdSetter(Order parent, UndefinedWrapper<
             int
+
 > value) {
     parent.petId = value;
   }
   final PropertyReflection<Order, UndefinedWrapper<
             int
+
 >> quantityPart;
   static UndefinedWrapper<
             int
+
 > _quantityGetter(Order parent) {
     return parent.quantity;
   }
   static void _quantitySetter(Order parent, UndefinedWrapper<
             int
+
 > value) {
     parent.quantity = value;
   }
   final PropertyReflection<Order, UndefinedWrapper<
             DateTime
+
 >> shipDatePart;
   static UndefinedWrapper<
             DateTime
+
 > _shipDateGetter(Order parent) {
     return parent.shipDate;
   }
   static void _shipDateSetter(Order parent, UndefinedWrapper<
             DateTime
+
 > value) {
     parent.shipDate = value;
   }
   final PropertyReflection<Order, UndefinedWrapper<
             OrderStatusEnum
+
 >> statusPart;
   static UndefinedWrapper<
             OrderStatusEnum
+
 > _statusGetter(Order parent) {
     return parent.status;
   }
   static void _statusSetter(Order parent, UndefinedWrapper<
             OrderStatusEnum
+
 > value) {
     parent.status = value;
   }
   final PropertyReflection<Order, UndefinedWrapper<
             bool
+
 >> completePart;
   static UndefinedWrapper<
             bool
+
 > _completeGetter(Order parent) {
     return parent.complete;
   }
   static void _completeSetter(Order parent, UndefinedWrapper<
             bool
+
 > value) {
     parent.complete = value;
   }
@@ -222,6 +247,7 @@ completePart,
   ];
 
   final AdditionalPropertiesReflection<Order, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -251,14 +277,24 @@ completePart,
   /// Gets an example of Order.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  Order example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  Order example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return Order(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = Order(
       id: () {
-        PartReflection? _partReflection = _reflection.idPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -269,12 +305,11 @@ completePart,
     exampleint()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       petId: () {
-        PartReflection? _partReflection = _reflection.petIdPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -285,12 +320,11 @@ completePart,
     exampleint()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       quantity: () {
-        PartReflection? _partReflection = _reflection.quantityPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -301,12 +335,11 @@ completePart,
     exampleint()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       shipDate: () {
-        PartReflection? _partReflection = _reflection.shipDatePart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -317,24 +350,22 @@ completePart,
     exampleDateTime()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       status: () {
-        PartReflection? _partReflection = _reflection.statusPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             exampleEnum(OrderStatusEnum.values)
 
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       complete: () {
-        PartReflection? _partReflection = _reflection.completePart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -345,19 +376,22 @@ completePart,
     examplebool()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class OrderXmlReflection {
     const OrderXmlReflection();

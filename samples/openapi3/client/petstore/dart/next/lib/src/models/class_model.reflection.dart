@@ -12,6 +12,7 @@ class ClassModelReflection extends ClassReflection<ClassModel> {
     className: r'ClassModel',
     propertyClassPart: PropertyReflection<ClassModel, UndefinedWrapper<
             String
+
 >>(
       dartName: r'propertyClass',
       nullable: false,
@@ -29,6 +30,7 @@ class ClassModelReflection extends ClassReflection<ClassModel> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<ClassModel, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -45,14 +47,17 @@ class ClassModelReflection extends ClassReflection<ClassModel> {
 
   final PropertyReflection<ClassModel, UndefinedWrapper<
             String
+
 >> propertyClassPart;
   static UndefinedWrapper<
             String
+
 > _propertyClassGetter(ClassModel parent) {
     return parent.propertyClass;
   }
   static void _propertyClassSetter(ClassModel parent, UndefinedWrapper<
             String
+
 > value) {
     parent.propertyClass = value;
   }
@@ -77,6 +82,7 @@ class ClassModelReflection extends ClassReflection<ClassModel> {
   ];
 
   final AdditionalPropertiesReflection<ClassModel, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -106,22 +112,24 @@ class ClassModelReflection extends ClassReflection<ClassModel> {
   /// Gets an example of ClassModel.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  ClassModel example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  ClassModel example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return ClassModel(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = ClassModel(
       propertyClass: () {
-        PartReflection? _partReflection = _reflection.propertyClassPart;
-        
-        final disc = discriminators[r'_class'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -132,19 +140,26 @@ class ClassModelReflection extends ClassReflection<ClassModel> {
     exampleString()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        final preSelectedResult = discriminatorExampleResults[propertyClassPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class ClassModelXmlReflection {
     const ClassModelXmlReflection();

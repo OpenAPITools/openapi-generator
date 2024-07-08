@@ -15,6 +15,7 @@ mixin NumberOnlyMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             num
+
 > get justNumber;
   
 }
@@ -30,9 +31,11 @@ NumberOnlyMixin {
   @override
   UndefinedWrapper<
             num
+
 > justNumber;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

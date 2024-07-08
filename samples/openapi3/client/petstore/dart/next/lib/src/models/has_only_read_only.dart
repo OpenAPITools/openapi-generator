@@ -16,9 +16,11 @@ mixin HasOnlyReadOnlyMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 > get bar;
 UndefinedWrapper<
             String
+
 > get foo;
   
 }
@@ -35,13 +37,16 @@ HasOnlyReadOnlyMixin {
   @override
   UndefinedWrapper<
             String
+
 > bar;
   @override
   UndefinedWrapper<
             String
+
 > foo;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

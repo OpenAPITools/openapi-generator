@@ -12,6 +12,7 @@ class DeprecatedObjectReflection extends ClassReflection<DeprecatedObject> {
     className: r'DeprecatedObject',
     namePart: PropertyReflection<DeprecatedObject, UndefinedWrapper<
             String
+
 >>(
       dartName: r'name',
       nullable: false,
@@ -29,6 +30,7 @@ class DeprecatedObjectReflection extends ClassReflection<DeprecatedObject> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<DeprecatedObject, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -45,14 +47,17 @@ class DeprecatedObjectReflection extends ClassReflection<DeprecatedObject> {
 
   final PropertyReflection<DeprecatedObject, UndefinedWrapper<
             String
+
 >> namePart;
   static UndefinedWrapper<
             String
+
 > _nameGetter(DeprecatedObject parent) {
     return parent.name;
   }
   static void _nameSetter(DeprecatedObject parent, UndefinedWrapper<
             String
+
 > value) {
     parent.name = value;
   }
@@ -77,6 +82,7 @@ class DeprecatedObjectReflection extends ClassReflection<DeprecatedObject> {
   ];
 
   final AdditionalPropertiesReflection<DeprecatedObject, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -106,22 +112,24 @@ class DeprecatedObjectReflection extends ClassReflection<DeprecatedObject> {
   /// Gets an example of DeprecatedObject.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  DeprecatedObject example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  DeprecatedObject example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return DeprecatedObject(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = DeprecatedObject(
       name: () {
-        PartReflection? _partReflection = _reflection.namePart;
-        
-        final disc = discriminators[r'name'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -132,19 +140,26 @@ class DeprecatedObjectReflection extends ClassReflection<DeprecatedObject> {
     exampleString()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        final preSelectedResult = discriminatorExampleResults[namePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class DeprecatedObjectXmlReflection {
     const DeprecatedObjectXmlReflection();

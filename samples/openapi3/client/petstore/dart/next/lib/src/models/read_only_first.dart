@@ -16,9 +16,11 @@ mixin ReadOnlyFirstMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 > get bar;
 UndefinedWrapper<
             String
+
 > get baz;
   
 }
@@ -35,13 +37,16 @@ ReadOnlyFirstMixin {
   @override
   UndefinedWrapper<
             String
+
 > bar;
   @override
   UndefinedWrapper<
             String
+
 > baz;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

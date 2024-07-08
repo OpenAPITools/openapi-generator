@@ -17,15 +17,19 @@ mixin ArrayOfInlineAllOfMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
+
 > get id;
 
             String
+
  get name;
 UndefinedWrapper<
     List<
         
             ArrayOfInlineAllOfArrayAllofDogPropertyInner
+
 >
+
 > get arrayAllofDogProperty;
   
 }
@@ -43,20 +47,25 @@ ArrayOfInlineAllOfMixin {
   @override
   UndefinedWrapper<
             int
+
 > id;
   @override
   
             String
+
  name;
   @override
   UndefinedWrapper<
     List<
         
             ArrayOfInlineAllOfArrayAllofDogPropertyInner
+
 >
+
 > arrayAllofDogProperty;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

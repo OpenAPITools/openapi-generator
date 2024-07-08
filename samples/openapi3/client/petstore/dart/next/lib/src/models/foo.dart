@@ -15,6 +15,7 @@ mixin FooMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 > get bar;
   
 }
@@ -30,9 +31,11 @@ FooMixin {
   @override
   UndefinedWrapper<
             String
+
 > bar;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

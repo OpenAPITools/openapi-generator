@@ -12,6 +12,7 @@ class ReadOnlyFirstReflection extends ClassReflection<ReadOnlyFirst> {
     className: r'ReadOnlyFirst',
     barPart: PropertyReflection<ReadOnlyFirst, UndefinedWrapper<
             String
+
 >>(
       dartName: r'bar',
       nullable: false,
@@ -26,6 +27,7 @@ class ReadOnlyFirstReflection extends ClassReflection<ReadOnlyFirst> {
     ),
     bazPart: PropertyReflection<ReadOnlyFirst, UndefinedWrapper<
             String
+
 >>(
       dartName: r'baz',
       nullable: false,
@@ -43,6 +45,7 @@ class ReadOnlyFirstReflection extends ClassReflection<ReadOnlyFirst> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<ReadOnlyFirst, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -60,27 +63,33 @@ class ReadOnlyFirstReflection extends ClassReflection<ReadOnlyFirst> {
 
   final PropertyReflection<ReadOnlyFirst, UndefinedWrapper<
             String
+
 >> barPart;
   static UndefinedWrapper<
             String
+
 > _barGetter(ReadOnlyFirst parent) {
     return parent.bar;
   }
   static void _barSetter(ReadOnlyFirst parent, UndefinedWrapper<
             String
+
 > value) {
     parent.bar = value;
   }
   final PropertyReflection<ReadOnlyFirst, UndefinedWrapper<
             String
+
 >> bazPart;
   static UndefinedWrapper<
             String
+
 > _bazGetter(ReadOnlyFirst parent) {
     return parent.baz;
   }
   static void _bazSetter(ReadOnlyFirst parent, UndefinedWrapper<
             String
+
 > value) {
     parent.baz = value;
   }
@@ -106,6 +115,7 @@ bazPart,
   ];
 
   final AdditionalPropertiesReflection<ReadOnlyFirst, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -135,22 +145,24 @@ bazPart,
   /// Gets an example of ReadOnlyFirst.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  ReadOnlyFirst example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  ReadOnlyFirst example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return ReadOnlyFirst(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = ReadOnlyFirst(
       bar: () {
-        PartReflection? _partReflection = _reflection.barPart;
-        
-        final disc = discriminators[r'bar'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -161,20 +173,15 @@ bazPart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[barPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       baz: () {
-        PartReflection? _partReflection = _reflection.bazPart;
-        
-        final disc = discriminators[r'baz'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -185,19 +192,26 @@ bazPart,
     exampleString()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        final preSelectedResult = discriminatorExampleResults[bazPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class ReadOnlyFirstXmlReflection {
     const ReadOnlyFirstXmlReflection();

@@ -12,6 +12,7 @@ class QuadrilateralInterfaceReflection extends ClassReflection<QuadrilateralInte
     className: r'QuadrilateralInterface',
     quadrilateralTypePart: PropertyReflection<QuadrilateralInterface, 
             String
+
 >(
       dartName: r'quadrilateralType',
       nullable: false,
@@ -29,6 +30,7 @@ class QuadrilateralInterfaceReflection extends ClassReflection<QuadrilateralInte
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<QuadrilateralInterface, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -45,14 +47,17 @@ class QuadrilateralInterfaceReflection extends ClassReflection<QuadrilateralInte
 
   final PropertyReflection<QuadrilateralInterface, 
             String
+
 > quadrilateralTypePart;
   static 
             String
+
  _quadrilateralTypeGetter(QuadrilateralInterface parent) {
     return parent.quadrilateralType;
   }
   static void _quadrilateralTypeSetter(QuadrilateralInterface parent, 
             String
+
  value) {
     parent.quadrilateralType = value;
   }
@@ -77,6 +82,7 @@ class QuadrilateralInterfaceReflection extends ClassReflection<QuadrilateralInte
   ];
 
   final AdditionalPropertiesReflection<QuadrilateralInterface, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -106,22 +112,24 @@ class QuadrilateralInterfaceReflection extends ClassReflection<QuadrilateralInte
   /// Gets an example of QuadrilateralInterface.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  QuadrilateralInterface example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  QuadrilateralInterface example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return QuadrilateralInterface(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = QuadrilateralInterface(
       quadrilateralType: () {
-        PartReflection? _partReflection = _reflection.quadrilateralTypePart;
-        
-        final disc = discriminators[r'quadrilateralType'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -133,18 +141,25 @@ class QuadrilateralInterfaceReflection extends ClassReflection<QuadrilateralInte
 
 
 ;
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+        final preSelectedResult = discriminatorExampleResults[quadrilateralTypePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class QuadrilateralInterfaceXmlReflection {
     const QuadrilateralInterfaceXmlReflection();

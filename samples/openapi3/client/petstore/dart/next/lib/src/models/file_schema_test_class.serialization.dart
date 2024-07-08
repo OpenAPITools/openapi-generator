@@ -11,6 +11,7 @@ Map<String, dynamic> _$FileSchemaTestClassToMap(FileSchemaTestClass instance) {
     if (instance.file.isDefined)
     _reflection.filePart.oasName: (
             File
+
  v) {
       return v.serialize();
     }(instance.file.valueRequired),
@@ -19,7 +20,9 @@ Map<String, dynamic> _$FileSchemaTestClassToMap(FileSchemaTestClass instance) {
     List<
         
             File
+
 >
+
  v) {
       return v.map((v) => v.serialize()).toList();
     }(instance.files.valueRequired),
@@ -135,8 +138,7 @@ bool _$FileSchemaTestClassCanDeserialize(Object? src) {
 Map<String, dynamic> _$FileSchemaTestClassSerialize(FileSchemaTestClass src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$FileSchemaTestClassToMap(src);
     
   }();
   return initialResult;

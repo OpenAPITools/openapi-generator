@@ -14,7 +14,9 @@ class ArrayDefaultReflection extends ClassReflection<ArrayDefault> {
     List<
         
             String
+
 >
+
 >>(
       dartName: r'withDefaultEmptyBracket',
       nullable: false,
@@ -26,6 +28,7 @@ class ArrayDefaultReflection extends ClassReflection<ArrayDefault> {
       isDiscriminator: false,
       itemsReflection: ItemsReflection<ArrayDefault, 
             String
+
 >(parentReflectionGetter: instanceGetter,),
       getter: _withDefaultEmptyBracketGetter,
       setter: _withDefaultEmptyBracketSetter,
@@ -34,7 +37,9 @@ class ArrayDefaultReflection extends ClassReflection<ArrayDefault> {
     List<
         
             String
+
 >
+
 >>(
       dartName: r'withoutDefault',
       nullable: false,
@@ -46,6 +51,7 @@ class ArrayDefaultReflection extends ClassReflection<ArrayDefault> {
       isDiscriminator: false,
       itemsReflection: ItemsReflection<ArrayDefault, 
             String
+
 >(parentReflectionGetter: instanceGetter,),
       getter: _withoutDefaultGetter,
       setter: _withoutDefaultSetter,
@@ -55,6 +61,7 @@ class ArrayDefaultReflection extends ClassReflection<ArrayDefault> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<ArrayDefault, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -74,13 +81,17 @@ class ArrayDefaultReflection extends ClassReflection<ArrayDefault> {
     List<
         
             String
+
 >
+
 >> withDefaultEmptyBracketPart;
   static UndefinedWrapper<
     List<
         
             String
+
 >
+
 > _withDefaultEmptyBracketGetter(ArrayDefault parent) {
     return parent.withDefaultEmptyBracket;
   }
@@ -88,7 +99,9 @@ class ArrayDefaultReflection extends ClassReflection<ArrayDefault> {
     List<
         
             String
+
 >
+
 > value) {
     parent.withDefaultEmptyBracket = value;
   }
@@ -96,13 +109,17 @@ class ArrayDefaultReflection extends ClassReflection<ArrayDefault> {
     List<
         
             String
+
 >
+
 >> withoutDefaultPart;
   static UndefinedWrapper<
     List<
         
             String
+
 >
+
 > _withoutDefaultGetter(ArrayDefault parent) {
     return parent.withoutDefault;
   }
@@ -110,7 +127,9 @@ class ArrayDefaultReflection extends ClassReflection<ArrayDefault> {
     List<
         
             String
+
 >
+
 > value) {
     parent.withoutDefault = value;
   }
@@ -136,6 +155,7 @@ withoutDefaultPart,
   ];
 
   final AdditionalPropertiesReflection<ArrayDefault, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -165,17 +185,27 @@ withoutDefaultPart,
   /// Gets an example of ArrayDefault.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  ArrayDefault example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  ArrayDefault example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return ArrayDefault(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = ArrayDefault(
       withDefaultEmptyBracket: () {
-        PartReflection? _partReflection = _reflection.withDefaultEmptyBracketPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
@@ -190,15 +220,14 @@ withoutDefaultPart,
 
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       withoutDefault: () {
-        PartReflection? _partReflection = _reflection.withoutDefaultPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
@@ -213,19 +242,22 @@ withoutDefaultPart,
 
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class ArrayDefaultXmlReflection {
     const ArrayDefaultXmlReflection();

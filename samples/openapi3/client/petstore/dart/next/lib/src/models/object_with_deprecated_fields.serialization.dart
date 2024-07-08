@@ -11,18 +11,21 @@ Map<String, dynamic> _$ObjectWithDeprecatedFieldsToMap(ObjectWithDeprecatedField
     if (instance.uuid.isDefined)
     _reflection.uuidPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.uuid.valueRequired),
     if (instance.id.isDefined)
     _reflection.idPart.oasName: (
             num
+
  v) {
       return v;
     }(instance.id.valueRequired),
     if (instance.deprecatedRef.isDefined)
     _reflection.deprecatedRefPart.oasName: (
             DeprecatedObject
+
  v) {
       return v.serialize();
     }(instance.deprecatedRef.valueRequired),
@@ -31,7 +34,9 @@ Map<String, dynamic> _$ObjectWithDeprecatedFieldsToMap(ObjectWithDeprecatedField
     List<
         
             String
+
 >
+
  v) {
       return v.map((v) => v).toList();
     }(instance.bars.valueRequired),
@@ -226,8 +231,7 @@ bool _$ObjectWithDeprecatedFieldsCanDeserialize(Object? src) {
 Map<String, dynamic> _$ObjectWithDeprecatedFieldsSerialize(ObjectWithDeprecatedFields src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$ObjectWithDeprecatedFieldsToMap(src);
     
   }();
   return initialResult;

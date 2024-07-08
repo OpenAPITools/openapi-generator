@@ -15,6 +15,7 @@ mixin AllOfModelArrayAnyOfAllOfAttributesMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfAttributesC
+
 > get C;
   
 }
@@ -30,9 +31,11 @@ AllOfModelArrayAnyOfAllOfAttributesMixin {
   @override
   UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfAttributesC
+
 > C;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

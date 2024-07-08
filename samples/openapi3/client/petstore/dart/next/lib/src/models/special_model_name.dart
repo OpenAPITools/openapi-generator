@@ -16,9 +16,11 @@ mixin SpecialModelNameMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
+
 > get $specialPropertyName;
 UndefinedWrapper<
             String
+
 > get specialModelName;
   
 }
@@ -35,13 +37,16 @@ SpecialModelNameMixin {
   @override
   UndefinedWrapper<
             int
+
 > $specialPropertyName;
   @override
   UndefinedWrapper<
             String
+
 > specialModelName;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

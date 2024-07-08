@@ -15,12 +15,14 @@ mixin FakeAnyOfWIthSameErasureGet200ResponseMixin on
     List<
         
             String
+
 >
 > get anyOf0;
   UndefinedWrapper<
     List<
         
             int
+
 >
 > get anyOf1;
 }
@@ -32,6 +34,7 @@ $OpenApiObjectMixin,
 FakeAnyOfWIthSameErasureGet200ResponseMixin {
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   
@@ -40,6 +43,7 @@ FakeAnyOfWIthSameErasureGet200ResponseMixin {
     List<
         
             String
+
 >
 > anyOf0;
   
@@ -48,6 +52,7 @@ FakeAnyOfWIthSameErasureGet200ResponseMixin {
     List<
         
             int
+
 >
 > anyOf1;
   
@@ -73,12 +78,6 @@ FakeAnyOfWIthSameErasureGet200ResponseMixin {
 
   @override
   bool validate() {
-      
-      final anyOfs = [anyOf0,anyOf1,].where((e) => e.isDefined).take(1);
-      if (anyOfs.length == 0) {
-        // there must be AT LEAST one "anyOf" schema.
-        return false;
-      }
       
     return super.validate();
   }

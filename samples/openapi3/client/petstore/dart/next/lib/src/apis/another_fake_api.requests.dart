@@ -29,6 +29,7 @@ abstract class AnotherFakeApi$123testSpecialTagsRequest {
   const factory AnotherFakeApi$123testSpecialTagsRequest.applicationJson({
     required 
             Client
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -165,6 +166,7 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
 
   final 
             Client
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -238,7 +240,9 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
     List<
         
             int
+
 >
+
  array;
   
 
@@ -352,6 +356,7 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
   /// spec name: string_number
   final 
             double
+
  stringNumber;
   
 
@@ -461,6 +466,7 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
   /// spec name: Accept-Language
   final UndefinedWrapper<
             String
+
 > acceptLanguage;
   
   

@@ -16,9 +16,11 @@ mixin ModelWithOneOfAnyOfPropertiesMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             ArrayOneOf
+
 > get oneofProp;
 UndefinedWrapper<
             ArrayAnyOf
+
 > get anyofProp;
   
 }
@@ -35,13 +37,16 @@ ModelWithOneOfAnyOfPropertiesMixin {
   @override
   UndefinedWrapper<
             ArrayOneOf
+
 > oneofProp;
   @override
   UndefinedWrapper<
             ArrayAnyOf
+
 > anyofProp;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

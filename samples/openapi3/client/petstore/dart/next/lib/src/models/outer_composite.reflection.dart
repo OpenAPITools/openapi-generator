@@ -12,6 +12,7 @@ class OuterCompositeReflection extends ClassReflection<OuterComposite> {
     className: r'OuterComposite',
     myNumberPart: PropertyReflection<OuterComposite, UndefinedWrapper<
             num
+
 >>(
       dartName: r'myNumber',
       nullable: false,
@@ -26,6 +27,7 @@ class OuterCompositeReflection extends ClassReflection<OuterComposite> {
     ),
     myStringPart: PropertyReflection<OuterComposite, UndefinedWrapper<
             String
+
 >>(
       dartName: r'myString',
       nullable: false,
@@ -40,6 +42,7 @@ class OuterCompositeReflection extends ClassReflection<OuterComposite> {
     ),
     myBooleanPart: PropertyReflection<OuterComposite, UndefinedWrapper<
             bool
+
 >>(
       dartName: r'myBoolean',
       nullable: false,
@@ -57,6 +60,7 @@ class OuterCompositeReflection extends ClassReflection<OuterComposite> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<OuterComposite, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -75,40 +79,49 @@ class OuterCompositeReflection extends ClassReflection<OuterComposite> {
 
   final PropertyReflection<OuterComposite, UndefinedWrapper<
             num
+
 >> myNumberPart;
   static UndefinedWrapper<
             num
+
 > _myNumberGetter(OuterComposite parent) {
     return parent.myNumber;
   }
   static void _myNumberSetter(OuterComposite parent, UndefinedWrapper<
             num
+
 > value) {
     parent.myNumber = value;
   }
   final PropertyReflection<OuterComposite, UndefinedWrapper<
             String
+
 >> myStringPart;
   static UndefinedWrapper<
             String
+
 > _myStringGetter(OuterComposite parent) {
     return parent.myString;
   }
   static void _myStringSetter(OuterComposite parent, UndefinedWrapper<
             String
+
 > value) {
     parent.myString = value;
   }
   final PropertyReflection<OuterComposite, UndefinedWrapper<
             bool
+
 >> myBooleanPart;
   static UndefinedWrapper<
             bool
+
 > _myBooleanGetter(OuterComposite parent) {
     return parent.myBoolean;
   }
   static void _myBooleanSetter(OuterComposite parent, UndefinedWrapper<
             bool
+
 > value) {
     parent.myBoolean = value;
   }
@@ -135,6 +148,7 @@ myBooleanPart,
   ];
 
   final AdditionalPropertiesReflection<OuterComposite, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -164,14 +178,24 @@ myBooleanPart,
   /// Gets an example of OuterComposite.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  OuterComposite example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  OuterComposite example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return OuterComposite(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = OuterComposite(
       myNumber: () {
-        PartReflection? _partReflection = _reflection.myNumberPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -182,20 +206,11 @@ myBooleanPart,
     examplenum()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       myString: () {
-        PartReflection? _partReflection = _reflection.myStringPart;
-        
-        final disc = discriminators[r'my_string'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -206,12 +221,15 @@ myBooleanPart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[myStringPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       myBoolean: () {
-        PartReflection? _partReflection = _reflection.myBooleanPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -222,19 +240,22 @@ myBooleanPart,
     examplebool()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class OuterCompositeXmlReflection {
     const OuterCompositeXmlReflection();

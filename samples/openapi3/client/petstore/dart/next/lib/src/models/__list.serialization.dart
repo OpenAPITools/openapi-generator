@@ -11,6 +11,7 @@ Map<String, dynamic> _$$ListToMap($List instance) {
     if (instance.$123list.isDefined)
     _reflection.$123listPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.$123list.valueRequired),
@@ -102,8 +103,7 @@ bool _$$ListCanDeserialize(Object? src) {
 Map<String, dynamic> _$$ListSerialize($List src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$$ListToMap(src);
     
   }();
   return initialResult;

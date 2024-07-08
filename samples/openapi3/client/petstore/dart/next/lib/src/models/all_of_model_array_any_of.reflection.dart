@@ -12,6 +12,7 @@ class AllOfModelArrayAnyOfReflection extends ClassReflection<AllOfModelArrayAnyO
     className: r'AllOfModelArrayAnyOf',
     namePart: PropertyReflection<AllOfModelArrayAnyOf, 
             String
+
 >(
       dartName: r'name',
       nullable: false,
@@ -26,6 +27,7 @@ class AllOfModelArrayAnyOfReflection extends ClassReflection<AllOfModelArrayAnyO
     ),
     attributesPart: PropertyReflection<AllOfModelArrayAnyOf, UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfAttributes
+
 >>(
       dartName: r'attributes',
       nullable: false,
@@ -41,6 +43,7 @@ class AllOfModelArrayAnyOfReflection extends ClassReflection<AllOfModelArrayAnyO
     ),
     idPart: PropertyReflection<AllOfModelArrayAnyOf, UndefinedWrapper<
             int
+
 >>(
       dartName: r'id',
       nullable: false,
@@ -55,6 +58,7 @@ class AllOfModelArrayAnyOfReflection extends ClassReflection<AllOfModelArrayAnyO
     ),
     linkListColumn1Part: PropertyReflection<AllOfModelArrayAnyOf, UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfLinkListColumn1
+
 >>(
       dartName: r'linkListColumn1',
       nullable: false,
@@ -73,6 +77,7 @@ class AllOfModelArrayAnyOfReflection extends ClassReflection<AllOfModelArrayAnyO
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<AllOfModelArrayAnyOf, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -92,53 +97,65 @@ class AllOfModelArrayAnyOfReflection extends ClassReflection<AllOfModelArrayAnyO
 
   final PropertyReflection<AllOfModelArrayAnyOf, 
             String
+
 > namePart;
   static 
             String
+
  _nameGetter(AllOfModelArrayAnyOf parent) {
     return parent.name;
   }
   static void _nameSetter(AllOfModelArrayAnyOf parent, 
             String
+
  value) {
     parent.name = value;
   }
   final PropertyReflection<AllOfModelArrayAnyOf, UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfAttributes
+
 >> attributesPart;
   static UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfAttributes
+
 > _attributesGetter(AllOfModelArrayAnyOf parent) {
     return parent.attributes;
   }
   static void _attributesSetter(AllOfModelArrayAnyOf parent, UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfAttributes
+
 > value) {
     parent.attributes = value;
   }
   final PropertyReflection<AllOfModelArrayAnyOf, UndefinedWrapper<
             int
+
 >> idPart;
   static UndefinedWrapper<
             int
+
 > _idGetter(AllOfModelArrayAnyOf parent) {
     return parent.id;
   }
   static void _idSetter(AllOfModelArrayAnyOf parent, UndefinedWrapper<
             int
+
 > value) {
     parent.id = value;
   }
   final PropertyReflection<AllOfModelArrayAnyOf, UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfLinkListColumn1
+
 >> linkListColumn1Part;
   static UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfLinkListColumn1
+
 > _linkListColumn1Getter(AllOfModelArrayAnyOf parent) {
     return parent.linkListColumn1;
   }
   static void _linkListColumn1Setter(AllOfModelArrayAnyOf parent, UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfLinkListColumn1
+
 > value) {
     parent.linkListColumn1 = value;
   }
@@ -166,6 +183,7 @@ linkListColumn1Part,
   ];
 
   final AdditionalPropertiesReflection<AllOfModelArrayAnyOf, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -203,22 +221,24 @@ linkListColumn1Part,
   /// Gets an example of AllOfModelArrayAnyOf.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  AllOfModelArrayAnyOf example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  AllOfModelArrayAnyOf example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return AllOfModelArrayAnyOf(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = AllOfModelArrayAnyOf(
       name: () {
-        PartReflection? _partReflection = _reflection.namePart;
-        
-        final disc = discriminators[r'name'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -230,27 +250,29 @@ linkListColumn1Part,
 
 
 ;
-      }(),
+        final preSelectedResult = discriminatorExampleResults[namePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
       attributes: () {
-        PartReflection? _partReflection = _reflection.attributesPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
             
 
 
-    AllOfModelArrayAnyOfAllOfAttributes.$reflection.example()
+    AllOfModelArrayAnyOfAllOfAttributesReflection.instance.example()
     
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       id: () {
-        PartReflection? _partReflection = _reflection.idPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -261,35 +283,37 @@ linkListColumn1Part,
     exampleint()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       linkListColumn1: () {
-        PartReflection? _partReflection = _reflection.linkListColumn1Part;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
             
 
 
-    AllOfModelArrayAnyOfAllOfLinkListColumn1.$reflection.example()
+    AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection.instance.example()
     
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class AllOfModelArrayAnyOfXmlReflection {
     const AllOfModelArrayAnyOfXmlReflection();

@@ -12,19 +12,21 @@ class FreeFormObjectTestClassPropertiesReflection extends ClassReflection<FreeFo
     className: r'FreeFormObjectTestClassProperties',
     
     
-    oneOf0Part: OneOfReflection(
+    oneOf0Part: FreeFormObjectTestClassPropertiesOneOf0(
       parentReflectionGetter: instanceGetter,
           ),
     
-    oneOf1Part: OneOfReflection(
+    oneOf1Part: FreeFormObjectTestClassPropertiesOneOf1(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<FreeFormObjectTestClassProperties, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
     
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<FreeFormObjectTestClassProperties, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -62,19 +64,14 @@ class FreeFormObjectTestClassPropertiesReflection extends ClassReflection<FreeFo
       ];
 
   final AdditionalPropertiesReflection<FreeFormObjectTestClassProperties, Object
+
 ?> additionalPropertiesPart;
 
   
   
-  final OneOfReflection<FreeFormObjectTestClassProperties, 
-            String
-> oneOf0Part;
+  final FreeFormObjectTestClassPropertiesOneOf0 oneOf0Part;
   
-  final OneOfReflection<FreeFormObjectTestClassProperties, 
-    Map<String, 
-        Object
-?>
-> oneOf1Part;
+  final FreeFormObjectTestClassPropertiesOneOf1 oneOf1Part;
   
   @override
   List<PartReflection<FreeFormObjectTestClassProperties, dynamic>> get parts => [
@@ -109,35 +106,119 @@ class FreeFormObjectTestClassPropertiesReflection extends ClassReflection<FreeFo
   /// Gets an example of FreeFormObjectTestClassProperties.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  FreeFormObjectTestClassProperties example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  FreeFormObjectTestClassProperties example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return FreeFormObjectTestClassProperties(
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = FreeFormObjectTestClassProperties(
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
-      oneOf0: () {
-        PartReflection? _partReflection = _reflection.oneOf0Part;
-        return UndefinedWrapper(
+    );
+    
+    exampleResult.oneOf0 = oneOf0Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
+    
+    exampleResult.oneOf1 = oneOf1Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
+    
+    return exampleResult;
+  }
+}
 
 
+class FreeFormObjectTestClassPropertiesOneOf0 extends OneOfReflection<FreeFormObjectTestClassProperties, 
+            String
+> {
+  const FreeFormObjectTestClassPropertiesOneOf0({
+    super.classReflection,
+    required FreeFormObjectTestClassPropertiesReflection Function() super.parentReflectionGetter,
+    super.itemsReflection,
+  });
+
+  UndefinedWrapper<
+            String
+> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+    if (discriminatorExampleResults.isEmpty) {
+      //return undefined for non-first oneOfs.
+      // An example SHOULD be generated
+    } else {
+      // if this reflection wasn't a result of any property, don't generate an example.
+
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == classReflection)) {
+        // if there are no discriminator examples targetting the current class:
+        return UndefinedWrapper.undefined();
+      } else {
+        // An example SHOULD be generated
+      }
+    }
+    return UndefinedWrapper(
             
             
 
 
     
     exampleString()
+);
+  }
+}
 
+class FreeFormObjectTestClassPropertiesOneOf1 extends OneOfReflection<FreeFormObjectTestClassProperties, 
+    Map<String, 
+        Object
+
+?>
+> {
+  const FreeFormObjectTestClassPropertiesOneOf1({
+    super.classReflection,
+    required FreeFormObjectTestClassPropertiesReflection Function() super.parentReflectionGetter,
+    super.itemsReflection,
+  });
+
+  UndefinedWrapper<
+    Map<String, 
+        Object
+
+?>
+> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+    if (discriminatorExampleResults.isEmpty) {
+      //return undefined for non-first oneOfs.
+      return UndefinedWrapper.undefined();
+    } else {
+      // if this reflection wasn't a result of any property, don't generate an example.
+
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == classReflection)) {
+        // if there are no discriminator examples targetting the current class:
+        return UndefinedWrapper.undefined();
+      } else {
+        // An example SHOULD be generated
+      }
+    }
+    return UndefinedWrapper(
+    exampleMap(() { return exampleNullable(() =>
+
+exampleObject()
+
+
+
+ ) ; })
 
 );
-      }(),
-      
-    );
   }
 }
 

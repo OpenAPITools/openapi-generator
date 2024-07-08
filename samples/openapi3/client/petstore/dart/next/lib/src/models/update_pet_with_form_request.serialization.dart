@@ -11,12 +11,14 @@ Map<String, dynamic> _$UpdatePetWithFormRequestToMap(UpdatePetWithFormRequest in
     if (instance.name.isDefined)
     _reflection.namePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.name.valueRequired),
     if (instance.status.isDefined)
     _reflection.statusPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.status.valueRequired),
@@ -142,8 +144,7 @@ bool _$UpdatePetWithFormRequestCanDeserialize(Object? src) {
 Map<String, dynamic> _$UpdatePetWithFormRequestSerialize(UpdatePetWithFormRequest src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$UpdatePetWithFormRequestToMap(src);
     
   }();
   return initialResult;

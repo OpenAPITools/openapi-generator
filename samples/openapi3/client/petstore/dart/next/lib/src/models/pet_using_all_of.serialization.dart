@@ -11,18 +11,21 @@ Map<String, dynamic> _$PetUsingAllOfToMap(PetUsingAllOf instance) {
     if (instance.id.isDefined)
     _reflection.idPart.oasName: (
             int
+
  v) {
       return v;
     }(instance.id.valueRequired),
     if (instance.category.isDefined)
     _reflection.categoryPart.oasName: (
             Category
+
  v) {
       return v.serialize();
     }(instance.category.valueRequired),
     
     _reflection.namePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.name),
@@ -31,7 +34,9 @@ Map<String, dynamic> _$PetUsingAllOfToMap(PetUsingAllOf instance) {
     List<
         
             String
+
 >
+
  v) {
       return v.map((v) => v).toList();
     }(instance.photoUrls),
@@ -40,13 +45,16 @@ Map<String, dynamic> _$PetUsingAllOfToMap(PetUsingAllOf instance) {
     List<
         
             Tag
+
 >
+
  v) {
       return v.map((v) => v.serialize()).toList();
     }(instance.tags.valueRequired),
     if (instance.status.isDefined)
     _reflection.statusPart.oasName: (
             PetUsingAllOfStatusEnum
+
  v) {
       return v.value;
     }(instance.status.valueRequired),
@@ -312,8 +320,7 @@ bool _$PetUsingAllOfCanDeserialize(Object? src) {
 Map<String, dynamic> _$PetUsingAllOfSerialize(PetUsingAllOf src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$PetUsingAllOfToMap(src);
     
   }();
   return initialResult;

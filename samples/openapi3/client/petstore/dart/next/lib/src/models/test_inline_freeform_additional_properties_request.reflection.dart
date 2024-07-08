@@ -12,6 +12,7 @@ class TestInlineFreeformAdditionalPropertiesRequestReflection extends ClassRefle
     className: r'TestInlineFreeformAdditionalPropertiesRequest',
     somePropertyPart: PropertyReflection<TestInlineFreeformAdditionalPropertiesRequest, UndefinedWrapper<
             String
+
 >>(
       dartName: r'someProperty',
       nullable: false,
@@ -29,6 +30,7 @@ class TestInlineFreeformAdditionalPropertiesRequestReflection extends ClassRefle
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<TestInlineFreeformAdditionalPropertiesRequest, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -45,14 +47,17 @@ class TestInlineFreeformAdditionalPropertiesRequestReflection extends ClassRefle
 
   final PropertyReflection<TestInlineFreeformAdditionalPropertiesRequest, UndefinedWrapper<
             String
+
 >> somePropertyPart;
   static UndefinedWrapper<
             String
+
 > _somePropertyGetter(TestInlineFreeformAdditionalPropertiesRequest parent) {
     return parent.someProperty;
   }
   static void _somePropertySetter(TestInlineFreeformAdditionalPropertiesRequest parent, UndefinedWrapper<
             String
+
 > value) {
     parent.someProperty = value;
   }
@@ -77,6 +82,7 @@ class TestInlineFreeformAdditionalPropertiesRequestReflection extends ClassRefle
   ];
 
   final AdditionalPropertiesReflection<TestInlineFreeformAdditionalPropertiesRequest, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -106,22 +112,24 @@ class TestInlineFreeformAdditionalPropertiesRequestReflection extends ClassRefle
   /// Gets an example of TestInlineFreeformAdditionalPropertiesRequest.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  TestInlineFreeformAdditionalPropertiesRequest example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  TestInlineFreeformAdditionalPropertiesRequest example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return TestInlineFreeformAdditionalPropertiesRequest(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = TestInlineFreeformAdditionalPropertiesRequest(
       someProperty: () {
-        PartReflection? _partReflection = _reflection.somePropertyPart;
-        
-        final disc = discriminators[r'someProperty'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -132,19 +140,26 @@ class TestInlineFreeformAdditionalPropertiesRequestReflection extends ClassRefle
     exampleString()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        final preSelectedResult = discriminatorExampleResults[somePropertyPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class TestInlineFreeformAdditionalPropertiesRequestXmlReflection {
     const TestInlineFreeformAdditionalPropertiesRequestXmlReflection();

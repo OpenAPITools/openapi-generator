@@ -1,8 +1,6 @@
-{{#isNullable}}exampleNullable(() =>{{/isNullable}}
-
 {{#isAnyType}}exampleObject(){{/isAnyType}}
 {{^isAnyType}}
-    {{#isContainer}}example{{dataType}}(() { _partReflection = _partReflection?.itemsReflection; return {{#items}}{{>lib/src/models/reflection/example_recursive}}{{/items}}; })
+    {{#isContainer}}example{{dataType}}(() { return {{#items}}{{>lib/src/models/reflection/example_recursive}}{{/items}}; })
     {{/isContainer}}
     {{^isContainer}}
         {{#isEnum}}exampleEnum({{{datatypeWithEnum}}}.values){{/isEnum}}
@@ -13,8 +11,6 @@
 {{/isAnyType}}
 
 {{^isAnyType}}{{^isContainer}}{{^isEnum}}{{^isEnumRef}}
-    {{#isModel}}{{dataType}}.$reflection.example(discriminators: discriminators){{/isModel}}
+    {{#isModel}}{{dataType}}Reflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults){{/isModel}}
     {{^isModel}}example{{dataType}}(){{/isModel}}
 {{/isEnumRef}}{{/isEnum}}{{/isContainer}}{{/isAnyType}}
-
-{{#isNullable}} ) {{/isNullable}}

@@ -1,5 +1,11 @@
 import 'package:petstore_api/_internal.dart';
 
+extension type DiscriminatorKey(String key) {}
+extension type DiscriminatorValue(String key) {}
+
+typedef AggregatedDiscriminatorsResult
+    = Map<DiscriminatorKey, Map<DiscriminatorValue, ClassReflection>>;
+
 abstract class ClassReflection<T> {
   const ClassReflection();
   String get modelName;
@@ -21,28 +27,49 @@ abstract class ClassReflection<T> {
           discriminatorImplicitMappings[discriminatorValue];
   }
 
+
   static final _cachedAggregatedDiscriminators =
-      Expando<Map<String, (ClassReflection, PropertyReflection)>>();
+      Expando<AggregatedDiscriminatorsResult>();
 
-  Map<String, (ClassReflection, PropertyReflection)>
-      get aggregatedDiscriminators => _cachedAggregatedDiscriminators[this] ??=
-          Map.fromEntries(_aggregatedDiscriminators(this)
-              .map((e) => MapEntry(e.$2.oasName, e)));
-
-  static Iterable<(ClassReflection, PropertyReflection)>
-      _aggregatedDiscriminators(
-    ClassReflection reflection,
-  ) sync* {
-    if (reflection.discriminatorKey != null) {
-      yield* reflection.properties
-          .where((x) => x.oasName == reflection.discriminatorKey)
-          .map((e) => (reflection, e));
+  AggregatedDiscriminatorsResult get aggregatedDiscriminators {
+    final cached = _cachedAggregatedDiscriminators[this];
+    if (cached != null) {
+      return cached;
     }
-    yield* reflection.oneOfs
-        .map((e) => e.classReflection)
-        .followedBy(reflection.anyOfs.map((e) => e.classReflection))
-        .nonNulls
-        .expand(_aggregatedDiscriminators);
+    final result =
+        <DiscriminatorKey, Map<DiscriminatorValue, ClassReflection>>{};
+    _aggregatedDiscriminators(this, result);
+    return _cachedAggregatedDiscriminators[this] = result;
+  }
+
+  static void _aggregatedDiscriminators(
+    ClassReflection reflection,
+    AggregatedDiscriminatorsResult result,
+  ) {
+    if (reflection.discriminatorKey case String discriminatorKey) {
+      final discriminatorMapping =
+          result[DiscriminatorKey(discriminatorKey)] ??= {};
+      discriminatorMapping.addAll(
+        reflection.discriminatorImplicitMappings
+            .map((key, value) => MapEntry(DiscriminatorValue(key), value)),
+      );
+      discriminatorMapping.addAll(
+        reflection.discriminatorMappings
+            .map((key, value) => MapEntry(DiscriminatorValue(key), value)),
+      );
+    }
+    for (final OneOfReflection(:classReflection) in reflection.oneOfs) {
+      if (classReflection == null) {
+        continue;
+      }
+      _aggregatedDiscriminators(classReflection, result);
+    }
+    for (final AnyOfReflection(:classReflection) in reflection.anyOfs) {
+      if (classReflection == null) {
+        continue;
+      }
+      _aggregatedDiscriminators(classReflection, result);
+    }
   }
 
   List<PartReflection<T, dynamic>> get parts => [

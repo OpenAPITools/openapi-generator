@@ -132,10 +132,10 @@ bool _$AllOfModelArrayAnyOfAllOfAttributesCCanDeserialize(Object? src) {
 Object? _$AllOfModelArrayAnyOfAllOfAttributesCSerialize(AllOfModelArrayAnyOfAllOfAttributesC src) {
   Object? initialResult = () {
     
-    
-    if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.serialize(); }
-    if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.serialize(); }
-    return null;
+      
+        if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.serialize(); }
+        if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.serialize(); }
+        return null;
   }();
   if (initialResult is Map<String, Object?>) {
     return {

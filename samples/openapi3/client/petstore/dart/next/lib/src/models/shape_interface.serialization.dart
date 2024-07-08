@@ -11,6 +11,7 @@ Map<String, dynamic> _$ShapeInterfaceToMap(ShapeInterface instance) {
     
     _reflection.shapeTypePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.shapeType),
@@ -102,8 +103,7 @@ bool _$ShapeInterfaceCanDeserialize(Object? src) {
 Map<String, dynamic> _$ShapeInterfaceSerialize(ShapeInterface src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$ShapeInterfaceToMap(src);
     
   }();
   return initialResult;

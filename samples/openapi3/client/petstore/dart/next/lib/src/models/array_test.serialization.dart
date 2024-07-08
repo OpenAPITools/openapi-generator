@@ -13,7 +13,9 @@ Map<String, dynamic> _$ArrayTestToMap(ArrayTest instance) {
     List<
         
             String
+
 >
+
  v) {
       return v.map((v) => v).toList();
     }(instance.arrayOfString.valueRequired),
@@ -24,8 +26,11 @@ Map<String, dynamic> _$ArrayTestToMap(ArrayTest instance) {
     List<
         
             int
+
 >
+
 >
+
  v) {
       return v.map((v) => v.map((v) => v).toList()).toList();
     }(instance.arrayArrayOfInteger.valueRequired),
@@ -36,8 +41,11 @@ Map<String, dynamic> _$ArrayTestToMap(ArrayTest instance) {
     List<
         
             ReadOnlyFirst
+
 >
+
 >
+
  v) {
       return v.map((v) => v.map((v) => v.serialize()).toList()).toList();
     }(instance.arrayArrayOfModel.valueRequired),
@@ -262,8 +270,7 @@ bool _$ArrayTestCanDeserialize(Object? src) {
 Map<String, dynamic> _$ArrayTestSerialize(ArrayTest src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$ArrayTestToMap(src);
     
   }();
   return initialResult;

@@ -12,6 +12,7 @@ class ModelWithOneOfAnyOfPropertiesReflection extends ClassReflection<ModelWithO
     className: r'ModelWithOneOfAnyOfProperties',
     oneofPropPart: PropertyReflection<ModelWithOneOfAnyOfProperties, UndefinedWrapper<
             ArrayOneOf
+
 >>(
       dartName: r'oneofProp',
       nullable: false,
@@ -27,6 +28,7 @@ class ModelWithOneOfAnyOfPropertiesReflection extends ClassReflection<ModelWithO
     ),
     anyofPropPart: PropertyReflection<ModelWithOneOfAnyOfProperties, UndefinedWrapper<
             ArrayAnyOf
+
 >>(
       dartName: r'anyofProp',
       nullable: false,
@@ -45,6 +47,7 @@ class ModelWithOneOfAnyOfPropertiesReflection extends ClassReflection<ModelWithO
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<ModelWithOneOfAnyOfProperties, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -62,27 +65,33 @@ class ModelWithOneOfAnyOfPropertiesReflection extends ClassReflection<ModelWithO
 
   final PropertyReflection<ModelWithOneOfAnyOfProperties, UndefinedWrapper<
             ArrayOneOf
+
 >> oneofPropPart;
   static UndefinedWrapper<
             ArrayOneOf
+
 > _oneofPropGetter(ModelWithOneOfAnyOfProperties parent) {
     return parent.oneofProp;
   }
   static void _oneofPropSetter(ModelWithOneOfAnyOfProperties parent, UndefinedWrapper<
             ArrayOneOf
+
 > value) {
     parent.oneofProp = value;
   }
   final PropertyReflection<ModelWithOneOfAnyOfProperties, UndefinedWrapper<
             ArrayAnyOf
+
 >> anyofPropPart;
   static UndefinedWrapper<
             ArrayAnyOf
+
 > _anyofPropGetter(ModelWithOneOfAnyOfProperties parent) {
     return parent.anyofProp;
   }
   static void _anyofPropSetter(ModelWithOneOfAnyOfProperties parent, UndefinedWrapper<
             ArrayAnyOf
+
 > value) {
     parent.anyofProp = value;
   }
@@ -108,6 +117,7 @@ anyofPropPart,
   ];
 
   final AdditionalPropertiesReflection<ModelWithOneOfAnyOfProperties, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -137,53 +147,65 @@ anyofPropPart,
   /// Gets an example of ModelWithOneOfAnyOfProperties.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  ModelWithOneOfAnyOfProperties example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  ModelWithOneOfAnyOfProperties example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return ModelWithOneOfAnyOfProperties(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = ModelWithOneOfAnyOfProperties(
       oneofProp: () {
-        PartReflection? _partReflection = _reflection.oneofPropPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
             
 
 
-    ArrayOneOf.$reflection.example()
+    ArrayOneOfReflection.instance.example()
     
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       anyofProp: () {
-        PartReflection? _partReflection = _reflection.anyofPropPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
             
 
 
-    ArrayAnyOf.$reflection.example()
+    ArrayAnyOfReflection.instance.example()
     
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class ModelWithOneOfAnyOfPropertiesXmlReflection {
     const ModelWithOneOfAnyOfPropertiesXmlReflection();

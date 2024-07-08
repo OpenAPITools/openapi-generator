@@ -17,7 +17,9 @@ mixin AllOfModelArrayAnyOfAllOfLinkListColumn1Mixin on
     List<
         
             AllOfModelArrayAnyOfAllOfLinkListColumn1Value
+
 >
+
  get value;
   
 }
@@ -35,10 +37,13 @@ AllOfModelArrayAnyOfAllOfLinkListColumn1Mixin {
     List<
         
             AllOfModelArrayAnyOfAllOfLinkListColumn1Value
+
 >
+
  value;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

@@ -11,6 +11,7 @@ Map<String, dynamic> _$NumberOnlyToMap(NumberOnly instance) {
     if (instance.justNumber.isDefined)
     _reflection.justNumberPart.oasName: (
             num
+
  v) {
       return v;
     }(instance.justNumber.valueRequired),
@@ -100,8 +101,7 @@ bool _$NumberOnlyCanDeserialize(Object? src) {
 Map<String, dynamic> _$NumberOnlySerialize(NumberOnly src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$NumberOnlyToMap(src);
     
   }();
   return initialResult;

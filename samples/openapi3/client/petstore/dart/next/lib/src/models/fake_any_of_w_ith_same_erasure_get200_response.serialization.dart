@@ -208,12 +208,12 @@ bool _$FakeAnyOfWIthSameErasureGet200ResponseCanDeserialize(Object? src) {
 Object? _$FakeAnyOfWIthSameErasureGet200ResponseSerialize(FakeAnyOfWIthSameErasureGet200Response src) {
   Object? initialResult = () {
     
-    
-    if (src.anyOf0.isDefined) {final v = src.anyOf0.valueRequired; return v.map((v) => v).toList(); }
-    
-    if (src.anyOf1.isDefined) {final v = src.anyOf1.valueRequired; return v.map((v) => v).toList(); }
-    
-    return null;
+      
+        if (src.anyOf0.isDefined) {final v = src.anyOf0.valueRequired; return v.map((v) => v).toList(); }
+        
+        if (src.anyOf1.isDefined) {final v = src.anyOf1.valueRequired; return v.map((v) => v).toList(); }
+        
+        return null;
   }();
   if (initialResult is Map<String, Object?>) {
     return {

@@ -10,12 +10,13 @@ class BananaReflection extends ClassReflection<Banana> {
   static const instance = BananaReflection._(
     modelName: r'banana',
     className: r'Banana',
-    lengthCmPart: PropertyReflection<Banana, UndefinedWrapper<
+    lengthCmPart: PropertyReflection<Banana, 
             num
->>(
+
+>(
       dartName: r'lengthCm',
       nullable: false,
-      required: false,
+      required: true,
       oasName: r'lengthCm',
       oasType: r'number',
       pattern: null,
@@ -29,6 +30,7 @@ class BananaReflection extends ClassReflection<Banana> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<Banana, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -43,17 +45,20 @@ class BananaReflection extends ClassReflection<Banana> {
     required this.additionalPropertiesPart,
   });
 
-  final PropertyReflection<Banana, UndefinedWrapper<
+  final PropertyReflection<Banana, 
             num
->> lengthCmPart;
-  static UndefinedWrapper<
+
+> lengthCmPart;
+  static 
             num
-> _lengthCmGetter(Banana parent) {
+
+ _lengthCmGetter(Banana parent) {
     return parent.lengthCm;
   }
-  static void _lengthCmSetter(Banana parent, UndefinedWrapper<
+  static void _lengthCmSetter(Banana parent, 
             num
-> value) {
+
+ value) {
     parent.lengthCm = value;
   }
 
@@ -77,6 +82,7 @@ class BananaReflection extends ClassReflection<Banana> {
   ];
 
   final AdditionalPropertiesReflection<Banana, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -106,14 +112,24 @@ class BananaReflection extends ClassReflection<Banana> {
   /// Gets an example of Banana.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  Banana example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  Banana example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return Banana(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = Banana(
       lengthCm: () {
-        PartReflection? _partReflection = _reflection.lengthCmPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -124,19 +140,22 @@ class BananaReflection extends ClassReflection<Banana> {
     examplenum()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return result;
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class BananaXmlReflection {
     const BananaXmlReflection();

@@ -12,6 +12,7 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     className: r'NullableClass',
     integerPropPart: PropertyReflection<NullableClass, UndefinedWrapper<
             int
+
 ?>>(
       dartName: r'integerProp',
       nullable: true,
@@ -26,6 +27,7 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     ),
     numberPropPart: PropertyReflection<NullableClass, UndefinedWrapper<
             num
+
 ?>>(
       dartName: r'numberProp',
       nullable: true,
@@ -40,6 +42,7 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     ),
     booleanPropPart: PropertyReflection<NullableClass, UndefinedWrapper<
             bool
+
 ?>>(
       dartName: r'booleanProp',
       nullable: true,
@@ -54,6 +57,7 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     ),
     stringPropPart: PropertyReflection<NullableClass, UndefinedWrapper<
             String
+
 ?>>(
       dartName: r'stringProp',
       nullable: true,
@@ -68,6 +72,7 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     ),
     datePropPart: PropertyReflection<NullableClass, UndefinedWrapper<
             DateTime
+
 ?>>(
       dartName: r'dateProp',
       nullable: true,
@@ -82,6 +87,7 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     ),
     datetimePropPart: PropertyReflection<NullableClass, UndefinedWrapper<
             DateTime
+
 ?>>(
       dartName: r'datetimeProp',
       nullable: true,
@@ -98,7 +104,9 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     List<
         
             $FreeFormObject
+
 >
+
 ?>>(
       dartName: r'arrayNullableProp',
       nullable: true,
@@ -110,6 +118,7 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
       isDiscriminator: false,
       itemsReflection: ItemsReflection<NullableClass, 
             $FreeFormObject
+
 >(parentReflectionGetter: instanceGetter,),
       getter: _arrayNullablePropGetter,
       setter: _arrayNullablePropSetter,
@@ -118,7 +127,9 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     List<
         
             $FreeFormObject
+
 ?>
+
 ?>>(
       dartName: r'arrayAndItemsNullableProp',
       nullable: true,
@@ -130,6 +141,7 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
       isDiscriminator: false,
       itemsReflection: ItemsReflection<NullableClass, 
             $FreeFormObject
+
 ?>(parentReflectionGetter: instanceGetter,),
       getter: _arrayAndItemsNullablePropGetter,
       setter: _arrayAndItemsNullablePropSetter,
@@ -138,7 +150,9 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     List<
         
             $FreeFormObject
+
 ?>
+
 >>(
       dartName: r'arrayItemsNullable',
       nullable: false,
@@ -150,6 +164,7 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
       isDiscriminator: false,
       itemsReflection: ItemsReflection<NullableClass, 
             $FreeFormObject
+
 ?>(parentReflectionGetter: instanceGetter,),
       getter: _arrayItemsNullableGetter,
       setter: _arrayItemsNullableSetter,
@@ -158,7 +173,9 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     Map<String, 
         
             $FreeFormObject
+
 >
+
 ?>>(
       dartName: r'objectNullableProp',
       nullable: true,
@@ -170,6 +187,7 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
       isDiscriminator: false,
       itemsReflection: ItemsReflection<NullableClass, 
             $FreeFormObject
+
 >(parentReflectionGetter: instanceGetter,),
       getter: _objectNullablePropGetter,
       setter: _objectNullablePropSetter,
@@ -178,7 +196,9 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     Map<String, 
         
             $FreeFormObject
+
 ?>
+
 ?>>(
       dartName: r'objectAndItemsNullableProp',
       nullable: true,
@@ -190,6 +210,7 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
       isDiscriminator: false,
       itemsReflection: ItemsReflection<NullableClass, 
             $FreeFormObject
+
 ?>(parentReflectionGetter: instanceGetter,),
       getter: _objectAndItemsNullablePropGetter,
       setter: _objectAndItemsNullablePropSetter,
@@ -198,7 +219,9 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     Map<String, 
         
             $FreeFormObject
+
 ?>
+
 >>(
       dartName: r'objectItemsNullable',
       nullable: false,
@@ -210,6 +233,7 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
       isDiscriminator: false,
       itemsReflection: ItemsReflection<NullableClass, 
             $FreeFormObject
+
 ?>(parentReflectionGetter: instanceGetter,),
       getter: _objectItemsNullableGetter,
       setter: _objectItemsNullableSetter,
@@ -220,6 +244,7 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<NullableClass, 
             $FreeFormObject
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -247,79 +272,97 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
 
   final PropertyReflection<NullableClass, UndefinedWrapper<
             int
+
 ?>> integerPropPart;
   static UndefinedWrapper<
             int
+
 ?> _integerPropGetter(NullableClass parent) {
     return parent.integerProp;
   }
   static void _integerPropSetter(NullableClass parent, UndefinedWrapper<
             int
+
 ?> value) {
     parent.integerProp = value;
   }
   final PropertyReflection<NullableClass, UndefinedWrapper<
             num
+
 ?>> numberPropPart;
   static UndefinedWrapper<
             num
+
 ?> _numberPropGetter(NullableClass parent) {
     return parent.numberProp;
   }
   static void _numberPropSetter(NullableClass parent, UndefinedWrapper<
             num
+
 ?> value) {
     parent.numberProp = value;
   }
   final PropertyReflection<NullableClass, UndefinedWrapper<
             bool
+
 ?>> booleanPropPart;
   static UndefinedWrapper<
             bool
+
 ?> _booleanPropGetter(NullableClass parent) {
     return parent.booleanProp;
   }
   static void _booleanPropSetter(NullableClass parent, UndefinedWrapper<
             bool
+
 ?> value) {
     parent.booleanProp = value;
   }
   final PropertyReflection<NullableClass, UndefinedWrapper<
             String
+
 ?>> stringPropPart;
   static UndefinedWrapper<
             String
+
 ?> _stringPropGetter(NullableClass parent) {
     return parent.stringProp;
   }
   static void _stringPropSetter(NullableClass parent, UndefinedWrapper<
             String
+
 ?> value) {
     parent.stringProp = value;
   }
   final PropertyReflection<NullableClass, UndefinedWrapper<
             DateTime
+
 ?>> datePropPart;
   static UndefinedWrapper<
             DateTime
+
 ?> _datePropGetter(NullableClass parent) {
     return parent.dateProp;
   }
   static void _datePropSetter(NullableClass parent, UndefinedWrapper<
             DateTime
+
 ?> value) {
     parent.dateProp = value;
   }
   final PropertyReflection<NullableClass, UndefinedWrapper<
             DateTime
+
 ?>> datetimePropPart;
   static UndefinedWrapper<
             DateTime
+
 ?> _datetimePropGetter(NullableClass parent) {
     return parent.datetimeProp;
   }
   static void _datetimePropSetter(NullableClass parent, UndefinedWrapper<
             DateTime
+
 ?> value) {
     parent.datetimeProp = value;
   }
@@ -327,13 +370,17 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     List<
         
             $FreeFormObject
+
 >
+
 ?>> arrayNullablePropPart;
   static UndefinedWrapper<
     List<
         
             $FreeFormObject
+
 >
+
 ?> _arrayNullablePropGetter(NullableClass parent) {
     return parent.arrayNullableProp;
   }
@@ -341,7 +388,9 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     List<
         
             $FreeFormObject
+
 >
+
 ?> value) {
     parent.arrayNullableProp = value;
   }
@@ -349,13 +398,17 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     List<
         
             $FreeFormObject
+
 ?>
+
 ?>> arrayAndItemsNullablePropPart;
   static UndefinedWrapper<
     List<
         
             $FreeFormObject
+
 ?>
+
 ?> _arrayAndItemsNullablePropGetter(NullableClass parent) {
     return parent.arrayAndItemsNullableProp;
   }
@@ -363,7 +416,9 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     List<
         
             $FreeFormObject
+
 ?>
+
 ?> value) {
     parent.arrayAndItemsNullableProp = value;
   }
@@ -371,13 +426,17 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     List<
         
             $FreeFormObject
+
 ?>
+
 >> arrayItemsNullablePart;
   static UndefinedWrapper<
     List<
         
             $FreeFormObject
+
 ?>
+
 > _arrayItemsNullableGetter(NullableClass parent) {
     return parent.arrayItemsNullable;
   }
@@ -385,7 +444,9 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     List<
         
             $FreeFormObject
+
 ?>
+
 > value) {
     parent.arrayItemsNullable = value;
   }
@@ -393,13 +454,17 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     Map<String, 
         
             $FreeFormObject
+
 >
+
 ?>> objectNullablePropPart;
   static UndefinedWrapper<
     Map<String, 
         
             $FreeFormObject
+
 >
+
 ?> _objectNullablePropGetter(NullableClass parent) {
     return parent.objectNullableProp;
   }
@@ -407,7 +472,9 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     Map<String, 
         
             $FreeFormObject
+
 >
+
 ?> value) {
     parent.objectNullableProp = value;
   }
@@ -415,13 +482,17 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     Map<String, 
         
             $FreeFormObject
+
 ?>
+
 ?>> objectAndItemsNullablePropPart;
   static UndefinedWrapper<
     Map<String, 
         
             $FreeFormObject
+
 ?>
+
 ?> _objectAndItemsNullablePropGetter(NullableClass parent) {
     return parent.objectAndItemsNullableProp;
   }
@@ -429,7 +500,9 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     Map<String, 
         
             $FreeFormObject
+
 ?>
+
 ?> value) {
     parent.objectAndItemsNullableProp = value;
   }
@@ -437,13 +510,17 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     Map<String, 
         
             $FreeFormObject
+
 ?>
+
 >> objectItemsNullablePart;
   static UndefinedWrapper<
     Map<String, 
         
             $FreeFormObject
+
 ?>
+
 > _objectItemsNullableGetter(NullableClass parent) {
     return parent.objectItemsNullable;
   }
@@ -451,7 +528,9 @@ class NullableClassReflection extends ClassReflection<NullableClass> {
     Map<String, 
         
             $FreeFormObject
+
 ?>
+
 > value) {
     parent.objectItemsNullable = value;
   }
@@ -488,6 +567,7 @@ objectItemsNullablePart,
 
   final AdditionalPropertiesReflection<NullableClass, 
             $FreeFormObject
+
 ?> additionalPropertiesPart;
 
   
@@ -517,14 +597,24 @@ objectItemsNullablePart,
   /// Gets an example of NullableClass.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  NullableClass example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  NullableClass example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return NullableClass(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = NullableClass(
       integerProp: () {
-        PartReflection? _partReflection = _reflection.integerPropPart;
-        
-        return UndefinedWrapper(exampleNullable(() =>
+        var result = exampleNullable(() =>
 
 
             
@@ -535,12 +625,11 @@ objectItemsNullablePart,
     exampleint()
 
 
- ) );
-      }(),
+ ) ;
+        return UndefinedWrapper(result);
+      } (),
       numberProp: () {
-        PartReflection? _partReflection = _reflection.numberPropPart;
-        
-        return UndefinedWrapper(exampleNullable(() =>
+        var result = exampleNullable(() =>
 
 
             
@@ -551,12 +640,11 @@ objectItemsNullablePart,
     examplenum()
 
 
- ) );
-      }(),
+ ) ;
+        return UndefinedWrapper(result);
+      } (),
       booleanProp: () {
-        PartReflection? _partReflection = _reflection.booleanPropPart;
-        
-        return UndefinedWrapper(exampleNullable(() =>
+        var result = exampleNullable(() =>
 
 
             
@@ -567,20 +655,11 @@ objectItemsNullablePart,
     examplebool()
 
 
- ) );
-      }(),
+ ) ;
+        return UndefinedWrapper(result);
+      } (),
       stringProp: () {
-        PartReflection? _partReflection = _reflection.stringPropPart;
-        
-        final disc = discriminators[r'string_prop'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(exampleNullable(() =>
+        var result = exampleNullable(() =>
 
 
             
@@ -591,12 +670,15 @@ objectItemsNullablePart,
     exampleString()
 
 
- ) );
-      }(),
+ ) ;
+        final preSelectedResult = discriminatorExampleResults[stringPropPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       dateProp: () {
-        PartReflection? _partReflection = _reflection.datePropPart;
-        
-        return UndefinedWrapper(exampleNullable(() =>
+        var result = exampleNullable(() =>
 
 
             
@@ -607,12 +689,11 @@ objectItemsNullablePart,
     exampleDateTime()
 
 
- ) );
-      }(),
+ ) ;
+        return UndefinedWrapper(result);
+      } (),
       datetimeProp: () {
-        PartReflection? _partReflection = _reflection.datetimePropPart;
-        
-        return UndefinedWrapper(exampleNullable(() =>
+        var result = exampleNullable(() =>
 
 
             
@@ -623,15 +704,14 @@ objectItemsNullablePart,
     exampleDateTime()
 
 
- ) );
-      }(),
+ ) ;
+        return UndefinedWrapper(result);
+      } (),
       arrayNullableProp: () {
-        PartReflection? _partReflection = _reflection.arrayNullablePropPart;
-        
-        return UndefinedWrapper(exampleNullable(() =>
+        var result = exampleNullable(() =>
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
@@ -646,15 +726,14 @@ objectItemsNullablePart,
 
 
 
- ) );
-      }(),
+ ) ;
+        return UndefinedWrapper(result);
+      } (),
       arrayAndItemsNullableProp: () {
-        PartReflection? _partReflection = _reflection.arrayAndItemsNullablePropPart;
-        
-        return UndefinedWrapper(exampleNullable(() =>
+        var result = exampleNullable(() =>
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return exampleNullable(() =>
+    exampleList(() { return exampleNullable(() =>
 
 
             
@@ -669,15 +748,14 @@ objectItemsNullablePart,
 
 
 
- ) );
-      }(),
+ ) ;
+        return UndefinedWrapper(result);
+      } (),
       arrayItemsNullable: () {
-        PartReflection? _partReflection = _reflection.arrayItemsNullablePart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return exampleNullable(() =>
+    exampleList(() { return exampleNullable(() =>
 
 
             
@@ -692,15 +770,14 @@ objectItemsNullablePart,
 
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       objectNullableProp: () {
-        PartReflection? _partReflection = _reflection.objectNullablePropPart;
-        
-        return UndefinedWrapper(exampleNullable(() =>
+        var result = exampleNullable(() =>
 
 
-    exampleMap(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleMap(() { return 
 
 
             
@@ -715,15 +792,14 @@ objectItemsNullablePart,
 
 
 
- ) );
-      }(),
+ ) ;
+        return UndefinedWrapper(result);
+      } (),
       objectAndItemsNullableProp: () {
-        PartReflection? _partReflection = _reflection.objectAndItemsNullablePropPart;
-        
-        return UndefinedWrapper(exampleNullable(() =>
+        var result = exampleNullable(() =>
 
 
-    exampleMap(() { _partReflection = _partReflection?.itemsReflection; return exampleNullable(() =>
+    exampleMap(() { return exampleNullable(() =>
 
 
             
@@ -738,15 +814,14 @@ objectItemsNullablePart,
 
 
 
- ) );
-      }(),
+ ) ;
+        return UndefinedWrapper(result);
+      } (),
       objectItemsNullable: () {
-        PartReflection? _partReflection = _reflection.objectItemsNullablePart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleMap(() { _partReflection = _partReflection?.itemsReflection; return exampleNullable(() =>
+    exampleMap(() { return exampleNullable(() =>
 
 
             
@@ -761,9 +836,10 @@ objectItemsNullablePart,
 
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 
             
@@ -775,10 +851,12 @@ objectItemsNullablePart,
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class NullableClassXmlReflection {
     const NullableClassXmlReflection();

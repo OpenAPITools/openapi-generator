@@ -27,13 +27,16 @@ ScaleneTriangleMixin {
   @override
   
             String
+
  shapeType;
   @override
   
             String
+
  triangleType;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   
@@ -57,7 +60,6 @@ required  this.triangleType     ,
 
   @override
   bool validate() {
-      
       
     return super.validate();
   }

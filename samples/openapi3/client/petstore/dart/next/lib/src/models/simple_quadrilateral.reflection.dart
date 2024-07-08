@@ -12,6 +12,7 @@ class SimpleQuadrilateralReflection extends ClassReflection<SimpleQuadrilateral>
     className: r'SimpleQuadrilateral',
     quadrilateralTypePart: PropertyReflection<SimpleQuadrilateral, 
             String
+
 >(
       dartName: r'quadrilateralType',
       nullable: false,
@@ -26,6 +27,7 @@ class SimpleQuadrilateralReflection extends ClassReflection<SimpleQuadrilateral>
     ),
     shapeTypePart: PropertyReflection<SimpleQuadrilateral, 
             String
+
 >(
       dartName: r'shapeType',
       nullable: false,
@@ -43,6 +45,7 @@ class SimpleQuadrilateralReflection extends ClassReflection<SimpleQuadrilateral>
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<SimpleQuadrilateral, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -60,27 +63,33 @@ class SimpleQuadrilateralReflection extends ClassReflection<SimpleQuadrilateral>
 
   final PropertyReflection<SimpleQuadrilateral, 
             String
+
 > quadrilateralTypePart;
   static 
             String
+
  _quadrilateralTypeGetter(SimpleQuadrilateral parent) {
     return parent.quadrilateralType;
   }
   static void _quadrilateralTypeSetter(SimpleQuadrilateral parent, 
             String
+
  value) {
     parent.quadrilateralType = value;
   }
   final PropertyReflection<SimpleQuadrilateral, 
             String
+
 > shapeTypePart;
   static 
             String
+
  _shapeTypeGetter(SimpleQuadrilateral parent) {
     return parent.shapeType;
   }
   static void _shapeTypeSetter(SimpleQuadrilateral parent, 
             String
+
  value) {
     parent.shapeType = value;
   }
@@ -106,6 +115,7 @@ shapeTypePart,
   ];
 
   final AdditionalPropertiesReflection<SimpleQuadrilateral, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -143,22 +153,24 @@ shapeTypePart,
   /// Gets an example of SimpleQuadrilateral.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  SimpleQuadrilateral example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  SimpleQuadrilateral example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return SimpleQuadrilateral(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = SimpleQuadrilateral(
       quadrilateralType: () {
-        PartReflection? _partReflection = _reflection.quadrilateralTypePart;
-        
-        final disc = discriminators[r'quadrilateralType'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -170,19 +182,14 @@ shapeTypePart,
 
 
 ;
-      }(),
+        final preSelectedResult = discriminatorExampleResults[quadrilateralTypePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
       shapeType: () {
-        PartReflection? _partReflection = _reflection.shapeTypePart;
-        
-        final disc = discriminators[r'shapeType'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -194,18 +201,25 @@ shapeTypePart,
 
 
 ;
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+        final preSelectedResult = discriminatorExampleResults[shapeTypePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class SimpleQuadrilateralXmlReflection {
     const SimpleQuadrilateralXmlReflection();

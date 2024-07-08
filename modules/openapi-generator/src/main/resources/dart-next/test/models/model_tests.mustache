@@ -5,7 +5,17 @@ import 'package:test/test.dart';
 {{#model}}
 void main() {
   group(r'{{{classname}}}', () {
-    {{#isEnum}}{{#allowableValues}}{{#enumVars}}
+    {{#isEnum}}
+    test('values not empty', () {
+      expect({{{classname}}}.values, isNotEmpty);
+    });
+
+    test('unsafe', () {
+      final example = {{#isString}}'abc'{{/isString}}{{#isNumeric}}123{{/isNumeric}}{{^isNumeric}}{{^isString}}null{{/isString}}{{/isNumeric}};
+      expect({{{classname}}}.$unsafe(example), example);
+    });
+
+    {{#allowableValues}}{{#enumVars}}
     test(r'{{name}}', () {
       expect({{{classname}}}.{{name}}().value, {{#isString}}r{{/isString}}{{{value}}});
     });
@@ -13,20 +23,27 @@ void main() {
     {{^isEnum}}
     final reflection = {{{classname}}}.$reflection;
 
-    final exampleInstance = reflection.example();
+    late {{{classname}}} exampleInstance;
+    setUp(() {
+      exampleInstance = reflection.example();
+    });
+
     Object? doSerialize() {
       final result = exampleInstance.serialize();
       return result;
     }
     test('serialize', () {
+      expect(exampleInstance, isNotNull);
       final serialized = doSerialize();
       expect(serialized, isNotNull);
     });
 
     test('validate', () {
+      expect(exampleInstance, isNotNull);
       expect(exampleInstance.validate(), isTrue);
     });
     test('deserialize', () {
+      expect(exampleInstance, isNotNull);
       final serialized = doSerialize();
       final deserialized = {{{classname}}}.deserialize(serialized);
       expect(deserialized.validate(), isTrue);

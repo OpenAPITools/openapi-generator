@@ -18,6 +18,7 @@ mixin ArrayOneOfMixin on
     List<
         
             String
+
 >
 > get oneOf1;
 }
@@ -29,6 +30,7 @@ $OpenApiObjectMixin,
 ArrayOneOfMixin {
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   
@@ -42,6 +44,7 @@ ArrayOneOfMixin {
     List<
         
             String
+
 >
 > oneOf1;
   
@@ -66,11 +69,10 @@ ArrayOneOfMixin {
   @override
   bool validate() {
       final oneOfs = [oneOf0,oneOf1,].where((e) => e.isDefined).take(2);
-      if (oneOfs.length != 1) {
-        // there must be EXACTLY one "oneOf" schema.
+      if (oneOfs.length > 1) {
+        // there must be AT MOST one "oneOf" schema.
         return false;
       }
-      
       
     return super.validate();
   }

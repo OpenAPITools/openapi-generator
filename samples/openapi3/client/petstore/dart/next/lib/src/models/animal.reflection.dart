@@ -2,6 +2,7 @@
 
 part of 'animal.dart';
 
+
 //class reflection
 
 class AnimalReflection extends ClassReflection<Animal> {
@@ -9,39 +10,49 @@ class AnimalReflection extends ClassReflection<Animal> {
   static const instance = AnimalReflection._(
     modelName: r'Animal',
     className: r'Animal',
-    classNamePart: PropertyReflection<Animal, String>(
+    classNamePart: PropertyReflection<Animal, 
+            String
+
+>(
       dartName: r'className',
       nullable: false,
       required: true,
       oasName: r'className',
       oasType: r'string',
       pattern: null,
-      parentReflectionGetter: instanceGetter,
+      parentReflectionGetter:  instanceGetter,
       isDiscriminator: true,
       getter: _classNameGetter,
       setter: _classNameSetter,
     ),
-    colorPart: PropertyReflection<Animal, UndefinedWrapper<String>>(
+    colorPart: PropertyReflection<Animal, UndefinedWrapper<
+            String
+
+>>(
       dartName: r'color',
       nullable: false,
       required: false,
       oasName: r'color',
       oasType: r'string',
       pattern: null,
-      parentReflectionGetter: instanceGetter,
+      parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
       getter: _colorGetter,
       setter: _colorSetter,
     ),
     discriminatorKey: r'className',
-    discriminatorImplicitMappings: const {},
-    discriminatorMappings: const {},
+    discriminatorImplicitMappings: const {
+    },
+    discriminatorMappings: const {
+    },
+    
+    
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<Animal, Object?>(
-        parentReflectionGetter: instanceGetter,
-      ),
-    ),
+      itemsReflection: ItemsReflection<Animal, Object
+
+?>(parentReflectionGetter: instanceGetter,),
+          ),
   );
   const AnimalReflection._({
     required this.modelName,
@@ -51,26 +62,44 @@ class AnimalReflection extends ClassReflection<Animal> {
     this.discriminatorKey,
     this.discriminatorMappings = const {},
     this.discriminatorImplicitMappings = const {},
+        
     required this.additionalPropertiesPart,
   });
 
-  final PropertyReflection<Animal, String> classNamePart;
-  static String _classNameGetter(Animal parent) {
+  final PropertyReflection<Animal, 
+            String
+
+> classNamePart;
+  static 
+            String
+
+ _classNameGetter(Animal parent) {
     return parent.className;
   }
+  static void _classNameSetter(Animal parent, 
+            String
 
-  static void _classNameSetter(Animal parent, String value) {
+ value) {
     parent.className = value;
   }
+  final PropertyReflection<Animal, UndefinedWrapper<
+            String
 
-  final PropertyReflection<Animal, UndefinedWrapper<String>> colorPart;
-  static UndefinedWrapper<String> _colorGetter(Animal parent) {
+>> colorPart;
+  static UndefinedWrapper<
+            String
+
+> _colorGetter(Animal parent) {
     return parent.color;
   }
+  static void _colorSetter(Animal parent, UndefinedWrapper<
+            String
 
-  static void _colorSetter(Animal parent, UndefinedWrapper<String> value) {
+> value) {
     parent.color = value;
   }
+
+
 
   @override
   final Map<String, ClassReflection> discriminatorMappings;
@@ -83,26 +112,33 @@ class AnimalReflection extends ClassReflection<Animal> {
   @override
   final String className;
 
+
   @override
   List<PropertyReflection<Animal, dynamic>> get properties => [
-        classNamePart,
-        colorPart,
-      ];
+    classNamePart,
+colorPart,
+  ];
 
-  final AdditionalPropertiesReflection<Animal, Object?>
-      additionalPropertiesPart;
+  final AdditionalPropertiesReflection<Animal, Object
 
+?> additionalPropertiesPart;
+
+  
+  
   @override
   List<PartReflection<Animal, dynamic>> get parts => [
-        ...super.parts,
-        additionalPropertiesPart,
-      ];
+    ...super.parts,
+    additionalPropertiesPart,
+  ];
   @override
-  List<AllOfReflection<Animal, dynamic>> get allOfs => [];
+  List<AllOfReflection<Animal, dynamic>> get allOfs => [
+    
+  ];
+
 
   @override
   bool Function(Object? src) get canDeserializeFunction =>
-      (src) => Animal.canDeserialize(src);
+    (src) => Animal.canDeserialize(src);
   @override
   Animal Function(Object? src) get deserializeFunction =>
       (src) => Animal.deserialize(src);
@@ -114,48 +150,75 @@ class AnimalReflection extends ClassReflection<Animal> {
   /// Gets an example of Animal.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  Animal example(
-      {Map<String, (ClassReflection, PropertyReflection)> discriminators =
-          const {}}) {
+  Animal example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty)
-      discriminators = _reflection.aggregatedDiscriminators;
-    return Animal(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = Animal(
       className: () {
-        PartReflection? _partReflection = _reflection.classNamePart;
+        var result = 
 
-        final disc = discriminators[r'className'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
+
+            
+            
+
+
+    
+    exampleString()
+
+
+;
+        final preSelectedResult = discriminatorExampleResults[classNamePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
         }
-
-        return exampleString();
-      }(),
+        return result;
+      } (),
       color: () {
-        PartReflection? _partReflection = _reflection.colorPart;
+        var result = 
 
-        final disc = discriminators[r'color'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
+
+            
+            
+
+
+    
+    exampleString()
+
+
+;
+        final preSelectedResult = discriminatorExampleResults[colorPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
         }
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
-        return UndefinedWrapper(exampleString());
-      }(),
-      additionalProperties: () {
-        PartReflection? _partReflection = _reflection.additionalPropertiesPart;
-        return AdditionalProperties(
-            exampleMap(() => exampleNullable(() => exampleObject())));
-      }(),
+exampleObject()
+
+
+
+ ) )); }(),
     );
+    
+    return exampleResult;
   }
 }
 
+
 class AnimalXmlReflection {
-  const AnimalXmlReflection();
+    const AnimalXmlReflection();
 }
+

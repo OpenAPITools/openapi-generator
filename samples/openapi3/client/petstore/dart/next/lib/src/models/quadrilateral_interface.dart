@@ -15,6 +15,7 @@ mixin QuadrilateralInterfaceMixin on
   $OpenApiObjectMixin {
   
             String
+
  get quadrilateralType;
   
 }
@@ -30,9 +31,11 @@ QuadrilateralInterfaceMixin {
   @override
   
             String
+
  quadrilateralType;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

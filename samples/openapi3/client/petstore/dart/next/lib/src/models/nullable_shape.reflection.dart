@@ -12,21 +12,21 @@ class NullableShapeReflection extends ClassReflection<NullableShape> {
     className: r'NullableShape',
     discriminatorKey: r'shapeType',
     discriminatorImplicitMappings: const {
-      r'Quadrilateral': Quadrilateral.$reflection,
-      r'Triangle': Triangle.$reflection,
+      r'Quadrilateral': QuadrilateralReflection.instance,
+      r'Triangle': TriangleReflection.instance,
     },
     discriminatorMappings: const {
-      r'Quadrilateral': Quadrilateral.$reflection,
-      r'Triangle': Triangle.$reflection,
+      r'Quadrilateral': QuadrilateralReflection.instance,
+      r'Triangle': TriangleReflection.instance,
     },
     
     
-    oneOf0Part: OneOfReflection(
+    oneOf0Part: NullableShapeOneOf0(
       parentReflectionGetter: instanceGetter,
       classReflection: TriangleReflection.instance,
     ),
     
-    oneOf1Part: OneOfReflection(
+    oneOf1Part: NullableShapeOneOf1(
       parentReflectionGetter: instanceGetter,
       classReflection: QuadrilateralReflection.instance,
     ),
@@ -34,6 +34,7 @@ class NullableShapeReflection extends ClassReflection<NullableShape> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<NullableShape, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -71,17 +72,14 @@ class NullableShapeReflection extends ClassReflection<NullableShape> {
       ];
 
   final AdditionalPropertiesReflection<NullableShape, Object
+
 ?> additionalPropertiesPart;
 
   
   
-  final OneOfReflection<NullableShape, 
-            Triangle
-> oneOf0Part;
+  final NullableShapeOneOf0 oneOf0Part;
   
-  final OneOfReflection<NullableShape, 
-            Quadrilateral
-> oneOf1Part;
+  final NullableShapeOneOf1 oneOf1Part;
   
   @override
   List<PartReflection<NullableShape, dynamic>> get parts => [
@@ -116,35 +114,111 @@ class NullableShapeReflection extends ClassReflection<NullableShape> {
   /// Gets an example of NullableShape.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  NullableShape example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  NullableShape example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return NullableShape(
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = NullableShape(
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
-      oneOf0: () {
-        PartReflection? _partReflection = _reflection.oneOf0Part;
-        return UndefinedWrapper(
-
-
-            
-            
-
-
-    Triangle.$reflection.example(discriminators: discriminators)
-    
-
-
-);
-      }(),
-      
     );
+    
+    exampleResult.oneOf0 = oneOf0Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
+    
+    exampleResult.oneOf1 = oneOf1Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
+    
+    return exampleResult;
+  }
+}
+
+
+class NullableShapeOneOf0 extends OneOfReflection<NullableShape, 
+            Triangle
+> {
+  const NullableShapeOneOf0({
+    super.classReflection,
+    required NullableShapeReflection Function() super.parentReflectionGetter,
+    super.itemsReflection,
+  });
+
+  UndefinedWrapper<
+            Triangle
+> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+    if (discriminatorExampleResults.isEmpty) {
+      //return undefined for non-first oneOfs.
+      // An example SHOULD be generated
+    } else {
+      // if this reflection wasn't a result of any property, don't generate an example.
+
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == classReflection)) {
+        // if there are no discriminator examples targetting the current class:
+        return UndefinedWrapper.undefined();
+      } else {
+        // An example SHOULD be generated
+      }
+    }
+    return UndefinedWrapper(
+            
+            
+
+
+    TriangleReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
+    
+);
+  }
+}
+
+class NullableShapeOneOf1 extends OneOfReflection<NullableShape, 
+            Quadrilateral
+> {
+  const NullableShapeOneOf1({
+    super.classReflection,
+    required NullableShapeReflection Function() super.parentReflectionGetter,
+    super.itemsReflection,
+  });
+
+  UndefinedWrapper<
+            Quadrilateral
+> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+    if (discriminatorExampleResults.isEmpty) {
+      //return undefined for non-first oneOfs.
+      return UndefinedWrapper.undefined();
+    } else {
+      // if this reflection wasn't a result of any property, don't generate an example.
+
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == classReflection)) {
+        // if there are no discriminator examples targetting the current class:
+        return UndefinedWrapper.undefined();
+      } else {
+        // An example SHOULD be generated
+      }
+    }
+    return UndefinedWrapper(
+            
+            
+
+
+    QuadrilateralReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
+    
+);
   }
 }
 

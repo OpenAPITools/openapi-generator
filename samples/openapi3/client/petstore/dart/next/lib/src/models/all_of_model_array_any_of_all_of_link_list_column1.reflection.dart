@@ -14,7 +14,9 @@ class AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection extends ClassReflection
     List<
         
             AllOfModelArrayAnyOfAllOfLinkListColumn1Value
+
 >
+
 >(
       dartName: r'value',
       nullable: false,
@@ -26,6 +28,7 @@ class AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection extends ClassReflection
       isDiscriminator: false,
       itemsReflection: ItemsReflection<AllOfModelArrayAnyOfAllOfLinkListColumn1, 
             AllOfModelArrayAnyOfAllOfLinkListColumn1Value
+
 >(parentReflectionGetter: instanceGetter,classReflection: AllOfModelArrayAnyOfAllOfLinkListColumn1ValueReflection.instance,),
       getter: _valueGetter,
       setter: _valueSetter,
@@ -35,6 +38,7 @@ class AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection extends ClassReflection
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<AllOfModelArrayAnyOfAllOfLinkListColumn1, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -53,13 +57,17 @@ class AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection extends ClassReflection
     List<
         
             AllOfModelArrayAnyOfAllOfLinkListColumn1Value
+
 >
+
 > valuePart;
   static 
     List<
         
             AllOfModelArrayAnyOfAllOfLinkListColumn1Value
+
 >
+
  _valueGetter(AllOfModelArrayAnyOfAllOfLinkListColumn1 parent) {
     return parent.value;
   }
@@ -67,7 +75,9 @@ class AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection extends ClassReflection
     List<
         
             AllOfModelArrayAnyOfAllOfLinkListColumn1Value
+
 >
+
  value) {
     parent.value = value;
   }
@@ -92,6 +102,7 @@ class AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection extends ClassReflection
   ];
 
   final AdditionalPropertiesReflection<AllOfModelArrayAnyOfAllOfLinkListColumn1, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -121,24 +132,34 @@ class AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection extends ClassReflection
   /// Gets an example of AllOfModelArrayAnyOfAllOfLinkListColumn1.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  AllOfModelArrayAnyOfAllOfLinkListColumn1 example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  AllOfModelArrayAnyOfAllOfLinkListColumn1 example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return AllOfModelArrayAnyOfAllOfLinkListColumn1(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = AllOfModelArrayAnyOfAllOfLinkListColumn1(
       value: () {
-        PartReflection? _partReflection = _reflection.valuePart;
-        
-        return 
+        var result = 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
             
 
 
-    AllOfModelArrayAnyOfAllOfLinkListColumn1Value.$reflection.example()
+    AllOfModelArrayAnyOfAllOfLinkListColumn1ValueReflection.instance.example()
     
 
 
@@ -147,18 +168,21 @@ class AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection extends ClassReflection
 
 
 ;
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+        return result;
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class AllOfModelArrayAnyOfAllOfLinkListColumn1XmlReflection {
     const AllOfModelArrayAnyOfAllOfLinkListColumn1XmlReflection();

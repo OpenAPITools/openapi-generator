@@ -11,12 +11,14 @@ Map<String, dynamic> _$HasOnlyReadOnlyToMap(HasOnlyReadOnly instance) {
     if (instance.bar.isDefined)
     _reflection.barPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.bar.valueRequired),
     if (instance.foo.isDefined)
     _reflection.fooPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.foo.valueRequired),
@@ -142,8 +144,7 @@ bool _$HasOnlyReadOnlyCanDeserialize(Object? src) {
 Map<String, dynamic> _$HasOnlyReadOnlySerialize(HasOnlyReadOnly src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$HasOnlyReadOnlyToMap(src);
     
   }();
   return initialResult;

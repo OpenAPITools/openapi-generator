@@ -20,27 +20,35 @@ mixin PetRefMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
+
 > get id;
 UndefinedWrapper<
             Category
+
 > get category;
 
             String
+
  get name;
 
     List<
         
             String
+
 >
+
  get photoUrls;
 UndefinedWrapper<
     List<
         
             Tag
+
 >
+
 > get tags;
 UndefinedWrapper<
             PetRefStatusEnum
+
 > get status;
   
 }
@@ -61,35 +69,44 @@ PetRefMixin {
   @override
   UndefinedWrapper<
             int
+
 > id;
   @override
   UndefinedWrapper<
             Category
+
 > category;
   @override
   
             String
+
  name;
   @override
   
     List<
         
             String
+
 >
+
  photoUrls;
   @override
   UndefinedWrapper<
     List<
         
             Tag
+
 >
+
 > tags;
   @override
   UndefinedWrapper<
             PetRefStatusEnum
+
 > status;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

@@ -11,6 +11,7 @@ Map<String, dynamic> _$ClassModelToMap(ClassModel instance) {
     if (instance.propertyClass.isDefined)
     _reflection.propertyClassPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.propertyClass.valueRequired),
@@ -102,8 +103,7 @@ bool _$ClassModelCanDeserialize(Object? src) {
 Map<String, dynamic> _$ClassModelSerialize(ClassModel src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$ClassModelToMap(src);
     
   }();
   return initialResult;

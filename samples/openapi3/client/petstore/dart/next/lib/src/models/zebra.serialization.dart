@@ -11,12 +11,14 @@ Map<String, dynamic> _$ZebraToMap(Zebra instance) {
     if (instance.type.isDefined)
     _reflection.typePart.oasName: (
             ZebraTypeEnum
+
  v) {
       return v.value;
     }(instance.type.valueRequired),
     
     _reflection.classNamePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.className),
@@ -142,8 +144,7 @@ bool _$ZebraCanDeserialize(Object? src) {
 Map<String, dynamic> _$ZebraSerialize(Zebra src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$ZebraToMap(src);
     
   }();
   return initialResult;

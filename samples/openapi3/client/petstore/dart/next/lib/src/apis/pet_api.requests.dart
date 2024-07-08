@@ -29,6 +29,7 @@ abstract class PetApiAddPetRequest {
   const factory PetApiAddPetRequest.applicationJson({
     required 
             Pet
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -41,6 +42,7 @@ abstract class PetApiAddPetRequest {
   const factory PetApiAddPetRequest.applicationXml({
     required 
             Pet
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -177,6 +179,7 @@ class PetApiAddPetRequestApplicationJson extends PetApiAddPetRequest {
 
   final 
             Pet
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -238,6 +241,7 @@ class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
 
   final 
             Pet
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -309,6 +313,7 @@ class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
   /// spec name: petId
   final 
             int
+
  petId;
   
   
@@ -316,6 +321,7 @@ class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
   /// spec name: api_key
   final UndefinedWrapper<
             String
+
 > apiKey;
   
 
@@ -466,7 +472,9 @@ extension type const StatusEnum._(String value) {
     List<
         
             StatusEnum
+
 >
+
  status;
   
 
@@ -578,7 +586,9 @@ extension type const StatusEnum._(String value) {
     List<
         
             String
+
 >
+
  tags;
   
 
@@ -687,6 +697,7 @@ extension type const StatusEnum._(String value) {
   /// spec name: petId
   final 
             int
+
  petId;
   
 
@@ -805,6 +816,7 @@ abstract class PetApiUpdatePetRequest {
   const factory PetApiUpdatePetRequest.applicationJson({
     required 
             Pet
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -817,6 +829,7 @@ abstract class PetApiUpdatePetRequest {
   const factory PetApiUpdatePetRequest.applicationXml({
     required 
             Pet
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -953,6 +966,7 @@ class PetApiUpdatePetRequestApplicationJson extends PetApiUpdatePetRequest {
 
   final 
             Pet
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -1014,6 +1028,7 @@ class PetApiUpdatePetRequestApplicationXml extends PetApiUpdatePetRequest {
 
   final 
             Pet
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -1086,6 +1101,7 @@ abstract class PetApiUpdatePetWithFormRequest {
   /// spec name: petId
   final 
             int
+
  petId;
   
   
@@ -1095,6 +1111,7 @@ abstract class PetApiUpdatePetWithFormRequest {
     
     required 
             int
+
  petId,
     
     Map<String, String> extraHeaders,
@@ -1251,6 +1268,7 @@ abstract class PetApiUploadFileRequest {
   /// spec name: petId
   final 
             int
+
  petId;
   
   
@@ -1260,6 +1278,7 @@ abstract class PetApiUploadFileRequest {
     
     required 
             int
+
  petId,
     
     Map<String, String> extraHeaders,
@@ -1416,6 +1435,7 @@ abstract class PetApiUploadFileWithRequiredFileRequest {
   /// spec name: petId
   final 
             int
+
  petId;
   
   
@@ -1425,6 +1445,7 @@ abstract class PetApiUploadFileWithRequiredFileRequest {
     
     required 
             int
+
  petId,
     
     Map<String, String> extraHeaders,

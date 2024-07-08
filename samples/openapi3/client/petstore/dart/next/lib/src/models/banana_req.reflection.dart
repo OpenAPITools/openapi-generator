@@ -12,6 +12,7 @@ class BananaReqReflection extends ClassReflection<BananaReq> {
     className: r'BananaReq',
     lengthCmPart: PropertyReflection<BananaReq, 
             num
+
 >(
       dartName: r'lengthCm',
       nullable: false,
@@ -26,6 +27,7 @@ class BananaReqReflection extends ClassReflection<BananaReq> {
     ),
     sweetPart: PropertyReflection<BananaReq, UndefinedWrapper<
             bool
+
 >>(
       dartName: r'sweet',
       nullable: false,
@@ -54,27 +56,33 @@ class BananaReqReflection extends ClassReflection<BananaReq> {
 
   final PropertyReflection<BananaReq, 
             num
+
 > lengthCmPart;
   static 
             num
+
  _lengthCmGetter(BananaReq parent) {
     return parent.lengthCm;
   }
   static void _lengthCmSetter(BananaReq parent, 
             num
+
  value) {
     parent.lengthCm = value;
   }
   final PropertyReflection<BananaReq, UndefinedWrapper<
             bool
+
 >> sweetPart;
   static UndefinedWrapper<
             bool
+
 > _sweetGetter(BananaReq parent) {
     return parent.sweet;
   }
   static void _sweetSetter(BananaReq parent, UndefinedWrapper<
             bool
+
 > value) {
     parent.sweet = value;
   }
@@ -126,14 +134,24 @@ sweetPart,
   /// Gets an example of BananaReq.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  BananaReq example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  BananaReq example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return BananaReq(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = BananaReq(
       lengthCm: () {
-        PartReflection? _partReflection = _reflection.lengthCmPart;
-        
-        return 
+        var result = 
 
 
             
@@ -145,11 +163,10 @@ sweetPart,
 
 
 ;
-      }(),
+        return result;
+      } (),
       sweet: () {
-        PartReflection? _partReflection = _reflection.sweetPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -160,13 +177,16 @@ sweetPart,
     examplebool()
 
 
-);
-      }(),
-      
+;
+        return UndefinedWrapper(result);
+      } (),
       
     );
+    
+    return exampleResult;
   }
 }
+
 
 class BananaReqXmlReflection {
     const BananaReqXmlReflection();

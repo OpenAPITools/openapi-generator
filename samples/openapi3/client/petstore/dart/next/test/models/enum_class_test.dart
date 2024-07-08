@@ -3,6 +3,15 @@ import 'package:test/test.dart';
 
 void main() {
   group(r'EnumClass', () {
+    test('values not empty', () {
+      expect(EnumClass.values, isNotEmpty);
+    });
+
+    test('unsafe', () {
+      final example = 'abc';
+      expect(EnumClass.$unsafe(example), example);
+    });
+
     
     test(r'abc', () {
       expect(EnumClass.abc().value, r'_abc');

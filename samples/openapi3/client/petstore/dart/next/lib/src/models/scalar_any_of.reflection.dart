@@ -12,21 +12,22 @@ class ScalarAnyOfReflection extends ClassReflection<ScalarAnyOf> {
     className: r'ScalarAnyOf',
     
     
-    anyOf0Part: AnyOfReflection(
+    anyOf0Part: ScalarAnyOfAnyOf0(
       parentReflectionGetter: instanceGetter,
           ),
     
-    anyOf1Part: AnyOfReflection(
+    anyOf1Part: ScalarAnyOfAnyOf1(
       parentReflectionGetter: instanceGetter,
           ),
     
-    anyOf2Part: AnyOfReflection(
+    anyOf2Part: ScalarAnyOfAnyOf2(
       parentReflectionGetter: instanceGetter,
           ),
     
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<ScalarAnyOf, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -66,21 +67,16 @@ class ScalarAnyOfReflection extends ClassReflection<ScalarAnyOf> {
       ];
 
   final AdditionalPropertiesReflection<ScalarAnyOf, Object
+
 ?> additionalPropertiesPart;
 
   
   
-  final AnyOfReflection<ScalarAnyOf, 
-            String
-> anyOf0Part;
+  final ScalarAnyOfAnyOf0 anyOf0Part;
   
-  final AnyOfReflection<ScalarAnyOf, 
-            num
-> anyOf1Part;
+  final ScalarAnyOfAnyOf1 anyOf1Part;
   
-  final AnyOfReflection<ScalarAnyOf, 
-            bool
-> anyOf2Part;
+  final ScalarAnyOfAnyOf2 anyOf2Part;
   
   @override
   List<PartReflection<ScalarAnyOf, dynamic>> get parts => [
@@ -115,64 +111,123 @@ class ScalarAnyOfReflection extends ClassReflection<ScalarAnyOf> {
   /// Gets an example of ScalarAnyOf.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  ScalarAnyOf example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  ScalarAnyOf example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return ScalarAnyOf(
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = ScalarAnyOf(
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
-      anyOf0: () {
-        PartReflection? _partReflection = _reflection.anyOf0Part;
-        return UndefinedWrapper(
+    );
+    
+    exampleResult.anyOf0 = anyOf0Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
+    
+    exampleResult.anyOf1 = anyOf1Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
+    
+    exampleResult.anyOf2 = anyOf2Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
+    
+    return exampleResult;
+  }
+}
 
+class ScalarAnyOfAnyOf0 extends AnyOfReflection<ScalarAnyOf, 
+            String
+> {
+  const ScalarAnyOfAnyOf0({
+    super.classReflection,
+    required ScalarAnyOfReflection Function() super.parentReflectionGetter,
+    super.itemsReflection,
+  });
 
+  UndefinedWrapper<
+            String
+> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+    if (discriminatorExampleResults.isNotEmpty) {
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == classReflection)) {
+        return UndefinedWrapper.undefined();
+      }
+    }
+    return UndefinedWrapper(
             
             
 
 
     
     exampleString()
-
-
 );
-      }(),
-      anyOf1: () {
-        PartReflection? _partReflection = _reflection.anyOf1Part;
-        return UndefinedWrapper(
+  }
+}
+class ScalarAnyOfAnyOf1 extends AnyOfReflection<ScalarAnyOf, 
+            num
+> {
+  const ScalarAnyOfAnyOf1({
+    super.classReflection,
+    required ScalarAnyOfReflection Function() super.parentReflectionGetter,
+    super.itemsReflection,
+  });
 
-
+  UndefinedWrapper<
+            num
+> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+    if (discriminatorExampleResults.isNotEmpty) {
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == classReflection)) {
+        return UndefinedWrapper.undefined();
+      }
+    }
+    return UndefinedWrapper(
             
             
 
 
     
     examplenum()
-
-
 );
-      }(),
-      anyOf2: () {
-        PartReflection? _partReflection = _reflection.anyOf2Part;
-        return UndefinedWrapper(
+  }
+}
+class ScalarAnyOfAnyOf2 extends AnyOfReflection<ScalarAnyOf, 
+            bool
+> {
+  const ScalarAnyOfAnyOf2({
+    super.classReflection,
+    required ScalarAnyOfReflection Function() super.parentReflectionGetter,
+    super.itemsReflection,
+  });
 
-
+  UndefinedWrapper<
+            bool
+> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+    if (discriminatorExampleResults.isNotEmpty) {
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == classReflection)) {
+        return UndefinedWrapper.undefined();
+      }
+    }
+    return UndefinedWrapper(
             
             
 
 
     
     examplebool()
-
-
 );
-      }(),
-    );
   }
 }
 

@@ -15,6 +15,7 @@ mixin ClientMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 > get client;
   
 }
@@ -30,9 +31,11 @@ ClientMixin {
   @override
   UndefinedWrapper<
             String
+
 > client;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

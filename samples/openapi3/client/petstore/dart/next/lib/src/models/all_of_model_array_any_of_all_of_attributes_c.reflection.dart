@@ -12,12 +12,12 @@ class AllOfModelArrayAnyOfAllOfAttributesCReflection extends ClassReflection<All
     className: r'AllOfModelArrayAnyOfAllOfAttributesC',
     
     
-    oneOf0Part: OneOfReflection(
+    oneOf0Part: AllOfModelArrayAnyOfAllOfAttributesCOneOf0(
       parentReflectionGetter: instanceGetter,
       classReflection: PetReflection.instance,
     ),
     
-    oneOf1Part: OneOfReflection(
+    oneOf1Part: AllOfModelArrayAnyOfAllOfAttributesCOneOf1(
       parentReflectionGetter: instanceGetter,
       classReflection: OrderReflection.instance,
     ),
@@ -25,6 +25,7 @@ class AllOfModelArrayAnyOfAllOfAttributesCReflection extends ClassReflection<All
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<AllOfModelArrayAnyOfAllOfAttributesC, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -62,17 +63,14 @@ class AllOfModelArrayAnyOfAllOfAttributesCReflection extends ClassReflection<All
       ];
 
   final AdditionalPropertiesReflection<AllOfModelArrayAnyOfAllOfAttributesC, Object
+
 ?> additionalPropertiesPart;
 
   
   
-  final OneOfReflection<AllOfModelArrayAnyOfAllOfAttributesC, 
-            Pet
-> oneOf0Part;
+  final AllOfModelArrayAnyOfAllOfAttributesCOneOf0 oneOf0Part;
   
-  final OneOfReflection<AllOfModelArrayAnyOfAllOfAttributesC, 
-            Order
-> oneOf1Part;
+  final AllOfModelArrayAnyOfAllOfAttributesCOneOf1 oneOf1Part;
   
   @override
   List<PartReflection<AllOfModelArrayAnyOfAllOfAttributesC, dynamic>> get parts => [
@@ -107,35 +105,111 @@ class AllOfModelArrayAnyOfAllOfAttributesCReflection extends ClassReflection<All
   /// Gets an example of AllOfModelArrayAnyOfAllOfAttributesC.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  AllOfModelArrayAnyOfAllOfAttributesC example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  AllOfModelArrayAnyOfAllOfAttributesC example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return AllOfModelArrayAnyOfAllOfAttributesC(
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = AllOfModelArrayAnyOfAllOfAttributesC(
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
-      oneOf0: () {
-        PartReflection? _partReflection = _reflection.oneOf0Part;
-        return UndefinedWrapper(
-
-
-            
-            
-
-
-    Pet.$reflection.example(discriminators: discriminators)
-    
-
-
-);
-      }(),
-      
     );
+    
+    exampleResult.oneOf0 = oneOf0Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
+    
+    exampleResult.oneOf1 = oneOf1Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
+    
+    return exampleResult;
+  }
+}
+
+
+class AllOfModelArrayAnyOfAllOfAttributesCOneOf0 extends OneOfReflection<AllOfModelArrayAnyOfAllOfAttributesC, 
+            Pet
+> {
+  const AllOfModelArrayAnyOfAllOfAttributesCOneOf0({
+    super.classReflection,
+    required AllOfModelArrayAnyOfAllOfAttributesCReflection Function() super.parentReflectionGetter,
+    super.itemsReflection,
+  });
+
+  UndefinedWrapper<
+            Pet
+> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+    if (discriminatorExampleResults.isEmpty) {
+      //return undefined for non-first oneOfs.
+      // An example SHOULD be generated
+    } else {
+      // if this reflection wasn't a result of any property, don't generate an example.
+
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == classReflection)) {
+        // if there are no discriminator examples targetting the current class:
+        return UndefinedWrapper.undefined();
+      } else {
+        // An example SHOULD be generated
+      }
+    }
+    return UndefinedWrapper(
+            
+            
+
+
+    PetReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
+    
+);
+  }
+}
+
+class AllOfModelArrayAnyOfAllOfAttributesCOneOf1 extends OneOfReflection<AllOfModelArrayAnyOfAllOfAttributesC, 
+            Order
+> {
+  const AllOfModelArrayAnyOfAllOfAttributesCOneOf1({
+    super.classReflection,
+    required AllOfModelArrayAnyOfAllOfAttributesCReflection Function() super.parentReflectionGetter,
+    super.itemsReflection,
+  });
+
+  UndefinedWrapper<
+            Order
+> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+    if (discriminatorExampleResults.isEmpty) {
+      //return undefined for non-first oneOfs.
+      return UndefinedWrapper.undefined();
+    } else {
+      // if this reflection wasn't a result of any property, don't generate an example.
+
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == classReflection)) {
+        // if there are no discriminator examples targetting the current class:
+        return UndefinedWrapper.undefined();
+      } else {
+        // An example SHOULD be generated
+      }
+    }
+    return UndefinedWrapper(
+            
+            
+
+
+    OrderReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
+    
+);
   }
 }
 

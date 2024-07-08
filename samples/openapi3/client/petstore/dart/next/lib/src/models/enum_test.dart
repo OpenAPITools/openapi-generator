@@ -23,30 +23,39 @@ mixin EnumTestMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             EnumTestEnumStringEnum
+
 > get enumString;
 
             EnumTestEnumStringRequiredEnum
+
  get enumStringRequired;
 UndefinedWrapper<
             EnumTestEnumIntegerEnum
+
 > get enumInteger;
 UndefinedWrapper<
             EnumTestEnumIntegerOnlyEnum
+
 > get enumIntegerOnly;
 UndefinedWrapper<
             EnumTestEnumNumberEnum
+
 > get enumNumber;
 UndefinedWrapper<
             OuterEnum
+
 ?> get outerEnum;
 UndefinedWrapper<
             OuterEnumInteger
+
 > get outerEnumInteger;
 UndefinedWrapper<
             OuterEnumDefaultValue
+
 > get outerEnumDefaultValue;
 UndefinedWrapper<
             OuterEnumIntegerDefaultValue
+
 > get outerEnumIntegerDefaultValue;
   
 }
@@ -70,41 +79,51 @@ EnumTestMixin {
   @override
   UndefinedWrapper<
             EnumTestEnumStringEnum
+
 > enumString;
   @override
   
             EnumTestEnumStringRequiredEnum
+
  enumStringRequired;
   @override
   UndefinedWrapper<
             EnumTestEnumIntegerEnum
+
 > enumInteger;
   @override
   UndefinedWrapper<
             EnumTestEnumIntegerOnlyEnum
+
 > enumIntegerOnly;
   @override
   UndefinedWrapper<
             EnumTestEnumNumberEnum
+
 > enumNumber;
   @override
   UndefinedWrapper<
             OuterEnum
+
 ?> outerEnum;
   @override
   UndefinedWrapper<
             OuterEnumInteger
+
 > outerEnumInteger;
   @override
   UndefinedWrapper<
             OuterEnumDefaultValue
+
 > outerEnumDefaultValue;
   @override
   UndefinedWrapper<
             OuterEnumIntegerDefaultValue
+
 > outerEnumIntegerDefaultValue;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

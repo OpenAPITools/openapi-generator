@@ -12,6 +12,7 @@ class ClientReflection extends ClassReflection<Client> {
     className: r'Client',
     clientPart: PropertyReflection<Client, UndefinedWrapper<
             String
+
 >>(
       dartName: r'client',
       nullable: false,
@@ -29,6 +30,7 @@ class ClientReflection extends ClassReflection<Client> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<Client, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -45,14 +47,17 @@ class ClientReflection extends ClassReflection<Client> {
 
   final PropertyReflection<Client, UndefinedWrapper<
             String
+
 >> clientPart;
   static UndefinedWrapper<
             String
+
 > _clientGetter(Client parent) {
     return parent.client;
   }
   static void _clientSetter(Client parent, UndefinedWrapper<
             String
+
 > value) {
     parent.client = value;
   }
@@ -77,6 +82,7 @@ class ClientReflection extends ClassReflection<Client> {
   ];
 
   final AdditionalPropertiesReflection<Client, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -106,22 +112,24 @@ class ClientReflection extends ClassReflection<Client> {
   /// Gets an example of Client.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  Client example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  Client example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return Client(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = Client(
       client: () {
-        PartReflection? _partReflection = _reflection.clientPart;
-        
-        final disc = discriminators[r'client'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -132,19 +140,26 @@ class ClientReflection extends ClassReflection<Client> {
     exampleString()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        final preSelectedResult = discriminatorExampleResults[clientPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class ClientXmlReflection {
     const ClientXmlReflection();

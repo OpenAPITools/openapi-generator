@@ -15,6 +15,7 @@ mixin ClassModelMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 > get propertyClass;
   
 }
@@ -30,9 +31,11 @@ ClassModelMixin {
   @override
   UndefinedWrapper<
             String
+
 > propertyClass;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

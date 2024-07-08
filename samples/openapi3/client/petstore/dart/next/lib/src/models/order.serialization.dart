@@ -11,36 +11,42 @@ Map<String, dynamic> _$OrderToMap(Order instance) {
     if (instance.id.isDefined)
     _reflection.idPart.oasName: (
             int
+
  v) {
       return v;
     }(instance.id.valueRequired),
     if (instance.petId.isDefined)
     _reflection.petIdPart.oasName: (
             int
+
  v) {
       return v;
     }(instance.petId.valueRequired),
     if (instance.quantity.isDefined)
     _reflection.quantityPart.oasName: (
             int
+
  v) {
       return v;
     }(instance.quantity.valueRequired),
     if (instance.shipDate.isDefined)
     _reflection.shipDatePart.oasName: (
             DateTime
+
  v) {
       return v;
     }(instance.shipDate.valueRequired),
     if (instance.status.isDefined)
     _reflection.statusPart.oasName: (
             OrderStatusEnum
+
  v) {
       return v.value;
     }(instance.status.valueRequired),
     if (instance.complete.isDefined)
     _reflection.completePart.oasName: (
             bool
+
  v) {
       return v;
     }(instance.complete.valueRequired),
@@ -292,8 +298,7 @@ bool _$OrderCanDeserialize(Object? src) {
 Map<String, dynamic> _$OrderSerialize(Order src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$OrderToMap(src);
     
   }();
   return initialResult;

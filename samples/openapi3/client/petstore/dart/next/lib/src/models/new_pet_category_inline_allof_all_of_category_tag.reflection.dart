@@ -12,6 +12,7 @@ class NewPetCategoryInlineAllofAllOfCategoryTagReflection extends ClassReflectio
     className: r'NewPetCategoryInlineAllofAllOfCategoryTag',
     idPart: PropertyReflection<NewPetCategoryInlineAllofAllOfCategoryTag, UndefinedWrapper<
             int
+
 >>(
       dartName: r'id',
       nullable: false,
@@ -26,6 +27,7 @@ class NewPetCategoryInlineAllofAllOfCategoryTagReflection extends ClassReflectio
     ),
     namePart: PropertyReflection<NewPetCategoryInlineAllofAllOfCategoryTag, UndefinedWrapper<
             String
+
 >>(
       dartName: r'name',
       nullable: false,
@@ -43,6 +45,7 @@ class NewPetCategoryInlineAllofAllOfCategoryTagReflection extends ClassReflectio
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<NewPetCategoryInlineAllofAllOfCategoryTag, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -60,27 +63,33 @@ class NewPetCategoryInlineAllofAllOfCategoryTagReflection extends ClassReflectio
 
   final PropertyReflection<NewPetCategoryInlineAllofAllOfCategoryTag, UndefinedWrapper<
             int
+
 >> idPart;
   static UndefinedWrapper<
             int
+
 > _idGetter(NewPetCategoryInlineAllofAllOfCategoryTag parent) {
     return parent.id;
   }
   static void _idSetter(NewPetCategoryInlineAllofAllOfCategoryTag parent, UndefinedWrapper<
             int
+
 > value) {
     parent.id = value;
   }
   final PropertyReflection<NewPetCategoryInlineAllofAllOfCategoryTag, UndefinedWrapper<
             String
+
 >> namePart;
   static UndefinedWrapper<
             String
+
 > _nameGetter(NewPetCategoryInlineAllofAllOfCategoryTag parent) {
     return parent.name;
   }
   static void _nameSetter(NewPetCategoryInlineAllofAllOfCategoryTag parent, UndefinedWrapper<
             String
+
 > value) {
     parent.name = value;
   }
@@ -106,6 +115,7 @@ namePart,
   ];
 
   final AdditionalPropertiesReflection<NewPetCategoryInlineAllofAllOfCategoryTag, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -135,14 +145,24 @@ namePart,
   /// Gets an example of NewPetCategoryInlineAllofAllOfCategoryTag.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  NewPetCategoryInlineAllofAllOfCategoryTag example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  NewPetCategoryInlineAllofAllOfCategoryTag example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return NewPetCategoryInlineAllofAllOfCategoryTag(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = NewPetCategoryInlineAllofAllOfCategoryTag(
       id: () {
-        PartReflection? _partReflection = _reflection.idPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -153,20 +173,11 @@ namePart,
     exampleint()
 
 
-);
-      }(),
+;
+        return UndefinedWrapper(result);
+      } (),
       name: () {
-        PartReflection? _partReflection = _reflection.namePart;
-        
-        final disc = discriminators[r'name'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -177,19 +188,26 @@ namePart,
     exampleString()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        final preSelectedResult = discriminatorExampleResults[namePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class NewPetCategoryInlineAllofAllOfCategoryTagXmlReflection {
     const NewPetCategoryInlineAllofAllOfCategoryTagXmlReflection();

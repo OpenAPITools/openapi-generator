@@ -13,7 +13,9 @@ Map<String, dynamic> _$AllOfModelArrayAnyOfAllOfLinkListColumn1ToMap(AllOfModelA
     List<
         
             AllOfModelArrayAnyOfAllOfLinkListColumn1Value
+
 >
+
  v) {
       return v.map((v) => v.serialize()).toList();
     }(instance.value),
@@ -108,8 +110,7 @@ bool _$AllOfModelArrayAnyOfAllOfLinkListColumn1CanDeserialize(Object? src) {
 Map<String, dynamic> _$AllOfModelArrayAnyOfAllOfLinkListColumn1Serialize(AllOfModelArrayAnyOfAllOfLinkListColumn1 src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$AllOfModelArrayAnyOfAllOfLinkListColumn1ToMap(src);
     
   }();
   return initialResult;

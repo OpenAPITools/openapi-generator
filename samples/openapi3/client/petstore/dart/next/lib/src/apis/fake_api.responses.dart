@@ -105,6 +105,7 @@ class FakeApiFakeGetFreeFormObjectGetResponse200 extends FakeApiFakeGetFreeFormO
 class FakeApiFakeGetFreeFormObjectGetResponse200ApplicationJson extends FakeApiFakeGetFreeFormObjectGetResponse200 {
   final 
             FreeFormObjectTestClass
+
 ? body;
 
   /// The raw result of calling jsonDecode
@@ -281,6 +282,7 @@ class FakeApiFakeOuterBooleanSerializeResponse200 extends FakeApiFakeOuterBoolea
 class FakeApiFakeOuterBooleanSerializeResponse200AnyAny extends FakeApiFakeOuterBooleanSerializeResponse200 {
   final 
             bool
+
 ? body;
 
 
@@ -415,6 +417,7 @@ class FakeApiFakeOuterCompositeSerializeResponse200 extends FakeApiFakeOuterComp
 class FakeApiFakeOuterCompositeSerializeResponse200AnyAny extends FakeApiFakeOuterCompositeSerializeResponse200 {
   final 
             OuterComposite
+
 ? body;
 
 
@@ -549,6 +552,7 @@ class FakeApiFakeOuterNumberSerializeResponse200 extends FakeApiFakeOuterNumberS
 class FakeApiFakeOuterNumberSerializeResponse200AnyAny extends FakeApiFakeOuterNumberSerializeResponse200 {
   final 
             num
+
 ? body;
 
 
@@ -683,6 +687,7 @@ class FakeApiFakeOuterStringSerializeResponse200 extends FakeApiFakeOuterStringS
 class FakeApiFakeOuterStringSerializeResponse200AnyAny extends FakeApiFakeOuterStringSerializeResponse200 {
   final 
             String
+
 ? body;
 
 
@@ -817,6 +822,7 @@ class FakeApiFakeUploadRefRequestBodiesResponse200 extends FakeApiFakeUploadRefR
 class FakeApiFakeUploadRefRequestBodiesResponse200ApplicationJson extends FakeApiFakeUploadRefRequestBodiesResponse200 {
   final 
             ApiResponse
+
 ? body;
 
   /// The raw result of calling jsonDecode
@@ -995,7 +1001,9 @@ class FakeApiGetFakeArrayofenumsResponse200ApplicationJson extends FakeApiGetFak
     List<
         
             OuterEnum
+
 ?>
+
 ? body;
 
   /// The raw result of calling jsonDecode
@@ -1201,6 +1209,7 @@ class FakeApiGetFakeHealthResponse200 extends FakeApiGetFakeHealthResponse {
 class FakeApiGetFakeHealthResponse200ApplicationJson extends FakeApiGetFakeHealthResponse200 {
   final 
             HealthCheckResult
+
 ? body;
 
   /// The raw result of calling jsonDecode
@@ -1669,6 +1678,7 @@ class FakeApiTestClientModelResponse200 extends FakeApiTestClientModelResponse {
 class FakeApiTestClientModelResponse200ApplicationJson extends FakeApiTestClientModelResponse200 {
   final 
             Client
+
 ? body;
 
   /// The raw result of calling jsonDecode

@@ -88,7 +88,7 @@ void main() {
             
 
 
-    Client.$reflection.example()
+    ClientReflection.instance.example()
     
 
 
@@ -155,7 +155,7 @@ void main() {
 array:  
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             

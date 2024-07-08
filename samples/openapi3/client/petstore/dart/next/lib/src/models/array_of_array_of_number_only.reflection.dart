@@ -16,8 +16,11 @@ class ArrayOfArrayOfNumberOnlyReflection extends ClassReflection<ArrayOfArrayOfN
     List<
         
             num
+
 >
+
 >
+
 >>(
       dartName: r'arrayArrayNumber',
       nullable: false,
@@ -31,9 +34,12 @@ class ArrayOfArrayOfNumberOnlyReflection extends ClassReflection<ArrayOfArrayOfN
     List<
         
             num
+
 >
+
 >(parentReflectionGetter: instanceGetter,itemsReflection: ItemsReflection<ArrayOfArrayOfNumberOnly, 
             num
+
 >(parentReflectionGetter: instanceGetter,)),
       getter: _arrayArrayNumberGetter,
       setter: _arrayArrayNumberSetter,
@@ -43,6 +49,7 @@ class ArrayOfArrayOfNumberOnlyReflection extends ClassReflection<ArrayOfArrayOfN
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<ArrayOfArrayOfNumberOnly, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -63,8 +70,11 @@ class ArrayOfArrayOfNumberOnlyReflection extends ClassReflection<ArrayOfArrayOfN
     List<
         
             num
+
 >
+
 >
+
 >> arrayArrayNumberPart;
   static UndefinedWrapper<
     List<
@@ -72,8 +82,11 @@ class ArrayOfArrayOfNumberOnlyReflection extends ClassReflection<ArrayOfArrayOfN
     List<
         
             num
+
 >
+
 >
+
 > _arrayArrayNumberGetter(ArrayOfArrayOfNumberOnly parent) {
     return parent.arrayArrayNumber;
   }
@@ -83,8 +96,11 @@ class ArrayOfArrayOfNumberOnlyReflection extends ClassReflection<ArrayOfArrayOfN
     List<
         
             num
+
 >
+
 >
+
 > value) {
     parent.arrayArrayNumber = value;
   }
@@ -109,6 +125,7 @@ class ArrayOfArrayOfNumberOnlyReflection extends ClassReflection<ArrayOfArrayOfN
   ];
 
   final AdditionalPropertiesReflection<ArrayOfArrayOfNumberOnly, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -138,20 +155,30 @@ class ArrayOfArrayOfNumberOnlyReflection extends ClassReflection<ArrayOfArrayOfN
   /// Gets an example of ArrayOfArrayOfNumberOnly.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  ArrayOfArrayOfNumberOnly example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  ArrayOfArrayOfNumberOnly example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return ArrayOfArrayOfNumberOnly(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = ArrayOfArrayOfNumberOnly(
       arrayArrayNumber: () {
-        PartReflection? _partReflection = _reflection.arrayArrayNumberPart;
-        
-        return UndefinedWrapper(
+        var result = 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
@@ -170,19 +197,22 @@ class ArrayOfArrayOfNumberOnlyReflection extends ClassReflection<ArrayOfArrayOfN
 
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class ArrayOfArrayOfNumberOnlyXmlReflection {
     const ArrayOfArrayOfNumberOnlyXmlReflection();

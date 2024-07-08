@@ -11,12 +11,14 @@ Map<String, dynamic> _$ArrayOfInlineAllOfToMap(ArrayOfInlineAllOf instance) {
     if (instance.id.isDefined)
     _reflection.idPart.oasName: (
             int
+
  v) {
       return v;
     }(instance.id.valueRequired),
     
     _reflection.namePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.name),
@@ -25,7 +27,9 @@ Map<String, dynamic> _$ArrayOfInlineAllOfToMap(ArrayOfInlineAllOf instance) {
     List<
         
             ArrayOfInlineAllOfArrayAllofDogPropertyInner
+
 >
+
  v) {
       return v.map((v) => v.serialize()).toList();
     }(instance.arrayAllofDogProperty.valueRequired),
@@ -186,8 +190,7 @@ bool _$ArrayOfInlineAllOfCanDeserialize(Object? src) {
 Map<String, dynamic> _$ArrayOfInlineAllOfSerialize(ArrayOfInlineAllOf src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$ArrayOfInlineAllOfToMap(src);
     
   }();
   return initialResult;

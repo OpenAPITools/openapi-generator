@@ -12,6 +12,7 @@ class $ListReflection extends ClassReflection<$List> {
     className: r'$List',
     $123listPart: PropertyReflection<$List, UndefinedWrapper<
             String
+
 >>(
       dartName: r'$123list',
       nullable: false,
@@ -29,6 +30,7 @@ class $ListReflection extends ClassReflection<$List> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<$List, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -45,14 +47,17 @@ class $ListReflection extends ClassReflection<$List> {
 
   final PropertyReflection<$List, UndefinedWrapper<
             String
+
 >> $123listPart;
   static UndefinedWrapper<
             String
+
 > _$123listGetter($List parent) {
     return parent.$123list;
   }
   static void _$123listSetter($List parent, UndefinedWrapper<
             String
+
 > value) {
     parent.$123list = value;
   }
@@ -77,6 +82,7 @@ class $ListReflection extends ClassReflection<$List> {
   ];
 
   final AdditionalPropertiesReflection<$List, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -106,22 +112,24 @@ class $ListReflection extends ClassReflection<$List> {
   /// Gets an example of $List.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  $List example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  $List example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return $List(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = $List(
       $123list: () {
-        PartReflection? _partReflection = _reflection.$123listPart;
-        
-        final disc = discriminators[r'123-list'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -132,19 +140,26 @@ class $ListReflection extends ClassReflection<$List> {
     exampleString()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        final preSelectedResult = discriminatorExampleResults[$123listPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class $ListXmlReflection {
     const $ListXmlReflection();

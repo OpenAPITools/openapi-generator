@@ -105,6 +105,7 @@ class DefaultApiFakeAnyOfWIthSameErasureGetResponse200 extends DefaultApiFakeAny
 class DefaultApiFakeAnyOfWIthSameErasureGetResponse200ApplicationJson extends DefaultApiFakeAnyOfWIthSameErasureGetResponse200 {
   final 
             FakeAnyOfWIthSameErasureGet200Response
+
 ? body;
 
   /// The raw result of calling jsonDecode
@@ -281,6 +282,7 @@ class DefaultApiFakeOneOfWIthSameErasureGetResponse200 extends DefaultApiFakeOne
 class DefaultApiFakeOneOfWIthSameErasureGetResponse200ApplicationJson extends DefaultApiFakeOneOfWIthSameErasureGetResponse200 {
   final 
             FakeOneOfWIthSameErasureGet200Response
+
 ? body;
 
   /// The raw result of calling jsonDecode
@@ -457,6 +459,7 @@ class DefaultApiFooGetResponseDefault extends DefaultApiFooGetResponse {
 class DefaultApiFooGetResponseDefaultApplicationJson extends DefaultApiFooGetResponseDefault {
   final 
             FooGetDefaultResponse
+
 ? body;
 
   /// The raw result of calling jsonDecode
@@ -675,6 +678,7 @@ class DefaultApiPetsMulticontentTestPostResponse200 extends DefaultApiPetsMultic
 class DefaultApiPetsMulticontentTestPostResponse200TextPlain extends DefaultApiPetsMulticontentTestPostResponse200 {
   final 
             int
+
 ? body;
 
   /// The raw result of decoding bytes to text.
@@ -762,6 +766,7 @@ int.parse(v.toString())
 /// Represent the response when content-type is */*.
 class DefaultApiPetsMulticontentTestPostResponse200AnyAny extends DefaultApiPetsMulticontentTestPostResponse200 {
   final Object
+
 ? body;
 
 
@@ -797,6 +802,7 @@ class DefaultApiPetsMulticontentTestPostResponse200AnyAny extends DefaultApiPets
 class DefaultApiPetsMulticontentTestPostResponse200TextAny extends DefaultApiPetsMulticontentTestPostResponse200 {
   final 
             String
+
 ? body;
 
   /// The raw result of decoding bytes to text.
@@ -887,6 +893,7 @@ throwArgumentMismatch(String, v)
 class DefaultApiPetsMulticontentTestPostResponse200MultipartFormData extends DefaultApiPetsMulticontentTestPostResponse200 {
   final 
             PetsMulticontentTestPostRequest
+
 ? body;
 
 
@@ -1002,6 +1009,7 @@ class DefaultApiPetsMulticontentTestPostResponse201 extends DefaultApiPetsMultic
 class DefaultApiPetsMulticontentTestPostResponse201ApplicationJson extends DefaultApiPetsMulticontentTestPostResponse201 {
   final 
             Pet
+
 ? body;
 
   /// The raw result of calling jsonDecode
@@ -1079,6 +1087,7 @@ class DefaultApiPetsMulticontentTestPostResponse201ApplicationJson extends Defau
 class DefaultApiPetsMulticontentTestPostResponse201ApplicationXml extends DefaultApiPetsMulticontentTestPostResponse201 {
   final 
             NewPet
+
 ? body;
 
   /// The raw result of calling XmlDocument.parse
@@ -1130,6 +1139,7 @@ class DefaultApiPetsMulticontentTestPostResponse201ApplicationXml extends Defaul
 class DefaultApiPetsMulticontentTestPostResponse201ApplicationXWwwFormUrlencoded extends DefaultApiPetsMulticontentTestPostResponse201 {
   final 
             Triangle
+
 ? body;
 
   final Map<String, dynamic>? rawQueryParameters;
@@ -1230,12 +1240,15 @@ class DefaultApiPetsMulticontentTestPostResponse2XX extends DefaultApiPetsMultic
 
   final UndefinedWrapper<
             int
+
 > xRateLimit;
   final UndefinedWrapper<
             int
+
 > xRateLimitRemaining;
   final UndefinedWrapper<
             DateTime
+
 > xRateLimitReset;
 
   T split2XX<T>({
@@ -1283,6 +1296,7 @@ class DefaultApiPetsMulticontentTestPostResponse2XX extends DefaultApiPetsMultic
 class DefaultApiPetsMulticontentTestPostResponse2XXApplicationJson extends DefaultApiPetsMulticontentTestPostResponse2XX {
   final 
             Pet
+
 ? body;
 
   /// The raw result of calling jsonDecode
@@ -1557,6 +1571,7 @@ class DefaultApiPetsMulticontentTestPostResponseDefault extends DefaultApiPetsMu
 class DefaultApiPetsMulticontentTestPostResponseDefaultApplicationJson extends DefaultApiPetsMulticontentTestPostResponseDefault {
   final 
             Pet
+
 ? body;
 
   /// The raw result of calling jsonDecode
@@ -1634,6 +1649,7 @@ class DefaultApiPetsMulticontentTestPostResponseDefaultApplicationJson extends D
 class DefaultApiPetsMulticontentTestPostResponseDefaultApplicationXWwwFormUrlencoded extends DefaultApiPetsMulticontentTestPostResponseDefault {
   final 
             Triangle
+
 ? body;
 
   final Map<String, dynamic>? rawQueryParameters;

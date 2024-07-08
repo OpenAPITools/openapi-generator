@@ -11,12 +11,14 @@ Map<String, dynamic> _$AppleReqToMap(AppleReq instance) {
     
     _reflection.cultivarPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.cultivar),
     if (instance.mealy.isDefined)
     _reflection.mealyPart.oasName: (
             bool
+
  v) {
       return v;
     }(instance.mealy.valueRequired),
@@ -129,8 +131,7 @@ bool _$AppleReqCanDeserialize(Object? src) {
 Map<String, dynamic> _$AppleReqSerialize(AppleReq src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$AppleReqToMap(src);
     
   }();
   return initialResult;

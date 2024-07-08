@@ -11,6 +11,7 @@ Map<String, dynamic> _$TestInlineFreeformAdditionalPropertiesRequestToMap(TestIn
     if (instance.someProperty.isDefined)
     _reflection.somePropertyPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.someProperty.valueRequired),
@@ -102,8 +103,7 @@ bool _$TestInlineFreeformAdditionalPropertiesRequestCanDeserialize(Object? src) 
 Map<String, dynamic> _$TestInlineFreeformAdditionalPropertiesRequestSerialize(TestInlineFreeformAdditionalPropertiesRequest src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$TestInlineFreeformAdditionalPropertiesRequestToMap(src);
     
   }();
   return initialResult;

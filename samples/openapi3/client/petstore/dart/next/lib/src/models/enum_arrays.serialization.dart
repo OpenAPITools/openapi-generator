@@ -11,6 +11,7 @@ Map<String, dynamic> _$EnumArraysToMap(EnumArrays instance) {
     if (instance.justSymbol.isDefined)
     _reflection.justSymbolPart.oasName: (
             EnumArraysJustSymbolEnum
+
  v) {
       return v.value;
     }(instance.justSymbol.valueRequired),
@@ -19,7 +20,9 @@ Map<String, dynamic> _$EnumArraysToMap(EnumArrays instance) {
     List<
         
             EnumArraysArrayEnumEnum
+
 >
+
  v) {
       return v.map((v) => v.value).toList();
     }(instance.arrayEnum.valueRequired),
@@ -161,8 +164,7 @@ bool _$EnumArraysCanDeserialize(Object? src) {
 Map<String, dynamic> _$EnumArraysSerialize(EnumArrays src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$EnumArraysToMap(src);
     
   }();
   return initialResult;

@@ -15,11 +15,12 @@ mixin FruitMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
+
 > get color;
   
   UndefinedWrapper<
             Apple
-?> get oneOf0;
+> get oneOf0;
   UndefinedWrapper<
             Banana
 > get oneOf1;
@@ -36,6 +37,7 @@ FruitMixin {
   @override
   UndefinedWrapper<
             String
+
 > color;
 
 
@@ -44,7 +46,7 @@ FruitMixin {
   @override
   UndefinedWrapper<
             Apple
-?> oneOf0;
+> oneOf0;
   
   @override
   UndefinedWrapper<
@@ -76,11 +78,10 @@ FruitMixin {
   @override
   bool validate() {
       final oneOfs = [oneOf0,oneOf1,].where((e) => e.isDefined).take(2);
-      if (oneOfs.length != 1) {
-        // there must be EXACTLY one "oneOf" schema.
+      if (oneOfs.length > 1) {
+        // there must be AT MOST one "oneOf" schema.
         return false;
       }
-      
       
     return super.validate();
   }

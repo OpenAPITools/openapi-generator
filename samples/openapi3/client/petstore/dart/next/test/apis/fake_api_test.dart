@@ -213,7 +213,7 @@ void main() {
             
 
 
-    OuterComposite.$reflection.example()
+    OuterCompositeReflection.instance.example()
     
 
 
@@ -692,7 +692,7 @@ type$:
             data: 
 
 
-    exampleMap(() { _partReflection = _partReflection?.itemsReflection; return exampleNullable(() =>
+    exampleMap(() { return exampleNullable(() =>
 
 exampleObject()
 
@@ -773,7 +773,7 @@ exampleObject()
             
 
 
-    FileSchemaTestClass.$reflection.example()
+    FileSchemaTestClassReflection.instance.example()
     
 
 
@@ -859,7 +859,7 @@ query:
             
 
 
-    User.$reflection.example()
+    UserReflection.instance.example()
     
 
 
@@ -949,7 +949,7 @@ query:
             
 
 
-    Client.$reflection.example()
+    ClientReflection.instance.example()
     
 
 
@@ -1072,7 +1072,7 @@ query:
 enumHeaderStringArray: UndefinedWrapper( 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             exampleEnum(EnumHeaderStringArrayEnum.values)
@@ -1097,7 +1097,7 @@ enumHeaderString: UndefinedWrapper(
 enumQueryStringArray: UndefinedWrapper( 
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             exampleEnum(EnumQueryStringArrayEnum.values)
@@ -1324,7 +1324,7 @@ int64Group: UndefinedWrapper(
             data: 
 
 
-    exampleMap(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleMap(() { return 
 
 
             
@@ -1412,7 +1412,7 @@ int64Group: UndefinedWrapper(
             
 
 
-    TestInlineFreeformAdditionalPropertiesRequest.$reflection.example()
+    TestInlineFreeformAdditionalPropertiesRequestReflection.instance.example()
     
 
 
@@ -1522,7 +1522,7 @@ int64Group: UndefinedWrapper(
 pipe:  
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
@@ -1542,7 +1542,7 @@ pipe:
 ioutil:  
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
@@ -1562,7 +1562,7 @@ ioutil:
 http:  
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
@@ -1582,7 +1582,7 @@ http:
 url:  
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
@@ -1602,7 +1602,7 @@ url:
 context:  
 
 
-    exampleList(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleList(() { return 
 
 
             
@@ -1677,7 +1677,7 @@ context:
             data: 
 
 
-    exampleMap(() { _partReflection = _partReflection?.itemsReflection; return 
+    exampleMap(() { return 
 
 
             

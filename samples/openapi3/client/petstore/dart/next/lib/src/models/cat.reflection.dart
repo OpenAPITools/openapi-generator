@@ -12,6 +12,7 @@ class CatReflection extends ClassReflection<Cat> {
     className: r'Cat',
     colorPart: PropertyReflection<Cat, UndefinedWrapper<
             String
+
 >>(
       dartName: r'color',
       nullable: false,
@@ -26,6 +27,7 @@ class CatReflection extends ClassReflection<Cat> {
     ),
     declawedPart: PropertyReflection<Cat, UndefinedWrapper<
             bool
+
 >>(
       dartName: r'declawed',
       nullable: false,
@@ -40,6 +42,7 @@ class CatReflection extends ClassReflection<Cat> {
     ),
     classNamePart: PropertyReflection<Cat, 
             String
+
 >(
       dartName: r'className',
       nullable: false,
@@ -62,6 +65,7 @@ class CatReflection extends ClassReflection<Cat> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<Cat, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -80,40 +84,49 @@ class CatReflection extends ClassReflection<Cat> {
 
   final PropertyReflection<Cat, UndefinedWrapper<
             String
+
 >> colorPart;
   static UndefinedWrapper<
             String
+
 > _colorGetter(Cat parent) {
     return parent.color;
   }
   static void _colorSetter(Cat parent, UndefinedWrapper<
             String
+
 > value) {
     parent.color = value;
   }
   final PropertyReflection<Cat, UndefinedWrapper<
             bool
+
 >> declawedPart;
   static UndefinedWrapper<
             bool
+
 > _declawedGetter(Cat parent) {
     return parent.declawed;
   }
   static void _declawedSetter(Cat parent, UndefinedWrapper<
             bool
+
 > value) {
     parent.declawed = value;
   }
   final PropertyReflection<Cat, 
             String
+
 > classNamePart;
   static 
             String
+
  _classNameGetter(Cat parent) {
     return parent.className;
   }
   static void _classNameSetter(Cat parent, 
             String
+
  value) {
     parent.className = value;
   }
@@ -140,6 +153,7 @@ classNamePart,
   ];
 
   final AdditionalPropertiesReflection<Cat, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -177,62 +191,24 @@ classNamePart,
   /// Gets an example of Cat.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  Cat example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  Cat example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return Cat(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = Cat(
       color: () {
-        PartReflection? _partReflection = _reflection.colorPart;
-        
-        final disc = discriminators[r'color'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-);
-      }(),
-      declawed: () {
-        PartReflection? _partReflection = _reflection.declawedPart;
-        
-        return UndefinedWrapper(
-
-
-            
-            
-
-
-    
-    examplebool()
-
-
-);
-      }(),
-      className: () {
-        PartReflection? _partReflection = _reflection.classNamePart;
-        
-        final disc = discriminators[r'className'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -244,18 +220,59 @@ classNamePart,
 
 
 ;
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+        final preSelectedResult = discriminatorExampleResults[colorPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      declawed: () {
+        var result = 
+
+
+            
+            
+
+
+    
+    examplebool()
+
+
+;
+        return UndefinedWrapper(result);
+      } (),
+      className: () {
+        var result = 
+
+
+            
+            
+
+
+    
+    exampleString()
+
+
+;
+        final preSelectedResult = discriminatorExampleResults[classNamePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class CatXmlReflection {
     const CatXmlReflection();

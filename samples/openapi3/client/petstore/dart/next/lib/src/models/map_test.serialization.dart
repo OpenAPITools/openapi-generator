@@ -15,8 +15,11 @@ Map<String, dynamic> _$MapTestToMap(MapTest instance) {
     Map<String, 
         
             String
+
 >
+
 >
+
  v) {
       return v.map((k,v) => MapEntry(k, v.map((k,v) => MapEntry(k, v))));
     }(instance.mapMapOfString.valueRequired),
@@ -25,7 +28,9 @@ Map<String, dynamic> _$MapTestToMap(MapTest instance) {
     Map<String, 
         
             MapTestMapOfEnumStringEnum
+
 >
+
  v) {
       return v.map((k,v) => MapEntry(k, v.value));
     }(instance.mapOfEnumString.valueRequired),
@@ -34,7 +39,9 @@ Map<String, dynamic> _$MapTestToMap(MapTest instance) {
     Map<String, 
         
             bool
+
 >
+
  v) {
       return v.map((k,v) => MapEntry(k, v));
     }(instance.directMap.valueRequired),
@@ -43,7 +50,9 @@ Map<String, dynamic> _$MapTestToMap(MapTest instance) {
     Map<String, 
         
             bool
+
 >
+
  v) {
       return v.map((k,v) => MapEntry(k, v));
     }(instance.indirectMap.valueRequired),
@@ -313,8 +322,7 @@ bool _$MapTestCanDeserialize(Object? src) {
 Map<String, dynamic> _$MapTestSerialize(MapTest src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$MapTestToMap(src);
     
   }();
   return initialResult;

@@ -11,12 +11,14 @@ Map<String, dynamic> _$ArrayOfInlineAllOfArrayAllofDogPropertyInnerToMap(ArrayOf
     if (instance.breed.isDefined)
     _reflection.breedPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.breed.valueRequired),
     if (instance.color.isDefined)
     _reflection.colorPart.oasName: (
             String
+
  v) {
       return v;
     }(instance.color.valueRequired),
@@ -145,8 +147,7 @@ bool _$ArrayOfInlineAllOfArrayAllofDogPropertyInnerCanDeserialize(Object? src) {
 Map<String, dynamic> _$ArrayOfInlineAllOfArrayAllofDogPropertyInnerSerialize(ArrayOfInlineAllOfArrayAllofDogPropertyInner src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$ArrayOfInlineAllOfArrayAllofDogPropertyInnerToMap(src);
     
   }();
   return initialResult;

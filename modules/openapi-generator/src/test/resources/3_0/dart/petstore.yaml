@@ -2339,6 +2339,8 @@ components:
       nullable: true
     banana:
       type: object
+      required:
+        - lengthCm
       properties:
         lengthCm:
           type: number

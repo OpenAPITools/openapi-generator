@@ -11,12 +11,14 @@ Map<String, dynamic> _$SpecialModelNameToMap(SpecialModelName instance) {
     if (instance.$specialPropertyName.isDefined)
     _reflection.$specialPropertyNamePart.oasName: (
             int
+
  v) {
       return v;
     }(instance.$specialPropertyName.valueRequired),
     if (instance.specialModelName.isDefined)
     _reflection.specialModelNamePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.specialModelName.valueRequired),
@@ -140,8 +142,7 @@ bool _$SpecialModelNameCanDeserialize(Object? src) {
 Map<String, dynamic> _$SpecialModelNameSerialize(SpecialModelName src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$SpecialModelNameToMap(src);
     
   }();
   return initialResult;

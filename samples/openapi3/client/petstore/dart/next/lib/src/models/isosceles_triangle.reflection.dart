@@ -12,6 +12,7 @@ class IsoscelesTriangleReflection extends ClassReflection<IsoscelesTriangle> {
     className: r'IsoscelesTriangle',
     shapeTypePart: PropertyReflection<IsoscelesTriangle, 
             String
+
 >(
       dartName: r'shapeType',
       nullable: false,
@@ -26,6 +27,7 @@ class IsoscelesTriangleReflection extends ClassReflection<IsoscelesTriangle> {
     ),
     triangleTypePart: PropertyReflection<IsoscelesTriangle, 
             String
+
 >(
       dartName: r'triangleType',
       nullable: false,
@@ -54,27 +56,33 @@ class IsoscelesTriangleReflection extends ClassReflection<IsoscelesTriangle> {
 
   final PropertyReflection<IsoscelesTriangle, 
             String
+
 > shapeTypePart;
   static 
             String
+
  _shapeTypeGetter(IsoscelesTriangle parent) {
     return parent.shapeType;
   }
   static void _shapeTypeSetter(IsoscelesTriangle parent, 
             String
+
  value) {
     parent.shapeType = value;
   }
   final PropertyReflection<IsoscelesTriangle, 
             String
+
 > triangleTypePart;
   static 
             String
+
  _triangleTypeGetter(IsoscelesTriangle parent) {
     return parent.triangleType;
   }
   static void _triangleTypeSetter(IsoscelesTriangle parent, 
             String
+
  value) {
     parent.triangleType = value;
   }
@@ -134,22 +142,24 @@ triangleTypePart,
   /// Gets an example of IsoscelesTriangle.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  IsoscelesTriangle example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  IsoscelesTriangle example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return IsoscelesTriangle(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = IsoscelesTriangle(
       shapeType: () {
-        PartReflection? _partReflection = _reflection.shapeTypePart;
-        
-        final disc = discriminators[r'shapeType'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -161,19 +171,14 @@ triangleTypePart,
 
 
 ;
-      }(),
+        final preSelectedResult = discriminatorExampleResults[shapeTypePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
       triangleType: () {
-        PartReflection? _partReflection = _reflection.triangleTypePart;
-        
-        final disc = discriminators[r'triangleType'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return result;
-          }
-        }
-        
-        return 
+        var result = 
 
 
             
@@ -185,12 +190,19 @@ triangleTypePart,
 
 
 ;
-      }(),
-      
+        final preSelectedResult = discriminatorExampleResults[triangleTypePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return result;
+      } (),
       
     );
+    
+    return exampleResult;
   }
 }
+
 
 class IsoscelesTriangleXmlReflection {
     const IsoscelesTriangleXmlReflection();

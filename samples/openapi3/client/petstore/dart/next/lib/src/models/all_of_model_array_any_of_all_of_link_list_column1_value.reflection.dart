@@ -12,12 +12,12 @@ class AllOfModelArrayAnyOfAllOfLinkListColumn1ValueReflection extends ClassRefle
     className: r'AllOfModelArrayAnyOfAllOfLinkListColumn1Value',
     
     
-    anyOf0Part: AnyOfReflection(
+    anyOf0Part: AllOfModelArrayAnyOfAllOfLinkListColumn1ValueAnyOf0(
       parentReflectionGetter: instanceGetter,
       classReflection: UserReflection.instance,
     ),
     
-    anyOf1Part: AnyOfReflection(
+    anyOf1Part: AllOfModelArrayAnyOfAllOfLinkListColumn1ValueAnyOf1(
       parentReflectionGetter: instanceGetter,
       classReflection: TagReflection.instance,
     ),
@@ -25,6 +25,7 @@ class AllOfModelArrayAnyOfAllOfLinkListColumn1ValueReflection extends ClassRefle
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<AllOfModelArrayAnyOfAllOfLinkListColumn1Value, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -62,17 +63,14 @@ class AllOfModelArrayAnyOfAllOfLinkListColumn1ValueReflection extends ClassRefle
       ];
 
   final AdditionalPropertiesReflection<AllOfModelArrayAnyOfAllOfLinkListColumn1Value, Object
+
 ?> additionalPropertiesPart;
 
   
   
-  final AnyOfReflection<AllOfModelArrayAnyOfAllOfLinkListColumn1Value, 
-            User
-> anyOf0Part;
+  final AllOfModelArrayAnyOfAllOfLinkListColumn1ValueAnyOf0 anyOf0Part;
   
-  final AnyOfReflection<AllOfModelArrayAnyOfAllOfLinkListColumn1Value, 
-            Tag
-> anyOf1Part;
+  final AllOfModelArrayAnyOfAllOfLinkListColumn1ValueAnyOf1 anyOf1Part;
   
   @override
   List<PartReflection<AllOfModelArrayAnyOfAllOfLinkListColumn1Value, dynamic>> get parts => [
@@ -107,49 +105,93 @@ class AllOfModelArrayAnyOfAllOfLinkListColumn1ValueReflection extends ClassRefle
   /// Gets an example of AllOfModelArrayAnyOfAllOfLinkListColumn1Value.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  AllOfModelArrayAnyOfAllOfLinkListColumn1Value example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  AllOfModelArrayAnyOfAllOfLinkListColumn1Value example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return AllOfModelArrayAnyOfAllOfLinkListColumn1Value(
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = AllOfModelArrayAnyOfAllOfLinkListColumn1Value(
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
-      anyOf0: () {
-        PartReflection? _partReflection = _reflection.anyOf0Part;
-        return UndefinedWrapper(
-
-
-            
-            
-
-
-    User.$reflection.example(discriminators: discriminators)
-    
-
-
-);
-      }(),
-      anyOf1: () {
-        PartReflection? _partReflection = _reflection.anyOf1Part;
-        return UndefinedWrapper(
-
-
-            
-            
-
-
-    Tag.$reflection.example(discriminators: discriminators)
-    
-
-
-);
-      }(),
     );
+    
+    exampleResult.anyOf0 = anyOf0Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
+    
+    exampleResult.anyOf1 = anyOf1Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
+    
+    return exampleResult;
+  }
+}
+
+class AllOfModelArrayAnyOfAllOfLinkListColumn1ValueAnyOf0 extends AnyOfReflection<AllOfModelArrayAnyOfAllOfLinkListColumn1Value, 
+            User
+> {
+  const AllOfModelArrayAnyOfAllOfLinkListColumn1ValueAnyOf0({
+    super.classReflection,
+    required AllOfModelArrayAnyOfAllOfLinkListColumn1ValueReflection Function() super.parentReflectionGetter,
+    super.itemsReflection,
+  });
+
+  UndefinedWrapper<
+            User
+> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+    if (discriminatorExampleResults.isNotEmpty) {
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == classReflection)) {
+        return UndefinedWrapper.undefined();
+      }
+    }
+    return UndefinedWrapper(
+            
+            
+
+
+    UserReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
+    
+);
+  }
+}
+class AllOfModelArrayAnyOfAllOfLinkListColumn1ValueAnyOf1 extends AnyOfReflection<AllOfModelArrayAnyOfAllOfLinkListColumn1Value, 
+            Tag
+> {
+  const AllOfModelArrayAnyOfAllOfLinkListColumn1ValueAnyOf1({
+    super.classReflection,
+    required AllOfModelArrayAnyOfAllOfLinkListColumn1ValueReflection Function() super.parentReflectionGetter,
+    super.itemsReflection,
+  });
+
+  UndefinedWrapper<
+            Tag
+> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+    if (discriminatorExampleResults.isNotEmpty) {
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == classReflection)) {
+        return UndefinedWrapper.undefined();
+      }
+    }
+    return UndefinedWrapper(
+            
+            
+
+
+    TagReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
+    
+);
   }
 }
 

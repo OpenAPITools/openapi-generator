@@ -12,6 +12,7 @@ class CapitalizationReflection extends ClassReflection<Capitalization> {
     className: r'Capitalization',
     smallCamelPart: PropertyReflection<Capitalization, UndefinedWrapper<
             String
+
 >>(
       dartName: r'smallCamel',
       nullable: false,
@@ -26,6 +27,7 @@ class CapitalizationReflection extends ClassReflection<Capitalization> {
     ),
     capitalCamelPart: PropertyReflection<Capitalization, UndefinedWrapper<
             String
+
 >>(
       dartName: r'capitalCamel',
       nullable: false,
@@ -40,6 +42,7 @@ class CapitalizationReflection extends ClassReflection<Capitalization> {
     ),
     smallSnakePart: PropertyReflection<Capitalization, UndefinedWrapper<
             String
+
 >>(
       dartName: r'smallSnake',
       nullable: false,
@@ -54,6 +57,7 @@ class CapitalizationReflection extends ClassReflection<Capitalization> {
     ),
     capitalSnakePart: PropertyReflection<Capitalization, UndefinedWrapper<
             String
+
 >>(
       dartName: r'capitalSnake',
       nullable: false,
@@ -68,6 +72,7 @@ class CapitalizationReflection extends ClassReflection<Capitalization> {
     ),
     scAETHFlowPointsPart: PropertyReflection<Capitalization, UndefinedWrapper<
             String
+
 >>(
       dartName: r'scAETHFlowPoints',
       nullable: false,
@@ -82,6 +87,7 @@ class CapitalizationReflection extends ClassReflection<Capitalization> {
     ),
     ATT_NAMEPart: PropertyReflection<Capitalization, UndefinedWrapper<
             String
+
 >>(
       dartName: r'ATT_NAME',
       nullable: false,
@@ -99,6 +105,7 @@ class CapitalizationReflection extends ClassReflection<Capitalization> {
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<Capitalization, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -120,79 +127,97 @@ class CapitalizationReflection extends ClassReflection<Capitalization> {
 
   final PropertyReflection<Capitalization, UndefinedWrapper<
             String
+
 >> smallCamelPart;
   static UndefinedWrapper<
             String
+
 > _smallCamelGetter(Capitalization parent) {
     return parent.smallCamel;
   }
   static void _smallCamelSetter(Capitalization parent, UndefinedWrapper<
             String
+
 > value) {
     parent.smallCamel = value;
   }
   final PropertyReflection<Capitalization, UndefinedWrapper<
             String
+
 >> capitalCamelPart;
   static UndefinedWrapper<
             String
+
 > _capitalCamelGetter(Capitalization parent) {
     return parent.capitalCamel;
   }
   static void _capitalCamelSetter(Capitalization parent, UndefinedWrapper<
             String
+
 > value) {
     parent.capitalCamel = value;
   }
   final PropertyReflection<Capitalization, UndefinedWrapper<
             String
+
 >> smallSnakePart;
   static UndefinedWrapper<
             String
+
 > _smallSnakeGetter(Capitalization parent) {
     return parent.smallSnake;
   }
   static void _smallSnakeSetter(Capitalization parent, UndefinedWrapper<
             String
+
 > value) {
     parent.smallSnake = value;
   }
   final PropertyReflection<Capitalization, UndefinedWrapper<
             String
+
 >> capitalSnakePart;
   static UndefinedWrapper<
             String
+
 > _capitalSnakeGetter(Capitalization parent) {
     return parent.capitalSnake;
   }
   static void _capitalSnakeSetter(Capitalization parent, UndefinedWrapper<
             String
+
 > value) {
     parent.capitalSnake = value;
   }
   final PropertyReflection<Capitalization, UndefinedWrapper<
             String
+
 >> scAETHFlowPointsPart;
   static UndefinedWrapper<
             String
+
 > _scAETHFlowPointsGetter(Capitalization parent) {
     return parent.scAETHFlowPoints;
   }
   static void _scAETHFlowPointsSetter(Capitalization parent, UndefinedWrapper<
             String
+
 > value) {
     parent.scAETHFlowPoints = value;
   }
   final PropertyReflection<Capitalization, UndefinedWrapper<
             String
+
 >> ATT_NAMEPart;
   static UndefinedWrapper<
             String
+
 > _ATT_NAMEGetter(Capitalization parent) {
     return parent.ATT_NAME;
   }
   static void _ATT_NAMESetter(Capitalization parent, UndefinedWrapper<
             String
+
 > value) {
     parent.ATT_NAME = value;
   }
@@ -222,6 +247,7 @@ ATT_NAMEPart,
   ];
 
   final AdditionalPropertiesReflection<Capitalization, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -251,22 +277,24 @@ ATT_NAMEPart,
   /// Gets an example of Capitalization.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  Capitalization example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  Capitalization example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return Capitalization(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = Capitalization(
       smallCamel: () {
-        PartReflection? _partReflection = _reflection.smallCamelPart;
-        
-        final disc = discriminators[r'smallCamel'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -277,20 +305,15 @@ ATT_NAMEPart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[smallCamelPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       capitalCamel: () {
-        PartReflection? _partReflection = _reflection.capitalCamelPart;
-        
-        final disc = discriminators[r'CapitalCamel'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -301,20 +324,15 @@ ATT_NAMEPart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[capitalCamelPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       smallSnake: () {
-        PartReflection? _partReflection = _reflection.smallSnakePart;
-        
-        final disc = discriminators[r'small_Snake'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -325,20 +343,15 @@ ATT_NAMEPart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[smallSnakePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       capitalSnake: () {
-        PartReflection? _partReflection = _reflection.capitalSnakePart;
-        
-        final disc = discriminators[r'Capital_Snake'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -349,20 +362,15 @@ ATT_NAMEPart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[capitalSnakePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       scAETHFlowPoints: () {
-        PartReflection? _partReflection = _reflection.scAETHFlowPointsPart;
-        
-        final disc = discriminators[r'SCA_ETH_Flow_Points'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -373,20 +381,15 @@ ATT_NAMEPart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[scAETHFlowPointsPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       ATT_NAME: () {
-        PartReflection? _partReflection = _reflection.ATT_NAMEPart;
-        
-        final disc = discriminators[r'ATT_NAME'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -397,19 +400,26 @@ ATT_NAMEPart,
     exampleString()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        final preSelectedResult = discriminatorExampleResults[ATT_NAMEPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class CapitalizationXmlReflection {
     const CapitalizationXmlReflection();

@@ -26,37 +26,49 @@ mixin UserMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
+
 > get id;
 UndefinedWrapper<
             String
+
 > get username;
 UndefinedWrapper<
             String
+
 > get firstName;
 UndefinedWrapper<
             String
+
 > get lastName;
 UndefinedWrapper<
             String
+
 > get email;
 UndefinedWrapper<
             String
+
 > get password;
 UndefinedWrapper<
             String
+
 > get phone;
 UndefinedWrapper<
             int
+
 > get userStatus;
 UndefinedWrapper<
             $FreeFormObject
+
 > get objectWithNoDeclaredProps;
 UndefinedWrapper<
             $FreeFormObject
+
 ?> get objectWithNoDeclaredPropsNullable;
 UndefinedWrapper<Object
+
 ?> get anyTypeProp;
 UndefinedWrapper<Object
+
 ?> get anyTypePropNullable;
   
 }
@@ -83,51 +95,64 @@ UserMixin {
   @override
   UndefinedWrapper<
             int
+
 > id;
   @override
   UndefinedWrapper<
             String
+
 > username;
   @override
   UndefinedWrapper<
             String
+
 > firstName;
   @override
   UndefinedWrapper<
             String
+
 > lastName;
   @override
   UndefinedWrapper<
             String
+
 > email;
   @override
   UndefinedWrapper<
             String
+
 > password;
   @override
   UndefinedWrapper<
             String
+
 > phone;
   @override
   UndefinedWrapper<
             int
+
 > userStatus;
   @override
   UndefinedWrapper<
             $FreeFormObject
+
 > objectWithNoDeclaredProps;
   @override
   UndefinedWrapper<
             $FreeFormObject
+
 ?> objectWithNoDeclaredPropsNullable;
   @override
   UndefinedWrapper<Object
+
 ?> anyTypeProp;
   @override
   UndefinedWrapper<Object
+
 ?> anyTypePropNullable;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

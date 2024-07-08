@@ -8,6 +8,13 @@ part of 'quadrilateral.dart';
 Map<String, dynamic> _$QuadrilateralToMap(Quadrilateral instance) {
   final _reflection = QuadrilateralReflection.instance;
   return <String, dynamic>{
+    
+    _reflection.quadrilateralTypePart.oasName: (
+            String
+
+ v) {
+      return v;
+    }(instance.quadrilateralType),
     ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
     if (instance.oneOf0.isDefined) ...instance.oneOf0.valueRequired.toMap(),
@@ -24,7 +31,24 @@ Quadrilateral _$QuadrilateralFromMap(Map<String, dynamic> src) {
   //when we have a discriminator, we pick one model
   final modelReflection = _reflection.tryGetDiscriminatorModel(discriminatorValue);
   return Quadrilateral.$all(
-        additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+    quadrilateralType: src.getRequiredMapped(_reflection.quadrilateralTypePart.oasName, (v) => 
+(
+
+            
+                    ( v is String ? v as String :
+
+
+
+
+throwArgumentMismatch(String, v)
+
+)
+
+)
+
+
+),
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
 (
 v
 
@@ -39,7 +63,24 @@ v
 bool _$QuadrilateralCanFromMap(Map<String, dynamic> src) {
   final _reflection = QuadrilateralReflection.instance;
 
-    if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+  if (!src.getOrUndefined(_reflection.quadrilateralTypePart.oasName).split<bool>(
+    defined: (v) => v == null ? false :
+(
+
+    
+            
+            (v is String
+    
+    
+    
+    
+)
+),
+    unDefined: () => !_reflection.quadrilateralTypePart.required,
+)) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
 (
 true
 ))) {
@@ -72,41 +113,8 @@ Quadrilateral _$QuadrilateralDeserialize(Object? src) {
   if (src is Map<String, dynamic>) {
     return _$QuadrilateralFromMap(src);
   } else {
-    
-    final v = src;
-    return Quadrilateral.$all(
-      oneOf0: (v == null ? false :
-(
-
-    
-            SimpleQuadrilateral.canDeserialize(v)
-            
-)) ? UndefinedWrapper(SimpleQuadrilateral.deserialize
-(
-
-            v
-
-)
-
-
-) : UndefinedWrapper.undefined(),      oneOf1: (v == null ? false :
-(
-
-    
-            ComplexQuadrilateral.canDeserialize(v)
-            
-)) ? UndefinedWrapper(ComplexQuadrilateral.deserialize
-(
-
-            v
-
-)
-
-
-) : UndefinedWrapper.undefined(),
-      // Additional Properties only make sense if the src is a Map<String, dynamic>
-      additionalProperties: AdditionalProperties(),
-    );
+        
+    throw UnimplementedError();
     
   }
 }
@@ -141,20 +149,12 @@ bool _$QuadrilateralCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$QuadrilateralSerialize(Quadrilateral src) {
-  Object? initialResult = () {
+Map<String, dynamic> _$QuadrilateralSerialize(Quadrilateral src) {
+  Map<String, dynamic> initialResult = () {
     
+      return _$QuadrilateralToMap(src);
     
-    if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.serialize(); }
-    if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.serialize(); }
-    return null;
   }();
-  if (initialResult is Map<String, Object?>) {
-    return {
-      ...src.additionalProperties,
-      ...initialResult,
-    };
-  }
   return initialResult;
 }
 

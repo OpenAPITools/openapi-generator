@@ -320,6 +320,7 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
   const factory DefaultApiPetsMulticontentTestPostRequest.applicationJson({
     required 
             Pet
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -332,6 +333,7 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
   const factory DefaultApiPetsMulticontentTestPostRequest.applicationXml({
     required 
             NewPet
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -344,6 +346,7 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
   const factory DefaultApiPetsMulticontentTestPostRequest.applicationXWwwFormUrlencoded({
     required 
             Triangle
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -356,6 +359,7 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
   const factory DefaultApiPetsMulticontentTestPostRequest.textPlain({
     required 
             int
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -367,6 +371,7 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
   
   const factory DefaultApiPetsMulticontentTestPostRequest.anyAny({
     required Object
+
 ? data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -379,6 +384,7 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
   const factory DefaultApiPetsMulticontentTestPostRequest.textAny({
     required 
             String
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     
@@ -391,12 +397,14 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
   const factory DefaultApiPetsMulticontentTestPostRequest.multipartFormData({
     required 
             PetsMulticontentTestPostRequest
+
  data,
     UnknownMediaTypeHandler? handleUnkownMediaType,
     AppendFormDataPartHandler? appendUnkownFormDataPart,
     
     UndefinedWrapper<
             String
+
 > profileImagesHelloHeader,
     
     Map<String, String> extraHeaders,
@@ -531,6 +539,7 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationJson extends DefaultAp
 
   final 
             Pet
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -592,6 +601,7 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXml extends DefaultApi
 
   final 
             NewPet
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -653,6 +663,7 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded ext
 
   final 
             Triangle
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -738,6 +749,7 @@ class DefaultApiPetsMulticontentTestPostRequestTextPlain extends DefaultApiPetsM
 
   final 
             int
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -796,6 +808,7 @@ class DefaultApiPetsMulticontentTestPostRequestAnyAny extends DefaultApiPetsMult
   String get contentType => specMediaType;
 
   final Object
+
 ? data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -855,6 +868,7 @@ class DefaultApiPetsMulticontentTestPostRequestTextAny extends DefaultApiPetsMul
 
   final 
             String
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -914,6 +928,7 @@ class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends Default
 
   final 
             PetsMulticontentTestPostRequest
+
  data;
 
   /// Pass this to handle serialization and encoding of unkown media types yourself.
@@ -931,6 +946,7 @@ class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends Default
 
   final UndefinedWrapper<
             String
+
 > profileImagesHelloHeader;
 
   const DefaultApiPetsMulticontentTestPostRequestMultipartFormData({

@@ -182,10 +182,10 @@ bool _$ArrayOneOfCanDeserialize(Object? src) {
 Object? _$ArrayOneOfSerialize(ArrayOneOf src) {
   Object? initialResult = () {
     
-    
-    if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v; }
-    if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.map((v) => v).toList(); }
-    return null;
+      
+        if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v; }
+        if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.map((v) => v).toList(); }
+        return null;
   }();
   if (initialResult is Map<String, Object?>) {
     return {

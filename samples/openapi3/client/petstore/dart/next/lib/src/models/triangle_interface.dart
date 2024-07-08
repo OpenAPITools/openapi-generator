@@ -15,6 +15,7 @@ mixin TriangleInterfaceMixin on
   $OpenApiObjectMixin {
   
             String
+
  get triangleType;
   
 }
@@ -30,9 +31,11 @@ TriangleInterfaceMixin {
   @override
   
             String
+
  triangleType;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

@@ -11,6 +11,7 @@ Map<String, dynamic> _$QuadrilateralInterfaceToMap(QuadrilateralInterface instan
     
     _reflection.quadrilateralTypePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.quadrilateralType),
@@ -102,8 +103,7 @@ bool _$QuadrilateralInterfaceCanDeserialize(Object? src) {
 Map<String, dynamic> _$QuadrilateralInterfaceSerialize(QuadrilateralInterface src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$QuadrilateralInterfaceToMap(src);
     
   }();
   return initialResult;

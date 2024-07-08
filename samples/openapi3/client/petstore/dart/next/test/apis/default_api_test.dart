@@ -228,7 +228,7 @@ void main() {
             
 
 
-    Pet.$reflection.example()
+    PetReflection.instance.example()
     
 
 
@@ -257,7 +257,7 @@ void main() {
             
 
 
-    NewPet.$reflection.example()
+    NewPetReflection.instance.example()
     
 
 
@@ -286,7 +286,7 @@ void main() {
             
 
 
-    Triangle.$reflection.example()
+    TriangleReflection.instance.example()
     
 
 
@@ -397,7 +397,7 @@ exampleObject()
             
 
 
-    PetsMulticontentTestPostRequest.$reflection.example()
+    PetsMulticontentTestPostRequestReflection.instance.example()
     
 
 

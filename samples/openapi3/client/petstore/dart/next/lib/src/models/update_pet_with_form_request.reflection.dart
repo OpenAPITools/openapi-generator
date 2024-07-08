@@ -12,6 +12,7 @@ class UpdatePetWithFormRequestReflection extends ClassReflection<UpdatePetWithFo
     className: r'UpdatePetWithFormRequest',
     namePart: PropertyReflection<UpdatePetWithFormRequest, UndefinedWrapper<
             String
+
 >>(
       dartName: r'name',
       nullable: false,
@@ -26,6 +27,7 @@ class UpdatePetWithFormRequestReflection extends ClassReflection<UpdatePetWithFo
     ),
     statusPart: PropertyReflection<UpdatePetWithFormRequest, UndefinedWrapper<
             String
+
 >>(
       dartName: r'status',
       nullable: false,
@@ -43,6 +45,7 @@ class UpdatePetWithFormRequestReflection extends ClassReflection<UpdatePetWithFo
     additionalPropertiesPart: AdditionalPropertiesReflection(
       parentReflectionGetter: instanceGetter,
       itemsReflection: ItemsReflection<UpdatePetWithFormRequest, Object
+
 ?>(parentReflectionGetter: instanceGetter,),
           ),
   );
@@ -60,27 +63,33 @@ class UpdatePetWithFormRequestReflection extends ClassReflection<UpdatePetWithFo
 
   final PropertyReflection<UpdatePetWithFormRequest, UndefinedWrapper<
             String
+
 >> namePart;
   static UndefinedWrapper<
             String
+
 > _nameGetter(UpdatePetWithFormRequest parent) {
     return parent.name;
   }
   static void _nameSetter(UpdatePetWithFormRequest parent, UndefinedWrapper<
             String
+
 > value) {
     parent.name = value;
   }
   final PropertyReflection<UpdatePetWithFormRequest, UndefinedWrapper<
             String
+
 >> statusPart;
   static UndefinedWrapper<
             String
+
 > _statusGetter(UpdatePetWithFormRequest parent) {
     return parent.status;
   }
   static void _statusSetter(UpdatePetWithFormRequest parent, UndefinedWrapper<
             String
+
 > value) {
     parent.status = value;
   }
@@ -106,6 +115,7 @@ statusPart,
   ];
 
   final AdditionalPropertiesReflection<UpdatePetWithFormRequest, Object
+
 ?> additionalPropertiesPart;
 
   
@@ -135,22 +145,24 @@ statusPart,
   /// Gets an example of UpdatePetWithFormRequest.
   /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
   ///  calling [aggregatedDiscriminators].
-  UpdatePetWithFormRequest example({Map<String, (ClassReflection, PropertyReflection)> discriminators = const {}}) {
+  UpdatePetWithFormRequest example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
+        discriminatorExampleResults = const {},}) {
     final _reflection = this;
-    if (discriminators.isEmpty) discriminators = _reflection.aggregatedDiscriminators;
-    return UpdatePetWithFormRequest(
+    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
+    discriminatorExampleResults = Map.from(discriminatorExampleResults);
+    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
+      if (discriminatorExampleResults.containsKey(propName)) {
+        continue;
+      }
+      final r =  exampleDiscriminator(mappings);
+      if (r != null){
+        discriminatorExampleResults[propName] = r;
+      }
+    }
+
+    final exampleResult = UpdatePetWithFormRequest(
       name: () {
-        PartReflection? _partReflection = _reflection.namePart;
-        
-        final disc = discriminators[r'name'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -161,20 +173,15 @@ statusPart,
     exampleString()
 
 
-);
-      }(),
+;
+        final preSelectedResult = discriminatorExampleResults[namePart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
       status: () {
-        PartReflection? _partReflection = _reflection.statusPart;
-        
-        final disc = discriminators[r'status'];
-        if (disc != null) {
-          final result = exampleDiscriminator(_partReflection, disc);
-          if (result != null) {
-            return UndefinedWrapper(result);
-          }
-        }
-        
-        return UndefinedWrapper(
+        var result = 
 
 
             
@@ -185,19 +192,26 @@ statusPart,
     exampleString()
 
 
-);
-      }(),
-      additionalProperties: () { PartReflection? _partReflection = _reflection.additionalPropertiesPart; return AdditionalProperties(exampleMap(() => exampleNullable(() =>
+;
+        final preSelectedResult = discriminatorExampleResults[statusPart.oasName]?.key.key;
+        if (preSelectedResult != null) {
+          result = preSelectedResult;
+        }
+        return UndefinedWrapper(result);
+      } (),
+      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
 
 exampleObject()
 
 
 
  ) )); }(),
-      
     );
+    
+    return exampleResult;
   }
 }
+
 
 class UpdatePetWithFormRequestXmlReflection {
     const UpdatePetWithFormRequestXmlReflection();

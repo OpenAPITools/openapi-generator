@@ -11,12 +11,14 @@ Map<String, dynamic> _$CategoryToMap(Category instance) {
     if (instance.id.isDefined)
     _reflection.idPart.oasName: (
             int
+
  v) {
       return v;
     }(instance.id.valueRequired),
     
     _reflection.namePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.name),
@@ -140,8 +142,7 @@ bool _$CategoryCanDeserialize(Object? src) {
 Map<String, dynamic> _$CategorySerialize(Category src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$CategoryToMap(src);
     
   }();
   return initialResult;

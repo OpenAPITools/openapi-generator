@@ -11,6 +11,7 @@ Map<String, dynamic> _$DeprecatedObjectToMap(DeprecatedObject instance) {
     if (instance.name.isDefined)
     _reflection.namePart.oasName: (
             String
+
  v) {
       return v;
     }(instance.name.valueRequired),
@@ -102,8 +103,7 @@ bool _$DeprecatedObjectCanDeserialize(Object? src) {
 Map<String, dynamic> _$DeprecatedObjectSerialize(DeprecatedObject src) {
   Map<String, dynamic> initialResult = () {
     
-    return src.toMap();
-    
+      return _$DeprecatedObjectToMap(src);
     
   }();
   return initialResult;

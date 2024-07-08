@@ -16,9 +16,11 @@ mixin ZebraMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             ZebraTypeEnum
+
 > get type;
 
             String
+
  get className;
   
 }
@@ -35,13 +37,16 @@ ZebraMixin {
   @override
   UndefinedWrapper<
             ZebraTypeEnum
+
 > type;
   @override
   
             String
+
  className;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

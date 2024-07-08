@@ -15,6 +15,7 @@ mixin FooGetDefaultResponseMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             Foo
+
 > get string;
   
 }
@@ -30,9 +31,11 @@ FooGetDefaultResponseMixin {
   @override
   UndefinedWrapper<
             Foo
+
 > string;
 
   AdditionalProperties<Object
+
 ?> additionalProperties;
 
   

@@ -211,7 +211,9 @@ class StoreApiGetInventoryResponse200ApplicationJson extends StoreApiGetInventor
     Map<String, 
         
             int
+
 >
+
 ? body;
 
   /// The raw result of calling jsonDecode
@@ -435,6 +437,7 @@ class StoreApiGetOrderByIdResponse200 extends StoreApiGetOrderByIdResponse {
 class StoreApiGetOrderByIdResponse200ApplicationXml extends StoreApiGetOrderByIdResponse200 {
   final 
             Order
+
 ? body;
 
   /// The raw result of calling XmlDocument.parse
@@ -486,6 +489,7 @@ class StoreApiGetOrderByIdResponse200ApplicationXml extends StoreApiGetOrderById
 class StoreApiGetOrderByIdResponse200ApplicationJson extends StoreApiGetOrderByIdResponse200 {
   final 
             Order
+
 ? body;
 
   /// The raw result of calling jsonDecode
@@ -726,6 +730,7 @@ class StoreApiPlaceOrderResponse200 extends StoreApiPlaceOrderResponse {
 class StoreApiPlaceOrderResponse200ApplicationXml extends StoreApiPlaceOrderResponse200 {
   final 
             Order
+
 ? body;
 
   /// The raw result of calling XmlDocument.parse
@@ -777,6 +782,7 @@ class StoreApiPlaceOrderResponse200ApplicationXml extends StoreApiPlaceOrderResp
 class StoreApiPlaceOrderResponse200ApplicationJson extends StoreApiPlaceOrderResponse200 {
   final 
             Order
+
 ? body;
 
   /// The raw result of calling jsonDecode
