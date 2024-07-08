@@ -95,14 +95,21 @@ import io.helidon.webserver.{{^x-helidon-v3}}http.Http{{/x-helidon-v3}}Service;
 {{/useAbstractClass}}
 
 {{/operation}}
-{{#useAbstractClass}}    abstract Void handleError(ServerRequest request, ServerResponse response, Throwable throwable);{{!
-}}{{/useAbstractClass}}
+{{#useAbstractClass}}{{#x-helidon-v3}}    abstract Void handleError(ServerRequest request, ServerResponse response, Throwable throwable);{{/x-helidon-v3}}{{!
+}}{{^x-helidon-v3}}
+
+{{#operation}}
+{{> opHelpers }}
+{{/operation}}
+{{/x-helidon-v3}}{{/useAbstractClass}}
 {{#useAbstractClass}}
 {{^x-helidon-v3}}
     @Override
     public void afterStop() {
     System.out.println("Service {{classname}} is down. Goodbye!");
     }
+
+
 {{/x-helidon-v3}}{{!
 }}{{/useAbstractClass}}{{!
 }}}
