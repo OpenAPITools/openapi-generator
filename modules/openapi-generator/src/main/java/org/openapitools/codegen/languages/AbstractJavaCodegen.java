@@ -1008,7 +1008,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         Schema<?> schema = unaliasSchema(p);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
-            Schema<?> items = getSchemaItems((ArraySchema) schema);
+            Schema<?> items = getSchemaItems(schema);
             String typeDeclaration = getTypeDeclarationForArray(items);
             return getSchemaType(target) + "<" + typeDeclaration + ">";
         } else if (ModelUtils.isMapSchema(target)) {
