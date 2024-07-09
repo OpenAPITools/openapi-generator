@@ -14,3 +14,6 @@ url = "^2.5"
 uuid = { version = "^1.8", features = ["serde", "v4"] }
 hyper = { version = "~0.14", features = ["full"] }
 hyper-tls = "~0.5"
+http = "~0.2"
+base64 = "~0.7.0"
+futures = "^0.3"
