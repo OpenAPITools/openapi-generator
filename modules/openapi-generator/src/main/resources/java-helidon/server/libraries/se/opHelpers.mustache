@@ -1,10 +1,22 @@
+    /**
+     * Returns a new instance of the class which handles parameters to and responses from the {{operationId}} operation.
+     * <p>
+     *     Developers can override this method if they extend the {{classname}} class.
+     * </p>
+     *
+     * @return new {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}
+     */
+    protected {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}} {{operationId}}() {
+        return new {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}();
+    }
+
 {{!
     Declares an inner class for each operation which collects:
         * overridable methods for preparing each parameter from the request
         * an interface which defines the possible return groups (body or header results and status).
 }}
     /**
-     * Helpers for the {{operationId}} operation.
+     * Helper elements for the {{operationId}} operation.
      */
     static protected class {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}} {
 {{#allParams}}
@@ -13,28 +25,29 @@
          * Prepares the {{paramName}} parameter.
          *
          * @param request {@link io.helidon.webserver.http.ServerRequest} containing the parameter
-{{#isFormParameter}}{{!
+{{#isFormParameter}}{{^isMultipart}}{{!
 }}         * @param formParams {@link io.helidon.common.parameters.Parameters} containing all form parameters
-{{/isFormParameter}}{{#isMultiPart}}{{!
+{{/isMultipart}}{{/isFormParameter}}{{#vendorExtensions.x-helidon-isMultipartFormParam}}{{!
 }}         * @param parts {@code Map} of part names to {@link io.helidon.http.media.multipart.ReadablePart} for each part
-{{/isMultiPart}}{{!
+{{/vendorExtensions.x-helidon-isMultipartFormParam}}{{!
 }}         * @param validator {@link {{apiPackage}}.ValidatorUtils.Validator} for validating all parameters to the operation
          * @return {{paramName}} parameter value
          */
-        static protected {{> paramDeclType }} {{> paramMethodName }}(ServerRequest request, {{#isFormParam}}Parameters formParams, {{/isFormParam}}{{#isMultiPart}}PartsUtils parts,{{/isMultiPart}}ValidatorUtils.Validator validator) {
+        protected {{> paramDeclType }} {{> paramMethodName }}(ServerRequest request, {{#isFormParam}}{{^isMultipart}}Parameters formParams, {{/isMultipart}}{{#isMultipart}}Map<String, ReadablePart> parts, {{/isMultipart}}{{/isFormParam}}ValidatorUtils.Validator validator) {
             return {{^isBodyParam}}{{> paramValueExpr}}{{/isBodyParam}}{{#isBodyParam}}{{> bodyParamValue }};{{/isBodyParam}}
         }
-
 {{/allParams}}
+
         /**
          * Responses for operation {{=<% %>=}}{@code <%operationId%>}<%={{ }}=%> organized by response status.
          * <p>
-         *     Once your code determines which (if any) response to send, it can use the static {@code create} method and pass
-         *     the required elements of the response, then assign any optional response elements using the record fields.
+         *     Once your code determines which (if any) response to send it can use the static {@code create} method for that
+         *     specific result, passing the required elements of the response as parameters, and then assign any optional
+         *     response elements using the record fields or their setter methods.
          * <p>
-         *     Finally, invoke the {@code apply} method, passing the original {@link ServerResponse}; the method sets any headers
-         *     you have assigned, sets the correct status in the response, and sends the response including any appropriate
-         *     entity.
+         *     Finally, your code should invoke the {@code apply} method, passing the original {@link ServerResponse}. The
+         *     generated method sets any headers you have assigned, sets the correct status in the response, and sends
+         *     the response including any appropriate entity.
          * </p>
          */
         interface Result {
@@ -51,7 +64,7 @@
 }}{{#vendorExtensions.x-helidon-allResponseProps}}
              * @param {{name}} {{#required}}(required) {{/required}}{{description}}{{/vendorExtensions.x-helidon-allResponseProps}}{{/vendorExtensions.x-helidon-hasResponseProps}}
              */
-            record {{> resultRecordTypeName }}({{#isDefault}}Status status{{#vendorExtensions.x-helidon-hasResponseProps}},{{/vendorExtensions.x-helidon-hasResponseProps}}{{!
+            record {{> resultRecordTypeName }}({{#isDefault}}Status status{{#vendorExtensions.x-helidon-hasResponseProps}}, {{/vendorExtensions.x-helidon-hasResponseProps}}{{!
 }}{{/isDefault}}{{#vendorExtensions.x-helidon-allResponseProps}}{{^-first}},
                         {{/-first}}{{> opResultParamDecl}}{{/vendorExtensions.x-helidon-allResponseProps}}{{!
 }})     {
@@ -67,9 +80,10 @@
                 static {{> resultRecordTypeName }} create({{#isDefault}}Status status{{#vendorExtensions.x-helidon-hasRequiredResponseProps}},{{/vendorExtensions.x-helidon-hasRequiredResponseProps}}{{!
 }}{{/isDefault}}{{#vendorExtensions.x-helidon-requiredResponseProps}}{{^-first}},
                            {{/-first}}{{> opResultParamDecl }}{{/vendorExtensions.x-helidon-requiredResponseProps}}) {
-                    return new {{> resultRecordTypeName }}({{#isDefault}}status{{#vendorExtensions.x-helidon-hasRequiredResponseProps}},{{/vendorExtensions.x-helidon-hasRequiredResponseProps}}{{!
-}}{{/isDefault}}{{#vendorExtensions.x-helidon-allResponseProps}}{{^-first}},
-                            {{/-first}}{{#required}}{{name}}{{/required}}{{^required}}{{#isContainer}}{{containerTypeMapped}}.of(){{/isContainer}}{{^isContainer}}null{{/isContainer}}{{/required}}{{/vendorExtensions.x-helidon-allResponseProps}});
+                    return new {{> resultRecordTypeName }}({{#isDefault}}status{{!
+}}{{/isDefault}}{{#vendorExtensions.x-helidon-allResponseProps}}{{#isDefault}},
+                            {{/isDefault}}{{^isDefault}}{{^-first}},
+                            {{/-first}}{{/isDefault}}{{#required}}{{name}}{{/required}}{{^required}}{{#isContainer}}{{containerTypeMapped}}.of(){{/isContainer}}{{^isContainer}}null{{/isContainer}}{{/required}}{{/vendorExtensions.x-helidon-allResponseProps}});
                 }
 {{#vendorExtensions.x-helidon-hasRequiredResponseProps}}
     {{> opResultRecordCtor }}{{!

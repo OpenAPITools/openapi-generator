@@ -1,1 +1,1 @@
-{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}.{{> paramMethodName}}(request, {{#isFormParam}}formParams, {{/isFormParam}}validator)
+{{operationId}}.{{> paramMethodName}}(request, {{^isMultipart}}{{#isFormParam}}formParams, {{/isFormParam}}{{/isMultipart}}{{#vendorExtensions.x-helidon-isMultipartFormParam}}parts, {{/vendorExtensions.x-helidon-isMultipartFormParam}}validator)

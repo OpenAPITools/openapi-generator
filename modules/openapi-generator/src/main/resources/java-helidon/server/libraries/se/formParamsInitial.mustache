@@ -16,5 +16,5 @@
 }}        Parameters formParams = request.content().as(Parameters.class);
 {{/hasFormParams}}{{/isMultipart}}{{!
 }}{{#isMultipart}}{{!
-}}        PartsUtils parts = PartsUtils.create(request);
+}}        Map<String, ReadablePart> parts = PartsUtils.partsMap(request);
 {{/isMultipart}}{{/x-helidon-v3}}

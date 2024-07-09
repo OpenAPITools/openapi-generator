@@ -25,7 +25,10 @@ import io.helidon.webserver.{{^x-helidon-v3}}http.Http{{/x-helidon-v3}}Service;
 {{#jackson}}
     protected static final ObjectMapper MAPPER = JsonProvider.objectMapper();{{/jackson}}
 {{#jsonb}}
-    protected static final Jsonb JSONB = JsonbBuilder.create();{{/jsonb}}
+    protected static final Jsonb JSONB = JsonbBuilder.create();{{/jsonb}}{{!
+}}{{^x-helidon-v3}}
+{{#operations}}{{#operation}}    protected {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}} {{operationId}} = {{operationId}}();
+{{/operation}}{{/operations}}{{/x-helidon-v3}}
 {{/useAbstractClass}}
 
     /**
@@ -44,14 +47,16 @@ import io.helidon.webserver.{{^x-helidon-v3}}http.Http{{/x-helidon-v3}}Service;
 }}{{^x-helidon-v3}}this::{{{operationId}}}){{/x-helidon-v3}};
 {{/operation}}
     }
-{{#useAbstractClass}}{{#isFormParamsFunctions}}
+{{#x-helidon-v3}}{{#useAbstractClass}}{{#isFormParamsFunctions}}
 
     {{!}}{{>formParamsFunctions}}
-{{/isFormParamsFunctions}}{{/useAbstractClass}}
+{{/isFormParamsFunctions}}{{/useAbstractClass}}{{/x-helidon-v3}}
 {{#operation}}
 
     /**
      * {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}.
+{{^x-helidon-v3}}     *
+{{/x-helidon-v3}}
      * @param request the server request
      * @param response the server response{{!
 }}{{!
@@ -66,7 +71,7 @@ import io.helidon.webserver.{{^x-helidon-v3}}http.Http{{/x-helidon-v3}}Service;
 }}{{#x-helidon-v3}}{{#allParams}}{{#isBodyParam}}{{#isModel}}
      * @param {{paramName}} {{{description}}}{{^description}}{{paramName}}{{/description}} {{/isModel}}{{/isBodyParam}}{{/allParams}}{{/x-helidon-v3}}
      */
-    void {{{operationId}}}(ServerRequest request, ServerResponse response{{#x-helidon-v3}}{{#allParams}}{{#isBodyParam}}{{#isModel}}, {{{dataType}}} {{paramName}}{{/isModel}}{{/isBodyParam}}{{/allParams}}{{/x-helidon-v3}}){{^useAbstractClass}};{{/useAbstractClass}}{{#useAbstractClass}} { {{> paramsInitial }}{{!
+    {{^x-helidon-v3}}protected {{/x-helidon-v3}}void {{{operationId}}}(ServerRequest request, ServerResponse response{{#x-helidon-v3}}{{#allParams}}{{#isBodyParam}}{{#isModel}}, {{{dataType}}} {{paramName}}{{/isModel}}{{/isBodyParam}}{{/allParams}}{{/x-helidon-v3}}){{^useAbstractClass}};{{/useAbstractClass}}{{#useAbstractClass}} { {{> paramsInitial }}{{!
 }}{{#x-helidon-v3}}
         Single.create({{^hasParams}}Single.empty(){{/hasParams}}{{#hasParams}}{{^bodyParam}}{{#formParams}}{{#-first}}formSingle{{/-first}}{{/formParams}}{{^formParams}}Single.empty(){{/formParams}}{{/bodyParam}}{{#bodyParam}}{{^isModel}}request.content().as(new GenericType<{{#isFile}}InputStream{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}}>() { }){{/isModel}}{{#isModel}}Single.empty(){{/isModel}}{{/bodyParam}}{{/hasParams}})
             .thenAccept({{#bodyParam}}{{^isModel}}{{paramName}}{{/isModel}}{{#isModel}}val{{/isModel}}{{/bodyParam}}{{^bodyParam}}val{{/bodyParam}} -> {
@@ -85,19 +90,20 @@ import io.helidon.webserver.{{^x-helidon-v3}}http.Http{{/x-helidon-v3}}Service;
     }
 
     /**
-     * Handle {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}.
+     * Handle {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}.{{^x-helidon-v3}}
+     *{{/x-helidon-v3}}
      * @param request the server request
      * @param response the server response{{#allParams}}
      * @param {{paramName}} {{{description}}}{{^description}}{{paramName}}{{/description}} {{/allParams}}
      */
-    abstract void handle{{#lambda.titlecase}}{{{operationId}}}{{/lambda.titlecase}}(ServerRequest request, ServerResponse response{{#allParams}}, {{^x-helidon-v3}}
-                {{/x-helidon-v3}}{{>paramDecl}}{{/allParams}});
+    {{^x-helidon-v3}}protected {{/x-helidon-v3}}abstract {{> handleMethodSignature }};
 {{/useAbstractClass}}
+{{#x-helidon-v3}}
 
+{{/x-helidon-v3}}
 {{/operation}}
 {{#useAbstractClass}}{{#x-helidon-v3}}    abstract Void handleError(ServerRequest request, ServerResponse response, Throwable throwable);{{/x-helidon-v3}}{{!
 }}{{^x-helidon-v3}}
-
 {{#operation}}
 {{> opHelpers }}
 {{/operation}}

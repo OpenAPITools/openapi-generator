@@ -90,6 +90,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     static final String X_ALL_RESPONSE_PROPS = "x-helidon-allResponseProps";
     static final String X_OPTIONAL_RESPONSE_PROPS = "x-helidon-optionalResponseProps";
     static final String X_HAS_REQUIRED_RESPONSE_PROPS = "x-helidon-hasRequiredResponseProps";
+    static final String X_IS_MULTIPART_FORM_PARAM = "x-helidon-isMultipartFormParam";
     static final String X_HAS_RETURN_TYPE = "x-helidon-hasReturnType";
     static final String X_RETURN_TYPE_EXAMPLE_VALUE = "x-helidon-exampleReturnTypeValue";
     static final String X_MEDIA_SUPPORT_PACKAGE_PREFIX = "x-helidon-media-support-package-prefix";
@@ -224,6 +225,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+        op.allParams.forEach(p -> p.vendorExtensions.put(X_IS_MULTIPART_FORM_PARAM, op.isMultipart && p.isFormParam));
         op.vendorExtensions.put(X_HAS_RETURN_TYPE, op.returnType != null && !op.returnType.equals("void"));
         op.vendorExtensions.put(X_RETURN_TYPE_EXAMPLE_VALUE, chooseExampleReturnTypeValue(op));
         return op;

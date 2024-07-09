@@ -23,6 +23,12 @@ class PartsUtils {
 
     private final Map<String, ReadablePart> parts = new LinkedHashMap<>();
 
+    static Map<String, ReadablePart> partsMap(ServerRequest request) {
+        Map<String, ReadablePart> parts = new LinkedHashMap<>();
+        request.content().as(MultiPart.class).forEachRemaining(part -> parts.put(part.name(), part));
+        return parts;
+    }
+
     static PartsUtils create(ServerRequest request) {
         return new PartsUtils(request);
     }

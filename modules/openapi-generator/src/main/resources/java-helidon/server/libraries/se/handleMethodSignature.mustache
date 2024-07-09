@@ -1,0 +1,2 @@
+void handle{{#lambda.titlecase}}{{{operationId}}}{{/lambda.titlecase}}(ServerRequest request, ServerResponse response{{#allParams}}, {{^x-helidon-v3}}
+                {{/x-helidon-v3}}{{>paramDecl}}{{/allParams}})

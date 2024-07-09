@@ -5,8 +5,9 @@
 
     The Helidon 4 API exposes path, query, and cookie values as Value objects but header values as Strings, so deal with
     them slightly differently.
-
-}}{{^isFormParam}}request{{/isFormParam}}{{!
+}}{{#vendorExtensions.x-helidon-isMultipartFormParam}}{{^required}}{{^isContainer}}Optional.ofNullable({{/isContainer}}{{/required}}parts.get("{{baseName}}"){{^required}}{{^isContainer}}){{/isContainer}}{{/required}}{{!
+}}{{/vendorExtensions.x-helidon-isMultipartFormParam}}{{!
+}}{{^vendorExtensions.x-helidon-isMultipartFormParam}}{{^isFormParam}}request{{/isFormParam}}{{!
 }}{{#isFormParam}}formParams{{/isFormParam}}{{!
 }}{{#isPathParam}}.path()
                 .pathParameters(){{!
@@ -54,5 +55,5 @@
                                                     {{>paramValueConverter}})){{!
 }}{{/defaultValue}}{{^defaultValue}}
                 .collect(Collectors.to{{containerTypeMapped}}()){{/defaultValue}}{{!
-}}{{/isContainer}};{{!
+}}{{/isContainer}}{{/vendorExtensions.x-helidon-isMultipartFormParam}};{{!
 }}{{/x-helidon-v3}}
