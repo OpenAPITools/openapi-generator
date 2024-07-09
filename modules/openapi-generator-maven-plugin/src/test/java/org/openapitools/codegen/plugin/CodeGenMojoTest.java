@@ -60,8 +60,12 @@ public class CodeGenMojoTest extends BaseTestCase {
         testCommonConfiguration("resource");
     }
 
-    public void testCommonConfigurationWithURLInputSpec() throws Exception {
-        testCommonConfiguration("url");
+    public void testCommonConfigurationWithResourceExternalRefInputSpec() throws Exception {
+        testCommonConfiguration("resource-external-ref");
+    }
+
+    public void testCommonConfigurationWithJARInputSpec() throws Exception {
+        testCommonConfiguration("jar");
     }
 
     @SuppressWarnings("unchecked")
