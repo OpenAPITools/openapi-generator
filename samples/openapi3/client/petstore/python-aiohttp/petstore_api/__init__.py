@@ -131,6 +131,7 @@ from petstore_api.models.tag import Tag
 from petstore_api.models.task import Task
 from petstore_api.models.task_activity import TaskActivity
 from petstore_api.models.test_enum import TestEnum
+from petstore_api.models.test_enum_single_item import TestEnumSingleItem
 from petstore_api.models.test_enum_with_default import TestEnumWithDefault
 from petstore_api.models.test_error_responses_with_model400_response import TestErrorResponsesWithModel400Response
 from petstore_api.models.test_error_responses_with_model404_response import TestErrorResponsesWithModel404Response

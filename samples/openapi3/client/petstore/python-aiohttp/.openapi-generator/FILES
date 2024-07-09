@@ -102,6 +102,7 @@ docs/Tag.md
 docs/Task.md
 docs/TaskActivity.md
 docs/TestEnum.md
+docs/TestEnumSingleItem.md
 docs/TestEnumWithDefault.md
 docs/TestErrorResponsesWithModel400Response.md
 docs/TestErrorResponsesWithModel404Response.md
@@ -222,6 +223,7 @@ petstore_api/models/tag.py
 petstore_api/models/task.py
 petstore_api/models/task_activity.py
 petstore_api/models/test_enum.py
+petstore_api/models/test_enum_single_item.py
 petstore_api/models/test_enum_with_default.py
 petstore_api/models/test_error_responses_with_model400_response.py
 petstore_api/models/test_error_responses_with_model404_response.py

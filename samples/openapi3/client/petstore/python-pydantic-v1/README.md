@@ -243,6 +243,7 @@ Class | Method | HTTP request | Description
  - [Task](docs/Task.md)
  - [TaskActivity](docs/TaskActivity.md)
  - [TestEnum](docs/TestEnum.md)
+ - [TestEnumSingleItem](docs/TestEnumSingleItem.md)
  - [TestEnumWithDefault](docs/TestEnumWithDefault.md)
  - [TestErrorResponsesWithModel400Response](docs/TestErrorResponsesWithModel400Response.md)
  - [TestErrorResponsesWithModel404Response](docs/TestErrorResponsesWithModel404Response.md)

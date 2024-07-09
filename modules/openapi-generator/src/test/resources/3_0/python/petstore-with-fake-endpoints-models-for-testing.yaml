@@ -2793,6 +2793,10 @@ components:
             _value:
               type: string
       type: object
+    TestEnumSingleItem:
+      type: string
+      enum:
+        - first
     TestEnum:
       type: string
       enum:
