@@ -1,7 +1,9 @@
 package {{apiPackage}};
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
@@ -26,6 +28,39 @@ public final class HCollectors {
      */
     static <BT, T> Collector<T, ?, List<T>> toDefaultedList(BT baseDefault, Function<BT, T> converter) {
         return new DefaultableListCollector<>(baseDefault, converter);
+    }
+
+    static <T> Collector<String, ?, Map<String, T>> noOpMap() {
+
+        return new NoOpMapCollector<T>();
+    }
+
+    private static class NoOpMapCollector<T> implements Collector<String, Map<String, T>, Map<String, T>> {
+
+        @Override
+        public Supplier<Map<String, T>> supplier() {
+            return LinkedHashMap::new;
+        }
+
+        @Override
+        public BiConsumer<Map<String, T>, String> accumulator() {
+            return (map, expr) -> {};
+            }
+
+        @Override
+        public BinaryOperator<Map<String, T>> combiner() {
+            return (a, b) -> a;
+        }
+
+        @Override
+        public Function<Map<String, T>, Map<String, T>> finisher() {
+            return Function.identity();
+        }
+
+        @Override
+        public Set<Characteristics> characteristics() {
+            return Set.of();
+        }
     }
 
     private abstract static class AbstractListCollector<T> implements Collector<T, List<T>, List<T>> {

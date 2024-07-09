@@ -107,6 +107,19 @@
             <artifactId>helidon-{{#x-helidon-v3}}http-{{/x-helidon-v3}}media-jsonb</artifactId>
         </dependency>
 {{/jsonb}}
+{{^x-helidon-v3}}
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-common</artifactId>
+            <version>${version.lib.jersey}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.glassfish.hk2.external</groupId>
+                    <artifactId>jakarta.inject</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+{{/x-helidon-v3}}
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>

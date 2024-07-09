@@ -496,10 +496,13 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     public static class GenericTypeDeclaration {
         @Getter private final String collectionType;
         @Getter private final String baseType;
-
         public GenericTypeDeclaration(String collectionType, String baseType) {
             this.collectionType = collectionType;
             this.baseType = baseType;
+        }
+
+        public boolean isMap() {
+            return collectionType.equals("Map");
         }
     }
 

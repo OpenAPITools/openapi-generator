@@ -230,6 +230,7 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
             }
             importMapping.put("Handler", "io.helidon.webserver." + (helidonMajorVersion != 3 ? "http." : "") + "Handler");
             importMapping.put("GenericType", "io.helidon.common.GenericType");
+            importMapping.put("GenericTypes", modelPackage + ".GenericTypes");
             importMapping.put("Optional", "java.util.Optional");
             processSupportingFiles(modifiable, unmodifiable);
         } else {
@@ -305,7 +306,7 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
                     codegenOperation.imports.add("Handler");
                 } else {
                     if (codegenOperation.bodyParam.isContainer) {
-                        codegenOperation.imports.add("GenericType");
+                        codegenOperation.imports.add("GenericTypes");
                     }
                     if (codegenOperation.bodyParam.isFile) {
                         codegenOperation.imports.add("InputStream");
