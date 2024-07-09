@@ -1,0 +1,15 @@
+requires 'Class::Accessor';
+requires 'DateTime';
+requires 'JSON', '>= 2.00, < 2.80';
+requires 'LWP::UserAgent';
+requires 'Log::Any';
+requires 'Module::Find';
+requires 'Module::Runtime';
+requires 'Moo::Role';
+requires 'Type::Tiny';
+requires 'URI::Query';
+
+on 'test' => sub {
+  requires 'Test::Exception';
+  requires 'Test::More';
+};
