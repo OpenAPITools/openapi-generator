@@ -58,8 +58,6 @@ export interface EnumPatternObject {
     nullableNumberEnum?: NumberEnum | null;
 }
 
-
-
 /**
  * Check if a given object implements the EnumPatternObject interface.
  */
