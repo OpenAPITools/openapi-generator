@@ -522,9 +522,9 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
             OperationMap ops = opns.getOperations();
             ops.getOperation().stream()
                     .flatMap(op -> op.allParams.stream())
-                    .filter(p -> p.isArray || p.isMap)
+                    .filter(p -> p.isArray || p.isMap || p.isByteArray)
                     .forEach(p -> {
-                        String collectionType = p.isArray ? "List" : "Map";
+                        String collectionType = p.isArray ? "List" : (p.isByteArray ? "Array" : "Map");
                         declarations.computeIfAbsent(collectionType, ct -> new TreeMap<>())
                                 .computeIfAbsent(p.baseType, bt -> new GenericTypeDeclaration(collectionType, bt));
                     });

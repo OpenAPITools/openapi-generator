@@ -33,14 +33,16 @@
 }}{{/isContainer}}{{!
 }}{{^isContainer}}
                 .first({{#isHeaderParam}}HeaderNames.create({{/isHeaderParam}}"{{baseName}}"{{#isHeaderParam}}){{/isHeaderParam}}){{!
-}}{{#isString}}{{^isHeaderParam}}
-                .asOptional(){{/isHeaderParam}}{{/isString}}{{!
+}}{{^isHeaderParam}}
+                .asOptional(){{/isHeaderParam}}{{!
 }}{{#defaultValue}}
                 .or(() -> Optional.of("{{defaultValue}}")){{/defaultValue}}{{!
 }}{{/isContainer}}{{!
 }}{{^isFile}}{{^isString}}
                 .map({{>paramValueConverter}}){{!
 }}{{/isString}}{{/isFile}}{{!
+}}{{#isFormParam}}{{#isFile}}
+                .map(HCollectors::decodeBinaryFormParam){{/isFile}}{{/isFormParam}}{{!
 }}{{^vendorExtensions.x-helidon-hasEnumClass}}{{#isEnum}}
                 .map(v -> validator.check("{{baseName}}",
                      v,

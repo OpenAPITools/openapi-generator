@@ -96,7 +96,7 @@ import io.helidon.webserver.{{^x-helidon-v3}}http.Http{{/x-helidon-v3}}Service;
      * @param response the server response{{#allParams}}
      * @param {{paramName}} {{{description}}}{{^description}}{{paramName}}{{/description}} {{/allParams}}
      */
-    {{^x-helidon-v3}}protected {{/x-helidon-v3}}abstract {{> handleMethodSignature }};
+    {{^x-helidon-v3}}{{#useAbstractClass}}protected {{/useAbstractClass}}{{/x-helidon-v3}}abstract {{> handleMethodSignature }};
 {{/useAbstractClass}}
 {{#x-helidon-v3}}
 

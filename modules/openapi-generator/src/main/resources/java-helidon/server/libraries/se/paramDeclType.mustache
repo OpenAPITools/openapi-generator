@@ -7,8 +7,8 @@
 }}{{^x-helidon-v3}}{{!
     }}{{^required}}{{^isContainer}}{{#x-helidon-use-optional}}Optional<{{/x-helidon-use-optional}}{{/isContainer}}{{/required}}{{!
 }}{{#vendorExtensions.x-helidon-isMultipartFormParam}}ReadablePart{{/vendorExtensions.x-helidon-isMultipartFormParam}}{{!
-}}{{^vendorExtensions.x-helidon-isMultipartFormParam}}{{#isFormParam}}{{#isFile}}{{#isArray}}List<{{/isArray}}{{^isArray}}{{^required}}Optional<{{/required}}{{/isArray}}InputStream{{#isArray}}>{{/isArray}}{{^isArray}}{{^required}}>{{/required}}{{/isArray}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}}{{/isFormParam}}{{!
-}}{{^isFormParam}}{{{dataType}}}{{/isFormParam}}{{!
+}}{{^vendorExtensions.x-helidon-isMultipartFormParam}}{{#isFormParam}}{{> formOrBodyParamDeclType }}{{/isFormParam}}{{!
+}}{{^isFormParam}}{{#isBodyParam}}{{> formOrBodyParamDeclType }}{{/isBodyParam}}{{^isBodyParam}}{{{dataType}}}{{/isBodyParam}}{{/isFormParam}}{{!
 }}{{/vendorExtensions.x-helidon-isMultipartFormParam}}{{!
 }}{{^required}}{{^isContainer}}{{#x-helidon-use-optional}}>{{/x-helidon-use-optional}}{{/isContainer}}{{/required}}{{!
 }}{{/x-helidon-v3}}
