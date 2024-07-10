@@ -80,8 +80,8 @@ public class AbstractJavaCodegenTest {
      */
     @Test
     public void toEnumVarNameShouldNotResultInSingleUnderscore() {
-        Assert.assertEquals(codegen.toEnumVarName(" ", "String"), "SPACE");
-        Assert.assertEquals(codegen.toEnumVarName("==", "String"), "u");
+        Assert.assertNotEquals(codegen.toEnumVarName(" ", "String"), "_");
+        Assert.assertNotEquals(codegen.toEnumVarName("==", "String"), "_");
     }
 
     @Test

@@ -1833,6 +1833,7 @@ public class DefaultCodegen implements CodegenConfig {
         specialCharReplacements.put("!=", "Not_Equal");
         specialCharReplacements.put("<>", "Not_Equal");
         specialCharReplacements.put("~=", "Tilde_Equal");
+        specialCharReplacements.put("==", "Double_Equal");
     }
 
     /**
