@@ -12,7 +12,11 @@ import { HttpFile } from '../http/http{{importFileExtension}}';
 */
 {{/description}}
 {{^isEnum}}
-{{#oneOf}}{{#-first}}{{>model/modelOneOf}}{{/-first}}{{/oneOf}}{{^oneOf}}export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
+{{#oneOf}}
+{{#-first}}{{>model/modelOneOf}}{{/-first}}
+{{/oneOf}}
+{{^oneOf}}
+export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#vars}}
 {{#description}}
     /**

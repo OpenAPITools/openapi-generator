@@ -20,6 +20,8 @@ import { HttpFile } from '../http/http';
  */
 export type PetsPatchRequest = Cat | Dog;
 
+
+
 export enum PetsPatchRequestBreedEnum {
     Dingo = 'Dingo',
     Husky = 'Husky',
