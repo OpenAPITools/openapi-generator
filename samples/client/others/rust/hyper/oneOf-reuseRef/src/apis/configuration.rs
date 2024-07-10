@@ -9,10 +9,12 @@
  */
 
 use hyper;
-use hyper_util::client::legacy::connect::Connect;
 use hyper_util::client::legacy::Client;
+use hyper_util::client::legacy::connect::Connect;
+use hyper_util::client::legacy::connect::HttpConnector;
+use hyper_util::rt::TokioExecutor;
 
-pub struct Configuration<C: Connect>
+pub struct Configuration<C: Connect = HttpConnector>
     where C: Clone + std::marker::Send + Sync + 'static {
     pub base_path: String,
     pub user_agent: Option<String>,
@@ -30,9 +32,41 @@ pub struct ApiKey {
     pub key: String,
 }
 
+impl Configuration<HttpConnector> {
+    /// Construct a default [`Configuration`](Self) with a hyper client using a default
+    /// [`HttpConnector`](hyper_util::client::legacy::connect::HttpConnector).
+    ///
+    /// Use [`with_client`](Configuration<T>::with_client) to construct a Configuration with a
+    /// custom hyper client.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// let api_config = {
+    ///   api_key: "my-api-key",
+    ///   ...Configuration::new()
+    /// }
+    /// ```
+    pub fn new() -> Configuration<HttpConnector> {
+        Configuration::default()
+    }
+}
+
 impl<C: Connect> Configuration<C>
     where C: Clone + std::marker::Send + Sync {
-    pub fn new(client: Client<C, String>) -> Configuration<C> {
+
+    /// Construct a new Configuration with a custom hyper client.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// let client = Client::builder(TokioExecutor::new())
+    ///   .pool_idle_timeout(Duration::from_secs(30))
+    ///   .build_http();
+    ///
+    /// let api_config = Configuration::with_client(client);
+    /// ```
+    pub fn with_client(client: Client<C, String>) -> Configuration<C> {
         Configuration {
             base_path: "http://api.example.xyz/v1".to_owned(),
             user_agent: Some("OpenAPI-Generator/1.0.0/rust".to_owned()),
@@ -41,5 +75,12 @@ impl<C: Connect> Configuration<C>
             oauth_access_token: None,
             api_key: None,
         }
+    }
+}
+
+impl Default for Configuration<HttpConnector> {
+    fn default() -> Self {
+        let client = Client::builder(TokioExecutor::new()).build_http();
+    	Configuration::with_client(client)
     }
 }
