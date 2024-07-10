@@ -2,8 +2,10 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
-{{^useAbstractClass}}{{!
-}}import java.util.logging.Logger;
+{{^useAbstractClass}}
+import java.util.logging.Logger;{{#x-helidon-v3}}
+
+{{/x-helidon-v3}}
 {{/useAbstractClass}}
 import io.helidon.webserver.{{^x-helidon-v3}}http.{{/x-helidon-v3}}ServerRequest;
 import io.helidon.webserver.{{^x-helidon-v3}}http.{{/x-helidon-v3}}ServerResponse;

@@ -89,7 +89,9 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     static final String X_HAS_RESPONSE_PROPS = "x-helidon-hasResponseProps";
     static final String X_ALL_RESPONSE_PROPS = "x-helidon-allResponseProps";
     static final String X_OPTIONAL_RESPONSE_PROPS = "x-helidon-optionalResponseProps";
+    static final String X_REQUIRED_RESPONSE_PROPS = "x-helidon-requiredResponseProps";
     static final String X_HAS_REQUIRED_RESPONSE_PROPS = "x-helidon-hasRequiredResponseProps";
+    static final String X_RESULT_BUILDER_NEEDS_CTOR = "x-helidon-resultBuilderNeedsCtor";
     static final String X_IS_MULTIPART_FORM_PARAM = "x-helidon-isMultipartFormParam";
     static final String X_HAS_RETURN_TYPE = "x-helidon-hasReturnType";
     static final String X_RETURN_TYPE_EXAMPLE_VALUE = "x-helidon-exampleReturnTypeValue";
@@ -248,15 +250,25 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         CodegenResponse result = super.fromResponse(responseCode, response);
         result.vendorExtensions.put(X_HAS_RESPONSE_PROPS, result.hasHeaders || result.dataType != null);
         List<CodegenProperty> allResponseProps = new ArrayList<>(result.headers);
+        List<CodegenProperty> requiredResponseProps = new ArrayList<>();
+        List<CodegenProperty> optionalResponseProps = new ArrayList<>();
         if (result.returnProperty != null) {
             allResponseProps.add(result.returnProperty);
         }
         result.vendorExtensions.put(X_ALL_RESPONSE_PROPS, allResponseProps);
-        List<CodegenProperty> optionalResponseProps = allResponseProps.stream()
-                .filter(p -> !p.required)
-                .collect(Collectors.toList());
+        for (CodegenProperty responseProp : allResponseProps) {
+            if (responseProp.required) {
+                requiredResponseProps.add(responseProp);
+            } else {
+                optionalResponseProps.add(responseProp);
+            }
+        }
+
+        result.vendorExtensions.put(X_REQUIRED_RESPONSE_PROPS, requiredResponseProps);
         result.vendorExtensions.put(X_OPTIONAL_RESPONSE_PROPS, optionalResponseProps);
         result.vendorExtensions.put(X_HAS_REQUIRED_RESPONSE_PROPS, !allResponseProps.equals(optionalResponseProps));
+        result.vendorExtensions.put(X_RESULT_BUILDER_NEEDS_CTOR, result.isDefault || !requiredResponseProps.isEmpty());
+
         return result;
     }
 

@@ -70,22 +70,59 @@
 }})     {
 
                 /**
-                 * Creates a result for the {{#isDefault}}default{{/isDefault}}{{^isDefault}}status {{=<% %>=}}{@code <%code%>}<%={{ }}=%>{{/isDefault}} result
+                 * Creates a result builder for the {{#isDefault}}default{{/isDefault}}{{^isDefault}}status {{=<% %>=}}{@code <%code%>}<%={{ }}=%>{{/isDefault}} result
                  * for the {{operationId}} operation{{#x-helidon-hasRequiredResponseProps}}, accepting all the required result values{{/x-helidon-hasRequiredResponseProps}}{{^x-helidon-hasRequiredResponseProps}}; there are no required result values{{/x-helidon-hasRequiredResponseProps}} for this response.
                  *{{!
 }}{{#vendorExtensions.x-helidon-requiredResponseProps}}
                  * @param {{name}} returned {{#isHeader}}header{{/isHeader}}{{^isHeader}}entity{{/isHeader}}{{/vendorExtensions.x-helidon-requiredResponseProps}}
-                 * @return new result data for status {{code}}
+                 * @return new builder for status {{code}}
                  */
-                static {{> resultRecordTypeName }} create({{#isDefault}}Status status{{#vendorExtensions.x-helidon-hasRequiredResponseProps}},{{/vendorExtensions.x-helidon-hasRequiredResponseProps}}{{!
-}}{{/isDefault}}{{#vendorExtensions.x-helidon-requiredResponseProps}}{{^-first}},
-                           {{/-first}}{{> opResultParamDecl }}{{/vendorExtensions.x-helidon-requiredResponseProps}}) {
-                    return new {{> resultRecordTypeName }}({{#isDefault}}status{{!
-}}{{/isDefault}}{{#vendorExtensions.x-helidon-allResponseProps}}{{#isDefault}},
-                            {{/isDefault}}{{^isDefault}}{{^-first}},
-                            {{/-first}}{{/isDefault}}{{#required}}{{name}}{{/required}}{{^required}}{{#isContainer}}{{containerTypeMapped}}.of(){{/isContainer}}{{^isContainer}}null{{/isContainer}}{{/required}}{{/vendorExtensions.x-helidon-allResponseProps}});
+                static Builder builder({{#isDefault}}Status status{{#vendorExtensions.x-helidon-hasRequiredResponseProps}},
+            {{/vendorExtensions.x-helidon-hasRequiredResponseProps}}{{/isDefault}}{{#vendorExtensions.x-helidon-requiredResponseProps}}{{^-first}},
+            {{/-first}}{{> opResultParamDecl }}{{/vendorExtensions.x-helidon-requiredResponseProps}}) {
+                    return new Builder({{#isDefault}}status{{#vendorExtensions.x-helidon-hasRequiredResponseProps}},
+            {{/vendorExtensions.x-helidon-hasRequiredResponseProps}}{{/isDefault}}{{#vendorExtensions.x-helidon-requiredResponseProps}}{{^-first}},
+                            {{/-first}}{{name}}{{/vendorExtensions.x-helidon-requiredResponseProps}});
                 }
-{{#vendorExtensions.x-helidon-hasRequiredResponseProps}}
+
+                static class Builder implements io.helidon.common.Builder<Builder, {{> resultRecordTypeName }}> {
+{{#vendorExtensions.x-helidon-allResponseProps}}{{#-first}}
+{{/-first}}{{!
+}}                    private {{#required}}final {{/required}}{{> opResultParamDecl }};{{/vendorExtensions.x-helidon-allResponseProps}}
+{{#vendorExtensions.x-helidon-resultBuilderNeedsCtor}}{{!
+}}{{#isDefault}}{{!
+}}                    private final Status status;{{/isDefault}}
+
+                    Builder({{#isDefault}}Status status{{#vendorExtensions.x-helidon-hasRequiredResponseProps}},
+                        {{/vendorExtensions.x-helidon-hasRequiredResponseProps}}{{/isDefault}}{{#vendorExtensions.x-helidon-requiredResponseProps}}{{^-first}},
+                        {{/-first}}{{> opResultParamDecl }}{{/vendorExtensions.x-helidon-requiredResponseProps}}) {
+{{#isDefault}}{{!
+}}                        this.status = status;{{/isDefault}}
+{{#vendorExtensions.x-helidon-requiredResponseProps}}{{!
+}}                        this.{{name}} = {{name}};{{/vendorExtensions.x-helidon-requiredResponseProps}}
+                    }
+{{/vendorExtensions.x-helidon-resultBuilderNeedsCtor}}
+
+                    @Override
+                    public {{> resultRecordTypeName}} build() {
+                        return new {{> resultRecordTypeName}}({{#isDefault}}status{{#vendorExtensions.x-helidon-hasResponseProps}},
+                                {{/vendorExtensions.x-helidon-hasResponseProps}}{{/isDefault}}{{#vendorExtensions.x-helidon-allResponseProps}}{{^-first}},
+                                {{/-first}}{{name}}{{/vendorExtensions.x-helidon-allResponseProps}});
+                    }
+
+                    void apply(ServerResponse serverResponse) {
+                        build().apply(serverResponse);
+                    }{{#vendorExtensions.x-helidon-optionalResponseProps}}
+
+                    Builder {{name}}({{> opResultParamDecl }}) {
+                        this.{{name}} = {{name}};
+                        return this;
+                    }{{/vendorExtensions.x-helidon-optionalResponseProps}}
+                }
+{{!
+    Suppress the generated constructor if it would duplicate the implied canonical constructor.
+}}{{!
+}}{{#vendorExtensions.x-helidon-hasRequiredResponseProps}}
     {{> opResultRecordCtor }}{{!
 }}{{/vendorExtensions.x-helidon-hasRequiredResponseProps}}{{!
 }}{{^vendorExtensions.x-helidon-hasRequiredResponseProps}}{{#isDefault}}
