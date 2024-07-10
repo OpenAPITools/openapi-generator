@@ -51,7 +51,7 @@ module OpenapiClient
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['text/plain'])
+      header_params['Accept'] = @api_client.select_header_accept(['text/plain']) unless header_params['Accept']
       # HTTP header 'Content-Type'
       content_type = @api_client.select_header_content_type(['application/x-www-form-urlencoded'])
       if !content_type.nil?
@@ -122,7 +122,7 @@ module OpenapiClient
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['text/plain'])
+      header_params['Accept'] = @api_client.select_header_accept(['text/plain']) unless header_params['Accept']
       # HTTP header 'Content-Type'
       content_type = @api_client.select_header_content_type(['multipart/form-data'])
       if !content_type.nil?
@@ -197,7 +197,7 @@ module OpenapiClient
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['text/plain'])
+      header_params['Accept'] = @api_client.select_header_accept(['text/plain']) unless header_params['Accept']
       # HTTP header 'Content-Type'
       content_type = @api_client.select_header_content_type(['application/x-www-form-urlencoded'])
       if !content_type.nil?

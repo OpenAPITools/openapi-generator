@@ -1,0 +1,42 @@
+name:                ping-test
+version:             0.1.0.0
+synopsis:            Auto-generated API bindings for ping-test
+description:         Please see README.md
+homepage:            https://openapi-generator.tech
+author:              Author Name Here
+maintainer:          author.name@email.com
+copyright:           YEAR - AUTHOR
+category:            Web
+build-type:          Simple
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      lib
+  exposed-modules:     PingTest.API
+                     , PingTest.Types
+  ghc-options:         -Wall
+  build-depends:       base
+                     , aeson
+                     , text
+                     , containers
+                     , exceptions
+                     , network-uri
+                     , servant
+                     , http-api-data
+                     , servant
+                     , servant-client
+                     , servant-client-core
+                     , servant-server
+                     , servant
+                     , wai
+                     , warp
+                     , transformers
+                     , mtl
+                     , time
+                     , http-client
+                     , http-client-tls
+                     , http-types
+                     , swagger2
+                     , uuid
+                     , bytestring
+  default-language:    Haskell2010

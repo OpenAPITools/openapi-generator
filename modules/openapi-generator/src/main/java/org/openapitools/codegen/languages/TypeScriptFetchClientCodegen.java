@@ -1120,6 +1120,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.isMap = cp.isMap;
             this.isFile = cp.isFile;
             this.isEnum = cp.isEnum;
+            this.isEnumRef = cp.isEnumRef;
             this._enum = cp._enum;
             this.allowableValues = cp.allowableValues;
             this.items = cp.items;
@@ -1280,6 +1281,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.isArray = cp.isArray;
             this.isMap = cp.isMap;
             this.isEnum = cp.isEnum;
+            this.isEnumRef = cp.isEnumRef;
             this.isReadOnly = cp.isReadOnly;
             this.isWriteOnly = cp.isWriteOnly;
             this.isNullable = cp.isNullable;

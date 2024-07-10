@@ -26,9 +26,10 @@ import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.OffsetTime
 import java.util.Locale
+import java.util.regex.Pattern
 import com.squareup.moshi.adapter
 
-internal  val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
+internal val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 
 internal open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
     internal companion object {
@@ -120,14 +121,52 @@ internal open class ApiClient(val baseUrl: String, val client: OkHttpClient = de
         }
 
     @OptIn(ExperimentalStdlibApi::class)
-    protected inline fun <reified T: Any?> responseBody(body: ResponseBody?, mediaType: String? = JsonMediaType): T? {
+    protected inline fun <reified T: Any?> responseBody(response: Response, mediaType: String? = JsonMediaType): T? {
+        val body = response.body
         if(body == null) {
             return null
         }
         if (T::class.java == File::class.java) {
             // return tempFile
+            val contentDisposition = response.header("Content-Disposition")
+
+            val fileName = if (contentDisposition != null) {
+                // Get filename from the Content-Disposition header.
+                val pattern = Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?")
+                val matcher = pattern.matcher(contentDisposition)
+                if (matcher.find()) {
+                    matcher.group(1)
+                        ?.replace(".*[/\\\\]", "")
+                        ?.replace(";", "")
+                } else {
+                    null
+                }
+            } else {
+                null
+            }
+
+            var prefix: String?
+            val suffix: String?
+            if (fileName == null) {
+                prefix = "download"
+                suffix = ""
+            } else {
+                val pos = fileName.lastIndexOf(".")
+                if (pos == -1) {
+                    prefix = fileName
+                    suffix = null
+                } else {
+                    prefix = fileName.substring(0, pos)
+                    suffix = fileName.substring(pos)
+                }
+                // Files.createTempFile requires the prefix to be at least three characters long
+                if (prefix.length < 3) {
+                    prefix = "download"
+                }
+            }
+
             // Attention: if you are developing an android app that supports API Level 25 and bellow, please check flag supportAndroidApiLevel25AndBelow in https://openapi-generator.tech/docs/generators/kotlin#config-options
-            val tempFile = java.nio.file.Files.createTempFile("tmp.org.openapitools.client", null).toFile()
+            val tempFile = java.nio.file.Files.createTempFile(prefix, suffix).toFile()
             tempFile.deleteOnExit()
             body.byteStream().use { inputStream ->
                 tempFile.outputStream().use { tempFileOutputStream ->
@@ -233,7 +272,7 @@ internal open class ApiClient(val baseUrl: String, val client: OkHttpClient = de
                     it.headers.toMultimap()
                 )
                 it.isSuccessful -> Success(
-                    responseBody(it.body, accept),
+                    responseBody(it, accept),
                     it.code,
                     it.headers.toMultimap()
                 )

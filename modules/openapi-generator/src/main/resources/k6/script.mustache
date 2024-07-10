@@ -30,7 +30,13 @@ export default function() {
             let body = {{#body}}{{=<% %>=}}{<%#parameters%>"<%& key%>": <%& value%><%^-last%>, <%/-last%><%/parameters%>}<%={{ }}=%>{{/body}};
             {{/body}}
             {{#params}}
-            let params = {{#params}}{{=<% %>=}}{headers: {<%# headers%>"<%& key%>": <%& value%><%^-last%>, <%/-last%><%/headers%><%#responseType%>, "Accept": <%& responseType%><%/responseType%>}<%# auth%>, auth: "<%& auth%>"<%/auth%>}<%={{ }}=%>{{/params}};
+            let params = {{#params}}{{=<% %>=}}{
+                headers: {
+                    <%# headers%>"<%& key%>": <%& value%><%^-last%>, <%/-last%><%/headers%><%#responseType%>, "Accept": <%& responseType%><%/responseType%>
+                }<%#hasCookie%>, cookies: {
+                    <%# cookies%>"<%& key%>": <%& value%><%^-last%>, <%/-last%><%/cookies%>
+                }<%/hasCookie%><%# auth%>, auth: "<%& auth%>"<%/auth%>
+            }<%={{ }}=%>{{/params}};
             {{/params}}
             {{#isDelete}}
             {{#params}}

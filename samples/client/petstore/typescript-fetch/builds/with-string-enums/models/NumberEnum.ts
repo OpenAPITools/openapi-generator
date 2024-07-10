@@ -27,7 +27,7 @@ export enum NumberEnum {
 export function instanceOfNumberEnum(value: any): boolean {
     for (const key in NumberEnum) {
         if (Object.prototype.hasOwnProperty.call(NumberEnum, key)) {
-            if ((NumberEnum as Record<string, NumberEnum>)[key] === value) {
+            if (NumberEnum[key as keyof typeof NumberEnum] === value) {
                 return true;
             }
         }

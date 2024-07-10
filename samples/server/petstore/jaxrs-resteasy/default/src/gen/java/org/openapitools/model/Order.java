@@ -11,7 +11,6 @@ import java.util.Date;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import io.swagger.annotations.*;
-import javax.validation.Valid;
 
 @ApiModel(description="An order for a pets from the pet store")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Order   {
