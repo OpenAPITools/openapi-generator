@@ -71,7 +71,7 @@ import io.helidon.webserver.{{^x-helidon-v3}}http.Http{{/x-helidon-v3}}Service;
 }}{{#x-helidon-v3}}{{#allParams}}{{#isBodyParam}}{{#isModel}}
      * @param {{paramName}} {{{description}}}{{^description}}{{paramName}}{{/description}} {{/isModel}}{{/isBodyParam}}{{/allParams}}{{/x-helidon-v3}}
      */
-    {{^x-helidon-v3}}protected {{/x-helidon-v3}}void {{{operationId}}}(ServerRequest request, ServerResponse response{{#x-helidon-v3}}{{#allParams}}{{#isBodyParam}}{{#isModel}}, {{{dataType}}} {{paramName}}{{/isModel}}{{/isBodyParam}}{{/allParams}}{{/x-helidon-v3}}){{^useAbstractClass}};{{/useAbstractClass}}{{#useAbstractClass}} { {{> paramsInitial }}{{!
+    {{^x-helidon-v3}}{{#useAbstractClass}}protected {{/useAbstractClass}}{{/x-helidon-v3}}void {{{operationId}}}(ServerRequest request, ServerResponse response{{#x-helidon-v3}}{{#allParams}}{{#isBodyParam}}{{#isModel}}, {{{dataType}}} {{paramName}}{{/isModel}}{{/isBodyParam}}{{/allParams}}{{/x-helidon-v3}}){{^useAbstractClass}};{{/useAbstractClass}}{{#useAbstractClass}} { {{> paramsInitial }}{{!
 }}{{#x-helidon-v3}}
         Single.create({{^hasParams}}Single.empty(){{/hasParams}}{{#hasParams}}{{^bodyParam}}{{#formParams}}{{#-first}}formSingle{{/-first}}{{/formParams}}{{^formParams}}Single.empty(){{/formParams}}{{/bodyParam}}{{#bodyParam}}{{^isModel}}request.content().as(new GenericType<{{#isFile}}InputStream{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}}>() { }){{/isModel}}{{#isModel}}Single.empty(){{/isModel}}{{/bodyParam}}{{/hasParams}})
             .thenAccept({{#bodyParam}}{{^isModel}}{{paramName}}{{/isModel}}{{#isModel}}val{{/isModel}}{{/bodyParam}}{{^bodyParam}}val{{/bodyParam}} -> {

@@ -2,9 +2,9 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
-{{^useAbstractClass}}{{#x-helidon-v3}}{{!
+{{^useAbstractClass}}{{!
 }}import java.util.logging.Logger;
-{{/x-helidon-v3}}{{/useAbstractClass}}
+{{/useAbstractClass}}
 import io.helidon.webserver.{{^x-helidon-v3}}http.{{/x-helidon-v3}}ServerRequest;
 import io.helidon.webserver.{{^x-helidon-v3}}http.{{/x-helidon-v3}}ServerResponse;
 
@@ -31,14 +31,14 @@ public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClas
 {{/x-helidon-v3}}
 {{^x-helidon-v3}}
     @Override
-    protected void {{{operationId}}}(ServerRequest request, ServerResponse response) {
+    public void {{{operationId}}}(ServerRequest request, ServerResponse response) {
 {{!
     If the user generated an interface instead of an abstract class, add a few conveniences here in the implementation class
     to suggest how the developer might implement the code.
 
 }}{{^isMultipart}}{{#hasFormParams}}        Parameters formParams = request.content().as(Parameters.class);
 {{/hasFormParams}}{{/isMultipart}}{{!
-}}{{#isMultipart}}        Map<String, ReadablePart> parts = PartsUtil.partsMap(request);
+}}{{#isMultipart}}        Map<String, ReadablePart> parts = PartsUtils.partsMap(request);
 {{/isMultipart}}{{!
 }}{{#useBeanValidation}}        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 {{/useBeanValidation}}{{!

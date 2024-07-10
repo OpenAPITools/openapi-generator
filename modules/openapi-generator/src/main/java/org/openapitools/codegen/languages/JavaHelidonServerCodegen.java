@@ -148,6 +148,7 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
             importMapping.put("UncheckedIOException", "java.io.UncheckedIOException");
             importMapping.put("Status", "io.helidon.http.Status");
             importMapping.put("Objects", "java.util.Objects");
+            importMapping.put("Valid", "jakarta.validation.Valid");
         }
         supportingFiles.clear();
         dateLibrary = "java8";
@@ -218,12 +219,7 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
                                                     "PartsUtils.java"));
             }
             if (useAbstractClass) {
-                importMapping.put("Map", "java.util.Map");
                 importMapping.put("HashMap", "java.util.HashMap");
-                importMapping.put("ReadableBodyPart",
-                                  (helidonMajorVersion <= 3)
-                                          ? "io.helidon.media.multipart.ReadableBodyPart"
-                                          : "io.helidon.http.media.multipart.ReadablePart");
                 importMapping.put("ArrayList", "java.util.ArrayList");
                 importMapping.put("ByteArrayOutputStream", "java.io.ByteArrayOutputStream");
                 importMapping.put("DataChunk", "io.helidon.common.http.DataChunk");
@@ -231,6 +227,11 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
                 importMapping.put("IOException", "java.io.IOException");
                 importMapping.put("ByteArrayInputStream", "java.io.ByteArrayInputStream");
             }
+            importMapping.put("Map", "java.util.Map");
+            importMapping.put("ReadableBodyPart",  // use the old ReadableBodyPart name for backward compatibility
+                              (helidonMajorVersion <= 3)
+                                      ? "io.helidon.media.multipart.ReadableBodyPart"
+                                      : "io.helidon.http.media.multipart.ReadablePart");
             importMapping.put("Handler", "io.helidon.webserver." + (helidonMajorVersion != 3 ? "http." : "") + "Handler");
             importMapping.put("GenericType", "io.helidon.common.GenericType");
             importMapping.put("GenericTypes", modelPackage + ".GenericTypes");
@@ -303,6 +304,10 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
                         .anyMatch(p -> p.isContainer)) {
                     codegenOperation.imports.add("Collectors");
                 }
+                if (codegenOperation.allParams.stream()
+                        .anyMatch(p -> p.dataType.contains("@Valid"))) {
+                    codegenOperation.imports.add("Valid");
+                }
             }
             if (codegenOperation.getHasBodyParam()) {
                 if (helidonMajorVersion == 3) {
@@ -329,12 +334,14 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
                 }
             }
             if (codegenOperation.isMultipart) {
-                if (helidonMajorVersion > 3 && useAbstractClass) {
-                    codegenOperation.formParams.forEach(fp -> {
-                        if (!fp.required) {
-                            codegenOperation.imports.add("Optional");
-                        }
-                    });
+                if (helidonMajorVersion > 3) {
+                    if (useAbstractClass) {
+                        codegenOperation.formParams.forEach(fp -> {
+                            if (!fp.required) {
+                                codegenOperation.imports.add("Optional");
+                            }
+                        });
+                    }
                     additionalProperties.put(USES_MULTIPART, true);
                 }
             }
@@ -368,6 +375,13 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
                 if (helidonMajorVersion > 3) {
                     codegenOperation.imports.add("Parameters");
                 }
+            }
+            if (!codegenOperation.formParams.isEmpty() && helidonMajorVersion > 3) {
+                // Need to add it to both the API (abstract class or interface) and the implementation for Helidon 4 and later.
+                codegenOperation.imports.add("ReadableBodyPart");
+            }
+            if (codegenOperation.isMultipart && helidonMajorVersion > 3) {
+                codegenOperation.imports.add("Map");
             }
         }
         return codegenOperation;

@@ -28,8 +28,8 @@
         validator.validatePattern("{{paramName}}", {{paramName}}, "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");{{/isEmail}}{{/useBeanValidation}}{{#isInteger}}{{#minimum}}
         validator.validateMin("{{paramName}}", {{paramName}}, {{.}}, {{#exclusiveMinimum}}false{{/exclusiveMinimum}}{{^exclusiveMinimum}}true{{/exclusiveMinimum}});{{/minimum}}{{#maximum}}
         validator.validateMax("{{paramName}}", {{paramName}}, {{.}}, {{#exclusiveMaximum}}false{{/exclusiveMaximum}}{{^exclusiveMaximum}}true{{/exclusiveMaximum}});{{/maximum}}{{/isInteger}}{{#isLong}}{{#minimum}}
-        validator.validateMin("{{paramName}}", paramName.intValue(), {{.}}, {{#exclusiveMinimum}}false{{/exclusiveMinimum}}{{^exclusiveMinimum}}true{{/exclusiveMinimum}});{{/minimum}}{{#maximum}}
-        validator.validateMax("{{paramName}}", paramName.intValue(), {{.}}, {{#exclusiveMaximum}}false{{/exclusiveMaximum}}{{^exclusiveMaximum}}true{{/exclusiveMaximum}});{{/maximum}}{{/isLong}}{{#isDouble}}{{#minimum}}
+        validator.validateMin("{{paramName}}", {{paramName}}.intValue(), {{.}}, {{#exclusiveMinimum}}false{{/exclusiveMinimum}}{{^exclusiveMinimum}}true{{/exclusiveMinimum}});{{/minimum}}{{#maximum}}
+        validator.validateMax("{{paramName}}", {{paramName}}.intValue(), {{.}}, {{#exclusiveMaximum}}false{{/exclusiveMaximum}}{{^exclusiveMaximum}}true{{/exclusiveMaximum}});{{/maximum}}{{/isLong}}{{#isDouble}}{{#minimum}}
         validator.validateMin("{{paramName}}", {{paramName}}, {{.}}d, {{#exclusiveMinimum}}false{{/exclusiveMinimum}}{{^exclusiveMinimum}}true{{/exclusiveMinimum}});{{/minimum}}{{#maximum}}
         validator.validateMax("{{paramName}}", {{paramName}}, {{.}}d, {{#exclusiveMaximum}}false{{/exclusiveMaximum}}{{^exclusiveMaximum}}true{{/exclusiveMaximum}});{{/maximum}}{{/isDouble}}{{#isFloat}}{{#minimum}}
         validator.validateMin("{{paramName}}", {{paramName}}, {{.}}f, {{#exclusiveMinimum}}false{{/exclusiveMinimum}}{{^exclusiveMinimum}}true{{/exclusiveMinimum}});{{/minimum}}{{#maximum}}

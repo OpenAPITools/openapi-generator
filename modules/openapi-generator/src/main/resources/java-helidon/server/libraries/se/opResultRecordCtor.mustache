@@ -11,10 +11,14 @@
                 ValidatorUtils.Validator validator = ValidatorUtils.validator(Logger.getLogger(Result.class.getName()));
 {{#isDefault}}
                 validator.require("status for default response", status);
-                this.status = status;
 {{/isDefault}}
 {{#vendorExtensions.x-helidon-requiredResponseProps}}
-                validator.require("required result {{#isHeader}}header{{/isHeader}}{{^isHeader}}entity{{/isHeader}} {{name}}", {{name}});
-                this.{{name}} = {{name}};{{/vendorExtensions.x-helidon-requiredResponseProps}}{{!
+                validator.require("required result {{#isHeader}}header{{/isHeader}}{{^isHeader}}entity{{/isHeader}} {{name}}", {{name}});{{/vendorExtensions.x-helidon-requiredResponseProps}}{{!
 }}                validator.execute();
+{{#isDefault}}
+                this.status = status;
+{{/isDefault}}
+{{#vendorExtensions.x-helidon-allResponseProps}}{{!
+}}                this.{{name}} = {{name}};
+{{/vendorExtensions.x-helidon-allResponseProps}}
             }
