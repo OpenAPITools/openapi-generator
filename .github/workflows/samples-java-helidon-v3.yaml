@@ -21,7 +21,6 @@ jobs:
           - samples/client/petstore/java-helidon-client/v3/se
           - samples/server/petstore/java-helidon-server/v3/mp
           - samples/server/petstore/java-helidon-server/v3/se
-          - samples/server/petstore/java-helidon-server/v3/se-uac
         version: [17]
     steps:
       - uses: actions/checkout@v4

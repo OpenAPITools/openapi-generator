@@ -12,8 +12,8 @@
                 ValidatorUtils.validateMax({{paramName}}, {{.}});{{/maximum}}{{/isInteger}}{{#isLong}}{{#minimum}}
                 ValidatorUtils.validateMin({{paramName}}.intValue(), {{.}});{{/minimum}}{{#maximum}}
                 ValidatorUtils.validateMax({{paramName}}.intValue(), {{.}});{{/maximum}}{{/isLong}}{{^isInteger}}{{^isLong}}{{#minimum}}
-                ValidatorUtils.validateMin({{paramName}}, "{{minimum}}", {{#exclusiveMinimum}}false{{/exclusiveMinimum}}{{^exclusiveMinimum}}true{{/exclusiveMinimum}});{{/minimum}}{{#maximum}}
-                ValidatorUtils.validateMax({{paramName}}, "{{maximum}}", {{#exclusiveMaximum}}false{{/exclusiveMaximum}}{{^exclusiveMaximum}}true{{/exclusiveMaximum}});{{/maximum}}{{/isLong}}{{/isInteger}}{{!
+                ValidatorUtils.validateMin({{^isNumber}}new java.math.BigDecimal({{/isNumber}}{{paramName}}{{^isNumber}}){{/isNumber}}, "{{minimum}}", {{#exclusiveMinimum}}false{{/exclusiveMinimum}}{{^exclusiveMinimum}}true{{/exclusiveMinimum}});{{/minimum}}{{#maximum}}
+                ValidatorUtils.validateMax({{^isNumber}}new java.math.BigDecimal({{/isNumber}}{{paramName}}{{^isNumber}}){{/isNumber}}, "{{maximum}}", {{#exclusiveMaximum}}false{{/exclusiveMaximum}}{{^exclusiveMaximum}}true{{/exclusiveMaximum}});{{/maximum}}{{/isLong}}{{/isInteger}}{{!
 }}{{/x-helidon-v3}}{{!
 }}{{^x-helidon-v3}}{{!
 }}{{#pattern}}{{#isString}}{{!
