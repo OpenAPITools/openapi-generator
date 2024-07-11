@@ -168,6 +168,18 @@ func (o *{{classname}}) Set{{name}}(v {{vendorExtensions.x-go-base-type}}) {
 {{/isNullable}}
 }
 
+{{^isReadOnly}}
+{{#defaultValue}}
+{{#initRequiredVars}}
+func (o *{{classname}}) GetDefault{{baseName}}() interface{}  {
+	var {{baseName}} {{{dataType}}} = {{{defaultValue}}}
+	o.{{name}} = {{baseName}}
+	return {{baseName}}
+}
+{{/initRequiredVars}}
+{{/defaultValue}}
+{{/isReadOnly}}
+
 {{/required}}
 {{^required}}
 // Get{{name}} returns the {{name}} field value if set, zero value otherwise{{#isNullable}} (both if not set or set to explicit null){{/isNullable}}.
@@ -318,6 +330,15 @@ func (o {{classname}}) ToMap() (map[string]interface{}, error) {
 	{{! if argument is not nullable, don't set it if it is nil}}
 	{{^isNullable}}
 	{{#required}}
+	{{^isReadOnly}}
+	{{#defaultValue}}
+	{{#initRequiredVars}}
+	if _, exists := toSerialize["{{{baseName}}}"]; !exists {
+		toSerialize["{{{baseName}}}"] = o.GetDefault{{baseName}}()
+	}
+	{{/initRequiredVars}}
+	{{/defaultValue}}
+	{{/isReadOnly}}
 	toSerialize["{{{baseName}}}"] = o.{{name}}
 	{{/required}}
 	{{^required}}
@@ -356,20 +377,41 @@ func (o *{{{classname}}}) UnmarshalJSON(data []byte) (err error) {
 {{/requiredVars}}
 	}
 
+	defaultValueFuncMap := map[string]func() interface{} {
+{{#requiredVars}}
+{{^isReadOnly}}
+{{#defaultValue}}
+{{#initRequiredVars}}
+		"{{baseName}}": o.GetDefault{{baseName}},
+{{/initRequiredVars}}
+{{/defaultValue}}
+{{/isReadOnly}}
+{{/requiredVars}}
+	}
+
 	allProperties := make(map[string]interface{})
-
+	var defaultValueApplied bool
 	err = json.Unmarshal(data, &allProperties)
-
 	if err != nil {
 		return err;
 	}
-
-	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
+	for _, requiredProperty := range(requiredProperties){
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
+			if _, ok := defaultValueFuncMap[requiredProperty]; ok {
+				allProperties[requiredProperty] = defaultValueFuncMap[requiredProperty]()
+				defaultValueApplied = true
+			}
+		}
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
 	}
-
+	if defaultValueApplied{
+		data, err = json.Marshal(allProperties)
+		if err != nil{
+			return err
+		}
+	}
 {{/hasRequired}}
 {{#isAdditionalPropertiesTrue}}
 {{#parent}}
