@@ -1,5 +1,6 @@
 package org.openapitools.server.api;
 
+import java.util.HexFormat;
 import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.openapitools.server.model.Order;
@@ -32,8 +33,6 @@ public interface StoreService extends HttpService {
      * @param response the server response
      */
     void deleteOrder(ServerRequest request, ServerResponse response);
-
-
     /**
      * GET /store/inventory : Returns pet inventories by status.
      *
@@ -41,8 +40,6 @@ public interface StoreService extends HttpService {
      * @param response the server response
      */
     void getInventory(ServerRequest request, ServerResponse response);
-
-
     /**
      * GET /store/order/{order_id} : Find purchase order by ID.
      *
@@ -50,8 +47,6 @@ public interface StoreService extends HttpService {
      * @param response the server response
      */
     void getOrderById(ServerRequest request, ServerResponse response);
-
-
     /**
      * POST /store/order : Place an order for a pet.
      *
@@ -59,6 +54,4 @@ public interface StoreService extends HttpService {
      * @param response the server response
      */
     void placeOrder(ServerRequest request, ServerResponse response);
-
-
 }

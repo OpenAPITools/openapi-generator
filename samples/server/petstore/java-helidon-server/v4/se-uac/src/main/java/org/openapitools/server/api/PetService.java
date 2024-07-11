@@ -551,8 +551,7 @@ public abstract class PetService implements HttpService {
                 .pathParameters()
                 .first("petId")
                 .asOptional()
-                .map(Long::valueOf)
-                .orElse(null);
+                .map(Long::valueOf)                .orElse(null);
         }
 
         /**
@@ -989,8 +988,7 @@ public abstract class PetService implements HttpService {
                 .pathParameters()
                 .first("petId")
                 .asOptional()
-                .map(Long::valueOf)
-                .orElse(null);
+                .map(Long::valueOf)                .orElse(null);
         }
 
         /**
@@ -1390,8 +1388,7 @@ public abstract class PetService implements HttpService {
                 .pathParameters()
                 .first("petId")
                 .asOptional()
-                .map(Long::valueOf)
-                .orElse(null);
+                .map(Long::valueOf)                .orElse(null);
         }
 
         /**
@@ -1549,8 +1546,7 @@ public abstract class PetService implements HttpService {
                 .pathParameters()
                 .first("petId")
                 .asOptional()
-                .map(Long::valueOf)
-                .orElse(null);
+                .map(Long::valueOf)                .orElse(null);
         }
 
         /**
@@ -1676,8 +1672,7 @@ public abstract class PetService implements HttpService {
                 .pathParameters()
                 .first("petId")
                 .asOptional()
-                .map(Long::valueOf)
-                .orElse(null);
+                .map(Long::valueOf)                .orElse(null);
         }
 
         /**

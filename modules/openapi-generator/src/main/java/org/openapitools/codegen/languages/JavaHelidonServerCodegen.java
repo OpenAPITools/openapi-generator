@@ -342,7 +342,6 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
                             }
                         });
                     }
-                    additionalProperties.put(USES_MULTIPART, true);
                 }
             }
             if (codegenOperation.getHasFormParams()) {

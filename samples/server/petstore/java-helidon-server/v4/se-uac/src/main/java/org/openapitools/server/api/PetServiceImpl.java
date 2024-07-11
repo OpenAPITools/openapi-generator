@@ -49,7 +49,8 @@ public class PetServiceImpl extends PetService {
     protected void handleFindPetsByStatus(ServerRequest request, ServerResponse response, 
                 List<String> status) {
 
-        FindPetsByStatus.Result.S200.builder().apply(response);
+
+        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 
     @Override

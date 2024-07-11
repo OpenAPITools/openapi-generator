@@ -1560,10 +1560,11 @@ components:
         photoUrls:
           items:
             type: string
+            xml:
+              name: photoUrl
           type: array
           uniqueItems: true
           xml:
-            name: photoUrl
             wrapped: true
         tags:
           items:

@@ -1,12 +1,15 @@
 package org.openapitools.server.api;
 
-import io.helidon.common.GenericType;
+import java.util.stream.Collectors;
+import org.openapitools.server.model.GenericTypes;
+import java.util.HexFormat;
 import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.OffsetDateTime;
 import java.util.Optional;
 import io.helidon.http.Status;
 import org.openapitools.server.model.User;
+import jakarta.validation.Valid;
 
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.ServerRequest;
@@ -39,8 +42,6 @@ public interface UserService extends HttpService {
      * @param response the server response
      */
     void createUser(ServerRequest request, ServerResponse response);
-
-
     /**
      * POST /user/createWithArray : Creates list of users with given input array.
      *
@@ -48,8 +49,6 @@ public interface UserService extends HttpService {
      * @param response the server response
      */
     void createUsersWithArrayInput(ServerRequest request, ServerResponse response);
-
-
     /**
      * POST /user/createWithList : Creates list of users with given input array.
      *
@@ -57,8 +56,6 @@ public interface UserService extends HttpService {
      * @param response the server response
      */
     void createUsersWithListInput(ServerRequest request, ServerResponse response);
-
-
     /**
      * DELETE /user/{username} : Delete user.
      *
@@ -66,8 +63,6 @@ public interface UserService extends HttpService {
      * @param response the server response
      */
     void deleteUser(ServerRequest request, ServerResponse response);
-
-
     /**
      * GET /user/{username} : Get user by user name.
      *
@@ -75,8 +70,6 @@ public interface UserService extends HttpService {
      * @param response the server response
      */
     void getUserByName(ServerRequest request, ServerResponse response);
-
-
     /**
      * GET /user/login : Logs user into the system.
      *
@@ -84,8 +77,6 @@ public interface UserService extends HttpService {
      * @param response the server response
      */
     void loginUser(ServerRequest request, ServerResponse response);
-
-
     /**
      * GET /user/logout : Logs out current logged in user session.
      *
@@ -93,8 +84,6 @@ public interface UserService extends HttpService {
      * @param response the server response
      */
     void logoutUser(ServerRequest request, ServerResponse response);
-
-
     /**
      * PUT /user/{username} : Updated user.
      *
@@ -102,6 +91,4 @@ public interface UserService extends HttpService {
      * @param response the server response
      */
     void updateUser(ServerRequest request, ServerResponse response);
-
-
 }

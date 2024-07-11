@@ -16,6 +16,7 @@ src/main/java/org/openapitools/server/api/HCollectors.java
 src/main/java/org/openapitools/server/api/HCollectors.java
 src/main/java/org/openapitools/server/api/HCollectors.java
 src/main/java/org/openapitools/server/api/JsonProvider.java
+src/main/java/org/openapitools/server/api/PartsUtils.java
 src/main/java/org/openapitools/server/api/PetService.java
 src/main/java/org/openapitools/server/api/PetServiceImpl.java
 src/main/java/org/openapitools/server/api/StoreService.java

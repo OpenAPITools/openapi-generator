@@ -1,15 +1,18 @@
 package org.openapitools.server.api;
 
+import java.util.stream.Collectors;
 import java.io.File;
 import io.helidon.http.HeaderNames;
 import io.helidon.http.Headers;
+import java.util.HexFormat;
 import java.util.List;
+import java.util.Map;
 import org.openapitools.server.model.ModelApiResponse;
-import io.helidon.http.media.multipart.MultiPart;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import io.helidon.common.parameters.Parameters;
 import org.openapitools.server.model.Pet;
+import io.helidon.http.media.multipart.ReadablePart;
 import java.util.Set;
 import io.helidon.http.Status;
 import io.helidon.common.mapper.Value;
@@ -46,8 +49,6 @@ public interface PetService extends HttpService {
      * @param response the server response
      */
     void addPet(ServerRequest request, ServerResponse response);
-
-
     /**
      * DELETE /pet/{petId} : Deletes a pet.
      *
@@ -55,8 +56,6 @@ public interface PetService extends HttpService {
      * @param response the server response
      */
     void deletePet(ServerRequest request, ServerResponse response);
-
-
     /**
      * GET /pet/findByStatus : Finds Pets by status.
      *
@@ -64,8 +63,6 @@ public interface PetService extends HttpService {
      * @param response the server response
      */
     void findPetsByStatus(ServerRequest request, ServerResponse response);
-
-
     /**
      * GET /pet/findByTags : Finds Pets by tags.
      *
@@ -73,8 +70,6 @@ public interface PetService extends HttpService {
      * @param response the server response
      */
     void findPetsByTags(ServerRequest request, ServerResponse response);
-
-
     /**
      * GET /pet/{petId} : Find pet by ID.
      *
@@ -82,8 +77,6 @@ public interface PetService extends HttpService {
      * @param response the server response
      */
     void getPetById(ServerRequest request, ServerResponse response);
-
-
     /**
      * PUT /pet : Update an existing pet.
      *
@@ -91,8 +84,6 @@ public interface PetService extends HttpService {
      * @param response the server response
      */
     void updatePet(ServerRequest request, ServerResponse response);
-
-
     /**
      * POST /pet/{petId} : Updates a pet in the store with form data.
      *
@@ -100,8 +91,6 @@ public interface PetService extends HttpService {
      * @param response the server response
      */
     void updatePetWithForm(ServerRequest request, ServerResponse response);
-
-
     /**
      * POST /pet/{petId}/uploadImage : uploads an image.
      *
@@ -109,8 +98,6 @@ public interface PetService extends HttpService {
      * @param response the server response
      */
     void uploadFile(ServerRequest request, ServerResponse response);
-
-
     /**
      * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required).
      *
@@ -118,6 +105,4 @@ public interface PetService extends HttpService {
      * @param response the server response
      */
     void uploadFileWithRequiredFile(ServerRequest request, ServerResponse response);
-
-
 }

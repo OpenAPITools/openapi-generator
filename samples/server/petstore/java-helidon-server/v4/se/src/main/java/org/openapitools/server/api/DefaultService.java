@@ -1,6 +1,7 @@
 package org.openapitools.server.api;
 
 import org.openapitools.server.model.FooGetDefaultResponse;
+import java.util.HexFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.helidon.http.Status;
 
@@ -28,6 +29,4 @@ public interface DefaultService extends HttpService {
      * @param response the server response
      */
     void fooGet(ServerRequest request, ServerResponse response);
-
-
 }

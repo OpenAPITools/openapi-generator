@@ -1,6 +1,7 @@
 package org.openapitools.server.api;
 
 import org.openapitools.server.model.Client;
+import java.util.HexFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.helidon.http.Status;
 
@@ -28,6 +29,4 @@ public interface AnotherFakeService extends HttpService {
      * @param response the server response
      */
     void call123testSpecialTags(ServerRequest request, ServerResponse response);
-
-
 }
