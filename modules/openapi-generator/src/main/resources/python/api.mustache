@@ -176,7 +176,7 @@ class {{classname}}:
         {{#constantParams}}
         {{#isQueryParam}}
         # Set client side default value of Query Param "{{baseName}}".
-        _query_params['{{baseName}}'] = {{#_enum}}'{{{.}}}'{{/_enum}}
+        _query_params.append(('{{baseName}}', {{#_enum}}'{{{.}}}'{{/_enum}}))
         {{/isQueryParam}}
         {{#isHeaderParam}}
         # Set client side default value of Header Param "{{baseName}}".
