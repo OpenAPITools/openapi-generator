@@ -645,7 +645,8 @@ public abstract class UserService implements HttpService {
             return request.path()
                 .pathParameters()
                 .first("username")
-                .asOptional()                .orElse(null);
+                .asOptional()
+                .orElse(null);
         }
 
         /**
@@ -776,7 +777,8 @@ public abstract class UserService implements HttpService {
             return request.path()
                 .pathParameters()
                 .first("username")
-                .asOptional()                .orElse(null);
+                .asOptional()
+                .orElse(null);
         }
 
         /**
@@ -960,7 +962,8 @@ public abstract class UserService implements HttpService {
         protected String username(ServerRequest request, ValidatorUtils.Validator validator) {
             return request.query()
                 .first("username")
-                .asOptional()                .orElse(null);
+                .asOptional()
+                .orElse(null);
         }
 
         /**
@@ -973,7 +976,8 @@ public abstract class UserService implements HttpService {
         protected String password(ServerRequest request, ValidatorUtils.Validator validator) {
             return request.query()
                 .first("password")
-                .asOptional()                .orElse(null);
+                .asOptional()
+                .orElse(null);
         }
 
         /**
@@ -1231,7 +1235,8 @@ public abstract class UserService implements HttpService {
             return request.path()
                 .pathParameters()
                 .first("username")
-                .asOptional()                .orElse(null);
+                .asOptional()
+                .orElse(null);
         }
 
         /**

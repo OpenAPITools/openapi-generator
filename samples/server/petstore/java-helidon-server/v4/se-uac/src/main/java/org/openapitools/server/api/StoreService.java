@@ -177,7 +177,8 @@ public abstract class StoreService implements HttpService {
             return request.path()
                 .pathParameters()
                 .first("order_id")
-                .asOptional()                .orElse(null);
+                .asOptional()
+                .orElse(null);
         }
 
         /**
@@ -396,7 +397,8 @@ public abstract class StoreService implements HttpService {
                 .pathParameters()
                 .first("order_id")
                 .asOptional()
-                .map(Long::valueOf)                .orElse(null);
+                .map(Long::valueOf)
+                .orElse(null);
         }
 
         /**

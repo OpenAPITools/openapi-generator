@@ -2089,7 +2089,8 @@ public abstract class FakeService implements HttpService {
         protected String query(ServerRequest request, ValidatorUtils.Validator validator) {
             return request.query()
                 .first("query")
-                .asOptional()                .orElse(null);
+                .asOptional()
+                .orElse(null);
         }
 
         /**
@@ -2291,7 +2292,8 @@ public abstract class FakeService implements HttpService {
             return formParams
                 .first("number")
                 .asOptional()
-                .map(BigDecimal::new)                .orElse(null);
+                .map(BigDecimal::new)
+                .orElse(null);
         }
 
         /**
@@ -2305,7 +2307,8 @@ public abstract class FakeService implements HttpService {
             return formParams
                 .first("double")
                 .asOptional()
-                .map(Double::valueOf)                .orElse(null);
+                .map(Double::valueOf)
+                .orElse(null);
         }
 
         /**
@@ -2318,7 +2321,8 @@ public abstract class FakeService implements HttpService {
         protected String patternWithoutDelimiter(ServerRequest request, Parameters formParams, ValidatorUtils.Validator validator) {
             return formParams
                 .first("pattern_without_delimiter")
-                .asOptional()                .orElse(null);
+                .asOptional()
+                .orElse(null);
         }
 
         /**
@@ -2332,7 +2336,8 @@ public abstract class FakeService implements HttpService {
             return formParams
                 .first("byte")
                 .asOptional()
-                .map(HexFormat.of()::parseHex)                .orElse(null);
+                .map(HexFormat.of()::parseHex)
+                .orElse(null);
         }
 
         /**
@@ -2882,7 +2887,8 @@ public abstract class FakeService implements HttpService {
             return request.query()
                 .first("required_string_group")
                 .asOptional()
-                .map(Integer::valueOf)                .orElse(null);
+                .map(Integer::valueOf)
+                .orElse(null);
         }
 
         /**
@@ -2895,7 +2901,8 @@ public abstract class FakeService implements HttpService {
         protected Boolean requiredBooleanGroup(ServerRequest request, ValidatorUtils.Validator validator) {
             return request.headers()
                 .first(HeaderNames.create("required_boolean_group"))
-                .map(Boolean::valueOf)                .orElse(null);
+                .map(Boolean::valueOf)
+                .orElse(null);
         }
 
         /**
@@ -2909,7 +2916,8 @@ public abstract class FakeService implements HttpService {
             return request.query()
                 .first("required_int64_group")
                 .asOptional()
-                .map(Long::valueOf)                .orElse(null);
+                .map(Long::valueOf)
+                .orElse(null);
         }
 
         /**
@@ -3214,7 +3222,8 @@ public abstract class FakeService implements HttpService {
         protected String param(ServerRequest request, Parameters formParams, ValidatorUtils.Validator validator) {
             return formParams
                 .first("param")
-                .asOptional()                .orElse(null);
+                .asOptional()
+                .orElse(null);
         }
 
         /**
@@ -3227,7 +3236,8 @@ public abstract class FakeService implements HttpService {
         protected String param2(ServerRequest request, Parameters formParams, ValidatorUtils.Validator validator) {
             return formParams
                 .first("param2")
-                .asOptional()                .orElse(null);
+                .asOptional()
+                .orElse(null);
         }
 
         /**
@@ -3478,7 +3488,8 @@ public abstract class FakeService implements HttpService {
         protected String allowEmpty(ServerRequest request, ValidatorUtils.Validator validator) {
             return request.query()
                 .first("allowEmpty")
-                .asOptional()                .orElse(null);
+                .asOptional()
+                .orElse(null);
         }
 
         /**
