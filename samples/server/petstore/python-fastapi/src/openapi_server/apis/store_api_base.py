@@ -11,7 +11,7 @@ class BaseStoreApi:
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         BaseStoreApi.subclasses = BaseStoreApi.subclasses + (cls,)
-    def delete_order(
+    async def delete_order(
         self,
         orderId: str,
     ) -> None:
@@ -19,14 +19,14 @@ class BaseStoreApi:
         ...
 
 
-    def get_inventory(
+    async def get_inventory(
         self,
     ) -> Dict[str, int]:
         """Returns a map of status codes to quantities"""
         ...
 
 
-    def get_order_by_id(
+    async def get_order_by_id(
         self,
         orderId: int,
     ) -> Order:
@@ -34,7 +34,7 @@ class BaseStoreApi:
         ...
 
 
-    def place_order(
+    async def place_order(
         self,
         order: Order,
     ) -> Order:
