@@ -89,17 +89,17 @@ import org.openapitools.client.api.DefaultApi;
 public class DefaultApiExample {
 
     public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        ApiClient defaultClient = new ApiClient();
         defaultClient.setBasePath("http://localhost");
         
         DefaultApi apiInstance = new DefaultApi(defaultClient);
         try {
             List<ByteArrayObject> result = apiInstance.nullableArrayTestGet();
             System.out.println(result);
-        } catch (ApiException e) {
+        } catch (HttpStatusCodeException e) {
             System.err.println("Exception when calling DefaultApi#nullableArrayTestGet");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Status code: " + e.getStatusCode().value());
+            System.err.println("Reason: " + e.getResponseBodyAsString());
             System.err.println("Response headers: " + e.getResponseHeaders());
             e.printStackTrace();
         }
