@@ -183,6 +183,15 @@ public class GoServerCodegen extends AbstractGoCodegen {
     }
 
     @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+
+        if (!parameter.required) {
+            parameter.dataType = "*" + parameter.dataType;
+        }
+    }
+
+    @Override
     public void processOpts() {
         super.processOpts();
         /*
