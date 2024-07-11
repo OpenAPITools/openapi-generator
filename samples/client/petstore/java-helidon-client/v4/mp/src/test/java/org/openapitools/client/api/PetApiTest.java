@@ -15,6 +15,7 @@ package org.openapitools.client.api;
 
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
+import java.util.Optional;
 import org.openapitools.client.model.Pet;
 import java.util.Set;
 

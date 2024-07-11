@@ -14,6 +14,7 @@
 package org.openapitools.client.api;
 
 import java.time.OffsetDateTime;
+import java.util.Optional;
 import org.openapitools.client.model.User;
 
 import org.junit.jupiter.api.BeforeAll;
