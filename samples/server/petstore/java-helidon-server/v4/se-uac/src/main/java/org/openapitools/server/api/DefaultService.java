@@ -132,7 +132,7 @@ public abstract class DefaultService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>

@@ -44,6 +44,7 @@ public abstract class FakeClassnameTags123Service implements HttpService {
 
         // Parameter: Client
         Client client = testClassname.client(request, validator);
+        validator.require("client", client);
 
         validator.execute();
 
@@ -146,7 +147,7 @@ public abstract class FakeClassnameTags123Service implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>

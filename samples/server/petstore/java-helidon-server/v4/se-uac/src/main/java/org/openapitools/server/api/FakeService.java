@@ -156,6 +156,7 @@ public abstract class FakeService implements HttpService {
 
         // Parameter: Pet
         Pet pet = fakeHttpSignatureTest.pet(request, validator);
+        validator.require("pet", pet);
 
 
         // Parameter: query_1
@@ -315,6 +316,7 @@ public abstract class FakeService implements HttpService {
 
         // Parameter: OuterObjectWithEnumProperty
         OuterObjectWithEnumProperty outerObjectWithEnumProperty = fakePropertyEnumIntegerSerialize.outerObjectWithEnumProperty(request, validator);
+        validator.require("outerObjectWithEnumProperty", outerObjectWithEnumProperty);
 
         validator.execute();
 
@@ -344,6 +346,7 @@ public abstract class FakeService implements HttpService {
 
         // Parameter: request_body
         Map<String, Object> requestBody = testAdditionalPropertiesReference.requestBody(request, validator);
+        validator.require("requestBody", requestBody);
 
         validator.execute();
 
@@ -373,6 +376,7 @@ public abstract class FakeService implements HttpService {
 
         // Parameter: body
         InputStream body = testBodyWithBinary.body(request, validator);
+        validator.require("body", body);
 
         validator.execute();
 
@@ -402,6 +406,7 @@ public abstract class FakeService implements HttpService {
 
         // Parameter: FileSchemaTestClass
         FileSchemaTestClass fileSchemaTestClass = testBodyWithFileSchema.fileSchemaTestClass(request, validator);
+        validator.require("fileSchemaTestClass", fileSchemaTestClass);
 
         validator.execute();
 
@@ -436,6 +441,7 @@ public abstract class FakeService implements HttpService {
 
         // Parameter: User
         User user = testBodyWithQueryParams.user(request, validator);
+        validator.require("user", user);
 
         validator.execute();
 
@@ -468,6 +474,7 @@ public abstract class FakeService implements HttpService {
 
         // Parameter: Client
         Client client = testClientModel.client(request, validator);
+        validator.require("client", client);
 
         validator.execute();
 
@@ -789,6 +796,7 @@ public abstract class FakeService implements HttpService {
 
         // Parameter: request_body
         Map<String, String> requestBody = testInlineAdditionalProperties.requestBody(request, validator);
+        validator.require("requestBody", requestBody);
 
         validator.execute();
 
@@ -818,6 +826,7 @@ public abstract class FakeService implements HttpService {
 
         // Parameter: TestInlineFreeformAdditionalPropertiesRequest
         TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = testInlineFreeformAdditionalProperties.testInlineFreeformAdditionalPropertiesRequest(request, validator);
+        validator.require("testInlineFreeformAdditionalPropertiesRequest", testInlineFreeformAdditionalPropertiesRequest);
 
         validator.execute();
 
@@ -888,6 +897,7 @@ public abstract class FakeService implements HttpService {
 
         // Parameter: ChildWithNullable
         ChildWithNullable childWithNullable = testNullable.childWithNullable(request, validator);
+        validator.require("childWithNullable", childWithNullable);
 
         validator.execute();
 
@@ -994,6 +1004,7 @@ public abstract class FakeService implements HttpService {
 
         // Parameter: request_body
         Map<String, String> requestBody = testStringMapReference.requestBody(request, validator);
+        validator.require("requestBody", requestBody);
 
         validator.execute();
 
@@ -1083,7 +1094,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -1197,7 +1208,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -1346,7 +1357,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -1459,7 +1470,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -1586,7 +1597,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -1713,7 +1724,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -1840,7 +1851,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -1967,7 +1978,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -2091,7 +2102,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -2201,7 +2212,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -2311,7 +2322,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -2435,7 +2446,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -2548,7 +2559,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -2855,7 +2866,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -2919,7 +2930,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -3181,7 +3192,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -3245,7 +3256,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -3427,7 +3438,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -3537,7 +3548,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -3647,7 +3658,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -3772,7 +3783,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -3882,7 +3893,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -4084,7 +4095,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -4194,7 +4205,7 @@ public abstract class FakeService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>

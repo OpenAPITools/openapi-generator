@@ -64,6 +64,7 @@ public abstract class UserService implements HttpService {
 
         // Parameter: User
         User user = createUser.user(request, validator);
+        validator.require("user", user);
 
         validator.execute();
 
@@ -93,6 +94,7 @@ public abstract class UserService implements HttpService {
 
         // Parameter: User
         List<@Valid User> user = createUsersWithArrayInput.user(request, validator);
+        validator.require("user", user);
 
         validator.execute();
 
@@ -122,6 +124,7 @@ public abstract class UserService implements HttpService {
 
         // Parameter: User
         List<@Valid User> user = createUsersWithListInput.user(request, validator);
+        validator.require("user", user);
 
         validator.execute();
 
@@ -273,6 +276,7 @@ public abstract class UserService implements HttpService {
 
         // Parameter: User
         User user = updateUser.user(request, validator);
+        validator.require("user", user);
 
         validator.execute();
 
@@ -384,7 +388,7 @@ public abstract class UserService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -515,7 +519,7 @@ public abstract class UserService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -646,7 +650,7 @@ public abstract class UserService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -770,7 +774,7 @@ public abstract class UserService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -834,7 +838,7 @@ public abstract class UserService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -949,7 +953,7 @@ public abstract class UserService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -1027,7 +1031,7 @@ public abstract class UserService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -1091,7 +1095,7 @@ public abstract class UserService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -1225,7 +1229,7 @@ public abstract class UserService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -1327,7 +1331,7 @@ public abstract class UserService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -1433,7 +1437,7 @@ public abstract class UserService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -1570,7 +1574,7 @@ public abstract class UserService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
@@ -1634,7 +1638,7 @@ public abstract class UserService implements HttpService {
                      * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                      * assigning the HTTP status, any response headers, and any response entity.
                      * <p>
-                     *     Equilvalent to {@snippet:
+                     *     Equivalent to {@snippet :
                      *     build().apply(serverResponse);
                      *     }
                      * </p>
