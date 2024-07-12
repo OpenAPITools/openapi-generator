@@ -413,7 +413,7 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
-        OperationMap operations = objs.getOperations();objs.
+        OperationMap operations = objs.getOperations();
         if (HELIDON_MP.equals(getLibrary())) {
             return AbstractJavaJAXRSServerCodegen.jaxrsPostProcessOperations(objs);
         }
