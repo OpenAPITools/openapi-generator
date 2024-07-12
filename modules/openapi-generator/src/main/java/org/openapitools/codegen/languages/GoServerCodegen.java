@@ -186,9 +186,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
 
-        if (!parameter.required) {
-            parameter.dataType = "*" + parameter.dataType;
-        }
+        parameter.isNullable = parameter.notRequiredOrIsNullable();
     }
 
     @Override
