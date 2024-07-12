@@ -18,7 +18,11 @@ import io.helidon.webserver.{{^x-helidon-v3}}http.{{/x-helidon-v3}}ServerRespons
 import io.helidon.webserver.{{^x-helidon-v3}}http.Http{{/x-helidon-v3}}Service;
 
 {{#operations}}
-{{^useAbstractClass}}public interface {{classname}} extends {{^x-helidon-v3}}Http{{/x-helidon-v3}}Service { {{/useAbstractClass}}
+{{^x-helidon-v3}}
+@io.helidon.common.Generated(value = "{{additionalProperties.generatorClass}}",
+                             trigger = "tag = '{{baseName}}'",
+                             version = "{{generatorVersion}}"){{/x-helidon-v3}}{{!
+}}{{^useAbstractClass}}public interface {{classname}} extends {{^x-helidon-v3}}Http{{/x-helidon-v3}}Service { {{/useAbstractClass}}
 {{#useAbstractClass}}public abstract class {{classname}} implements {{^x-helidon-v3}}Http{{/x-helidon-v3}}Service {
 
     protected static final Logger LOGGER = Logger.getLogger({{classname}}.class.getName());

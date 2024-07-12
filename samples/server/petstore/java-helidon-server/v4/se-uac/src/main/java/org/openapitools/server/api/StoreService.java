@@ -14,7 +14,9 @@ import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
 import io.helidon.webserver.http.HttpService;
 
-
+@io.helidon.common.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen",
+                             trigger = "tag = 'Store'",
+                             version = "7.8.0-SNAPSHOT")
 public abstract class StoreService implements HttpService {
 
     protected static final Logger LOGGER = Logger.getLogger(StoreService.class.getName());
@@ -163,9 +165,20 @@ public abstract class StoreService implements HttpService {
     }
 
     /**
-     * Helper elements for the deleteOrder operation.
+     * Helper elements for the {@code deleteOrder} operation.
+     * <p>
+     * Also below are records for each response declared in the OpenAPI document, organized by response status.
+     * <p>
+     *     Once your code determines which (if any) declared response to send it can use the static {@code builder} method for
+     *     that specific result, passing the required elements of the response as parameters, and then assign any optional
+     *     response elements using the other builder methods.
+     * <p>
+     *     Finally, your code should invoke the {@code apply} method, passing the original {@link ServerResponse}. The
+     *     generated method sets any headers you have assigned, sets the correct status in the response, and sends
+     *     the response including any appropriate entity.
+     * </p>
      */
-    static protected class DeleteOrder {
+    public static class DeleteOrder {
 
         /**
          * Prepares the orderId parameter.
@@ -183,145 +196,130 @@ public abstract class StoreService implements HttpService {
         }
 
         /**
-         * Responses for operation {@code deleteOrder} organized by response status.
-         * <p>
-         *     Once your code determines which (if any) response to send it can use the static {@code create} method for that
-         *     specific result, passing the required elements of the response as parameters, and then assign any optional
-         *     response elements using the record fields or their setter methods.
-         * <p>
-         *     Finally, your code should invoke the {@code apply} method, passing the original {@link ServerResponse}. The
-         *     generated method sets any headers you have assigned, sets the correct status in the response, and sends
-         *     the response including any appropriate entity.
-         * </p>
+         * Result for HTTP status code {@code 400}.
          */
-        interface Result {
+        record result400() {
 
             /**
-             * Result for HTTP status code {@code 400}.
+             * Creates a result builder for the status {@code 400} result
+             * for the deleteOrder operation; there are no required result values for this response.
+             *
+             * @return new builder for status 400
              */
-            record S400()     {
+            static Builder builder() {
+                return new Builder();
+            }
 
-                /**
-                 * Creates a result builder for the status {@code 400} result
-                 * for the deleteOrder operation; there are no required result values for this response.
-                 *
-                 * @return new builder for status 400
-                 */
-                static Builder builder() {
-                    return new Builder();
+            /**
+             * Sets the declared HTTP status and sends the response.
+             *
+             */
+            static void send(ServerResponse serverResponse) {
+                builder().apply(serverResponse);
+            }
+
+            /**
+             * Builder for the result400 result.
+             */
+            static class Builder implements io.helidon.common.Builder<Builder, result400> {
+
+
+                @Override
+                public result400 build() {
+                    return new result400();
                 }
 
                 /**
-                 * Sets the declared HTTP status and sends the response.
+                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * assigning the HTTP status, any response headers, and any response entity.
+                 * <p>
+                 *     Equivalent to {@snippet :
+                 *     build().apply(serverResponse);
+                 *     }
+                 * </p>
                  *
+                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                static void send(ServerResponse serverResponse) {
-                    builder().apply(serverResponse);
-                }
-
-                /**
-                 * Builder for the S400 result.
-                 */
-                static class Builder implements io.helidon.common.Builder<Builder, S400> {
-
-
-                    @Override
-                    public S400 build() {
-                        return new S400();
-                    }
-
-                    /**
-                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
-                     * assigning the HTTP status, any response headers, and any response entity.
-                     * <p>
-                     *     Equivalent to {@snippet :
-                     *     build().apply(serverResponse);
-                     *     }
-                     * </p>
-                     *
-                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
-                     */
-                    void apply(ServerResponse serverResponse) {
-                        build().apply(serverResponse);
-                    }
-                }
-
-                /**
-                 * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
-                 * HTTP status, any response headers, and any response entity.
-                 *
-                 * @param serverResponse the server response to which to apply these result values
-                 * @return the updated server response
-                 */
-                ServerResponse apply(ServerResponse serverResponse) {
-                    serverResponse.status(Status.create(400));
-                    serverResponse.send();
-                    return serverResponse;
+                void apply(ServerResponse serverResponse) {
+                    build().apply(serverResponse);
                 }
             }
 
             /**
-             * Result for HTTP status code {@code 404}.
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             *
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
              */
-            record S404()     {
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(400));
+                serverResponse.send();
+                return serverResponse;
+            }
+        }
+
+        /**
+         * Result for HTTP status code {@code 404}.
+         */
+        record result404() {
+
+            /**
+             * Creates a result builder for the status {@code 404} result
+             * for the deleteOrder operation; there are no required result values for this response.
+             *
+             * @return new builder for status 404
+             */
+            static Builder builder() {
+                return new Builder();
+            }
+
+            /**
+             * Sets the declared HTTP status and sends the response.
+             *
+             */
+            static void send(ServerResponse serverResponse) {
+                builder().apply(serverResponse);
+            }
+
+            /**
+             * Builder for the result404 result.
+             */
+            static class Builder implements io.helidon.common.Builder<Builder, result404> {
+
+
+                @Override
+                public result404 build() {
+                    return new result404();
+                }
 
                 /**
-                 * Creates a result builder for the status {@code 404} result
-                 * for the deleteOrder operation; there are no required result values for this response.
+                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * assigning the HTTP status, any response headers, and any response entity.
+                 * <p>
+                 *     Equivalent to {@snippet :
+                 *     build().apply(serverResponse);
+                 *     }
+                 * </p>
                  *
-                 * @return new builder for status 404
+                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                static Builder builder() {
-                    return new Builder();
+                void apply(ServerResponse serverResponse) {
+                    build().apply(serverResponse);
                 }
+            }
 
-                /**
-                 * Sets the declared HTTP status and sends the response.
-                 *
-                 */
-                static void send(ServerResponse serverResponse) {
-                    builder().apply(serverResponse);
-                }
-
-                /**
-                 * Builder for the S404 result.
-                 */
-                static class Builder implements io.helidon.common.Builder<Builder, S404> {
-
-
-                    @Override
-                    public S404 build() {
-                        return new S404();
-                    }
-
-                    /**
-                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
-                     * assigning the HTTP status, any response headers, and any response entity.
-                     * <p>
-                     *     Equivalent to {@snippet :
-                     *     build().apply(serverResponse);
-                     *     }
-                     * </p>
-                     *
-                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
-                     */
-                    void apply(ServerResponse serverResponse) {
-                        build().apply(serverResponse);
-                    }
-                }
-
-                /**
-                 * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
-                 * HTTP status, any response headers, and any response entity.
-                 *
-                 * @param serverResponse the server response to which to apply these result values
-                 * @return the updated server response
-                 */
-                ServerResponse apply(ServerResponse serverResponse) {
-                    serverResponse.status(Status.create(404));
-                    serverResponse.send();
-                    return serverResponse;
-                }
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             *
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(404));
+                serverResponse.send();
+                return serverResponse;
             }
         }
     }
@@ -339,103 +337,99 @@ public abstract class StoreService implements HttpService {
     }
 
     /**
-     * Helper elements for the getInventory operation.
+     * Helper elements for the {@code getInventory} operation.
+     * <p>
+     * Also below are records for each response declared in the OpenAPI document, organized by response status.
+     * <p>
+     *     Once your code determines which (if any) declared response to send it can use the static {@code builder} method for
+     *     that specific result, passing the required elements of the response as parameters, and then assign any optional
+     *     response elements using the other builder methods.
+     * <p>
+     *     Finally, your code should invoke the {@code apply} method, passing the original {@link ServerResponse}. The
+     *     generated method sets any headers you have assigned, sets the correct status in the response, and sends
+     *     the response including any appropriate entity.
+     * </p>
      */
-    static protected class GetInventory {
+    public static class GetInventory {
 
         /**
-         * Responses for operation {@code getInventory} organized by response status.
-         * <p>
-         *     Once your code determines which (if any) response to send it can use the static {@code create} method for that
-         *     specific result, passing the required elements of the response as parameters, and then assign any optional
-         *     response elements using the record fields or their setter methods.
-         * <p>
-         *     Finally, your code should invoke the {@code apply} method, passing the original {@link ServerResponse}. The
-         *     generated method sets any headers you have assigned, sets the correct status in the response, and sends
-         *     the response including any appropriate entity.
-         * </p>
+         * Result for HTTP status code {@code 200}.
+        *
+         * @param response 
          */
-        interface Result {
+        record result200(Map<String, Integer> response) {
 
             /**
-             * Result for HTTP status code {@code 200}.
-            *
-             * @param response 
+             * Creates a result builder for the status {@code 200} result
+             * for the getInventory operation; there are no required result values for this response.
+             *
+             * @return new builder for status 200
              */
-            record S200(Map<String, Integer> response)     {
+            static Builder builder() {
+                return new Builder();
+            }
+
+            /**
+             * Sets the declared HTTP status and sends the response.
+             *
+             */
+            static void send(ServerResponse serverResponse) {
+                builder().apply(serverResponse);
+            }
+
+            /**
+             * Builder for the result200 result.
+             */
+            static class Builder implements io.helidon.common.Builder<Builder, result200> {
+
+                private Map<String, Integer> response;
+
+                @Override
+                public result200 build() {
+                    return new result200(response);
+                }
 
                 /**
-                 * Creates a result builder for the status {@code 200} result
-                 * for the getInventory operation; there are no required result values for this response.
+                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * assigning the HTTP status, any response headers, and any response entity.
+                 * <p>
+                 *     Equivalent to {@snippet :
+                 *     build().apply(serverResponse);
+                 *     }
+                 * </p>
                  *
-                 * @return new builder for status 200
+                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                static Builder builder() {
-                    return new Builder();
+                void apply(ServerResponse serverResponse) {
+                    build().apply(serverResponse);
                 }
 
                 /**
-                 * Sets the declared HTTP status and sends the response.
-                 *
+                 * Sets the value for the optional return property {@code response}.
+                 * @param response 
+                 * @return updated result builder
                  */
-                static void send(ServerResponse serverResponse) {
-                    builder().apply(serverResponse);
+                Builder response(Map<String, Integer> response) {
+                    this.response = response;
+                    return this;
                 }
+            }
 
-                /**
-                 * Builder for the S200 result.
-                 */
-                static class Builder implements io.helidon.common.Builder<Builder, S200> {
-
-                    private Map<String, Integer> response;
-
-                    @Override
-                    public S200 build() {
-                        return new S200(response);
-                    }
-
-                    /**
-                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
-                     * assigning the HTTP status, any response headers, and any response entity.
-                     * <p>
-                     *     Equivalent to {@snippet :
-                     *     build().apply(serverResponse);
-                     *     }
-                     * </p>
-                     *
-                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
-                     */
-                    void apply(ServerResponse serverResponse) {
-                        build().apply(serverResponse);
-                    }
-
-                    /**
-                     * Sets the value for the optional return property {@code response}.
-                     * @param response 
-                     * @return updated result builder
-                     */
-                    Builder response(Map<String, Integer> response) {
-                        this.response = response;
-                        return this;
-                    }
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             *
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(200));
+                if (response != null) { 
+                serverResponse.send(response);
+                } else {
+                    serverResponse.send();
                 }
-
-                /**
-                 * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
-                 * HTTP status, any response headers, and any response entity.
-                 *
-                 * @param serverResponse the server response to which to apply these result values
-                 * @return the updated server response
-                 */
-                ServerResponse apply(ServerResponse serverResponse) {
-                    serverResponse.status(Status.create(200));
-                    if (response != null) { 
-                        serverResponse.send(response);
-                    } else {
-                        serverResponse.send();
-                    }
-                    return serverResponse;
-                }
+                return serverResponse;
             }
         }
     }
@@ -453,9 +447,20 @@ public abstract class StoreService implements HttpService {
     }
 
     /**
-     * Helper elements for the getOrderById operation.
+     * Helper elements for the {@code getOrderById} operation.
+     * <p>
+     * Also below are records for each response declared in the OpenAPI document, organized by response status.
+     * <p>
+     *     Once your code determines which (if any) declared response to send it can use the static {@code builder} method for
+     *     that specific result, passing the required elements of the response as parameters, and then assign any optional
+     *     response elements using the other builder methods.
+     * <p>
+     *     Finally, your code should invoke the {@code apply} method, passing the original {@link ServerResponse}. The
+     *     generated method sets any headers you have assigned, sets the correct status in the response, and sends
+     *     the response including any appropriate entity.
+     * </p>
      */
-    static protected class GetOrderById {
+    public static class GetOrderById {
 
         /**
          * Prepares the orderId parameter.
@@ -474,226 +479,211 @@ public abstract class StoreService implements HttpService {
         }
 
         /**
-         * Responses for operation {@code getOrderById} organized by response status.
-         * <p>
-         *     Once your code determines which (if any) response to send it can use the static {@code create} method for that
-         *     specific result, passing the required elements of the response as parameters, and then assign any optional
-         *     response elements using the record fields or their setter methods.
-         * <p>
-         *     Finally, your code should invoke the {@code apply} method, passing the original {@link ServerResponse}. The
-         *     generated method sets any headers you have assigned, sets the correct status in the response, and sends
-         *     the response including any appropriate entity.
-         * </p>
+         * Result for HTTP status code {@code 200}.
+        *
+         * @param response 
          */
-        interface Result {
+        record result200(Order response) {
 
             /**
-             * Result for HTTP status code {@code 200}.
-            *
-             * @param response 
+             * Creates a result builder for the status {@code 200} result
+             * for the getOrderById operation; there are no required result values for this response.
+             *
+             * @return new builder for status 200
              */
-            record S200(Order response)     {
+            static Builder builder() {
+                return new Builder();
+            }
 
-                /**
-                 * Creates a result builder for the status {@code 200} result
-                 * for the getOrderById operation; there are no required result values for this response.
-                 *
-                 * @return new builder for status 200
-                 */
-                static Builder builder() {
-                    return new Builder();
+            /**
+             * Sets the declared HTTP status and sends the response.
+             *
+             */
+            static void send(ServerResponse serverResponse) {
+                builder().apply(serverResponse);
+            }
+
+            /**
+             * Builder for the result200 result.
+             */
+            static class Builder implements io.helidon.common.Builder<Builder, result200> {
+
+                private Order response;
+
+                @Override
+                public result200 build() {
+                    return new result200(response);
                 }
 
                 /**
-                 * Sets the declared HTTP status and sends the response.
+                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * assigning the HTTP status, any response headers, and any response entity.
+                 * <p>
+                 *     Equivalent to {@snippet :
+                 *     build().apply(serverResponse);
+                 *     }
+                 * </p>
                  *
+                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                static void send(ServerResponse serverResponse) {
-                    builder().apply(serverResponse);
+                void apply(ServerResponse serverResponse) {
+                    build().apply(serverResponse);
                 }
 
                 /**
-                 * Builder for the S200 result.
+                 * Sets the value for the optional return property {@code response}.
+                 * @param response 
+                 * @return updated result builder
                  */
-                static class Builder implements io.helidon.common.Builder<Builder, S200> {
-
-                    private Order response;
-
-                    @Override
-                    public S200 build() {
-                        return new S200(response);
-                    }
-
-                    /**
-                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
-                     * assigning the HTTP status, any response headers, and any response entity.
-                     * <p>
-                     *     Equivalent to {@snippet :
-                     *     build().apply(serverResponse);
-                     *     }
-                     * </p>
-                     *
-                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
-                     */
-                    void apply(ServerResponse serverResponse) {
-                        build().apply(serverResponse);
-                    }
-
-                    /**
-                     * Sets the value for the optional return property {@code response}.
-                     * @param response 
-                     * @return updated result builder
-                     */
-                    Builder response(Order response) {
-                        this.response = response;
-                        return this;
-                    }
-                }
-
-                /**
-                 * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
-                 * HTTP status, any response headers, and any response entity.
-                 *
-                 * @param serverResponse the server response to which to apply these result values
-                 * @return the updated server response
-                 */
-                ServerResponse apply(ServerResponse serverResponse) {
-                    serverResponse.status(Status.create(200));
-                    if (response != null) { 
-                        serverResponse.send(response);
-                    } else {
-                        serverResponse.send();
-                    }
-                    return serverResponse;
+                Builder response(Order response) {
+                    this.response = response;
+                    return this;
                 }
             }
 
             /**
-             * Result for HTTP status code {@code 400}.
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             *
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
              */
-            record S400()     {
-
-                /**
-                 * Creates a result builder for the status {@code 400} result
-                 * for the getOrderById operation; there are no required result values for this response.
-                 *
-                 * @return new builder for status 400
-                 */
-                static Builder builder() {
-                    return new Builder();
-                }
-
-                /**
-                 * Sets the declared HTTP status and sends the response.
-                 *
-                 */
-                static void send(ServerResponse serverResponse) {
-                    builder().apply(serverResponse);
-                }
-
-                /**
-                 * Builder for the S400 result.
-                 */
-                static class Builder implements io.helidon.common.Builder<Builder, S400> {
-
-
-                    @Override
-                    public S400 build() {
-                        return new S400();
-                    }
-
-                    /**
-                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
-                     * assigning the HTTP status, any response headers, and any response entity.
-                     * <p>
-                     *     Equivalent to {@snippet :
-                     *     build().apply(serverResponse);
-                     *     }
-                     * </p>
-                     *
-                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
-                     */
-                    void apply(ServerResponse serverResponse) {
-                        build().apply(serverResponse);
-                    }
-                }
-
-                /**
-                 * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
-                 * HTTP status, any response headers, and any response entity.
-                 *
-                 * @param serverResponse the server response to which to apply these result values
-                 * @return the updated server response
-                 */
-                ServerResponse apply(ServerResponse serverResponse) {
-                    serverResponse.status(Status.create(400));
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(200));
+                if (response != null) { 
+                serverResponse.send(response);
+                } else {
                     serverResponse.send();
-                    return serverResponse;
+                }
+                return serverResponse;
+            }
+        }
+
+        /**
+         * Result for HTTP status code {@code 400}.
+         */
+        record result400() {
+
+            /**
+             * Creates a result builder for the status {@code 400} result
+             * for the getOrderById operation; there are no required result values for this response.
+             *
+             * @return new builder for status 400
+             */
+            static Builder builder() {
+                return new Builder();
+            }
+
+            /**
+             * Sets the declared HTTP status and sends the response.
+             *
+             */
+            static void send(ServerResponse serverResponse) {
+                builder().apply(serverResponse);
+            }
+
+            /**
+             * Builder for the result400 result.
+             */
+            static class Builder implements io.helidon.common.Builder<Builder, result400> {
+
+
+                @Override
+                public result400 build() {
+                    return new result400();
+                }
+
+                /**
+                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * assigning the HTTP status, any response headers, and any response entity.
+                 * <p>
+                 *     Equivalent to {@snippet :
+                 *     build().apply(serverResponse);
+                 *     }
+                 * </p>
+                 *
+                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 */
+                void apply(ServerResponse serverResponse) {
+                    build().apply(serverResponse);
                 }
             }
 
             /**
-             * Result for HTTP status code {@code 404}.
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             *
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
              */
-            record S404()     {
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(400));
+                serverResponse.send();
+                return serverResponse;
+            }
+        }
+
+        /**
+         * Result for HTTP status code {@code 404}.
+         */
+        record result404() {
+
+            /**
+             * Creates a result builder for the status {@code 404} result
+             * for the getOrderById operation; there are no required result values for this response.
+             *
+             * @return new builder for status 404
+             */
+            static Builder builder() {
+                return new Builder();
+            }
+
+            /**
+             * Sets the declared HTTP status and sends the response.
+             *
+             */
+            static void send(ServerResponse serverResponse) {
+                builder().apply(serverResponse);
+            }
+
+            /**
+             * Builder for the result404 result.
+             */
+            static class Builder implements io.helidon.common.Builder<Builder, result404> {
+
+
+                @Override
+                public result404 build() {
+                    return new result404();
+                }
 
                 /**
-                 * Creates a result builder for the status {@code 404} result
-                 * for the getOrderById operation; there are no required result values for this response.
+                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * assigning the HTTP status, any response headers, and any response entity.
+                 * <p>
+                 *     Equivalent to {@snippet :
+                 *     build().apply(serverResponse);
+                 *     }
+                 * </p>
                  *
-                 * @return new builder for status 404
+                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                static Builder builder() {
-                    return new Builder();
+                void apply(ServerResponse serverResponse) {
+                    build().apply(serverResponse);
                 }
+            }
 
-                /**
-                 * Sets the declared HTTP status and sends the response.
-                 *
-                 */
-                static void send(ServerResponse serverResponse) {
-                    builder().apply(serverResponse);
-                }
-
-                /**
-                 * Builder for the S404 result.
-                 */
-                static class Builder implements io.helidon.common.Builder<Builder, S404> {
-
-
-                    @Override
-                    public S404 build() {
-                        return new S404();
-                    }
-
-                    /**
-                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
-                     * assigning the HTTP status, any response headers, and any response entity.
-                     * <p>
-                     *     Equivalent to {@snippet :
-                     *     build().apply(serverResponse);
-                     *     }
-                     * </p>
-                     *
-                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
-                     */
-                    void apply(ServerResponse serverResponse) {
-                        build().apply(serverResponse);
-                    }
-                }
-
-                /**
-                 * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
-                 * HTTP status, any response headers, and any response entity.
-                 *
-                 * @param serverResponse the server response to which to apply these result values
-                 * @return the updated server response
-                 */
-                ServerResponse apply(ServerResponse serverResponse) {
-                    serverResponse.status(Status.create(404));
-                    serverResponse.send();
-                    return serverResponse;
-                }
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             *
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(404));
+                serverResponse.send();
+                return serverResponse;
             }
         }
     }
@@ -711,9 +701,20 @@ public abstract class StoreService implements HttpService {
     }
 
     /**
-     * Helper elements for the placeOrder operation.
+     * Helper elements for the {@code placeOrder} operation.
+     * <p>
+     * Also below are records for each response declared in the OpenAPI document, organized by response status.
+     * <p>
+     *     Once your code determines which (if any) declared response to send it can use the static {@code builder} method for
+     *     that specific result, passing the required elements of the response as parameters, and then assign any optional
+     *     response elements using the other builder methods.
+     * <p>
+     *     Finally, your code should invoke the {@code apply} method, passing the original {@link ServerResponse}. The
+     *     generated method sets any headers you have assigned, sets the correct status in the response, and sends
+     *     the response including any appropriate entity.
+     * </p>
      */
-    static protected class PlaceOrder {
+    public static class PlaceOrder {
 
         /**
          * Prepares the order parameter.
@@ -729,162 +730,147 @@ public abstract class StoreService implements HttpService {
         }
 
         /**
-         * Responses for operation {@code placeOrder} organized by response status.
-         * <p>
-         *     Once your code determines which (if any) response to send it can use the static {@code create} method for that
-         *     specific result, passing the required elements of the response as parameters, and then assign any optional
-         *     response elements using the record fields or their setter methods.
-         * <p>
-         *     Finally, your code should invoke the {@code apply} method, passing the original {@link ServerResponse}. The
-         *     generated method sets any headers you have assigned, sets the correct status in the response, and sends
-         *     the response including any appropriate entity.
-         * </p>
+         * Result for HTTP status code {@code 200}.
+        *
+         * @param response 
          */
-        interface Result {
+        record result200(Order response) {
 
             /**
-             * Result for HTTP status code {@code 200}.
-            *
-             * @param response 
+             * Creates a result builder for the status {@code 200} result
+             * for the placeOrder operation; there are no required result values for this response.
+             *
+             * @return new builder for status 200
              */
-            record S200(Order response)     {
+            static Builder builder() {
+                return new Builder();
+            }
 
-                /**
-                 * Creates a result builder for the status {@code 200} result
-                 * for the placeOrder operation; there are no required result values for this response.
-                 *
-                 * @return new builder for status 200
-                 */
-                static Builder builder() {
-                    return new Builder();
+            /**
+             * Sets the declared HTTP status and sends the response.
+             *
+             */
+            static void send(ServerResponse serverResponse) {
+                builder().apply(serverResponse);
+            }
+
+            /**
+             * Builder for the result200 result.
+             */
+            static class Builder implements io.helidon.common.Builder<Builder, result200> {
+
+                private Order response;
+
+                @Override
+                public result200 build() {
+                    return new result200(response);
                 }
 
                 /**
-                 * Sets the declared HTTP status and sends the response.
+                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * assigning the HTTP status, any response headers, and any response entity.
+                 * <p>
+                 *     Equivalent to {@snippet :
+                 *     build().apply(serverResponse);
+                 *     }
+                 * </p>
                  *
+                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                static void send(ServerResponse serverResponse) {
-                    builder().apply(serverResponse);
+                void apply(ServerResponse serverResponse) {
+                    build().apply(serverResponse);
                 }
 
                 /**
-                 * Builder for the S200 result.
+                 * Sets the value for the optional return property {@code response}.
+                 * @param response 
+                 * @return updated result builder
                  */
-                static class Builder implements io.helidon.common.Builder<Builder, S200> {
-
-                    private Order response;
-
-                    @Override
-                    public S200 build() {
-                        return new S200(response);
-                    }
-
-                    /**
-                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
-                     * assigning the HTTP status, any response headers, and any response entity.
-                     * <p>
-                     *     Equivalent to {@snippet :
-                     *     build().apply(serverResponse);
-                     *     }
-                     * </p>
-                     *
-                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
-                     */
-                    void apply(ServerResponse serverResponse) {
-                        build().apply(serverResponse);
-                    }
-
-                    /**
-                     * Sets the value for the optional return property {@code response}.
-                     * @param response 
-                     * @return updated result builder
-                     */
-                    Builder response(Order response) {
-                        this.response = response;
-                        return this;
-                    }
-                }
-
-                /**
-                 * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
-                 * HTTP status, any response headers, and any response entity.
-                 *
-                 * @param serverResponse the server response to which to apply these result values
-                 * @return the updated server response
-                 */
-                ServerResponse apply(ServerResponse serverResponse) {
-                    serverResponse.status(Status.create(200));
-                    if (response != null) { 
-                        serverResponse.send(response);
-                    } else {
-                        serverResponse.send();
-                    }
-                    return serverResponse;
+                Builder response(Order response) {
+                    this.response = response;
+                    return this;
                 }
             }
 
             /**
-             * Result for HTTP status code {@code 400}.
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             *
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
              */
-            record S400()     {
-
-                /**
-                 * Creates a result builder for the status {@code 400} result
-                 * for the placeOrder operation; there are no required result values for this response.
-                 *
-                 * @return new builder for status 400
-                 */
-                static Builder builder() {
-                    return new Builder();
-                }
-
-                /**
-                 * Sets the declared HTTP status and sends the response.
-                 *
-                 */
-                static void send(ServerResponse serverResponse) {
-                    builder().apply(serverResponse);
-                }
-
-                /**
-                 * Builder for the S400 result.
-                 */
-                static class Builder implements io.helidon.common.Builder<Builder, S400> {
-
-
-                    @Override
-                    public S400 build() {
-                        return new S400();
-                    }
-
-                    /**
-                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
-                     * assigning the HTTP status, any response headers, and any response entity.
-                     * <p>
-                     *     Equivalent to {@snippet :
-                     *     build().apply(serverResponse);
-                     *     }
-                     * </p>
-                     *
-                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
-                     */
-                    void apply(ServerResponse serverResponse) {
-                        build().apply(serverResponse);
-                    }
-                }
-
-                /**
-                 * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
-                 * HTTP status, any response headers, and any response entity.
-                 *
-                 * @param serverResponse the server response to which to apply these result values
-                 * @return the updated server response
-                 */
-                ServerResponse apply(ServerResponse serverResponse) {
-                    serverResponse.status(Status.create(400));
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(200));
+                if (response != null) { 
+                serverResponse.send(response);
+                } else {
                     serverResponse.send();
-                    return serverResponse;
                 }
+                return serverResponse;
+            }
+        }
+
+        /**
+         * Result for HTTP status code {@code 400}.
+         */
+        record result400() {
+
+            /**
+             * Creates a result builder for the status {@code 400} result
+             * for the placeOrder operation; there are no required result values for this response.
+             *
+             * @return new builder for status 400
+             */
+            static Builder builder() {
+                return new Builder();
+            }
+
+            /**
+             * Sets the declared HTTP status and sends the response.
+             *
+             */
+            static void send(ServerResponse serverResponse) {
+                builder().apply(serverResponse);
+            }
+
+            /**
+             * Builder for the result400 result.
+             */
+            static class Builder implements io.helidon.common.Builder<Builder, result400> {
+
+
+                @Override
+                public result400 build() {
+                    return new result400();
+                }
+
+                /**
+                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * assigning the HTTP status, any response headers, and any response entity.
+                 * <p>
+                 *     Equivalent to {@snippet :
+                 *     build().apply(serverResponse);
+                 *     }
+                 * </p>
+                 *
+                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 */
+                void apply(ServerResponse serverResponse) {
+                    build().apply(serverResponse);
+                }
+            }
+
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             *
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(400));
+                serverResponse.send();
+                return serverResponse;
             }
         }
     }

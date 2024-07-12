@@ -25,6 +25,9 @@ import io.helidon.http.media.MediaSupport;
 /**
  * Collectors with particular features useful from the generated code.
  */
+@io.helidon.common.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen",
+                             trigger = "utility",
+                             version = "7.8.0-SNAPSHOT")
 public final class HCollectors {
 
     private static final MediaSupport FORM_PARAMS_SUPPORT = FormParamsSupport.create();

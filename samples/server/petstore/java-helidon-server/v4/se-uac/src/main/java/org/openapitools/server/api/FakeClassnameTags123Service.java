@@ -13,7 +13,9 @@ import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
 import io.helidon.webserver.http.HttpService;
 
-
+@io.helidon.common.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen",
+                             trigger = "tag = 'FakeClassnameTags123'",
+                             version = "7.8.0-SNAPSHOT")
 public abstract class FakeClassnameTags123Service implements HttpService {
 
     protected static final Logger LOGGER = Logger.getLogger(FakeClassnameTags123Service.class.getName());
@@ -75,9 +77,20 @@ public abstract class FakeClassnameTags123Service implements HttpService {
     }
 
     /**
-     * Helper elements for the testClassname operation.
+     * Helper elements for the {@code testClassname} operation.
+     * <p>
+     * Also below are records for each response declared in the OpenAPI document, organized by response status.
+     * <p>
+     *     Once your code determines which (if any) declared response to send it can use the static {@code builder} method for
+     *     that specific result, passing the required elements of the response as parameters, and then assign any optional
+     *     response elements using the other builder methods.
+     * <p>
+     *     Finally, your code should invoke the {@code apply} method, passing the original {@link ServerResponse}. The
+     *     generated method sets any headers you have assigned, sets the correct status in the response, and sends
+     *     the response including any appropriate entity.
+     * </p>
      */
-    static protected class TestClassname {
+    public static class TestClassname {
 
         /**
          * Prepares the client parameter.
@@ -93,98 +106,83 @@ public abstract class FakeClassnameTags123Service implements HttpService {
         }
 
         /**
-         * Responses for operation {@code testClassname} organized by response status.
-         * <p>
-         *     Once your code determines which (if any) response to send it can use the static {@code create} method for that
-         *     specific result, passing the required elements of the response as parameters, and then assign any optional
-         *     response elements using the record fields or their setter methods.
-         * <p>
-         *     Finally, your code should invoke the {@code apply} method, passing the original {@link ServerResponse}. The
-         *     generated method sets any headers you have assigned, sets the correct status in the response, and sends
-         *     the response including any appropriate entity.
-         * </p>
+         * Result for HTTP status code {@code 200}.
+        *
+         * @param response 
          */
-        interface Result {
+        record result200(Client response) {
 
             /**
-             * Result for HTTP status code {@code 200}.
-            *
-             * @param response 
+             * Creates a result builder for the status {@code 200} result
+             * for the testClassname operation; there are no required result values for this response.
+             *
+             * @return new builder for status 200
              */
-            record S200(Client response)     {
+            static Builder builder() {
+                return new Builder();
+            }
+
+            /**
+             * Sets the declared HTTP status and sends the response.
+             *
+             */
+            static void send(ServerResponse serverResponse) {
+                builder().apply(serverResponse);
+            }
+
+            /**
+             * Builder for the result200 result.
+             */
+            static class Builder implements io.helidon.common.Builder<Builder, result200> {
+
+                private Client response;
+
+                @Override
+                public result200 build() {
+                    return new result200(response);
+                }
 
                 /**
-                 * Creates a result builder for the status {@code 200} result
-                 * for the testClassname operation; there are no required result values for this response.
+                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * assigning the HTTP status, any response headers, and any response entity.
+                 * <p>
+                 *     Equivalent to {@snippet :
+                 *     build().apply(serverResponse);
+                 *     }
+                 * </p>
                  *
-                 * @return new builder for status 200
+                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                static Builder builder() {
-                    return new Builder();
+                void apply(ServerResponse serverResponse) {
+                    build().apply(serverResponse);
                 }
 
                 /**
-                 * Sets the declared HTTP status and sends the response.
-                 *
+                 * Sets the value for the optional return property {@code response}.
+                 * @param response 
+                 * @return updated result builder
                  */
-                static void send(ServerResponse serverResponse) {
-                    builder().apply(serverResponse);
+                Builder response(Client response) {
+                    this.response = response;
+                    return this;
                 }
+            }
 
-                /**
-                 * Builder for the S200 result.
-                 */
-                static class Builder implements io.helidon.common.Builder<Builder, S200> {
-
-                    private Client response;
-
-                    @Override
-                    public S200 build() {
-                        return new S200(response);
-                    }
-
-                    /**
-                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
-                     * assigning the HTTP status, any response headers, and any response entity.
-                     * <p>
-                     *     Equivalent to {@snippet :
-                     *     build().apply(serverResponse);
-                     *     }
-                     * </p>
-                     *
-                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
-                     */
-                    void apply(ServerResponse serverResponse) {
-                        build().apply(serverResponse);
-                    }
-
-                    /**
-                     * Sets the value for the optional return property {@code response}.
-                     * @param response 
-                     * @return updated result builder
-                     */
-                    Builder response(Client response) {
-                        this.response = response;
-                        return this;
-                    }
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             *
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(200));
+                if (response != null) { 
+                serverResponse.send(response);
+                } else {
+                    serverResponse.send();
                 }
-
-                /**
-                 * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
-                 * HTTP status, any response headers, and any response entity.
-                 *
-                 * @param serverResponse the server response to which to apply these result values
-                 * @return the updated server response
-                 */
-                ServerResponse apply(ServerResponse serverResponse) {
-                    serverResponse.status(Status.create(200));
-                    if (response != null) { 
-                        serverResponse.send(response);
-                    } else {
-                        serverResponse.send();
-                    }
-                    return serverResponse;
-                }
+                return serverResponse;
             }
         }
     }
