@@ -32,7 +32,7 @@ import io.helidon.webserver.http.HttpService;
 
 @io.helidon.common.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen",
                              trigger = "tag = 'Pet'",
-                             version = "7.8.0-SNAPSHOT")
+                             version = "stable")
 public abstract class PetService implements HttpService {
 
     protected static final Logger LOGGER = Logger.getLogger(PetService.class.getName());
