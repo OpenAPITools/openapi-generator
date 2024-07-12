@@ -15,7 +15,6 @@ import (
 	"net/http"
 	"strings"
 	"time"
-	"os"
 
 	"github.com/gorilla/mux"
 )
@@ -237,7 +236,7 @@ func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 		c.errorHandler(w, r, &RequiredError{"inlineEnumPath"}, nil)
 		return
 	}
-	var inlineEnumParam string
+	var inlineEnumParam *string
 	if query.Has("inlineEnum") {
 		param := query.Get("inlineEnum")
 
@@ -276,7 +275,7 @@ func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 		var param float32 = 1.5
 		defaultNumParam = param
 	}
-	var defaultStrParam string
+	var defaultStrParam *string
 	if query.Has("defaultStr") {
 		param := query.Get("defaultStr")
 
@@ -331,9 +330,9 @@ func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 		bornBeforeParam = param
 	} else {
 	}
-	var colourParam Colour
+	var colourParam *Colour
 	if query.Has("colour") {
-		param := Colour(query.Get("colour"))
+		param := *Colour(query.Get("colour"))
 
 		colourParam = param
 	} else {
