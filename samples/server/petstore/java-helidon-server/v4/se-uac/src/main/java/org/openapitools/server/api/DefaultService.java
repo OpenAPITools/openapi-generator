@@ -100,6 +100,18 @@ public abstract class DefaultService implements HttpService {
                     return new Builder(status);
                 }
 
+                /**
+                 * Applies the required response parameters to the server response and sends the response.
+                 *
+                 * status HTTP Status object to use for the response status
+                 */
+                static void send(ServerResponse serverResponse, Status status) {
+                    builder(status).apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the Default result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, Default> {
 
                     private FooGetDefaultResponse response;
@@ -116,10 +128,26 @@ public abstract class DefaultService implements HttpService {
                                 response);
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
 
+                    /**
+                     * Sets the value for the optional return property {@code response}.
+                     * @param response 
+                     * @return updated result builder
+                     */
                     Builder response(FooGetDefaultResponse response) {
                         this.response = response;
                         return this;

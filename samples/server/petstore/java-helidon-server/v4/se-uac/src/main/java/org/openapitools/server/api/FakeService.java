@@ -1059,6 +1059,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S200 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S200> {
 
                     private FakeBigDecimalMap200Response response;
@@ -1068,10 +1079,26 @@ public abstract class FakeService implements HttpService {
                         return new S200(response);
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
 
+                    /**
+                     * Sets the value for the optional return property {@code response}.
+                     * @param response 
+                     * @return updated result builder
+                     */
                     Builder response(FakeBigDecimalMap200Response response) {
                         this.response = response;
                         return this;
@@ -1146,6 +1173,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S200 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S200> {
 
                     private HealthCheckResult response;
@@ -1155,10 +1193,26 @@ public abstract class FakeService implements HttpService {
                         return new S200(response);
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
 
+                    /**
+                     * Sets the value for the optional return property {@code response}.
+                     * @param response 
+                     * @return updated result builder
+                     */
                     Builder response(HealthCheckResult response) {
                         this.response = response;
                         return this;
@@ -1269,6 +1323,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S200 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S200> {
 
 
@@ -1277,6 +1342,17 @@ public abstract class FakeService implements HttpService {
                         return new S200();
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
@@ -1359,6 +1435,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S200 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S200> {
 
                     private Boolean response;
@@ -1368,10 +1455,26 @@ public abstract class FakeService implements HttpService {
                         return new S200(response);
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
 
+                    /**
+                     * Sets the value for the optional return property {@code response}.
+                     * @param response 
+                     * @return updated result builder
+                     */
                     Builder response(Boolean response) {
                         this.response = response;
                         return this;
@@ -1459,6 +1562,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S200 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S200> {
 
                     private OuterComposite response;
@@ -1468,10 +1582,26 @@ public abstract class FakeService implements HttpService {
                         return new S200(response);
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
 
+                    /**
+                     * Sets the value for the optional return property {@code response}.
+                     * @param response 
+                     * @return updated result builder
+                     */
                     Builder response(OuterComposite response) {
                         this.response = response;
                         return this;
@@ -1559,6 +1689,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S200 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S200> {
 
                     private BigDecimal response;
@@ -1568,10 +1709,26 @@ public abstract class FakeService implements HttpService {
                         return new S200(response);
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
 
+                    /**
+                     * Sets the value for the optional return property {@code response}.
+                     * @param response 
+                     * @return updated result builder
+                     */
                     Builder response(BigDecimal response) {
                         this.response = response;
                         return this;
@@ -1659,6 +1816,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S200 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S200> {
 
                     private String response;
@@ -1668,10 +1836,26 @@ public abstract class FakeService implements HttpService {
                         return new S200(response);
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
 
+                    /**
+                     * Sets the value for the optional return property {@code response}.
+                     * @param response 
+                     * @return updated result builder
+                     */
                     Builder response(String response) {
                         this.response = response;
                         return this;
@@ -1759,6 +1943,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S200 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S200> {
 
                     private OuterObjectWithEnumProperty response;
@@ -1768,10 +1963,26 @@ public abstract class FakeService implements HttpService {
                         return new S200(response);
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
 
+                    /**
+                     * Sets the value for the optional return property {@code response}.
+                     * @param response 
+                     * @return updated result builder
+                     */
                     Builder response(OuterObjectWithEnumProperty response) {
                         this.response = response;
                         return this;
@@ -1857,6 +2068,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S200 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S200> {
 
 
@@ -1865,6 +2087,17 @@ public abstract class FakeService implements HttpService {
                         return new S200();
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
@@ -1945,6 +2178,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S200 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S200> {
 
 
@@ -1953,6 +2197,17 @@ public abstract class FakeService implements HttpService {
                         return new S200();
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
@@ -2033,6 +2288,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S200 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S200> {
 
 
@@ -2041,6 +2307,17 @@ public abstract class FakeService implements HttpService {
                         return new S200();
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
@@ -2135,6 +2412,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S200 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S200> {
 
 
@@ -2143,6 +2431,17 @@ public abstract class FakeService implements HttpService {
                         return new S200();
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
@@ -2225,6 +2524,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S200 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S200> {
 
                     private Client response;
@@ -2234,10 +2544,26 @@ public abstract class FakeService implements HttpService {
                         return new S200(response);
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
 
+                    /**
+                     * Sets the value for the optional return property {@code response}.
+                     * @param response 
+                     * @return updated result builder
+                     */
                     Builder response(Client response) {
                         this.response = response;
                         return this;
@@ -2506,6 +2832,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S400 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S400> {
 
 
@@ -2514,6 +2851,17 @@ public abstract class FakeService implements HttpService {
                         return new S400();
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
@@ -2548,6 +2896,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S404 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S404> {
 
 
@@ -2556,6 +2915,17 @@ public abstract class FakeService implements HttpService {
                         return new S404();
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
@@ -2788,6 +3158,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S400 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S400> {
 
 
@@ -2796,6 +3177,17 @@ public abstract class FakeService implements HttpService {
                         return new S400();
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
@@ -2830,6 +3222,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S404 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S404> {
 
 
@@ -2838,6 +3241,17 @@ public abstract class FakeService implements HttpService {
                         return new S404();
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
@@ -2990,6 +3404,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S400 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S400> {
 
 
@@ -2998,6 +3423,17 @@ public abstract class FakeService implements HttpService {
                         return new S400();
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
@@ -3078,6 +3514,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S200 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S200> {
 
 
@@ -3086,6 +3533,17 @@ public abstract class FakeService implements HttpService {
                         return new S200();
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
@@ -3166,6 +3624,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S200 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S200> {
 
 
@@ -3174,6 +3643,17 @@ public abstract class FakeService implements HttpService {
                         return new S200();
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
@@ -3269,6 +3749,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S200 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S200> {
 
 
@@ -3277,6 +3768,17 @@ public abstract class FakeService implements HttpService {
                         return new S200();
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
@@ -3357,6 +3859,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S200 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S200> {
 
 
@@ -3365,6 +3878,17 @@ public abstract class FakeService implements HttpService {
                         return new S200();
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
@@ -3537,6 +4061,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S200 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S200> {
 
 
@@ -3545,6 +4080,17 @@ public abstract class FakeService implements HttpService {
                         return new S200();
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }
@@ -3625,6 +4171,17 @@ public abstract class FakeService implements HttpService {
                     return new Builder();
                 }
 
+                /**
+                 * Sets the declared HTTP status and sends the response.
+                 *
+                 */
+                static void send(ServerResponse serverResponse) {
+                    builder().apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the S200 result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, S200> {
 
 
@@ -3633,6 +4190,17 @@ public abstract class FakeService implements HttpService {
                         return new S200();
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equilvalent to {@snippet:
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }

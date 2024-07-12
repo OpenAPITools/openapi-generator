@@ -85,6 +85,26 @@
                             {{/-first}}{{name}}{{/vendorExtensions.x-helidon-requiredResponseProps}});
                 }
 
+                /**
+{{#isDefault}}{{!
+}}                 * Applies the required response parameters to the server response and sends the response.{{/isDefault}}{{!
+}}{{^isDefault}}{{#vendorExtensions.x-helidon-hasRequiredResponseParams}}{{!
+}}                 * Applies the required response parameters to the server response and sends the response.{{/vendorExtensions.x-helidon-hasRequiredResponseParams}}{{/isDefault}}{{!
+}}{{^isDefault}}{{^vendorExtensions.x-helidon-hasRequiredResponseParams}}{{!
+}}                 * Sets the declared HTTP status and sends the response.{{/vendorExtensions.x-helidon-hasRequiredResponseParams}}{{/isDefault}}
+                 *{{#isDefault}}
+                 * status HTTP Status object to use for the response status{{/isDefault}}{{#vendorExtensions.x-helidon-requiredResponseProps}}
+                 * @param {{name}} {{description}}{{/vendorExtensions.x-helidon-requiredResponseProps}}
+                 */
+                static void send(ServerResponse serverResponse{{#isDefault}}, Status status{{/isDefault}}{{#vendorExtensions.x-helidon-requiredResponseProps}},
+                            {{> opResultParamDecl }}{{/vendorExtensions.x-helidon-requiredResponseProps}}) {
+                    builder({{#isDefault}}status{{/isDefault}}{{#vendorExtensions.x-helidon-requiredResponseParams}},
+                            {{name}}{{/vendorExtensions.x-helidon-requiredResponseParams}}).apply(serverResponse);
+                }
+
+                /**
+                 * Builder for the {{> resultRecordTypeName}} result.
+                 */
                 static class Builder implements io.helidon.common.Builder<Builder, {{> resultRecordTypeName }}> {
 {{#vendorExtensions.x-helidon-allResponseProps}}{{#-first}}
 {{/-first}}{{!
@@ -110,10 +130,26 @@
                                 {{/-first}}{{name}}{{/vendorExtensions.x-helidon-allResponseProps}});
                     }
 
+                    /**
+                     * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                     * assigning the HTTP status, any response headers, and any response entity.
+                     * <p>
+                     *     Equivalent to {@snippet :
+                     *     build().apply(serverResponse);
+                     *     }
+                     * </p>
+                     *
+                     * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                     */
                     void apply(ServerResponse serverResponse) {
                         build().apply(serverResponse);
                     }{{#vendorExtensions.x-helidon-optionalResponseProps}}
 
+                    /**
+                     * Sets the value for the optional return property {{=<% %>=}}{@code <%name%>}<%={{ }}=%>.
+                     * @param {{name}} {{description}}
+                     * @return updated result builder
+                     */
                     Builder {{name}}({{> opResultParamDecl }}) {
                         this.{{name}} = {{name}};
                         return this;
