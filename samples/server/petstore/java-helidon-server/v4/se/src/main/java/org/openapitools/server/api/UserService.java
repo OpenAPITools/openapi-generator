@@ -18,7 +18,8 @@ import io.helidon.webserver.http.HttpService;
 
 @io.helidon.common.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen",
                              trigger = "tag = 'User'",
-                             version = "7.8.0-SNAPSHOT")public interface UserService extends HttpService { 
+                             version = "stable")
+public interface UserService extends HttpService {
 
     /**
      * A service registers itself by updating the routing rules.

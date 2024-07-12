@@ -24,7 +24,8 @@ import io.helidon.webserver.http.HttpService;
 
 @io.helidon.common.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen",
                              trigger = "tag = 'Pet'",
-                             version = "7.8.0-SNAPSHOT")public interface PetService extends HttpService { 
+                             version = "stable")
+public interface PetService extends HttpService {
 
     /**
      * A service registers itself by updating the routing rules.

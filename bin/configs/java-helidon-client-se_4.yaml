@@ -12,4 +12,3 @@ additionalProperties:
   requiredPropertiesInConstructor: "false"
   visitable: "true"
   fullProject: "true"
-  generatorVersion: "stable"

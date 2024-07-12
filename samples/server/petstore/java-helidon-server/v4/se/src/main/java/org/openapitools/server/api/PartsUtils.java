@@ -18,7 +18,7 @@ import io.helidon.webserver.http.ServerRequest;
 
 @io.helidon.common.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen",
                              trigger = "utility",
-                             version = "7.8.0-SNAPSHOT")
+                             version = "stable")
 class PartsUtils {
 
     private final Map<String, ReadablePart> parts = new LinkedHashMap<>();
