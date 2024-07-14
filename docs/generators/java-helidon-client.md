@@ -77,7 +77,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-accepts|Specify custom value for 'Accept' header for operation|OPERATION|null
 |x-content-type|Specify custom value for 'Content-Type' header for operation|OPERATION|null
 |x-class-extra-annotation|List of custom annotations to be added to model|MODEL|null
-|x-field-extra-annotation|List of custom annotations to be added to property|FIELD|null
+|x-field-extra-annotation|List of custom annotations to be added to property|FIELD, OPERATION_PARAMETER|null
 |x-webclient-blocking|Specifies if method for specific operation should be blocking or non-blocking(ex: return `Mono<T>/Flux<T>` or `return T/List<T>/Set<T>` & execute `.block()` inside generated method)|OPERATION|false
 
 

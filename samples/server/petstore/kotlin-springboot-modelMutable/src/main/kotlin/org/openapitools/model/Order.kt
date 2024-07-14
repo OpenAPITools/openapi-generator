@@ -3,6 +3,7 @@ package org.openapitools.model
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonValue
+import java.io.Serializable
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Email
@@ -42,7 +43,7 @@ data class Order(
 
     @Schema(example = "null", description = "")
     @get:JsonProperty("complete") var complete: kotlin.Boolean? = false
-) {
+) : Serializable{
 
     /**
     * Order Status
@@ -55,5 +56,8 @@ data class Order(
         @JsonProperty("delivered") delivered("delivered")
     }
 
+    companion object {
+        private const val serialVersionUID: kotlin.Long = 1
+    }
 }
 

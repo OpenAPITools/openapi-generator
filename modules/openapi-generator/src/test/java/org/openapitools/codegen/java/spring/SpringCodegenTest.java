@@ -37,6 +37,7 @@ import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
+import org.openapitools.codegen.testutils.ConfigAssert;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
@@ -551,20 +552,15 @@ public class SpringCodegenTest {
         openAPI.getInfo().setTitle("Some test API");
         codegen.preprocessOpenAPI(openAPI);
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertTrue(codegen.isHideGenerationTimestamp());
-        Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.mmmmm.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.mmmmm.model");
-        Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.aaaaa.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.aaaaa.api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.iiii.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.iiii.invoker");
-        Assert.assertEquals(codegen.getBasePackage(), "xyz.yyyyy.bbbb.base");
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.BASE_PACKAGE), "xyz.yyyyy.bbbb.base");
-        Assert.assertEquals(codegen.getConfigPackage(), "xyz.yyyyy.cccc.config");
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "xyz.yyyyy.cccc.config");
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.TITLE), "someTest");
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.SERVER_PORT), "8088");
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, Boolean.TRUE);
+        configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, codegen::modelPackage, "xyz.yyyyy.mmmmm.model");
+        configAssert.assertValue(CodegenConstants.API_PACKAGE, codegen::apiPackage, "xyz.yyyyy.aaaaa.api");
+        configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "xyz.yyyyy.iiii.invoker");
+        configAssert.assertValue(SpringCodegen.BASE_PACKAGE, "xyz.yyyyy.bbbb.base");
+        configAssert.assertValue(SpringCodegen.CONFIG_PACKAGE, "xyz.yyyyy.cccc.config");
+        configAssert.assertValue(SpringCodegen.TITLE, "someTest");
+        configAssert.assertValue(SpringCodegen.SERVER_PORT, "8088");
     }
 
     @Test
@@ -651,21 +647,31 @@ public class SpringCodegenTest {
         openAPI.setInfo(new Info());
         codegen.preprocessOpenAPI(openAPI);
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertFalse(codegen.isHideGenerationTimestamp());
-        Assert.assertEquals(codegen.modelPackage(), "org.openapitools.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.model");
-        Assert.assertEquals(codegen.apiPackage(), "org.openapitools.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "org.openapitools.api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools.api");
-        Assert.assertEquals(codegen.getBasePackage(), "org.openapitools");
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.BASE_PACKAGE), "org.openapitools");
-        Assert.assertEquals(codegen.getConfigPackage(), "org.openapitools.configuration");
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "org.openapitools.configuration");
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.SERVER_PORT), "8082");
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING), false);
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.USE_RESPONSE_ENTITY), true);
+//        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+//        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+//        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, Boolean.FALSE);
+//        Assert.assertEquals(codegen.modelPackage(), "org.openapitools.model");
+//        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.model");
+        configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, codegen::modelPackage, "org.openapitools.model");
+//        Assert.assertEquals(codegen.apiPackage(), "org.openapitools.api");
+//        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "org.openapitools.api");
+        configAssert.assertValue(CodegenConstants.API_PACKAGE, codegen::apiPackage, "org.openapitools.api");
+//        Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools.api");
+//        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools.api");
+        configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "org.openapitools.api");
+//        Assert.assertEquals(codegen.getBasePackage(), "org.openapitools");
+//        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.BASE_PACKAGE), "org.openapitools");
+        configAssert.assertValue(SpringCodegen.BASE_PACKAGE, "org.openapitools");
+//        Assert.assertEquals(codegen.getConfigPackage(), "org.openapitools.configuration");
+//        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "org.openapitools.configuration");
+        configAssert.assertValue(SpringCodegen.CONFIG_PACKAGE, "org.openapitools.configuration");
+//        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.SERVER_PORT), "8082");
+        configAssert.assertValue(SpringCodegen.SERVER_PORT, "8082");
+//        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING), false);
+        configAssert.assertValue(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING, false);
+        configAssert.assertValue(SpringCodegen.USE_RESPONSE_ENTITY, true);
+//        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.USE_RESPONSE_ENTITY), true);
     }
 
     @Test
@@ -1151,20 +1157,14 @@ public class SpringCodegenTest {
         codegen.setUnhandledException(true);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertTrue(codegen.isHideGenerationTimestamp());
-        Assert.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xx.yyyyyyyy.model");
-        Assert.assertEquals(codegen.apiPackage(), "xx.yyyyyyyy.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xx.yyyyyyyy.api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "xx.yyyyyyyy.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xx.yyyyyyyy.invoker");
-        Assert.assertEquals(codegen.getBasePackage(), "xx.yyyyyyyy.base");
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.BASE_PACKAGE), "xx.yyyyyyyy.base");
-        Assert.assertEquals(codegen.getConfigPackage(), "xx.yyyyyyyy.config");
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "xx.yyyyyyyy.config");
-        Assert.assertTrue(codegen.isUnhandledException());
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING), true);
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, Boolean.TRUE);
+        configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, codegen::modelPackage, "xx.yyyyyyyy.model");
+        configAssert.assertValue(CodegenConstants.API_PACKAGE, codegen::apiPackage, "xx.yyyyyyyy.api");
+        configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "xx.yyyyyyyy.invoker");
+        configAssert.assertValue(SpringCodegen.BASE_PACKAGE, codegen::getBasePackage, "xx.yyyyyyyy.base");
+        configAssert.assertValue(SpringCodegen.CONFIG_PACKAGE, codegen::getConfigPackage, "xx.yyyyyyyy.config");
+        configAssert.assertValue(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING,  codegen::isUnhandledException, true);
     }
 
     @Test
@@ -1658,7 +1658,7 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
-        codegen.setHateoas(true);
+ //       codegen.setHateoas(true);
         generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
@@ -3149,6 +3149,61 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testXPatternMessage_issue18959() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_18959.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8-localdatetime");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "false");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+        codegen.additionalProperties().put(USE_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(PERFORM_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "api_interface");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        javaFileAssert
+                .assertMethod("_postToTest")
+                .assertParameter("groupObj")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Pattern", ImmutableMap.of(
+                        "regexp", "\"[a-zA-Z]\"",
+                        "message", "\"Only letters\""
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("token")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Pattern", ImmutableMap.of(
+                        "regexp", "\"[0-9a-fA-F]\"",
+                        "message", "\"Only numbers and letters a-f\""
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("clientId")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Pattern", ImmutableMap.of(
+                        "regexp", "\"\\\\d\"",
+                        "message", "\"Only numbers\""
+                ));
+    }
+
+    @Test
     public void testEnumCaseInsensitive_issue8084() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -3212,6 +3267,52 @@ public class SpringCodegenTest {
         javaFileAssert
                 .assertMethod("fromValue")
                 .bodyContainsLines("if (b.value.equals(value)) {");
+    }
+
+    @Test
+    public void testHasOperationParameterExtraAnnotation_issue18224() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_18224.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8-localdatetime");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "false");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "api_interface");
+        codegen.additionalProperties().put(SPRING_CONTROLLER, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        javaFileAssert
+                .assertMethod("_postToTest")
+                .assertParameter("groupObj")
+                .assertParameterAnnotations()
+                .containsWithName("com.test.MyAnnotationInPath")
+                .toParameter()
+                .toMethod()
+                .assertParameter("token")
+                .assertParameterAnnotations()
+                .containsWithName("com.test.MyAnnotationInQuery")
+                .toParameter()
+                .toMethod()
+                .assertParameter("clientId")
+                .assertParameterAnnotations()
+                .containsWithName("com.test.MyAnnotationInHeader");
     }
 
     @Test

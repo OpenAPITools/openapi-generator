@@ -665,6 +665,47 @@ paths:
       responses:
         '200':
           description: Successful Response
+  "/fake/inline/schema/anyof/path1":
+    get:
+      tags:
+        - fake
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - type: 'null'
+                  - "$ref": "#/components/schemas/myObject"
+  "/fake/inline/schema/anyof/path2":
+    get:
+      tags:
+        - fake
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - "$ref": "#/components/schemas/myObject"
+                  - type: 'null'
+  "/fake/inline/schema/anyof/path3":
+    get:
+      tags:
+        - fake
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - type: array
+                    items:
+                      "$ref": "#/components/schemas/myObject"
+                  - type: 'null'
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -981,3 +1022,5 @@ components:
     AllOfSimpleModel:
       allOf:
         - $ref: '#/components/schemas/SimpleModelWithArrayProperty'
+    myObject:
+      type: object

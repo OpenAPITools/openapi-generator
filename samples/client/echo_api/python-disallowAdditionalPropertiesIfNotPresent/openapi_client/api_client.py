@@ -228,7 +228,7 @@ class ApiClient:
             body = self.sanitize_for_serialization(body)
 
         # request url
-        if _host is None:
+        if _host is None or self.configuration.ignore_operation_servers:
             url = self.configuration.host + resource_path
         else:
             # use server/host defined in path or operation instead

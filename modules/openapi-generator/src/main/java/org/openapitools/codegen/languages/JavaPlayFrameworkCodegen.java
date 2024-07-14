@@ -61,7 +61,6 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     protected String basePackage = "org.openapitools";
     @Setter protected boolean controllerOnly = false;
     @Setter protected boolean useInterfaces = true;
-    @Setter protected boolean useBeanValidation = true;
     @Setter protected boolean handleExceptions = true;
     @Setter protected boolean wrapCalls = true;
     @Setter protected boolean useSwaggerUI = true;
@@ -72,6 +71,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
 
         modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
+        useBeanValidation = true;
         outputFolder = "generated-code/javaPlayFramework";
         apiTestTemplateFiles.clear();
         embeddedTemplateDir = templateDir = "JavaPlayFramework";
@@ -93,7 +93,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
         additionalProperties.put("java8", true);
-        additionalProperties.put(JACKSON, "true");
+        this.jackson = true;
 
         cliOptions.add(new CliOption(TITLE, "server title name or client service name").defaultValue(title));
         cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code").defaultValue(getConfigPackage()));
@@ -133,57 +133,20 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         //TODO: add doc templates
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
+        convertPropertyToStringAndWriteBack(TITLE, this::setTitle);
 
-        if (additionalProperties.containsKey(TITLE)) {
-            this.setTitle((String) additionalProperties.get(TITLE));
-        }
+        convertPropertyToStringAndWriteBack(CONFIG_PACKAGE, this::setConfigPackage);
 
-        if (additionalProperties.containsKey(CONFIG_PACKAGE)) {
-            this.setConfigPackage((String) additionalProperties.get(CONFIG_PACKAGE));
-        } else {
-            additionalProperties.put(CONFIG_PACKAGE, configPackage);
-        }
+        convertPropertyToStringAndWriteBack(BASE_PACKAGE, this::setBasePackage);
+        convertPropertyToBooleanAndWriteBack(CONTROLLER_ONLY, this::setControllerOnly);
 
-        if (additionalProperties.containsKey(BASE_PACKAGE)) {
-            this.setBasePackage((String) additionalProperties.get(BASE_PACKAGE));
-        } else {
-            additionalProperties.put(BASE_PACKAGE, basePackage);
-        }
+        convertPropertyToBooleanAndWriteBack(USE_INTERFACES, this::setUseInterfaces);
 
-        if (additionalProperties.containsKey(CONTROLLER_ONLY)) {
-            this.setControllerOnly(convertPropertyToBoolean(CONTROLLER_ONLY));
-        }
-        writePropertyBack(CONTROLLER_ONLY, controllerOnly);
+        convertPropertyToBooleanAndWriteBack(HANDLE_EXCEPTIONS, this::setHandleExceptions);
+        convertPropertyToBooleanAndWriteBack(WRAP_CALLS, this::setWrapCalls);
 
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
-        }
-        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
-
-        if (additionalProperties.containsKey(USE_INTERFACES)) {
-            this.setUseInterfaces(convertPropertyToBoolean(USE_INTERFACES));
-        }
-        writePropertyBack(USE_INTERFACES, useInterfaces);
-
-        if (additionalProperties.containsKey(HANDLE_EXCEPTIONS)) {
-            this.setHandleExceptions(convertPropertyToBoolean(HANDLE_EXCEPTIONS));
-        }
-        writePropertyBack(HANDLE_EXCEPTIONS, handleExceptions);
-
-        if (additionalProperties.containsKey(WRAP_CALLS)) {
-            this.setWrapCalls(convertPropertyToBoolean(WRAP_CALLS));
-        }
-        writePropertyBack(WRAP_CALLS, wrapCalls);
-
-        if (additionalProperties.containsKey(USE_SWAGGER_UI)) {
-            this.setUseSwaggerUI(convertPropertyToBoolean(USE_SWAGGER_UI));
-        }
-        writePropertyBack(USE_SWAGGER_UI, useSwaggerUI);
-
-        if (additionalProperties.containsKey(SUPPORT_ASYNC)) {
-            this.setSupportAsync(convertPropertyToBoolean(SUPPORT_ASYNC));
-        }
-        writePropertyBack(SUPPORT_ASYNC, supportAsync);
+        convertPropertyToBooleanAndWriteBack(USE_SWAGGER_UI, this::setUseSwaggerUI);
+        convertPropertyToBooleanAndWriteBack(SUPPORT_ASYNC, this::setSupportAsync);
 
         //We don't use annotation anymore
         importMapping.remove("ApiModelProperty");

@@ -60,7 +60,7 @@ import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
  * Goal which generates client/server code from a OpenAPI json/yaml definition.
  */
 @SuppressWarnings({"unused", "MismatchedQueryAndUpdateOfCollection"})
-@Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES, requiresDependencyResolution = ResolutionScope.COMPILE, threadSafe = true)
+@Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)
 public class CodeGenMojo extends AbstractMojo {
 
     private final Logger LOGGER = LoggerFactory.getLogger(CodeGenMojo.class);
@@ -623,13 +623,7 @@ public class CodeGenMojo extends AbstractMojo {
             }
 
             if (isNotEmpty(inputSpec)) {
-                URL url = inputSpecRemoteUrl();
-
-                if ((! inputSpecFile.exists()) && url != null) {
-                    configurator.setInputSpec(url.toString());
-                } else {
-                    configurator.setInputSpec(inputSpec);
-                }
+                configurator.setInputSpec(inputSpec);
             }
 
             if (isNotEmpty(gitHost)) {
@@ -1015,35 +1009,15 @@ public class CodeGenMojo extends AbstractMojo {
     }
 
     /**
-     * Try to parse inputSpec setting string into URL (truly remote or resource)
+     * Try to parse inputSpec setting string into URL
      * @return A valid URL or null if inputSpec is not a valid URL
      */
     private URL inputSpecRemoteUrl() {
-        URL url = dependencyClassLoader().getResource(inputSpec);
-
-        if (url == null) {
-            try {
-                url = new URI(FilenameUtils.separatorsToUnix(inputSpec)).toURL();
-            } catch (URISyntaxException | MalformedURLException | IllegalArgumentException e) {
-            }
+        try {
+            return new URI(FilenameUtils.separatorsToUnix(inputSpec)).toURL();
+        } catch (URISyntaxException | MalformedURLException | IllegalArgumentException ignored) {
+            return null;
         }
-
-        return url;
-    }
-
-    private ClassLoader dependencyClassLoader() {
-        List<URL> list = new ArrayList<>();
-
-        for (Artifact artifact : project.getArtifacts()) {
-            try {
-                if (artifact.isResolved() && artifact.getType().equals("jar")) {
-                    list.add(new URL("jar:" + artifact.getFile().toURI() + "!/"));
-                }
-            } catch (Exception e) {
-            }
-        }
-
-        return new URLClassLoader(list.toArray(new URL[] { }), getClass().getClassLoader());
     }
 
     /**

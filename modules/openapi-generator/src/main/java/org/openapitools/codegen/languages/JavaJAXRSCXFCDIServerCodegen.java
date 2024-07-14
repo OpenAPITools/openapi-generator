@@ -69,13 +69,6 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
-        }
-
-        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
-
-
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
         // POM

@@ -9,3 +9,4 @@ additionalProperties:
   useSwaggerUI: "true"
   delegatePattern: "true"
   beanValidations: "true"
+  requestMappingMode: none

@@ -1182,12 +1182,19 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public String toVarName(String name) {
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         return toVarName("", name);
     }
 
     public String toVarName(String prefix, String name) {
         boolean hasPrefix = !StringUtils.isBlank(prefix);
         name = underscore(sanitizeName(name.replaceAll("-", "_")));
+        if (name.equals("_")) {
+            name = "underscore";
+        }
         name = camelize(name, hasPrefix ? UPPERCASE_FIRST_CHAR : LOWERCASE_FIRST_LETTER);
 
         if (hasPrefix) {
@@ -1203,6 +1210,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public String toParamName(String name) {
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         return toVarName(name);
     }
 

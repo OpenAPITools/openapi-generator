@@ -80,7 +80,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-accepts|Specify custom value for 'Accept' header for operation|OPERATION|null
 |x-content-type|Specify custom value for 'Content-Type' header for operation|OPERATION|null
 |x-class-extra-annotation|List of custom annotations to be added to model|MODEL|null
-|x-field-extra-annotation|List of custom annotations to be added to property|FIELD|null
+|x-field-extra-annotation|List of custom annotations to be added to property|FIELD, OPERATION_PARAMETER|null
 
 
 ## IMPORT MAPPING
