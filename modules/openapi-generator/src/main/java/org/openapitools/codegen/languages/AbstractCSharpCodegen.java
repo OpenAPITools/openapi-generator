@@ -208,11 +208,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         instantiationTypes.put("array", "List");
         instantiationTypes.put("list", "List");
         instantiationTypes.put("map", "Dictionary");
-
-        this.setSortParamsByRequiredFlag(true);
-
-        // do it only on newer libraries to avoid breaking changes
-        // this.setSortModelPropertiesByRequiredFlag(true);
     }
 
     public void setUseCollection(boolean useCollection) {
