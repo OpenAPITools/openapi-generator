@@ -74,12 +74,12 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'FirstName'
+        /// Test the property 'Type'
         /// </summary>
         [Fact]
-        public void FirstNameTest()
+        public void TypeTest()
         {
-            // TODO unit test for the property 'FirstName'
+            // TODO unit test for the property 'Type'
         }
 
         /// <summary>
@@ -92,12 +92,12 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Type'
+        /// Test the property 'FirstName'
         /// </summary>
         [Fact]
-        public void TypeTest()
+        public void FirstNameTest()
         {
-            // TODO unit test for the property 'Type'
+            // TODO unit test for the property 'FirstName'
         }
     }
 }
