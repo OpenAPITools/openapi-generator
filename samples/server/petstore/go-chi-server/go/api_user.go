@@ -183,7 +183,7 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &RequiredError{"username"}, nil)
 		return
 	}
-	var confirmationParam bool
+	var confirmationParam *bool
 	if query.Has("confirmation") {
 		param, err := parseBoolParameter(
 			query.Get("confirmation"),
@@ -194,7 +194,7 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		confirmationParam = param
+		confirmationParam = &param
 	} else {
 	}
 	result, err := c.service.DeleteUser(r.Context(), usernameParam, confirmationParam)
@@ -249,7 +249,7 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &RequiredError{Field: "password"}, nil)
 		return
 	}
-	var rememberMeParam bool
+	var rememberMeParam *bool
 	if query.Has("remember_me") {
 		param, err := parseBoolParameter(
 			query.Get("remember_me"),
@@ -260,7 +260,7 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		rememberMeParam = param
+		rememberMeParam = &param
 	} else {
 	}
 	result, err := c.service.LoginUser(r.Context(), usernameParam, passwordParam, rememberMeParam)

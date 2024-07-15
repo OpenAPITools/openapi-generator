@@ -15,6 +15,7 @@ import (
 	"net/http"
 	"strings"
 	"time"
+	"os"
 
 	"github.com/gorilla/mux"
 )
@@ -240,10 +241,10 @@ func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 	if query.Has("inlineEnum") {
 		param := query.Get("inlineEnum")
 
-		inlineEnumParam = param
+		inlineEnumParam = &param
 	} else {
 	}
-	var defaultIntParam int32
+	var defaultIntParam *int32
 	if query.Has("defaultInt") {
 		param, err := parseNumericParameter[int32](
 			query.Get("defaultInt"),
@@ -254,12 +255,12 @@ func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 			return
 		}
 
-		defaultIntParam = param
+		defaultIntParam = &param
 	} else {
 		var param int32 = 1
-		defaultIntParam = param
+		defaultIntParam = &param
 	}
-	var defaultNumParam float32
+	var defaultNumParam *float32
 	if query.Has("defaultNum") {
 		param, err := parseNumericParameter[float32](
 			query.Get("defaultNum"),
@@ -270,19 +271,19 @@ func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 			return
 		}
 
-		defaultNumParam = param
+		defaultNumParam = &param
 	} else {
 		var param float32 = 1.5
-		defaultNumParam = param
+		defaultNumParam = &param
 	}
 	var defaultStrParam *string
 	if query.Has("defaultStr") {
 		param := query.Get("defaultStr")
 
-		defaultStrParam = param
+		defaultStrParam = &param
 	} else {
 		param := "default"
-		defaultStrParam = param
+		defaultStrParam = &param
 	}
 	result, err := c.service.FindPetsByStatus(r.Context(), statusParam, inlineEnumPathParam, inlineEnumParam, defaultIntParam, defaultNumParam, defaultStrParam)
 	// If an error occurred, encode the error with the status code
@@ -319,7 +320,7 @@ func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 		c.errorHandler(w, r, &RequiredError{"bornAfter"}, nil)
 		return
 	}
-	var bornBeforeParam time.Time
+	var bornBeforeParam *time.Time
 	if query.Has("bornBefore"){
 		param, err := parseTime(query.Get("bornBefore"))
 		if err != nil {
@@ -327,14 +328,14 @@ func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 			return
 		}
 
-		bornBeforeParam = param
+		bornBeforeParam = &param
 	} else {
 	}
 	var colourParam *Colour
 	if query.Has("colour") {
-		param := *Colour(query.Get("colour"))
+		param := Colour(query.Get("colour"))
 
-		colourParam = param
+		colourParam = &param
 	} else {
 	}
 	result, err := c.service.FindPetsByTags(r.Context(), tagsParam, bornAfterParam, bornBeforeParam, colourParam)
@@ -430,7 +431,7 @@ func (c *PetAPIController) GetPetsUsingBooleanQueryParameters(w http.ResponseWri
 		c.errorHandler(w, r, &RequiredError{Field: "expr"}, nil)
 		return
 	}
-	var groupingParam bool
+	var groupingParam *bool
 	if query.Has("grouping") {
 		param, err := parseBoolParameter(
 			query.Get("grouping"),
@@ -441,10 +442,10 @@ func (c *PetAPIController) GetPetsUsingBooleanQueryParameters(w http.ResponseWri
 			return
 		}
 
-		groupingParam = param
+		groupingParam = &param
 	} else {
 	}
-	var inactiveParam bool
+	var inactiveParam *bool
 	if query.Has("inactive") {
 		param, err := parseBoolParameter(
 			query.Get("inactive"),
@@ -455,10 +456,10 @@ func (c *PetAPIController) GetPetsUsingBooleanQueryParameters(w http.ResponseWri
 			return
 		}
 
-		inactiveParam = param
+		inactiveParam = &param
 	} else {
 		var param bool = false
-		inactiveParam = param
+		inactiveParam = &param
 	}
 	result, err := c.service.GetPetsUsingBooleanQueryParameters(r.Context(), exprParam, groupingParam, inactiveParam)
 	// If an error occurred, encode the error with the status code

@@ -15,6 +15,7 @@ import (
 	"net/http"
 	"errors"
 	"time"
+	"os"
 )
 
 // PetAPIService is a service that implements the logic for the PetAPIServicer
@@ -153,7 +154,7 @@ func (s *PetAPIService) GetPetsUsingBooleanQueryParameters(ctx context.Context, 
 }
 
 // SearchPet - Search Pets by filters
-func (s *PetAPIService) SearchPet(ctx context.Context, age **int64, price **float32, bornAfter **time.Time, old **bool) (ImplResponse, error) {
+func (s *PetAPIService) SearchPet(ctx context.Context, age *int64, price *float32, bornAfter *time.Time, old *bool) (ImplResponse, error) {
 	// TODO - update SearchPet with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 

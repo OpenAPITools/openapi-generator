@@ -14,6 +14,7 @@ import (
 	"context"
 	"net/http"
 	"errors"
+	"os"
 )
 
 // PetAPIService is a service that implements the logic for the PetAPIServicer

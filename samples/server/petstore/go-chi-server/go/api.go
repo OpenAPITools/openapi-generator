@@ -14,6 +14,7 @@ import (
 	"context"
 	"net/http"
 	"time"
+	"os"
 )
 
 
@@ -77,7 +78,7 @@ type PetAPIServicer interface {
 	GetPetImageById(context.Context, int64) (ImplResponse, error)
 	GetPetsByTime(context.Context, time.Time) (ImplResponse, error)
 	GetPetsUsingBooleanQueryParameters(context.Context, bool, *bool, *bool) (ImplResponse, error)
-	SearchPet(context.Context, **int64, **float32, **time.Time, **bool) (ImplResponse, error)
+	SearchPet(context.Context, *int64, *float32, *time.Time, *bool) (ImplResponse, error)
 	UpdatePet(context.Context, Pet) (ImplResponse, error)
 	UpdatePetWithForm(context.Context, int64, *string, *string) (ImplResponse, error)
 	UploadFile(context.Context, int64, *string, *[]string, **os.File) (ImplResponse, error)

@@ -183,7 +183,7 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &RequiredError{"username"}, nil)
 		return
 	}
-	var booleanTestParam bool
+	var booleanTestParam *bool
 	if query.Has("boolean_test") {
 		param, err := parseBoolParameter(
 			query.Get("boolean_test"),
@@ -194,7 +194,7 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		booleanTestParam = param
+		booleanTestParam = &param
 	} else {
 	}
 	result, err := c.service.DeleteUser(r.Context(), usernameParam, booleanTestParam)
@@ -249,7 +249,7 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &RequiredError{Field: "password"}, nil)
 		return
 	}
-	var int32TestParam int32
+	var int32TestParam *int32
 	if query.Has("int32_test") {
 		param, err := parseNumericParameter[int32](
 			query.Get("int32_test"),
@@ -260,10 +260,10 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		int32TestParam = param
+		int32TestParam = &param
 	} else {
 	}
-	var int64TestParam int64
+	var int64TestParam *int64
 	if query.Has("int64_test") {
 		param, err := parseNumericParameter[int64](
 			query.Get("int64_test"),
@@ -274,10 +274,10 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		int64TestParam = param
+		int64TestParam = &param
 	} else {
 	}
-	var float32TestParam float32
+	var float32TestParam *float32
 	if query.Has("float32_test") {
 		param, err := parseNumericParameter[float32](
 			query.Get("float32_test"),
@@ -288,10 +288,10 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		float32TestParam = param
+		float32TestParam = &param
 	} else {
 	}
-	var float64TestParam float64
+	var float64TestParam *float64
 	if query.Has("float64_test") {
 		param, err := parseNumericParameter[float64](
 			query.Get("float64_test"),
@@ -302,10 +302,10 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		float64TestParam = param
+		float64TestParam = &param
 	} else {
 	}
-	var booleanTestParam bool
+	var booleanTestParam *bool
 	if query.Has("boolean_test") {
 		param, err := parseBoolParameter(
 			query.Get("boolean_test"),
@@ -316,7 +316,7 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		booleanTestParam = param
+		booleanTestParam = &param
 	} else {
 	}
 	result, err := c.service.LoginUser(r.Context(), usernameParam, passwordParam, int32TestParam, int64TestParam, float32TestParam, float64TestParam, booleanTestParam)
