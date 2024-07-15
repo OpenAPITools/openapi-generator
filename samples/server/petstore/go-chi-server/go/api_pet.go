@@ -328,11 +328,11 @@ func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 		bornBeforeParam = &param
 	} else {
 	}
-	var colourParam *Colour
+	var colourParam Colour
 	if query.Has("colour") {
 		param := Colour(query.Get("colour"))
 
-		colourParam = &param
+		colourParam = param
 	} else {
 	}
 	result, err := c.service.FindPetsByTags(r.Context(), tagsParam, bornAfterParam, bornBeforeParam, colourParam)

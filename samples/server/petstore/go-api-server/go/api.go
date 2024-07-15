@@ -69,20 +69,20 @@ type UserAPIRouter interface {
 // and updated with the logic required for the API.
 type PetAPIServicer interface { 
 	AddPet(context.Context, Pet) (ImplResponse, error)
-	DeletePet(context.Context, int64, *string) (ImplResponse, error)
-	FilterPetsByCategory(context.Context, Gender, Species, *[]Species) (ImplResponse, error)
-	FindPetsByStatus(context.Context, []string, *string, *string, *int32, *float32, *string) (ImplResponse, error)
+	DeletePet(context.Context, int64, string) (ImplResponse, error)
+	FilterPetsByCategory(context.Context, Gender, Species, []Species) (ImplResponse, error)
+	FindPetsByStatus(context.Context, []string, string, *string, *int32, *float32, *string) (ImplResponse, error)
 	// Deprecated
-	FindPetsByTags(context.Context, []string, time.Time, *time.Time, *Colour) (ImplResponse, error)
+	FindPetsByTags(context.Context, []string, time.Time, *time.Time, Colour) (ImplResponse, error)
 	GetPetById(context.Context, int64) (ImplResponse, error)
 	GetPetImageById(context.Context, int64) (ImplResponse, error)
 	GetPetsByTime(context.Context, time.Time) (ImplResponse, error)
 	GetPetsUsingBooleanQueryParameters(context.Context, bool, *bool, *bool) (ImplResponse, error)
 	SearchPet(context.Context, *int64, *float32, *time.Time, *bool) (ImplResponse, error)
 	UpdatePet(context.Context, Pet) (ImplResponse, error)
-	UpdatePetWithForm(context.Context, int64, *string, *string) (ImplResponse, error)
-	UploadFile(context.Context, int64, *string, *[]string, **os.File) (ImplResponse, error)
-	UploadFileArrayOfFiles(context.Context, int64, *string, *[]*os.File) (ImplResponse, error)
+	UpdatePetWithForm(context.Context, int64, string, string) (ImplResponse, error)
+	UploadFile(context.Context, int64, string, []string, *os.File) (ImplResponse, error)
+	UploadFileArrayOfFiles(context.Context, int64, string, []*os.File) (ImplResponse, error)
 }
 
 

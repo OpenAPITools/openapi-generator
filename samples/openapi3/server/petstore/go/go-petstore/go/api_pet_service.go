@@ -43,7 +43,7 @@ func (s *PetAPIService) AddPet(ctx context.Context, pet Pet) (ImplResponse, erro
 }
 
 // DeletePet - Deletes a pet
-func (s *PetAPIService) DeletePet(ctx context.Context, petId int64, apiKey *string) (ImplResponse, error) {
+func (s *PetAPIService) DeletePet(ctx context.Context, petId int64, apiKey string) (ImplResponse, error) {
 	// TODO - update DeletePet with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
@@ -120,7 +120,7 @@ func (s *PetAPIService) UpdatePet(ctx context.Context, pet Pet) (ImplResponse, e
 }
 
 // UpdatePetWithForm - Updates a pet in the store with form data
-func (s *PetAPIService) UpdatePetWithForm(ctx context.Context, petId int64, name *string, status *string) (ImplResponse, error) {
+func (s *PetAPIService) UpdatePetWithForm(ctx context.Context, petId int64, name string, status string) (ImplResponse, error) {
 	// TODO - update UpdatePetWithForm with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
@@ -131,7 +131,7 @@ func (s *PetAPIService) UpdatePetWithForm(ctx context.Context, petId int64, name
 }
 
 // UploadFile - uploads an image
-func (s *PetAPIService) UploadFile(ctx context.Context, petId int64, additionalMetadata *string, file **os.File) (ImplResponse, error) {
+func (s *PetAPIService) UploadFile(ctx context.Context, petId int64, additionalMetadata string, file *os.File) (ImplResponse, error) {
 	// TODO - update UploadFile with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
