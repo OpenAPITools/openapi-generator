@@ -28,8 +28,8 @@ import java.util.List;
 import java.util.Set;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
