@@ -69,6 +69,7 @@ func (o *NestedObject2) SetField2(v string) {
 	o.Field2 = v
 }
 
+
 func (o NestedObject2) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -91,20 +92,32 @@ func (o *NestedObject2) UnmarshalJSON(data []byte) (err error) {
 		"field2",
 	}
 
+	defaultValueFuncMap := map[string]func() interface{} {
+	}
+
 	allProperties := make(map[string]interface{})
-
+	var defaultValueApplied bool
 	err = json.Unmarshal(data, &allProperties)
-
 	if err != nil {
 		return err;
 	}
-
-	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
+	for _, requiredProperty := range(requiredProperties){
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
+			if _, ok := defaultValueFuncMap[requiredProperty]; ok {
+				allProperties[requiredProperty] = defaultValueFuncMap[requiredProperty]()
+				defaultValueApplied = true
+			}
+		}
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
 	}
-
+	if defaultValueApplied{
+		data, err = json.Marshal(allProperties)
+		if err != nil{
+			return err
+		}
+	}
 	varNestedObject2 := _NestedObject2{}
 
 	decoder := json.NewDecoder(bytes.NewReader(data))

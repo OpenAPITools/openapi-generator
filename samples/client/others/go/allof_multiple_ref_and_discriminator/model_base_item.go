@@ -70,6 +70,7 @@ func (o *BaseItem) SetTitle(v string) {
 	o.Title = v
 }
 
+
 // GetType returns the Type field value
 func (o *BaseItem) GetType() string {
 	if o == nil {
@@ -93,6 +94,7 @@ func (o *BaseItem) GetTypeOk() (*string, bool) {
 func (o *BaseItem) SetType(v string) {
 	o.Type = v
 }
+
 
 func (o BaseItem) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
@@ -118,20 +120,32 @@ func (o *BaseItem) UnmarshalJSON(data []byte) (err error) {
 		"type",
 	}
 
+	defaultValueFuncMap := map[string]func() interface{} {
+	}
+
 	allProperties := make(map[string]interface{})
-
+	var defaultValueApplied bool
 	err = json.Unmarshal(data, &allProperties)
-
 	if err != nil {
 		return err;
 	}
-
-	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
+	for _, requiredProperty := range(requiredProperties){
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
+			if _, ok := defaultValueFuncMap[requiredProperty]; ok {
+				allProperties[requiredProperty] = defaultValueFuncMap[requiredProperty]()
+				defaultValueApplied = true
+			}
+		}
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
 	}
-
+	if defaultValueApplied{
+		data, err = json.Marshal(allProperties)
+		if err != nil{
+			return err
+		}
+	}
 	varBaseItem := _BaseItem{}
 
 	decoder := json.NewDecoder(bytes.NewReader(data))

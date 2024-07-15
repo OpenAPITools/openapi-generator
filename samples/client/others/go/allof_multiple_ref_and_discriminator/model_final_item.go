@@ -77,6 +77,7 @@ func (o *FinalItem) SetProp1(v string) {
 	o.Prop1 = v
 }
 
+
 // GetQuantity returns the Quantity field value
 func (o *FinalItem) GetQuantity() int32 {
 	if o == nil {
@@ -100,6 +101,7 @@ func (o *FinalItem) GetQuantityOk() (*int32, bool) {
 func (o *FinalItem) SetQuantity(v int32) {
 	o.Quantity = v
 }
+
 
 // GetUnitPrice returns the UnitPrice field value
 func (o *FinalItem) GetUnitPrice() float64 {
@@ -125,6 +127,7 @@ func (o *FinalItem) SetUnitPrice(v float64) {
 	o.UnitPrice = v
 }
 
+
 // GetTotalPrice returns the TotalPrice field value
 func (o *FinalItem) GetTotalPrice() float64 {
 	if o == nil {
@@ -148,6 +151,7 @@ func (o *FinalItem) GetTotalPriceOk() (*float64, bool) {
 func (o *FinalItem) SetTotalPrice(v float64) {
 	o.TotalPrice = v
 }
+
 
 func (o FinalItem) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
@@ -179,20 +183,32 @@ func (o *FinalItem) UnmarshalJSON(data []byte) (err error) {
 		"type",
 	}
 
+	defaultValueFuncMap := map[string]func() interface{} {
+	}
+
 	allProperties := make(map[string]interface{})
-
+	var defaultValueApplied bool
 	err = json.Unmarshal(data, &allProperties)
-
 	if err != nil {
 		return err;
 	}
-
-	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
+	for _, requiredProperty := range(requiredProperties){
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
+			if _, ok := defaultValueFuncMap[requiredProperty]; ok {
+				allProperties[requiredProperty] = defaultValueFuncMap[requiredProperty]()
+				defaultValueApplied = true
+			}
+		}
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
 	}
-
+	if defaultValueApplied{
+		data, err = json.Marshal(allProperties)
+		if err != nil{
+			return err
+		}
+	}
 	varFinalItem := _FinalItem{}
 
 	decoder := json.NewDecoder(bytes.NewReader(data))

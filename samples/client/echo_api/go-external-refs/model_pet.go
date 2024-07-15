@@ -108,6 +108,7 @@ func (o *Pet) SetName(v string) {
 	o.Name = v
 }
 
+
 // GetCategory returns the Category field value if set, zero value otherwise.
 func (o *Pet) GetCategory() Category {
 	if o == nil || IsNil(o.Category) {
@@ -163,6 +164,7 @@ func (o *Pet) GetPhotoUrlsOk() ([]string, bool) {
 func (o *Pet) SetPhotoUrls(v []string) {
 	o.PhotoUrls = v
 }
+
 
 // GetTags returns the Tags field value if set, zero value otherwise.
 func (o *Pet) GetTags() []Tag {
@@ -264,20 +266,32 @@ func (o *Pet) UnmarshalJSON(data []byte) (err error) {
 		"photoUrls",
 	}
 
+	defaultValueFuncMap := map[string]func() interface{} {
+	}
+
 	allProperties := make(map[string]interface{})
-
+	var defaultValueApplied bool
 	err = json.Unmarshal(data, &allProperties)
-
 	if err != nil {
 		return err;
 	}
-
-	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
+	for _, requiredProperty := range(requiredProperties){
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
+			if _, ok := defaultValueFuncMap[requiredProperty]; ok {
+				allProperties[requiredProperty] = defaultValueFuncMap[requiredProperty]()
+				defaultValueApplied = true
+			}
+		}
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
 	}
-
+	if defaultValueApplied{
+		data, err = json.Marshal(allProperties)
+		if err != nil{
+			return err
+		}
+	}
 	varPet := _Pet{}
 
 	decoder := json.NewDecoder(bytes.NewReader(data))

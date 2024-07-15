@@ -74,6 +74,7 @@ func (o *AdditionalData) SetProp1(v string) {
 	o.Prop1 = v
 }
 
+
 // GetQuantity returns the Quantity field value
 func (o *AdditionalData) GetQuantity() int32 {
 	if o == nil {
@@ -97,6 +98,7 @@ func (o *AdditionalData) GetQuantityOk() (*int32, bool) {
 func (o *AdditionalData) SetQuantity(v int32) {
 	o.Quantity = v
 }
+
 
 // GetUnitPrice returns the UnitPrice field value
 func (o *AdditionalData) GetUnitPrice() float64 {
@@ -122,6 +124,7 @@ func (o *AdditionalData) SetUnitPrice(v float64) {
 	o.UnitPrice = v
 }
 
+
 // GetTotalPrice returns the TotalPrice field value
 func (o *AdditionalData) GetTotalPrice() float64 {
 	if o == nil {
@@ -145,6 +148,7 @@ func (o *AdditionalData) GetTotalPriceOk() (*float64, bool) {
 func (o *AdditionalData) SetTotalPrice(v float64) {
 	o.TotalPrice = v
 }
+
 
 func (o AdditionalData) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
@@ -174,20 +178,32 @@ func (o *AdditionalData) UnmarshalJSON(data []byte) (err error) {
 		"totalPrice",
 	}
 
+	defaultValueFuncMap := map[string]func() interface{} {
+	}
+
 	allProperties := make(map[string]interface{})
-
+	var defaultValueApplied bool
 	err = json.Unmarshal(data, &allProperties)
-
 	if err != nil {
 		return err;
 	}
-
-	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
+	for _, requiredProperty := range(requiredProperties){
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
+			if _, ok := defaultValueFuncMap[requiredProperty]; ok {
+				allProperties[requiredProperty] = defaultValueFuncMap[requiredProperty]()
+				defaultValueApplied = true
+			}
+		}
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
 	}
-
+	if defaultValueApplied{
+		data, err = json.Marshal(allProperties)
+		if err != nil{
+			return err
+		}
+	}
 	varAdditionalData := _AdditionalData{}
 
 	decoder := json.NewDecoder(bytes.NewReader(data))

@@ -185,6 +185,7 @@ func (o *FormatTest) SetNumber(v float32) {
 	o.Number = v
 }
 
+
 // GetFloat returns the Float field value if set, zero value otherwise.
 func (o *FormatTest) GetFloat() float32 {
 	if o == nil || IsNil(o.Float) {
@@ -305,6 +306,7 @@ func (o *FormatTest) SetByte(v string) {
 	o.Byte = v
 }
 
+
 // GetBinary returns the Binary field value if set, zero value otherwise.
 func (o *FormatTest) GetBinary() *os.File {
 	if o == nil || IsNil(o.Binary) {
@@ -360,6 +362,7 @@ func (o *FormatTest) GetDateOk() (*string, bool) {
 func (o *FormatTest) SetDate(v string) {
 	o.Date = v
 }
+
 
 // GetDateTime returns the DateTime field value if set, zero value otherwise.
 func (o *FormatTest) GetDateTime() time.Time {
@@ -448,6 +451,7 @@ func (o *FormatTest) GetPasswordOk() (*string, bool) {
 func (o *FormatTest) SetPassword(v string) {
 	o.Password = v
 }
+
 
 // GetPatternWithDigits returns the PatternWithDigits field value if set, zero value otherwise.
 func (o *FormatTest) GetPatternWithDigits() string {
@@ -579,20 +583,32 @@ func (o *FormatTest) UnmarshalJSON(data []byte) (err error) {
 		"password",
 	}
 
+	defaultValueFuncMap := map[string]func() interface{} {
+	}
+
 	allProperties := make(map[string]interface{})
-
+	var defaultValueApplied bool
 	err = json.Unmarshal(data, &allProperties)
-
 	if err != nil {
 		return err;
 	}
-
-	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
+	for _, requiredProperty := range(requiredProperties){
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
+			if _, ok := defaultValueFuncMap[requiredProperty]; ok {
+				allProperties[requiredProperty] = defaultValueFuncMap[requiredProperty]()
+				defaultValueApplied = true
+			}
+		}
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
 	}
-
+	if defaultValueApplied{
+		data, err = json.Marshal(allProperties)
+		if err != nil{
+			return err
+		}
+	}
 	varFormatTest := _FormatTest{}
 
 	err = json.Unmarshal(data, &varFormatTest)

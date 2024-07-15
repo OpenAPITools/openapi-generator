@@ -80,6 +80,7 @@ func (o *TypeHolderDefault) SetStringItem(v string) {
 	o.StringItem = v
 }
 
+
 // GetNumberItem returns the NumberItem field value
 func (o *TypeHolderDefault) GetNumberItem() float32 {
 	if o == nil {
@@ -103,6 +104,7 @@ func (o *TypeHolderDefault) GetNumberItemOk() (*float32, bool) {
 func (o *TypeHolderDefault) SetNumberItem(v float32) {
 	o.NumberItem = v
 }
+
 
 // GetIntegerItem returns the IntegerItem field value
 func (o *TypeHolderDefault) GetIntegerItem() int32 {
@@ -128,6 +130,7 @@ func (o *TypeHolderDefault) SetIntegerItem(v int32) {
 	o.IntegerItem = v
 }
 
+
 // GetBoolItem returns the BoolItem field value
 func (o *TypeHolderDefault) GetBoolItem() bool {
 	if o == nil {
@@ -152,6 +155,7 @@ func (o *TypeHolderDefault) SetBoolItem(v bool) {
 	o.BoolItem = v
 }
 
+
 // GetArrayItem returns the ArrayItem field value
 func (o *TypeHolderDefault) GetArrayItem() []int32 {
 	if o == nil {
@@ -175,6 +179,7 @@ func (o *TypeHolderDefault) GetArrayItemOk() ([]int32, bool) {
 func (o *TypeHolderDefault) SetArrayItem(v []int32) {
 	o.ArrayItem = v
 }
+
 
 func (o TypeHolderDefault) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
@@ -206,20 +211,32 @@ func (o *TypeHolderDefault) UnmarshalJSON(data []byte) (err error) {
 		"array_item",
 	}
 
+	defaultValueFuncMap := map[string]func() interface{} {
+	}
+
 	allProperties := make(map[string]interface{})
-
+	var defaultValueApplied bool
 	err = json.Unmarshal(data, &allProperties)
-
 	if err != nil {
 		return err;
 	}
-
-	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
+	for _, requiredProperty := range(requiredProperties){
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
+			if _, ok := defaultValueFuncMap[requiredProperty]; ok {
+				allProperties[requiredProperty] = defaultValueFuncMap[requiredProperty]()
+				defaultValueApplied = true
+			}
+		}
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
 	}
-
+	if defaultValueApplied{
+		data, err = json.Marshal(allProperties)
+		if err != nil{
+			return err
+		}
+	}
 	varTypeHolderDefault := _TypeHolderDefault{}
 
 	decoder := json.NewDecoder(bytes.NewReader(data))
