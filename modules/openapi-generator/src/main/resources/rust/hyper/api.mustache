@@ -6,18 +6,19 @@ use std::pin::Pin;
 use std::option::Option;
 
 use hyper;
+use hyper_util::client::legacy::connect::Connect;
 use futures::Future;
 
 use crate::models;
 use super::{Error, configuration};
 use super::request as __internal_request;
 
-pub struct {{{classname}}}Client<C: hyper::client::connect::Connect>
+pub struct {{{classname}}}Client<C: Connect>
     where C: Clone + std::marker::Send + Sync + 'static {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::connect::Connect> {{{classname}}}Client<C>
+impl<C: Connect> {{{classname}}}Client<C>
     where C: Clone + std::marker::Send + Sync {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> {{{classname}}}Client<C> {
         {{{classname}}}Client {
@@ -34,7 +35,7 @@ pub trait {{{classname}}} {
 {{/operations}}
 }
 
-impl<C: hyper::client::connect::Connect>{{{classname}}} for {{{classname}}}Client<C>
+impl<C: Connect>{{{classname}}} for {{{classname}}}Client<C>
     where C: Clone + std::marker::Send + Sync {
  {{#operations}}
  {{#operation}}

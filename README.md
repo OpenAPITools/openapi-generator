@@ -599,6 +599,7 @@ Here is a list of community-contributed IDE plug-ins that integrate with OpenAPI
 Here are some companies/projects (alphabetical order) using OpenAPI Generator in production. To add your company/project to the list, please visit [README.md](README.md) and click on the icon to edit the page.
 
 - [Aalborg University](https://www.aau.dk)
+- [act coding](https://github.com/actcoding)
 - [Adaptant Solutions AG](https://www.adaptant.io/)
 - [adesso SE](https://www.adesso.de/)
 - [Adyen](https://www.adyen.com/)
