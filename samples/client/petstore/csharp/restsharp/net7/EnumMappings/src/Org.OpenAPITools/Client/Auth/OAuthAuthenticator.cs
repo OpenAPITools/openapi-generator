@@ -100,7 +100,7 @@ namespace Org.OpenAPITools.Client.Auth
                 request.AddParameter("scope", _scope);
             }
 
-            if (_multipartFormData)
+            if (_multipartFormData == true)
             {
                 request.AlwaysMultipartFormData = true;
             }
