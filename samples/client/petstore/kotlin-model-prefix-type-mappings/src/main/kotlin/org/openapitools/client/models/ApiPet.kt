@@ -156,16 +156,15 @@ data class ApiPet (
               ApiCategory.validateJsonElement(jsonObj["category"])
             }
             if (jsonObj["tags"] != null && !jsonObj["tags"].isJsonNull) {
-              val jsonArraytags = jsonObj.getAsJsonArray("tags")
-              if (jsonArraytags != null) {
+              if (jsonObj.getAsJsonArray("tags") != null) {
                 // ensure the json data is an array
                 require(jsonObj["tags"].isJsonArray) {
                   String.format("Expected the field `tags` to be an array in the JSON string but got `%s`", jsonObj["tags"].toString())
                 }
       
                 // validate the optional field `tags` (array)
-                for (i in 0 until jsonArraytags.size()) {
-                  ApiTag.validateJsonElement(jsonArraytags[i])
+                for (i in 0 until jsonObj.getAsJsonArray("tags").size()) {
+                  ApiTag.validateJsonElement(jsonObj.getAsJsonArray("tags").get(i))
                 }
               }
             }

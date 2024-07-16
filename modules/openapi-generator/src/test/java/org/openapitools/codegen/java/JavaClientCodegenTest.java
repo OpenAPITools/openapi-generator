@@ -1491,6 +1491,38 @@ public class JavaClientCodegenTest {
                 .containsWithNameAndAttributes("JsonbProperty", ImmutableMap.of("value", "\"c\""));
     }
 
+    @Test
+    public void testMicroprofileGenerateCorrectJacksonGenerator_issue18336() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0");
+        properties.put(CodegenConstants.SERIALIZATION_LIBRARY, JavaClientCodegen.SERIALIZATION_LIBRARY_JACKSON);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+
+                .setAdditionalProperties(properties)
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .setInputSpec("src/test/resources/bugs/issue_18336.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .assertConstructor("String")
+                .assertConstructorAnnotations()
+                .containsWithName("JsonCreator")
+                .toConstructor()
+                .hasParameter("name")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "JSON_PROPERTY_NAME", "required", "true"));
+    }
+
     @Test public void testJavaClientDefaultValues_issueNoNumber() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -2889,4 +2921,38 @@ public class JavaClientCodegenTest {
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"item\""))
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"activities-array\""));
     }
+
+
+    @Test
+    public void shouldGenerateOAuthTokenSuppliers() {
+
+        final Map<String, File> files = generateFromContract(
+            "src/test/resources/3_0/java/oauth.yaml",
+            JavaClientCodegen.RESTTEMPLATE
+        );
+
+        final JavaFileAssert apiClient = JavaFileAssert.assertThat(files.get("ApiClient.java"))
+            .printFileContent();
+        apiClient
+            .assertMethod("setAccessToken", "String")
+            .bodyContainsLines("setAccessToken(() -> accessToken);");
+        apiClient
+            .assertMethod("setAccessToken", "Supplier<String>")
+            .bodyContainsLines("((OAuth) auth).setAccessToken(tokenSupplier);");
+
+        final JavaFileAssert oAuth = JavaFileAssert.assertThat(files.get("OAuth.java"))
+            .printFileContent();
+        oAuth
+            .assertMethod("setAccessToken", "String")
+            .bodyContainsLines("setAccessToken(() -> accessToken);");
+        oAuth
+            .assertMethod("setAccessToken", "Supplier<String>")
+            .bodyContainsLines("this.tokenSupplier = tokenSupplier;");
+        oAuth
+            .assertMethod("applyToParams")
+            .bodyContainsLines("Optional.ofNullable(tokenSupplier).map(Supplier::get).ifPresent(accessToken ->")
+            .bodyContainsLines("headerParams.add(HttpHeaders.AUTHORIZATION, \"Bearer \" + accessToken)");
+
+    }
+
 }

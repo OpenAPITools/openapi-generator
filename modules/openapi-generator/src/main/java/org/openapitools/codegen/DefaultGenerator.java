@@ -96,12 +96,8 @@ public class DefaultGenerator implements Generator {
     private String contextPath;
     private Map<String, String> generatorPropertyDefaults = new HashMap<>();
     /**
-     * -- GETTER --
      *  Retrieves an instance to the configured template processor, available after user-defined options are
      *  applied via 
-     * .
-     *
-     * @return A configured {@link TemplateProcessor}, or null.
      */
     @Getter protected TemplateProcessor templateProcessor = null;
 

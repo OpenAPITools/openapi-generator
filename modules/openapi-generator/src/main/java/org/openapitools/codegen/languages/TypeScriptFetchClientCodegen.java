@@ -804,10 +804,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                     newItemsDataType = "string";
                     var.dataTypeAlternate = var.dataTypeAlternate.replace("number", newItemsDataType);
                 }
-
-                if (var.itemsAreNullable()) {
-                    var.dataTypeAlternate = var.dataTypeAlternate.replace(newItemsDataType, newItemsDataType + " | null");
-                }
             } else if (var.isEnum) {
                 var.dataTypeAlternate = var.datatypeWithEnum;
             } else if (var.isModel) {
@@ -823,10 +819,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             }
         }
         return parentIsEntity;
-    }
-
-    private boolean itemsAreNullable(ExtendedCodegenProperty var) {
-        return var.items.isNullable || (var.items.items != null && var.items.items.isNullable);
     }
 
     private void escapeOperationIds(OperationsMap operations) {
@@ -925,10 +917,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                         newItemsDataType = "string";
                         param.dataTypeAlternate = param.dataTypeAlternate.replace("number", newItemsDataType);
                     }
-
-                    if (param.itemsAreNullable()) {
-                        param.dataTypeAlternate = param.dataTypeAlternate.replace(newItemsDataType, newItemsDataType + " | null");
-                    }
                 } else if (param.isEnum) {
                     param.dataTypeAlternate = param.datatypeWithEnum;
                 } else if (param.isModel) {
@@ -1022,16 +1010,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         return false;
     }
 
-    private static boolean itemsAreNullable(CodegenProperty items) {
-        if (items == null) {
-            return true;
-        }
-        if (items.items != null) {
-            return itemsAreNullable(items.items);
-        }
-        return items.isNullable;
-    }
-
     private static String getItemsDataType(CodegenProperty items) {
         if (items == null) {
             return null;
@@ -1050,10 +1028,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         public boolean itemsAreUniqueId() {
             return TypeScriptFetchClientCodegen.itemsAreUniqueId(this.items);
-        }
-
-        public boolean itemsAreNullable() {
-            return TypeScriptFetchClientCodegen.itemsAreNullable(this.items);
         }
 
         public String getItemsDataType() {
@@ -1120,6 +1094,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.isMap = cp.isMap;
             this.isFile = cp.isFile;
             this.isEnum = cp.isEnum;
+            this.isEnumRef = cp.isEnumRef;
             this._enum = cp._enum;
             this.allowableValues = cp.allowableValues;
             this.items = cp.items;
@@ -1205,10 +1180,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             return TypeScriptFetchClientCodegen.itemsAreUniqueId(this.items);
         }
 
-        public boolean itemsAreNullable() {
-            return TypeScriptFetchClientCodegen.itemsAreNullable(this.items);
-        }
-
         public String getItemsDataType() {
             return TypeScriptFetchClientCodegen.getItemsDataType(this.items);
         }
@@ -1280,6 +1251,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.isArray = cp.isArray;
             this.isMap = cp.isMap;
             this.isEnum = cp.isEnum;
+            this.isEnumRef = cp.isEnumRef;
             this.isReadOnly = cp.isReadOnly;
             this.isWriteOnly = cp.isWriteOnly;
             this.isNullable = cp.isNullable;

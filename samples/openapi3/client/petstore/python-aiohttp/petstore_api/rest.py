@@ -187,10 +187,10 @@ class RESTClientObject:
                         data.add_field(k, v)
                 args["data"] = data
 
-            # Pass a `bytes` parameter directly in the body to support
+            # Pass a `bytes` or `str` parameter directly in the body to support
             # other content types than Json when `body` argument is provided
             # in serialized form
-            elif isinstance(body, bytes):
+            elif isinstance(body, str) or isinstance(body, bytes):
                 args["data"] = body
             else:
                 # Cannot generate the request from given parameters

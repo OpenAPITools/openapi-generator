@@ -343,7 +343,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        filePost(filePostRequest?: FilePostRequest, options?: any): AxiosPromise<void> {
+        filePost(filePostRequest?: FilePostRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.filePost(filePostRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -352,7 +352,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest | null, options?: any): AxiosPromise<void> {
+        petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest | null, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.petsFilteredPatch(petsFilteredPatchRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -361,7 +361,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        petsPatch(petsPatchRequest?: PetsPatchRequest | null, options?: any): AxiosPromise<void> {
+        petsPatch(petsPatchRequest?: PetsPatchRequest | null, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.petsPatch(petsPatchRequest, options).then((request) => request(axios, basePath));
         },
     };

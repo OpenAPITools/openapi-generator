@@ -46,6 +46,7 @@ docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
 docs/IsoscelesTriangle.md
 docs/Mammal.md
+docs/MammalAnyof.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
@@ -158,6 +159,7 @@ src/main/java/org/openapitools/client/model/HasOnlyReadOnly.java
 src/main/java/org/openapitools/client/model/HealthCheckResult.java
 src/main/java/org/openapitools/client/model/IsoscelesTriangle.java
 src/main/java/org/openapitools/client/model/Mammal.java
+src/main/java/org/openapitools/client/model/MammalAnyof.java
 src/main/java/org/openapitools/client/model/MapTest.java
 src/main/java/org/openapitools/client/model/MixedPropertiesAndAdditionalPropertiesClass.java
 src/main/java/org/openapitools/client/model/Model200Response.java

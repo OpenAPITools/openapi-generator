@@ -9,8 +9,10 @@ on:
       - samples/client/petstore/spring-http-interface-reactive/**
       - samples/client/petstore/spring-http-interface/**
       - samples/client/petstore/java/webclient-jakarta/**
+      - samples/client/petstore/java/microprofile-rest-client-outer-enum/**
       # servers
       - samples/openapi3/server/petstore/springboot-3/**
+      - samples/server/petstore/java-camel/**
       - samples/server/petstore/java-helidon-server/v3/mp/**
       - samples/server/petstore/java-helidon-server/v3/se/**
   pull_request:
@@ -22,8 +24,10 @@ on:
       - samples/client/petstore/spring-http-interface-reactive/**
       - samples/client/petstore/spring-http-interface/**
       - samples/client/petstore/java/webclient-jakarta/**
+      - samples/client/petstore/java/microprofile-rest-client-outer-enum/**
       # servers
       - samples/openapi3/server/petstore/springboot-3/**
+      - samples/server/petstore/java-camel/**
       - samples/server/petstore/java-helidon-server/v3/mp/**
       - samples/server/petstore/java-helidon-server/v3/se/**
 jobs:
@@ -41,8 +45,10 @@ jobs:
           - samples/client/petstore/spring-http-interface-reactive
           - samples/client/petstore/spring-http-interface
           - samples/client/petstore/java/webclient-jakarta
+          - samples/client/petstore/java/microprofile-rest-client-outer-enum
           # servers
           - samples/openapi3/server/petstore/springboot-3
+          - samples/server/petstore/java-camel/
           - samples/server/petstore/java-helidon-server/v3/mp/
           - samples/server/petstore/java-helidon-server/v3/se
           - samples/client/petstore/spring-http-interface-reactive

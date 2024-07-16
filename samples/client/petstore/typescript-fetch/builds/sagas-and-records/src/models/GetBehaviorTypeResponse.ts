@@ -46,6 +46,8 @@ export interface GetBehaviorTypeResponse {
     data?: BehaviorType;
 }
 
+
+
 /**
  * Check if a given object implements the GetBehaviorTypeResponse interface.
  */

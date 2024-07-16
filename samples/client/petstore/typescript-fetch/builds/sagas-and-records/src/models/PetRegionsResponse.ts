@@ -34,10 +34,10 @@ export interface PetRegionsResponse {
     meta: ResponseMeta;
     /**
      * An array of all 15-minute time slots in 24 hours.
-     * @type {Array<Array<number>>}
+     * @type {Array<Array<number | null>>}
      * @memberof PetRegionsResponse
      */
-    data?: Array<Array<number>>;
+    data?: Array<Array<number | null>>;
 }
 
 /**
