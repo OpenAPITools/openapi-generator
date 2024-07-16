@@ -45,7 +45,6 @@ namespace Org.OpenAPITools.Client.Auth
             _clientId = clientId;
             _clientSecret = clientSecret;
             _scope = scope;
-            _multipartFormData = multipartFormData;
             _serializerSettings = serializerSettings;
             _configuration = configuration;
 
