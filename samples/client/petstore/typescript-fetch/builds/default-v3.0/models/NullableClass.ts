@@ -64,16 +64,16 @@ export interface NullableClass {
     arrayNullableProp?: Array<object> | null;
     /**
      * 
-     * @type {Array<object>}
+     * @type {Array<object | null>}
      * @memberof NullableClass
      */
-    arrayAndItemsNullableProp?: Array<object> | null;
+    arrayAndItemsNullableProp?: Array<object | null> | null;
     /**
      * 
-     * @type {Array<object>}
+     * @type {Array<object | null>}
      * @memberof NullableClass
      */
-    arrayItemsNullable?: Array<object>;
+    arrayItemsNullable?: Array<object | null>;
     /**
      * 
      * @type {{ [key: string]: object; }}

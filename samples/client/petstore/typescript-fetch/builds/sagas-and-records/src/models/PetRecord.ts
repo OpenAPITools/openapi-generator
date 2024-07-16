@@ -67,7 +67,7 @@ export const PetRecordProps = {
     tags: (TagRecord(), List<TagRecord>()),
     optionalTags: (TagRecord(), null as List<TagRecord> | null),
     status: PetStatusEnum.Pending,
-    regions: null as List<List<string | null>> | null,
+    regions: null as List<List<string | null | null>> | null,
 };
 
 export type PetRecordPropsType = typeof PetRecordProps;

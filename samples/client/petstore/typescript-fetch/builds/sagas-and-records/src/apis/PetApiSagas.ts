@@ -429,7 +429,7 @@ export interface PayloadGetPetRegionsRequest {
 }
 
 export const getPetRegionsRequest = createSagaAction<PayloadGetPetRegionsRequest>("getPetRegionsRequest");
-export const getPetRegionsSuccess = createSagaAction<List<List<string | null>>>("getPetRegionsSuccess");
+export const getPetRegionsSuccess = createSagaAction<List<List<string | null | null>>>("getPetRegionsSuccess");
 export const getPetRegionsFailure = createSagaAction<{error: any, requestPayload: PayloadGetPetRegions}>("getPetRegionsFailure");
 
 export const getPetRegions = createSagaAction<PayloadGetPetRegions>("getPetRegions");
@@ -512,11 +512,11 @@ export interface PayloadUpdatePetRegions extends PayloadUpdatePetRegionsRequest,
 
 export interface PayloadUpdatePetRegionsRequest {
     petId: string;
-    newRegions: List<List<string | null>>;
+    newRegions: List<List<string | null | null>>;
 }
 
 export const updatePetRegionsRequest = createSagaAction<PayloadUpdatePetRegionsRequest>("updatePetRegionsRequest");
-export const updatePetRegionsSuccess = createSagaAction<List<List<string | null>>>("updatePetRegionsSuccess");
+export const updatePetRegionsSuccess = createSagaAction<List<List<string | null | null>>>("updatePetRegionsSuccess");
 export const updatePetRegionsFailure = createSagaAction<{error: any, requestPayload: PayloadUpdatePetRegions}>("updatePetRegionsFailure");
 
 export const updatePetRegions = createSagaAction<PayloadUpdatePetRegions>("updatePetRegions");
