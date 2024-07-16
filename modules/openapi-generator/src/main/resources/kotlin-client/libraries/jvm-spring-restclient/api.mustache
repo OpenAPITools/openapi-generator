@@ -92,7 +92,7 @@ import {{packageName}}.infrastructure.*
           }}{{#bodyParams}}{{{paramName}}}{{/bodyParams}}{{/hasBodyParam}}{{^hasBodyParam}}{{!
           }}{{^hasFormParams}}null{{/hasFormParams}}{{!
           }}{{#hasFormParams}}mapOf({{#formParams}}
-            "{{{baseName}}}" to PartConfig(body = {{{paramName}}}{{#isEnum}}.value{{/isEnum}}, headers = mutableMapOf({{#contentType}}"Content-Type" to "{{contentType}}"{{/contentType}})),{{!
+            "{{{baseName}}}" to PartConfig(body = {{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}, headers = mutableMapOf({{#contentType}}"Content-Type" to "{{contentType}}"{{/contentType}})),{{!
             }}{{/formParams}}){{/hasFormParams}}{{!
         }}{{/hasBodyParam}}
         val localVariableQuery = {{^hasQueryParams}}mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
@@ -127,7 +127,7 @@ import {{packageName}}.infrastructure.*
 
         val params = mutableMapOf<String, Any>(
         {{#pathParams}}
-            "{{baseName}}" to {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}.value{{/isEnum}}{{/isContainer}},
+            "{{baseName}}" to {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}{{/isContainer}},
         {{/pathParams}}
         )
 
