@@ -401,12 +401,6 @@ namespace Org.OpenAPITools.Client
         public virtual string? OAuthScope { get; set; }
 
         /// <summary>
-        /// Gets or sets OAuthMultipartFormData for OAuth2 authentication.
-        /// </summary>
-        /// <value>Send OAuth request as MultipartFormData.</value>
-        public virtual bool? OAuthMultipartFormData { get; set; }
-
-        /// <summary>
         /// Gets or sets the flow for OAuth2 authentication.
         /// </summary>
         /// <value>The OAuth Flow.</value>
@@ -744,7 +738,6 @@ namespace Org.OpenAPITools.Client
                 OAuthClientId = second.OAuthClientId ?? first.OAuthClientId,
                 OAuthClientSecret = second.OAuthClientSecret ?? first.OAuthClientSecret,
                 OAuthScope = second.OAuthScope ?? first.OAuthScope,
-                OAuthMultipartFormData = second.OAuthMultipartFormData ?? first.OAuthMultipartFormData,
                 OAuthFlow = second.OAuthFlow ?? first.OAuthFlow,
                 HttpSigningConfiguration = second.HttpSigningConfiguration ?? first.HttpSigningConfiguration,
                 TempFolderPath = second.TempFolderPath ?? first.TempFolderPath,

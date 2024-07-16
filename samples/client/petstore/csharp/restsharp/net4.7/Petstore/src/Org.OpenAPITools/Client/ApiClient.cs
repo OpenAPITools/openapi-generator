@@ -475,7 +475,6 @@ namespace Org.OpenAPITools.Client
                     configuration.OAuthClientId,
                     configuration.OAuthClientSecret,
                     configuration.OAuthScope,
-                    configuration.OAuthMultipartFormData,
                     configuration.OAuthFlow,
                     SerializerSettings,
                     configuration);

@@ -53,12 +53,6 @@ namespace Org.OpenAPITools.Client
         string? OAuthScope { get; }
 
         /// <summary>
-        /// Gets OAuthMultipartFormData value.
-        /// </summary>
-        /// <value>Send OAuth request as MultipartFormData.</value>
-        bool? OAuthMultipartFormData { get; }
-        
-        /// <summary>
         /// Gets the OAuth flow.
         /// </summary>
         /// <value>OAuth Flow.</value>
