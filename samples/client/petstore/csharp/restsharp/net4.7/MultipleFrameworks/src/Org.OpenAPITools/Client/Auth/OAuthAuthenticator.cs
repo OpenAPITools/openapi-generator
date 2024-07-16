@@ -20,7 +20,7 @@ namespace Org.OpenAPITools.Client.Auth
     /// An authenticator for OAuth2 authentication flows
     /// </summary>
     public class OAuthAuthenticator : AuthenticatorBase
-    {g
+    {
         readonly string _tokenUrl;
         readonly string _clientId;
         readonly string _clientSecret;
