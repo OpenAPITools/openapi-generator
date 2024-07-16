@@ -104,7 +104,7 @@ public class TypeHolderExample  implements Serializable {
   }
 
   
-  @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "-2", required = true, description = "")
+  @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty("integer_item")
   @NotNull public Integer getIntegerItem() {
     return integerItem;

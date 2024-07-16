@@ -75,8 +75,6 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new EnumClassJsonConverter());
             _jsonOptions.Converters.Add(new EnumClassNullableJsonConverter());
             _jsonOptions.Converters.Add(new EnumTestJsonConverter());
-            _jsonOptions.Converters.Add(new EnumTestEnumIntegerJsonConverter());
-            _jsonOptions.Converters.Add(new EnumTestEnumIntegerNullableJsonConverter());
             _jsonOptions.Converters.Add(new EnumTestEnumIntegerOnlyJsonConverter());
             _jsonOptions.Converters.Add(new EnumTestEnumIntegerOnlyNullableJsonConverter());
             _jsonOptions.Converters.Add(new EnumTestEnumStringJsonConverter());

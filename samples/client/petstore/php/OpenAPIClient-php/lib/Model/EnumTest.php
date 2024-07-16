@@ -277,7 +277,7 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
     public const ENUM_STRING_REQUIRED_LOWER = 'lower';
     public const ENUM_STRING_REQUIRED_EMPTY = '';
     public const ENUM_INTEGER_1 = 1;
-    public const ENUM_INTEGER_MINUS_1 = -1;
+    public const ENUM_INTEGER_null = null;
     public const ENUM_NUMBER_1_DOT_1 = 1.1;
     public const ENUM_NUMBER_MINUS_1_DOT_2 = -1.2;
 
@@ -318,7 +318,7 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
     {
         return [
             self::ENUM_INTEGER_1,
-            self::ENUM_INTEGER_MINUS_1,
+            self::ENUM_INTEGER_null,
         ];
     }
 

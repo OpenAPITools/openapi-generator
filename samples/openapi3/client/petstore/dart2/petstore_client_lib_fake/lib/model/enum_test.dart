@@ -370,12 +370,12 @@ class EnumTestEnumIntegerEnum {
   int toJson() => value;
 
   static const number1 = EnumTestEnumIntegerEnum._(1);
-  static const numberNegative1 = EnumTestEnumIntegerEnum._(-1);
+  static const null_ = EnumTestEnumIntegerEnum._(null);
 
   /// List of all possible values in this [enum][EnumTestEnumIntegerEnum].
   static const values = <EnumTestEnumIntegerEnum>[
     number1,
-    numberNegative1,
+    null_,
   ];
 
   static EnumTestEnumIntegerEnum? fromJson(dynamic value) => EnumTestEnumIntegerEnumTypeTransformer().decode(value);
@@ -415,7 +415,7 @@ class EnumTestEnumIntegerEnumTypeTransformer {
     if (data != null) {
       switch (data) {
         case 1: return EnumTestEnumIntegerEnum.number1;
-        case -1: return EnumTestEnumIntegerEnum.numberNegative1;
+        case null: return EnumTestEnumIntegerEnum.null_;
         default:
           if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');

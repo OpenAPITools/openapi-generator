@@ -133,7 +133,7 @@ public class TypeHolderExample   {
    * @return integerItem
    **/
   @JsonProperty(value = "integer_item")
-  @ApiModelProperty(example = "-2", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @NotNull 
   public Integer getIntegerItem() {
     return integerItem;

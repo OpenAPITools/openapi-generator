@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **EnumStringRequired** | **EnumTestEnumString** |  | 
-**EnumInteger** | **EnumTestEnumInteger** |  | [optional] 
+**EnumInteger** | **TestEnumParametersEnumQueryIntegerParameter** |  | [optional] 
 **EnumIntegerOnly** | **EnumTestEnumIntegerOnly** |  | [optional] 
 **EnumNumber** | **TestEnumParametersEnumQueryDoubleParameter** |  | [optional] 
 **EnumString** | **EnumTestEnumString** |  | [optional] 

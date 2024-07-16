@@ -98,7 +98,7 @@ namespace Org.OpenAPITools.Client.Auth
             }
 
             var response = await client.PostAsync<TokenResponse>(request).ConfigureAwait(false);
-
+            
             // RFC6749 - token_type is case insensitive.
             // RFC6750 - In Authorization header Bearer should be capitalized.
             // Fix the capitalization irrespective of token_type casing.

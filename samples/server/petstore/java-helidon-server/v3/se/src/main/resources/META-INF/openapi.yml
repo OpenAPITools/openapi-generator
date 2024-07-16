@@ -817,7 +817,7 @@ paths:
         schema:
           enum:
           - 1
-          - -2
+          - null
           format: int32
           type: integer
         style: form
@@ -1769,7 +1769,7 @@ components:
         enum_integer:
           enum:
           - 1
-          - -1
+          - null
           format: int32
           type: integer
         enum_number:

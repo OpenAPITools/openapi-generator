@@ -24,7 +24,7 @@ public class TypeHolderExample  {
   @ApiModelProperty(example = "1.234", required = true, value = "")
   private Float floatItem;
 
-  @ApiModelProperty(example = "-2", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   private Integer integerItem;
 
   @ApiModelProperty(example = "true", required = true, value = "")

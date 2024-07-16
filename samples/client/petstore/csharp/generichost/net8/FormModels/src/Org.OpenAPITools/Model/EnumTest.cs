@@ -42,7 +42,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="outerEnumInteger">outerEnumInteger</param>
         /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue</param>
         [JsonConstructor]
-        public EnumTest(EnumTestEnumString enumStringRequired, Option<EnumTestEnumInteger?> enumInteger = default, Option<EnumTestEnumIntegerOnly?> enumIntegerOnly = default, Option<TestEnumParametersEnumQueryDoubleParameter?> enumNumber = default, Option<EnumTestEnumString?> enumString = default, Option<OuterEnum?> outerEnum = default, Option<OuterEnumDefaultValue?> outerEnumDefaultValue = default, Option<OuterEnumInteger?> outerEnumInteger = default, Option<OuterEnumIntegerDefaultValue?> outerEnumIntegerDefaultValue = default)
+        public EnumTest(EnumTestEnumString enumStringRequired, Option<TestEnumParametersEnumQueryIntegerParameter?> enumInteger = default, Option<EnumTestEnumIntegerOnly?> enumIntegerOnly = default, Option<TestEnumParametersEnumQueryDoubleParameter?> enumNumber = default, Option<EnumTestEnumString?> enumString = default, Option<OuterEnum?> outerEnum = default, Option<OuterEnumDefaultValue?> outerEnumDefaultValue = default, Option<OuterEnumInteger?> outerEnumInteger = default, Option<OuterEnumIntegerDefaultValue?> outerEnumIntegerDefaultValue = default)
         {
             EnumStringRequired = enumStringRequired;
             EnumIntegerOption = enumInteger;
@@ -69,13 +69,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonIgnore]
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<EnumTestEnumInteger?> EnumIntegerOption { get; private set; }
+        public Option<TestEnumParametersEnumQueryIntegerParameter?> EnumIntegerOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets EnumInteger
         /// </summary>
         [JsonPropertyName("enum_integer")]
-        public EnumTestEnumInteger? EnumInteger { get { return this.EnumIntegerOption; } set { this.EnumIntegerOption = new(value); } }
+        public TestEnumParametersEnumQueryIntegerParameter? EnumInteger { get { return this.EnumIntegerOption; } set { this.EnumIntegerOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of EnumIntegerOnly
@@ -230,7 +230,7 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             Option<EnumTestEnumString?> enumStringRequired = default;
-            Option<EnumTestEnumInteger?> enumInteger = default;
+            Option<TestEnumParametersEnumQueryIntegerParameter?> enumInteger = default;
             Option<EnumTestEnumIntegerOnly?> enumIntegerOnly = default;
             Option<TestEnumParametersEnumQueryDoubleParameter?> enumNumber = default;
             Option<EnumTestEnumString?> enumString = default;
@@ -262,7 +262,7 @@ namespace Org.OpenAPITools.Model
                         case "enum_integer":
                             string enumIntegerRawValue = utf8JsonReader.GetString();
                             if (enumIntegerRawValue != null)
-                                enumInteger = new Option<EnumTestEnumInteger?>(EnumTestEnumIntegerValueConverter.FromStringOrDefault(enumIntegerRawValue));
+                                enumInteger = new Option<TestEnumParametersEnumQueryIntegerParameter?>(TestEnumParametersEnumQueryIntegerParameterValueConverter.FromStringOrDefault(enumIntegerRawValue));
                             break;
                         case "enum_integer_only":
                             string enumIntegerOnlyRawValue = utf8JsonReader.GetString();
@@ -364,7 +364,7 @@ namespace Org.OpenAPITools.Model
 
             if (enumTest.EnumIntegerOption.IsSet)
             {
-                var enumIntegerRawValue = EnumTestEnumIntegerValueConverter.ToJsonValue(enumTest.EnumInteger.Value);
+                var enumIntegerRawValue = TestEnumParametersEnumQueryIntegerParameterValueConverter.ToJsonValue(enumTest.EnumInteger.Value);
                 writer.WriteNumber("enum_integer", enumIntegerRawValue);
             }
             if (enumTest.EnumIntegerOnlyOption.IsSet)

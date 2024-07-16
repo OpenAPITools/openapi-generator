@@ -106,7 +106,7 @@ public class TypeHolderExample  implements Serializable {
   }
 
   
-  @ApiModelProperty(example = "-2", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @JsonProperty("integer_item")
   @NotNull public Integer getIntegerItem() {
     return integerItem;

@@ -136,7 +136,7 @@ public class EnumTest {
   public enum EnumIntegerEnum {
     NUMBER_1(1),
     
-    NUMBER_MINUS_1(-1);
+    NUMBER_null(null);
 
     private Integer value;
 

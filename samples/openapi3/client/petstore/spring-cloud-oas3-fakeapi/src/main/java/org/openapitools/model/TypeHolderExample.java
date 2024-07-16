@@ -112,7 +112,7 @@ public class TypeHolderExample {
    * @return integerItem
    */
   @NotNull 
-  @Schema(name = "integer_item", example = "-2", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "integer_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("integer_item")
   public Integer getIntegerItem() {
     return integerItem;

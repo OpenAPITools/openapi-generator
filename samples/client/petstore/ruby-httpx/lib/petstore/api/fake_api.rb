@@ -1144,7 +1144,7 @@ module Petstore
       if @api_client.config.client_side_validation && opts[:'enum_query_string'] && !allowable_values.include?(opts[:'enum_query_string'])
         fail ArgumentError, "invalid value for \"enum_query_string\", must be one of #{allowable_values}"
       end
-      allowable_values = [1, -2]
+      allowable_values = [1, null]
       if @api_client.config.client_side_validation && opts[:'enum_query_integer'] && !allowable_values.include?(opts[:'enum_query_integer'])
         fail ArgumentError, "invalid value for \"enum_query_integer\", must be one of #{allowable_values}"
       end

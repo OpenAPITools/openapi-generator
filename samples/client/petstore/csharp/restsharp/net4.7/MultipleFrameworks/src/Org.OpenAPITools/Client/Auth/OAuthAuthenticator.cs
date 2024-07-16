@@ -44,6 +44,7 @@ namespace Org.OpenAPITools.Client.Auth
             _tokenUrl = tokenUrl;
             _clientId = clientId;
             _clientSecret = clientSecret;
+            _scope = scope;
             _serializerSettings = serializerSettings;
             _configuration = configuration;
 

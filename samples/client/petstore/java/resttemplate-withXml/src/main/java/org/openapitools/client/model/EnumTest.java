@@ -155,8 +155,8 @@ public class EnumTest {
     @XmlEnumValue("1")
     NUMBER_1(1),
     
-    @XmlEnumValue("-1")
-    NUMBER_MINUS_1(-1);
+    @XmlEnumValue("null")
+    NUMBER_null(null);
 
     private Integer value;
 

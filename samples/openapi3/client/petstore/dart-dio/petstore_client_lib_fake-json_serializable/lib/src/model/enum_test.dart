@@ -200,8 +200,8 @@ enum EnumTestEnumStringRequiredEnum {
 enum EnumTestEnumIntegerEnum {
   @JsonValue(1)
   number1,
-  @JsonValue(-1)
-  numberNegative1,
+  @JsonValue(null)
+  null_,
   @JsonValue(11184809)
   unknownDefaultOpenApi,
 }

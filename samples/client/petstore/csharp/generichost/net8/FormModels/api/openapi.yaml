@@ -1676,7 +1676,7 @@ components:
         enum_string_required:
           $ref: '#/components/schemas/Enum_Test_enum_string'
         enum_integer:
-          $ref: '#/components/schemas/Enum_Test_enum_integer'
+          $ref: '#/components/schemas/testEnumParameters_enum_query_integer_parameter'
         enum_integer_only:
           $ref: '#/components/schemas/Enum_Test_enum_integer_only'
         enum_number:
@@ -2740,7 +2740,7 @@ components:
     testEnumParameters_enum_query_integer_parameter:
       enum:
       - 1
-      - -2
+      - null
       format: int32
       type: integer
     testEnumParameters_enum_query_double_parameter:
@@ -2895,16 +2895,10 @@ components:
         value
       - "Duplicate\r\nvalue"
       type: string
-    Enum_Test_enum_integer:
-      enum:
-      - 1
-      - -1
-      format: int32
-      type: integer
     Enum_Test_enum_integer_only:
       enum:
       - 2
-      - -2
+      - null
       type: integer
     MapTest_map_of_enum_string_value:
       enum:
@@ -2924,27 +2918,27 @@ components:
     RequiredClass_required_nullable_enum_integer:
       enum:
       - 1
-      - -1
+      - null
       format: int32
       nullable: true
       type: integer
     RequiredClass_required_notnullable_enum_integer:
       enum:
       - 1
-      - -1
+      - null
       format: int32
       nullable: false
       type: integer
     RequiredClass_required_nullable_enum_integer_only:
       enum:
       - 2
-      - -2
+      - null
       nullable: true
       type: integer
     RequiredClass_required_notnullable_enum_integer_only:
       enum:
       - 2
-      - -2
+      - null
       nullable: false
       type: integer
     RequiredClass_required_notnullable_enum_string:
