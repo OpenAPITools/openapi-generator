@@ -34,7 +34,7 @@ import {
 export const PetRegionsResponseRecordProps = {
     recType: "PetRegionsResponseApiRecord" as "PetRegionsResponseApiRecord",
     meta: ResponseMetaRecord(),
-    data: null as List<List<string | null | null>> | null,
+    data: null as List<List<string | null>> | null,
 };
 
 export type PetRegionsResponseRecordPropsType = typeof PetRegionsResponseRecordProps;
@@ -59,7 +59,7 @@ class PetRegionsResponseRecordUtils extends ApiRecordUtils<PetRegionsResponse, P
         return apiObject;
     }
 
-    public fromApiPassthrough(apiObject: PetRegionsResponse): List<List<string | null | null>> {
+    public fromApiPassthrough(apiObject: PetRegionsResponse): List<List<string | null>> {
         return appFromJS(apiObject.data);
     }
 
