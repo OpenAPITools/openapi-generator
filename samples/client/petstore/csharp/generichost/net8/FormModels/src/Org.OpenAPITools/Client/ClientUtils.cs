@@ -172,6 +172,8 @@ namespace Org.OpenAPITools.Client
                 return EnumArraysJustSymbolValueConverter.ToJsonValue(enumArraysJustSymbol);
             if (obj is EnumClass enumClass)
                 return EnumClassValueConverter.ToJsonValue(enumClass);
+            if (obj is EnumTestEnumInteger enumTestEnumInteger)
+                return EnumTestEnumIntegerValueConverter.ToJsonValue(enumTestEnumInteger).ToString();
             if (obj is EnumTestEnumIntegerOnly enumTestEnumIntegerOnly)
                 return EnumTestEnumIntegerOnlyValueConverter.ToJsonValue(enumTestEnumIntegerOnly).ToString();
             if (obj is EnumTestEnumString enumTestEnumString)

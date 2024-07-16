@@ -538,7 +538,7 @@ open class FakeAPI {
      */
     public enum EnumQueryInteger_testEnumParameters: Int, CaseIterable, Content {
         case _1 = 1
-        case numberNull = null
+        case number2 = -2
     }
 
     /**

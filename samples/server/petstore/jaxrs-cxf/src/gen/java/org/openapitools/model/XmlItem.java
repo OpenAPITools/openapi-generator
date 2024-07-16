@@ -21,7 +21,7 @@ public class XmlItem  {
   @Valid
   private BigDecimal attributeNumber;
 
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "-2", value = "")
   private Integer attributeInteger;
 
   @ApiModelProperty(example = "true", value = "")
@@ -37,7 +37,7 @@ public class XmlItem  {
   @Valid
   private BigDecimal nameNumber;
 
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "-2", value = "")
   private Integer nameInteger;
 
   @ApiModelProperty(example = "true", value = "")
@@ -56,7 +56,7 @@ public class XmlItem  {
   @Valid
   private BigDecimal prefixNumber;
 
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "-2", value = "")
   private Integer prefixInteger;
 
   @ApiModelProperty(example = "true", value = "")
@@ -75,7 +75,7 @@ public class XmlItem  {
   @Valid
   private BigDecimal namespaceNumber;
 
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "-2", value = "")
   private Integer namespaceInteger;
 
   @ApiModelProperty(example = "true", value = "")
@@ -94,7 +94,7 @@ public class XmlItem  {
   @Valid
   private BigDecimal prefixNsNumber;
 
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "-2", value = "")
   private Integer prefixNsInteger;
 
   @ApiModelProperty(example = "true", value = "")

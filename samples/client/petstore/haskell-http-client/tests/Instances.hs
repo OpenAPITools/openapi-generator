@@ -599,6 +599,9 @@ instance Arbitrary E'EnumInteger where
 instance Arbitrary E'EnumNumber where
   arbitrary = arbitraryBoundedEnum
 
+instance Arbitrary E'EnumQueryInteger where
+  arbitrary = arbitraryBoundedEnum
+
 instance Arbitrary E'EnumString where
   arbitrary = arbitraryBoundedEnum
 

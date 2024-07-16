@@ -229,7 +229,7 @@ public class XmlItem  implements Serializable {
    * @return attributeInteger
    **/
   @JsonProperty(value = "attribute_integer")
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "-2", value = "")
   
   public Integer getAttributeInteger() {
     return attributeInteger;
@@ -337,7 +337,7 @@ public class XmlItem  implements Serializable {
    * @return nameInteger
    **/
   @JsonProperty(value = "name_integer")
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "-2", value = "")
   
   public Integer getNameInteger() {
     return nameInteger;
@@ -473,7 +473,7 @@ public class XmlItem  implements Serializable {
    * @return prefixInteger
    **/
   @JsonProperty(value = "prefix_integer")
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "-2", value = "")
   
   public Integer getPrefixInteger() {
     return prefixInteger;
@@ -609,7 +609,7 @@ public class XmlItem  implements Serializable {
    * @return namespaceInteger
    **/
   @JsonProperty(value = "namespace_integer")
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "-2", value = "")
   
   public Integer getNamespaceInteger() {
     return namespaceInteger;
@@ -745,7 +745,7 @@ public class XmlItem  implements Serializable {
    * @return prefixNsInteger
    **/
   @JsonProperty(value = "prefix_ns_integer")
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "-2", value = "")
   
   public Integer getPrefixNsInteger() {
     return prefixNsInteger;

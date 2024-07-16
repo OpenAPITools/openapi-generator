@@ -179,7 +179,7 @@ public class EnumTest {
   public enum EnumIntegerEnum {
     NUMBER_1(1),
     
-    NUMBER_null(null);
+    NUMBER_MINUS_1(-1);
 
     private Integer value;
 
@@ -235,7 +235,7 @@ public class EnumTest {
   public enum EnumIntegerOnlyEnum {
     NUMBER_2(2),
     
-    NUMBER_null(null);
+    NUMBER_MINUS_2(-2);
 
     private Integer value;
 

@@ -35,9 +35,9 @@ namespace Org.OpenAPITools.Model
         NUMBER_1 = 1,
 
         /// <summary>
-        /// Enum NUMBER_null for value: null
+        /// Enum NUMBER_MINUS_1 for value: -1
         /// </summary>
-        NUMBER_null = null
+        NUMBER_MINUS_1 = -1
     }
 
     /// <summary>
@@ -55,8 +55,8 @@ namespace Org.OpenAPITools.Model
             if (value.Equals((1).ToString()))
                 return RequiredClassRequiredNullableEnumInteger.NUMBER_1;
 
-            if (value.Equals((null).ToString()))
-                return RequiredClassRequiredNullableEnumInteger.NUMBER_null;
+            if (value.Equals((-1).ToString()))
+                return RequiredClassRequiredNullableEnumInteger.NUMBER_MINUS_1;
 
             throw new NotImplementedException($"Could not convert value to type RequiredClassRequiredNullableEnumInteger: '{value}'");
         }
@@ -71,8 +71,8 @@ namespace Org.OpenAPITools.Model
             if (value.Equals((1).ToString()))
                 return RequiredClassRequiredNullableEnumInteger.NUMBER_1;
 
-            if (value.Equals((null).ToString()))
-                return RequiredClassRequiredNullableEnumInteger.NUMBER_null;
+            if (value.Equals((-1).ToString()))
+                return RequiredClassRequiredNullableEnumInteger.NUMBER_MINUS_1;
 
             return null;
         }

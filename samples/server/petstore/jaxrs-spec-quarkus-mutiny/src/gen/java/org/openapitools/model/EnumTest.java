@@ -120,7 +120,7 @@ public class EnumTest  implements Serializable {
   private EnumStringRequiredEnum enumStringRequired;
   public enum EnumIntegerEnum {
 
-    NUMBER_1(Integer.valueOf(1)), NUMBER_null(Integer.valueOf(null));
+    NUMBER_1(Integer.valueOf(1)), NUMBER_MINUS_1(Integer.valueOf(-1));
 
 
     private Integer value;

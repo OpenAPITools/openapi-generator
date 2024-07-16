@@ -125,7 +125,7 @@ int32_t Enum_Test::getEnumInteger() const
 void Enum_Test::setEnumInteger(int32_t value)
 {
     static const std::array<int32_t, 2> allowedValues = {
-        1, null
+        1, -1
     };
 
     if (std::find(allowedValues.begin(), allowedValues.end(), value) != allowedValues.end()) {

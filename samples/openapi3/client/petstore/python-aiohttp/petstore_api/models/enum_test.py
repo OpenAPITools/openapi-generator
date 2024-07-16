@@ -76,8 +76,8 @@ class EnumTest(BaseModel):
         if value is None:
             return value
 
-        if value not in set([1, null]):
-            raise ValueError("must be one of enum values (1, null)")
+        if value not in set([1, -1]):
+            raise ValueError("must be one of enum values (1, -1)")
         return value
 
     @field_validator('enum_number')

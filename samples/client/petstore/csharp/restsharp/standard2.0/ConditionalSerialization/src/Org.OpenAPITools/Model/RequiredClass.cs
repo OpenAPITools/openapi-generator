@@ -43,9 +43,9 @@ namespace Org.OpenAPITools.Model
             NUMBER_1 = 1,
 
             /// <summary>
-            /// Enum NUMBER_null for value: null
+            /// Enum NUMBER_MINUS_1 for value: -1
             /// </summary>
-            NUMBER_null = null
+            NUMBER_MINUS_1 = -1
         }
 
 
@@ -85,9 +85,9 @@ namespace Org.OpenAPITools.Model
             NUMBER_1 = 1,
 
             /// <summary>
-            /// Enum NUMBER_null for value: null
+            /// Enum NUMBER_MINUS_1 for value: -1
             /// </summary>
-            NUMBER_null = null
+            NUMBER_MINUS_1 = -1
         }
 
 
@@ -127,9 +127,9 @@ namespace Org.OpenAPITools.Model
             NUMBER_1 = 1,
 
             /// <summary>
-            /// Enum NUMBER_null for value: null
+            /// Enum NUMBER_MINUS_1 for value: -1
             /// </summary>
-            NUMBER_null = null
+            NUMBER_MINUS_1 = -1
         }
 
 
@@ -169,9 +169,9 @@ namespace Org.OpenAPITools.Model
             NUMBER_1 = 1,
 
             /// <summary>
-            /// Enum NUMBER_null for value: null
+            /// Enum NUMBER_MINUS_1 for value: -1
             /// </summary>
-            NUMBER_null = null
+            NUMBER_MINUS_1 = -1
         }
 
 
@@ -212,9 +212,9 @@ namespace Org.OpenAPITools.Model
             NUMBER_2 = 2,
 
             /// <summary>
-            /// Enum NUMBER_null for value: null
+            /// Enum NUMBER_MINUS_2 for value: -2
             /// </summary>
-            NUMBER_null = null
+            NUMBER_MINUS_2 = -2
         }
 
 
@@ -254,9 +254,9 @@ namespace Org.OpenAPITools.Model
             NUMBER_2 = 2,
 
             /// <summary>
-            /// Enum NUMBER_null for value: null
+            /// Enum NUMBER_MINUS_2 for value: -2
             /// </summary>
-            NUMBER_null = null
+            NUMBER_MINUS_2 = -2
         }
 
 
@@ -297,9 +297,9 @@ namespace Org.OpenAPITools.Model
             NUMBER_2 = 2,
 
             /// <summary>
-            /// Enum NUMBER_null for value: null
+            /// Enum NUMBER_MINUS_2 for value: -2
             /// </summary>
-            NUMBER_null = null
+            NUMBER_MINUS_2 = -2
         }
 
 
@@ -339,9 +339,9 @@ namespace Org.OpenAPITools.Model
             NUMBER_2 = 2,
 
             /// <summary>
-            /// Enum NUMBER_null for value: null
+            /// Enum NUMBER_MINUS_2 for value: -2
             /// </summary>
-            NUMBER_null = null
+            NUMBER_MINUS_2 = -2
         }
 
 

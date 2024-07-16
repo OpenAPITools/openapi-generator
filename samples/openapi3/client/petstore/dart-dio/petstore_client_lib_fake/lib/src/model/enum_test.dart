@@ -36,7 +36,7 @@ abstract class EnumTest implements Built<EnumTest, EnumTestBuilder> {
 
   @BuiltValueField(wireName: r'enum_integer')
   EnumTestEnumIntegerEnum? get enumInteger;
-  // enum enumIntegerEnum {  1,  ,  };
+  // enum enumIntegerEnum {  1,  -1,  };
 
   @BuiltValueField(wireName: r'enum_number')
   EnumTestEnumNumberEnum? get enumNumber;
@@ -286,8 +286,8 @@ class EnumTestEnumIntegerEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireNumber: 1)
   static const EnumTestEnumIntegerEnum number1 = _$enumTestEnumIntegerEnum_number1;
-  @BuiltValueEnumConst(wireNumber: null)
-  static const EnumTestEnumIntegerEnum null_ = _$enumTestEnumIntegerEnum_null_;
+  @BuiltValueEnumConst(wireNumber: -1)
+  static const EnumTestEnumIntegerEnum numberNegative1 = _$enumTestEnumIntegerEnum_numberNegative1;
   @BuiltValueEnumConst(wireNumber: 11184809, fallback: true)
   static const EnumTestEnumIntegerEnum unknownDefaultOpenApi = _$enumTestEnumIntegerEnum_unknownDefaultOpenApi;
 

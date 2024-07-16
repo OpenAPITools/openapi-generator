@@ -142,7 +142,7 @@ public class XmlItem {
    * @return attributeInteger
    */
   
-  @Schema(name = "attribute_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "attribute_integer", example = "-2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("attribute_integer")
   public Integer getAttributeInteger() {
     return attributeInteger;
@@ -250,7 +250,7 @@ public class XmlItem {
    * @return nameInteger
    */
   
-  @Schema(name = "name_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "name_integer", example = "-2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name_integer")
   public Integer getNameInteger() {
     return nameInteger;
@@ -386,7 +386,7 @@ public class XmlItem {
    * @return prefixInteger
    */
   
-  @Schema(name = "prefix_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "prefix_integer", example = "-2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("prefix_integer")
   public Integer getPrefixInteger() {
     return prefixInteger;
@@ -522,7 +522,7 @@ public class XmlItem {
    * @return namespaceInteger
    */
   
-  @Schema(name = "namespace_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "namespace_integer", example = "-2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("namespace_integer")
   public Integer getNamespaceInteger() {
     return namespaceInteger;
@@ -658,7 +658,7 @@ public class XmlItem {
    * @return prefixNsInteger
    */
   
-  @Schema(name = "prefix_ns_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "prefix_ns_integer", example = "-2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("prefix_ns_integer")
   public Integer getPrefixNsInteger() {
     return prefixNsInteger;

@@ -44,7 +44,7 @@
 | Name | Value |
 |---- | -----|
 | NUMBER_1 | 1 |
-| NUMBER_null | null |
+| NUMBER_MINUS_1 | -1 |
 
 
 
@@ -53,7 +53,7 @@
 | Name | Value |
 |---- | -----|
 | NUMBER_2 | 2 |
-| NUMBER_null | null |
+| NUMBER_MINUS_2 | -2 |
 
 
 

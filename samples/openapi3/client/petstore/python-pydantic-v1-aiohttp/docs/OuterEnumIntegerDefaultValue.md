@@ -3,7 +3,7 @@
 
 ## Enum
 
-* `NUMBER_null` (value: `null`)
+* `NUMBER_MINUS_1` (value: `-1`)
 
 * `NUMBER_0` (value: `0`)
 

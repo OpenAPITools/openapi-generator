@@ -43,11 +43,11 @@ function Initialize-PSEnumTest {
         [String]
         ${EnumStringRequired},
         [Parameter(Position = 2, ValueFromPipelineByPropertyName = $true)]
-        [ValidateSet("1", "")]
+        [ValidateSet("1", "-1")]
         [System.Nullable[Int32]]
         ${EnumInteger},
         [Parameter(Position = 3, ValueFromPipelineByPropertyName = $true)]
-        [ValidateSet("2", "")]
+        [ValidateSet("2", "-2")]
         [System.Nullable[Int32]]
         ${EnumIntegerOnly},
         [Parameter(Position = 4, ValueFromPipelineByPropertyName = $true)]

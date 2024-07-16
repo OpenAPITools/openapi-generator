@@ -1016,7 +1016,7 @@ function Test-PSEnumParameters {
         [String]
         ${EnumQueryString},
         [Parameter(Position = 4, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [ValidateSet("1", "null")]
+        [ValidateSet("1", "-2")]
         [System.Nullable[Int32]]
         ${EnumQueryInteger},
         [Parameter(Position = 5, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]

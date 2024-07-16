@@ -43,7 +43,7 @@
 | Name | Value |
 |---- | -----|
 | NUMBER_1 | 1 |
-| NUMBER_null | null |
+| NUMBER_MINUS_1 | -1 |
 
 
 

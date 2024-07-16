@@ -29,7 +29,7 @@ public class TypeHolderDefault {
 
   private BigDecimal numberItem = new BigDecimal("1.234");
 
-  private Integer integerItem;
+  private Integer integerItem = -2;
 
   private Boolean boolItem = true;
 

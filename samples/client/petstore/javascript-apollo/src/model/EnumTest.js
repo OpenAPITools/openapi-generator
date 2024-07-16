@@ -222,10 +222,10 @@ EnumTest['EnumIntegerEnum'] = {
     "1": 1,
 
     /**
-     * value: null
+     * value: -1
      * @const
      */
-    "null": null
+    "-1": -1
 };
 
 

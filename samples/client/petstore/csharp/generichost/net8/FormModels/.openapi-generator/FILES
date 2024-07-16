@@ -40,6 +40,7 @@ docs/models/EnumArraysArrayEnumInner.md
 docs/models/EnumArraysJustSymbol.md
 docs/models/EnumClass.md
 docs/models/EnumTest.md
+docs/models/EnumTestEnumInteger.md
 docs/models/EnumTestEnumIntegerOnly.md
 docs/models/EnumTestEnumString.md
 docs/models/EquilateralTriangle.md
@@ -198,6 +199,7 @@ src/Org.OpenAPITools/Model/EnumArraysArrayEnumInner.cs
 src/Org.OpenAPITools/Model/EnumArraysJustSymbol.cs
 src/Org.OpenAPITools/Model/EnumClass.cs
 src/Org.OpenAPITools/Model/EnumTest.cs
+src/Org.OpenAPITools/Model/EnumTestEnumInteger.cs
 src/Org.OpenAPITools/Model/EnumTestEnumIntegerOnly.cs
 src/Org.OpenAPITools/Model/EnumTestEnumString.cs
 src/Org.OpenAPITools/Model/EquilateralTriangle.cs

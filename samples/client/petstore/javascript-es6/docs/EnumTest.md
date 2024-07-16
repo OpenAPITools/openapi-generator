@@ -46,7 +46,7 @@ Name | Type | Description | Notes
 
 * `1` (value: `1`)
 
-* `null` (value: `null`)
+* `-1` (value: `-1`)
 
 
 

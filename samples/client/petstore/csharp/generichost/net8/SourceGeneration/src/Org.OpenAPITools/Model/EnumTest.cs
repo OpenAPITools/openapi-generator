@@ -228,9 +228,9 @@ namespace Org.OpenAPITools.Model
             NUMBER_1 = 1,
 
             /// <summary>
-            /// Enum NUMBER_null for value: null
+            /// Enum NUMBER_MINUS_1 for value: -1
             /// </summary>
-            NUMBER_null = null
+            NUMBER_MINUS_1 = -1
         }
 
         /// <summary>
@@ -244,8 +244,8 @@ namespace Org.OpenAPITools.Model
             if (value.Equals((1).ToString()))
                 return EnumIntegerEnum.NUMBER_1;
 
-            if (value.Equals((null).ToString()))
-                return EnumIntegerEnum.NUMBER_null;
+            if (value.Equals((-1).ToString()))
+                return EnumIntegerEnum.NUMBER_MINUS_1;
 
             throw new NotImplementedException($"Could not convert value to type EnumIntegerEnum: '{value}'");
         }
@@ -260,8 +260,8 @@ namespace Org.OpenAPITools.Model
             if (value.Equals((1).ToString()))
                 return EnumIntegerEnum.NUMBER_1;
 
-            if (value.Equals((null).ToString()))
-                return EnumIntegerEnum.NUMBER_null;
+            if (value.Equals((-1).ToString()))
+                return EnumIntegerEnum.NUMBER_MINUS_1;
 
             return null;
         }
@@ -300,9 +300,9 @@ namespace Org.OpenAPITools.Model
             NUMBER_2 = 2,
 
             /// <summary>
-            /// Enum NUMBER_null for value: null
+            /// Enum NUMBER_MINUS_2 for value: -2
             /// </summary>
-            NUMBER_null = null
+            NUMBER_MINUS_2 = -2
         }
 
         /// <summary>
@@ -316,8 +316,8 @@ namespace Org.OpenAPITools.Model
             if (value.Equals((2).ToString()))
                 return EnumIntegerOnlyEnum.NUMBER_2;
 
-            if (value.Equals((null).ToString()))
-                return EnumIntegerOnlyEnum.NUMBER_null;
+            if (value.Equals((-2).ToString()))
+                return EnumIntegerOnlyEnum.NUMBER_MINUS_2;
 
             throw new NotImplementedException($"Could not convert value to type EnumIntegerOnlyEnum: '{value}'");
         }
@@ -332,8 +332,8 @@ namespace Org.OpenAPITools.Model
             if (value.Equals((2).ToString()))
                 return EnumIntegerOnlyEnum.NUMBER_2;
 
-            if (value.Equals((null).ToString()))
-                return EnumIntegerOnlyEnum.NUMBER_null;
+            if (value.Equals((-2).ToString()))
+                return EnumIntegerOnlyEnum.NUMBER_MINUS_2;
 
             return null;
         }
