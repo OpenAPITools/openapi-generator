@@ -304,7 +304,7 @@ namespace Org.OpenAPITools.Client
         /// Gets or sets OAuthMultipartFormData for OAuth2 authentication.
         /// </summary>
         /// <value>Send OAuth request as MultipartFormData.</value>
-        public virtual bool OAuthMultipartFormData { get; set; }
+        public virtual bool? OAuthMultipartFormData { get; set; }
 
         /// <summary>
         /// Gets or sets the flow for OAuth2 authentication.
