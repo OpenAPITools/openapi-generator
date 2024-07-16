@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Client.Auth
             string tokenUrl,
             string clientId,
             string clientSecret,
-            string? scope,
+            STRING? SCOPE,
             OAuthFlow? flow,
             JsonSerializerSettings serializerSettings,
             IReadableConfiguration configuration) : base("")
@@ -92,7 +92,7 @@ namespace Org.OpenAPITools.Client.Auth
                 .AddParameter("client_id", _clientId)
                 .AddParameter("client_secret", _clientSecret);
 
-            if (_scope != null)
+            if (!string.IsNullOrEmpty(_scope))
             {
                 request.AddParameter("scope", _scope);
             }
