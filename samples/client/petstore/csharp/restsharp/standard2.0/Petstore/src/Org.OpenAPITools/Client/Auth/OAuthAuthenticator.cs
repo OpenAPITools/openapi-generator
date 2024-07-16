@@ -24,7 +24,8 @@ namespace Org.OpenAPITools.Client.Auth
         readonly string _tokenUrl;
         readonly string _clientId;
         readonly string _clientSecret;
-        readonly string _scope;
+        readonly string? _scope;
+        readonly bool? _multipartFormData;
         readonly string _grantType;
         readonly JsonSerializerSettings _serializerSettings;
         readonly IReadableConfiguration _configuration;
@@ -36,7 +37,8 @@ namespace Org.OpenAPITools.Client.Auth
             string tokenUrl,
             string clientId,
             string clientSecret,
-            string scope,
+            string? scope,
+            bool? multipartFormData,
             OAuthFlow? flow,
             JsonSerializerSettings serializerSettings,
             IReadableConfiguration configuration) : base("")
@@ -44,6 +46,8 @@ namespace Org.OpenAPITools.Client.Auth
             _tokenUrl = tokenUrl;
             _clientId = clientId;
             _clientSecret = clientSecret;
+            _scope = scope;
+            _multipartFormData = multipartFormData;
             _serializerSettings = serializerSettings;
             _configuration = configuration;
 
@@ -96,7 +100,10 @@ namespace Org.OpenAPITools.Client.Auth
                 request.AddParameter("scope", _scope);
             }
 
-            request.AlwaysMultipartFormData = true;
+            if (_multipartFormData)
+            {
+                request.AlwaysMultipartFormData = true;
+            }
 
             var response = await client.PostAsync<TokenResponse>(request).ConfigureAwait(false);
             

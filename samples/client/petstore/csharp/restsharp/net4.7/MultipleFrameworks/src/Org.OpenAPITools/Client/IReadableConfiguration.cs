@@ -47,6 +47,18 @@ namespace Org.OpenAPITools.Client
         string OAuthClientSecret { get; }
 
         /// <summary>
+        /// Gets the OAuth token scope.
+        /// </summary>
+        /// <value>OAuth Token scope.</value>
+        string OAuthScope { get; }
+
+        /// <summary>
+        /// Gets OAuthMultipartFormData.
+        /// </summary>
+        /// <value>Send OAuth request as MultipartFormData.</value>
+        string OAuthMultipartFormData { get; }
+        
+        /// <summary>
         /// Gets the OAuth flow.
         /// </summary>
         /// <value>OAuth Flow.</value>
