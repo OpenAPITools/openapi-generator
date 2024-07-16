@@ -213,7 +213,7 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
             unmodifiable.add(new SupportingFile("validatorUtils.mustache",
                                                 apiFolder(),
                                                 "ValidatorUtils.java"));
-            if (helidonMajorVersion > 3) {
+            if (helidonMajorVersion > 3 && useAbstractClass) {
                 unmodifiable.add(new SupportingFile("partsUtils.mustache",
                                                     apiFolder(),
                                                     "PartsUtils.java"));
@@ -335,6 +335,7 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
             }
             if (codegenOperation.isMultipart) {
                 if (helidonMajorVersion > 3) {
+                    codegenOperation.imports.add("MultiPart");
                     if (useAbstractClass) {
                         codegenOperation.formParams.forEach(fp -> {
                             if (!fp.required) {

@@ -8,6 +8,7 @@ import java.util.HexFormat;
 import java.util.List;
 import java.util.Map;
 import org.openapitools.server.model.ModelApiResponse;
+import io.helidon.http.media.multipart.MultiPart;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import io.helidon.common.parameters.Parameters;
@@ -85,7 +86,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public void uploadFile(ServerRequest request, ServerResponse response) {
-        Map<String, ReadablePart> parts = PartsUtils.partsMap(request);
+        MultiPart multiPart = request.content().as(MultiPart.class);
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
 
@@ -94,7 +95,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public void uploadFileWithRequiredFile(ServerRequest request, ServerResponse response) {
-        Map<String, ReadablePart> parts = PartsUtils.partsMap(request);
+        MultiPart multiPart = request.content().as(MultiPart.class);
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
 

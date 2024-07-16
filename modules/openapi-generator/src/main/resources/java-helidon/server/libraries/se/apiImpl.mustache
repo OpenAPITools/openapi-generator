@@ -40,8 +40,11 @@ public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClas
 
 }}{{^isMultipart}}{{#hasFormParams}}        Parameters formParams = request.content().as(Parameters.class);
 {{/hasFormParams}}{{/isMultipart}}{{!
-}}{{#isMultipart}}        Map<String, ReadablePart> parts = PartsUtils.partsMap(request);
-{{/isMultipart}}{{!
+}}{{#isMultipart}}{{#useAbstractClass}}        Map<String, ReadablePart> parts = PartsUtils.partsMap(request);
+{{/useAbstractClass}}{{!
+}}{{^useAbstractClass}}{{!
+}}        MultiPart multiPart = request.content().as(MultiPart.class);
+{{/useAbstractClass}}{{/isMultipart}}{{!
 }}{{#useBeanValidation}}        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 {{/useBeanValidation}}{{!
 }}{{/x-helidon-v3}}{{!

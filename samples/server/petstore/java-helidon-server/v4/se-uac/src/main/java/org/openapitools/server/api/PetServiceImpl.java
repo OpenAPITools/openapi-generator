@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import org.openapitools.server.model.ModelApiResponse;
+import io.helidon.http.media.multipart.MultiPart;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import io.helidon.common.parameters.Parameters;
