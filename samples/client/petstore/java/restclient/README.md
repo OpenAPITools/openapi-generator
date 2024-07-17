@@ -89,7 +89,7 @@ import org.openapitools.client.api.AnotherFakeApi;
 public class AnotherFakeApiExample {
 
     public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        ApiClient defaultClient = new ApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
         
         AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
@@ -97,10 +97,10 @@ public class AnotherFakeApiExample {
         try {
             Client result = apiInstance.call123testSpecialTags(client);
             System.out.println(result);
-        } catch (ApiException e) {
+        } catch (HttpStatusCodeException e) {
             System.err.println("Exception when calling AnotherFakeApi#call123testSpecialTags");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Status code: " + e.getStatusCode().value());
+            System.err.println("Reason: " + e.getResponseBodyAsString());
             System.err.println("Response headers: " + e.getResponseHeaders());
             e.printStackTrace();
         }
