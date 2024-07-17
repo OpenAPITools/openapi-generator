@@ -55,6 +55,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     @Setter private boolean avoidBoxedModels = false;
 
     public static final String PACKAGE_NAME = "packageName";
+    public static final String EXTERN_CRATE_NAME = "externCrateName";
     public static final String PACKAGE_VERSION = "packageVersion";
     public static final String HYPER_LIBRARY = "hyper";
     public static final String HYPER0X_LIBRARY = "hyper0x";
@@ -66,12 +67,13 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public static final String BEST_FIT_INT = "bestFitInt";
     public static final String AVOID_BOXED_MODELS = "avoidBoxedModels";
 
-    @Setter protected String packageName = "openapi";
+    protected String packageName = "openapi";
     @Setter protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String apiFolder = "src/apis";
     protected String modelFolder = "src/models";
+    private String externCrateName = "openapi";
 
     @Override
     public CodegenType getTag() {
@@ -367,6 +369,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
+        additionalProperties.put(EXTERN_CRATE_NAME, externCrateName);
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -421,6 +424,13 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             }
         });
 
+    }
+
+    private void setPackageName(String packageName) {
+        this.packageName = packageName;
+
+        // Also set the extern crate name, which has any '-' replace with a '_'.
+        this.externCrateName = packageName.replace('-', '_');
     }
 
     private boolean getSupportAsync() {
