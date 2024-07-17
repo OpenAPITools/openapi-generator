@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Client.Auth
             string tokenUrl,
             string clientId,
             string clientSecret,
-            STRING? SCOPE,
+            string? scope,
             OAuthFlow? flow,
             JsonSerializerSettings serializerSettings,
             IReadableConfiguration configuration) : base("")
