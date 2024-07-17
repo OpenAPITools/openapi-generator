@@ -3,10 +3,10 @@ name: Java Client (Echo API) JDK17
 on:
   push:
     paths:
-      - samples/client/echo_api/java/restclient
+      - samples/client/echo_api/java/**
   pull_request:
     paths:
-      - samples/client/echo_api/java/restclient
+      - samples/client/echo_api/java/**
 jobs:
   build:
     name: Build Java Client JDK17
@@ -16,6 +16,11 @@ jobs:
       matrix:
         sample:
           # clients
+          - samples/client/echo_api/java/apache-httpclient
+          - samples/client/echo_api/java/native
+          - samples/client/echo_api/java/feign-gson
+          - samples/client/echo_api/java/resttemplate
+          - samples/client/echo_api/java/resteasy
           - samples/client/echo_api/java/restclient
     steps:
       - uses: actions/checkout@v4
