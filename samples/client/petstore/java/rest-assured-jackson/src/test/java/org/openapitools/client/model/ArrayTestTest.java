@@ -19,24 +19,24 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.ReadOnlyFirst;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for ArrayTest
  */
-public class ArrayTestTest {
+class ArrayTestTest {
     private final ArrayTest model = new ArrayTest();
 
     /**
      * Model tests for ArrayTest
      */
     @Test
-    public void testArrayTest() {
+    void testArrayTest() {
         // TODO: test ArrayTest
     }
 
@@ -44,7 +44,7 @@ public class ArrayTestTest {
      * Test the property 'arrayOfString'
      */
     @Test
-    public void arrayOfStringTest() {
+    void arrayOfStringTest() {
         // TODO: test arrayOfString
     }
 
@@ -52,7 +52,7 @@ public class ArrayTestTest {
      * Test the property 'arrayArrayOfInteger'
      */
     @Test
-    public void arrayArrayOfIntegerTest() {
+    void arrayArrayOfIntegerTest() {
         // TODO: test arrayArrayOfInteger
     }
 
@@ -60,7 +60,7 @@ public class ArrayTestTest {
      * Test the property 'arrayArrayOfModel'
      */
     @Test
-    public void arrayArrayOfModelTest() {
+    void arrayArrayOfModelTest() {
         // TODO: test arrayArrayOfModel
     }
 
