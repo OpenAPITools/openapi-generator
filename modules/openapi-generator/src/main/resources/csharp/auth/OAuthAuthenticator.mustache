@@ -16,7 +16,7 @@ namespace {{packageName}}.Client.Auth
         readonly string _tokenUrl;
         readonly string _clientId;
         readonly string _clientSecret;
-        readonly string? _scope;
+        readonly string{{^netStandard}}?{{/netStandard}} _scope;
         readonly string _grantType;
         readonly JsonSerializerSettings _serializerSettings;
         readonly IReadableConfiguration _configuration;
@@ -28,7 +28,7 @@ namespace {{packageName}}.Client.Auth
             string tokenUrl,
             string clientId,
             string clientSecret,
-            string? scope,
+            string{{^netStandard}}?{{/netStandard}} scope,
             OAuthFlow? flow,
             JsonSerializerSettings serializerSettings,
             IReadableConfiguration configuration) : base("")
