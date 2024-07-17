@@ -17,11 +17,10 @@ import org.openapitools.client.model.User;
 
 import org.openapitools.client.Configuration;
 
-import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -42,24 +41,16 @@ import java.util.Map;
 /**
  * API tests for UserApi
  */
-@RunWith(VertxUnitRunner.class)
-@Ignore
+@Disabled
 public class UserApiTest {
 
     private UserApi api;
 
-    @Rule
-    public RunTestOnContext rule = new RunTestOnContext();
-
-    @BeforeClass
+    @BeforeAll
     public void setupApiClient() {
-        JsonObject config = new JsonObject();
-        Vertx vertx = rule.vertx();
-        Configuration.setupDefaultApiClient(vertx, config);
-
         api = new UserApiImpl();
     }
-    
+
     /**
      * Create user
      * This can only be done by the logged in user.
@@ -75,7 +66,6 @@ public class UserApiTest {
             async.complete();
         });
     }
-    
     /**
      * Creates list of users with given input array
      * 
@@ -91,7 +81,6 @@ public class UserApiTest {
             async.complete();
         });
     }
-    
     /**
      * Creates list of users with given input array
      * 
@@ -107,7 +96,6 @@ public class UserApiTest {
             async.complete();
         });
     }
-    
     /**
      * Delete user
      * This can only be done by the logged in user.
@@ -123,7 +111,6 @@ public class UserApiTest {
             async.complete();
         });
     }
-    
     /**
      * Get user by user name
      * 
@@ -139,7 +126,6 @@ public class UserApiTest {
             async.complete();
         });
     }
-    
     /**
      * Logs user into the system
      * 
@@ -156,7 +142,6 @@ public class UserApiTest {
             async.complete();
         });
     }
-    
     /**
      * Logs out current logged in user session
      * 
@@ -171,7 +156,6 @@ public class UserApiTest {
             async.complete();
         });
     }
-    
     /**
      * Updated user
      * This can only be done by the logged in user.
@@ -188,5 +172,4 @@ public class UserApiTest {
             async.complete();
         });
     }
-    
 }
