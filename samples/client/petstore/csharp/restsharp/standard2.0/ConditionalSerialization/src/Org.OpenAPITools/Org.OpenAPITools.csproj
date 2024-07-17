@@ -18,7 +18,6 @@
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>Minor update</PackageReleaseNotes>
     <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
-    <LangVersion>8</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
