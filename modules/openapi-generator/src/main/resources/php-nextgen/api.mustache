@@ -306,7 +306,7 @@ use {{invokerPackage}}\ObjectSerializer;
             {{/-first}}
             {{#dataType}}
                 {{^isRange}}{{^isWildcard}}case {{code}}:{{/isWildcard}}{{#isWildcard}}default:{{/isWildcard}}
-                    if ('{{{dataType}}}' === '\SplFileObject') {
+                    if (in_array('{{{dataType}}}', ['\SplFileObject', '\Psr\Http\Message\StreamInterface'])) {
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
@@ -339,7 +339,7 @@ use {{invokerPackage}}\ObjectSerializer;
             {{/responses}}
 
             $returnType = '{{{returnType}}}';
-            if ($returnType === '\SplFileObject') {
+            if (in_array($returnType, ['\SplFileObject', '\Psr\Http\Message\StreamInterface'])) {
                 $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
@@ -546,7 +546,7 @@ use {{invokerPackage}}\ObjectSerializer;
             ->then(
                 function ($response) use ($returnType) {
                     {{#returnType}}
-                    if ($returnType === '\SplFileObject') {
+                    if (in_array($returnType, ['\SplFileObject', '\Psr\Http\Message\StreamInterface'])) {
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
@@ -755,10 +755,12 @@ use {{invokerPackage}}\ObjectSerializer;
             $formParams['{{baseName}}'] = [];
             $paramFiles = is_array(${{paramName}}) ? ${{paramName}} : [${{paramName}}];
             foreach ($paramFiles as $paramFile) {
-                $formParams['{{baseName}}'][] = \GuzzleHttp\Psr7\Utils::tryFopen(
-                    ObjectSerializer::toFormValue($paramFile),
-                    'rb'
-                );
+                $formParams['{{baseName}}'][] = $paramFile instanceof \Psr\Http\Message\StreamInterface
+                    ? $paramFile
+                    : \GuzzleHttp\Psr7\Utils::tryFopen(
+                        ObjectSerializer::toFormValue($paramFile),
+                        'rb'
+                    );
             }
             {{/isFile}}
             {{^isFile}}
