@@ -13,6 +13,7 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.model.Client;
+import java.util.UUID;
 
 import org.openapitools.client.Configuration;
 
@@ -31,6 +32,8 @@ import io.vertx.ext.unit.junit.RunTestOnContext;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.Async;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -66,8 +69,9 @@ public class AnotherFakeApiTest {
     @Test
     public void call123testSpecialTagsTest(TestContext testContext) {
         Async async = testContext.async();
+        UUID uuidTest = null;
         Client body = null;
-        api.call123testSpecialTags(body, result -> {
+        api.call123testSpecialTags(uuidTest, body, result -> {
             // TODO: test validations
             async.complete();
         });

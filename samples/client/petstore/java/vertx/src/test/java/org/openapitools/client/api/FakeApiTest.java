@@ -14,6 +14,7 @@ package org.openapitools.client.api;
 
 import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
+import org.openapitools.client.model.ChildWithNullable;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
 import org.openapitools.client.model.FakeBigDecimalMap200Response;
@@ -24,6 +25,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 
 import org.openapitools.client.Configuration;
@@ -200,6 +202,22 @@ public class FakeApiTest {
     }
     
     /**
+     * test referenced additionalProperties
+     * 
+     *
+     * @param context Vertx test context for doing assertions
+     */
+    @Test
+    public void testAdditionalPropertiesReferenceTest(TestContext testContext) {
+        Async async = testContext.async();
+        Map<String, Object> requestBody = null;
+        api.testAdditionalPropertiesReference(requestBody, result -> {
+            // TODO: test validations
+            async.complete();
+        });
+    }
+    
+    /**
      * 
      * For this test, the body has to be a binary file.
      *
@@ -355,6 +373,22 @@ public class FakeApiTest {
     }
     
     /**
+     * test inline free-form additionalProperties
+     * 
+     *
+     * @param context Vertx test context for doing assertions
+     */
+    @Test
+    public void testInlineFreeformAdditionalPropertiesTest(TestContext testContext) {
+        Async async = testContext.async();
+        TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = null;
+        api.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, result -> {
+            // TODO: test validations
+            async.complete();
+        });
+    }
+    
+    /**
      * test json serialization of form data
      * 
      *
@@ -366,6 +400,22 @@ public class FakeApiTest {
         String param = null;
         String param2 = null;
         api.testJsonFormData(param, param2, result -> {
+            // TODO: test validations
+            async.complete();
+        });
+    }
+    
+    /**
+     * test nullable parent property
+     * 
+     *
+     * @param context Vertx test context for doing assertions
+     */
+    @Test
+    public void testNullableTest(TestContext testContext) {
+        Async async = testContext.async();
+        ChildWithNullable childWithNullable = null;
+        api.testNullable(childWithNullable, result -> {
             // TODO: test validations
             async.complete();
         });
@@ -388,6 +438,22 @@ public class FakeApiTest {
         String allowEmpty = null;
         Map<String, String> language = null;
         api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language, result -> {
+            // TODO: test validations
+            async.complete();
+        });
+    }
+    
+    /**
+     * test referenced string map
+     * 
+     *
+     * @param context Vertx test context for doing assertions
+     */
+    @Test
+    public void testStringMapReferenceTest(TestContext testContext) {
+        Async async = testContext.async();
+        Map<String, String> requestBody = null;
+        api.testStringMapReference(requestBody, result -> {
             // TODO: test validations
             async.complete();
         });

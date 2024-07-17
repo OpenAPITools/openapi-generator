@@ -18,26 +18,23 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.time.OffsetDateTime;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for Order
  */
-public class OrderTest {
+class OrderTest {
     private final Order model = new Order();
 
     /**
      * Model tests for Order
      */
     @Test
-    public void testOrder() {
+    void testOrder() {
         // TODO: test Order
     }
 
@@ -45,7 +42,7 @@ public class OrderTest {
      * Test the property 'id'
      */
     @Test
-    public void idTest() {
+    void idTest() {
         // TODO: test id
     }
 
@@ -53,7 +50,7 @@ public class OrderTest {
      * Test the property 'petId'
      */
     @Test
-    public void petIdTest() {
+    void petIdTest() {
         // TODO: test petId
     }
 
@@ -61,7 +58,7 @@ public class OrderTest {
      * Test the property 'quantity'
      */
     @Test
-    public void quantityTest() {
+    void quantityTest() {
         // TODO: test quantity
     }
 
@@ -69,7 +66,7 @@ public class OrderTest {
      * Test the property 'shipDate'
      */
     @Test
-    public void shipDateTest() {
+    void shipDateTest() {
         // TODO: test shipDate
     }
 
@@ -77,7 +74,7 @@ public class OrderTest {
      * Test the property 'status'
      */
     @Test
-    public void statusTest() {
+    void statusTest() {
         // TODO: test status
     }
 
@@ -85,7 +82,7 @@ public class OrderTest {
      * Test the property 'complete'
      */
     @Test
-    public void completeTest() {
+    void completeTest() {
         // TODO: test complete
     }
 
