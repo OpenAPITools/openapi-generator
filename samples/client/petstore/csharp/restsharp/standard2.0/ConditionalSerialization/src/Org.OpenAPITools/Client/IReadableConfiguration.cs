@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Client
         /// Gets the OAuth token scope.
         /// </summary>
         /// <value>OAuth Token scope.</value>
-        string? OAuthScope { get; }
+        string OAuthScope { get; }
 
         /// <summary>
         /// Gets the OAuth flow.

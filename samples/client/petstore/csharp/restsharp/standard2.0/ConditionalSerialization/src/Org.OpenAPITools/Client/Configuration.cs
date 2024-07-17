@@ -398,7 +398,7 @@ namespace Org.OpenAPITools.Client
         /// Gets or sets the client scope for OAuth2 authentication.
         /// </summary>
         /// <value>The OAuth Client Scope.</value>
-        public virtual string? OAuthScope { get; set; }
+        public virtual string OAuthScope { get; set; }
 
         /// <summary>
         /// Gets or sets the flow for OAuth2 authentication.
