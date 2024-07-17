@@ -48,7 +48,7 @@ async def create_user(
     ),
 ) -> None:
     """This can only be done by the logged in user."""
-    return BaseUserApi.subclasses[0]().create_user(user)
+    return await BaseUserApi.subclasses[0]().create_user(user)
 
 
 @router.post(
@@ -67,7 +67,7 @@ async def create_users_with_array_input(
     ),
 ) -> None:
     """"""
-    return BaseUserApi.subclasses[0]().create_users_with_array_input(user)
+    return await BaseUserApi.subclasses[0]().create_users_with_array_input(user)
 
 
 @router.post(
@@ -86,7 +86,7 @@ async def create_users_with_list_input(
     ),
 ) -> None:
     """"""
-    return BaseUserApi.subclasses[0]().create_users_with_list_input(user)
+    return await BaseUserApi.subclasses[0]().create_users_with_list_input(user)
 
 
 @router.delete(
@@ -106,7 +106,7 @@ async def delete_user(
     ),
 ) -> None:
     """This can only be done by the logged in user."""
-    return BaseUserApi.subclasses[0]().delete_user(username)
+    return await BaseUserApi.subclasses[0]().delete_user(username)
 
 
 @router.get(
@@ -124,7 +124,7 @@ async def get_user_by_name(
     username: str = Path(..., description="The name that needs to be fetched. Use user1 for testing."),
 ) -> User:
     """"""
-    return BaseUserApi.subclasses[0]().get_user_by_name(username)
+    return await BaseUserApi.subclasses[0]().get_user_by_name(username)
 
 
 @router.get(
@@ -142,7 +142,7 @@ async def login_user(
     password: str = Query(None, description="The password for login in clear text", alias="password"),
 ) -> str:
     """"""
-    return BaseUserApi.subclasses[0]().login_user(username, password)
+    return await BaseUserApi.subclasses[0]().login_user(username, password)
 
 
 @router.get(
@@ -160,7 +160,7 @@ async def logout_user(
     ),
 ) -> None:
     """"""
-    return BaseUserApi.subclasses[0]().logout_user()
+    return await BaseUserApi.subclasses[0]().logout_user()
 
 
 @router.put(
@@ -181,4 +181,4 @@ async def update_user(
     ),
 ) -> None:
     """This can only be done by the logged in user."""
-    return BaseUserApi.subclasses[0]().update_user(username, user)
+    return await BaseUserApi.subclasses[0]().update_user(username, user)

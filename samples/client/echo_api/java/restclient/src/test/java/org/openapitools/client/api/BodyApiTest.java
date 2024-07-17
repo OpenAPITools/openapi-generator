@@ -15,17 +15,22 @@ package org.openapitools.client.api;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.junit.Test;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.GifHttpMessageConverter;
 import org.openapitools.client.OctetStreamHttpMessageConverter;
+import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.Pet.StatusEnum;
 import org.openapitools.client.model.StringEnumRef;
 import org.openapitools.client.model.Tag;
 
@@ -117,11 +122,18 @@ public class BodyApiTest {
    * <p>Test single binary in multipart mime
    */
   @Test
-  public void testBodyMultipartFormdataSingleBinaryTest() {
-    File myFile = null;
-    String response = api.testBodyMultipartFormdataSingleBinary(myFile);
+  public void testBodyMultipartFormdataSingleBinaryTest() throws IOException {
+    // given
+    var testFile = Files.createTempFile("test", ".txt");
+    String testFileContent = "Lorem ipsum dolor sit amet";
+    Files.writeString(testFile, testFileContent);
 
-    // TODO: test validations
+    // when
+    String response = api.testBodyMultipartFormdataSingleBinary(testFile.toFile());
+
+    // then
+    assertThat(response, containsString("Content-Type: multipart/form-data"));
+    assertThat(response, containsString(testFileContent));
   }
 
   /**
@@ -131,10 +143,26 @@ public class BodyApiTest {
    */
   @Test
   public void testEchoBodyAllOfPetTest() {
-    Pet pet = null;
+    // given
+    // The content length must be set to disable the Transfer-Encoding: chunked which would lead to
+    // unparsable response because the echo server is replying them as body.
+    api.getApiClient().addDefaultHeader("Content-Length", "192");
+
+    Pet pet =
+        new Pet()
+            .id(42L)
+            .name("Corgi")
+            .category(new Category().id(1L).name("Dogs"))
+            .status(StatusEnum.SOLD)
+            .addPhotoUrlsItem(
+                "https://cdn.pixabay.com/photo/2021/10/13/09/01/corgi-6705821_1280.jpg")
+            .addTagsItem(new Tag().id(1L).name("cute"));
+
+    // when
     Pet response = api.testEchoBodyAllOfPet(pet);
 
-    // TODO: test validations
+    // then
+    assertThat(response, is(pet));
   }
 
   /**
@@ -144,10 +172,22 @@ public class BodyApiTest {
    */
   @Test
   public void testEchoBodyFreeFormObjectResponseStringTest() {
-    Object body = null;
-    String response = api.testEchoBodyFreeFormObjectResponseString(body);
+    // given
+    // The content length must be set to disable the Transfer-Encoding: chunked which would lead to
+    // unparsable response because the echo server is replying them as body.
+    api.getApiClient().addDefaultHeader("Content-Length", "51");
 
-    // TODO: test validations
+    Object mapAsObject =
+        new HashMap<>(
+            Map.of(
+                "firstKey", "firstValue",
+                "secondKey", "secondValue"));
+
+    // when
+    String response = api.testEchoBodyFreeFormObjectResponseString(mapAsObject);
+
+    // then
+    assertThat(response, is("{\"firstKey\":\"firstValue\",\"secondKey\":\"secondValue\"}"));
   }
 
   /**
@@ -157,10 +197,26 @@ public class BodyApiTest {
    */
   @Test
   public void testEchoBodyPetTest() {
-    Pet pet = null;
+    // given
+    // The content length must be set to disable the Transfer-Encoding: chunked which would lead to
+    // unparsable response because the echo server is replying them as body.
+    api.getApiClient().addDefaultHeader("Content-Length", "192");
+
+    Pet pet =
+        new Pet()
+            .id(42L)
+            .name("Corgi")
+            .category(new Category().id(1L).name("Dogs"))
+            .status(StatusEnum.SOLD)
+            .addPhotoUrlsItem(
+                "https://cdn.pixabay.com/photo/2021/10/13/09/01/corgi-6705821_1280.jpg")
+            .addTagsItem(new Tag().id(1L).name("cute"));
+
+    // when
     Pet response = api.testEchoBodyPet(pet);
 
-    // TODO: test validations
+    // then
+    assertThat(response, is(pet));
   }
 
   /**
@@ -170,10 +226,29 @@ public class BodyApiTest {
    */
   @Test
   public void testEchoBodyPetResponseStringTest() {
-    Pet pet = null;
+    // given
+    // The content length must be set to disable the Transfer-Encoding: chunked which would lead to
+    // unparsable response because the echo server is replying them as body.
+    api.getApiClient().addDefaultHeader("Content-Length", "192");
+
+    Pet pet =
+        new Pet()
+            .id(42L)
+            .name("Corgi")
+            .category(new Category().id(1L).name("Dogs"))
+            .status(StatusEnum.SOLD)
+            .addPhotoUrlsItem(
+                "https://cdn.pixabay.com/photo/2021/10/13/09/01/corgi-6705821_1280.jpg")
+            .addTagsItem(new Tag().id(1L).name("cute"));
+
+    // when
     String response = api.testEchoBodyPetResponseString(pet);
 
-    // TODO: test validations
+    // then
+    assertThat(
+        response,
+        is(
+            "{\"id\":42,\"name\":\"Corgi\",\"category\":{\"id\":1,\"name\":\"Dogs\"},\"photoUrls\":[\"https://cdn.pixabay.com/photo/2021/10/13/09/01/corgi-6705821_1280.jpg\"],\"tags\":[{\"id\":1,\"name\":\"cute\"}],\"status\":\"sold\"}"));
   }
 
   /**
@@ -183,10 +258,14 @@ public class BodyApiTest {
    */
   @Test
   public void testEchoBodyStringEnumTest() {
-    String body = null;
+    // given
+    String body = "\"failure\"";
+
+    // when
     StringEnumRef response = api.testEchoBodyStringEnum(body);
 
-    // TODO: test validations
+    // then
+    assertThat(response, is(StringEnumRef.FAILURE));
   }
 
   /**
@@ -196,9 +275,13 @@ public class BodyApiTest {
    */
   @Test
   public void testEchoBodyTagResponseStringTest() {
+    // given
     Tag tag = null;
+
+    // when
     String response = api.testEchoBodyTagResponseString(tag);
 
-    // TODO: test validations
+    // then
+    assertThat(response, nullValue());
   }
 }
