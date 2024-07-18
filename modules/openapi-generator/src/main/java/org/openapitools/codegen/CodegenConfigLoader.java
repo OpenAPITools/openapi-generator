@@ -17,9 +17,9 @@
 
 package org.openapitools.codegen;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ServiceLoader;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CodegenConfigLoader {
     /**
@@ -29,32 +29,30 @@ public class CodegenConfigLoader {
      * @return config class
      */
     public static CodegenConfig forName(String name) {
-        ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class, CodegenConfig.class.getClassLoader());
+        Set<String> availableConfigs = new LinkedHashSet<>();
 
-        StringBuilder availableConfigs = new StringBuilder();
-
-        for (CodegenConfig config : loader) {
+        for (CodegenConfig config : getAll()) {
             if (config.getName().equals(name)) {
                 return config;
             }
 
-            availableConfigs.append(config.getName()).append("\n");
+            availableConfigs.add(config.getName());
         }
 
         // else try to load directly
         try {
-            return (CodegenConfig) Class.forName(name).getDeclaredConstructor().newInstance();
+            return (CodegenConfig) Thread.currentThread().getContextClassLoader().loadClass(name).getDeclaredConstructor().newInstance();
         } catch (Exception e) {
-            throw new GeneratorNotFoundException("Can't load config class with name '".concat(name) + "'\nAvailable:\n" + availableConfigs, e);
+            throw new GeneratorNotFoundException("Can't load config class with name '".concat(name) + "'\nAvailable:\n" + String.join("\n", availableConfigs), e);
         }
     }
 
     public static List<CodegenConfig> getAll() {
-        ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class, CodegenConfig.class.getClassLoader());
-        List<CodegenConfig> output = new ArrayList<CodegenConfig>();
-        for (CodegenConfig aLoader : loader) {
-            output.add(aLoader);
-        }
-        return output;
+        ServiceLoader<CodegenConfig> staticClassLoader = ServiceLoader.load(CodegenConfig.class, CodegenConfig.class.getClassLoader());
+        ServiceLoader<CodegenConfig> threadClassLoader = ServiceLoader.load(CodegenConfig.class, Thread.currentThread().getContextClassLoader());
+        return  Stream.concat(staticClassLoader.stream(), threadClassLoader.stream())
+                .filter(Objects::nonNull)
+                .map(ServiceLoader.Provider::get)
+                .collect(Collectors.toList());
     }
 }

@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConfigLoader;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.util.ClassLoadingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,7 +52,7 @@ public class AuthorTemplate extends OpenApiGeneratorCommand {
 
         Path embeddedTemplatePath;
         try {
-            URI uri = Objects.requireNonNull(this.getClass().getClassLoader().getResource(templateDirectory)).toURI();
+            URI uri = Objects.requireNonNull(ClassLoadingUtils.getResource(templateDirectory, this.getClass())).toURI();
 
             if ("jar".equals(uri.getScheme())) {
                 Optional<FileSystemProvider> provider = FileSystemProvider.installedProviders()

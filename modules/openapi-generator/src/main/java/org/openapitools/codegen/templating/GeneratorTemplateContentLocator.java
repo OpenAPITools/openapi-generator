@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.TemplateManager;
 import org.openapitools.codegen.api.TemplatePathLocator;
+import org.openapitools.codegen.util.ClassLoadingUtils;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -39,7 +40,7 @@ public class GeneratorTemplateContentLocator implements TemplatePathLocator {
     }
 
     private boolean classpathTemplateExists(String name) {
-        return this.getClass().getClassLoader().getResource(TemplateManager.getCPResourcePath(name)) != null;
+        return ClassLoadingUtils.getResource(TemplateManager.getCPResourcePath(name), this.getClass()) != null;
     }
 
     /**

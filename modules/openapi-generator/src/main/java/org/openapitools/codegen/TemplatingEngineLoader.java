@@ -18,8 +18,9 @@ package org.openapitools.codegen;
 
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 
-import java.util.Locale;
-import java.util.ServiceLoader;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TemplatingEngineLoader {
     private TemplatingEngineLoader() {
@@ -28,21 +29,31 @@ public class TemplatingEngineLoader {
 
     @SuppressWarnings("java:S112") // ignore java:S112 as generic RuntimeException is acceptable here
     public static TemplatingEngineAdapter byIdentifier(String id) {
-        ServiceLoader<TemplatingEngineAdapter> loader = ServiceLoader.load(TemplatingEngineAdapter.class, TemplatingEngineLoader.class.getClassLoader());
+        ClassLoader currentThreadClassLoader = Thread.currentThread().getContextClassLoader();
 
-        StringBuilder sb = new StringBuilder();
-        for (TemplatingEngineAdapter templatingEngineAdapter : loader) {
+        ServiceLoader<TemplatingEngineAdapter> staticClassLoader = ServiceLoader.load(TemplatingEngineAdapter.class, TemplatingEngineLoader.class.getClassLoader());
+        ServiceLoader<TemplatingEngineAdapter> threadClassLoader = ServiceLoader.load(TemplatingEngineAdapter.class, currentThreadClassLoader);
+
+        // combine the contents of the two class loaders. this preserves the existing behavior while allowing
+        // use of the current context class loader
+        List<TemplatingEngineAdapter> services = Stream.concat(staticClassLoader.stream(), threadClassLoader.stream())
+                                                    .filter(Objects::nonNull)
+                                                    .map(ServiceLoader.Provider::get)
+                                                    .collect(Collectors.toList());
+
+        Set<String> identifiers = new LinkedHashSet<>();
+        for (TemplatingEngineAdapter templatingEngineAdapter : services) {
             if (id.equals(templatingEngineAdapter.getIdentifier())) {
                 return templatingEngineAdapter;
             }
-            sb.append(templatingEngineAdapter.getIdentifier()).append("\n");
+            identifiers.add(templatingEngineAdapter.getIdentifier());
         }
 
         try {
             // Attempt to load skipping SPI
-            return (TemplatingEngineAdapter) Class.forName(id).getDeclaredConstructor().newInstance();
+            return (TemplatingEngineAdapter) currentThreadClassLoader.loadClass(id).getDeclaredConstructor().newInstance();
         } catch (Exception e) {
-            throw new RuntimeException(String.format(Locale.ROOT, "Couldn't load template engine adapter %s. Available options: %n%s", id, sb), e);
+            throw new RuntimeException(String.format(Locale.ROOT, "Couldn't load template engine adapter %s. Available options: %n%s", id, String.join("\n", identifiers)), e);
         }
     }
 }

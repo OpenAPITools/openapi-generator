@@ -1,5 +1,7 @@
 package org.openapitools.codegen.cmd;
 
+import org.openapitools.codegen.util.ClassLoadingUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.DateTimeException;
@@ -23,7 +25,7 @@ public class BuildInfo {
     private static final Properties properties = new Properties();
 
     static {
-        try (InputStream is = BuildInfo.class.getResourceAsStream("/version.properties")) {
+        try (InputStream is = ClassLoadingUtils.getResourceAsStream("/version.properties", BuildInfo.class)) {
             if (is != null) {
                 Properties versionProps = new Properties();
                 versionProps.load(is);
@@ -31,7 +33,7 @@ public class BuildInfo {
             }
         } catch (IOException ignored) {
         }
-        try (InputStream is = BuildInfo.class.getResourceAsStream("/openapi-generator-git.properties")) {
+        try (InputStream is = ClassLoadingUtils.getResourceAsStream("/openapi-generator-git.properties", BuildInfo.class)) {
             if (is != null) {
                 Properties gitProps = new Properties();
                 gitProps.load(is);

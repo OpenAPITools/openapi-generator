@@ -3,6 +3,7 @@ package org.openapitools.codegen.templating;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.TemplateManager;
 import org.openapitools.codegen.api.TemplatePathLocator;
+import org.openapitools.codegen.util.ClassLoadingUtils;
 
 import java.io.File;
 import java.net.URL;
@@ -40,7 +41,7 @@ public class CommonTemplateContentLocator implements TemplatePathLocator {
         if (StringUtils.isNotEmpty(relativeTemplateFile)) {
             String loc = this.resourceLocation + File.separator + relativeTemplateFile;
 
-            URL url = this.getClass().getClassLoader().getResource(TemplateManager.getCPResourcePath(loc));
+            URL url = ClassLoadingUtils.getResource(TemplateManager.getCPResourcePath(loc), this.getClass());
             if (url != null) {
                 return loc;
             }

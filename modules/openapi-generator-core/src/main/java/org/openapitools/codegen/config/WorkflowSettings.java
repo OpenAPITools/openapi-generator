@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.config;
 
+import org.openapitools.codegen.util.ClassLoadingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -484,7 +485,7 @@ public class WorkflowSettings {
                         cpDir = templateDir;
                     }
 
-                    URL url = this.getClass().getClassLoader().getResource(cpDir);
+                    URL url = ClassLoadingUtils.getResource(cpDir, this.getClass());
                     if (url != null) {
                         try {
                             uri = url.toURI();

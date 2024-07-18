@@ -1,5 +1,6 @@
 package org.openapitools.codegen.kotlin;
 
+import org.openapitools.codegen.util.ClassLoadingUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -10,7 +11,7 @@ public class KotlinTestUtilsTest {
 
     @Test
     public void testNormalCompile() throws Exception {
-        ClassLoader classLoader = KotlinTestUtils.buildModule(Collections.singletonList(getClass().getResource("KotlinTestUtilsTest/normalPack").getFile()), Thread.currentThread().getContextClassLoader());
+        ClassLoader classLoader = KotlinTestUtils.buildModule(Collections.singletonList(ClassLoadingUtils.getResource("KotlinTestUtilsTest/normalPack", getClass()).getFile()), Thread.currentThread().getContextClassLoader());
         Class<?> clazz = classLoader.loadClass("com.example.SimpleClass");
         Constructor<?>[] constructors = clazz.getConstructors();
         Assert.assertEquals(1, constructors.length);
@@ -20,7 +21,7 @@ public class KotlinTestUtilsTest {
 
     @Test(expectedExceptions = Exception.class)
     public void testBadCompile() {
-        KotlinTestUtils.buildModule(Collections.singletonList(getClass().getResource("KotlinTestUtilsTest/badPack").getFile()), Thread.currentThread().getContextClassLoader());
+        KotlinTestUtils.buildModule(Collections.singletonList(ClassLoadingUtils.getResource("KotlinTestUtilsTest/badPack", getClass()).getFile()), Thread.currentThread().getContextClassLoader());
     }
 
 }
