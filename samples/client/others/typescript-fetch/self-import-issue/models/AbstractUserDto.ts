@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { BranchDto } from './BranchDto';
 import {
     BranchDtoFromJSON,
@@ -61,10 +61,8 @@ export interface AbstractUserDto {
 /**
  * Check if a given object implements the AbstractUserDto interface.
  */
-export function instanceOfAbstractUserDto(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfAbstractUserDto(value: object): value is AbstractUserDto {
+    return true;
 }
 
 export function AbstractUserDtoFromJSON(json: any): AbstractUserDto {
@@ -72,37 +70,28 @@ export function AbstractUserDtoFromJSON(json: any): AbstractUserDto {
 }
 
 export function AbstractUserDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): AbstractUserDto {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     if (!ignoreDiscriminator) {
-        if (json['type'] === 'internal-authenticated') {
-            return InternalAuthenticatedUserDtoFromJSONTyped(json, true);
-        }
-        if (json['type'] === 'remote-authenticated') {
-            return RemoteAuthenticatedUserDtoFromJSONTyped(json, true);
-        }
     }
     return {
         
-        'username': !exists(json, 'username') ? undefined : json['username'],
-        'branch': !exists(json, 'branch') ? undefined : BranchDtoFromJSON(json['branch']),
-        'type': !exists(json, 'type') ? undefined : json['type'],
+        'username': json['username'] == null ? undefined : json['username'],
+        'branch': json['branch'] == null ? undefined : BranchDtoFromJSON(json['branch']),
+        'type': json['type'] == null ? undefined : json['type'],
     };
 }
 
 export function AbstractUserDtoToJSON(value?: AbstractUserDto | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'username': value.username,
-        'branch': BranchDtoToJSON(value.branch),
-        'type': value.type,
+        'username': value['username'],
+        'branch': BranchDtoToJSON(value['branch']),
+        'type': value['type'],
     };
 }
 

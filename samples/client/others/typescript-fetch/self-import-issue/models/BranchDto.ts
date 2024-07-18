@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -30,10 +30,8 @@ export interface BranchDto {
 /**
  * Check if a given object implements the BranchDto interface.
  */
-export function instanceOfBranchDto(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfBranchDto(value: object): value is BranchDto {
+    return true;
 }
 
 export function BranchDtoFromJSON(json: any): BranchDto {
@@ -41,25 +39,22 @@ export function BranchDtoFromJSON(json: any): BranchDto {
 }
 
 export function BranchDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): BranchDto {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'name': !exists(json, 'name') ? undefined : json['name'],
+        'name': json['name'] == null ? undefined : json['name'],
     };
 }
 
 export function BranchDtoToJSON(value?: BranchDto | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'name': value.name,
+        'name': value['name'],
     };
 }
 

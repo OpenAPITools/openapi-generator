@@ -12,19 +12,19 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
-import type { AbstractUserDto } from './AbstractUserDto';
-import {
-    AbstractUserDtoFromJSON,
-    AbstractUserDtoFromJSONTyped,
-    AbstractUserDtoToJSON,
-} from './AbstractUserDto';
+import { mapValues } from '../runtime';
 import type { BranchDto } from './BranchDto';
 import {
     BranchDtoFromJSON,
     BranchDtoFromJSONTyped,
     BranchDtoToJSON,
 } from './BranchDto';
+import type { AbstractUserDto } from './AbstractUserDto';
+import {
+    AbstractUserDtoFromJSON,
+    AbstractUserDtoFromJSONTyped,
+    AbstractUserDtoToJSON,
+} from './AbstractUserDto';
 
 /**
  * 
@@ -37,10 +37,8 @@ export interface InternalAuthenticatedUserDto extends AbstractUserDto {
 /**
  * Check if a given object implements the InternalAuthenticatedUserDto interface.
  */
-export function instanceOfInternalAuthenticatedUserDto(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfInternalAuthenticatedUserDto(value: object): value is InternalAuthenticatedUserDto {
+    return true;
 }
 
 export function InternalAuthenticatedUserDtoFromJSON(json: any): InternalAuthenticatedUserDto {

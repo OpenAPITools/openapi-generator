@@ -3,4 +3,5 @@ models/AbstractUserDto.ts
 models/BranchDto.ts
 models/InternalAuthenticatedUserDto.ts
 models/RemoteAuthenticatedUserDto.ts
+models/index.ts
 runtime.ts
