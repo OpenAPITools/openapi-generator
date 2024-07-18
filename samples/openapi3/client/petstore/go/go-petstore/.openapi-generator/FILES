@@ -64,6 +64,7 @@ docs/NumberOnly.md
 docs/OneOfPrimitiveType.md
 docs/OneOfPrimitiveTypeChild.md
 docs/OneOfPrimitiveTypes.md
+docs/OneOfWithComplexType.md
 docs/Order.md
 docs/OuterComposite.md
 docs/OuterEnum.md
@@ -138,6 +139,7 @@ model_number_only.go
 model_one_of_primitive_type.go
 model_one_of_primitive_type_child.go
 model_one_of_primitive_types.go
+model_one_of_with_complex_type.go
 model_order.go
 model_outer_composite.go
 model_outer_enum.go
