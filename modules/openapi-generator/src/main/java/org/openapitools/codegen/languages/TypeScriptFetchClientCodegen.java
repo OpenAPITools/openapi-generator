@@ -41,6 +41,7 @@ import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.nonNull;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -387,8 +388,27 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         for (ModelsMap entry : result.values()) {
             for (ModelMap model : entry.getModels()) {
                 ExtendedCodegenModel codegenModel = (ExtendedCodegenModel) model.getModel();
-                model.put("hasImports", codegenModel.imports.size() > 0);
+                boolean importsPresent = !codegenModel.imports.isEmpty();
+                model.put("hasImports", importsPresent);
                 model.put("tsImports", toTsImports(codegenModel, parseImports(codegenModel)));
+
+                // When legacyDiscriminatorBehaviour = false, DefaultCodegen will add the mapped models of the
+                // discriminator to codegenModel.imports, causing us to duplicate the import if we don't remove them
+                CodegenDiscriminator discriminator = codegenModel.discriminator;
+                boolean mappedDiscriminatorModelsPresent = nonNull(discriminator)
+                        && nonNull(discriminator.getMappedModels());
+                if (importsPresent && mappedDiscriminatorModelsPresent) {
+                    //It might be fine to just call codegenModel.discriminator.getMappedModels().clear() here,
+                    // as they should all have been added to imports in DefaultCodegen
+                    Set<CodegenDiscriminator.MappedModel> filteredMappedModels =
+                            codegenModel.discriminator.getMappedModels()
+                                    .stream()
+                                    .filter(mappedModel ->
+                                            !codegenModel.imports.contains(mappedModel.getModelName()))
+                                    .collect(Collectors.toSet());
+                    codegenModel.discriminator.setMappedModels(filteredMappedModels);
+                }
+
                 allModels.add(codegenModel);
                 if (codegenModel.isEntity) {
                     entityModelClassnames.add(codegenModel.classname);
