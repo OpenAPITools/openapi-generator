@@ -19,19 +19,9 @@ import {
     BranchDtoFromJSONTyped,
     BranchDtoToJSON,
 } from './BranchDto';
-import type { InternalAuthenticatedUserDto } from './InternalAuthenticatedUserDto';
-import {
-    InternalAuthenticatedUserDtoFromJSON,
-    InternalAuthenticatedUserDtoFromJSONTyped,
-    InternalAuthenticatedUserDtoToJSON,
-} from './InternalAuthenticatedUserDto';
-import type { RemoteAuthenticatedUserDto } from './RemoteAuthenticatedUserDto';
-import {
-    RemoteAuthenticatedUserDtoFromJSON,
-    RemoteAuthenticatedUserDtoFromJSONTyped,
-    RemoteAuthenticatedUserDtoToJSON,
-} from './RemoteAuthenticatedUserDto';
 
+import { InternalAuthenticatedUserDtoFromJSONTyped } from './InternalAuthenticatedUserDto';
+import { RemoteAuthenticatedUserDtoFromJSONTyped } from './RemoteAuthenticatedUserDto';
 /**
  * 
  * @export
@@ -74,6 +64,12 @@ export function AbstractUserDtoFromJSONTyped(json: any, ignoreDiscriminator: boo
         return json;
     }
     if (!ignoreDiscriminator) {
+        if (json['type'] === 'internal-authenticated') {
+            return InternalAuthenticatedUserDtoFromJSONTyped(json, true);
+        }
+        if (json['type'] === 'remote-authenticated') {
+            return RemoteAuthenticatedUserDtoFromJSONTyped(json, true);
+        }
     }
     return {
         
