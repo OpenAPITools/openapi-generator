@@ -9,8 +9,36 @@ use serde_with::serde_as;
 {{#description}}
 /// {{{classname}}} : {{{description}}}
 {{/description}}
+
+{{!-- for repr(int) enum schemas --}}
+{{#isEnum}}
+{{#isInteger}}
+/// {{{description}}}
+#[repr(i64)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize_repr, Deserialize_repr)]
+pub enum {{{classname}}} {
+{{#allowableValues}}
+{{#enumVars}}
+    {{{name}}} = {{{value}}},
+{{/enumVars}}{{/allowableValues}}
+}
+
+impl ToString for {{{classname}}} {
+    fn to_string(&self) -> String {
+        match self {
+            {{#allowableValues}}
+            {{#enumVars}}
+            Self::{{{name}}} => String::from("{{{value}}}"),
+            {{/enumVars}}
+            {{/allowableValues}}
+        }
+    }
+}
+{{/isInteger}}
+{{/isEnum}}
 {{!-- for enum schemas --}}
 {{#isEnum}}
+{{^isInteger}}
 /// {{{description}}}
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum {{{classname}}} {
@@ -40,6 +68,7 @@ impl Default for {{{classname}}} {
         {{/allowableValues}}
     }
 }
+{{/isInteger}}
 {{/isEnum}}
 {{!-- for schemas that have a discriminator --}}
 {{#discriminator}}
