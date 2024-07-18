@@ -11,6 +11,7 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
+
 /// Ref : using reserved word as model name
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Ref {

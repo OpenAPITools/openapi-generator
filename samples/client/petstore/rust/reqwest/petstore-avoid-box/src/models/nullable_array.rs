@@ -11,6 +11,7 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
+
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct NullableArray {
     #[serde(rename = "array_nullable", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]

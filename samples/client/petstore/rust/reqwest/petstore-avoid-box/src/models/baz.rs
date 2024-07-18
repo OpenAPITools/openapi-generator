@@ -11,7 +11,9 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
+
 /// Baz : Test handling of empty variants
+
 /// Test handling of empty variants
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Baz {

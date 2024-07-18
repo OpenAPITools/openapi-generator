@@ -6,10 +6,10 @@ use serde::{Deserialize, Serialize};
 {{^isEnum}}{{#vendorExtensions.x-rust-has-byte-array}}
 use serde_with::serde_as;
 {{/vendorExtensions.x-rust-has-byte-array}}{{/isEnum}}
+{{#isEnum}}{{#isInteger}}use serde_repr::{Serialize_repr,Deserialize_repr};{{/isInteger}}{{/isEnum}}
 {{#description}}
 /// {{{classname}}} : {{{description}}}
 {{/description}}
-
 {{!-- for repr(int) enum schemas --}}
 {{#isEnum}}
 {{#isInteger}}
@@ -61,6 +61,7 @@ impl std::fmt::Display for {{{classname}}} {
     }
 }
 
+{{/isInteger}}
 impl Default for {{{classname}}} {
     fn default() -> {{{classname}}} {
         {{#allowableValues}}
@@ -68,7 +69,6 @@ impl Default for {{{classname}}} {
         {{/allowableValues}}
     }
 }
-{{/isInteger}}
 {{/isEnum}}
 {{!-- for schemas that have a discriminator --}}
 {{#discriminator}}
