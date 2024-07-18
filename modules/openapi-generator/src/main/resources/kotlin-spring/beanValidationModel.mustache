@@ -4,7 +4,7 @@ format: email
     @get:Email{{/isEmail}}{{!
 pattern set
 }}{{#pattern}}
-    @get:Pattern(regexp="{{{.}}}"){{/pattern}}{{!
+    @get:Pattern(regexp="{{{pattern}}}"{{#vendorExtensions.x-pattern-message}}, message="{{vendorExtensions.x-pattern-message}}"{{/vendorExtensions.x-pattern-message}}){{/pattern}}{{!
 minLength && maxLength set
 }}{{#minLength}}{{#maxLength}}
     @get:Size(min={{minLength}},max={{maxLength}}){{/maxLength}}{{/minLength}}{{!
