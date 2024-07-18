@@ -389,8 +389,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             for (ModelMap model : entry.getModels()) {
                 ExtendedCodegenModel codegenModel = (ExtendedCodegenModel) model.getModel();
                 boolean importsPresent = !codegenModel.imports.isEmpty();
-                model.put("hasImports", importsPresent);
-                model.put("tsImports", toTsImports(codegenModel, parseImports(codegenModel)));
 
                 // When legacyDiscriminatorBehaviour = false, DefaultCodegen will add the mapped models of the
                 // discriminator to codegenModel.imports, causing us to duplicate the import if we don't remove them
@@ -398,16 +396,23 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 boolean mappedDiscriminatorModelsPresent = nonNull(discriminator)
                         && nonNull(discriminator.getMappedModels());
                 if (importsPresent && mappedDiscriminatorModelsPresent) {
-                    //It might be fine to just call codegenModel.discriminator.getMappedModels().clear() here,
-                    // as they should all have been added to imports in DefaultCodegen
-                    Set<CodegenDiscriminator.MappedModel> filteredMappedModels =
-                            codegenModel.discriminator.getMappedModels()
-                                    .stream()
-                                    .filter(mappedModel ->
-                                            !codegenModel.imports.contains(mappedModel.getModelName()))
-                                    .collect(Collectors.toSet());
-                    codegenModel.discriminator.setMappedModels(filteredMappedModels);
+                    Set<String> mappedDiscriminatorModelNames = discriminator.getMappedModels()
+                            .stream()
+                            .map(CodegenDiscriminator.MappedModel::getModelName)
+                            .collect(Collectors.toSet());
+                    Set<String> filteredImports = codegenModel.imports
+                            .stream()
+                            .filter(modelImport ->
+                                    !mappedDiscriminatorModelNames.contains(modelImport))
+                            .collect(Collectors.toSet());
+
+                    codegenModel.imports.clear();
+                    codegenModel.imports.addAll(filteredImports);
                 }
+
+                model.put("hasImports", importsPresent);
+                model.put("tsImports", toTsImports(codegenModel, parseImports(codegenModel)));
+
 
                 allModels.add(codegenModel);
                 if (codegenModel.isEntity) {
