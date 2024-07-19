@@ -168,17 +168,18 @@ func (o *{{classname}}) Set{{name}}(v {{vendorExtensions.x-go-base-type}}) {
 {{/isNullable}}
 }
 
+{{#useDefaultValuesForRequiredVars}}
 {{^isReadOnly}}
 {{#defaultValue}}
-{{#initRequiredVars}}
-func (o *{{classname}}) GetDefault{{baseName}}() interface{}  {
-	var {{baseName}} {{{dataType}}} = {{{defaultValue}}}
-	o.{{name}} = {{baseName}}
-	return {{baseName}}
+// GetDefault{{baseName}} function assigns the default value {{defaultValue}} to the {{name}} field
+// of the {{classname}} struct and returns the {{{defaultValue}}}.
+func (o *{{classname}}) GetDefault{{baseName}}() interface{}  { 
+	o.{{name}} = {{{defaultValue}}}
+	return {{{defaultValue}}}
 }
-{{/initRequiredVars}}
 {{/defaultValue}}
 {{/isReadOnly}}
+{{/useDefaultValuesForRequiredVars}}
 
 {{/required}}
 {{^required}}
@@ -330,15 +331,15 @@ func (o {{classname}}) ToMap() (map[string]interface{}, error) {
 	{{! if argument is not nullable, don't set it if it is nil}}
 	{{^isNullable}}
 	{{#required}}
+	{{#useDefaultValuesForRequiredVars}}
 	{{^isReadOnly}}
 	{{#defaultValue}}
-	{{#initRequiredVars}}
 	if _, exists := toSerialize["{{{baseName}}}"]; !exists {
 		toSerialize["{{{baseName}}}"] = o.GetDefault{{baseName}}()
 	}
-	{{/initRequiredVars}}
 	{{/defaultValue}}
 	{{/isReadOnly}}
+	{{/useDefaultValuesForRequiredVars}}
 	toSerialize["{{{baseName}}}"] = o.{{name}}
 	{{/required}}
 	{{^required}}
@@ -379,13 +380,13 @@ func (o *{{{classname}}}) UnmarshalJSON(data []byte) (err error) {
 
 	defaultValueFuncMap := map[string]func() interface{} {
 {{#requiredVars}}
+{{#useDefaultValuesForRequiredVars}}
 {{^isReadOnly}}
 {{#defaultValue}}
-{{#initRequiredVars}}
 		"{{baseName}}": o.GetDefault{{baseName}},
-{{/initRequiredVars}}
 {{/defaultValue}}
 {{/isReadOnly}}
+{{/useDefaultValuesForRequiredVars}}
 {{/requiredVars}}
 	}
 
