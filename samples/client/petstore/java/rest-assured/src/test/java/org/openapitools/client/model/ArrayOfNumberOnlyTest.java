@@ -21,23 +21,23 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for ArrayOfNumberOnly
  */
-public class ArrayOfNumberOnlyTest {
+class ArrayOfNumberOnlyTest {
     private final ArrayOfNumberOnly model = new ArrayOfNumberOnly();
 
     /**
      * Model tests for ArrayOfNumberOnly
      */
     @Test
-    public void testArrayOfNumberOnly() {
+    void testArrayOfNumberOnly() {
         // TODO: test ArrayOfNumberOnly
     }
 
@@ -45,7 +45,7 @@ public class ArrayOfNumberOnlyTest {
      * Test the property 'arrayNumber'
      */
     @Test
-    public void arrayNumberTest() {
+    void arrayNumberTest() {
         // TODO: test arrayNumber
     }
 

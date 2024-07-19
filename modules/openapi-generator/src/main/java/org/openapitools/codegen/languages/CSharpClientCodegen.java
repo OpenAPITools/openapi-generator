@@ -745,8 +745,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         if (GENERICHOST.equals(getLibrary())) {
             setLibrary(GENERICHOST);
             additionalProperties.put("useGenericHost", true);
-            // all c# libraries should be doing this, but we only do it here to avoid breaking changes
-            this.setSortModelPropertiesByRequiredFlag(true);
         } else if (RESTSHARP.equals(getLibrary())) {
             additionalProperties.put("useRestSharp", true);
             needsCustomHttpMethod = true;

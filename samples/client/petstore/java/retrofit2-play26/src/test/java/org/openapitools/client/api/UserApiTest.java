@@ -1,11 +1,21 @@
 package org.openapitools.client.api;
 
-import org.junit.Before;
-import org.junit.Test;
 import org.openapitools.client.ApiClient;
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 /**
  * API tests for UserApi
@@ -14,7 +24,7 @@ public class UserApiTest {
 
     private UserApi api;
 
-    @Before
+    @BeforeEach
     public void setup() {
         api = new ApiClient().createService(UserApi.class);
     }
@@ -26,32 +36,32 @@ public class UserApiTest {
      */
     @Test
     public void createUserTest() {
-        User user = null;
-        // api.createUser(user);
+        User body = null;
+        // api.createUser(body);
 
         // TODO: test validations
     }
     /**
      * Creates list of users with given input array
      *
-     *
+     * 
      */
     @Test
     public void createUsersWithArrayInputTest() {
-        List<User> user = null;
-        // api.createUsersWithArrayInput(user);
+        List<@Valid User> body = null;
+        // api.createUsersWithArrayInput(body);
 
         // TODO: test validations
     }
     /**
      * Creates list of users with given input array
      *
-     *
+     * 
      */
     @Test
     public void createUsersWithListInputTest() {
-        List<User> user = null;
-        // api.createUsersWithListInput(user);
+        List<@Valid User> body = null;
+        // api.createUsersWithListInput(body);
 
         // TODO: test validations
     }
@@ -70,7 +80,7 @@ public class UserApiTest {
     /**
      * Get user by user name
      *
-     *
+     * 
      */
     @Test
     public void getUserByNameTest() {
@@ -82,7 +92,7 @@ public class UserApiTest {
     /**
      * Logs user into the system
      *
-     *
+     * 
      */
     @Test
     public void loginUserTest() {
@@ -95,7 +105,7 @@ public class UserApiTest {
     /**
      * Logs out current logged in user session
      *
-     *
+     * 
      */
     @Test
     public void logoutUserTest() {
@@ -111,8 +121,8 @@ public class UserApiTest {
     @Test
     public void updateUserTest() {
         String username = null;
-        User user = null;
-        // api.updateUser(username, user);
+        User body = null;
+        // api.updateUser(username, body);
 
         // TODO: test validations
     }

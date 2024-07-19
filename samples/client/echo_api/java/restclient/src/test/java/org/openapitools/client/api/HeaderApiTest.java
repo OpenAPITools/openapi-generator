@@ -10,43 +10,51 @@
  * Do not edit the class manually.
  */
 
-
 package org.openapitools.client.api;
 
-import org.openapitools.client.model.StringEnumRef;
+import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import org.junit.Test;
-import org.junit.Ignore;
+import org.openapitools.client.model.StringEnumRef;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-/**
- * API tests for HeaderApi
- */
-@Ignore
+/** API tests for HeaderApi */
 public class HeaderApiTest {
 
-    private final HeaderApi api = new HeaderApi();
+  private final HeaderApi api = new HeaderApi();
 
-    
-    /**
-     * Test header parameter(s)
-     *
-     * Test header parameter(s)
-     */
-    @Test
-    public void testHeaderIntegerBooleanStringEnumsTest()  {
-        Integer integerHeader = null;
-        Boolean booleanHeader = null;
-        String stringHeader = null;
-        String enumNonrefStringHeader = null;
-        StringEnumRef enumRefStringHeader = null;
-        String response = api.testHeaderIntegerBooleanStringEnums(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader);
+  /**
+   * Test header parameter(s)
+   *
+   * <p>Test header parameter(s)
+   */
+  @Test
+  public void testHeaderIntegerBooleanStringEnumsTest() {
+    // Given
+    Integer integerHeader = 11;
+    Boolean booleanHeader = true;
+    String stringHeader = "simple String Header";
+    String enumNonrefStringHeader = "false";
+    StringEnumRef enumRefStringHeader = StringEnumRef.UNCLASSIFIED;
 
-        // TODO: test validations
-    }
-    
+    // When
+    String response =
+        api.testHeaderIntegerBooleanStringEnums(
+            integerHeader,
+            booleanHeader,
+            stringHeader,
+            enumNonrefStringHeader,
+            enumRefStringHeader);
+
+    // Then
+    assertThat(
+        response,
+        allOf(
+            containsString("integer_header: 11"),
+            containsString("boolean_header: true"),
+            containsString("string_header: simple String Header"),
+            containsString("enum_nonref_string_header: false"),
+            containsString("enum_ref_string_header: unclassified")));
+  }
 }

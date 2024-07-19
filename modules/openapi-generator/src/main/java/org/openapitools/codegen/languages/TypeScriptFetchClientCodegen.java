@@ -41,6 +41,7 @@ import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.nonNull;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -387,8 +388,32 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         for (ModelsMap entry : result.values()) {
             for (ModelMap model : entry.getModels()) {
                 ExtendedCodegenModel codegenModel = (ExtendedCodegenModel) model.getModel();
-                model.put("hasImports", codegenModel.imports.size() > 0);
+                boolean importsPresent = !codegenModel.imports.isEmpty();
+
+                // When legacyDiscriminatorBehaviour = false, DefaultCodegen will add the mapped models of the
+                // discriminator to codegenModel.imports, causing us to duplicate the import if we don't remove them
+                CodegenDiscriminator discriminator = codegenModel.discriminator;
+                boolean mappedDiscriminatorModelsPresent = nonNull(discriminator)
+                        && nonNull(discriminator.getMappedModels());
+                if (importsPresent && mappedDiscriminatorModelsPresent) {
+                    Set<String> mappedDiscriminatorModelNames = discriminator.getMappedModels()
+                            .stream()
+                            .map(CodegenDiscriminator.MappedModel::getModelName)
+                            .collect(Collectors.toSet());
+                    Set<String> filteredImports = codegenModel.imports
+                            .stream()
+                            .filter(modelImport ->
+                                    !mappedDiscriminatorModelNames.contains(modelImport))
+                            .collect(Collectors.toSet());
+
+                    codegenModel.imports.clear();
+                    codegenModel.imports.addAll(filteredImports);
+                }
+
+                model.put("hasImports", importsPresent);
                 model.put("tsImports", toTsImports(codegenModel, parseImports(codegenModel)));
+
+
                 allModels.add(codegenModel);
                 if (codegenModel.isEntity) {
                     entityModelClassnames.add(codegenModel.classname);
