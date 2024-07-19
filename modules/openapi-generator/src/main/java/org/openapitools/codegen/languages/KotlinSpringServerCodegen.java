@@ -875,7 +875,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 final List<CodegenParameter> allParams = operation.allParams;
                 if (allParams != null) {
                     if (this.isAppendRequestToHandler()) {
-                        allParams.add(new RequestCodegenParameter(true));
+                        allParams.add(new RequestCodegenParameter());
                     }
                     allParams.forEach(param ->
                             // This is necessary in case 'modelMutable' is enabled,
@@ -972,7 +972,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Data
     @EqualsAndHashCode(callSuper = true)
     static class RequestCodegenParameter extends CodegenParameter {
-        boolean isRequestObject;
+
+        boolean isRequestObject = true;
+
+        public RequestCodegenParameter() {
+            this.isOptional = false;
+            this.required = true;
+            this.paramName = "serverHttpRequest";
+            this.dataType = "ServerHttpRequest";
+        }
+
     }
 
     public RequestMappingMode getRequestMappingMode() {
