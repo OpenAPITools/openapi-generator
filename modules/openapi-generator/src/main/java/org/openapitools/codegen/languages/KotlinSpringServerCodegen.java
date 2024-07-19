@@ -986,6 +986,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Override
     public List<VendorExtension> getSupportedVendorExtensions() {
         List<VendorExtension> extensions = super.getSupportedVendorExtensions();
+        extensions.add(VendorExtension.X_ACCEPTS);
+        extensions.add(VendorExtension.X_CONTENT_TYPE);
+        extensions.add(VendorExtension.X_DISCRIMINATOR_VALUE);
         extensions.add(VendorExtension.X_PATTERN_MESSAGE);
         return extensions;
     }
