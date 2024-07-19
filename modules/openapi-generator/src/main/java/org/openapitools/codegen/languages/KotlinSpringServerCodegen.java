@@ -32,6 +32,7 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.VendorExtension;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.languages.features.SwaggerUIFeatures;
@@ -980,6 +981,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     public void setRequestMappingMode(RequestMappingMode requestMappingMode) {
         this.requestMappingMode = requestMappingMode;
+    }
+
+    @Override
+    public List<VendorExtension> getSupportedVendorExtensions() {
+        List<VendorExtension> extensions = super.getSupportedVendorExtensions();
+        extensions.add(VendorExtension.X_PATTERN_MESSAGE);
+        return extensions;
     }
 
 }

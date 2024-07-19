@@ -46,4 +46,4 @@ async def fake_query_param_default(
     no_default: str = Query(None, description="no default value", alias="noDefault"),
 ) -> None:
     """"""
-    return BaseFakeApi.subclasses[0]().fake_query_param_default(has_default, no_default)
+    return await BaseFakeApi.subclasses[0]().fake_query_param_default(has_default, no_default)
