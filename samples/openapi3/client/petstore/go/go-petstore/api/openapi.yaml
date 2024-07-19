@@ -1280,6 +1280,10 @@ components:
         bar:
           default: bar
           type: string
+        name:
+          enum: [default-name]
+          default: default-name
+          x-enum-as-string: true
         map:
           additionalProperties:
             items:
@@ -1289,6 +1293,7 @@ components:
           type: object
       required:
       - bar
+      - name
       type: object
     Bar:
       default: bar
