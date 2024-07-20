@@ -1,6 +1,6 @@
 openapi: 3.0.0
 servers:
-  - url: 'http://petstore.swagger.io/v2'
+  - url: 'https://petstore.swagger.io/v2'
 info:
   description: >-
     This is a sample server Petstore server. For this sample, you can use the api key
