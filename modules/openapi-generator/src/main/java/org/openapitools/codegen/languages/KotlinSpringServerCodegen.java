@@ -94,6 +94,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String SERVICE_INTERFACE = "serviceInterface";
     public static final String SERVICE_IMPLEMENTATION = "serviceImplementation";
     public static final String SKIP_DEFAULT_INTERFACE = "skipDefaultInterface";
+    public static final String SKIP_DEFAULT_API_INTERFACE = "skipDefaultApiInterface";
+    public static final String SKIP_DEFAULT_DELEGATE_INTERFACE = "skipDefaultDelegateInterface";
     public static final String REACTIVE = "reactive";
     public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String USE_FEIGN_CLIENT_URL = "useFeignClientUrl";
@@ -135,6 +137,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private String title = "OpenAPI Kotlin Spring";
     private boolean useBeanValidation = true;
     @Setter private boolean skipDefaultInterface = false;
+    @Setter private boolean skipDefaultApiInterface = false;
+    @Setter private boolean skipDefaultDelegateInterface = false;
     @Setter private boolean exceptionHandler = true;
     @Setter private boolean gradleBuildFile = true;
     private boolean useSwaggerUI = true;
@@ -222,7 +226,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(SERVICE_IMPLEMENTATION, "generate stub service implementations that extends service " +
                 "interfaces. If this is set to true service interfaces will also be generated", serviceImplementation);
         addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
-        addSwitch(SKIP_DEFAULT_INTERFACE, "Whether to skip generation of default implementations for interfaces", skipDefaultInterface);
+        addSwitch(SKIP_DEFAULT_INTERFACE, "Whether to skip generation of default implementations for interfaces (Api interfaces or Delegate interfaces depending on the delegatePattern option)", skipDefaultInterface);
         addSwitch(REACTIVE, "use coroutines for reactive behavior", reactive);
         addSwitch(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.", interfaceOnly);
         addSwitch(USE_FEIGN_CLIENT_URL, "Whether to generate Feign client with url parameter.", useFeignClientUrl);
@@ -561,6 +565,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (additionalProperties.containsKey(DELEGATE_PATTERN)) {
             this.setDelegatePattern(Boolean.parseBoolean(additionalProperties.get(DELEGATE_PATTERN).toString()));
         }
+
+        if (skipDefaultInterface) {
+            if (delegatePattern) {
+                this.setSkipDefaultDelegateInterface(true);
+            } else {
+                this.setSkipDefaultApiInterface(true);
+            }
+        }
+        writePropertyBack(SKIP_DEFAULT_API_INTERFACE, skipDefaultApiInterface);
+        writePropertyBack(SKIP_DEFAULT_DELEGATE_INTERFACE, skipDefaultDelegateInterface);
 
         if (additionalProperties.containsKey(USE_TAGS)) {
             this.setUseTags(Boolean.parseBoolean(additionalProperties.get(USE_TAGS).toString()));
