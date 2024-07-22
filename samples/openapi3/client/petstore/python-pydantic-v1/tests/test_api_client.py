@@ -9,6 +9,8 @@ $ cd OpenAPIetstore-python
 $ pytest
 """
 
+import os
+import time
 import atexit
 import weakref
 import unittest
