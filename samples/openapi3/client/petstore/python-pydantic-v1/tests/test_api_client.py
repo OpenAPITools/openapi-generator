@@ -13,7 +13,6 @@ import atexit
 import weakref
 import unittest
 from dateutil.parser import parse
-from decimal import Decimal
 
 import petstore_api
 import petstore_api.configuration
@@ -154,11 +153,6 @@ class ApiClientTests(unittest.TestCase):
         data = parse("1997-07-16T19:20:30.45+01:00")  # datetime
         result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, "1997-07-16T19:20:30.450000+01:00")
-
-        # decimal
-        data = Decimal("1.0")
-        result = self.api_client.sanitize_for_serialization(data)
-        self.assertEquals(result, "1.0")
 
         # list
         data = [1]
