@@ -7,7 +7,7 @@ import java.util.Optional
 @jakarta.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.8.0-SNAPSHOT")
 @Controller
 class UserApiController(
-        val delegate: UserApiDelegate
+        private val delegate: UserApiDelegate
         
 ) : UserApi {
 

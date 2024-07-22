@@ -7,7 +7,7 @@ import java.util.Optional
 @jakarta.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.8.0-SNAPSHOT")
 @Controller
 class PetApiController(
-        val delegate: PetApiDelegate
+        private val delegate: PetApiDelegate
         
 ) : PetApi {
 
