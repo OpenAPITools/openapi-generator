@@ -14,6 +14,7 @@ import os
 import time
 import unittest
 import datetime
+from decimal import Decimal
 
 import pytest as pytest
 
@@ -129,6 +130,15 @@ class DeserializationTests(unittest.TestCase):
 
         deserialized = self.deserialize(response, "datetime", 'application/json')
         self.assertTrue(isinstance(deserialized, datetime.datetime))
+
+    def test_deserialize_decimal(self):
+        """ deserialize decimal """
+        data = 1.1
+        response = json.dumps(data)
+
+        deserialized = self.deserialize(response, "decimal", 'application/json')
+        self.assertTrue(isinstance(deserialized, Decimal))
+        self.assertEqual(deserialized, Decimal(1.1))
 
     def test_deserialize_pet(self):
         """ deserialize pet """
