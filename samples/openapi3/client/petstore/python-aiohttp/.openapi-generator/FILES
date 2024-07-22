@@ -66,6 +66,7 @@ docs/Model200Response.md
 docs/ModelApiResponse.md
 docs/ModelField.md
 docs/ModelReturn.md
+docs/MultiArrays.md
 docs/Name.md
 docs/NullableClass.md
 docs/NullableProperty.md
@@ -188,6 +189,7 @@ petstore_api/models/model200_response.py
 petstore_api/models/model_api_response.py
 petstore_api/models/model_field.py
 petstore_api/models/model_return.py
+petstore_api/models/multi_arrays.py
 petstore_api/models/name.py
 petstore_api/models/nullable_class.py
 petstore_api/models/nullable_property.py
