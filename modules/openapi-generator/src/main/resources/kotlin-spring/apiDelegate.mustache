@@ -7,6 +7,9 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.core.io.Resource
+{{#appendRequestToHandler}}
+import org.springframework.http.server.reactive.ServerHttpRequest
+{{/appendRequestToHandler}}
 {{#reactive}}
 import kotlinx.coroutines.flow.Flow
 {{/reactive}}
