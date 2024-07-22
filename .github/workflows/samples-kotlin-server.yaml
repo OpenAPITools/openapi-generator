@@ -32,6 +32,7 @@ jobs:
           - samples/server/petstore/kotlin-springboot-multipart-request-model
           - samples/server/petstore/kotlin-springboot-bigdecimal-default
           - samples/server/petstore/kotlin-springboot-delegate
+          - samples/server/petstore/kotlin-springboot-delegate-nodefaults
           - samples/server/petstore/kotlin-springboot-modelMutable
           - samples/server/petstore/kotlin-springboot-reactive
           - samples/server/petstore/kotlin-springboot-source-swagger1
