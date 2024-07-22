@@ -48,6 +48,8 @@ export function TestResponseFromJSONTyped(json: any, ignoreDiscriminator: boolea
     if (instanceOfTestB(json)) {
         return TestBFromJSONTyped(json, true);
     }
+
+    return json;
 }
 
 export function TestResponseToJSON(value?: TestResponse | null): any {
