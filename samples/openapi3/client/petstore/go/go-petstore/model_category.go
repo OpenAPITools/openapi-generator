@@ -103,6 +103,12 @@ func (o *Category) SetName(v string) {
 	o.Name = v
 }
 
+// GetDefaultname function assigns the default value &quot;default-name&quot; to the Name field
+// of the Category struct and returns the "default-name".
+func (o *Category) GetDefaultname() interface{}  { 
+	o.Name = "default-name"
+	return "default-name"
+}
 func (o Category) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -115,6 +121,9 @@ func (o Category) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Id) {
 		toSerialize["id"] = o.Id
+	}
+	if _, exists := toSerialize["name"]; !exists {
+		toSerialize["name"] = o.GetDefaultname()
 	}
 	toSerialize["name"] = o.Name
 
@@ -133,20 +142,34 @@ func (o *Category) UnmarshalJSON(data []byte) (err error) {
 		"name",
 	}
 
+	defaultValueFuncMap := map[string]func() interface{} {
+		"name": o.GetDefaultname,
+	}
 	allProperties := make(map[string]interface{})
-
+	var defaultValueApplied bool
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
 		return err;
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
+	for _, requiredProperty := range(requiredProperties){
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
+			if _, ok := defaultValueFuncMap[requiredProperty]; ok {
+				allProperties[requiredProperty] = defaultValueFuncMap[requiredProperty]()
+				defaultValueApplied = true
+			}
+		}
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
 	}
-
+	if defaultValueApplied{
+		data, err = json.Marshal(allProperties)
+		if err != nil{
+			return err
+		}
+	}
 	varCategory := _Category{}
 
 	err = json.Unmarshal(data, &varCategory)
