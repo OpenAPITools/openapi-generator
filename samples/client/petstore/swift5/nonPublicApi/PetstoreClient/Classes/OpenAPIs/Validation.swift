@@ -20,6 +20,12 @@ internal struct NumericRule<T: Comparable & Numeric> {
     internal var multipleOf: T?
 }
 
+internal struct ArrayRule {
+    internal var minItem: Int?
+    internal var maxItem: Int?
+    internal var uniqueItems: Bool?
+}
+
 internal enum StringValidationErrorKind: Error {
     case minLength, maxLength, pattern
 }
