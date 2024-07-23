@@ -13,13 +13,20 @@ import java.util.Optional
 {{/useRequestMappingOnController}}
 {{#operations}}
 class {{classname}}Controller(
-        @org.springframework.beans.factory.annotation.Autowired(required = false) delegate: {{classname}}Delegate?
+        {{#skipDefaultDelegateInterface}}
+        private val delegate: {{classname}}Delegate
+        {{/skipDefaultDelegateInterface}}
+        {{^skipDefaultDelegateInterface}}
+        delegate: {{classname}}Delegate?
+        {{/skipDefaultDelegateInterface}}
 ) : {{classname}} {
+{{^skipDefaultDelegateInterface}}
     private lateinit var delegate: {{classname}}Delegate
 
     init {
         this.delegate = Optional.ofNullable(delegate).orElse(object : {{classname}}Delegate {})
     }
+{{/skipDefaultDelegateInterface}}
 
     override fun getDelegate(): {{classname}}Delegate = delegate
 }
