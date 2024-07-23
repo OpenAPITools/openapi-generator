@@ -23,7 +23,7 @@ interface UserApiDelegate {
      * @see UserApi#createUser
      */
     fun createUser(user: User,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
+        : ?): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -33,7 +33,7 @@ interface UserApiDelegate {
      * @see UserApi#createUsersWithArrayInput
      */
     fun createUsersWithArrayInput(user: kotlin.collections.List<User>,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
+        : ?): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -43,7 +43,7 @@ interface UserApiDelegate {
      * @see UserApi#createUsersWithListInput
      */
     fun createUsersWithListInput(user: kotlin.collections.List<User>,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
+        : ?): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -53,7 +53,7 @@ interface UserApiDelegate {
      * @see UserApi#deleteUser
      */
     fun deleteUser(username: kotlin.String,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
+        : ?): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -63,7 +63,7 @@ interface UserApiDelegate {
      * @see UserApi#getUserByName
      */
     fun getUserByName(username: kotlin.String,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<User> {
+        : ?): ResponseEntity<User> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -86,7 +86,7 @@ interface UserApiDelegate {
      */
     fun loginUser(username: kotlin.String,
         password: kotlin.String,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<kotlin.String> {
+        : ?): ResponseEntity<kotlin.String> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -95,7 +95,7 @@ interface UserApiDelegate {
     /**
      * @see UserApi#logoutUser
      */
-    fun logoutUser(serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
+    fun logoutUser(: ?): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -106,7 +106,7 @@ interface UserApiDelegate {
      */
     fun updateUser(username: kotlin.String,
         user: User,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
+        : ?): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }

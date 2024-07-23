@@ -24,7 +24,7 @@ interface PetApiDelegate {
      * @see PetApi#addPet
      */
     fun addPet(pet: Pet,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<Pet> {
+        : ?): ResponseEntity<Pet> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -47,7 +47,7 @@ interface PetApiDelegate {
      */
     fun deletePet(petId: kotlin.Long,
         apiKey: kotlin.String?,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
+        : ?): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -57,7 +57,7 @@ interface PetApiDelegate {
      * @see PetApi#findPetsByStatus
      */
     fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<List<Pet>> {
+        : ?): ResponseEntity<List<Pet>> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -79,7 +79,7 @@ interface PetApiDelegate {
      * @see PetApi#findPetsByTags
      */
     fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<List<Pet>> {
+        : ?): ResponseEntity<List<Pet>> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -101,7 +101,7 @@ interface PetApiDelegate {
      * @see PetApi#getPetById
      */
     fun getPetById(petId: kotlin.Long,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<Pet> {
+        : ?): ResponseEntity<Pet> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -123,7 +123,7 @@ interface PetApiDelegate {
      * @see PetApi#updatePet
      */
     fun updatePet(pet: Pet,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<Pet> {
+        : ?): ResponseEntity<Pet> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -147,7 +147,7 @@ interface PetApiDelegate {
     fun updatePetWithForm(petId: kotlin.Long,
         name: kotlin.String?,
         status: kotlin.String?,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
+        : ?): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -159,7 +159,7 @@ interface PetApiDelegate {
     fun uploadFile(petId: kotlin.Long,
         additionalMetadata: kotlin.String?,
         file: Resource?,
-        serverHttpRequest: ServerHttpRequest): ResponseEntity<ModelApiResponse> {
+        : ?): ResponseEntity<ModelApiResponse> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

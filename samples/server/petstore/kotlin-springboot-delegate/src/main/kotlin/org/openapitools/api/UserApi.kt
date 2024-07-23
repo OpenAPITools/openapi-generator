@@ -56,7 +56,7 @@ interface UserApi {
             consumes = ["application/json"]
     )
     fun createUser(@Parameter(description = "Created user object", required = true) @Valid @RequestBody user: User,serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
-        return getDelegate().createUser(user, serverHttpRequest)
+        return getDelegate().createUser(user, )
     }
 
     @Operation(
@@ -75,7 +75,7 @@ interface UserApi {
             consumes = ["application/json"]
     )
     fun createUsersWithArrayInput(@Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<User>,serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
-        return getDelegate().createUsersWithArrayInput(user, serverHttpRequest)
+        return getDelegate().createUsersWithArrayInput(user, )
     }
 
     @Operation(
@@ -94,7 +94,7 @@ interface UserApi {
             consumes = ["application/json"]
     )
     fun createUsersWithListInput(@Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<User>,serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
-        return getDelegate().createUsersWithListInput(user, serverHttpRequest)
+        return getDelegate().createUsersWithListInput(user, )
     }
 
     @Operation(
@@ -113,7 +113,7 @@ interface UserApi {
             value = ["/user/{username}"]
     )
     fun deleteUser(@Parameter(description = "The name that needs to be deleted", required = true) @PathVariable("username") username: kotlin.String,serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
-        return getDelegate().deleteUser(username, serverHttpRequest)
+        return getDelegate().deleteUser(username, )
     }
 
     @Operation(
@@ -133,7 +133,7 @@ interface UserApi {
             produces = ["application/xml", "application/json"]
     )
     fun getUserByName(@Parameter(description = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") username: kotlin.String,serverHttpRequest: ServerHttpRequest): ResponseEntity<User> {
-        return getDelegate().getUserByName(username, serverHttpRequest)
+        return getDelegate().getUserByName(username, )
     }
 
     @Operation(
@@ -152,7 +152,7 @@ interface UserApi {
             produces = ["application/xml", "application/json"]
     )
     fun loginUser(@NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) username: kotlin.String,@NotNull @Parameter(description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) password: kotlin.String,serverHttpRequest: ServerHttpRequest): ResponseEntity<kotlin.String> {
-        return getDelegate().loginUser(username, password, serverHttpRequest)
+        return getDelegate().loginUser(username, password, )
     }
 
     @Operation(
@@ -170,7 +170,7 @@ interface UserApi {
             value = ["/user/logout"]
     )
     fun logoutUser(serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
-        return getDelegate().logoutUser(serverHttpRequest)
+        return getDelegate().logoutUser()
     }
 
     @Operation(
@@ -190,6 +190,6 @@ interface UserApi {
             consumes = ["application/json"]
     )
     fun updateUser(@Parameter(description = "name that need to be deleted", required = true) @PathVariable("username") username: kotlin.String,@Parameter(description = "Updated user object", required = true) @Valid @RequestBody user: User,serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
-        return getDelegate().updateUser(username, user, serverHttpRequest)
+        return getDelegate().updateUser(username, user, )
     }
 }
