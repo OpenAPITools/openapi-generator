@@ -55,7 +55,7 @@ interface StoreApi {
             value = ["/store/order/{orderId}"]
     )
     fun deleteOrder(@Parameter(description = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") orderId: kotlin.String,serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
-        return getDelegate().deleteOrder(orderId, )
+        return getDelegate().deleteOrder(orderId, serverHttpRequest)
     }
 
     @Operation(
@@ -74,7 +74,7 @@ interface StoreApi {
             produces = ["application/json"]
     )
     fun getInventory(serverHttpRequest: ServerHttpRequest): ResponseEntity<Map<String, kotlin.Int>> {
-        return getDelegate().getInventory()
+        return getDelegate().getInventory(serverHttpRequest)
     }
 
     @Operation(
@@ -94,7 +94,7 @@ interface StoreApi {
             produces = ["application/xml", "application/json"]
     )
     fun getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") orderId: kotlin.Long,serverHttpRequest: ServerHttpRequest): ResponseEntity<Order> {
-        return getDelegate().getOrderById(orderId, )
+        return getDelegate().getOrderById(orderId, serverHttpRequest)
     }
 
     @Operation(
@@ -114,6 +114,6 @@ interface StoreApi {
             consumes = ["application/json"]
     )
     fun placeOrder(@Parameter(description = "order placed for purchasing the pet", required = true) @Valid @RequestBody order: Order,serverHttpRequest: ServerHttpRequest): ResponseEntity<Order> {
-        return getDelegate().placeOrder(order, )
+        return getDelegate().placeOrder(order, serverHttpRequest)
     }
 }
