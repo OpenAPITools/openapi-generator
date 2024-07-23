@@ -13,8 +13,12 @@ import java.util.Optional
 {{/useRequestMappingOnController}}
 {{#operations}}
 class {{classname}}Controller(
-        {{#skipDefaultDelegateInterface}}private val delegate: {{classname}}Delegate{{/skipDefaultDelegateInterface}}
-        {{^skipDefaultDelegateInterface}}delegate: {{classname}}Delegate?{{/skipDefaultDelegateInterface}}
+        {{#skipDefaultDelegateInterface}}
+        private val delegate: {{classname}}Delegate
+        {{/skipDefaultDelegateInterface}}
+        {{^skipDefaultDelegateInterface}}
+        delegate: {{classname}}Delegate?
+        {{/skipDefaultDelegateInterface}}
 ) : {{classname}} {
 {{^skipDefaultDelegateInterface}}
     private lateinit var delegate: {{classname}}Delegate

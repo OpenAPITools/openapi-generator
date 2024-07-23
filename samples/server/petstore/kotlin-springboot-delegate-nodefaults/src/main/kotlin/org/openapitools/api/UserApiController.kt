@@ -8,7 +8,6 @@ import java.util.Optional
 @Controller
 class UserApiController(
         private val delegate: UserApiDelegate
-        
 ) : UserApi {
 
     override fun getDelegate(): UserApiDelegate = delegate

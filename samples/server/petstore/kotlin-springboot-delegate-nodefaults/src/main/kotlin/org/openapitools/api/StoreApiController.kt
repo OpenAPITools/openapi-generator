@@ -8,7 +8,6 @@ import java.util.Optional
 @Controller
 class StoreApiController(
         private val delegate: StoreApiDelegate
-        
 ) : StoreApi {
 
     override fun getDelegate(): StoreApiDelegate = delegate

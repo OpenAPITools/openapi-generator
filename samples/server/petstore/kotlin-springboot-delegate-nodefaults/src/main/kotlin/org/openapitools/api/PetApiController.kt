@@ -8,7 +8,6 @@ import java.util.Optional
 @Controller
 class PetApiController(
         private val delegate: PetApiDelegate
-        
 ) : PetApi {
 
     override fun getDelegate(): PetApiDelegate = delegate

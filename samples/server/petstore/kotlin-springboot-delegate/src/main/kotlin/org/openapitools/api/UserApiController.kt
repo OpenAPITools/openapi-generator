@@ -7,7 +7,6 @@ import java.util.Optional
 @javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.8.0-SNAPSHOT")
 @Controller
 class UserApiController(
-        
         delegate: UserApiDelegate?
 ) : UserApi {
     private lateinit var delegate: UserApiDelegate
