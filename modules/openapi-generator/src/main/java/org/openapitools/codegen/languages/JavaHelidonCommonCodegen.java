@@ -19,11 +19,13 @@ package org.openapitools.codegen.languages;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Duration;
@@ -33,6 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.locks.ReentrantLock;
@@ -145,6 +148,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     private String mpTestsArtifact;
     private String jandexGroup;
     private String jandexArtifact;
+    private final Map<String, String> knownHttpStatusMap;
 
     public static String defaultHelidonVersion() {
         return VersionUtil.instance().defaultVersion();
@@ -169,6 +173,8 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
                 .defaultValue(""));     // depends on project state
         cliOptions.add(new CliOption(X_HELIDON_USE_OPTIONAL, X_HELIDON_USE_OPTIONAL_DESC)
                 .defaultValue("true"));
+
+        knownHttpStatusMap = loadKnownHttpStatusMap();
     }
 
     @Override
@@ -277,6 +283,10 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         super.postProcessParameter(parameter);
     }
 
+    protected String statusDeclaration(String code) {
+        return "Status." + knownHttpStatusMap.getOrDefault(code, ".create(" + code + ")");
+    }
+
     /**
      * Remove set of options not currently used by any Helidon generator. Should be
      * called during construction but only on leaf classes.
@@ -327,6 +337,24 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
 
     protected String rootJavaEEPackage() {
         return rootJavaEEPackage;
+    }
+
+    private HashMap<String, String> loadKnownHttpStatusMap() {
+        try (InputStream is = getClass().getResourceAsStream("/java-helidon/common/Status.java")) {
+            if (is == null) {
+                throw new RuntimeException("Unable to locate /java-helidon/common/Status.java to discover known HTTP statuses");
+            }
+            Pattern statusPattern = Pattern.compile("public static final Status (\\w+)\\s*=\\s*new\\s*Status\\((\\d+)",
+                                                    Pattern.MULTILINE);
+            return new Scanner(is, StandardCharsets.UTF_8)
+                    .findAll(statusPattern)
+                    .collect(HashMap::new,
+                             (map, match) -> map.put(match.group(2), match.group(1)),
+                             Map::putAll);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void setHelidonVersion(String version) {

@@ -33,7 +33,7 @@ import io.helidon.webserver.{{^x-helidon-v3}}http.Http{{/x-helidon-v3}}Service;
 {{#jsonb}}
     protected static final Jsonb JSONB = JsonbBuilder.create();{{/jsonb}}{{!
 }}{{^x-helidon-v3}}
-{{#operations}}{{#operation}}    protected {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}} {{operationId}} = {{operationId}}();
+{{#operations}}{{#operation}}    protected {{#lambda.titlecase}}{{operationId}}Op{{/lambda.titlecase}} {{operationId}}Op = create{{#lambda.titlecase}}{{operationId}}Op{{/lambda.titlecase}}();
 {{/operation}}{{/operations}}{{/x-helidon-v3}}
 {{/useAbstractClass}}
 

@@ -22,10 +22,10 @@ public abstract class StoreService implements HttpService {
     protected static final Logger LOGGER = Logger.getLogger(StoreService.class.getName());
     protected static final ObjectMapper MAPPER = JsonProvider.objectMapper();
 
-    protected DeleteOrder deleteOrder = deleteOrder();
-    protected GetInventory getInventory = getInventory();
-    protected GetOrderById getOrderById = getOrderById();
-    protected PlaceOrder placeOrder = placeOrder();
+    protected DeleteOrderOp deleteOrderOp = createDeleteOrderOp();
+    protected GetInventoryOp getInventoryOp = createGetInventoryOp();
+    protected GetOrderByIdOp getOrderByIdOp = createGetOrderByIdOp();
+    protected PlaceOrderOp placeOrderOp = createPlaceOrderOp();
 
 
     /**
@@ -52,7 +52,7 @@ public abstract class StoreService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: order_id
-        String orderId = deleteOrder.orderId(request, validator);
+        String orderId = deleteOrderOp.orderId(request, validator);
 
         validator.require("orderId", orderId);
         validator.execute();
@@ -101,7 +101,7 @@ public abstract class StoreService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: order_id
-        Long orderId = getOrderById.orderId(request, validator);
+        Long orderId = getOrderByIdOp.orderId(request, validator);
 
         validator.require("orderId", orderId);
         validator.validateMin("orderId", orderId.intValue(), 1, true);
@@ -133,7 +133,7 @@ public abstract class StoreService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: Order
-        Order order = placeOrder.order(request, validator);
+        Order order = placeOrderOp.order(request, validator);
         validator.require("order", order);
 
         validator.execute();
@@ -160,8 +160,8 @@ public abstract class StoreService implements HttpService {
      *
      * @return new DeleteOrder
      */
-    protected DeleteOrder deleteOrder() {
-        return new DeleteOrder();
+    protected DeleteOrderOp createDeleteOrderOp() {
+        return new DeleteOrderOp();
     }
 
     /**
@@ -178,7 +178,7 @@ public abstract class StoreService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class DeleteOrder {
+    public static class DeleteOrderOp {
 
         /**
          * Prepares the orderId parameter.
@@ -196,12 +196,12 @@ public abstract class StoreService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 400}.
+         * Response for HTTP status code {@code 400}.
          */
-        record result400() {
+        record Response400() {
 
             /**
-             * Creates a result builder for the status {@code 400} result
+             * Creates a response builder for the status {@code 400} response
              * for the deleteOrder operation; there are no required result values for this response.
              *
              * @return new builder for status 400
@@ -211,61 +211,50 @@ public abstract class StoreService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response400 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result400 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result400> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response400> {
 
                 @Override
-                public result400 build() {
-                    return new result400();
+                public Response400 build() {
+                    return new Response400();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(400));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.BAD_REQUEST_400);
+                _serverResponse.send();
             }
         }
 
         /**
-         * Result for HTTP status code {@code 404}.
+         * Response for HTTP status code {@code 404}.
          */
-        record result404() {
+        record Response404() {
 
             /**
-             * Creates a result builder for the status {@code 404} result
+             * Creates a response builder for the status {@code 404} response
              * for the deleteOrder operation; there are no required result values for this response.
              *
              * @return new builder for status 404
@@ -275,51 +264,40 @@ public abstract class StoreService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response404 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result404 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result404> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response404> {
 
                 @Override
-                public result404 build() {
-                    return new result404();
+                public Response404 build() {
+                    return new Response404();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(404));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.NOT_FOUND_404);
+                _serverResponse.send();
             }
         }
     }
@@ -332,8 +310,8 @@ public abstract class StoreService implements HttpService {
      *
      * @return new GetInventory
      */
-    protected GetInventory getInventory() {
-        return new GetInventory();
+    protected GetInventoryOp createGetInventoryOp() {
+        return new GetInventoryOp();
     }
 
     /**
@@ -350,17 +328,17 @@ public abstract class StoreService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class GetInventory {
+    public static class GetInventoryOp {
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
         *
          * @param response 
          */
-        record result200(Map<String, Integer> response) {
+        record Response200(Map<String, Integer> response) {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the getInventory operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -370,38 +348,29 @@ public abstract class StoreService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 private Map<String, Integer> response;
-
                 @Override
-                public result200 build() {
-                    return new result200(response);
+                public Response200 build() {
+                    return new Response200(response);
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
 
                 /**
@@ -416,20 +385,18 @@ public abstract class StoreService implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
                 if (response != null) { 
-                serverResponse.send(response);
+                _serverResponse.send(response);
                 } else {
-                    serverResponse.send();
+                    _serverResponse.send();
                 }
-                return serverResponse;
             }
         }
     }
@@ -442,8 +409,8 @@ public abstract class StoreService implements HttpService {
      *
      * @return new GetOrderById
      */
-    protected GetOrderById getOrderById() {
-        return new GetOrderById();
+    protected GetOrderByIdOp createGetOrderByIdOp() {
+        return new GetOrderByIdOp();
     }
 
     /**
@@ -460,7 +427,7 @@ public abstract class StoreService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class GetOrderById {
+    public static class GetOrderByIdOp {
 
         /**
          * Prepares the orderId parameter.
@@ -479,14 +446,14 @@ public abstract class StoreService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
         *
          * @param response 
          */
-        record result200(Order response) {
+        record Response200(Order response) {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the getOrderById operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -496,38 +463,29 @@ public abstract class StoreService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 private Order response;
-
                 @Override
-                public result200 build() {
-                    return new result200(response);
+                public Response200 build() {
+                    return new Response200(response);
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
 
                 /**
@@ -542,30 +500,28 @@ public abstract class StoreService implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
                 if (response != null) { 
-                serverResponse.send(response);
+                _serverResponse.send(response);
                 } else {
-                    serverResponse.send();
+                    _serverResponse.send();
                 }
-                return serverResponse;
             }
         }
 
         /**
-         * Result for HTTP status code {@code 400}.
+         * Response for HTTP status code {@code 400}.
          */
-        record result400() {
+        record Response400() {
 
             /**
-             * Creates a result builder for the status {@code 400} result
+             * Creates a response builder for the status {@code 400} response
              * for the getOrderById operation; there are no required result values for this response.
              *
              * @return new builder for status 400
@@ -575,61 +531,50 @@ public abstract class StoreService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response400 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result400 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result400> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response400> {
 
                 @Override
-                public result400 build() {
-                    return new result400();
+                public Response400 build() {
+                    return new Response400();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(400));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.BAD_REQUEST_400);
+                _serverResponse.send();
             }
         }
 
         /**
-         * Result for HTTP status code {@code 404}.
+         * Response for HTTP status code {@code 404}.
          */
-        record result404() {
+        record Response404() {
 
             /**
-             * Creates a result builder for the status {@code 404} result
+             * Creates a response builder for the status {@code 404} response
              * for the getOrderById operation; there are no required result values for this response.
              *
              * @return new builder for status 404
@@ -639,51 +584,40 @@ public abstract class StoreService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response404 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result404 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result404> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response404> {
 
                 @Override
-                public result404 build() {
-                    return new result404();
+                public Response404 build() {
+                    return new Response404();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(404));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.NOT_FOUND_404);
+                _serverResponse.send();
             }
         }
     }
@@ -696,8 +630,8 @@ public abstract class StoreService implements HttpService {
      *
      * @return new PlaceOrder
      */
-    protected PlaceOrder placeOrder() {
-        return new PlaceOrder();
+    protected PlaceOrderOp createPlaceOrderOp() {
+        return new PlaceOrderOp();
     }
 
     /**
@@ -714,7 +648,7 @@ public abstract class StoreService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class PlaceOrder {
+    public static class PlaceOrderOp {
 
         /**
          * Prepares the order parameter.
@@ -730,14 +664,14 @@ public abstract class StoreService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
         *
          * @param response 
          */
-        record result200(Order response) {
+        record Response200(Order response) {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the placeOrder operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -747,38 +681,29 @@ public abstract class StoreService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 private Order response;
-
                 @Override
-                public result200 build() {
-                    return new result200(response);
+                public Response200 build() {
+                    return new Response200(response);
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
 
                 /**
@@ -793,30 +718,28 @@ public abstract class StoreService implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
                 if (response != null) { 
-                serverResponse.send(response);
+                _serverResponse.send(response);
                 } else {
-                    serverResponse.send();
+                    _serverResponse.send();
                 }
-                return serverResponse;
             }
         }
 
         /**
-         * Result for HTTP status code {@code 400}.
+         * Response for HTTP status code {@code 400}.
          */
-        record result400() {
+        record Response400() {
 
             /**
-             * Creates a result builder for the status {@code 400} result
+             * Creates a response builder for the status {@code 400} response
              * for the placeOrder operation; there are no required result values for this response.
              *
              * @return new builder for status 400
@@ -826,51 +749,40 @@ public abstract class StoreService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response400 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result400 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result400> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response400> {
 
                 @Override
-                public result400 build() {
-                    return new result400();
+                public Response400 build() {
+                    return new Response400();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(400));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.BAD_REQUEST_400);
+                _serverResponse.send();
             }
         }
     }

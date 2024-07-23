@@ -61,6 +61,7 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
 
     public static final String USE_ABSTRACT_CLASS = "useAbstractClass";
     public static final String GRADLE_PROJECT = "gradleProject";
+    public static final String X_RESULT_STATUS_DECL = "x-helidon-resultStatusDecl";
 
     protected String implFolder = "src/main/java";
     @Getter protected String serializationLibrary = null;
@@ -284,6 +285,13 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
         } else if (Boolean.TRUE.equals(fullProject)) {
             apiTemplateFiles.put("apiImpl.mustache", "Impl.java");
         }
+    }
+
+    @Override
+    public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
+        var result = super.fromResponse(responseCode, response);
+        result.vendorExtensions.put(X_RESULT_STATUS_DECL, statusDeclaration(result.code));
+        return result;
     }
 
     @Override

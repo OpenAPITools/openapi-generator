@@ -21,7 +21,7 @@ public abstract class FakeClassnameTags123Service implements HttpService {
     protected static final Logger LOGGER = Logger.getLogger(FakeClassnameTags123Service.class.getName());
     protected static final ObjectMapper MAPPER = JsonProvider.objectMapper();
 
-    protected TestClassname testClassname = testClassname();
+    protected TestClassnameOp testClassnameOp = createTestClassnameOp();
 
 
     /**
@@ -45,7 +45,7 @@ public abstract class FakeClassnameTags123Service implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: Client
-        Client client = testClassname.client(request, validator);
+        Client client = testClassnameOp.client(request, validator);
         validator.require("client", client);
 
         validator.execute();
@@ -72,8 +72,8 @@ public abstract class FakeClassnameTags123Service implements HttpService {
      *
      * @return new TestClassname
      */
-    protected TestClassname testClassname() {
-        return new TestClassname();
+    protected TestClassnameOp createTestClassnameOp() {
+        return new TestClassnameOp();
     }
 
     /**
@@ -90,7 +90,7 @@ public abstract class FakeClassnameTags123Service implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class TestClassname {
+    public static class TestClassnameOp {
 
         /**
          * Prepares the client parameter.
@@ -106,14 +106,14 @@ public abstract class FakeClassnameTags123Service implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
         *
          * @param response 
          */
-        record result200(Client response) {
+        record Response200(Client response) {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the testClassname operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -123,38 +123,29 @@ public abstract class FakeClassnameTags123Service implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 private Client response;
-
                 @Override
-                public result200 build() {
-                    return new result200(response);
+                public Response200 build() {
+                    return new Response200(response);
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
 
                 /**
@@ -169,20 +160,18 @@ public abstract class FakeClassnameTags123Service implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
                 if (response != null) { 
-                serverResponse.send(response);
+                _serverResponse.send(response);
                 } else {
-                    serverResponse.send();
+                    _serverResponse.send();
                 }
-                return serverResponse;
             }
         }
     }

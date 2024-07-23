@@ -21,7 +21,7 @@ public abstract class DefaultService implements HttpService {
     protected static final Logger LOGGER = Logger.getLogger(DefaultService.class.getName());
     protected static final ObjectMapper MAPPER = JsonProvider.objectMapper();
 
-    protected FooGet fooGet = fooGet();
+    protected FooGetOp fooGetOp = createFooGetOp();
 
 
     /**
@@ -61,8 +61,8 @@ public abstract class DefaultService implements HttpService {
      *
      * @return new FooGet
      */
-    protected FooGet fooGet() {
-        return new FooGet();
+    protected FooGetOp createFooGetOp() {
+        return new FooGetOp();
     }
 
     /**
@@ -79,7 +79,7 @@ public abstract class DefaultService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class FooGet {
+    public static class FooGetOp {
 
         /**
          * Default result.
@@ -90,7 +90,7 @@ public abstract class DefaultService implements HttpService {
         record Default(Status status, FooGetDefaultResponse response) {
 
             /**
-             * Creates a result builder for the default result
+             * Creates a response builder for the default response
              * for the fooGet operation; there are no required result values for this response.
              *
              * @return new builder for status 0
@@ -100,27 +100,16 @@ public abstract class DefaultService implements HttpService {
             }
 
             /**
-             * Applies the required response parameters to the server response and sends the response.
-             *
-             * status HTTP Status object to use for the response status
-             */
-            static void send(ServerResponse serverResponse, Status status) {
-                builder(status).apply(serverResponse);
-            }
-
-            /**
              * Builder for the Default result.
              */
             static class Builder implements io.helidon.common.Builder<Builder, Default> {
 
                 private FooGetDefaultResponse response;
                 private final Status status;
-
                 Builder(Status status) {
                     this.status = status;
 
                 }
-
                 @Override
                 public Default build() {
                     return new Default(status,
@@ -128,18 +117,18 @@ public abstract class DefaultService implements HttpService {
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
 
                 /**
@@ -168,20 +157,18 @@ public abstract class DefaultService implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(status);
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(status);
                 if (response != null) { 
-                serverResponse.send(response);
+                _serverResponse.send(response);
                 } else {
-                    serverResponse.send();
+                    _serverResponse.send();
                 }
-                return serverResponse;
             }
         }
     }

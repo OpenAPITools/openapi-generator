@@ -27,14 +27,14 @@ public abstract class UserService implements HttpService {
     protected static final Logger LOGGER = Logger.getLogger(UserService.class.getName());
     protected static final ObjectMapper MAPPER = JsonProvider.objectMapper();
 
-    protected CreateUser createUser = createUser();
-    protected CreateUsersWithArrayInput createUsersWithArrayInput = createUsersWithArrayInput();
-    protected CreateUsersWithListInput createUsersWithListInput = createUsersWithListInput();
-    protected DeleteUser deleteUser = deleteUser();
-    protected GetUserByName getUserByName = getUserByName();
-    protected LoginUser loginUser = loginUser();
-    protected LogoutUser logoutUser = logoutUser();
-    protected UpdateUser updateUser = updateUser();
+    protected CreateUserOp createUserOp = createCreateUserOp();
+    protected CreateUsersWithArrayInputOp createUsersWithArrayInputOp = createCreateUsersWithArrayInputOp();
+    protected CreateUsersWithListInputOp createUsersWithListInputOp = createCreateUsersWithListInputOp();
+    protected DeleteUserOp deleteUserOp = createDeleteUserOp();
+    protected GetUserByNameOp getUserByNameOp = createGetUserByNameOp();
+    protected LoginUserOp loginUserOp = createLoginUserOp();
+    protected LogoutUserOp logoutUserOp = createLogoutUserOp();
+    protected UpdateUserOp updateUserOp = createUpdateUserOp();
 
 
     /**
@@ -65,7 +65,7 @@ public abstract class UserService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: User
-        User user = createUser.user(request, validator);
+        User user = createUserOp.user(request, validator);
         validator.require("user", user);
 
         validator.execute();
@@ -95,7 +95,7 @@ public abstract class UserService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: User
-        List<@Valid User> user = createUsersWithArrayInput.user(request, validator);
+        List<@Valid User> user = createUsersWithArrayInputOp.user(request, validator);
         validator.require("user", user);
 
         validator.execute();
@@ -125,7 +125,7 @@ public abstract class UserService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: User
-        List<@Valid User> user = createUsersWithListInput.user(request, validator);
+        List<@Valid User> user = createUsersWithListInputOp.user(request, validator);
         validator.require("user", user);
 
         validator.execute();
@@ -155,7 +155,7 @@ public abstract class UserService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: username
-        String username = deleteUser.username(request, validator);
+        String username = deleteUserOp.username(request, validator);
 
         validator.require("username", username);
         validator.execute();
@@ -185,7 +185,7 @@ public abstract class UserService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: username
-        String username = getUserByName.username(request, validator);
+        String username = getUserByNameOp.username(request, validator);
 
         validator.require("username", username);
         validator.execute();
@@ -215,12 +215,12 @@ public abstract class UserService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: username
-        String username = loginUser.username(request, validator);
+        String username = loginUserOp.username(request, validator);
 
         validator.require("username", username);
 
         // Parameter: password
-        String password = loginUser.password(request, validator);
+        String password = loginUserOp.password(request, validator);
 
         validator.require("password", password);
         validator.execute();
@@ -272,12 +272,12 @@ public abstract class UserService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: username
-        String username = updateUser.username(request, validator);
+        String username = updateUserOp.username(request, validator);
 
         validator.require("username", username);
 
         // Parameter: User
-        User user = updateUser.user(request, validator);
+        User user = updateUserOp.user(request, validator);
         validator.require("user", user);
 
         validator.execute();
@@ -307,8 +307,8 @@ public abstract class UserService implements HttpService {
      *
      * @return new CreateUser
      */
-    protected CreateUser createUser() {
-        return new CreateUser();
+    protected CreateUserOp createCreateUserOp() {
+        return new CreateUserOp();
     }
 
     /**
@@ -325,7 +325,7 @@ public abstract class UserService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class CreateUser {
+    public static class CreateUserOp {
 
         /**
          * Prepares the user parameter.
@@ -348,7 +348,7 @@ public abstract class UserService implements HttpService {
         record Default(Status status) {
 
             /**
-             * Creates a result builder for the default result
+             * Creates a response builder for the default response
              * for the createUser operation; there are no required result values for this response.
              *
              * @return new builder for status 0
@@ -358,44 +358,33 @@ public abstract class UserService implements HttpService {
             }
 
             /**
-             * Applies the required response parameters to the server response and sends the response.
-             *
-             * status HTTP Status object to use for the response status
-             */
-            static void send(ServerResponse serverResponse, Status status) {
-                builder(status).apply(serverResponse);
-            }
-
-            /**
              * Builder for the Default result.
              */
             static class Builder implements io.helidon.common.Builder<Builder, Default> {
 
                 private final Status status;
-
                 Builder(Status status) {
                     this.status = status;
 
                 }
-
                 @Override
                 public Default build() {
                     return new Default(status);
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
@@ -412,16 +401,14 @@ public abstract class UserService implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(status);
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(status);
+                _serverResponse.send();
             }
         }
     }
@@ -434,8 +421,8 @@ public abstract class UserService implements HttpService {
      *
      * @return new CreateUsersWithArrayInput
      */
-    protected CreateUsersWithArrayInput createUsersWithArrayInput() {
-        return new CreateUsersWithArrayInput();
+    protected CreateUsersWithArrayInputOp createCreateUsersWithArrayInputOp() {
+        return new CreateUsersWithArrayInputOp();
     }
 
     /**
@@ -452,7 +439,7 @@ public abstract class UserService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class CreateUsersWithArrayInput {
+    public static class CreateUsersWithArrayInputOp {
 
         /**
          * Prepares the user parameter.
@@ -475,7 +462,7 @@ public abstract class UserService implements HttpService {
         record Default(Status status) {
 
             /**
-             * Creates a result builder for the default result
+             * Creates a response builder for the default response
              * for the createUsersWithArrayInput operation; there are no required result values for this response.
              *
              * @return new builder for status 0
@@ -485,44 +472,33 @@ public abstract class UserService implements HttpService {
             }
 
             /**
-             * Applies the required response parameters to the server response and sends the response.
-             *
-             * status HTTP Status object to use for the response status
-             */
-            static void send(ServerResponse serverResponse, Status status) {
-                builder(status).apply(serverResponse);
-            }
-
-            /**
              * Builder for the Default result.
              */
             static class Builder implements io.helidon.common.Builder<Builder, Default> {
 
                 private final Status status;
-
                 Builder(Status status) {
                     this.status = status;
 
                 }
-
                 @Override
                 public Default build() {
                     return new Default(status);
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
@@ -539,16 +515,14 @@ public abstract class UserService implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(status);
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(status);
+                _serverResponse.send();
             }
         }
     }
@@ -561,8 +535,8 @@ public abstract class UserService implements HttpService {
      *
      * @return new CreateUsersWithListInput
      */
-    protected CreateUsersWithListInput createUsersWithListInput() {
-        return new CreateUsersWithListInput();
+    protected CreateUsersWithListInputOp createCreateUsersWithListInputOp() {
+        return new CreateUsersWithListInputOp();
     }
 
     /**
@@ -579,7 +553,7 @@ public abstract class UserService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class CreateUsersWithListInput {
+    public static class CreateUsersWithListInputOp {
 
         /**
          * Prepares the user parameter.
@@ -602,7 +576,7 @@ public abstract class UserService implements HttpService {
         record Default(Status status) {
 
             /**
-             * Creates a result builder for the default result
+             * Creates a response builder for the default response
              * for the createUsersWithListInput operation; there are no required result values for this response.
              *
              * @return new builder for status 0
@@ -612,44 +586,33 @@ public abstract class UserService implements HttpService {
             }
 
             /**
-             * Applies the required response parameters to the server response and sends the response.
-             *
-             * status HTTP Status object to use for the response status
-             */
-            static void send(ServerResponse serverResponse, Status status) {
-                builder(status).apply(serverResponse);
-            }
-
-            /**
              * Builder for the Default result.
              */
             static class Builder implements io.helidon.common.Builder<Builder, Default> {
 
                 private final Status status;
-
                 Builder(Status status) {
                     this.status = status;
 
                 }
-
                 @Override
                 public Default build() {
                     return new Default(status);
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
@@ -666,16 +629,14 @@ public abstract class UserService implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(status);
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(status);
+                _serverResponse.send();
             }
         }
     }
@@ -688,8 +649,8 @@ public abstract class UserService implements HttpService {
      *
      * @return new DeleteUser
      */
-    protected DeleteUser deleteUser() {
-        return new DeleteUser();
+    protected DeleteUserOp createDeleteUserOp() {
+        return new DeleteUserOp();
     }
 
     /**
@@ -706,7 +667,7 @@ public abstract class UserService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class DeleteUser {
+    public static class DeleteUserOp {
 
         /**
          * Prepares the username parameter.
@@ -724,12 +685,12 @@ public abstract class UserService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 400}.
+         * Response for HTTP status code {@code 400}.
          */
-        record result400() {
+        record Response400() {
 
             /**
-             * Creates a result builder for the status {@code 400} result
+             * Creates a response builder for the status {@code 400} response
              * for the deleteUser operation; there are no required result values for this response.
              *
              * @return new builder for status 400
@@ -739,61 +700,50 @@ public abstract class UserService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response400 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result400 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result400> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response400> {
 
                 @Override
-                public result400 build() {
-                    return new result400();
+                public Response400 build() {
+                    return new Response400();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(400));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.BAD_REQUEST_400);
+                _serverResponse.send();
             }
         }
 
         /**
-         * Result for HTTP status code {@code 404}.
+         * Response for HTTP status code {@code 404}.
          */
-        record result404() {
+        record Response404() {
 
             /**
-             * Creates a result builder for the status {@code 404} result
+             * Creates a response builder for the status {@code 404} response
              * for the deleteUser operation; there are no required result values for this response.
              *
              * @return new builder for status 404
@@ -803,51 +753,40 @@ public abstract class UserService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response404 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result404 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result404> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response404> {
 
                 @Override
-                public result404 build() {
-                    return new result404();
+                public Response404 build() {
+                    return new Response404();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(404));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.NOT_FOUND_404);
+                _serverResponse.send();
             }
         }
     }
@@ -860,8 +799,8 @@ public abstract class UserService implements HttpService {
      *
      * @return new GetUserByName
      */
-    protected GetUserByName getUserByName() {
-        return new GetUserByName();
+    protected GetUserByNameOp createGetUserByNameOp() {
+        return new GetUserByNameOp();
     }
 
     /**
@@ -878,7 +817,7 @@ public abstract class UserService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class GetUserByName {
+    public static class GetUserByNameOp {
 
         /**
          * Prepares the username parameter.
@@ -896,14 +835,14 @@ public abstract class UserService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
         *
          * @param response 
          */
-        record result200(User response) {
+        record Response200(User response) {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the getUserByName operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -913,38 +852,29 @@ public abstract class UserService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 private User response;
-
                 @Override
-                public result200 build() {
-                    return new result200(response);
+                public Response200 build() {
+                    return new Response200(response);
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
 
                 /**
@@ -959,30 +889,28 @@ public abstract class UserService implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
                 if (response != null) { 
-                serverResponse.send(response);
+                _serverResponse.send(response);
                 } else {
-                    serverResponse.send();
+                    _serverResponse.send();
                 }
-                return serverResponse;
             }
         }
 
         /**
-         * Result for HTTP status code {@code 400}.
+         * Response for HTTP status code {@code 400}.
          */
-        record result400() {
+        record Response400() {
 
             /**
-             * Creates a result builder for the status {@code 400} result
+             * Creates a response builder for the status {@code 400} response
              * for the getUserByName operation; there are no required result values for this response.
              *
              * @return new builder for status 400
@@ -992,61 +920,50 @@ public abstract class UserService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response400 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result400 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result400> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response400> {
 
                 @Override
-                public result400 build() {
-                    return new result400();
+                public Response400 build() {
+                    return new Response400();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(400));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.BAD_REQUEST_400);
+                _serverResponse.send();
             }
         }
 
         /**
-         * Result for HTTP status code {@code 404}.
+         * Response for HTTP status code {@code 404}.
          */
-        record result404() {
+        record Response404() {
 
             /**
-             * Creates a result builder for the status {@code 404} result
+             * Creates a response builder for the status {@code 404} response
              * for the getUserByName operation; there are no required result values for this response.
              *
              * @return new builder for status 404
@@ -1056,51 +973,40 @@ public abstract class UserService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response404 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result404 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result404> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response404> {
 
                 @Override
-                public result404 build() {
-                    return new result404();
+                public Response404 build() {
+                    return new Response404();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(404));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.NOT_FOUND_404);
+                _serverResponse.send();
             }
         }
     }
@@ -1113,8 +1019,8 @@ public abstract class UserService implements HttpService {
      *
      * @return new LoginUser
      */
-    protected LoginUser loginUser() {
-        return new LoginUser();
+    protected LoginUserOp createLoginUserOp() {
+        return new LoginUserOp();
     }
 
     /**
@@ -1131,7 +1037,7 @@ public abstract class UserService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class LoginUser {
+    public static class LoginUserOp {
 
         /**
          * Prepares the username parameter.
@@ -1162,18 +1068,18 @@ public abstract class UserService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
         *
          * @param xRateLimit calls per hour allowed by the user
          * @param xExpiresAfter date in UTC when token expires
          * @param response 
          */
-        record result200(Integer xRateLimit,
+        record Response200(Integer xRateLimit,
                     OffsetDateTime xExpiresAfter,
                     String response) {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the loginUser operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -1183,40 +1089,31 @@ public abstract class UserService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 private Integer xRateLimit;                private OffsetDateTime xExpiresAfter;                private String response;
-
                 @Override
-                public result200 build() {
-                    return new result200(xRateLimit,
+                public Response200 build() {
+                    return new Response200(xRateLimit,
                             xExpiresAfter,
                             response);
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
 
                 /**
@@ -1251,34 +1148,32 @@ public abstract class UserService implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));                if (xRateLimit != null) {
-                    serverResponse.header("X-Rate-Limit", xRateLimit.toString());
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);                if (xRateLimit != null) {
+                    _serverResponse.header("X-Rate-Limit", xRateLimit.toString());
                 }                if (xExpiresAfter != null) {
-                    serverResponse.header("X-Expires-After", xExpiresAfter.toString());
+                    _serverResponse.header("X-Expires-After", xExpiresAfter.toString());
                 }
                 if (response != null) { 
-                serverResponse.send(response);
+                _serverResponse.send(response);
                 } else {
-                    serverResponse.send();
+                    _serverResponse.send();
                 }
-                return serverResponse;
             }
         }
 
         /**
-         * Result for HTTP status code {@code 400}.
+         * Response for HTTP status code {@code 400}.
          */
-        record result400() {
+        record Response400() {
 
             /**
-             * Creates a result builder for the status {@code 400} result
+             * Creates a response builder for the status {@code 400} response
              * for the loginUser operation; there are no required result values for this response.
              *
              * @return new builder for status 400
@@ -1288,51 +1183,40 @@ public abstract class UserService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response400 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result400 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result400> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response400> {
 
                 @Override
-                public result400 build() {
-                    return new result400();
+                public Response400 build() {
+                    return new Response400();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(400));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.BAD_REQUEST_400);
+                _serverResponse.send();
             }
         }
     }
@@ -1345,8 +1229,8 @@ public abstract class UserService implements HttpService {
      *
      * @return new LogoutUser
      */
-    protected LogoutUser logoutUser() {
-        return new LogoutUser();
+    protected LogoutUserOp createLogoutUserOp() {
+        return new LogoutUserOp();
     }
 
     /**
@@ -1363,7 +1247,7 @@ public abstract class UserService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class LogoutUser {
+    public static class LogoutUserOp {
 
         /**
          * Default result.
@@ -1373,7 +1257,7 @@ public abstract class UserService implements HttpService {
         record Default(Status status) {
 
             /**
-             * Creates a result builder for the default result
+             * Creates a response builder for the default response
              * for the logoutUser operation; there are no required result values for this response.
              *
              * @return new builder for status 0
@@ -1383,44 +1267,33 @@ public abstract class UserService implements HttpService {
             }
 
             /**
-             * Applies the required response parameters to the server response and sends the response.
-             *
-             * status HTTP Status object to use for the response status
-             */
-            static void send(ServerResponse serverResponse, Status status) {
-                builder(status).apply(serverResponse);
-            }
-
-            /**
              * Builder for the Default result.
              */
             static class Builder implements io.helidon.common.Builder<Builder, Default> {
 
                 private final Status status;
-
                 Builder(Status status) {
                     this.status = status;
 
                 }
-
                 @Override
                 public Default build() {
                     return new Default(status);
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
@@ -1437,16 +1310,14 @@ public abstract class UserService implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(status);
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(status);
+                _serverResponse.send();
             }
         }
     }
@@ -1459,8 +1330,8 @@ public abstract class UserService implements HttpService {
      *
      * @return new UpdateUser
      */
-    protected UpdateUser updateUser() {
-        return new UpdateUser();
+    protected UpdateUserOp createUpdateUserOp() {
+        return new UpdateUserOp();
     }
 
     /**
@@ -1477,7 +1348,7 @@ public abstract class UserService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class UpdateUser {
+    public static class UpdateUserOp {
 
         /**
          * Prepares the username parameter.
@@ -1508,12 +1379,12 @@ public abstract class UserService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 400}.
+         * Response for HTTP status code {@code 400}.
          */
-        record result400() {
+        record Response400() {
 
             /**
-             * Creates a result builder for the status {@code 400} result
+             * Creates a response builder for the status {@code 400} response
              * for the updateUser operation; there are no required result values for this response.
              *
              * @return new builder for status 400
@@ -1523,61 +1394,50 @@ public abstract class UserService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response400 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result400 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result400> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response400> {
 
                 @Override
-                public result400 build() {
-                    return new result400();
+                public Response400 build() {
+                    return new Response400();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(400));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.BAD_REQUEST_400);
+                _serverResponse.send();
             }
         }
 
         /**
-         * Result for HTTP status code {@code 404}.
+         * Response for HTTP status code {@code 404}.
          */
-        record result404() {
+        record Response404() {
 
             /**
-             * Creates a result builder for the status {@code 404} result
+             * Creates a response builder for the status {@code 404} response
              * for the updateUser operation; there are no required result values for this response.
              *
              * @return new builder for status 404
@@ -1587,51 +1447,40 @@ public abstract class UserService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response404 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result404 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result404> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response404> {
 
                 @Override
-                public result404 build() {
-                    return new result404();
+                public Response404 build() {
+                    return new Response404();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(404));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.NOT_FOUND_404);
+                _serverResponse.send();
             }
         }
     }

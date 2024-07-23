@@ -53,28 +53,28 @@ public abstract class FakeService implements HttpService {
     protected static final Logger LOGGER = Logger.getLogger(FakeService.class.getName());
     protected static final ObjectMapper MAPPER = JsonProvider.objectMapper();
 
-    protected FakeBigDecimalMap fakeBigDecimalMap = fakeBigDecimalMap();
-    protected FakeHealthGet fakeHealthGet = fakeHealthGet();
-    protected FakeHttpSignatureTest fakeHttpSignatureTest = fakeHttpSignatureTest();
-    protected FakeOuterBooleanSerialize fakeOuterBooleanSerialize = fakeOuterBooleanSerialize();
-    protected FakeOuterCompositeSerialize fakeOuterCompositeSerialize = fakeOuterCompositeSerialize();
-    protected FakeOuterNumberSerialize fakeOuterNumberSerialize = fakeOuterNumberSerialize();
-    protected FakeOuterStringSerialize fakeOuterStringSerialize = fakeOuterStringSerialize();
-    protected FakePropertyEnumIntegerSerialize fakePropertyEnumIntegerSerialize = fakePropertyEnumIntegerSerialize();
-    protected TestAdditionalPropertiesReference testAdditionalPropertiesReference = testAdditionalPropertiesReference();
-    protected TestBodyWithBinary testBodyWithBinary = testBodyWithBinary();
-    protected TestBodyWithFileSchema testBodyWithFileSchema = testBodyWithFileSchema();
-    protected TestBodyWithQueryParams testBodyWithQueryParams = testBodyWithQueryParams();
-    protected TestClientModel testClientModel = testClientModel();
-    protected TestEndpointParameters testEndpointParameters = testEndpointParameters();
-    protected TestEnumParameters testEnumParameters = testEnumParameters();
-    protected TestGroupParameters testGroupParameters = testGroupParameters();
-    protected TestInlineAdditionalProperties testInlineAdditionalProperties = testInlineAdditionalProperties();
-    protected TestInlineFreeformAdditionalProperties testInlineFreeformAdditionalProperties = testInlineFreeformAdditionalProperties();
-    protected TestJsonFormData testJsonFormData = testJsonFormData();
-    protected TestNullable testNullable = testNullable();
-    protected TestQueryParameterCollectionFormat testQueryParameterCollectionFormat = testQueryParameterCollectionFormat();
-    protected TestStringMapReference testStringMapReference = testStringMapReference();
+    protected FakeBigDecimalMapOp fakeBigDecimalMapOp = createFakeBigDecimalMapOp();
+    protected FakeHealthGetOp fakeHealthGetOp = createFakeHealthGetOp();
+    protected FakeHttpSignatureTestOp fakeHttpSignatureTestOp = createFakeHttpSignatureTestOp();
+    protected FakeOuterBooleanSerializeOp fakeOuterBooleanSerializeOp = createFakeOuterBooleanSerializeOp();
+    protected FakeOuterCompositeSerializeOp fakeOuterCompositeSerializeOp = createFakeOuterCompositeSerializeOp();
+    protected FakeOuterNumberSerializeOp fakeOuterNumberSerializeOp = createFakeOuterNumberSerializeOp();
+    protected FakeOuterStringSerializeOp fakeOuterStringSerializeOp = createFakeOuterStringSerializeOp();
+    protected FakePropertyEnumIntegerSerializeOp fakePropertyEnumIntegerSerializeOp = createFakePropertyEnumIntegerSerializeOp();
+    protected TestAdditionalPropertiesReferenceOp testAdditionalPropertiesReferenceOp = createTestAdditionalPropertiesReferenceOp();
+    protected TestBodyWithBinaryOp testBodyWithBinaryOp = createTestBodyWithBinaryOp();
+    protected TestBodyWithFileSchemaOp testBodyWithFileSchemaOp = createTestBodyWithFileSchemaOp();
+    protected TestBodyWithQueryParamsOp testBodyWithQueryParamsOp = createTestBodyWithQueryParamsOp();
+    protected TestClientModelOp testClientModelOp = createTestClientModelOp();
+    protected TestEndpointParametersOp testEndpointParametersOp = createTestEndpointParametersOp();
+    protected TestEnumParametersOp testEnumParametersOp = createTestEnumParametersOp();
+    protected TestGroupParametersOp testGroupParametersOp = createTestGroupParametersOp();
+    protected TestInlineAdditionalPropertiesOp testInlineAdditionalPropertiesOp = createTestInlineAdditionalPropertiesOp();
+    protected TestInlineFreeformAdditionalPropertiesOp testInlineFreeformAdditionalPropertiesOp = createTestInlineFreeformAdditionalPropertiesOp();
+    protected TestJsonFormDataOp testJsonFormDataOp = createTestJsonFormDataOp();
+    protected TestNullableOp testNullableOp = createTestNullableOp();
+    protected TestQueryParameterCollectionFormatOp testQueryParameterCollectionFormatOp = createTestQueryParameterCollectionFormatOp();
+    protected TestStringMapReferenceOp testStringMapReferenceOp = createTestStringMapReferenceOp();
 
 
     /**
@@ -157,16 +157,16 @@ public abstract class FakeService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: Pet
-        Pet pet = fakeHttpSignatureTest.pet(request, validator);
+        Pet pet = fakeHttpSignatureTestOp.pet(request, validator);
         validator.require("pet", pet);
 
 
         // Parameter: query_1
-        Optional<String> query1 = fakeHttpSignatureTest.query1(request, validator);
+        Optional<String> query1 = fakeHttpSignatureTestOp.query1(request, validator);
 
 
         // Parameter: header_1
-        Optional<String> header1 = fakeHttpSignatureTest.header1(request, validator);
+        Optional<String> header1 = fakeHttpSignatureTestOp.header1(request, validator);
 
         validator.execute();
 
@@ -201,7 +201,7 @@ public abstract class FakeService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: body
-        Optional<Boolean> body = fakeOuterBooleanSerialize.body(request, validator);
+        Optional<Boolean> body = fakeOuterBooleanSerializeOp.body(request, validator);
 
         validator.execute();
 
@@ -230,7 +230,7 @@ public abstract class FakeService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: OuterComposite
-        Optional<OuterComposite> outerComposite = fakeOuterCompositeSerialize.outerComposite(request, validator);
+        Optional<OuterComposite> outerComposite = fakeOuterCompositeSerializeOp.outerComposite(request, validator);
 
         validator.execute();
 
@@ -259,7 +259,7 @@ public abstract class FakeService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: body
-        Optional<BigDecimal> body = fakeOuterNumberSerialize.body(request, validator);
+        Optional<BigDecimal> body = fakeOuterNumberSerializeOp.body(request, validator);
 
         validator.execute();
 
@@ -288,7 +288,7 @@ public abstract class FakeService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: body
-        Optional<String> body = fakeOuterStringSerialize.body(request, validator);
+        Optional<String> body = fakeOuterStringSerializeOp.body(request, validator);
 
         validator.execute();
 
@@ -317,7 +317,7 @@ public abstract class FakeService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: OuterObjectWithEnumProperty
-        OuterObjectWithEnumProperty outerObjectWithEnumProperty = fakePropertyEnumIntegerSerialize.outerObjectWithEnumProperty(request, validator);
+        OuterObjectWithEnumProperty outerObjectWithEnumProperty = fakePropertyEnumIntegerSerializeOp.outerObjectWithEnumProperty(request, validator);
         validator.require("outerObjectWithEnumProperty", outerObjectWithEnumProperty);
 
         validator.execute();
@@ -347,7 +347,7 @@ public abstract class FakeService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: request_body
-        Map<String, Object> requestBody = testAdditionalPropertiesReference.requestBody(request, validator);
+        Map<String, Object> requestBody = testAdditionalPropertiesReferenceOp.requestBody(request, validator);
         validator.require("requestBody", requestBody);
 
         validator.execute();
@@ -377,7 +377,7 @@ public abstract class FakeService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: body
-        InputStream body = testBodyWithBinary.body(request, validator);
+        InputStream body = testBodyWithBinaryOp.body(request, validator);
         validator.require("body", body);
 
         validator.execute();
@@ -407,7 +407,7 @@ public abstract class FakeService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: FileSchemaTestClass
-        FileSchemaTestClass fileSchemaTestClass = testBodyWithFileSchema.fileSchemaTestClass(request, validator);
+        FileSchemaTestClass fileSchemaTestClass = testBodyWithFileSchemaOp.fileSchemaTestClass(request, validator);
         validator.require("fileSchemaTestClass", fileSchemaTestClass);
 
         validator.execute();
@@ -437,12 +437,12 @@ public abstract class FakeService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: query
-        String query = testBodyWithQueryParams.query(request, validator);
+        String query = testBodyWithQueryParamsOp.query(request, validator);
 
         validator.require("query", query);
 
         // Parameter: User
-        User user = testBodyWithQueryParams.user(request, validator);
+        User user = testBodyWithQueryParamsOp.user(request, validator);
         validator.require("user", user);
 
         validator.execute();
@@ -475,7 +475,7 @@ public abstract class FakeService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: Client
-        Client client = testClientModel.client(request, validator);
+        Client client = testClientModelOp.client(request, validator);
         validator.require("client", client);
 
         validator.execute();
@@ -508,73 +508,73 @@ public abstract class FakeService implements HttpService {
         Parameters formParams = request.content().as(Parameters.class);
 
         // Parameter: number
-        BigDecimal number = testEndpointParameters.number(request, formParams, validator);
+        BigDecimal number = testEndpointParametersOp.number(request, formParams, validator);
 
         validator.require("number", number);
         validator.validateMin("number", number, "32.1", true);
         validator.validateMax("number", number, "543.2", true);
 
         // Parameter: double
-        Double _double = testEndpointParameters._double(request, formParams, validator);
+        Double _double = testEndpointParametersOp._double(request, formParams, validator);
 
         validator.require("_double", _double);
         validator.validateMin("_double", _double, 67.8d, true);
         validator.validateMax("_double", _double, 123.4d, true);
 
         // Parameter: pattern_without_delimiter
-        String patternWithoutDelimiter = testEndpointParameters.patternWithoutDelimiter(request, formParams, validator);
+        String patternWithoutDelimiter = testEndpointParametersOp.patternWithoutDelimiter(request, formParams, validator);
 
         validator.require("patternWithoutDelimiter", patternWithoutDelimiter);        validator.validatePattern("patternWithoutDelimiter", patternWithoutDelimiter, "^[A-Z].*");
 
         // Parameter: byte
-        byte[] _byte = testEndpointParameters._byte(request, formParams, validator);
+        byte[] _byte = testEndpointParametersOp._byte(request, formParams, validator);
 
         validator.require("_byte", _byte);
 
         // Parameter: integer
-        Optional<Integer> integer = testEndpointParameters.integer(request, formParams, validator);
+        Optional<Integer> integer = testEndpointParametersOp.integer(request, formParams, validator);
 
         validator.validateMin("integer", integer, 10, true);
         validator.validateMax("integer", integer, 100, true);
 
         // Parameter: int32
-        Optional<Integer> int32 = testEndpointParameters.int32(request, formParams, validator);
+        Optional<Integer> int32 = testEndpointParametersOp.int32(request, formParams, validator);
 
         validator.validateMin("int32", int32, 20, true);
         validator.validateMax("int32", int32, 200, true);
 
         // Parameter: int64
-        Optional<Long> int64 = testEndpointParameters.int64(request, formParams, validator);
+        Optional<Long> int64 = testEndpointParametersOp.int64(request, formParams, validator);
 
 
         // Parameter: float
-        Optional<Float> _float = testEndpointParameters._float(request, formParams, validator);
+        Optional<Float> _float = testEndpointParametersOp._float(request, formParams, validator);
 
         validator.validateMax("_float", _float, 987.6f, true);
 
         // Parameter: string
-        Optional<String> string = testEndpointParameters.string(request, formParams, validator);
+        Optional<String> string = testEndpointParametersOp.string(request, formParams, validator);
         validator.validatePattern("string", string, "/[a-z]/i");
 
         // Parameter: binary
-        Optional<byte[]> binary = testEndpointParameters.binary(request, formParams, validator);
+        Optional<byte[]> binary = testEndpointParametersOp.binary(request, formParams, validator);
 
 
         // Parameter: date
-        Optional<LocalDate> date = testEndpointParameters.date(request, formParams, validator);
+        Optional<LocalDate> date = testEndpointParametersOp.date(request, formParams, validator);
 
 
         // Parameter: dateTime
-        Optional<OffsetDateTime> dateTime = testEndpointParameters.dateTime(request, formParams, validator);
+        Optional<OffsetDateTime> dateTime = testEndpointParametersOp.dateTime(request, formParams, validator);
 
 
         // Parameter: password
-        Optional<String> password = testEndpointParameters.password(request, formParams, validator);
+        Optional<String> password = testEndpointParametersOp.password(request, formParams, validator);
 
         validator.validateSize("password", password, 10, 64);
 
         // Parameter: callback
-        Optional<String> paramCallback = testEndpointParameters.paramCallback(request, formParams, validator);
+        Optional<String> paramCallback = testEndpointParametersOp.paramCallback(request, formParams, validator);
 
         validator.execute();
 
@@ -645,39 +645,39 @@ public abstract class FakeService implements HttpService {
         Parameters formParams = request.content().as(Parameters.class);
 
         // Parameter: enum_header_string_array
-        List<String> enumHeaderStringArray = testEnumParameters.enumHeaderStringArray(request, validator);
+        List<String> enumHeaderStringArray = testEnumParametersOp.enumHeaderStringArray(request, validator);
 
 
         // Parameter: enum_header_string
-        Optional<String> enumHeaderString = testEnumParameters.enumHeaderString(request, validator);
+        Optional<String> enumHeaderString = testEnumParametersOp.enumHeaderString(request, validator);
 
 
         // Parameter: enum_query_string_array
-        List<String> enumQueryStringArray = testEnumParameters.enumQueryStringArray(request, validator);
+        List<String> enumQueryStringArray = testEnumParametersOp.enumQueryStringArray(request, validator);
 
 
         // Parameter: enum_query_string
-        Optional<String> enumQueryString = testEnumParameters.enumQueryString(request, validator);
+        Optional<String> enumQueryString = testEnumParametersOp.enumQueryString(request, validator);
 
 
         // Parameter: enum_query_integer
-        Optional<Integer> enumQueryInteger = testEnumParameters.enumQueryInteger(request, validator);
+        Optional<Integer> enumQueryInteger = testEnumParametersOp.enumQueryInteger(request, validator);
 
 
         // Parameter: enum_query_double
-        Optional<Double> enumQueryDouble = testEnumParameters.enumQueryDouble(request, validator);
+        Optional<Double> enumQueryDouble = testEnumParametersOp.enumQueryDouble(request, validator);
 
 
         // Parameter: enum_query_model_array
-        List<EnumClass> enumQueryModelArray = testEnumParameters.enumQueryModelArray(request, validator);
+        List<EnumClass> enumQueryModelArray = testEnumParametersOp.enumQueryModelArray(request, validator);
 
 
         // Parameter: enum_form_string_array
-        List<String> enumFormStringArray = testEnumParameters.enumFormStringArray(request, formParams, validator);
+        List<String> enumFormStringArray = testEnumParametersOp.enumFormStringArray(request, formParams, validator);
 
 
         // Parameter: enum_form_string
-        Optional<String> enumFormString = testEnumParameters.enumFormString(request, formParams, validator);
+        Optional<String> enumFormString = testEnumParametersOp.enumFormString(request, formParams, validator);
 
         validator.execute();
 
@@ -730,30 +730,30 @@ public abstract class FakeService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: required_string_group
-        Integer requiredStringGroup = testGroupParameters.requiredStringGroup(request, validator);
+        Integer requiredStringGroup = testGroupParametersOp.requiredStringGroup(request, validator);
 
         validator.require("requiredStringGroup", requiredStringGroup);
 
         // Parameter: required_boolean_group
-        Boolean requiredBooleanGroup = testGroupParameters.requiredBooleanGroup(request, validator);
+        Boolean requiredBooleanGroup = testGroupParametersOp.requiredBooleanGroup(request, validator);
 
         validator.require("requiredBooleanGroup", requiredBooleanGroup);
 
         // Parameter: required_int64_group
-        Long requiredInt64Group = testGroupParameters.requiredInt64Group(request, validator);
+        Long requiredInt64Group = testGroupParametersOp.requiredInt64Group(request, validator);
 
         validator.require("requiredInt64Group", requiredInt64Group);
 
         // Parameter: string_group
-        Optional<Integer> stringGroup = testGroupParameters.stringGroup(request, validator);
+        Optional<Integer> stringGroup = testGroupParametersOp.stringGroup(request, validator);
 
 
         // Parameter: boolean_group
-        Optional<Boolean> booleanGroup = testGroupParameters.booleanGroup(request, validator);
+        Optional<Boolean> booleanGroup = testGroupParametersOp.booleanGroup(request, validator);
 
 
         // Parameter: int64_group
-        Optional<Long> int64Group = testGroupParameters.int64Group(request, validator);
+        Optional<Long> int64Group = testGroupParametersOp.int64Group(request, validator);
 
         validator.execute();
 
@@ -797,7 +797,7 @@ public abstract class FakeService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: request_body
-        Map<String, String> requestBody = testInlineAdditionalProperties.requestBody(request, validator);
+        Map<String, String> requestBody = testInlineAdditionalPropertiesOp.requestBody(request, validator);
         validator.require("requestBody", requestBody);
 
         validator.execute();
@@ -827,7 +827,7 @@ public abstract class FakeService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: TestInlineFreeformAdditionalPropertiesRequest
-        TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = testInlineFreeformAdditionalProperties.testInlineFreeformAdditionalPropertiesRequest(request, validator);
+        TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = testInlineFreeformAdditionalPropertiesOp.testInlineFreeformAdditionalPropertiesRequest(request, validator);
         validator.require("testInlineFreeformAdditionalPropertiesRequest", testInlineFreeformAdditionalPropertiesRequest);
 
         validator.execute();
@@ -860,12 +860,12 @@ public abstract class FakeService implements HttpService {
         Parameters formParams = request.content().as(Parameters.class);
 
         // Parameter: param
-        String param = testJsonFormData.param(request, formParams, validator);
+        String param = testJsonFormDataOp.param(request, formParams, validator);
 
         validator.require("param", param);
 
         // Parameter: param2
-        String param2 = testJsonFormData.param2(request, formParams, validator);
+        String param2 = testJsonFormDataOp.param2(request, formParams, validator);
 
         validator.require("param2", param2);
         validator.execute();
@@ -898,7 +898,7 @@ public abstract class FakeService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: ChildWithNullable
-        ChildWithNullable childWithNullable = testNullable.childWithNullable(request, validator);
+        ChildWithNullable childWithNullable = testNullableOp.childWithNullable(request, validator);
         validator.require("childWithNullable", childWithNullable);
 
         validator.execute();
@@ -928,37 +928,37 @@ public abstract class FakeService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: pipe
-        List<String> pipe = testQueryParameterCollectionFormat.pipe(request, validator);
+        List<String> pipe = testQueryParameterCollectionFormatOp.pipe(request, validator);
 
         validator.require("pipe", pipe);
 
         // Parameter: ioutil
-        List<String> ioutil = testQueryParameterCollectionFormat.ioutil(request, validator);
+        List<String> ioutil = testQueryParameterCollectionFormatOp.ioutil(request, validator);
 
         validator.require("ioutil", ioutil);
 
         // Parameter: http
-        List<String> http = testQueryParameterCollectionFormat.http(request, validator);
+        List<String> http = testQueryParameterCollectionFormatOp.http(request, validator);
 
         validator.require("http", http);
 
         // Parameter: url
-        List<String> url = testQueryParameterCollectionFormat.url(request, validator);
+        List<String> url = testQueryParameterCollectionFormatOp.url(request, validator);
 
         validator.require("url", url);
 
         // Parameter: context
-        List<String> context = testQueryParameterCollectionFormat.context(request, validator);
+        List<String> context = testQueryParameterCollectionFormatOp.context(request, validator);
 
         validator.require("context", context);
 
         // Parameter: allowEmpty
-        String allowEmpty = testQueryParameterCollectionFormat.allowEmpty(request, validator);
+        String allowEmpty = testQueryParameterCollectionFormatOp.allowEmpty(request, validator);
 
         validator.require("allowEmpty", allowEmpty);
 
         // Parameter: language
-        Map<String, String> language = testQueryParameterCollectionFormat.language(request, validator);
+        Map<String, String> language = testQueryParameterCollectionFormatOp.language(request, validator);
 
         validator.execute();
 
@@ -1005,7 +1005,7 @@ public abstract class FakeService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: request_body
-        Map<String, String> requestBody = testStringMapReference.requestBody(request, validator);
+        Map<String, String> requestBody = testStringMapReferenceOp.requestBody(request, validator);
         validator.require("requestBody", requestBody);
 
         validator.execute();
@@ -1032,8 +1032,8 @@ public abstract class FakeService implements HttpService {
      *
      * @return new FakeBigDecimalMap
      */
-    protected FakeBigDecimalMap fakeBigDecimalMap() {
-        return new FakeBigDecimalMap();
+    protected FakeBigDecimalMapOp createFakeBigDecimalMapOp() {
+        return new FakeBigDecimalMapOp();
     }
 
     /**
@@ -1050,17 +1050,17 @@ public abstract class FakeService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class FakeBigDecimalMap {
+    public static class FakeBigDecimalMapOp {
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
         *
          * @param response 
          */
-        record result200(FakeBigDecimalMap200Response response) {
+        record Response200(FakeBigDecimalMap200Response response) {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the fakeBigDecimalMap operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -1070,38 +1070,29 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 private FakeBigDecimalMap200Response response;
-
                 @Override
-                public result200 build() {
-                    return new result200(response);
+                public Response200 build() {
+                    return new Response200(response);
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
 
                 /**
@@ -1116,20 +1107,18 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
                 if (response != null) { 
-                serverResponse.send(response);
+                _serverResponse.send(response);
                 } else {
-                    serverResponse.send();
+                    _serverResponse.send();
                 }
-                return serverResponse;
             }
         }
     }
@@ -1142,8 +1131,8 @@ public abstract class FakeService implements HttpService {
      *
      * @return new FakeHealthGet
      */
-    protected FakeHealthGet fakeHealthGet() {
-        return new FakeHealthGet();
+    protected FakeHealthGetOp createFakeHealthGetOp() {
+        return new FakeHealthGetOp();
     }
 
     /**
@@ -1160,17 +1149,17 @@ public abstract class FakeService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class FakeHealthGet {
+    public static class FakeHealthGetOp {
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
         *
          * @param response 
          */
-        record result200(HealthCheckResult response) {
+        record Response200(HealthCheckResult response) {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the fakeHealthGet operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -1180,38 +1169,29 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 private HealthCheckResult response;
-
                 @Override
-                public result200 build() {
-                    return new result200(response);
+                public Response200 build() {
+                    return new Response200(response);
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
 
                 /**
@@ -1226,20 +1206,18 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
                 if (response != null) { 
-                serverResponse.send(response);
+                _serverResponse.send(response);
                 } else {
-                    serverResponse.send();
+                    _serverResponse.send();
                 }
-                return serverResponse;
             }
         }
     }
@@ -1252,8 +1230,8 @@ public abstract class FakeService implements HttpService {
      *
      * @return new FakeHttpSignatureTest
      */
-    protected FakeHttpSignatureTest fakeHttpSignatureTest() {
-        return new FakeHttpSignatureTest();
+    protected FakeHttpSignatureTestOp createFakeHttpSignatureTestOp() {
+        return new FakeHttpSignatureTestOp();
     }
 
     /**
@@ -1270,7 +1248,7 @@ public abstract class FakeService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class FakeHttpSignatureTest {
+    public static class FakeHttpSignatureTestOp {
 
         /**
          * Prepares the pet parameter.
@@ -1311,12 +1289,12 @@ public abstract class FakeService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
          */
-        record result200() {
+        record Response200() {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the fakeHttpSignatureTest operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -1326,51 +1304,40 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 @Override
-                public result200 build() {
-                    return new result200();
+                public Response200 build() {
+                    return new Response200();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
+                _serverResponse.send();
             }
         }
     }
@@ -1383,8 +1350,8 @@ public abstract class FakeService implements HttpService {
      *
      * @return new FakeOuterBooleanSerialize
      */
-    protected FakeOuterBooleanSerialize fakeOuterBooleanSerialize() {
-        return new FakeOuterBooleanSerialize();
+    protected FakeOuterBooleanSerializeOp createFakeOuterBooleanSerializeOp() {
+        return new FakeOuterBooleanSerializeOp();
     }
 
     /**
@@ -1401,7 +1368,7 @@ public abstract class FakeService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class FakeOuterBooleanSerialize {
+    public static class FakeOuterBooleanSerializeOp {
 
         /**
          * Prepares the body parameter.
@@ -1417,14 +1384,14 @@ public abstract class FakeService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
         *
          * @param response 
          */
-        record result200(Boolean response) {
+        record Response200(Boolean response) {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the fakeOuterBooleanSerialize operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -1434,38 +1401,29 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 private Boolean response;
-
                 @Override
-                public result200 build() {
-                    return new result200(response);
+                public Response200 build() {
+                    return new Response200(response);
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
 
                 /**
@@ -1480,20 +1438,18 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
                 if (response != null) { 
-                serverResponse.send(response);
+                _serverResponse.send(response);
                 } else {
-                    serverResponse.send();
+                    _serverResponse.send();
                 }
-                return serverResponse;
             }
         }
     }
@@ -1506,8 +1462,8 @@ public abstract class FakeService implements HttpService {
      *
      * @return new FakeOuterCompositeSerialize
      */
-    protected FakeOuterCompositeSerialize fakeOuterCompositeSerialize() {
-        return new FakeOuterCompositeSerialize();
+    protected FakeOuterCompositeSerializeOp createFakeOuterCompositeSerializeOp() {
+        return new FakeOuterCompositeSerializeOp();
     }
 
     /**
@@ -1524,7 +1480,7 @@ public abstract class FakeService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class FakeOuterCompositeSerialize {
+    public static class FakeOuterCompositeSerializeOp {
 
         /**
          * Prepares the outerComposite parameter.
@@ -1540,14 +1496,14 @@ public abstract class FakeService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
         *
          * @param response 
          */
-        record result200(OuterComposite response) {
+        record Response200(OuterComposite response) {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the fakeOuterCompositeSerialize operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -1557,38 +1513,29 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 private OuterComposite response;
-
                 @Override
-                public result200 build() {
-                    return new result200(response);
+                public Response200 build() {
+                    return new Response200(response);
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
 
                 /**
@@ -1603,20 +1550,18 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
                 if (response != null) { 
-                serverResponse.send(response);
+                _serverResponse.send(response);
                 } else {
-                    serverResponse.send();
+                    _serverResponse.send();
                 }
-                return serverResponse;
             }
         }
     }
@@ -1629,8 +1574,8 @@ public abstract class FakeService implements HttpService {
      *
      * @return new FakeOuterNumberSerialize
      */
-    protected FakeOuterNumberSerialize fakeOuterNumberSerialize() {
-        return new FakeOuterNumberSerialize();
+    protected FakeOuterNumberSerializeOp createFakeOuterNumberSerializeOp() {
+        return new FakeOuterNumberSerializeOp();
     }
 
     /**
@@ -1647,7 +1592,7 @@ public abstract class FakeService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class FakeOuterNumberSerialize {
+    public static class FakeOuterNumberSerializeOp {
 
         /**
          * Prepares the body parameter.
@@ -1663,14 +1608,14 @@ public abstract class FakeService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
         *
          * @param response 
          */
-        record result200(BigDecimal response) {
+        record Response200(BigDecimal response) {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the fakeOuterNumberSerialize operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -1680,38 +1625,29 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 private BigDecimal response;
-
                 @Override
-                public result200 build() {
-                    return new result200(response);
+                public Response200 build() {
+                    return new Response200(response);
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
 
                 /**
@@ -1726,20 +1662,18 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
                 if (response != null) { 
-                serverResponse.send(response);
+                _serverResponse.send(response);
                 } else {
-                    serverResponse.send();
+                    _serverResponse.send();
                 }
-                return serverResponse;
             }
         }
     }
@@ -1752,8 +1686,8 @@ public abstract class FakeService implements HttpService {
      *
      * @return new FakeOuterStringSerialize
      */
-    protected FakeOuterStringSerialize fakeOuterStringSerialize() {
-        return new FakeOuterStringSerialize();
+    protected FakeOuterStringSerializeOp createFakeOuterStringSerializeOp() {
+        return new FakeOuterStringSerializeOp();
     }
 
     /**
@@ -1770,7 +1704,7 @@ public abstract class FakeService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class FakeOuterStringSerialize {
+    public static class FakeOuterStringSerializeOp {
 
         /**
          * Prepares the body parameter.
@@ -1786,14 +1720,14 @@ public abstract class FakeService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
         *
          * @param response 
          */
-        record result200(String response) {
+        record Response200(String response) {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the fakeOuterStringSerialize operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -1803,38 +1737,29 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 private String response;
-
                 @Override
-                public result200 build() {
-                    return new result200(response);
+                public Response200 build() {
+                    return new Response200(response);
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
 
                 /**
@@ -1849,20 +1774,18 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
                 if (response != null) { 
-                serverResponse.send(response);
+                _serverResponse.send(response);
                 } else {
-                    serverResponse.send();
+                    _serverResponse.send();
                 }
-                return serverResponse;
             }
         }
     }
@@ -1875,8 +1798,8 @@ public abstract class FakeService implements HttpService {
      *
      * @return new FakePropertyEnumIntegerSerialize
      */
-    protected FakePropertyEnumIntegerSerialize fakePropertyEnumIntegerSerialize() {
-        return new FakePropertyEnumIntegerSerialize();
+    protected FakePropertyEnumIntegerSerializeOp createFakePropertyEnumIntegerSerializeOp() {
+        return new FakePropertyEnumIntegerSerializeOp();
     }
 
     /**
@@ -1893,7 +1816,7 @@ public abstract class FakeService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class FakePropertyEnumIntegerSerialize {
+    public static class FakePropertyEnumIntegerSerializeOp {
 
         /**
          * Prepares the outerObjectWithEnumProperty parameter.
@@ -1909,14 +1832,14 @@ public abstract class FakeService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
         *
          * @param response 
          */
-        record result200(OuterObjectWithEnumProperty response) {
+        record Response200(OuterObjectWithEnumProperty response) {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the fakePropertyEnumIntegerSerialize operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -1926,38 +1849,29 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 private OuterObjectWithEnumProperty response;
-
                 @Override
-                public result200 build() {
-                    return new result200(response);
+                public Response200 build() {
+                    return new Response200(response);
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
 
                 /**
@@ -1972,20 +1886,18 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
                 if (response != null) { 
-                serverResponse.send(response);
+                _serverResponse.send(response);
                 } else {
-                    serverResponse.send();
+                    _serverResponse.send();
                 }
-                return serverResponse;
             }
         }
     }
@@ -1998,8 +1910,8 @@ public abstract class FakeService implements HttpService {
      *
      * @return new TestAdditionalPropertiesReference
      */
-    protected TestAdditionalPropertiesReference testAdditionalPropertiesReference() {
-        return new TestAdditionalPropertiesReference();
+    protected TestAdditionalPropertiesReferenceOp createTestAdditionalPropertiesReferenceOp() {
+        return new TestAdditionalPropertiesReferenceOp();
     }
 
     /**
@@ -2016,7 +1928,7 @@ public abstract class FakeService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class TestAdditionalPropertiesReference {
+    public static class TestAdditionalPropertiesReferenceOp {
 
         /**
          * Prepares the requestBody parameter.
@@ -2032,12 +1944,12 @@ public abstract class FakeService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
          */
-        record result200() {
+        record Response200() {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the testAdditionalPropertiesReference operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -2047,51 +1959,40 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 @Override
-                public result200 build() {
-                    return new result200();
+                public Response200 build() {
+                    return new Response200();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
+                _serverResponse.send();
             }
         }
     }
@@ -2104,8 +2005,8 @@ public abstract class FakeService implements HttpService {
      *
      * @return new TestBodyWithBinary
      */
-    protected TestBodyWithBinary testBodyWithBinary() {
-        return new TestBodyWithBinary();
+    protected TestBodyWithBinaryOp createTestBodyWithBinaryOp() {
+        return new TestBodyWithBinaryOp();
     }
 
     /**
@@ -2122,7 +2023,7 @@ public abstract class FakeService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class TestBodyWithBinary {
+    public static class TestBodyWithBinaryOp {
 
         /**
          * Prepares the body parameter.
@@ -2138,12 +2039,12 @@ public abstract class FakeService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
          */
-        record result200() {
+        record Response200() {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the testBodyWithBinary operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -2153,51 +2054,40 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 @Override
-                public result200 build() {
-                    return new result200();
+                public Response200 build() {
+                    return new Response200();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
+                _serverResponse.send();
             }
         }
     }
@@ -2210,8 +2100,8 @@ public abstract class FakeService implements HttpService {
      *
      * @return new TestBodyWithFileSchema
      */
-    protected TestBodyWithFileSchema testBodyWithFileSchema() {
-        return new TestBodyWithFileSchema();
+    protected TestBodyWithFileSchemaOp createTestBodyWithFileSchemaOp() {
+        return new TestBodyWithFileSchemaOp();
     }
 
     /**
@@ -2228,7 +2118,7 @@ public abstract class FakeService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class TestBodyWithFileSchema {
+    public static class TestBodyWithFileSchemaOp {
 
         /**
          * Prepares the fileSchemaTestClass parameter.
@@ -2244,12 +2134,12 @@ public abstract class FakeService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
          */
-        record result200() {
+        record Response200() {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the testBodyWithFileSchema operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -2259,51 +2149,40 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 @Override
-                public result200 build() {
-                    return new result200();
+                public Response200 build() {
+                    return new Response200();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
+                _serverResponse.send();
             }
         }
     }
@@ -2316,8 +2195,8 @@ public abstract class FakeService implements HttpService {
      *
      * @return new TestBodyWithQueryParams
      */
-    protected TestBodyWithQueryParams testBodyWithQueryParams() {
-        return new TestBodyWithQueryParams();
+    protected TestBodyWithQueryParamsOp createTestBodyWithQueryParamsOp() {
+        return new TestBodyWithQueryParamsOp();
     }
 
     /**
@@ -2334,7 +2213,7 @@ public abstract class FakeService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class TestBodyWithQueryParams {
+    public static class TestBodyWithQueryParamsOp {
 
         /**
          * Prepares the query parameter.
@@ -2364,12 +2243,12 @@ public abstract class FakeService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
          */
-        record result200() {
+        record Response200() {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the testBodyWithQueryParams operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -2379,51 +2258,40 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 @Override
-                public result200 build() {
-                    return new result200();
+                public Response200 build() {
+                    return new Response200();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
+                _serverResponse.send();
             }
         }
     }
@@ -2436,8 +2304,8 @@ public abstract class FakeService implements HttpService {
      *
      * @return new TestClientModel
      */
-    protected TestClientModel testClientModel() {
-        return new TestClientModel();
+    protected TestClientModelOp createTestClientModelOp() {
+        return new TestClientModelOp();
     }
 
     /**
@@ -2454,7 +2322,7 @@ public abstract class FakeService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class TestClientModel {
+    public static class TestClientModelOp {
 
         /**
          * Prepares the client parameter.
@@ -2470,14 +2338,14 @@ public abstract class FakeService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
         *
          * @param response 
          */
-        record result200(Client response) {
+        record Response200(Client response) {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the testClientModel operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -2487,38 +2355,29 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 private Client response;
-
                 @Override
-                public result200 build() {
-                    return new result200(response);
+                public Response200 build() {
+                    return new Response200(response);
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
 
                 /**
@@ -2533,20 +2392,18 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
                 if (response != null) { 
-                serverResponse.send(response);
+                _serverResponse.send(response);
                 } else {
-                    serverResponse.send();
+                    _serverResponse.send();
                 }
-                return serverResponse;
             }
         }
     }
@@ -2559,8 +2416,8 @@ public abstract class FakeService implements HttpService {
      *
      * @return new TestEndpointParameters
      */
-    protected TestEndpointParameters testEndpointParameters() {
-        return new TestEndpointParameters();
+    protected TestEndpointParametersOp createTestEndpointParametersOp() {
+        return new TestEndpointParametersOp();
     }
 
     /**
@@ -2577,7 +2434,7 @@ public abstract class FakeService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class TestEndpointParameters {
+    public static class TestEndpointParametersOp {
 
         /**
          * Prepares the number parameter.
@@ -2776,12 +2633,12 @@ public abstract class FakeService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 400}.
+         * Response for HTTP status code {@code 400}.
          */
-        record result400() {
+        record Response400() {
 
             /**
-             * Creates a result builder for the status {@code 400} result
+             * Creates a response builder for the status {@code 400} response
              * for the testEndpointParameters operation; there are no required result values for this response.
              *
              * @return new builder for status 400
@@ -2791,61 +2648,50 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response400 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result400 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result400> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response400> {
 
                 @Override
-                public result400 build() {
-                    return new result400();
+                public Response400 build() {
+                    return new Response400();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(400));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.BAD_REQUEST_400);
+                _serverResponse.send();
             }
         }
 
         /**
-         * Result for HTTP status code {@code 404}.
+         * Response for HTTP status code {@code 404}.
          */
-        record result404() {
+        record Response404() {
 
             /**
-             * Creates a result builder for the status {@code 404} result
+             * Creates a response builder for the status {@code 404} response
              * for the testEndpointParameters operation; there are no required result values for this response.
              *
              * @return new builder for status 404
@@ -2855,51 +2701,40 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response404 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result404 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result404> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response404> {
 
                 @Override
-                public result404 build() {
-                    return new result404();
+                public Response404 build() {
+                    return new Response404();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(404));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.NOT_FOUND_404);
+                _serverResponse.send();
             }
         }
     }
@@ -2912,8 +2747,8 @@ public abstract class FakeService implements HttpService {
      *
      * @return new TestEnumParameters
      */
-    protected TestEnumParameters testEnumParameters() {
-        return new TestEnumParameters();
+    protected TestEnumParametersOp createTestEnumParametersOp() {
+        return new TestEnumParametersOp();
     }
 
     /**
@@ -2930,7 +2765,7 @@ public abstract class FakeService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class TestEnumParameters {
+    public static class TestEnumParametersOp {
 
         /**
          * Prepares the enumHeaderStringArray parameter.
@@ -3098,12 +2933,12 @@ public abstract class FakeService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 400}.
+         * Response for HTTP status code {@code 400}.
          */
-        record result400() {
+        record Response400() {
 
             /**
-             * Creates a result builder for the status {@code 400} result
+             * Creates a response builder for the status {@code 400} response
              * for the testEnumParameters operation; there are no required result values for this response.
              *
              * @return new builder for status 400
@@ -3113,61 +2948,50 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response400 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result400 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result400> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response400> {
 
                 @Override
-                public result400 build() {
-                    return new result400();
+                public Response400 build() {
+                    return new Response400();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(400));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.BAD_REQUEST_400);
+                _serverResponse.send();
             }
         }
 
         /**
-         * Result for HTTP status code {@code 404}.
+         * Response for HTTP status code {@code 404}.
          */
-        record result404() {
+        record Response404() {
 
             /**
-             * Creates a result builder for the status {@code 404} result
+             * Creates a response builder for the status {@code 404} response
              * for the testEnumParameters operation; there are no required result values for this response.
              *
              * @return new builder for status 404
@@ -3177,51 +3001,40 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response404 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result404 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result404> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response404> {
 
                 @Override
-                public result404 build() {
-                    return new result404();
+                public Response404 build() {
+                    return new Response404();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(404));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.NOT_FOUND_404);
+                _serverResponse.send();
             }
         }
     }
@@ -3234,8 +3047,8 @@ public abstract class FakeService implements HttpService {
      *
      * @return new TestGroupParameters
      */
-    protected TestGroupParameters testGroupParameters() {
-        return new TestGroupParameters();
+    protected TestGroupParametersOp createTestGroupParametersOp() {
+        return new TestGroupParametersOp();
     }
 
     /**
@@ -3252,7 +3065,7 @@ public abstract class FakeService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class TestGroupParameters {
+    public static class TestGroupParametersOp {
 
         /**
          * Prepares the requiredStringGroup parameter.
@@ -3340,12 +3153,12 @@ public abstract class FakeService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 400}.
+         * Response for HTTP status code {@code 400}.
          */
-        record result400() {
+        record Response400() {
 
             /**
-             * Creates a result builder for the status {@code 400} result
+             * Creates a response builder for the status {@code 400} response
              * for the testGroupParameters operation; there are no required result values for this response.
              *
              * @return new builder for status 400
@@ -3355,51 +3168,40 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response400 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result400 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result400> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response400> {
 
                 @Override
-                public result400 build() {
-                    return new result400();
+                public Response400 build() {
+                    return new Response400();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(400));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.BAD_REQUEST_400);
+                _serverResponse.send();
             }
         }
     }
@@ -3412,8 +3214,8 @@ public abstract class FakeService implements HttpService {
      *
      * @return new TestInlineAdditionalProperties
      */
-    protected TestInlineAdditionalProperties testInlineAdditionalProperties() {
-        return new TestInlineAdditionalProperties();
+    protected TestInlineAdditionalPropertiesOp createTestInlineAdditionalPropertiesOp() {
+        return new TestInlineAdditionalPropertiesOp();
     }
 
     /**
@@ -3430,7 +3232,7 @@ public abstract class FakeService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class TestInlineAdditionalProperties {
+    public static class TestInlineAdditionalPropertiesOp {
 
         /**
          * Prepares the requestBody parameter.
@@ -3446,12 +3248,12 @@ public abstract class FakeService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
          */
-        record result200() {
+        record Response200() {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the testInlineAdditionalProperties operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -3461,51 +3263,40 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 @Override
-                public result200 build() {
-                    return new result200();
+                public Response200 build() {
+                    return new Response200();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
+                _serverResponse.send();
             }
         }
     }
@@ -3518,8 +3309,8 @@ public abstract class FakeService implements HttpService {
      *
      * @return new TestInlineFreeformAdditionalProperties
      */
-    protected TestInlineFreeformAdditionalProperties testInlineFreeformAdditionalProperties() {
-        return new TestInlineFreeformAdditionalProperties();
+    protected TestInlineFreeformAdditionalPropertiesOp createTestInlineFreeformAdditionalPropertiesOp() {
+        return new TestInlineFreeformAdditionalPropertiesOp();
     }
 
     /**
@@ -3536,7 +3327,7 @@ public abstract class FakeService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class TestInlineFreeformAdditionalProperties {
+    public static class TestInlineFreeformAdditionalPropertiesOp {
 
         /**
          * Prepares the testInlineFreeformAdditionalPropertiesRequest parameter.
@@ -3552,12 +3343,12 @@ public abstract class FakeService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
          */
-        record result200() {
+        record Response200() {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the testInlineFreeformAdditionalProperties operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -3567,51 +3358,40 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 @Override
-                public result200 build() {
-                    return new result200();
+                public Response200 build() {
+                    return new Response200();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
+                _serverResponse.send();
             }
         }
     }
@@ -3624,8 +3404,8 @@ public abstract class FakeService implements HttpService {
      *
      * @return new TestJsonFormData
      */
-    protected TestJsonFormData testJsonFormData() {
-        return new TestJsonFormData();
+    protected TestJsonFormDataOp createTestJsonFormDataOp() {
+        return new TestJsonFormDataOp();
     }
 
     /**
@@ -3642,7 +3422,7 @@ public abstract class FakeService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class TestJsonFormData {
+    public static class TestJsonFormDataOp {
 
         /**
          * Prepares the param parameter.
@@ -3673,12 +3453,12 @@ public abstract class FakeService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
          */
-        record result200() {
+        record Response200() {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the testJsonFormData operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -3688,51 +3468,40 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 @Override
-                public result200 build() {
-                    return new result200();
+                public Response200 build() {
+                    return new Response200();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
+                _serverResponse.send();
             }
         }
     }
@@ -3745,8 +3514,8 @@ public abstract class FakeService implements HttpService {
      *
      * @return new TestNullable
      */
-    protected TestNullable testNullable() {
-        return new TestNullable();
+    protected TestNullableOp createTestNullableOp() {
+        return new TestNullableOp();
     }
 
     /**
@@ -3763,7 +3532,7 @@ public abstract class FakeService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class TestNullable {
+    public static class TestNullableOp {
 
         /**
          * Prepares the childWithNullable parameter.
@@ -3779,12 +3548,12 @@ public abstract class FakeService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
          */
-        record result200() {
+        record Response200() {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the testNullable operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -3794,51 +3563,40 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 @Override
-                public result200 build() {
-                    return new result200();
+                public Response200 build() {
+                    return new Response200();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
+                _serverResponse.send();
             }
         }
     }
@@ -3851,8 +3609,8 @@ public abstract class FakeService implements HttpService {
      *
      * @return new TestQueryParameterCollectionFormat
      */
-    protected TestQueryParameterCollectionFormat testQueryParameterCollectionFormat() {
-        return new TestQueryParameterCollectionFormat();
+    protected TestQueryParameterCollectionFormatOp createTestQueryParameterCollectionFormatOp() {
+        return new TestQueryParameterCollectionFormatOp();
     }
 
     /**
@@ -3869,7 +3627,7 @@ public abstract class FakeService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class TestQueryParameterCollectionFormat {
+    public static class TestQueryParameterCollectionFormatOp {
 
         /**
          * Prepares the pipe parameter.
@@ -3977,12 +3735,12 @@ public abstract class FakeService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
          */
-        record result200() {
+        record Response200() {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the testQueryParameterCollectionFormat operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -3992,51 +3750,40 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 @Override
-                public result200 build() {
-                    return new result200();
+                public Response200 build() {
+                    return new Response200();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
+                _serverResponse.send();
             }
         }
     }
@@ -4049,8 +3796,8 @@ public abstract class FakeService implements HttpService {
      *
      * @return new TestStringMapReference
      */
-    protected TestStringMapReference testStringMapReference() {
-        return new TestStringMapReference();
+    protected TestStringMapReferenceOp createTestStringMapReferenceOp() {
+        return new TestStringMapReferenceOp();
     }
 
     /**
@@ -4067,7 +3814,7 @@ public abstract class FakeService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class TestStringMapReference {
+    public static class TestStringMapReferenceOp {
 
         /**
          * Prepares the requestBody parameter.
@@ -4083,12 +3830,12 @@ public abstract class FakeService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
          */
-        record result200() {
+        record Response200() {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the testStringMapReference operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -4098,51 +3845,40 @@ public abstract class FakeService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 @Override
-                public result200 build() {
-                    return new result200();
+                public Response200 build() {
+                    return new Response200();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
+                _serverResponse.send();
             }
         }
     }

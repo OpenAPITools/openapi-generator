@@ -39,15 +39,15 @@ public abstract class PetService implements HttpService {
     protected static final Logger LOGGER = Logger.getLogger(PetService.class.getName());
     protected static final ObjectMapper MAPPER = JsonProvider.objectMapper();
 
-    protected AddPet addPet = addPet();
-    protected DeletePet deletePet = deletePet();
-    protected FindPetsByStatus findPetsByStatus = findPetsByStatus();
-    protected FindPetsByTags findPetsByTags = findPetsByTags();
-    protected GetPetById getPetById = getPetById();
-    protected UpdatePet updatePet = updatePet();
-    protected UpdatePetWithForm updatePetWithForm = updatePetWithForm();
-    protected UploadFile uploadFile = uploadFile();
-    protected UploadFileWithRequiredFile uploadFileWithRequiredFile = uploadFileWithRequiredFile();
+    protected AddPetOp addPetOp = createAddPetOp();
+    protected DeletePetOp deletePetOp = createDeletePetOp();
+    protected FindPetsByStatusOp findPetsByStatusOp = createFindPetsByStatusOp();
+    protected FindPetsByTagsOp findPetsByTagsOp = createFindPetsByTagsOp();
+    protected GetPetByIdOp getPetByIdOp = createGetPetByIdOp();
+    protected UpdatePetOp updatePetOp = createUpdatePetOp();
+    protected UpdatePetWithFormOp updatePetWithFormOp = createUpdatePetWithFormOp();
+    protected UploadFileOp uploadFileOp = createUploadFileOp();
+    protected UploadFileWithRequiredFileOp uploadFileWithRequiredFileOp = createUploadFileWithRequiredFileOp();
 
 
     /**
@@ -79,7 +79,7 @@ public abstract class PetService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: Pet
-        Pet pet = addPet.pet(request, validator);
+        Pet pet = addPetOp.pet(request, validator);
         validator.require("pet", pet);
 
         validator.execute();
@@ -109,12 +109,12 @@ public abstract class PetService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: petId
-        Long petId = deletePet.petId(request, validator);
+        Long petId = deletePetOp.petId(request, validator);
 
         validator.require("petId", petId);
 
         // Parameter: api_key
-        Optional<String> apiKey = deletePet.apiKey(request, validator);
+        Optional<String> apiKey = deletePetOp.apiKey(request, validator);
 
         validator.execute();
 
@@ -146,7 +146,7 @@ public abstract class PetService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: status
-        List<String> status = findPetsByStatus.status(request, validator);
+        List<String> status = findPetsByStatusOp.status(request, validator);
 
         validator.require("status", status);
         validator.execute();
@@ -176,7 +176,7 @@ public abstract class PetService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: tags
-        Set<String> tags = findPetsByTags.tags(request, validator);
+        Set<String> tags = findPetsByTagsOp.tags(request, validator);
 
         validator.require("tags", tags);
         validator.execute();
@@ -206,7 +206,7 @@ public abstract class PetService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: petId
-        Long petId = getPetById.petId(request, validator);
+        Long petId = getPetByIdOp.petId(request, validator);
 
         validator.require("petId", petId);
         validator.execute();
@@ -236,7 +236,7 @@ public abstract class PetService implements HttpService {
         ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
         // Parameter: Pet
-        Pet pet = updatePet.pet(request, validator);
+        Pet pet = updatePetOp.pet(request, validator);
         validator.require("pet", pet);
 
         validator.execute();
@@ -269,16 +269,16 @@ public abstract class PetService implements HttpService {
         Parameters formParams = request.content().as(Parameters.class);
 
         // Parameter: petId
-        Long petId = updatePetWithForm.petId(request, validator);
+        Long petId = updatePetWithFormOp.petId(request, validator);
 
         validator.require("petId", petId);
 
         // Parameter: name
-        Optional<String> name = updatePetWithForm.name(request, formParams, validator);
+        Optional<String> name = updatePetWithFormOp.name(request, formParams, validator);
 
 
         // Parameter: status
-        Optional<String> status = updatePetWithForm.status(request, formParams, validator);
+        Optional<String> status = updatePetWithFormOp.status(request, formParams, validator);
 
         validator.execute();
 
@@ -316,16 +316,16 @@ public abstract class PetService implements HttpService {
         Map<String, ReadablePart> parts = PartsUtils.partsMap(request);
 
         // Parameter: petId
-        Long petId = uploadFile.petId(request, validator);
+        Long petId = uploadFileOp.petId(request, validator);
 
         validator.require("petId", petId);
 
         // Parameter: additionalMetadata
-        Optional<ReadablePart> additionalMetadata = uploadFile.additionalMetadata(request, parts, validator);
+        Optional<ReadablePart> additionalMetadata = uploadFileOp.additionalMetadata(request, parts, validator);
 
 
         // Parameter: file
-        Optional<ReadablePart> _file = uploadFile._file(request, parts, validator);
+        Optional<ReadablePart> _file = uploadFileOp._file(request, parts, validator);
 
         validator.execute();
 
@@ -363,17 +363,17 @@ public abstract class PetService implements HttpService {
         Map<String, ReadablePart> parts = PartsUtils.partsMap(request);
 
         // Parameter: petId
-        Long petId = uploadFileWithRequiredFile.petId(request, validator);
+        Long petId = uploadFileWithRequiredFileOp.petId(request, validator);
 
         validator.require("petId", petId);
 
         // Parameter: requiredFile
-        ReadablePart requiredFile = uploadFileWithRequiredFile.requiredFile(request, parts, validator);
+        ReadablePart requiredFile = uploadFileWithRequiredFileOp.requiredFile(request, parts, validator);
 
         validator.require("requiredFile", requiredFile);
 
         // Parameter: additionalMetadata
-        Optional<ReadablePart> additionalMetadata = uploadFileWithRequiredFile.additionalMetadata(request, parts, validator);
+        Optional<ReadablePart> additionalMetadata = uploadFileWithRequiredFileOp.additionalMetadata(request, parts, validator);
 
         validator.execute();
 
@@ -405,8 +405,8 @@ public abstract class PetService implements HttpService {
      *
      * @return new AddPet
      */
-    protected AddPet addPet() {
-        return new AddPet();
+    protected AddPetOp createAddPetOp() {
+        return new AddPetOp();
     }
 
     /**
@@ -423,7 +423,7 @@ public abstract class PetService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class AddPet {
+    public static class AddPetOp {
 
         /**
          * Prepares the pet parameter.
@@ -439,12 +439,12 @@ public abstract class PetService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
          */
-        record result200() {
+        record Response200() {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the addPet operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -454,61 +454,50 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 @Override
-                public result200 build() {
-                    return new result200();
+                public Response200 build() {
+                    return new Response200();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
+                _serverResponse.send();
             }
         }
 
         /**
-         * Result for HTTP status code {@code 405}.
+         * Response for HTTP status code {@code 405}.
          */
-        record result405() {
+        record Response405() {
 
             /**
-             * Creates a result builder for the status {@code 405} result
+             * Creates a response builder for the status {@code 405} response
              * for the addPet operation; there are no required result values for this response.
              *
              * @return new builder for status 405
@@ -518,51 +507,40 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response405 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result405 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result405> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response405> {
 
                 @Override
-                public result405 build() {
-                    return new result405();
+                public Response405 build() {
+                    return new Response405();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(405));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.METHOD_NOT_ALLOWED_405);
+                _serverResponse.send();
             }
         }
     }
@@ -575,8 +553,8 @@ public abstract class PetService implements HttpService {
      *
      * @return new DeletePet
      */
-    protected DeletePet deletePet() {
-        return new DeletePet();
+    protected DeletePetOp createDeletePetOp() {
+        return new DeletePetOp();
     }
 
     /**
@@ -593,7 +571,7 @@ public abstract class PetService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class DeletePet {
+    public static class DeletePetOp {
 
         /**
          * Prepares the petId parameter.
@@ -624,12 +602,12 @@ public abstract class PetService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
          */
-        record result200() {
+        record Response200() {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the deletePet operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -639,61 +617,50 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 @Override
-                public result200 build() {
-                    return new result200();
+                public Response200 build() {
+                    return new Response200();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
+                _serverResponse.send();
             }
         }
 
         /**
-         * Result for HTTP status code {@code 400}.
+         * Response for HTTP status code {@code 400}.
          */
-        record result400() {
+        record Response400() {
 
             /**
-             * Creates a result builder for the status {@code 400} result
+             * Creates a response builder for the status {@code 400} response
              * for the deletePet operation; there are no required result values for this response.
              *
              * @return new builder for status 400
@@ -703,51 +670,40 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response400 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result400 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result400> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response400> {
 
                 @Override
-                public result400 build() {
-                    return new result400();
+                public Response400 build() {
+                    return new Response400();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(400));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.BAD_REQUEST_400);
+                _serverResponse.send();
             }
         }
     }
@@ -760,8 +716,8 @@ public abstract class PetService implements HttpService {
      *
      * @return new FindPetsByStatus
      */
-    protected FindPetsByStatus findPetsByStatus() {
-        return new FindPetsByStatus();
+    protected FindPetsByStatusOp createFindPetsByStatusOp() {
+        return new FindPetsByStatusOp();
     }
 
     /**
@@ -778,7 +734,7 @@ public abstract class PetService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class FindPetsByStatus {
+    public static class FindPetsByStatusOp {
 
         /**
          * Prepares the status parameter.
@@ -801,14 +757,14 @@ public abstract class PetService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
         *
          * @param response 
          */
-        record result200(List<Pet> response) {
+        record Response200(List<Pet> response) {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the findPetsByStatus operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -818,38 +774,29 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 private List<Pet> response;
-
                 @Override
-                public result200 build() {
-                    return new result200(response);
+                public Response200 build() {
+                    return new Response200(response);
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
 
                 /**
@@ -864,30 +811,28 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
                 if (response != null) { 
-                serverResponse.send(response);
+                _serverResponse.send(response);
                 } else {
-                    serverResponse.send();
+                    _serverResponse.send();
                 }
-                return serverResponse;
             }
         }
 
         /**
-         * Result for HTTP status code {@code 400}.
+         * Response for HTTP status code {@code 400}.
          */
-        record result400() {
+        record Response400() {
 
             /**
-             * Creates a result builder for the status {@code 400} result
+             * Creates a response builder for the status {@code 400} response
              * for the findPetsByStatus operation; there are no required result values for this response.
              *
              * @return new builder for status 400
@@ -897,51 +842,40 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response400 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result400 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result400> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response400> {
 
                 @Override
-                public result400 build() {
-                    return new result400();
+                public Response400 build() {
+                    return new Response400();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(400));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.BAD_REQUEST_400);
+                _serverResponse.send();
             }
         }
     }
@@ -954,8 +888,8 @@ public abstract class PetService implements HttpService {
      *
      * @return new FindPetsByTags
      */
-    protected FindPetsByTags findPetsByTags() {
-        return new FindPetsByTags();
+    protected FindPetsByTagsOp createFindPetsByTagsOp() {
+        return new FindPetsByTagsOp();
     }
 
     /**
@@ -972,7 +906,7 @@ public abstract class PetService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class FindPetsByTags {
+    public static class FindPetsByTagsOp {
 
         /**
          * Prepares the tags parameter.
@@ -990,14 +924,14 @@ public abstract class PetService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
         *
          * @param response 
          */
-        record result200(Set<Pet> response) {
+        record Response200(Set<Pet> response) {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the findPetsByTags operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -1007,38 +941,29 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 private Set<Pet> response;
-
                 @Override
-                public result200 build() {
-                    return new result200(response);
+                public Response200 build() {
+                    return new Response200(response);
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
 
                 /**
@@ -1053,30 +978,28 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
                 if (response != null) { 
-                serverResponse.send(response);
+                _serverResponse.send(response);
                 } else {
-                    serverResponse.send();
+                    _serverResponse.send();
                 }
-                return serverResponse;
             }
         }
 
         /**
-         * Result for HTTP status code {@code 400}.
+         * Response for HTTP status code {@code 400}.
          */
-        record result400() {
+        record Response400() {
 
             /**
-             * Creates a result builder for the status {@code 400} result
+             * Creates a response builder for the status {@code 400} response
              * for the findPetsByTags operation; there are no required result values for this response.
              *
              * @return new builder for status 400
@@ -1086,51 +1009,40 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response400 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result400 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result400> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response400> {
 
                 @Override
-                public result400 build() {
-                    return new result400();
+                public Response400 build() {
+                    return new Response400();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(400));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.BAD_REQUEST_400);
+                _serverResponse.send();
             }
         }
     }
@@ -1143,8 +1055,8 @@ public abstract class PetService implements HttpService {
      *
      * @return new GetPetById
      */
-    protected GetPetById getPetById() {
-        return new GetPetById();
+    protected GetPetByIdOp createGetPetByIdOp() {
+        return new GetPetByIdOp();
     }
 
     /**
@@ -1161,7 +1073,7 @@ public abstract class PetService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class GetPetById {
+    public static class GetPetByIdOp {
 
         /**
          * Prepares the petId parameter.
@@ -1180,14 +1092,14 @@ public abstract class PetService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
         *
          * @param response 
          */
-        record result200(Pet response) {
+        record Response200(Pet response) {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the getPetById operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -1197,38 +1109,29 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 private Pet response;
-
                 @Override
-                public result200 build() {
-                    return new result200(response);
+                public Response200 build() {
+                    return new Response200(response);
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
 
                 /**
@@ -1243,30 +1146,28 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
                 if (response != null) { 
-                serverResponse.send(response);
+                _serverResponse.send(response);
                 } else {
-                    serverResponse.send();
+                    _serverResponse.send();
                 }
-                return serverResponse;
             }
         }
 
         /**
-         * Result for HTTP status code {@code 400}.
+         * Response for HTTP status code {@code 400}.
          */
-        record result400() {
+        record Response400() {
 
             /**
-             * Creates a result builder for the status {@code 400} result
+             * Creates a response builder for the status {@code 400} response
              * for the getPetById operation; there are no required result values for this response.
              *
              * @return new builder for status 400
@@ -1276,61 +1177,50 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response400 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result400 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result400> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response400> {
 
                 @Override
-                public result400 build() {
-                    return new result400();
+                public Response400 build() {
+                    return new Response400();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(400));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.BAD_REQUEST_400);
+                _serverResponse.send();
             }
         }
 
         /**
-         * Result for HTTP status code {@code 404}.
+         * Response for HTTP status code {@code 404}.
          */
-        record result404() {
+        record Response404() {
 
             /**
-             * Creates a result builder for the status {@code 404} result
+             * Creates a response builder for the status {@code 404} response
              * for the getPetById operation; there are no required result values for this response.
              *
              * @return new builder for status 404
@@ -1340,51 +1230,40 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response404 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result404 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result404> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response404> {
 
                 @Override
-                public result404 build() {
-                    return new result404();
+                public Response404 build() {
+                    return new Response404();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(404));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.NOT_FOUND_404);
+                _serverResponse.send();
             }
         }
     }
@@ -1397,8 +1276,8 @@ public abstract class PetService implements HttpService {
      *
      * @return new UpdatePet
      */
-    protected UpdatePet updatePet() {
-        return new UpdatePet();
+    protected UpdatePetOp createUpdatePetOp() {
+        return new UpdatePetOp();
     }
 
     /**
@@ -1415,7 +1294,7 @@ public abstract class PetService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class UpdatePet {
+    public static class UpdatePetOp {
 
         /**
          * Prepares the pet parameter.
@@ -1431,12 +1310,12 @@ public abstract class PetService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
          */
-        record result200() {
+        record Response200() {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the updatePet operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -1446,61 +1325,50 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 @Override
-                public result200 build() {
-                    return new result200();
+                public Response200 build() {
+                    return new Response200();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
+                _serverResponse.send();
             }
         }
 
         /**
-         * Result for HTTP status code {@code 400}.
+         * Response for HTTP status code {@code 400}.
          */
-        record result400() {
+        record Response400() {
 
             /**
-             * Creates a result builder for the status {@code 400} result
+             * Creates a response builder for the status {@code 400} response
              * for the updatePet operation; there are no required result values for this response.
              *
              * @return new builder for status 400
@@ -1510,61 +1378,50 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response400 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result400 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result400> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response400> {
 
                 @Override
-                public result400 build() {
-                    return new result400();
+                public Response400 build() {
+                    return new Response400();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(400));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.BAD_REQUEST_400);
+                _serverResponse.send();
             }
         }
 
         /**
-         * Result for HTTP status code {@code 404}.
+         * Response for HTTP status code {@code 404}.
          */
-        record result404() {
+        record Response404() {
 
             /**
-             * Creates a result builder for the status {@code 404} result
+             * Creates a response builder for the status {@code 404} response
              * for the updatePet operation; there are no required result values for this response.
              *
              * @return new builder for status 404
@@ -1574,61 +1431,50 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response404 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result404 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result404> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response404> {
 
                 @Override
-                public result404 build() {
-                    return new result404();
+                public Response404 build() {
+                    return new Response404();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(404));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.NOT_FOUND_404);
+                _serverResponse.send();
             }
         }
 
         /**
-         * Result for HTTP status code {@code 405}.
+         * Response for HTTP status code {@code 405}.
          */
-        record result405() {
+        record Response405() {
 
             /**
-             * Creates a result builder for the status {@code 405} result
+             * Creates a response builder for the status {@code 405} response
              * for the updatePet operation; there are no required result values for this response.
              *
              * @return new builder for status 405
@@ -1638,51 +1484,40 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response405 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result405 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result405> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response405> {
 
                 @Override
-                public result405 build() {
-                    return new result405();
+                public Response405 build() {
+                    return new Response405();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(405));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.METHOD_NOT_ALLOWED_405);
+                _serverResponse.send();
             }
         }
     }
@@ -1695,8 +1530,8 @@ public abstract class PetService implements HttpService {
      *
      * @return new UpdatePetWithForm
      */
-    protected UpdatePetWithForm updatePetWithForm() {
-        return new UpdatePetWithForm();
+    protected UpdatePetWithFormOp createUpdatePetWithFormOp() {
+        return new UpdatePetWithFormOp();
     }
 
     /**
@@ -1713,7 +1548,7 @@ public abstract class PetService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class UpdatePetWithForm {
+    public static class UpdatePetWithFormOp {
 
         /**
          * Prepares the petId parameter.
@@ -1758,12 +1593,12 @@ public abstract class PetService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
          */
-        record result200() {
+        record Response200() {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the updatePetWithForm operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -1773,61 +1608,50 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 @Override
-                public result200 build() {
-                    return new result200();
+                public Response200 build() {
+                    return new Response200();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
+                _serverResponse.send();
             }
         }
 
         /**
-         * Result for HTTP status code {@code 405}.
+         * Response for HTTP status code {@code 405}.
          */
-        record result405() {
+        record Response405() {
 
             /**
-             * Creates a result builder for the status {@code 405} result
+             * Creates a response builder for the status {@code 405} response
              * for the updatePetWithForm operation; there are no required result values for this response.
              *
              * @return new builder for status 405
@@ -1837,51 +1661,40 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response405 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result405 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result405> {
-
+            static class Builder implements io.helidon.common.Builder<Builder, Response405> {
 
                 @Override
-                public result405 build() {
-                    return new result405();
+                public Response405 build() {
+                    return new Response405();
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(405));
-                serverResponse.send();
-                return serverResponse;
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.METHOD_NOT_ALLOWED_405);
+                _serverResponse.send();
             }
         }
     }
@@ -1894,8 +1707,8 @@ public abstract class PetService implements HttpService {
      *
      * @return new UploadFile
      */
-    protected UploadFile uploadFile() {
-        return new UploadFile();
+    protected UploadFileOp createUploadFileOp() {
+        return new UploadFileOp();
     }
 
     /**
@@ -1912,7 +1725,7 @@ public abstract class PetService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class UploadFile {
+    public static class UploadFileOp {
 
         /**
          * Prepares the petId parameter.
@@ -1955,14 +1768,14 @@ public abstract class PetService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
         *
          * @param response 
          */
-        record result200(ModelApiResponse response) {
+        record Response200(ModelApiResponse response) {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the uploadFile operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -1972,38 +1785,29 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 private ModelApiResponse response;
-
                 @Override
-                public result200 build() {
-                    return new result200(response);
+                public Response200 build() {
+                    return new Response200(response);
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
 
                 /**
@@ -2018,20 +1822,18 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
                 if (response != null) { 
-                serverResponse.send(response);
+                _serverResponse.send(response);
                 } else {
-                    serverResponse.send();
+                    _serverResponse.send();
                 }
-                return serverResponse;
             }
         }
     }
@@ -2044,8 +1846,8 @@ public abstract class PetService implements HttpService {
      *
      * @return new UploadFileWithRequiredFile
      */
-    protected UploadFileWithRequiredFile uploadFileWithRequiredFile() {
-        return new UploadFileWithRequiredFile();
+    protected UploadFileWithRequiredFileOp createUploadFileWithRequiredFileOp() {
+        return new UploadFileWithRequiredFileOp();
     }
 
     /**
@@ -2062,7 +1864,7 @@ public abstract class PetService implements HttpService {
      *     the response including any appropriate entity.
      * </p>
      */
-    public static class UploadFileWithRequiredFile {
+    public static class UploadFileWithRequiredFileOp {
 
         /**
          * Prepares the petId parameter.
@@ -2105,14 +1907,14 @@ public abstract class PetService implements HttpService {
         }
 
         /**
-         * Result for HTTP status code {@code 200}.
+         * Response for HTTP status code {@code 200}.
         *
          * @param response 
          */
-        record result200(ModelApiResponse response) {
+        record Response200(ModelApiResponse response) {
 
             /**
-             * Creates a result builder for the status {@code 200} result
+             * Creates a response builder for the status {@code 200} response
              * for the uploadFileWithRequiredFile operation; there are no required result values for this response.
              *
              * @return new builder for status 200
@@ -2122,38 +1924,29 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Sets the declared HTTP status and sends the response.
-             *
+             * Builder for the Response200 result.
              */
-            static void send(ServerResponse serverResponse) {
-                builder().apply(serverResponse);
-            }
-
-            /**
-             * Builder for the result200 result.
-             */
-            static class Builder implements io.helidon.common.Builder<Builder, result200> {
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
 
                 private ModelApiResponse response;
-
                 @Override
-                public result200 build() {
-                    return new result200(response);
+                public Response200 build() {
+                    return new Response200(response);
                 }
 
                 /**
-                 * Applies the result data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
                  * assigning the HTTP status, any response headers, and any response entity.
                  * <p>
                  *     Equivalent to {@snippet :
-                 *     build().apply(serverResponse);
+                 *     build().send(_serverResponse);
                  *     }
                  * </p>
                  *
-                 * @param serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
                  */
-                void apply(ServerResponse serverResponse) {
-                    build().apply(serverResponse);
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
                 }
 
                 /**
@@ -2168,20 +1961,18 @@ public abstract class PetService implements HttpService {
             }
 
             /**
-             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.
              *
-             * @param serverResponse the server response to which to apply these result values
-             * @return the updated server response
+             * @param _serverResponse the server response to which to apply these result values
              */
-            ServerResponse apply(ServerResponse serverResponse) {
-                serverResponse.status(Status.create(200));
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
                 if (response != null) { 
-                serverResponse.send(response);
+                _serverResponse.send(response);
                 } else {
-                    serverResponse.send();
+                    _serverResponse.send();
                 }
-                return serverResponse;
             }
         }
     }
