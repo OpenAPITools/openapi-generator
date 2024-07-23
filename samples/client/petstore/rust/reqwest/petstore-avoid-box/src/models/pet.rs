@@ -11,7 +11,6 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
-
 /// Pet : A pet for sale in the pet store
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Pet {

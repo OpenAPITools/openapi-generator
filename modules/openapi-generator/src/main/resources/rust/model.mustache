@@ -6,7 +6,11 @@ use serde::{Deserialize, Serialize};
 {{^isEnum}}{{#vendorExtensions.x-rust-has-byte-array}}
 use serde_with::serde_as;
 {{/vendorExtensions.x-rust-has-byte-array}}{{/isEnum}}
-{{#isEnum}}{{#isInteger}}use serde_repr::{Serialize_repr,Deserialize_repr};{{/isInteger}}{{/isEnum}}
+{{#isEnum}}
+{{#isInteger}}
+use serde_repr::{Serialize_repr,Deserialize_repr};
+{{/isInteger}}
+{{/isEnum}}
 {{#description}}
 /// {{{classname}}} : {{{description}}}
 {{/description}}

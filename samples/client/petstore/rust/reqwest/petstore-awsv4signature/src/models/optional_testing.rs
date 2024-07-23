@@ -11,7 +11,6 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
-
 /// OptionalTesting : Test handling of optional and nullable fields
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct OptionalTesting {

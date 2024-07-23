@@ -11,7 +11,6 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
-
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct EmptyObject {
     #[serde(rename = "emptyObject", skip_serializing_if = "Option::is_none")]
