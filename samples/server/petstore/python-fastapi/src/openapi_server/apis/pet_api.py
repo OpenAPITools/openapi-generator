@@ -14,6 +14,7 @@ from fastapi import (  # noqa: F401
     Depends,
     Form,
     Header,
+    HTTPException,
     Path,
     Query,
     Response,
@@ -50,6 +51,8 @@ async def add_pet(
     ),
 ) -> Pet:
     """"""
+    if not BasePetApi.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
     return await BasePetApi.subclasses[0]().add_pet(pet)
 
 
@@ -70,6 +73,8 @@ async def delete_pet(
     ),
 ) -> None:
     """"""
+    if not BasePetApi.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
     return await BasePetApi.subclasses[0]().delete_pet(petId, api_key)
 
 
@@ -90,6 +95,8 @@ async def find_pets_by_status(
     ),
 ) -> List[Pet]:
     """Multiple status values can be provided with comma separated strings"""
+    if not BasePetApi.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
     return await BasePetApi.subclasses[0]().find_pets_by_status(status)
 
 
@@ -110,6 +117,8 @@ async def find_pets_by_tags(
     ),
 ) -> List[Pet]:
     """Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing."""
+    if not BasePetApi.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
     return await BasePetApi.subclasses[0]().find_pets_by_tags(tags)
 
 
@@ -131,6 +140,8 @@ async def get_pet_by_id(
     ),
 ) -> Pet:
     """Returns a single pet"""
+    if not BasePetApi.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
     return await BasePetApi.subclasses[0]().get_pet_by_id(petId)
 
 
@@ -153,6 +164,8 @@ async def update_pet(
     ),
 ) -> Pet:
     """"""
+    if not BasePetApi.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
     return await BasePetApi.subclasses[0]().update_pet(pet)
 
 
@@ -174,6 +187,8 @@ async def update_pet_with_form(
     ),
 ) -> None:
     """"""
+    if not BasePetApi.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
     return await BasePetApi.subclasses[0]().update_pet_with_form(petId, name, status)
 
 
@@ -195,4 +210,6 @@ async def upload_file(
     ),
 ) -> ApiResponse:
     """"""
+    if not BasePetApi.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
     return await BasePetApi.subclasses[0]().upload_file(petId, additional_metadata, file)
