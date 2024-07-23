@@ -401,7 +401,7 @@
         {{#items}}
         {{#isEnum}}
         # validate enum values
-        if (!(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+        if (!is.null(query_item) && !(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
           {{#useDefaultExceptionHandling}}
           stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Must be {{_enum}}.")
           {{/useDefaultExceptionHandling}}
@@ -423,7 +423,7 @@
       {{#isEnum}}
       # validate enum values
       for (query_item in `{{{paramName}}}`) {
-        if (!(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+        if (!is.null(query_item) && !(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
           {{#useDefaultExceptionHandling}}
           stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Must be {{_enum}}.")
           {{/useDefaultExceptionHandling}}
@@ -447,7 +447,7 @@
         {{#items}}
         {{#isEnum}}
         # validate enum values
-        if (!(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+        if (!is.null(query_item) && !(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
           {{#useDefaultExceptionHandling}}
           stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Must be {{_enum}}.")
           {{/useDefaultExceptionHandling}}
@@ -469,7 +469,7 @@
       {{#isEnum}}
       # validate enum values
       for (query_item in `{{{paramName}}}`) {
-        if (!(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+        if (!is.null(query_item) && !(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
           {{#useDefaultExceptionHandling}}
           stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Must be {{_enum}}.")
           {{/useDefaultExceptionHandling}}
@@ -489,7 +489,7 @@
       {{/isArray}}
       {{^isArray}}
       {{#isEnum}}
-      if (!(`{{paramName}}` %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+      if (!is.null(`{{paramName}}`) && !(`{{paramName}}` %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
         {{#useDefaultExceptionHandling}}
         stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Must be {{_enum}}.")
         {{/useDefaultExceptionHandling}}
