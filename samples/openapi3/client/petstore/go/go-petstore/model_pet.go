@@ -272,10 +272,7 @@ func (o *Pet) UnmarshalJSON(data []byte) (err error) {
 		"photoUrls",
 	}
 
-	defaultValueFuncMap := map[string]func() interface{} {
-	}
 	allProperties := make(map[string]interface{})
-	var defaultValueApplied bool
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
@@ -284,19 +281,7 @@ func (o *Pet) UnmarshalJSON(data []byte) (err error) {
 
 	for _, requiredProperty := range(requiredProperties){
 		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
-			if _, ok := defaultValueFuncMap[requiredProperty]; ok {
-				allProperties[requiredProperty] = defaultValueFuncMap[requiredProperty]()
-				defaultValueApplied = true
-			}
-		}
-		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
-		}
-	}
-	if defaultValueApplied{
-		data, err = json.Marshal(allProperties)
-		if err != nil{
-			return err
 		}
 	}
 	varPet := _Pet{}
