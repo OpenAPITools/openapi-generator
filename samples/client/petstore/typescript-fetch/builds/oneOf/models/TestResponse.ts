@@ -49,7 +49,7 @@ export function TestResponseFromJSONTyped(json: any, ignoreDiscriminator: boolea
         return TestBFromJSONTyped(json, true);
     }
 
-    return json;
+    return {} as any;
 }
 
 export function TestResponseToJSON(value?: TestResponse | null): any {
