@@ -36,7 +36,7 @@ impl<C: Connect> DefaultApiClient<C>
     }
 }
 
-pub trait DefaultApi: Send {
+pub trait DefaultApi: Send + Sync {
     fn get_fruit(&self, ) -> Pin<Box<dyn Future<Output = Result<models::Fruit, Error>> + Send>>;
 }
 

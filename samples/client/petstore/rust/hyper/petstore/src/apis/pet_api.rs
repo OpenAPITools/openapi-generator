@@ -36,7 +36,7 @@ impl<C: Connect> PetApiClient<C>
     }
 }
 
-pub trait PetApi: Send {
+pub trait PetApi: Send + Sync {
     fn add_pet(&self, pet: models::Pet) -> Pin<Box<dyn Future<Output = Result<models::Pet, Error>> + Send>>;
     fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Pin<Box<dyn Future<Output = Result<(), Error>> + Send>>;
     fn find_pets_by_status(&self, status: Vec<String>) -> Pin<Box<dyn Future<Output = Result<Vec<models::Pet>, Error>> + Send>>;

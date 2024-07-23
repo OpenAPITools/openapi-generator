@@ -36,7 +36,7 @@ impl<C: Connect> FakeApiClient<C>
     }
 }
 
-pub trait FakeApi: Send {
+pub trait FakeApi: Send + Sync {
     fn test_nullable_required_param(&self, username: &str, dummy_required_nullable_param: Option<&str>, uppercase: Option<&str>) -> Pin<Box<dyn Future<Output = Result<(), Error>> + Send>>;
 }
 

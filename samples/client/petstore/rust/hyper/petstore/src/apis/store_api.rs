@@ -36,7 +36,7 @@ impl<C: Connect> StoreApiClient<C>
     }
 }
 
-pub trait StoreApi: Send {
+pub trait StoreApi: Send + Sync {
     fn delete_order(&self, order_id: &str) -> Pin<Box<dyn Future<Output = Result<(), Error>> + Send>>;
     fn get_inventory(&self, ) -> Pin<Box<dyn Future<Output = Result<std::collections::HashMap<String, i32>, Error>> + Send>>;
     fn get_order_by_id(&self, order_id: i64) -> Pin<Box<dyn Future<Output = Result<models::Order, Error>> + Send>>;

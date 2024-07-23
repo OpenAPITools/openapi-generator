@@ -36,7 +36,7 @@ impl<C: Connect> BarApiClient<C>
     }
 }
 
-pub trait BarApi: Send {
+pub trait BarApi: Send + Sync {
     fn create_bar(&self, bar_create: models::BarCreate) -> Pin<Box<dyn Future<Output = Result<models::Bar, Error>> + Send>>;
 }
 

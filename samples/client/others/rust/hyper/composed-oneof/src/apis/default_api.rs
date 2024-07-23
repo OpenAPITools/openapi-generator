@@ -36,7 +36,7 @@ impl<C: Connect> DefaultApiClient<C>
     }
 }
 
-pub trait DefaultApi: Send {
+pub trait DefaultApi: Send + Sync {
     fn create_state(&self, create_state_request: models::CreateStateRequest) -> Pin<Box<dyn Future<Output = Result<(), Error>> + Send>>;
     fn get_state(&self, ) -> Pin<Box<dyn Future<Output = Result<models::GetState200Response, Error>> + Send>>;
 }

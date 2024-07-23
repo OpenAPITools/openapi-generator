@@ -36,7 +36,7 @@ impl<C: Connect> DefaultApiClient<C>
     }
 }
 
-pub trait DefaultApi: Send {
+pub trait DefaultApi: Send + Sync {
     fn endpoint_get(&self, ) -> Pin<Box<dyn Future<Output = Result<models::EmptyObject, Error>> + Send>>;
 }
 

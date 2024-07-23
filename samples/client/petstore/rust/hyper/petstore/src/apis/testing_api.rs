@@ -36,7 +36,7 @@ impl<C: Connect> TestingApiClient<C>
     }
 }
 
-pub trait TestingApi: Send {
+pub trait TestingApi: Send + Sync {
     fn tests_file_response_get(&self, ) -> Pin<Box<dyn Future<Output = Result<std::path::PathBuf, Error>> + Send>>;
     fn tests_type_testing_get(&self, ) -> Pin<Box<dyn Future<Output = Result<models::TypeTesting, Error>> + Send>>;
 }

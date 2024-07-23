@@ -36,7 +36,7 @@ impl<C: Connect> FooApiClient<C>
     }
 }
 
-pub trait FooApi: Send {
+pub trait FooApi: Send + Sync {
     fn create_foo(&self, foo: Option<models::Foo>) -> Pin<Box<dyn Future<Output = Result<models::FooRefOrValue, Error>> + Send>>;
     fn get_all_foos(&self, ) -> Pin<Box<dyn Future<Output = Result<Vec<models::FooRefOrValue>, Error>> + Send>>;
 }

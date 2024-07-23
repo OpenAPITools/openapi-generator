@@ -36,7 +36,7 @@ impl<C: Connect> DefaultApiClient<C>
     }
 }
 
-pub trait DefaultApi: Send {
+pub trait DefaultApi: Send + Sync {
     fn root_get(&self, ) -> Pin<Box<dyn Future<Output = Result<models::Fruit, Error>> + Send>>;
     fn test(&self, body: Option<serde_json::Value>) -> Pin<Box<dyn Future<Output = Result<(), Error>> + Send>>;
 }

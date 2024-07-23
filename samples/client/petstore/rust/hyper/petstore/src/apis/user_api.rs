@@ -36,7 +36,7 @@ impl<C: Connect> UserApiClient<C>
     }
 }
 
-pub trait UserApi: Send {
+pub trait UserApi: Send + Sync {
     fn create_user(&self, user: models::User) -> Pin<Box<dyn Future<Output = Result<(), Error>> + Send>>;
     fn create_users_with_array_input(&self, user: Vec<models::User>) -> Pin<Box<dyn Future<Output = Result<(), Error>> + Send>>;
     fn create_users_with_list_input(&self, user: Vec<models::User>) -> Pin<Box<dyn Future<Output = Result<(), Error>> + Send>>;

@@ -36,7 +36,7 @@ impl<C: Connect> DefaultApiClient<C>
     }
 }
 
-pub trait DefaultApi: Send {
+pub trait DefaultApi: Send + Sync {
     fn demo_color_get(&self, color: models::Color) -> Pin<Box<dyn Future<Output = Result<(), Error>> + Send>>;
 }
 
