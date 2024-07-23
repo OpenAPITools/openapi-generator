@@ -67,13 +67,12 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public static final String BEST_FIT_INT = "bestFitInt";
     public static final String AVOID_BOXED_MODELS = "avoidBoxedModels";
 
-    protected String packageName = "openapi";
+    @Setter protected String packageName = "openapi";
     @Setter protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String apiFolder = "src/apis";
     protected String modelFolder = "src/models";
-    private String externCrateName = "openapi";
 
     @Override
     public CodegenType getTag() {
@@ -369,7 +368,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
-        additionalProperties.put(EXTERN_CRATE_NAME, externCrateName);
+        additionalProperties.put(EXTERN_CRATE_NAME, getExternCrateName());
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -426,11 +425,9 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
     }
 
-    private void setPackageName(String packageName) {
-        this.packageName = packageName;
-
-        // Also set the extern crate name, which has any '-' replace with a '_'.
-        this.externCrateName = packageName.replace('-', '_');
+    private String getExternCrateName() {
+        // The external name used when importing a crate has all '-' replaced with '_'.
+        return packageName.replace('-', '_');
     }
 
     private boolean getSupportAsync() {
