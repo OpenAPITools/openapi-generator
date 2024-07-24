@@ -12,7 +12,7 @@ import { FilePostRequest } from '../models/FilePostRequest';
 import { PetByAge } from '../models/PetByAge';
 import { PetByType, PetByTypePetTypeEnum    } from '../models/PetByType';
 import { PetsFilteredPatchRequest  , PetsFilteredPatchRequestPetTypeEnum    } from '../models/PetsFilteredPatchRequest';
-import { PetsPatchRequest   , PetsPatchRequestBreedEnum   } from '../models/PetsPatchRequest';
+import { PetsPatchRequestClass } from '../models/PetsPatchRequest';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [
@@ -40,7 +40,7 @@ let typeMap: {[index: string]: any} = {
     "PetByAge": PetByAge,
     "PetByType": PetByType,
     "PetsFilteredPatchRequest": PetsFilteredPatchRequest,
-    "PetsPatchRequest": PetsPatchRequest,
+    "PetsPatchRequest": PetsPatchRequestClass,
 }
 
 type MimeTypeDescriptor = {

@@ -16,8 +16,16 @@ import { HttpFile } from '../http/http';
 
 /**
  * @type PetsPatchRequest
+ * Type
  * @export
  */
 export type PetsPatchRequest = Cat | Dog;
 
+/**
+* @type PetsPatchRequestClass
+* @export
+*/
+export class PetsPatchRequestClass {
+        static readonly discriminator: string | undefined = "petType";
+}
 
