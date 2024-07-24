@@ -24,6 +24,7 @@ namespace Org.OpenAPITools.Client.Auth
         readonly string _tokenUrl;
         readonly string _clientId;
         readonly string _clientSecret;
+        readonly string _scope;
         readonly string _grantType;
         readonly JsonSerializerSettings _serializerSettings;
         readonly IReadableConfiguration _configuration;
@@ -35,6 +36,7 @@ namespace Org.OpenAPITools.Client.Auth
             string tokenUrl,
             string clientId,
             string clientSecret,
+            string scope,
             OAuthFlow? flow,
             JsonSerializerSettings serializerSettings,
             IReadableConfiguration configuration) : base("")
@@ -42,6 +44,7 @@ namespace Org.OpenAPITools.Client.Auth
             _tokenUrl = tokenUrl;
             _clientId = clientId;
             _clientSecret = clientSecret;
+            _scope = scope;
             _serializerSettings = serializerSettings;
             _configuration = configuration;
 
@@ -88,6 +91,12 @@ namespace Org.OpenAPITools.Client.Auth
                 .AddParameter("grant_type", _grantType)
                 .AddParameter("client_id", _clientId)
                 .AddParameter("client_secret", _clientSecret);
+
+            if (!string.IsNullOrEmpty(_scope))
+            {
+                request.AddParameter("scope", _scope);
+            }
+
             var response = await client.PostAsync<TokenResponse>(request).ConfigureAwait(false);
             
             // RFC6749 - token_type is case insensitive.
