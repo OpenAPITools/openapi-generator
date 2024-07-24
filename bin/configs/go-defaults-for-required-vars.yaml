@@ -1,0 +1,6 @@
+generatorName: go
+outputDir: samples/client/others/go/defaults-for-required-vars
+inputSpec: modules/openapi-generator/src/test/resources/3_0/go/default-values-for-required-params.yaml
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  useDefaultValuesForRequiredVars: "true"
