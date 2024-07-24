@@ -395,6 +395,12 @@ namespace Org.OpenAPITools.Client
         public virtual string OAuthClientSecret { get; set; }
 
         /// <summary>
+        /// Gets or sets the client scope for OAuth2 authentication.
+        /// </summary>
+        /// <value>The OAuth Client Scope.</value>
+        public virtual string OAuthScope { get; set; }
+
+        /// <summary>
         /// Gets or sets the flow for OAuth2 authentication.
         /// </summary>
         /// <value>The OAuth Flow.</value>
@@ -731,6 +737,7 @@ namespace Org.OpenAPITools.Client
                 OAuthTokenUrl = second.OAuthTokenUrl ?? first.OAuthTokenUrl,
                 OAuthClientId = second.OAuthClientId ?? first.OAuthClientId,
                 OAuthClientSecret = second.OAuthClientSecret ?? first.OAuthClientSecret,
+                OAuthScope = second.OAuthScope ?? first.OAuthScope,
                 OAuthFlow = second.OAuthFlow ?? first.OAuthFlow,
                 HttpSigningConfiguration = second.HttpSigningConfiguration ?? first.HttpSigningConfiguration,
                 TempFolderPath = second.TempFolderPath ?? first.TempFolderPath,
