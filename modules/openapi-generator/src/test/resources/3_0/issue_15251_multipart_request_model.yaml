@@ -1,0 +1,45 @@
+openapi: '3.0.1'
+info:
+  version: 1.0.0
+  title: MultipartFile test
+paths:
+  /multipart-mixed:
+    post:
+      tags:
+        - multipart
+      description: Mixed MultipartFile test
+      operationId: multipartMixed
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - status
+                - file
+              properties:
+                status:
+                  $ref: '#/components/schemas/MultipartMixedStatus'
+                marker:
+                  description: "additional object"
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                file:
+                  description: "a file"
+                  type: string
+                  format: binary
+      responses:
+        '204':
+          description: Successful operation
+components:
+  schemas:
+    MultipartMixedStatus:
+      description: "additional field as Enum"
+      type: string
+      enum:
+        - ALLOWED
+        - IN_PROGRESS
+        - REJECTED
+      example: REJECTED
