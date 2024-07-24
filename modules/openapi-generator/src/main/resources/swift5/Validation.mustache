@@ -38,6 +38,10 @@ import Foundation
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} fileprivate(set) var kinds: Set<T>
 }
 
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum ArrayValidationErrorKind: Error {
+    case minItem, maxItem, uniqueItems
+}
+
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct Validator {
     /// Validate a string against a rule.
     /// - Parameter string: The String you wish to validate.
