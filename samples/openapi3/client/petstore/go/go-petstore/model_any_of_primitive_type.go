@@ -15,8 +15,6 @@ import (
 	"fmt"
 )
 
-// checks if the AnyOfPrimitiveType type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &AnyOfPrimitiveType{}
 
 // AnyOfPrimitiveType struct for AnyOfPrimitiveType
 type AnyOfPrimitiveType struct {
@@ -87,21 +85,6 @@ func (src *AnyOfPrimitiveType) MarshalJSON() ([]byte, error) {
 	return nil, nil // no data in anyOf schemas
 }
 
-func (src AnyOfPrimitiveType) ToMap() (map[string]interface{}, error) {
-	if src.OneOfPrimitiveTypeChild != nil {
-		return src.OneOfPrimitiveTypeChild.ToMap()
-	}
-
-	if src.ArrayOfString != nil {
-		return src.ArrayOfString.ToMap()
-	}
-
-	if src.Int32 != nil {
-		return src.Int32.ToMap()
-	}
-
-    return nil, nil // no data in anyOf schemas
-}
 
 type NullableAnyOfPrimitiveType struct {
 	value *AnyOfPrimitiveType

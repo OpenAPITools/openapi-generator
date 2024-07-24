@@ -15,8 +15,6 @@ import (
 	"fmt"
 )
 
-// checks if the GmFruit type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &GmFruit{}
 
 // GmFruit struct for GmFruit
 type GmFruit struct {
@@ -69,17 +67,6 @@ func (src *GmFruit) MarshalJSON() ([]byte, error) {
 	return nil, nil // no data in anyOf schemas
 }
 
-func (src GmFruit) ToMap() (map[string]interface{}, error) {
-	if src.Apple != nil {
-		return src.Apple.ToMap()
-	}
-
-	if src.Banana != nil {
-		return src.Banana.ToMap()
-	}
-
-    return nil, nil // no data in anyOf schemas
-}
 
 type NullableGmFruit struct {
 	value *GmFruit
