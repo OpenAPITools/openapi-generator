@@ -14,8 +14,8 @@ import (
 
 var client *sw.APIClient
 
-const testHost = "petstore.swagger.io:443"
-const testScheme = "https"
+const testHost = "petstore.swagger.io:80"
+const testScheme = "http"
 
 func TestMain(m *testing.M) {
 	cfg := sw.NewConfiguration()
