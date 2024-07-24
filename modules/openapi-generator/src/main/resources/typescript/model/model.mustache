@@ -32,6 +32,18 @@ export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
     {{^discriminator}}
     static readonly discriminator: string | undefined = undefined;
     {{/discriminator}}
+    {{#hasDiscriminatorWithNonEmptyMapping}}
+
+    static readonly mapping: {[index: string]: any} | undefined = {
+    {{#discriminator.mappedModels}}
+        "{{mappingName}}": "{{modelName}}",
+    {{/discriminator.mappedModels}}
+    };
+    {{/hasDiscriminatorWithNonEmptyMapping}}
+    {{^hasDiscriminatorWithNonEmptyMapping}}
+
+    static readonly mapping: {[index: string]: any} | undefined = undefined;
+    {{/hasDiscriminatorWithNonEmptyMapping}}
 
     {{^isArray}}
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [

@@ -20,9 +20,21 @@ export type {{classname}} = {{#oneOf}}{{{.}}}{{^-last}} | {{/-last}}{{/oneOf}};
 */
 export class {{classname}}Class {
     {{#discriminator}}
-        static readonly discriminator: string | undefined = "{{discriminatorName}}";
+    static readonly discriminator: string | undefined = "{{discriminatorName}}";
     {{/discriminator}}
     {{^discriminator}}
-        static readonly discriminator: string | undefined = undefined;
+    static readonly discriminator: string | undefined = undefined;
     {{/discriminator}}
+    {{#hasDiscriminatorWithNonEmptyMapping}}
+
+    static readonly mapping: {[index: string]: any} | undefined = {
+    {{#discriminator.mappedModels}}
+        "{{mappingName}}": "{{modelName}}",
+    {{/discriminator.mappedModels}}
+    };
+    {{/hasDiscriminatorWithNonEmptyMapping}}
+    {{^hasDiscriminatorWithNonEmptyMapping}}
+
+    static readonly mapping: {[index: string]: any} | undefined = undefined;
+    {{/hasDiscriminatorWithNonEmptyMapping}}
 }
