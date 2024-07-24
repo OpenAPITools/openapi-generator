@@ -109,13 +109,14 @@ export class ObjectSerializer {
 
             // Check the discriminator
             let discriminatorProperty = typeMap[expectedType].discriminator;
-            if (discriminatorProperty == null) {
+            let mapping = typeMap[expectedType].mapping;
+            if (discriminatorProperty == null || mapping == undefined) {
                 return expectedType; // the type does not have a discriminator. use it.
             } else {
                 if (data[discriminatorProperty]) {
                     var discriminatorType = data[discriminatorProperty];
-                    if(typeMap[discriminatorType]){
-                        return discriminatorType; // use the type given in the discriminator
+                    if(mapping[discriminatorType]) {
+                        return mapping[discriminatorType]; // use the type given in the discriminator
                     } else {
                         return expectedType; // discriminator did not map to a type
                     }

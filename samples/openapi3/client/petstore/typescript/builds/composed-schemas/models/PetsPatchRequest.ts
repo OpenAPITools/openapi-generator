@@ -26,6 +26,8 @@ export type PetsPatchRequest = Cat | Dog;
 * @export
 */
 export class PetsPatchRequestClass {
-        static readonly discriminator: string | undefined = "petType";
+    static readonly discriminator: string | undefined = "petType";
+
+    static readonly mapping: {[index: string]: any} | undefined = undefined;
 }
 
