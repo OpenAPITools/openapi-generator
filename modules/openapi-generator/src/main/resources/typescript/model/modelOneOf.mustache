@@ -27,7 +27,7 @@ export class {{classname}}Class {
     {{/discriminator}}
     {{#hasDiscriminatorWithNonEmptyMapping}}
 
-    static readonly mapping: {[index: string]: any} | undefined = {
+    static readonly mapping: {[index: string]: string} | undefined = {
     {{#discriminator.mappedModels}}
         "{{mappingName}}": "{{modelName}}",
     {{/discriminator.mappedModels}}
@@ -35,6 +35,6 @@ export class {{classname}}Class {
     {{/hasDiscriminatorWithNonEmptyMapping}}
     {{^hasDiscriminatorWithNonEmptyMapping}}
 
-    static readonly mapping: {[index: string]: any} | undefined = undefined;
+    static readonly mapping: {[index: string]: string} | undefined = undefined;
     {{/hasDiscriminatorWithNonEmptyMapping}}
 }

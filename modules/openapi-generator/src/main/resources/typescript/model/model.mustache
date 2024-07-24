@@ -34,7 +34,7 @@ export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
     {{/discriminator}}
     {{#hasDiscriminatorWithNonEmptyMapping}}
 
-    static readonly mapping: {[index: string]: any} | undefined = {
+    static readonly mapping: {[index: string]: string} | undefined = {
     {{#discriminator.mappedModels}}
         "{{mappingName}}": "{{modelName}}",
     {{/discriminator.mappedModels}}
@@ -42,7 +42,7 @@ export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
     {{/hasDiscriminatorWithNonEmptyMapping}}
     {{^hasDiscriminatorWithNonEmptyMapping}}
 
-    static readonly mapping: {[index: string]: any} | undefined = undefined;
+    static readonly mapping: {[index: string]: string} | undefined = undefined;
     {{/hasDiscriminatorWithNonEmptyMapping}}
 
     {{^isArray}}
