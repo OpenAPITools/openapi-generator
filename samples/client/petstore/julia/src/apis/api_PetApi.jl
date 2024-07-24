@@ -82,7 +82,7 @@ const _returntypes_find_pets_by_status_PetApi = Dict{Regex,Type}(
 
 function _oacinternal_find_pets_by_status(_api::PetApi, status::Vector{String}; _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "GET", _returntypes_find_pets_by_status_PetApi, "/pet/findByStatus", ["petstore_auth", ])
-    OpenAPI.Clients.set_param(_ctx.query, "status", status)  # type Vector{String}
+    OpenAPI.Clients.set_param(_ctx.query, "status", status; style="form", is_explode=false)  # type Vector{String}
     OpenAPI.Clients.set_header_accept(_ctx, ["application/xml", "application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? [] : [_mediaType])
     return _ctx
@@ -114,7 +114,7 @@ const _returntypes_find_pets_by_tags_PetApi = Dict{Regex,Type}(
 
 function _oacinternal_find_pets_by_tags(_api::PetApi, tags::Vector{String}; _mediaType=nothing)
     _ctx = OpenAPI.Clients.Ctx(_api.client, "GET", _returntypes_find_pets_by_tags_PetApi, "/pet/findByTags", ["petstore_auth", ])
-    OpenAPI.Clients.set_param(_ctx.query, "tags", tags)  # type Vector{String}
+    OpenAPI.Clients.set_param(_ctx.query, "tags", tags; style="form", is_explode=false)  # type Vector{String}
     OpenAPI.Clients.set_header_accept(_ctx, ["application/xml", "application/json", ])
     OpenAPI.Clients.set_header_content_type(_ctx, (_mediaType === nothing) ? [] : [_mediaType])
     return _ctx
