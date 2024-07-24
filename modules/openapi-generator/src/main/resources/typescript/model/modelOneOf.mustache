@@ -7,8 +7,22 @@ import {
 
 {{/hasImports}}
 /**
- * @type {{classname}}{{#description}}
- * {{{.}}}{{/description}}
+ * @type {{classname}}
+ * Type
  * @export
  */
 export type {{classname}} = {{#oneOf}}{{{.}}}{{^-last}} | {{/-last}}{{/oneOf}};
+
+/**
+* @type {{classname}}Class{{#description}}
+    * {{{.}}}{{/description}}
+* @export
+*/
+export class {{classname}}Class {
+    {{#discriminator}}
+        static readonly discriminator: string | undefined = "{{discriminatorName}}";
+    {{/discriminator}}
+    {{^discriminator}}
+        static readonly discriminator: string | undefined = undefined;
+    {{/discriminator}}
+}

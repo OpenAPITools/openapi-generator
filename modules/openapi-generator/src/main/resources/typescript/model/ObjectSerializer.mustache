@@ -6,7 +6,7 @@ export * from '{{{ importPath }}}{{importFileExtension}}';
 
 {{#models}}
 {{#model}}
-import { {{classname}}{{#hasEnums}}{{#vars}}{{#isEnum}}, {{classname}}{{enumName}} {{/isEnum}} {{/vars}}{{/hasEnums}} } from '{{{ importPath }}}{{importFileExtension}}';
+import { {{classname}}{{#oneOf}}{{#-first}}Class{{/-first}}{{/oneOf}}{{^oneOf}}{{#hasEnums}}{{#vars}}{{#isEnum}}, {{classname}}{{enumName}} {{/isEnum}} {{/vars}}{{/hasEnums}}{{/oneOf}} } from '{{{ importPath }}}{{importFileExtension}}';
 {{/model}}
 {{/models}}
 
@@ -43,7 +43,8 @@ let typeMap: {[index: string]: any} = {
     {{#models}}
         {{#model}}
             {{^isEnum}}
-    "{{classname}}": {{classname}},
+    "{{classname}}": {{classname}}{{#oneOf}}{{#-first}}Class{{/-first}}{{/oneOf}},{{#hasDiscriminatorWithNonEmptyMapping}}{{#discriminator.mappedModels}}
+    "{{mappingName}}": {{modelName}},{{/discriminator.mappedModels}}{{/hasDiscriminatorWithNonEmptyMapping}}
             {{/isEnum}}
         {{/model}}
     {{/models}}
