@@ -131,7 +131,10 @@ func (c *PetAPIController) DeletePet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	apiKeyParamValues := r.Header.Values("api_key")
-	apiKeyParam := getPointerOrNilIfEmpty(r.Header.Get("api_key"))
+	var apiKeyParam *string
+	if len(apiKeyParamValues) != 0 {
+		apiKeyParam = getPointer(apiKeyParamValues[0])
+	}
 	result, err := c.service.DeletePet(r.Context(), *petIdParam, apiKeyParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
