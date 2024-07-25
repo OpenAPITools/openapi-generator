@@ -27,14 +27,11 @@ import io.helidon.webserver.http.ServerResponse;
 
 public class PetServiceImpl extends PetService {
 
-    private static final int HTTP_CODE_NOT_IMPLEMENTED = 501;
-
     @Override
     protected void handleAddPet(ServerRequest request, ServerResponse response, 
                 Pet pet) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
@@ -42,40 +39,35 @@ public class PetServiceImpl extends PetService {
                 Long petId, 
                 Optional<String> apiKey) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleFindPetsByStatus(ServerRequest request, ServerResponse response, 
                 List<String> status) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleFindPetsByTags(ServerRequest request, ServerResponse response, 
                 Set<String> tags) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleGetPetById(ServerRequest request, ServerResponse response, 
                 Long petId) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleUpdatePet(ServerRequest request, ServerResponse response, 
                 Pet pet) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
@@ -84,8 +76,7 @@ public class PetServiceImpl extends PetService {
                 Optional<String> name, 
                 Optional<String> status) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
@@ -94,8 +85,7 @@ public class PetServiceImpl extends PetService {
                 Optional<ReadablePart> additionalMetadata, 
                 Optional<ReadablePart> _file) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
 }

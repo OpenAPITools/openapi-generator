@@ -9,8 +9,6 @@ import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
 
 public class StoreServiceImpl implements StoreService {
-
-    private static final int HTTP_CODE_NOT_IMPLEMENTED = 501;
     private static final ObjectMapper MAPPER = JsonProvider.objectMapper();
 
 
@@ -18,32 +16,28 @@ public class StoreServiceImpl implements StoreService {
     public void deleteOrder(ServerRequest request, ServerResponse response) {
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     public void getInventory(ServerRequest request, ServerResponse response) {
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     public void getOrderById(ServerRequest request, ServerResponse response) {
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     public void placeOrder(ServerRequest request, ServerResponse response) {
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
 

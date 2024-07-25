@@ -14,8 +14,6 @@ import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
 
 public class UserServiceImpl implements UserService {
-
-    private static final int HTTP_CODE_NOT_IMPLEMENTED = 501;
     private static final ObjectMapper MAPPER = JsonProvider.objectMapper();
 
 
@@ -23,64 +21,56 @@ public class UserServiceImpl implements UserService {
     public void createUser(ServerRequest request, ServerResponse response) {
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     public void createUsersWithArrayInput(ServerRequest request, ServerResponse response) {
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     public void createUsersWithListInput(ServerRequest request, ServerResponse response) {
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     public void deleteUser(ServerRequest request, ServerResponse response) {
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     public void getUserByName(ServerRequest request, ServerResponse response) {
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     public void loginUser(ServerRequest request, ServerResponse response) {
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     public void logoutUser(ServerRequest request, ServerResponse response) {
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     public void updateUser(ServerRequest request, ServerResponse response) {
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
 

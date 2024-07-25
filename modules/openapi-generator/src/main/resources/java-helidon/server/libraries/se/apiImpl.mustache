@@ -12,8 +12,10 @@ import io.helidon.webserver.{{^x-helidon-v3}}http.{{/x-helidon-v3}}ServerRespons
 
 {{#operations}}
 public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClass}}{{#useAbstractClass}}extends{{/useAbstractClass}} {{classname}} {
+{{#x-helidon-v3}}
 
     private static final int HTTP_CODE_NOT_IMPLEMENTED = 501;
+{{/x-helidon-v3}}
 {{^useAbstractClass}}
 {{#x-helidon-v3}}    private static final Logger LOGGER = Logger.getLogger({{classname}}.class.getName());
 {{/x-helidon-v3}}
@@ -50,9 +52,8 @@ public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClas
 {{/useBeanValidation}}{{!
 }}{{/x-helidon-v3}}{{!
 }}{{/useAbstractClass}}{{^x-helidon-v3}}
-
 {{/x-helidon-v3}}{{!
-}}        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+}}        response.status({{#x-helidon-v3}}HTTP_CODE_NOT_IMPLEMENTED{{/x-helidon-v3}}{{^x-helidon-v3}}Status.NOT_IMPLEMENTED_501{{/x-helidon-v3}}).send();
     }
 {{/operation}}
 

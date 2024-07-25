@@ -43,20 +43,16 @@ import io.helidon.webserver.http.ServerResponse;
 
 public class FakeServiceImpl extends FakeService {
 
-    private static final int HTTP_CODE_NOT_IMPLEMENTED = 501;
-
     @Override
     protected void handleFakeBigDecimalMap(ServerRequest request, ServerResponse response) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleFakeHealthGet(ServerRequest request, ServerResponse response) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
@@ -65,72 +61,63 @@ public class FakeServiceImpl extends FakeService {
                 Optional<String> query1, 
                 Optional<String> header1) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleFakeOuterBooleanSerialize(ServerRequest request, ServerResponse response, 
                 Optional<Boolean> body) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleFakeOuterCompositeSerialize(ServerRequest request, ServerResponse response, 
                 Optional<OuterComposite> outerComposite) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleFakeOuterNumberSerialize(ServerRequest request, ServerResponse response, 
                 Optional<BigDecimal> body) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleFakeOuterStringSerialize(ServerRequest request, ServerResponse response, 
                 Optional<String> body) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleFakePropertyEnumIntegerSerialize(ServerRequest request, ServerResponse response, 
                 OuterObjectWithEnumProperty outerObjectWithEnumProperty) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleTestAdditionalPropertiesReference(ServerRequest request, ServerResponse response, 
                 Map<String, Object> requestBody) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleTestBodyWithBinary(ServerRequest request, ServerResponse response, 
                 InputStream body) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleTestBodyWithFileSchema(ServerRequest request, ServerResponse response, 
                 FileSchemaTestClass fileSchemaTestClass) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
@@ -138,16 +125,14 @@ public class FakeServiceImpl extends FakeService {
                 String query, 
                 User user) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleTestClientModel(ServerRequest request, ServerResponse response, 
                 Client client) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
@@ -167,8 +152,7 @@ public class FakeServiceImpl extends FakeService {
                 Optional<String> password, 
                 Optional<String> paramCallback) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
@@ -183,8 +167,7 @@ public class FakeServiceImpl extends FakeService {
                 List<String> enumFormStringArray, 
                 Optional<String> enumFormString) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
@@ -196,24 +179,21 @@ public class FakeServiceImpl extends FakeService {
                 Optional<Boolean> booleanGroup, 
                 Optional<Long> int64Group) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleTestInlineAdditionalProperties(ServerRequest request, ServerResponse response, 
                 Map<String, String> requestBody) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleTestInlineFreeformAdditionalProperties(ServerRequest request, ServerResponse response, 
                 TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
@@ -221,16 +201,14 @@ public class FakeServiceImpl extends FakeService {
                 String param, 
                 String param2) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleTestNullable(ServerRequest request, ServerResponse response, 
                 ChildWithNullable childWithNullable) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
@@ -243,16 +221,14 @@ public class FakeServiceImpl extends FakeService {
                 String allowEmpty, 
                 Map<String, String> language) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleTestStringMapReference(ServerRequest request, ServerResponse response, 
                 Map<String, String> requestBody) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
@@ -261,8 +237,7 @@ public class FakeServiceImpl extends FakeService {
                 ReadablePart requiredFile, 
                 Optional<ReadablePart> additionalMetadata) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
 }

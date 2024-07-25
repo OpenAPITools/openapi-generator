@@ -15,46 +15,39 @@ import io.helidon.webserver.http.ServerResponse;
 
 public class UserServiceImpl extends UserService {
 
-    private static final int HTTP_CODE_NOT_IMPLEMENTED = 501;
-
     @Override
     protected void handleCreateUser(ServerRequest request, ServerResponse response, 
                 User user) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleCreateUsersWithArrayInput(ServerRequest request, ServerResponse response, 
                 List<@Valid User> user) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleCreateUsersWithListInput(ServerRequest request, ServerResponse response, 
                 List<@Valid User> user) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleDeleteUser(ServerRequest request, ServerResponse response, 
                 String username) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleGetUserByName(ServerRequest request, ServerResponse response, 
                 String username) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
@@ -62,15 +55,13 @@ public class UserServiceImpl extends UserService {
                 String username, 
                 String password) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleLogoutUser(ServerRequest request, ServerResponse response) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
@@ -78,8 +69,7 @@ public class UserServiceImpl extends UserService {
                 String username, 
                 User user) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
 }

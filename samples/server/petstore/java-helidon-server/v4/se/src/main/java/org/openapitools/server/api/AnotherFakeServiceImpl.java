@@ -8,8 +8,6 @@ import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
 
 public class AnotherFakeServiceImpl implements AnotherFakeService {
-
-    private static final int HTTP_CODE_NOT_IMPLEMENTED = 501;
     private static final ObjectMapper MAPPER = JsonProvider.objectMapper();
 
 
@@ -17,8 +15,7 @@ public class AnotherFakeServiceImpl implements AnotherFakeService {
     public void call123testSpecialTags(ServerRequest request, ServerResponse response) {
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
 

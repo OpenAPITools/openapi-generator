@@ -9,14 +9,11 @@ import io.helidon.webserver.http.ServerResponse;
 
 public class AnotherFakeServiceImpl extends AnotherFakeService {
 
-    private static final int HTTP_CODE_NOT_IMPLEMENTED = 501;
-
     @Override
     protected void handleCall123testSpecialTags(ServerRequest request, ServerResponse response, 
                 Client client) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
 }

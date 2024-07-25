@@ -10,37 +10,31 @@ import io.helidon.webserver.http.ServerResponse;
 
 public class StoreServiceImpl extends StoreService {
 
-    private static final int HTTP_CODE_NOT_IMPLEMENTED = 501;
-
     @Override
     protected void handleDeleteOrder(ServerRequest request, ServerResponse response, 
                 String orderId) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleGetInventory(ServerRequest request, ServerResponse response) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handleGetOrderById(ServerRequest request, ServerResponse response, 
                 Long orderId) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     protected void handlePlaceOrder(ServerRequest request, ServerResponse response, 
                 Order order) {
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
 }

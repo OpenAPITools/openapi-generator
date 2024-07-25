@@ -21,8 +21,6 @@ import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
 
 public class PetServiceImpl implements PetService {
-
-    private static final int HTTP_CODE_NOT_IMPLEMENTED = 501;
     private static final ObjectMapper MAPPER = JsonProvider.objectMapper();
 
 
@@ -30,48 +28,42 @@ public class PetServiceImpl implements PetService {
     public void addPet(ServerRequest request, ServerResponse response) {
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     public void deletePet(ServerRequest request, ServerResponse response) {
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     public void findPetsByStatus(ServerRequest request, ServerResponse response) {
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     public void findPetsByTags(ServerRequest request, ServerResponse response) {
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     public void getPetById(ServerRequest request, ServerResponse response) {
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
     public void updatePet(ServerRequest request, ServerResponse response) {
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
@@ -79,8 +71,7 @@ public class PetServiceImpl implements PetService {
         Parameters formParams = request.content().as(Parameters.class);
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
     @Override
@@ -88,8 +79,7 @@ public class PetServiceImpl implements PetService {
         MultiPart multiPart = request.content().as(MultiPart.class);
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+        response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
 

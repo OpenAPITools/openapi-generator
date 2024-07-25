@@ -61,13 +61,13 @@ public final class Main {
      */
     static void routing(HttpRouting.Builder routing) {
         routing
-                .register("//another-fake", new AnotherFakeServiceImpl())
-                .register("//fake", new FakeServiceImpl())
-                .register("//fake_classname_test", new FakeClassnameTestServiceImpl())
-                .register("//foo", new FooServiceImpl())
-                .register("//pet", new PetServiceImpl())
-                .register("//store", new StoreServiceImpl())
-                .register("//user", new UserServiceImpl())
+                .register("/another-fake", new AnotherFakeServiceImpl())
+                .register("/fake", new FakeServiceImpl())
+                .register("/fake_classname_test", new FakeClassnameTestServiceImpl())
+                .register("/foo", new FooServiceImpl())
+                .register("/pet", new PetServiceImpl())
+                .register("/store", new StoreServiceImpl())
+                .register("/user", new UserServiceImpl())
                 ;
     }
 }
