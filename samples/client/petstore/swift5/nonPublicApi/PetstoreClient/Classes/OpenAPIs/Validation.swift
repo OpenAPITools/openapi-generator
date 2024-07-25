@@ -38,6 +38,10 @@ internal struct ValidationError<T: Error & Hashable>: Error {
     internal fileprivate(set) var kinds: Set<T>
 }
 
+internal enum ArrayValidationErrorKind: Error {
+    case minItem, maxItem, uniqueItems
+}
+
 internal struct Validator {
     /// Validate a string against a rule.
     /// - Parameter string: The String you wish to validate.
@@ -128,5 +132,30 @@ internal struct Validator {
             throw error
         }
         return numeric
+    }
+
+    /// Validate a array against a rule.
+    /// - Parameter array: The Array you wish to validate.
+    /// - Parameter rule: The ArrayRule you wish to use for validation.
+    /// - Returns: A validated array.
+    /// - Throws: `ValidationError<ArrayValidationErrorKind>` if the string is invalid against the rule.
+    internal static func validate(_ array: Array<AnyHashable>, against rule: ArrayRule) throws -> Array<AnyHashable> {
+        var error = ValidationError<ArrayValidationErrorKind>(kinds: [])
+        if let minItem = rule.minItem, !(minItem <= array.count) {
+            error.kinds.insert(.minItem)
+        }
+        if let maxItem = rule.maxItem, !(array.count <= maxItem) {
+            error.kinds.insert(.maxItem)
+        }
+        if rule.uniqueItems == true {
+            let unique = Set(array)
+            if unique.count != array.count {
+                error.kinds.insert(.uniqueItems)
+            }
+        }
+        guard error.kinds.isEmpty else {
+            throw error
+        }
+        return array
     }
 }
