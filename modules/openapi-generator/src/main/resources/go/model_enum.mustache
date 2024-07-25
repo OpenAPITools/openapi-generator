@@ -35,7 +35,19 @@ func (v *{{{classname}}}) UnmarshalJSON(src []byte) error {
 		}
 	}
 
+	{{#enumUnknownDefaultCase}}
+	{{#allowableValues}}
+	{{#enumVars}}
+	{{#-last}}
+	*v = {{{name}}}
+	return nil
+	{{/-last}}
+	{{/enumVars}}
+	{{/allowableValues}}
+	{{/enumUnknownDefaultCase}}
+	{{^enumUnknownDefaultCase}}
 	return fmt.Errorf("%+v is not a valid {{classname}}", value)
+	{{/enumUnknownDefaultCase}}
 }
 
 // New{{{classname}}}FromValue returns a pointer to a valid {{{classname}}}
