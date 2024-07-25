@@ -34,12 +34,12 @@ import Foundation
     case minimum, maximum, multipleOf
 }
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct ValidationError<T: Error & Hashable>: Error {
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} fileprivate(set) var kinds: Set<T>
-}
-
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum ArrayValidationErrorKind: Error {
     case minItems, maxItems, uniqueItems
+}
+
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct ValidationError<T: Error & Hashable>: Error {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} fileprivate(set) var kinds: Set<T>
 }
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct Validator {
