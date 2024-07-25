@@ -21,8 +21,8 @@ internal struct NumericRule<T: Comparable & Numeric> {
 }
 
 internal struct ArrayRule {
-    internal var minItem: Int?
-    internal var maxItem: Int?
+    internal var minItems: Int?
+    internal var maxItems: Int?
     internal var uniqueItems: Bool?
 }
 
@@ -39,7 +39,7 @@ internal struct ValidationError<T: Error & Hashable>: Error {
 }
 
 internal enum ArrayValidationErrorKind: Error {
-    case minItem, maxItem, uniqueItems
+    case minItems, maxItems, uniqueItems
 }
 
 internal struct Validator {
@@ -141,11 +141,11 @@ internal struct Validator {
     /// - Throws: `ValidationError<ArrayValidationErrorKind>` if the string is invalid against the rule.
     internal static func validate(_ array: Array<AnyHashable>, against rule: ArrayRule) throws -> Array<AnyHashable> {
         var error = ValidationError<ArrayValidationErrorKind>(kinds: [])
-        if let minItem = rule.minItem, !(minItem <= array.count) {
-            error.kinds.insert(.minItem)
+        if let minItems = rule.minItems, !(minItems <= array.count) {
+            error.kinds.insert(.minItems)
         }
-        if let maxItem = rule.maxItem, !(array.count <= maxItem) {
-            error.kinds.insert(.maxItem)
+        if let maxItems = rule.maxItems, !(array.count <= maxItems) {
+            error.kinds.insert(.maxItems)
         }
         if rule.uniqueItems == true {
             let unique = Set(array)
