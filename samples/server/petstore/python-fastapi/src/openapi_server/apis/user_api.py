@@ -14,6 +14,7 @@ from fastapi import (  # noqa: F401
     Depends,
     Form,
     Header,
+    HTTPException,
     Path,
     Query,
     Response,
@@ -48,6 +49,8 @@ async def create_user(
     ),
 ) -> None:
     """This can only be done by the logged in user."""
+    if not BaseUserApi.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
     return await BaseUserApi.subclasses[0]().create_user(user)
 
 
@@ -67,6 +70,8 @@ async def create_users_with_array_input(
     ),
 ) -> None:
     """"""
+    if not BaseUserApi.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
     return await BaseUserApi.subclasses[0]().create_users_with_array_input(user)
 
 
@@ -86,6 +91,8 @@ async def create_users_with_list_input(
     ),
 ) -> None:
     """"""
+    if not BaseUserApi.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
     return await BaseUserApi.subclasses[0]().create_users_with_list_input(user)
 
 
@@ -106,6 +113,8 @@ async def delete_user(
     ),
 ) -> None:
     """This can only be done by the logged in user."""
+    if not BaseUserApi.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
     return await BaseUserApi.subclasses[0]().delete_user(username)
 
 
@@ -124,6 +133,8 @@ async def get_user_by_name(
     username: str = Path(..., description="The name that needs to be fetched. Use user1 for testing."),
 ) -> User:
     """"""
+    if not BaseUserApi.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
     return await BaseUserApi.subclasses[0]().get_user_by_name(username)
 
 
@@ -142,6 +153,8 @@ async def login_user(
     password: str = Query(None, description="The password for login in clear text", alias="password"),
 ) -> str:
     """"""
+    if not BaseUserApi.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
     return await BaseUserApi.subclasses[0]().login_user(username, password)
 
 
@@ -160,6 +173,8 @@ async def logout_user(
     ),
 ) -> None:
     """"""
+    if not BaseUserApi.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
     return await BaseUserApi.subclasses[0]().logout_user()
 
 
@@ -181,4 +196,6 @@ async def update_user(
     ),
 ) -> None:
     """This can only be done by the logged in user."""
+    if not BaseUserApi.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
     return await BaseUserApi.subclasses[0]().update_user(username, user)

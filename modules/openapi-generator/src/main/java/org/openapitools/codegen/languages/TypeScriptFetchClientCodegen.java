@@ -1045,7 +1045,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         return items.dataType;
     }
 
-    class ExtendedCodegenParameter extends CodegenParameter {
+    public class ExtendedCodegenParameter extends CodegenParameter {
         public String dataTypeAlternate;
         public boolean isUniqueId; // this parameter represents a unique id (x-isUniqueId: true)
         public List<CodegenProperty> readOnlyVars; // a list of read-only properties
@@ -1194,7 +1194,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
     }
 
-    class ExtendedCodegenProperty extends CodegenProperty {
+    public class ExtendedCodegenProperty extends CodegenProperty {
         public String dataTypeAlternate;
         public boolean isEntity; //Is a model containing an "id" property marked as isUniqueId and which matches the 'x-entityId' value.
         public boolean isUniqueId; // The property represents a unique id (x-isUniqueId: true)
@@ -1347,7 +1347,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
     }
 
-    class ExtendedCodegenOperation extends CodegenOperation {
+    public class ExtendedCodegenOperation extends CodegenOperation {
         boolean hasReturnPassthroughVoid, returnTypeSupportsEntities, returnTypeIsModel, returnTypeIsArray;
         String returnTypeAlternate, returnBaseTypeAlternate, returnPassthrough;
 
@@ -1464,7 +1464,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
     }
 
-    class ExtendedCodegenModel extends CodegenModel {
+    public class ExtendedCodegenModel extends CodegenModel {
         @Getter @Setter
         public Set<String> modelImports = new TreeSet<String>();
         public boolean isEntity; // Is a model containing an "id" property marked as isUniqueId

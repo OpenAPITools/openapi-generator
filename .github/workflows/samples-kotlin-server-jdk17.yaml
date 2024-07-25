@@ -29,6 +29,7 @@ jobs:
         sample:
           # server
           - samples/server/petstore/kotlin-springboot-3
+          - samples/server/petstore/kotlin-springboot-delegate-nodefaults
           - samples/server/petstore/kotlin-springboot-request
           - samples/server/petstore/kotlin-springboot-request-cookie
           - samples/server/petstore/kotlin-server/javalin

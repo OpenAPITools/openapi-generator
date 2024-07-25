@@ -294,7 +294,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         // Set the typescript version compatible to the Angular version
         // based on https://angular.io/guide/versions#actively-supported-versions
-        if (ngVersion.atLeast("18.0.0")) {
+        if (ngVersion.atLeast("18.1.0")) {
+            additionalProperties.put("tsVersion", ">=5.4.0 <5.6.0");
+        } else if (ngVersion.atLeast("18.0.0")) {
             additionalProperties.put("tsVersion", ">=5.4.0 <5.5.0");
         } else if (ngVersion.atLeast("17.0.0")) {
             additionalProperties.put("tsVersion", ">=4.9.3 <5.3.0");
@@ -342,7 +344,11 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         supportingFiles.add(new SupportingFile("ng-package.mustache", getIndexDirectory(), "ng-package.json"));
 
         // Specific ng-packagr configuration
-        if (ngVersion.atLeast("18.0.0")) {
+        if (ngVersion.atLeast("18.1.0")) {
+            additionalProperties.put("ngPackagrVersion", "18.1.0");
+            // tsTickle is not required and there is no available version compatible with
+            // versions of TypeScript compatible with Angular 18.
+        } else if (ngVersion.atLeast("18.0.0")) {
             additionalProperties.put("ngPackagrVersion", "18.0.0");
             // tsTickle is not required and there is no available version compatible with
             // versions of TypeScript compatible with Angular 18.

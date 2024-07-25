@@ -10,6 +10,7 @@ $ pytest
 """
 
 import unittest
+from decimal import Decimal
 from enum import Enum
 
 from dateutil.parser import parse
@@ -179,6 +180,11 @@ class ApiClientTests(unittest.TestCase):
         data = parse("1997-07-16T19:20:30.45+01:00")  # datetime
         result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, "1997-07-16T19:20:30.450000+01:00")
+
+    def test_sanitize_for_serialization_decimal(self):
+        data = Decimal("1.0")
+        result = self.api_client.sanitize_for_serialization(data)
+        self.assertEquals(result, "1.0")
 
     def test_sanitize_for_serialization_list_enum(self):
         class EnumSerialization(int, Enum):

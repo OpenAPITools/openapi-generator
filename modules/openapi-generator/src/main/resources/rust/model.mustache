@@ -6,11 +6,43 @@ use serde::{Deserialize, Serialize};
 {{^isEnum}}{{#vendorExtensions.x-rust-has-byte-array}}
 use serde_with::serde_as;
 {{/vendorExtensions.x-rust-has-byte-array}}{{/isEnum}}
+{{#isEnum}}
+{{#isInteger}}
+use serde_repr::{Serialize_repr,Deserialize_repr};
+{{/isInteger}}
+{{/isEnum}}
 {{#description}}
 /// {{{classname}}} : {{{description}}}
 {{/description}}
+{{!-- for repr(int) enum schemas --}}
+{{#isEnum}}
+{{#isInteger}}
+/// {{{description}}}
+#[repr(i64)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize_repr, Deserialize_repr)]
+pub enum {{{classname}}} {
+{{#allowableValues}}
+{{#enumVars}}
+    {{{name}}} = {{{value}}},
+{{/enumVars}}{{/allowableValues}}
+}
+
+impl ToString for {{{classname}}} {
+    fn to_string(&self) -> String {
+        match self {
+            {{#allowableValues}}
+            {{#enumVars}}
+            Self::{{{name}}} => String::from("{{{value}}}"),
+            {{/enumVars}}
+            {{/allowableValues}}
+        }
+    }
+}
+{{/isInteger}}
+{{/isEnum}}
 {{!-- for enum schemas --}}
 {{#isEnum}}
+{{^isInteger}}
 /// {{{description}}}
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum {{{classname}}} {
@@ -33,6 +65,7 @@ impl std::fmt::Display for {{{classname}}} {
     }
 }
 
+{{/isInteger}}
 impl Default for {{{classname}}} {
     fn default() -> {{{classname}}} {
         {{#allowableValues}}
