@@ -23,7 +23,7 @@ public struct NumericRule<T: Comparable & Numeric> {
 public struct ArrayRule {
     public var minItems: Int?
     public var maxItems: Int?
-    public var uniqueItems: Bool?
+    public var uniqueItems: Bool
 }
 
 public enum StringValidationErrorKind: Error {
@@ -34,12 +34,12 @@ public enum NumericValidationErrorKind: Error {
     case minimum, maximum, multipleOf
 }
 
-public struct ValidationError<T: Error & Hashable>: Error {
-    public fileprivate(set) var kinds: Set<T>
-}
-
 public enum ArrayValidationErrorKind: Error {
     case minItems, maxItems, uniqueItems
+}
+
+public struct ValidationError<T: Error & Hashable>: Error {
+    public fileprivate(set) var kinds: Set<T>
 }
 
 public struct Validator {
@@ -147,7 +147,7 @@ public struct Validator {
         if let maxItems = rule.maxItems, !(array.count <= maxItems) {
             error.kinds.insert(.maxItems)
         }
-        if rule.uniqueItems == true {
+        if rule.uniqueItems {
             let unique = Set(array)
             if unique.count != array.count {
                 error.kinds.insert(.uniqueItems)
