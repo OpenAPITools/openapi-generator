@@ -7,7 +7,6 @@ import org.openapitools.server.model.Order;
 import io.helidon.http.Status;
 
 import java.util.Optional;
-import java.util.logging.Logger;
 
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.ServerRequest;
@@ -15,11 +14,11 @@ import io.helidon.webserver.http.ServerResponse;
 import io.helidon.webserver.http.HttpService;
 
 @io.helidon.common.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen",
-                             trigger = "tag = 'Store'",
+                             trigger = "tag = '/store'",
                              version = "stable")
 public abstract class StoreService implements HttpService {
 
-    protected static final Logger LOGGER = Logger.getLogger(StoreService.class.getName());
+
     protected static final ObjectMapper MAPPER = JsonProvider.objectMapper();
 
     protected DeleteOrderOp deleteOrderOp = createDeleteOrderOp();
@@ -34,10 +33,10 @@ public abstract class StoreService implements HttpService {
      */
     @Override
     public void routing(HttpRules rules) {
-        rules.delete("/store/order/{order_id}", this::deleteOrder);
-        rules.get("/store/inventory", this::getInventory);
-        rules.get("/store/order/{order_id}", this::getOrderById);
-        rules.post("/store/order", this::placeOrder);
+        rules.delete("/order/{order_id}", this::deleteOrder);
+        rules.get("/inventory", this::getInventory);
+        rules.get("/order/{order_id}", this::getOrderById);
+        rules.post("/order", this::placeOrder);
     }
 
 
@@ -49,7 +48,7 @@ public abstract class StoreService implements HttpService {
      */
     protected void deleteOrder(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: order_id
         String orderId = deleteOrderOp.orderId(request, validator);
@@ -98,7 +97,7 @@ public abstract class StoreService implements HttpService {
      */
     protected void getOrderById(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: order_id
         Long orderId = getOrderByIdOp.orderId(request, validator);
@@ -130,7 +129,7 @@ public abstract class StoreService implements HttpService {
      */
     protected void placeOrder(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: Order
         Order order = placeOrderOp.order(request, validator);

@@ -49,7 +49,7 @@ class HandlerUtils {
         @Override
         public void handle(ServerRequest serverRequest, ServerResponse serverResponse)
                 throws Exception {
-            ValidatorUtils.Validator validator = isRequired ? ValidatorUtils.validator(LOGGER) : null;
+            ValidatorUtils.Validator validator = isRequired ? ValidatorUtils.validator() : null;
             T body = serverRequest.content().as(type);
             if (isRequired) {
                 validator.require("body", body);

@@ -163,18 +163,4 @@ public class PetApiTest {
         //assertNotNull(response);
     }
     
-    /**
-     * uploads an image (required)
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void uploadFileWithRequiredFileTest() throws Exception {
-        //ModelApiResponse response = client.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
-        //assertNotNull(response);
-    }
-    
 }

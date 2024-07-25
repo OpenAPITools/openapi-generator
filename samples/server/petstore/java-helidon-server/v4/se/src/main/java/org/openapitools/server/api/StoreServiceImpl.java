@@ -5,19 +5,18 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.openapitools.server.model.Order;
 import io.helidon.http.Status;
-import java.util.logging.Logger;import io.helidon.webserver.http.ServerRequest;
+import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
 
 public class StoreServiceImpl implements StoreService {
 
     private static final int HTTP_CODE_NOT_IMPLEMENTED = 501;
-    private static final Logger LOGGER = Logger.getLogger(StoreService.class.getName());
     private static final ObjectMapper MAPPER = JsonProvider.objectMapper();
 
 
     @Override
     public void deleteOrder(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -25,7 +24,7 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public void getInventory(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -33,7 +32,7 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public void getOrderById(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -41,7 +40,7 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public void placeOrder(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();

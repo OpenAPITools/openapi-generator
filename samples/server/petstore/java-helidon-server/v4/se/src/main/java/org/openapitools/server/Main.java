@@ -1,9 +1,9 @@
 package org.openapitools.server;
 
 import org.openapitools.server.api.AnotherFakeServiceImpl;
-import org.openapitools.server.api.DefaultServiceImpl;
 import org.openapitools.server.api.FakeServiceImpl;
-import org.openapitools.server.api.FakeClassnameTags123ServiceImpl;
+import org.openapitools.server.api.FakeClassnameTestServiceImpl;
+import org.openapitools.server.api.FooServiceImpl;
 import org.openapitools.server.api.PetServiceImpl;
 import org.openapitools.server.api.StoreServiceImpl;
 import org.openapitools.server.api.UserServiceImpl;
@@ -61,13 +61,13 @@ public final class Main {
      */
     static void routing(HttpRouting.Builder routing) {
         routing
-                .register("/anotherFake", new AnotherFakeServiceImpl())
-                .register("/default", new DefaultServiceImpl())
-                .register("/fake", new FakeServiceImpl())
-                .register("/fakeClassnameTags123", new FakeClassnameTags123ServiceImpl())
-                .register("/pet", new PetServiceImpl())
-                .register("/store", new StoreServiceImpl())
-                .register("/user", new UserServiceImpl())
+                .register("//another-fake", new AnotherFakeServiceImpl())
+                .register("//fake", new FakeServiceImpl())
+                .register("//fake_classname_test", new FakeClassnameTestServiceImpl())
+                .register("//foo", new FooServiceImpl())
+                .register("//pet", new PetServiceImpl())
+                .register("//store", new StoreServiceImpl())
+                .register("//user", new UserServiceImpl())
                 ;
     }
 }

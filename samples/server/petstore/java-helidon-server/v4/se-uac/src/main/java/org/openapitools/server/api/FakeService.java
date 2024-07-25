@@ -21,6 +21,8 @@ import java.io.InputStream;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
+import org.openapitools.server.model.ModelApiResponse;
+import io.helidon.http.media.multipart.MultiPart;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Objects;
 import java.time.OffsetDateTime;
@@ -38,7 +40,6 @@ import org.openapitools.server.model.User;
 import io.helidon.common.mapper.Value;
 
 import java.util.Optional;
-import java.util.logging.Logger;
 
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.ServerRequest;
@@ -46,11 +47,11 @@ import io.helidon.webserver.http.ServerResponse;
 import io.helidon.webserver.http.HttpService;
 
 @io.helidon.common.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen",
-                             trigger = "tag = 'Fake'",
+                             trigger = "tag = '/fake'",
                              version = "stable")
 public abstract class FakeService implements HttpService {
 
-    protected static final Logger LOGGER = Logger.getLogger(FakeService.class.getName());
+
     protected static final ObjectMapper MAPPER = JsonProvider.objectMapper();
 
     protected FakeBigDecimalMapOp fakeBigDecimalMapOp = createFakeBigDecimalMapOp();
@@ -75,6 +76,7 @@ public abstract class FakeService implements HttpService {
     protected TestNullableOp testNullableOp = createTestNullableOp();
     protected TestQueryParameterCollectionFormatOp testQueryParameterCollectionFormatOp = createTestQueryParameterCollectionFormatOp();
     protected TestStringMapReferenceOp testStringMapReferenceOp = createTestStringMapReferenceOp();
+    protected UploadFileWithRequiredFileOp uploadFileWithRequiredFileOp = createUploadFileWithRequiredFileOp();
 
 
     /**
@@ -83,28 +85,29 @@ public abstract class FakeService implements HttpService {
      */
     @Override
     public void routing(HttpRules rules) {
-        rules.get("/fake/BigDecimalMap", this::fakeBigDecimalMap);
-        rules.get("/fake/health", this::fakeHealthGet);
-        rules.get("/fake/http-signature-test", this::fakeHttpSignatureTest);
-        rules.post("/fake/outer/boolean", this::fakeOuterBooleanSerialize);
-        rules.post("/fake/outer/composite", this::fakeOuterCompositeSerialize);
-        rules.post("/fake/outer/number", this::fakeOuterNumberSerialize);
-        rules.post("/fake/outer/string", this::fakeOuterStringSerialize);
-        rules.post("/fake/property/enum-int", this::fakePropertyEnumIntegerSerialize);
-        rules.post("/fake/additionalProperties-reference", this::testAdditionalPropertiesReference);
-        rules.put("/fake/body-with-binary", this::testBodyWithBinary);
-        rules.put("/fake/body-with-file-schema", this::testBodyWithFileSchema);
-        rules.put("/fake/body-with-query-params", this::testBodyWithQueryParams);
-        rules.patch("/fake", this::testClientModel);
-        rules.post("/fake", this::testEndpointParameters);
-        rules.get("/fake", this::testEnumParameters);
-        rules.delete("/fake", this::testGroupParameters);
-        rules.post("/fake/inline-additionalProperties", this::testInlineAdditionalProperties);
-        rules.post("/fake/inline-freeform-additionalProperties", this::testInlineFreeformAdditionalProperties);
-        rules.get("/fake/jsonFormData", this::testJsonFormData);
-        rules.post("/fake/nullable", this::testNullable);
-        rules.put("/fake/test-query-parameters", this::testQueryParameterCollectionFormat);
-        rules.post("/fake/stringMap-reference", this::testStringMapReference);
+        rules.get("/BigDecimalMap", this::fakeBigDecimalMap);
+        rules.get("/health", this::fakeHealthGet);
+        rules.get("/http-signature-test", this::fakeHttpSignatureTest);
+        rules.post("/outer/boolean", this::fakeOuterBooleanSerialize);
+        rules.post("/outer/composite", this::fakeOuterCompositeSerialize);
+        rules.post("/outer/number", this::fakeOuterNumberSerialize);
+        rules.post("/outer/string", this::fakeOuterStringSerialize);
+        rules.post("/property/enum-int", this::fakePropertyEnumIntegerSerialize);
+        rules.post("/additionalProperties-reference", this::testAdditionalPropertiesReference);
+        rules.put("/body-with-binary", this::testBodyWithBinary);
+        rules.put("/body-with-file-schema", this::testBodyWithFileSchema);
+        rules.put("/body-with-query-params", this::testBodyWithQueryParams);
+        rules.patch("/", this::testClientModel);
+        rules.post("/", this::testEndpointParameters);
+        rules.get("/", this::testEnumParameters);
+        rules.delete("/", this::testGroupParameters);
+        rules.post("/inline-additionalProperties", this::testInlineAdditionalProperties);
+        rules.post("/inline-freeform-additionalProperties", this::testInlineFreeformAdditionalProperties);
+        rules.get("/jsonFormData", this::testJsonFormData);
+        rules.post("/nullable", this::testNullable);
+        rules.put("/test-query-parameters", this::testQueryParameterCollectionFormat);
+        rules.post("/stringMap-reference", this::testStringMapReference);
+        rules.post("/{petId}/uploadImageWithRequiredFile", this::uploadFileWithRequiredFile);
     }
 
 
@@ -154,7 +157,7 @@ public abstract class FakeService implements HttpService {
      */
     protected void fakeHttpSignatureTest(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: Pet
         Pet pet = fakeHttpSignatureTestOp.pet(request, validator);
@@ -198,7 +201,7 @@ public abstract class FakeService implements HttpService {
      */
     protected void fakeOuterBooleanSerialize(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: body
         Optional<Boolean> body = fakeOuterBooleanSerializeOp.body(request, validator);
@@ -227,7 +230,7 @@ public abstract class FakeService implements HttpService {
      */
     protected void fakeOuterCompositeSerialize(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: OuterComposite
         Optional<OuterComposite> outerComposite = fakeOuterCompositeSerializeOp.outerComposite(request, validator);
@@ -256,7 +259,7 @@ public abstract class FakeService implements HttpService {
      */
     protected void fakeOuterNumberSerialize(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: body
         Optional<BigDecimal> body = fakeOuterNumberSerializeOp.body(request, validator);
@@ -285,7 +288,7 @@ public abstract class FakeService implements HttpService {
      */
     protected void fakeOuterStringSerialize(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: body
         Optional<String> body = fakeOuterStringSerializeOp.body(request, validator);
@@ -314,7 +317,7 @@ public abstract class FakeService implements HttpService {
      */
     protected void fakePropertyEnumIntegerSerialize(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: OuterObjectWithEnumProperty
         OuterObjectWithEnumProperty outerObjectWithEnumProperty = fakePropertyEnumIntegerSerializeOp.outerObjectWithEnumProperty(request, validator);
@@ -344,7 +347,7 @@ public abstract class FakeService implements HttpService {
      */
     protected void testAdditionalPropertiesReference(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: request_body
         Map<String, Object> requestBody = testAdditionalPropertiesReferenceOp.requestBody(request, validator);
@@ -374,7 +377,7 @@ public abstract class FakeService implements HttpService {
      */
     protected void testBodyWithBinary(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: body
         InputStream body = testBodyWithBinaryOp.body(request, validator);
@@ -404,7 +407,7 @@ public abstract class FakeService implements HttpService {
      */
     protected void testBodyWithFileSchema(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: FileSchemaTestClass
         FileSchemaTestClass fileSchemaTestClass = testBodyWithFileSchemaOp.fileSchemaTestClass(request, validator);
@@ -434,7 +437,7 @@ public abstract class FakeService implements HttpService {
      */
     protected void testBodyWithQueryParams(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: query
         String query = testBodyWithQueryParamsOp.query(request, validator);
@@ -472,7 +475,7 @@ public abstract class FakeService implements HttpService {
      */
     protected void testClientModel(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: Client
         Client client = testClientModelOp.client(request, validator);
@@ -502,7 +505,7 @@ public abstract class FakeService implements HttpService {
      */
     protected void testEndpointParameters(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         
         Parameters formParams = request.content().as(Parameters.class);
@@ -639,7 +642,7 @@ public abstract class FakeService implements HttpService {
      */
     protected void testEnumParameters(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         
         Parameters formParams = request.content().as(Parameters.class);
@@ -727,7 +730,7 @@ public abstract class FakeService implements HttpService {
      */
     protected void testGroupParameters(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: required_string_group
         Integer requiredStringGroup = testGroupParametersOp.requiredStringGroup(request, validator);
@@ -794,7 +797,7 @@ public abstract class FakeService implements HttpService {
      */
     protected void testInlineAdditionalProperties(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: request_body
         Map<String, String> requestBody = testInlineAdditionalPropertiesOp.requestBody(request, validator);
@@ -824,7 +827,7 @@ public abstract class FakeService implements HttpService {
      */
     protected void testInlineFreeformAdditionalProperties(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: TestInlineFreeformAdditionalPropertiesRequest
         TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = testInlineFreeformAdditionalPropertiesOp.testInlineFreeformAdditionalPropertiesRequest(request, validator);
@@ -854,7 +857,7 @@ public abstract class FakeService implements HttpService {
      */
     protected void testJsonFormData(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         
         Parameters formParams = request.content().as(Parameters.class);
@@ -895,7 +898,7 @@ public abstract class FakeService implements HttpService {
      */
     protected void testNullable(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: ChildWithNullable
         ChildWithNullable childWithNullable = testNullableOp.childWithNullable(request, validator);
@@ -925,7 +928,7 @@ public abstract class FakeService implements HttpService {
      */
     protected void testQueryParameterCollectionFormat(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: pipe
         List<String> pipe = testQueryParameterCollectionFormatOp.pipe(request, validator);
@@ -1002,7 +1005,7 @@ public abstract class FakeService implements HttpService {
      */
     protected void testStringMapReference(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: request_body
         Map<String, String> requestBody = testStringMapReferenceOp.requestBody(request, validator);
@@ -1023,6 +1026,54 @@ public abstract class FakeService implements HttpService {
      */
     protected abstract void handleTestStringMapReference(ServerRequest request, ServerResponse response, 
                 Map<String, String> requestBody);
+
+    /**
+     * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required).
+     *
+     * @param request the server request
+     * @param response the server response
+     */
+    protected void uploadFileWithRequiredFile(ServerRequest request, ServerResponse response) { 
+
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
+
+        
+        Map<String, ReadablePart> parts = PartsUtils.partsMap(request);
+
+        // Parameter: petId
+        Long petId = uploadFileWithRequiredFileOp.petId(request, validator);
+
+        validator.require("petId", petId);
+
+        // Parameter: requiredFile
+        ReadablePart requiredFile = uploadFileWithRequiredFileOp.requiredFile(request, parts, validator);
+
+        validator.require("requiredFile", requiredFile);
+
+        // Parameter: additionalMetadata
+        Optional<ReadablePart> additionalMetadata = uploadFileWithRequiredFileOp.additionalMetadata(request, parts, validator);
+
+        validator.execute();
+
+        handleUploadFileWithRequiredFile(request, response, 
+                    petId, 
+                    requiredFile, 
+                    additionalMetadata);
+    }
+
+    /**
+     * Handle POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required).
+     *
+     * @param request the server request
+     * @param response the server response
+     * @param petId ID of pet to update 
+     * @param requiredFile file to upload 
+     * @param additionalMetadata Additional data to pass to server 
+     */
+    protected abstract void handleUploadFileWithRequiredFile(ServerRequest request, ServerResponse response, 
+                Long petId, 
+                ReadablePart requiredFile, 
+                Optional<ReadablePart> additionalMetadata);
 
     /**
      * Returns a new instance of the class which handles parameters to and responses from the fakeBigDecimalMap operation.
@@ -3879,6 +3930,145 @@ public abstract class FakeService implements HttpService {
             void send(ServerResponse _serverResponse) {
                 _serverResponse.status(Status.OK_200);
                 _serverResponse.send();
+            }
+        }
+    }
+
+    /**
+     * Returns a new instance of the class which handles parameters to and responses from the uploadFileWithRequiredFile operation.
+     * <p>
+     *     Developers can override this method if they extend the FakeService class.
+     * </p>
+     *
+     * @return new UploadFileWithRequiredFile
+     */
+    protected UploadFileWithRequiredFileOp createUploadFileWithRequiredFileOp() {
+        return new UploadFileWithRequiredFileOp();
+    }
+
+    /**
+     * Helper elements for the {@code uploadFileWithRequiredFile} operation.
+     * <p>
+     * Also below are records for each response declared in the OpenAPI document, organized by response status.
+     * <p>
+     *     Once your code determines which (if any) declared response to send it can use the static {@code builder} method for
+     *     that specific result, passing the required elements of the response as parameters, and then assign any optional
+     *     response elements using the other builder methods.
+     * <p>
+     *     Finally, your code should invoke the {@code apply} method, passing the original {@link ServerResponse}. The
+     *     generated method sets any headers you have assigned, sets the correct status in the response, and sends
+     *     the response including any appropriate entity.
+     * </p>
+     */
+    public static class UploadFileWithRequiredFileOp {
+
+        /**
+         * Prepares the petId parameter.
+         *
+         * @param request {@link io.helidon.webserver.http.ServerRequest} containing the parameter
+         * @param validator {@link org.openapitools.server.api.ValidatorUtils.Validator} for validating all parameters to the operation
+         * @return petId parameter value
+         */
+        protected Long petId(ServerRequest request, ValidatorUtils.Validator validator) {
+            return request.path()
+                .pathParameters()
+                .first("petId")
+                .asOptional()
+                .map(Long::valueOf)
+                .orElse(null);
+        }
+
+        /**
+         * Prepares the requiredFile parameter.
+         *
+         * @param request {@link io.helidon.webserver.http.ServerRequest} containing the parameter
+         * @param parts {@code Map} of part names to {@link io.helidon.http.media.multipart.ReadablePart} for each part
+         * @param validator {@link org.openapitools.server.api.ValidatorUtils.Validator} for validating all parameters to the operation
+         * @return requiredFile parameter value
+         */
+        protected ReadablePart requiredFile(ServerRequest request, Map<String, ReadablePart> parts, ValidatorUtils.Validator validator) {
+            return parts.get("requiredFile");
+        }
+
+        /**
+         * Prepares the additionalMetadata parameter.
+         *
+         * @param request {@link io.helidon.webserver.http.ServerRequest} containing the parameter
+         * @param parts {@code Map} of part names to {@link io.helidon.http.media.multipart.ReadablePart} for each part
+         * @param validator {@link org.openapitools.server.api.ValidatorUtils.Validator} for validating all parameters to the operation
+         * @return additionalMetadata parameter value
+         */
+        protected Optional<ReadablePart> additionalMetadata(ServerRequest request, Map<String, ReadablePart> parts, ValidatorUtils.Validator validator) {
+            return Optional.ofNullable(parts.get("additionalMetadata"));
+        }
+
+        /**
+         * Response for HTTP status code {@code 200}.
+        *
+         * @param response 
+         */
+        record Response200(ModelApiResponse response) {
+
+            /**
+             * Creates a response builder for the status {@code 200} response
+             * for the uploadFileWithRequiredFile operation; there are no required result values for this response.
+             *
+             * @return new builder for status 200
+             */
+            static Builder builder() {
+                return new Builder();
+            }
+
+            /**
+             * Builder for the Response200 result.
+             */
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
+
+                private ModelApiResponse response;
+                @Override
+                public Response200 build() {
+                    return new Response200(response);
+                }
+
+                /**
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * assigning the HTTP status, any response headers, and any response entity.
+                 * <p>
+                 *     Equivalent to {@snippet :
+                 *     build().send(_serverResponse);
+                 *     }
+                 * </p>
+                 *
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 */
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
+                }
+
+                /**
+                 * Sets the value for the optional return property {@code response}.
+                 * @param response 
+                 * @return updated result builder
+                 */
+                Builder response(ModelApiResponse response) {
+                    this.response = response;
+                    return this;
+                }
+            }
+
+            /**
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             *
+             * @param _serverResponse the server response to which to apply these result values
+             */
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
+                if (response != null) { 
+                _serverResponse.send(response);
+                } else {
+                    _serverResponse.send();
+                }
             }
         }
     }

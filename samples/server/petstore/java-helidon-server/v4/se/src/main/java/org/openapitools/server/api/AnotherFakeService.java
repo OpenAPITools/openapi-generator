@@ -11,7 +11,7 @@ import io.helidon.webserver.http.ServerResponse;
 import io.helidon.webserver.http.HttpService;
 
 @io.helidon.common.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen",
-                             trigger = "tag = 'AnotherFake'",
+                             trigger = "tag = '/another-fake'",
                              version = "stable")
 public interface AnotherFakeService extends HttpService {
 
@@ -21,7 +21,7 @@ public interface AnotherFakeService extends HttpService {
      */
     @Override
     default void routing(HttpRules rules) {
-        rules.patch("/another-fake/dummy", this::call123testSpecialTags);
+        rules.patch("/dummy", this::call123testSpecialTags);
     }
 
 

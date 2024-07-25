@@ -210,26 +210,4 @@ public class PetApiTest {
         // TODO: test validations
     }
 
-   /**
-    * uploads an image (required)
-    * 
-    */
-    @Test
-    public void uploadFileWithRequiredFileTest() {
-        // TODO - assign values to the input arguments.
-        Long petId = null;
-        // TODO - assign values to the input arguments.
-        File requiredFile = null;
-        // TODO - assign values to the input arguments.
-        String additionalMetadata = null;
-
-        // TODO - uncomment the following two lines to invoke the service with valid parameters.
-        //ApiResponse<ModelApiResponse> response = api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
-        //response.webClientResponse().await();
-        // TODO - check for appropriate return status
-        // assertThat("Return status", response.get().status().code(), is(expectedStatus));
-
-        // TODO: test validations
-    }
-
 }

@@ -19,6 +19,8 @@ import java.io.InputStream;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
+import org.openapitools.server.model.ModelApiResponse;
+import io.helidon.http.media.multipart.MultiPart;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Objects;
 import java.time.OffsetDateTime;
@@ -41,7 +43,7 @@ import io.helidon.webserver.http.ServerResponse;
 import io.helidon.webserver.http.HttpService;
 
 @io.helidon.common.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen",
-                             trigger = "tag = 'Fake'",
+                             trigger = "tag = '/fake'",
                              version = "stable")
 public interface FakeService extends HttpService {
 
@@ -51,28 +53,29 @@ public interface FakeService extends HttpService {
      */
     @Override
     default void routing(HttpRules rules) {
-        rules.get("/fake/BigDecimalMap", this::fakeBigDecimalMap);
-        rules.get("/fake/health", this::fakeHealthGet);
-        rules.get("/fake/http-signature-test", this::fakeHttpSignatureTest);
-        rules.post("/fake/outer/boolean", this::fakeOuterBooleanSerialize);
-        rules.post("/fake/outer/composite", this::fakeOuterCompositeSerialize);
-        rules.post("/fake/outer/number", this::fakeOuterNumberSerialize);
-        rules.post("/fake/outer/string", this::fakeOuterStringSerialize);
-        rules.post("/fake/property/enum-int", this::fakePropertyEnumIntegerSerialize);
-        rules.post("/fake/additionalProperties-reference", this::testAdditionalPropertiesReference);
-        rules.put("/fake/body-with-binary", this::testBodyWithBinary);
-        rules.put("/fake/body-with-file-schema", this::testBodyWithFileSchema);
-        rules.put("/fake/body-with-query-params", this::testBodyWithQueryParams);
-        rules.patch("/fake", this::testClientModel);
-        rules.post("/fake", this::testEndpointParameters);
-        rules.get("/fake", this::testEnumParameters);
-        rules.delete("/fake", this::testGroupParameters);
-        rules.post("/fake/inline-additionalProperties", this::testInlineAdditionalProperties);
-        rules.post("/fake/inline-freeform-additionalProperties", this::testInlineFreeformAdditionalProperties);
-        rules.get("/fake/jsonFormData", this::testJsonFormData);
-        rules.post("/fake/nullable", this::testNullable);
-        rules.put("/fake/test-query-parameters", this::testQueryParameterCollectionFormat);
-        rules.post("/fake/stringMap-reference", this::testStringMapReference);
+        rules.get("/BigDecimalMap", this::fakeBigDecimalMap);
+        rules.get("/health", this::fakeHealthGet);
+        rules.get("/http-signature-test", this::fakeHttpSignatureTest);
+        rules.post("/outer/boolean", this::fakeOuterBooleanSerialize);
+        rules.post("/outer/composite", this::fakeOuterCompositeSerialize);
+        rules.post("/outer/number", this::fakeOuterNumberSerialize);
+        rules.post("/outer/string", this::fakeOuterStringSerialize);
+        rules.post("/property/enum-int", this::fakePropertyEnumIntegerSerialize);
+        rules.post("/additionalProperties-reference", this::testAdditionalPropertiesReference);
+        rules.put("/body-with-binary", this::testBodyWithBinary);
+        rules.put("/body-with-file-schema", this::testBodyWithFileSchema);
+        rules.put("/body-with-query-params", this::testBodyWithQueryParams);
+        rules.patch("/", this::testClientModel);
+        rules.post("/", this::testEndpointParameters);
+        rules.get("/", this::testEnumParameters);
+        rules.delete("/", this::testGroupParameters);
+        rules.post("/inline-additionalProperties", this::testInlineAdditionalProperties);
+        rules.post("/inline-freeform-additionalProperties", this::testInlineFreeformAdditionalProperties);
+        rules.get("/jsonFormData", this::testJsonFormData);
+        rules.post("/nullable", this::testNullable);
+        rules.put("/test-query-parameters", this::testQueryParameterCollectionFormat);
+        rules.post("/stringMap-reference", this::testStringMapReference);
+        rules.post("/{petId}/uploadImageWithRequiredFile", this::uploadFileWithRequiredFile);
     }
 
 
@@ -230,4 +233,11 @@ public interface FakeService extends HttpService {
      * @param response the server response
      */
     void testStringMapReference(ServerRequest request, ServerResponse response);
+    /**
+     * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required).
+     *
+     * @param request the server request
+     * @param response the server response
+     */
+    void uploadFileWithRequiredFile(ServerRequest request, ServerResponse response);
 }

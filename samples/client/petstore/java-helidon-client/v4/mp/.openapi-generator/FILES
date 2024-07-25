@@ -12,7 +12,6 @@ docs/Category.md
 docs/ChildWithNullable.md
 docs/ClassModel.md
 docs/Client.md
-docs/DefaultApi.md
 docs/DeprecatedObject.md
 docs/Dog.md
 docs/EnumArrays.md
@@ -20,9 +19,10 @@ docs/EnumClass.md
 docs/EnumTest.md
 docs/FakeApi.md
 docs/FakeBigDecimalMap200Response.md
-docs/FakeClassnameTags123Api.md
+docs/FakeClassnameTestApi.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
+docs/FooApi.md
 docs/FooGetDefaultResponse.md
 docs/FormatTest.md
 docs/HasOnlyReadOnly.md
@@ -62,9 +62,9 @@ src/main/java/org/openapitools/client/RFC3339DateFormat.java
 src/main/java/org/openapitools/client/api/AnotherFakeApi.java
 src/main/java/org/openapitools/client/api/ApiException.java
 src/main/java/org/openapitools/client/api/ApiExceptionMapper.java
-src/main/java/org/openapitools/client/api/DefaultApi.java
 src/main/java/org/openapitools/client/api/FakeApi.java
-src/main/java/org/openapitools/client/api/FakeClassnameTags123Api.java
+src/main/java/org/openapitools/client/api/FakeClassnameTestApi.java
+src/main/java/org/openapitools/client/api/FooApi.java
 src/main/java/org/openapitools/client/api/PetApi.java
 src/main/java/org/openapitools/client/api/StoreApi.java
 src/main/java/org/openapitools/client/api/UserApi.java

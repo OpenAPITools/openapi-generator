@@ -17,19 +17,18 @@ import io.helidon.http.media.multipart.ReadablePart;
 import java.util.Set;
 import io.helidon.http.Status;
 import io.helidon.common.mapper.Value;
-import java.util.logging.Logger;import io.helidon.webserver.http.ServerRequest;
+import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
 
 public class PetServiceImpl implements PetService {
 
     private static final int HTTP_CODE_NOT_IMPLEMENTED = 501;
-    private static final Logger LOGGER = Logger.getLogger(PetService.class.getName());
     private static final ObjectMapper MAPPER = JsonProvider.objectMapper();
 
 
     @Override
     public void addPet(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -37,7 +36,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public void deletePet(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -45,7 +44,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public void findPetsByStatus(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -53,7 +52,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public void findPetsByTags(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -61,7 +60,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public void getPetById(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -69,7 +68,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public void updatePet(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -78,7 +77,7 @@ public class PetServiceImpl implements PetService {
     @Override
     public void updatePetWithForm(ServerRequest request, ServerResponse response) {
         Parameters formParams = request.content().as(Parameters.class);
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -87,16 +86,7 @@ public class PetServiceImpl implements PetService {
     @Override
     public void uploadFile(ServerRequest request, ServerResponse response) {
         MultiPart multiPart = request.content().as(MultiPart.class);
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
-
-
-        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
-    }
-
-    @Override
-    public void uploadFileWithRequiredFile(ServerRequest request, ServerResponse response) {
-        MultiPart multiPart = request.content().as(MultiPart.class);
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();

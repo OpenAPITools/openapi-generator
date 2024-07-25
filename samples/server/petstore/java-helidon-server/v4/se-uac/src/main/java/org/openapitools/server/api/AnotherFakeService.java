@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.helidon.http.Status;
 
 import java.util.Optional;
-import java.util.logging.Logger;
 
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.ServerRequest;
@@ -14,11 +13,11 @@ import io.helidon.webserver.http.ServerResponse;
 import io.helidon.webserver.http.HttpService;
 
 @io.helidon.common.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen",
-                             trigger = "tag = 'AnotherFake'",
+                             trigger = "tag = '/another-fake'",
                              version = "stable")
 public abstract class AnotherFakeService implements HttpService {
 
-    protected static final Logger LOGGER = Logger.getLogger(AnotherFakeService.class.getName());
+
     protected static final ObjectMapper MAPPER = JsonProvider.objectMapper();
 
     protected Call123testSpecialTagsOp call123testSpecialTagsOp = createCall123testSpecialTagsOp();
@@ -30,7 +29,7 @@ public abstract class AnotherFakeService implements HttpService {
      */
     @Override
     public void routing(HttpRules rules) {
-        rules.patch("/another-fake/dummy", this::call123testSpecialTags);
+        rules.patch("/dummy", this::call123testSpecialTags);
     }
 
 
@@ -42,7 +41,7 @@ public abstract class AnotherFakeService implements HttpService {
      */
     protected void call123testSpecialTags(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: Client
         Client client = call123testSpecialTagsOp.client(request, validator);

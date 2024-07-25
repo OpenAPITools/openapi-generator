@@ -34,6 +34,7 @@ import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
 import java.time.LocalDate;
+import org.openapitools.client.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import java.util.Optional;
 import org.openapitools.client.model.OuterComposite;
@@ -211,4 +212,14 @@ public interface FakeApi  {
     @Path("/stringMap-reference")
     @Consumes({ "application/json" })
     void testStringMapReference(Map<String, String> requestBody) throws ApiException, ProcessingException;
+
+    /**
+     * uploads an image (required)
+     * 
+     */
+    @POST
+    @Path("/{petId}/uploadImageWithRequiredFile")
+    @Consumes({ "multipart/form-data" })
+    @Produces({ "application/json" })
+    ModelApiResponse uploadFileWithRequiredFile(@PathParam("petId") Long petId, @FormParam("requiredFile") File requiredFile, @FormParam("additionalMetadata") String additionalMetadata) throws ApiException, ProcessingException;
 }

@@ -12,7 +12,6 @@ import org.openapitools.server.model.User;
 import jakarta.validation.Valid;
 
 import java.util.Optional;
-import java.util.logging.Logger;
 
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.ServerRequest;
@@ -20,11 +19,11 @@ import io.helidon.webserver.http.ServerResponse;
 import io.helidon.webserver.http.HttpService;
 
 @io.helidon.common.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen",
-                             trigger = "tag = 'User'",
+                             trigger = "tag = '/user'",
                              version = "stable")
 public abstract class UserService implements HttpService {
 
-    protected static final Logger LOGGER = Logger.getLogger(UserService.class.getName());
+
     protected static final ObjectMapper MAPPER = JsonProvider.objectMapper();
 
     protected CreateUserOp createUserOp = createCreateUserOp();
@@ -43,14 +42,14 @@ public abstract class UserService implements HttpService {
      */
     @Override
     public void routing(HttpRules rules) {
-        rules.post("/user", this::createUser);
-        rules.post("/user/createWithArray", this::createUsersWithArrayInput);
-        rules.post("/user/createWithList", this::createUsersWithListInput);
-        rules.delete("/user/{username}", this::deleteUser);
-        rules.get("/user/{username}", this::getUserByName);
-        rules.get("/user/login", this::loginUser);
-        rules.get("/user/logout", this::logoutUser);
-        rules.put("/user/{username}", this::updateUser);
+        rules.post("/", this::createUser);
+        rules.post("/createWithArray", this::createUsersWithArrayInput);
+        rules.post("/createWithList", this::createUsersWithListInput);
+        rules.delete("/{username}", this::deleteUser);
+        rules.get("/{username}", this::getUserByName);
+        rules.get("/login", this::loginUser);
+        rules.get("/logout", this::logoutUser);
+        rules.put("/{username}", this::updateUser);
     }
 
 
@@ -62,7 +61,7 @@ public abstract class UserService implements HttpService {
      */
     protected void createUser(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: User
         User user = createUserOp.user(request, validator);
@@ -92,7 +91,7 @@ public abstract class UserService implements HttpService {
      */
     protected void createUsersWithArrayInput(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: User
         List<@Valid User> user = createUsersWithArrayInputOp.user(request, validator);
@@ -122,7 +121,7 @@ public abstract class UserService implements HttpService {
      */
     protected void createUsersWithListInput(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: User
         List<@Valid User> user = createUsersWithListInputOp.user(request, validator);
@@ -152,7 +151,7 @@ public abstract class UserService implements HttpService {
      */
     protected void deleteUser(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: username
         String username = deleteUserOp.username(request, validator);
@@ -182,7 +181,7 @@ public abstract class UserService implements HttpService {
      */
     protected void getUserByName(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: username
         String username = getUserByNameOp.username(request, validator);
@@ -212,7 +211,7 @@ public abstract class UserService implements HttpService {
      */
     protected void loginUser(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: username
         String username = loginUserOp.username(request, validator);
@@ -269,7 +268,7 @@ public abstract class UserService implements HttpService {
      */
     protected void updateUser(ServerRequest request, ServerResponse response) { 
 
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         // Parameter: username
         String username = updateUserOp.username(request, validator);
@@ -394,7 +393,7 @@ public abstract class UserService implements HttpService {
             *
             */
             public Default(Status status) {
-                ValidatorUtils.Validator validator = ValidatorUtils.validator(Logger.getLogger(CreateUser.class.getName()));
+                ValidatorUtils.Validator validator = ValidatorUtils.validator();
                 validator.require("status for default response", status);
                 validator.execute();
                 this.status = status;
@@ -508,7 +507,7 @@ public abstract class UserService implements HttpService {
             *
             */
             public Default(Status status) {
-                ValidatorUtils.Validator validator = ValidatorUtils.validator(Logger.getLogger(CreateUsersWithArrayInput.class.getName()));
+                ValidatorUtils.Validator validator = ValidatorUtils.validator();
                 validator.require("status for default response", status);
                 validator.execute();
                 this.status = status;
@@ -622,7 +621,7 @@ public abstract class UserService implements HttpService {
             *
             */
             public Default(Status status) {
-                ValidatorUtils.Validator validator = ValidatorUtils.validator(Logger.getLogger(CreateUsersWithListInput.class.getName()));
+                ValidatorUtils.Validator validator = ValidatorUtils.validator();
                 validator.require("status for default response", status);
                 validator.execute();
                 this.status = status;
@@ -1303,7 +1302,7 @@ public abstract class UserService implements HttpService {
             *
             */
             public Default(Status status) {
-                ValidatorUtils.Validator validator = ValidatorUtils.validator(Logger.getLogger(LogoutUser.class.getName()));
+                ValidatorUtils.Validator validator = ValidatorUtils.validator();
                 validator.require("status for default response", status);
                 validator.execute();
                 this.status = status;

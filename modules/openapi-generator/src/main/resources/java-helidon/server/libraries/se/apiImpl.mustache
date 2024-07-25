@@ -3,7 +3,7 @@ package {{package}};
 {{#imports}}import {{import}};
 {{/imports}}
 {{^useAbstractClass}}
-import java.util.logging.Logger;{{#x-helidon-v3}}
+{{#x-helidon-v3}}import java.util.logging.Logger;
 
 {{/x-helidon-v3}}
 {{/useAbstractClass}}
@@ -15,7 +15,8 @@ public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClas
 
     private static final int HTTP_CODE_NOT_IMPLEMENTED = 501;
 {{^useAbstractClass}}
-    private static final Logger LOGGER = Logger.getLogger({{classname}}.class.getName());
+{{#x-helidon-v3}}    private static final Logger LOGGER = Logger.getLogger({{classname}}.class.getName());
+{{/x-helidon-v3}}
 {{#jackson}}
     private static final ObjectMapper MAPPER = JsonProvider.objectMapper();{{/jackson}}
 {{#jsonb}}
@@ -45,7 +46,7 @@ public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClas
 }}{{^useAbstractClass}}{{!
 }}        MultiPart multiPart = request.content().as(MultiPart.class);
 {{/useAbstractClass}}{{/isMultipart}}{{!
-}}{{#useBeanValidation}}        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+}}{{#useBeanValidation}}        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 {{/useBeanValidation}}{{!
 }}{{/x-helidon-v3}}{{!
 }}{{/useAbstractClass}}{{^x-helidon-v3}}

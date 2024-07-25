@@ -19,6 +19,8 @@ import java.io.InputStream;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
+import org.openapitools.server.model.ModelApiResponse;
+import io.helidon.http.media.multipart.MultiPart;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Objects;
 import java.time.OffsetDateTime;
@@ -34,19 +36,18 @@ import org.openapitools.server.model.TestInlineFreeformAdditionalPropertiesReque
 import java.io.UncheckedIOException;
 import org.openapitools.server.model.User;
 import io.helidon.common.mapper.Value;
-import java.util.logging.Logger;import io.helidon.webserver.http.ServerRequest;
+import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
 
 public class FakeServiceImpl implements FakeService {
 
     private static final int HTTP_CODE_NOT_IMPLEMENTED = 501;
-    private static final Logger LOGGER = Logger.getLogger(FakeService.class.getName());
     private static final ObjectMapper MAPPER = JsonProvider.objectMapper();
 
 
     @Override
     public void fakeBigDecimalMap(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -54,7 +55,7 @@ public class FakeServiceImpl implements FakeService {
 
     @Override
     public void fakeHealthGet(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -62,7 +63,7 @@ public class FakeServiceImpl implements FakeService {
 
     @Override
     public void fakeHttpSignatureTest(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -70,7 +71,7 @@ public class FakeServiceImpl implements FakeService {
 
     @Override
     public void fakeOuterBooleanSerialize(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -78,7 +79,7 @@ public class FakeServiceImpl implements FakeService {
 
     @Override
     public void fakeOuterCompositeSerialize(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -86,7 +87,7 @@ public class FakeServiceImpl implements FakeService {
 
     @Override
     public void fakeOuterNumberSerialize(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -94,7 +95,7 @@ public class FakeServiceImpl implements FakeService {
 
     @Override
     public void fakeOuterStringSerialize(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -102,7 +103,7 @@ public class FakeServiceImpl implements FakeService {
 
     @Override
     public void fakePropertyEnumIntegerSerialize(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -110,7 +111,7 @@ public class FakeServiceImpl implements FakeService {
 
     @Override
     public void testAdditionalPropertiesReference(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -118,7 +119,7 @@ public class FakeServiceImpl implements FakeService {
 
     @Override
     public void testBodyWithBinary(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -126,7 +127,7 @@ public class FakeServiceImpl implements FakeService {
 
     @Override
     public void testBodyWithFileSchema(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -134,7 +135,7 @@ public class FakeServiceImpl implements FakeService {
 
     @Override
     public void testBodyWithQueryParams(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -142,7 +143,7 @@ public class FakeServiceImpl implements FakeService {
 
     @Override
     public void testClientModel(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -151,7 +152,7 @@ public class FakeServiceImpl implements FakeService {
     @Override
     public void testEndpointParameters(ServerRequest request, ServerResponse response) {
         Parameters formParams = request.content().as(Parameters.class);
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -160,7 +161,7 @@ public class FakeServiceImpl implements FakeService {
     @Override
     public void testEnumParameters(ServerRequest request, ServerResponse response) {
         Parameters formParams = request.content().as(Parameters.class);
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -168,7 +169,7 @@ public class FakeServiceImpl implements FakeService {
 
     @Override
     public void testGroupParameters(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -176,7 +177,7 @@ public class FakeServiceImpl implements FakeService {
 
     @Override
     public void testInlineAdditionalProperties(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -184,7 +185,7 @@ public class FakeServiceImpl implements FakeService {
 
     @Override
     public void testInlineFreeformAdditionalProperties(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -193,7 +194,7 @@ public class FakeServiceImpl implements FakeService {
     @Override
     public void testJsonFormData(ServerRequest request, ServerResponse response) {
         Parameters formParams = request.content().as(Parameters.class);
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -201,7 +202,7 @@ public class FakeServiceImpl implements FakeService {
 
     @Override
     public void testNullable(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -209,7 +210,7 @@ public class FakeServiceImpl implements FakeService {
 
     @Override
     public void testQueryParameterCollectionFormat(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -217,7 +218,16 @@ public class FakeServiceImpl implements FakeService {
 
     @Override
     public void testStringMapReference(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
+
+
+        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+    }
+
+    @Override
+    public void uploadFileWithRequiredFile(ServerRequest request, ServerResponse response) {
+        MultiPart multiPart = request.content().as(MultiPart.class);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();

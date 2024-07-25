@@ -12,7 +12,7 @@ import io.helidon.webserver.http.ServerResponse;
 import io.helidon.webserver.http.HttpService;
 
 @io.helidon.common.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen",
-                             trigger = "tag = 'Store'",
+                             trigger = "tag = '/store'",
                              version = "stable")
 public interface StoreService extends HttpService {
 
@@ -22,10 +22,10 @@ public interface StoreService extends HttpService {
      */
     @Override
     default void routing(HttpRules rules) {
-        rules.delete("/store/order/{order_id}", this::deleteOrder);
-        rules.get("/store/inventory", this::getInventory);
-        rules.get("/store/order/{order_id}", this::getOrderById);
-        rules.post("/store/order", this::placeOrder);
+        rules.delete("/order/{order_id}", this::deleteOrder);
+        rules.get("/inventory", this::getInventory);
+        rules.get("/order/{order_id}", this::getOrderById);
+        rules.post("/order", this::placeOrder);
     }
 
 

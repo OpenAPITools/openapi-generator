@@ -8,7 +8,7 @@
             public {{> resultRecordTypeName }}({{#isDefault}}Status status{{#vendorExtensions.x-helidon-hasResponseProps}}, {{/vendorExtensions.x-helidon-hasResponseProps}}{{!
 }}{{/isDefault}}{{#vendorExtensions.x-helidon-allResponseProps}}{{^-first}},
                 {{/-first}}{{> opResultParamDecl }}{{/vendorExtensions.x-helidon-allResponseProps}}) {
-                ValidatorUtils.Validator validator = ValidatorUtils.validator(Logger.getLogger({{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}.class.getName()));
+                ValidatorUtils.Validator validator = ValidatorUtils.validator();
 {{#isDefault}}
                 validator.require("status for default response", status);
 {{/isDefault}}

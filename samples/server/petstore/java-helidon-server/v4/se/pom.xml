@@ -63,6 +63,11 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
+            <groupId>io.helidon.logging</groupId>
+            <artifactId>helidon-logging-jul</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
             <groupId>io.helidon.openapi</groupId>
             <artifactId>helidon-openapi</artifactId>
         </dependency>

@@ -10,19 +10,18 @@ import java.util.Optional;
 import io.helidon.http.Status;
 import org.openapitools.server.model.User;
 import jakarta.validation.Valid;
-import java.util.logging.Logger;import io.helidon.webserver.http.ServerRequest;
+import io.helidon.webserver.http.ServerRequest;
 import io.helidon.webserver.http.ServerResponse;
 
 public class UserServiceImpl implements UserService {
 
     private static final int HTTP_CODE_NOT_IMPLEMENTED = 501;
-    private static final Logger LOGGER = Logger.getLogger(UserService.class.getName());
     private static final ObjectMapper MAPPER = JsonProvider.objectMapper();
 
 
     @Override
     public void createUser(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -30,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUsersWithArrayInput(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -38,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUsersWithListInput(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -46,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -54,7 +53,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void getUserByName(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -62,7 +61,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void loginUser(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -70,7 +69,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void logoutUser(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -78,7 +77,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
 
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();

@@ -59,7 +59,6 @@ public class PetApiImpl implements PetApi {
   protected static final GenericType<Void> RESPONSE_TYPE_updatePet = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_updatePetWithForm = ResponseType.create(Void.class);
   protected static final GenericType<ModelApiResponse> RESPONSE_TYPE_uploadFile = ResponseType.create(ModelApiResponse.class);
-  protected static final GenericType<ModelApiResponse> RESPONSE_TYPE_uploadFileWithRequiredFile = ResponseType.create(ModelApiResponse.class);
 
   /**
    * Creates a new instance of PetApiImpl initialized with the specified {@link ApiClient}.
@@ -411,55 +410,6 @@ public class PetApiImpl implements PetApi {
             .toString();
     HttpClientResponse webClientResponse = webClientRequestBuilder.submit(formParams);
     return ApiResponse.create(RESPONSE_TYPE_uploadFile, webClientResponse);
-  }
-
-  @Override
-  public ApiResponse<ModelApiResponse> uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) {
-    Objects.requireNonNull(petId, "Required parameter 'petId' not specified");
-    Objects.requireNonNull(requiredFile, "Required parameter 'requiredFile' not specified");
-    HttpClientRequest webClientRequestBuilder = uploadFileWithRequiredFileRequestBuilder(petId, requiredFile, additionalMetadata);
-    return uploadFileWithRequiredFileSubmit(webClientRequestBuilder, petId, requiredFile, additionalMetadata);
-  }
-
-  /**
-   * Creates a {@code WebClientRequestBuilder} for the uploadFileWithRequiredFile operation.
-   * Optional customization point for subclasses.
-   *
-   * @param petId ID of pet to update (required)
-   * @param requiredFile file to upload (required)
-   * @param additionalMetadata Additional data to pass to server (optional)
-   * @return HttpClientRequest for uploadFileWithRequiredFile
-   */
-  protected HttpClientRequest uploadFileWithRequiredFileRequestBuilder(Long petId, File requiredFile, String additionalMetadata) {
-    HttpClientRequest webClientRequestBuilder = apiClient.webClient()
-            .method(Method.POST);
-
-    String path = "/fake/{petId}/uploadImageWithRequiredFile"
-            .replace("{petId}", ApiClient.urlEncode(petId.toString()));
-    webClientRequestBuilder.path(path);
-    webClientRequestBuilder.contentType(MediaTypes.APPLICATION_FORM_URLENCODED);
-    webClientRequestBuilder.accept(MediaTypes.APPLICATION_JSON);
-
-    return webClientRequestBuilder;
-  }
-
-  /**
-   * Initiates the request for the uploadFileWithRequiredFile operation.
-   * Optional customization point for subclasses.
-   *
-   * @param webClientRequestBuilder the request builder to use for submitting the request
-   * @param petId ID of pet to update (required)
-   * @param requiredFile file to upload (required)
-   * @param additionalMetadata Additional data to pass to server (optional)
-   * @return {@code ApiResponse<ModelApiResponse>} for the submitted request
-   */
-  protected ApiResponse<ModelApiResponse> uploadFileWithRequiredFileSubmit(HttpClientRequest webClientRequestBuilder, Long petId, File requiredFile, String additionalMetadata) {
-    String formParams = new StringJoiner("&")
-            .add("additionalMetadata=" + additionalMetadata)
-            .add("requiredFile=" + requiredFile)
-            .toString();
-    HttpClientResponse webClientResponse = webClientRequestBuilder.submit(formParams);
-    return ApiResponse.create(RESPONSE_TYPE_uploadFileWithRequiredFile, webClientResponse);
   }
 
 }

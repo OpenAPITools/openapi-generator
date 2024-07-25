@@ -99,14 +99,4 @@ public interface PetApi {
   */
   ApiResponse<ModelApiResponse> uploadFile(Long petId, String additionalMetadata, File _file);
 
- /**
-  * uploads an image (required)
-  * 
-  * @param petId ID of pet to update (required)
-  * @param requiredFile file to upload (required)
-  * @param additionalMetadata Additional data to pass to server (optional)
-  * @return {@code ApiResponse<ModelApiResponse>}
-  */
-  ApiResponse<ModelApiResponse> uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata);
-
 }

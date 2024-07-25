@@ -29,8 +29,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Duration;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -39,6 +42,7 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Function;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 import java.util.regex.Matcher;
@@ -46,11 +50,14 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.aether.util.version.GenericVersionScheme;
 import org.eclipse.aether.version.InvalidVersionSpecificationException;
 import org.eclipse.aether.version.Version;
@@ -65,6 +72,7 @@ import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
+import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 
@@ -107,9 +115,12 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     static final String MICROPROFILE_ROOT_PACKAGE_JAKARTA = "jakarta";
     static final String HELIDON_ENUM_CLASS = "x-helidon-hasEnumClass";
     private static final String VALIDATION_ARTIFACT_PREFIX_KEY = "x-helidon-validationArtifactPrefix";
+    private static final String X_RESOURCE_PATH = "x-helidon-resourcePath";
+    private static final String X_PATH_WITHIN_RESOURCE = "x-helidon-pathWithinResource";
     private static final String VALIDATION_ARTIFACT_PREFIX_JAVAX = "";
     private static final String VALIDATION_ARTIFACT_PREFIX_JAKARTA = MICROPROFILE_ROOT_PACKAGE_JAKARTA + ".";
     private static final Map<String, String> EXAMPLE_RETURN_VALUES = new HashMap<String, String>();
+    private static final String MISFIT_OPERATION_GROUP_NAME = "_Misc";
     // for generated doc
     static final String MICROPROFILE_ROOT_PACKAGE_DEFAULT =
         "Helidon 2.x and earlier: " + MICROPROFILE_ROOT_PACKAGE_JAVAX
@@ -141,6 +152,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     protected boolean useReactive;
     protected boolean useOptional = true; // effective with Helidon 4
     protected final GenericTypeDeclarations genericTypeDeclarations = new GenericTypeDeclarations();
+    protected Map<String, List<CodegenOperation>> tagToOperations;
 
     private String rootJavaEEPackage;
     private String rootJavaEEDepPrefix;
@@ -176,6 +188,48 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
 
         knownHttpStatusMap = loadKnownHttpStatusMap();
     }
+
+    private static String longestCommonPrefix(List<String> values) {
+        if (values.isEmpty()) {
+            return "";
+        }
+        String result = values.get(0);
+        for (int i = 1; i < values.size(); i++) {
+            while(values.get(i).indexOf(result) != 0) {
+                result = result.substring(0, result.length() - 1);
+                if (result.isEmpty()) {
+                    return "";
+                }
+            }
+        }
+        return result;
+    }
+
+//    @Override
+//    public void processOpenAPI(OpenAPI openAPI) {
+//        super.processOpenAPI(openAPI);
+//        // First, group operations into logical APIs using the first path segment.
+//        Map<String, List<String>> pathsByFirstSegment = new TreeMap<>();
+//        openAPI.getPaths().keySet()
+//                .forEach(path -> pathsByFirstSegment.computeIfAbsent("/" + StringUtils.substringBefore(StringUtils.removeStart(
+//                                                                             path,
+//                                                                             "/"), "/"),
+//                                                                     k -> new ArrayList<>())
+//                        .add(path));
+//
+//        Map<Operation, Map.Entry<String, String>> prefixAndSuffixByOperation = new HashMap<>();
+//
+//        pathsByFirstSegment.forEach((firstSegment, paths) -> {
+//            String longestCommonPrefix = StringUtils.getCommonPrefix(paths.toArray(new String[0]));
+//            paths.forEach(path -> openAPI.getPaths()
+//                    .get(path)
+//                    .readOperations()
+//                    .forEach(op -> prefixAndSuffixByOperation.put(op,
+//                                                                  new AbstractMap.SimpleEntry<>(longestCommonPrefix,
+//                                                                                                path.substring(longestCommonPrefix.length())))));
+//
+//        });
+//    }
 
     @Override
     public void processOpts() {
@@ -229,11 +283,42 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     }
 
     @Override
+    public void addOperationToGroup(String tag,
+                                    String resourcePath,
+                                    Operation operation,
+                                    CodegenOperation co,
+                                    Map<String, List<CodegenOperation>> operations) {
+
+        if (helidonMajorVersion <= 3) {
+            super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+        } else {
+            operations.computeIfAbsent(co.baseName, k -> new ArrayList<>())
+                    .add(co);
+        }
+    }
+
+    @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+        // Somewhat inspired by JavaJaxRSServerCodegen#addOperationToGroup.
+        String basePath = StringUtils.substringBefore(StringUtils.removeStart(path, "/"), "/");
+        if (!StringUtils.isEmpty(basePath)) {
+            op.subresourceOperation = !op.path.isEmpty();
+        }
+
+        String baseName = "/" + basePath;
+        if (helidonMajorVersion > 3) {
+            op.baseName = baseName;
+        }
+        String pathSuffix = path.substring(baseName.length());
+        if (pathSuffix.isEmpty()) {
+            pathSuffix = "/";
+        }
+
         op.allParams.forEach(p -> p.vendorExtensions.put(X_IS_MULTIPART_FORM_PARAM, op.isMultipart && p.isFormParam));
         op.vendorExtensions.put(X_HAS_RETURN_TYPE, op.returnType != null && !op.returnType.equals("void"));
         op.vendorExtensions.put(X_RETURN_TYPE_EXAMPLE_VALUE, chooseExampleReturnTypeValue(op));
+        op.vendorExtensions.put(X_PATH_WITHIN_RESOURCE, pathSuffix);
         return op;
     }
 

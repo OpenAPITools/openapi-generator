@@ -4,7 +4,6 @@ import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -20,8 +19,6 @@ import jakarta.validation.ValidationException;
 * Validation utility methods.
 */
 public final class ValidatorUtils {
-
-    private static final Logger LOGGER = Logger.getLogger(ValidatorUtils.class.getName());
 
     public static boolean validateMin(Integer value, Integer min) {
         checkNonNull(value);
@@ -156,18 +153,13 @@ public final class ValidatorUtils {
         return coll;
     }
 
-    static Validator validator(Logger logger) {
-        return new Validator(logger);
+    static Validator validator() {
+        return new Validator();
     }
 
     public static class Validator {
 
-        private final Logger logger;
         private final Errors.Collector errorsCollector = Errors.collector();
-
-        Validator(Logger logger) {
-            this.logger = logger;
-        }
 
         <T> T check(String paramName, T paramValue, List<T> validValues) {
             if (!validValues.contains(paramValue)) {

@@ -5,12 +5,12 @@ src/main/java/org/openapitools/server/RFC3339DateFormat.java
 src/main/java/org/openapitools/server/RestApplication.java
 src/main/java/org/openapitools/server/api/AnotherFakeService.java
 src/main/java/org/openapitools/server/api/AnotherFakeServiceImpl.java
-src/main/java/org/openapitools/server/api/DefaultService.java
-src/main/java/org/openapitools/server/api/DefaultServiceImpl.java
-src/main/java/org/openapitools/server/api/FakeClassnameTags123Service.java
-src/main/java/org/openapitools/server/api/FakeClassnameTags123ServiceImpl.java
+src/main/java/org/openapitools/server/api/FakeClassnameTestService.java
+src/main/java/org/openapitools/server/api/FakeClassnameTestServiceImpl.java
 src/main/java/org/openapitools/server/api/FakeService.java
 src/main/java/org/openapitools/server/api/FakeServiceImpl.java
+src/main/java/org/openapitools/server/api/FooService.java
+src/main/java/org/openapitools/server/api/FooServiceImpl.java
 src/main/java/org/openapitools/server/api/PetService.java
 src/main/java/org/openapitools/server/api/PetServiceImpl.java
 src/main/java/org/openapitools/server/api/StoreService.java

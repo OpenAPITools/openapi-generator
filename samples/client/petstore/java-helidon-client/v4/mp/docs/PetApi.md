@@ -12,7 +12,6 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet |
 | [**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data |
 | [**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image |
-| [**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required) |
 
 
 
@@ -290,43 +289,6 @@ uploads an image
 | **petId** | **Long**| ID of pet to update | |
 | **additionalMetadata** | **String**| Additional data to pass to server | [optional] |
 | **_file** | **File**| file to upload | [optional] |
-
-### Return type
-
-[**ModelApiResponse**](ModelApiResponse.md)
-
-### Authorization
-
-[petstore_auth](../README.md#petstore_auth)
-
-### HTTP request headers
-
-- **Content-Type**: multipart/form-data
-- **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | successful operation |  -  |
-
-
-## uploadFileWithRequiredFile
-
-> ModelApiResponse uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
-
-uploads an image (required)
-
-
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **petId** | **Long**| ID of pet to update | |
-| **requiredFile** | **File**| file to upload | |
-| **additionalMetadata** | **String**| Additional data to pass to server | [optional] |
 
 ### Return type
 
