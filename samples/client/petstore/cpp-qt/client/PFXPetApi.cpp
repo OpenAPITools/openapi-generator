@@ -265,7 +265,7 @@ void PFXPetApi::addPet(const PFXPet &pfx_pet) {
 
     connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::addPetCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
-    connect(_latestWorker, &QObject::destroyed, this, [this](){
+    connect(_latestWorker, &QObject::destroyed, this, [this] {
         if(findChildren<PFXHttpRequestWorker*>().count() == 0){
             Q_EMIT allPendingRequestsCompleted();
         }
@@ -471,7 +471,7 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const ::test_namespace::Optional
 
     connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::deletePetCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
-    connect(_latestWorker, &QObject::destroyed, this, [this](){
+    connect(_latestWorker, &QObject::destroyed, this, [this] {
         if(findChildren<PFXHttpRequestWorker*>().count() == 0){
             Q_EMIT allPendingRequestsCompleted();
         }
