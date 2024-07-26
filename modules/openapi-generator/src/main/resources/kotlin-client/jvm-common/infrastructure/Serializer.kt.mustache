@@ -143,6 +143,7 @@ import java.util.concurrent.atomic.AtomicLong
     val kotlinxSerializationJson: Json by lazy {
         Json {
             serializersModule = kotlinxSerializationAdapters
+            encodeDefaults = true
             ignoreUnknownKeys = true
             isLenient = true
         }
