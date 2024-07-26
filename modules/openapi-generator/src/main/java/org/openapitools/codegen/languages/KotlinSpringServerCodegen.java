@@ -815,6 +815,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             model.imports.add("JsonProperty");
             if (Boolean.TRUE.equals(model.hasEnums)) {
                 model.imports.add("JsonValue");
+                model.imports.add("JsonCreator");
             }
         } else {
             //Needed imports for Jackson's JsonCreator
@@ -840,10 +841,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 .filter(cm -> Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null)
                 .forEach(cm -> {
                     cm.imports.add(importMapping.get("JsonValue"));
+                    cm.imports.add(importMapping.get("JsonCreator"));
                     cm.imports.add(importMapping.get("JsonProperty"));
                     Map<String, String> itemJsonValue = new HashMap<>();
                     itemJsonValue.put("import", importMapping.get("JsonValue"));
                     imports.add(itemJsonValue);
+                    Map<String, String> itemJsonCreator = new HashMap<>();
+                    itemJsonCreator.put("import", importMapping.get("JsonCreator"));
+                    imports.add(itemJsonCreator);
                     Map<String, String> itemJsonProperty = new HashMap<>();
                     itemJsonProperty.put("import", importMapping.get("JsonProperty"));
                     imports.add(itemJsonProperty);
