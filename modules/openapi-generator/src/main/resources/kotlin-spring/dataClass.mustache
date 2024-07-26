@@ -38,7 +38,7 @@
         companion object {
             @JvmStatic
             @JsonCreator
-            fun forValue(value: {{dataType}}): {{{nameInPascalCase}}} {
+            fun forValue(value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}): {{{nameInPascalCase}}} {
                 return values().first{it -> it.value == value}
             }
         }
