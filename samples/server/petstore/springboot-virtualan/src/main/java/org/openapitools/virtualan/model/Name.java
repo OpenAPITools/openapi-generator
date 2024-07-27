@@ -49,7 +49,7 @@ public class Name {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull 
   @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
@@ -69,7 +69,7 @@ public class Name {
   /**
    * Get snakeCase
    * @return snakeCase
-  */
+   */
   
   @Schema(name = "snake_case", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("snake_case")
@@ -89,7 +89,7 @@ public class Name {
   /**
    * Get property
    * @return property
-  */
+   */
   
   @Schema(name = "property", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("property")
@@ -109,7 +109,7 @@ public class Name {
   /**
    * Get _123number
    * @return _123number
-  */
+   */
   
   @Schema(name = "123Number", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("123Number")

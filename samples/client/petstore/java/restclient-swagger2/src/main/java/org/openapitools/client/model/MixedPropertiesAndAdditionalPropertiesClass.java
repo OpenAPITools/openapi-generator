@@ -57,10 +57,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
+   */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_UUID)
@@ -83,10 +83,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get dateTime
    * @return dateTime
-  **/
+   */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
@@ -117,10 +117,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get map
    * @return map
-  **/
+   */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_MAP)

@@ -17,19 +17,14 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.model.ModelMap;
-import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.model.OperationMap;
-import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -38,7 +33,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.StringUtils.escape;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PythonClientCodegen extends AbstractPythonCodegen implements CodegenConfig {
@@ -49,14 +43,15 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     public static final String RECURSION_LIMIT = "recursionLimit";
     public static final String DATETIME_FORMAT = "datetimeFormat";
     public static final String DATE_FORMAT = "dateFormat";
+    public static final String SET_ENSURE_ASCII_TO_FALSE = "setEnsureAsciiToFalse";
 
-    protected String packageUrl;
+    @Setter protected String packageUrl;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
-    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
-    protected String datetimeFormat = "%Y-%m-%dT%H:%M:%S.%f%z";
-    protected String dateFormat = "%Y-%m-%d";
-
+    @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    @Setter protected String datetimeFormat = "%Y-%m-%dT%H:%M:%S.%f%z";
+    @Setter protected String dateFormat = "%Y-%m-%d";
+    @Setter protected boolean setEnsureAsciiToFalse = false;
 
     private String testFolder;
 
@@ -140,6 +135,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.SOURCECODEONLY_GENERATION, CodegenConstants.SOURCECODEONLY_GENERATION_DESC)
+                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(SET_ENSURE_ASCII_TO_FALSE, "When set to true, add `ensure_ascii=False` in json.dumps when creating the HTTP request body.")
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(RECURSION_LIMIT, "Set the recursion limit. If not set, use the system default value."));
         cliOptions.add(new CliOption(MAP_NUMBER_TO, "Map number to Union[StrictFloat, StrictInt], StrictStr or float.")
@@ -227,6 +224,10 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
+
+        if (additionalProperties.containsKey(SET_ENSURE_ASCII_TO_FALSE)) {
+            additionalProperties.put(SET_ENSURE_ASCII_TO_FALSE, Boolean.valueOf(additionalProperties.get(SET_ENSURE_ASCII_TO_FALSE).toString()));
+        }
 
         if (additionalProperties.containsKey(PACKAGE_URL)) {
             setPackageUrl((String) additionalProperties.get(PACKAGE_URL));
@@ -335,10 +336,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         apiPackage = this.packageName + "." + apiPackage;
     }
 
-    public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
-        this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
-    }
-
     public boolean getUseOneOfDiscriminatorLookup() {
         return this.useOneOfDiscriminatorLookup;
     }
@@ -413,10 +410,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         return outputFolder + File.separatorChar + testFolder;
     }
 
-    public void setPackageUrl(String packageUrl) {
-        this.packageUrl = packageUrl;
-    }
-
     public String packagePath() {
         return packageName.replace('.', File.separatorChar);
     }
@@ -456,14 +449,4 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         }
         return "var_" + name;
     }
-
-    public void setDatetimeFormat(String datetimeFormat) {
-        this.datetimeFormat = datetimeFormat;
-    }
-
-    public void setDateFormat(String dateFormat) {
-        this.dateFormat = dateFormat;
-    }
-
-
 }

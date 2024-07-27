@@ -47,10 +47,10 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
     return this;
   }
 
-   /**
+  /**
    * Get someProperty
    * @return someProperty
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SOME_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

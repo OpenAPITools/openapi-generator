@@ -67,10 +67,10 @@ public class Bird {
     return this;
   }
 
-   /**
+  /**
    * Get size
    * @return size
-  **/
+   */
   @javax.annotation.Nullable
   public String getSize() {
     return size;
@@ -86,10 +86,10 @@ public class Bird {
     return this;
   }
 
-   /**
+  /**
    * Get color
    * @return color
-  **/
+   */
   @javax.annotation.Nullable
   public String getColor() {
     return color;
@@ -154,12 +154,12 @@ public class Bird {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Bird
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to Bird
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Bird.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -212,22 +212,22 @@ public class Bird {
     }
   }
 
- /**
-  * Create an instance of Bird given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Bird
-  * @throws IOException if the JSON string is invalid with respect to Bird
-  */
+  /**
+   * Create an instance of Bird given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of Bird
+   * @throws IOException if the JSON string is invalid with respect to Bird
+   */
   public static Bird fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Bird.class);
   }
 
- /**
-  * Convert an instance of Bird to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of Bird to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

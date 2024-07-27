@@ -45,7 +45,7 @@ public class ModelClient {
     /**
      * Get _client
      * @return _client
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_CLIENT)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

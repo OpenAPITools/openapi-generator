@@ -67,10 +67,10 @@ public class Capitalization {
     return this;
   }
 
-   /**
+  /**
    * Get smallCamel
    * @return smallCamel
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
@@ -93,10 +93,10 @@ public class Capitalization {
     return this;
   }
 
-   /**
+  /**
    * Get capitalCamel
    * @return capitalCamel
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
@@ -119,10 +119,10 @@ public class Capitalization {
     return this;
   }
 
-   /**
+  /**
    * Get smallSnake
    * @return smallSnake
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
@@ -145,10 +145,10 @@ public class Capitalization {
     return this;
   }
 
-   /**
+  /**
    * Get capitalSnake
    * @return capitalSnake
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
@@ -171,10 +171,10 @@ public class Capitalization {
     return this;
   }
 
-   /**
+  /**
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
@@ -197,10 +197,10 @@ public class Capitalization {
     return this;
   }
 
-   /**
+  /**
    * Name of the pet 
    * @return ATT_NAME
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)

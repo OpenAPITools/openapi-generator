@@ -90,10 +90,10 @@ public class Query {
     return this;
   }
 
-   /**
+  /**
    * Query
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -123,10 +123,10 @@ public class Query {
     return this;
   }
 
-   /**
+  /**
    * Get outcomes
    * @return outcomes
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_OUTCOMES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

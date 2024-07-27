@@ -93,10 +93,10 @@ public class Zebra {
     return this;
   }
 
-   /**
+  /**
    * Get type
    * @return type
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_TYPE)
@@ -119,10 +119,10 @@ public class Zebra {
     return this;
   }
 
-   /**
+  /**
    * Get className
    * @return className
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 

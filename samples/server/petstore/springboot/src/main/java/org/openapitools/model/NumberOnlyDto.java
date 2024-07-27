@@ -35,7 +35,7 @@ public class NumberOnlyDto {
   /**
    * Get justNumber
    * @return justNumber
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("JustNumber")

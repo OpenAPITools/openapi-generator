@@ -141,10 +141,10 @@ public class PetRef {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   public Long getId() {
     return id;
@@ -160,10 +160,10 @@ public class PetRef {
     return this;
   }
 
-   /**
+  /**
    * Get category
    * @return category
-  **/
+   */
   @javax.annotation.Nullable
   public Category getCategory() {
     return category;
@@ -179,10 +179,10 @@ public class PetRef {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nonnull
   public String getName() {
     return name;
@@ -206,10 +206,10 @@ public class PetRef {
     return this;
   }
 
-   /**
+  /**
    * Get photoUrls
    * @return photoUrls
-  **/
+   */
   @javax.annotation.Nonnull
   public List<String> getPhotoUrls() {
     return photoUrls;
@@ -233,10 +233,10 @@ public class PetRef {
     return this;
   }
 
-   /**
+  /**
    * Get tags
    * @return tags
-  **/
+   */
   @javax.annotation.Nullable
   public List<Tag> getTags() {
     return tags;
@@ -252,10 +252,10 @@ public class PetRef {
     return this;
   }
 
-   /**
+  /**
    * pet status in the store
    * @return status
-  **/
+   */
   @javax.annotation.Nullable
   public StatusEnum getStatus() {
     return status;
@@ -380,12 +380,12 @@ public class PetRef {
     openapiRequiredFields.add("photoUrls");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to PetRef
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to PetRef
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!PetRef.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -508,22 +508,22 @@ public class PetRef {
     }
   }
 
- /**
-  * Create an instance of PetRef given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of PetRef
-  * @throws IOException if the JSON string is invalid with respect to PetRef
-  */
+  /**
+   * Create an instance of PetRef given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of PetRef
+   * @throws IOException if the JSON string is invalid with respect to PetRef
+   */
   public static PetRef fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, PetRef.class);
   }
 
- /**
-  * Convert an instance of PetRef to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of PetRef to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

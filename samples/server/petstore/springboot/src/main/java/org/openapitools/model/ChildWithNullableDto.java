@@ -42,7 +42,7 @@ public class ChildWithNullableDto extends ParentWithNullableDto {
   /**
    * Get otherProperty
    * @return otherProperty
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("otherProperty")

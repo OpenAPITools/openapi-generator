@@ -50,7 +50,7 @@ public class AnimalDto {
   /**
    * Get className
    * @return className
-  */
+   */
   @NotNull
   @JsonProperty("className")
   public String getClassName() {
@@ -69,7 +69,7 @@ public class AnimalDto {
   /**
    * Get color
    * @return color
-  */
+   */
   
   @JsonProperty("color")
   public String getColor() {

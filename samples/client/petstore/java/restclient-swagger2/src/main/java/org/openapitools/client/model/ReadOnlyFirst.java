@@ -42,8 +42,8 @@ public class ReadOnlyFirst {
   public ReadOnlyFirst() {
   }
   /**
-  * Constructor with only readonly parameters
-  */
+   * Constructor with only readonly parameters
+   */
   @JsonCreator
   public ReadOnlyFirst(
     @JsonProperty(JSON_PROPERTY_BAR) String bar
@@ -52,10 +52,10 @@ public class ReadOnlyFirst {
     this.bar = bar;
   }
 
-   /**
+  /**
    * Get bar
    * @return bar
-  **/
+   */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_BAR)
@@ -73,10 +73,10 @@ public class ReadOnlyFirst {
     return this;
   }
 
-   /**
+  /**
    * Get baz
    * @return baz
-  **/
+   */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_BAZ)

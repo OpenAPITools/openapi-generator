@@ -45,7 +45,7 @@ public class ModelReturn {
     /**
      * Get _return
      * @return _return
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_RETURN)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

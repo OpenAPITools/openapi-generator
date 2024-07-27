@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
@@ -55,10 +55,10 @@ public class ModelApiResponse {
     return this;
   }
 
-   /**
+  /**
    * Get code
    * @return code
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_CODE)
@@ -81,10 +81,10 @@ public class ModelApiResponse {
     return this;
   }
 
-   /**
+  /**
    * Get type
    * @return type
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_TYPE)
@@ -107,10 +107,10 @@ public class ModelApiResponse {
     return this;
   }
 
-   /**
+  /**
    * Get message
    * @return message
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_MESSAGE)

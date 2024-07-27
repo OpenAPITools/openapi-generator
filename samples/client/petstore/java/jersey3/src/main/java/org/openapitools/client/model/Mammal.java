@@ -187,7 +187,7 @@ public class Mammal extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<>();
+    public static final Map<String, GenericType<?>> schemas = new HashMap<>();
 
     public Mammal() {
         super("oneOf", Boolean.FALSE);
@@ -275,7 +275,7 @@ public class Mammal extends AbstractOpenApiSchema {
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, GenericType<?>> getSchemas() {
         return Mammal.schemas;
     }
 

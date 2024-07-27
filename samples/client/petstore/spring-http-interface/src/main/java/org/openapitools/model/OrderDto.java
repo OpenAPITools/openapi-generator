@@ -82,7 +82,7 @@ public class OrderDto {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @JsonProperty("id")
   public Long getId() {
@@ -101,7 +101,7 @@ public class OrderDto {
   /**
    * Get petId
    * @return petId
-  */
+   */
   
   @JsonProperty("petId")
   public Long getPetId() {
@@ -120,7 +120,7 @@ public class OrderDto {
   /**
    * Get quantity
    * @return quantity
-  */
+   */
   
   @JsonProperty("quantity")
   public Integer getQuantity() {
@@ -139,7 +139,7 @@ public class OrderDto {
   /**
    * Get shipDate
    * @return shipDate
-  */
+   */
   
   @JsonProperty("shipDate")
   public OffsetDateTime getShipDate() {
@@ -158,7 +158,7 @@ public class OrderDto {
   /**
    * Order Status
    * @return status
-  */
+   */
   
   @JsonProperty("status")
   public StatusEnum getStatus() {
@@ -177,7 +177,7 @@ public class OrderDto {
   /**
    * Get complete
    * @return complete
-  */
+   */
   
   @JsonProperty("complete")
   public Boolean getComplete() {

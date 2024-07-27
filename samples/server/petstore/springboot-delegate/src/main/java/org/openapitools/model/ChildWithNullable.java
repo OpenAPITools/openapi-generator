@@ -37,8 +37,8 @@ public class ChildWithNullable extends ParentWithNullable {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public ChildWithNullable(String otherProperty, TypeEnum type, String nullableProperty) {
       super(type, nullableProperty);
       this.otherProperty = otherProperty;
@@ -52,7 +52,7 @@ public class ChildWithNullable extends ParentWithNullable {
   /**
    * Get otherProperty
    * @return otherProperty
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("otherProperty")

@@ -32,7 +32,7 @@ public class Client {
   /**
    * Get client
    * @return client
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("client")

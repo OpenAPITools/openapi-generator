@@ -43,10 +43,10 @@ public class Foo {
     return this;
   }
 
-   /**
+  /**
    * Get bar
    * @return bar
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

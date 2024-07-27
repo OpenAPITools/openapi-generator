@@ -57,10 +57,10 @@ public class Cat extends Animal {
     return this;
   }
 
-   /**
+  /**
    * Get declawed
    * @return declawed
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DECLAWED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

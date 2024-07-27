@@ -93,10 +93,10 @@ public class BigCat extends Cat {
     return this;
   }
 
-   /**
+  /**
    * Get kind
    * @return kind
-  **/
+   */
   @javax.annotation.Nullable
 
   public KindEnum getKind() {

@@ -42,7 +42,7 @@ public class ArrayOfNumberOnly {
   /**
    * Get arrayNumber
    * @return arrayNumber
-  */
+   */
   
   @JsonProperty("ArrayNumber")
   public List<BigDecimal> getArrayNumber() {

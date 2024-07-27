@@ -52,10 +52,10 @@ public class ModelFile {
     return this;
   }
 
-   /**
+  /**
    * Test capitalization
    * @return sourceURI
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

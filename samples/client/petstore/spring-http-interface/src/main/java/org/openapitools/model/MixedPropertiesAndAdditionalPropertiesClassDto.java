@@ -43,7 +43,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
   /**
    * Get uuid
    * @return uuid
-  */
+   */
   
   @JsonProperty("uuid")
   public UUID getUuid() {
@@ -62,7 +62,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
   /**
    * Get dateTime
    * @return dateTime
-  */
+   */
   
   @JsonProperty("dateTime")
   public OffsetDateTime getDateTime() {
@@ -89,7 +89,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
   /**
    * Get map
    * @return map
-  */
+   */
   
   @JsonProperty("map")
   public Map<String, AnimalDto> getMap() {

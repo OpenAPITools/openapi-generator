@@ -46,10 +46,10 @@ public class ModelFile {
     return this;
   }
 
-   /**
+  /**
    * Test capitalization
    * @return sourceURI
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "Test capitalization")
   @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)

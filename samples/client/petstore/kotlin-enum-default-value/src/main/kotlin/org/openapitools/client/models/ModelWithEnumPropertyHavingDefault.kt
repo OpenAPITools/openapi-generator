@@ -47,5 +47,6 @@ data class ModelWithEnumPropertyHavingDefault (
         @Json(name = "VALUE") VALUE("VALUE"),
         @Json(name = "unknown_default_open_api") unknown_default_open_api("unknown_default_open_api");
     }
+
 }
 

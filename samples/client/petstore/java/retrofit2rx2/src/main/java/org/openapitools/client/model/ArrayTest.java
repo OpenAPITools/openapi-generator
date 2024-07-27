@@ -60,10 +60,10 @@ public class ArrayTest {
     return this;
   }
 
-   /**
+  /**
    * Get arrayOfString
    * @return arrayOfString
-  **/
+   */
   @javax.annotation.Nullable
 
   public List<String> getArrayOfString() {
@@ -89,10 +89,10 @@ public class ArrayTest {
     return this;
   }
 
-   /**
+  /**
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
-  **/
+   */
   @javax.annotation.Nullable
 
   public List<List<Long>> getArrayArrayOfInteger() {
@@ -118,10 +118,10 @@ public class ArrayTest {
     return this;
   }
 
-   /**
+  /**
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
-  **/
+   */
   @javax.annotation.Nullable
 
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {

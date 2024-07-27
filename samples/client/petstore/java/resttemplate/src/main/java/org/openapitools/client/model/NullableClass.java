@@ -95,8 +95,8 @@ public class NullableClass extends HashMap<String, Object> {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public NullableClass(@JsonProperty(JSON_PROPERTY_INTEGER_PROP) Integer integerProp, @JsonProperty(JSON_PROPERTY_NUMBER_PROP) BigDecimal numberProp, @JsonProperty(JSON_PROPERTY_BOOLEAN_PROP) Boolean booleanProp, @JsonProperty(JSON_PROPERTY_STRING_PROP) String stringProp, @JsonProperty(JSON_PROPERTY_DATE_PROP) LocalDate dateProp, @JsonProperty(JSON_PROPERTY_DATETIME_PROP) OffsetDateTime datetimeProp, @JsonProperty(JSON_PROPERTY_ARRAY_NULLABLE_PROP) List<Object> arrayNullableProp, @JsonProperty(JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP) List<Object> arrayAndItemsNullableProp, @JsonProperty(JSON_PROPERTY_ARRAY_ITEMS_NULLABLE) List<Object> arrayItemsNullable, @JsonProperty(JSON_PROPERTY_OBJECT_NULLABLE_PROP) Map<String, Object> objectNullableProp, @JsonProperty(JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP) Map<String, Object> objectAndItemsNullableProp, @JsonProperty(JSON_PROPERTY_OBJECT_ITEMS_NULLABLE) Map<String, Object> objectItemsNullable) {
     super();
     this.integerProp = integerProp == null ? JsonNullable.<Integer>undefined() : JsonNullable.of(integerProp);
@@ -119,10 +119,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get integerProp
    * @return integerProp
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
 
@@ -152,10 +152,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get numberProp
    * @return numberProp
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
 
@@ -185,10 +185,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get booleanProp
    * @return booleanProp
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
 
@@ -218,10 +218,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get stringProp
    * @return stringProp
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
 
@@ -251,10 +251,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get dateProp
    * @return dateProp
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
 
@@ -284,10 +284,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get datetimeProp
    * @return datetimeProp
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
 
@@ -329,10 +329,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get arrayNullableProp
    * @return arrayNullableProp
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
 
@@ -374,10 +374,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get arrayAndItemsNullableProp
    * @return arrayAndItemsNullableProp
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
 
@@ -415,10 +415,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get arrayItemsNullable
    * @return arrayItemsNullable
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEMS_NULLABLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -452,10 +452,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get objectNullableProp
    * @return objectNullableProp
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
 
@@ -497,10 +497,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get objectAndItemsNullableProp
    * @return objectAndItemsNullableProp
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
 
@@ -538,10 +538,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get objectItemsNullable
    * @return objectItemsNullable
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_OBJECT_ITEMS_NULLABLE)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)

@@ -53,10 +53,10 @@ public class FileSchemaTestClass {
     return this;
   }
 
-   /**
+  /**
    * Get _file
    * @return _file
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -88,10 +88,10 @@ public class FileSchemaTestClass {
     return this;
   }
 
-   /**
+  /**
    * Get files
    * @return files
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 

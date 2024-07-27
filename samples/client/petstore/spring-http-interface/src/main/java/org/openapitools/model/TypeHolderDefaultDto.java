@@ -48,7 +48,7 @@ public class TypeHolderDefaultDto {
   /**
    * Get stringItem
    * @return stringItem
-  */
+   */
   @NotNull
   @JsonProperty("string_item")
   public String getStringItem() {
@@ -67,7 +67,7 @@ public class TypeHolderDefaultDto {
   /**
    * Get numberItem
    * @return numberItem
-  */
+   */
   @NotNull
   @JsonProperty("number_item")
   public BigDecimal getNumberItem() {
@@ -86,7 +86,7 @@ public class TypeHolderDefaultDto {
   /**
    * Get integerItem
    * @return integerItem
-  */
+   */
   @NotNull
   @JsonProperty("integer_item")
   public Integer getIntegerItem() {
@@ -105,7 +105,7 @@ public class TypeHolderDefaultDto {
   /**
    * Get boolItem
    * @return boolItem
-  */
+   */
   @NotNull
   @JsonProperty("bool_item")
   public Boolean getBoolItem() {
@@ -132,7 +132,7 @@ public class TypeHolderDefaultDto {
   /**
    * Get arrayItem
    * @return arrayItem
-  */
+   */
   @NotNull
   @JsonProperty("array_item")
   public List<Integer> getArrayItem() {

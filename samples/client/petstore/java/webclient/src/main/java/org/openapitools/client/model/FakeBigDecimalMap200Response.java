@@ -51,10 +51,10 @@ public class FakeBigDecimalMap200Response {
     return this;
   }
 
-   /**
+  /**
    * Get someId
    * @return someId
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SOME_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -84,10 +84,10 @@ public class FakeBigDecimalMap200Response {
     return this;
   }
 
-   /**
+  /**
    * Get someMap
    * @return someMap
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SOME_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

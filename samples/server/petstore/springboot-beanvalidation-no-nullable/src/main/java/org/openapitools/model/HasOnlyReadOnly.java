@@ -35,7 +35,7 @@ public class HasOnlyReadOnly {
   /**
    * Get bar
    * @return bar
-  */
+   */
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("bar")
@@ -55,7 +55,7 @@ public class HasOnlyReadOnly {
   /**
    * Get foo
    * @return foo
-  */
+   */
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("foo")

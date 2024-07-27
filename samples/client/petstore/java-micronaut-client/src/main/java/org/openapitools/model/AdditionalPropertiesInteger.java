@@ -47,7 +47,7 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
     /**
      * Get name
      * @return name
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

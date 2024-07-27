@@ -66,10 +66,10 @@ public class AdditionalPropertiesObject implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
   public String getName() {
     return name;
@@ -198,12 +198,12 @@ public class AdditionalPropertiesObject implements Parcelable {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to AdditionalPropertiesObject
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to AdditionalPropertiesObject
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!AdditionalPropertiesObject.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -288,22 +288,22 @@ public class AdditionalPropertiesObject implements Parcelable {
     }
   }
 
- /**
-  * Create an instance of AdditionalPropertiesObject given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of AdditionalPropertiesObject
-  * @throws IOException if the JSON string is invalid with respect to AdditionalPropertiesObject
-  */
+  /**
+   * Create an instance of AdditionalPropertiesObject given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of AdditionalPropertiesObject
+   * @throws IOException if the JSON string is invalid with respect to AdditionalPropertiesObject
+   */
   public static AdditionalPropertiesObject fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, AdditionalPropertiesObject.class);
   }
 
- /**
-  * Convert an instance of AdditionalPropertiesObject to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of AdditionalPropertiesObject to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

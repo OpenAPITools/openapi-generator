@@ -55,10 +55,10 @@ public class ArrayOfArrayOfNumberOnly {
     return this;
   }
 
-   /**
+  /**
    * Get arrayArrayNumber
    * @return arrayArrayNumber
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

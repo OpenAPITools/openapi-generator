@@ -2,7 +2,7 @@
 
 ### Delete a code scanning analysis from a repository
 ## Delete a code scanning analysis from a repository
-DELETE https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/analyses/{{analysis_id}}
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/analyses/{{analysis_id}}?confirmDelete={{confirmDelete}}
 Accept: application/json
 Accept: application/scim+json
 
@@ -34,17 +34,17 @@ Accept: application/json
 
 ### List instances of a code scanning alert
 ## List instances of a code scanning alert
-GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/alerts/{{alert_number}}/instances
+GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/alerts/{{alert_number}}/instances?page={{page}}&perPage={{perPage}}&ref={{ref}}
 Accept: application/json
 
 ### List code scanning alerts for an organization
 ## List code scanning alerts for an organization
-GET https://api.github.com/orgs/{{org}}/code-scanning/alerts
+GET https://api.github.com/orgs/{{org}}/code-scanning/alerts?toolName={{toolName}}&toolGuid={{toolGuid}}&before={{before}}&after={{after}}&page={{page}}&perPage={{perPage}}&direction={{direction}}&state={{state}}&sort={{sort}}&severity={{severity}}
 Accept: application/json
 
 ### List code scanning alerts for a repository
 ## List code scanning alerts for a repository
-GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/alerts
+GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/alerts?toolName={{toolName}}&toolGuid={{toolGuid}}&page={{page}}&perPage={{perPage}}&ref={{ref}}&direction={{direction}}&sort={{sort}}&state={{state}}&severity={{severity}}
 Accept: application/json
 
 ### List CodeQL databases for a repository
@@ -54,7 +54,7 @@ Accept: application/json
 
 ### List code scanning analyses for a repository
 ## List code scanning analyses for a repository
-GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/analyses
+GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/analyses?toolName={{toolName}}&toolGuid={{toolGuid}}&page={{page}}&perPage={{perPage}}&ref={{ref}}&sarifId={{sarifId}}&direction={{direction}}&sort={{sort}}
 Accept: application/json
 
 ### Update a code scanning alert

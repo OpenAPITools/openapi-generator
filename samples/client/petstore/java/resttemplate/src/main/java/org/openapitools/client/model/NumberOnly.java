@@ -39,8 +39,8 @@ public class NumberOnly {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public NumberOnly(@JsonProperty(JSON_PROPERTY_JUST_NUMBER) BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
@@ -51,10 +51,10 @@ public class NumberOnly {
     return this;
   }
 
-   /**
+  /**
    * Get justNumber
    * @return justNumber
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

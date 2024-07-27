@@ -55,10 +55,10 @@ public class ComplexQuadrilateral {
     return this;
   }
 
-   /**
+  /**
    * Get shapeType
    * @return shapeType
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -82,10 +82,10 @@ public class ComplexQuadrilateral {
     return this;
   }
 
-   /**
+  /**
    * Get quadrilateralType
    * @return quadrilateralType
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 

@@ -28,6 +28,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * Model for testing reserved words
  */
@@ -47,14 +48,13 @@ public class ModelReturn {
     return this;
   }
 
-   /**
+  /**
    * Get _return
    * @return _return
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_RETURN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Integer getReturn() {
     return _return;
   }
@@ -141,7 +141,7 @@ public class ModelReturn {
 
     // add `return` to the URL query string
     if (getReturn() != null) {
-      joiner.add(String.format("%sreturn%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getReturn()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sreturn%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReturn()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

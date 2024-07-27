@@ -43,10 +43,10 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getName() {

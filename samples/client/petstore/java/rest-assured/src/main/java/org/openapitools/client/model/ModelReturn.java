@@ -21,8 +21,8 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
@@ -43,10 +43,10 @@ public class ModelReturn {
     return this;
   }
 
-   /**
+  /**
    * Get _return
    * @return _return
-  **/
+   */
   @javax.annotation.Nullable
 
 

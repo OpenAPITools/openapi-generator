@@ -74,10 +74,10 @@ public class ArrayOfInlineAllOf {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   public Long getId() {
     return id;
@@ -93,10 +93,10 @@ public class ArrayOfInlineAllOf {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nonnull
   public String getName() {
     return name;
@@ -120,10 +120,10 @@ public class ArrayOfInlineAllOf {
     return this;
   }
 
-   /**
+  /**
    * Get arrayAllofDogProperty
    * @return arrayAllofDogProperty
-  **/
+   */
   @javax.annotation.Nullable
   public List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> getArrayAllofDogProperty() {
     return arrayAllofDogProperty;
@@ -238,12 +238,12 @@ public class ArrayOfInlineAllOf {
     openapiRequiredFields.add("name");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to ArrayOfInlineAllOf
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to ArrayOfInlineAllOf
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!ArrayOfInlineAllOf.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -349,22 +349,22 @@ public class ArrayOfInlineAllOf {
     }
   }
 
- /**
-  * Create an instance of ArrayOfInlineAllOf given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of ArrayOfInlineAllOf
-  * @throws IOException if the JSON string is invalid with respect to ArrayOfInlineAllOf
-  */
+  /**
+   * Create an instance of ArrayOfInlineAllOf given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of ArrayOfInlineAllOf
+   * @throws IOException if the JSON string is invalid with respect to ArrayOfInlineAllOf
+   */
   public static ArrayOfInlineAllOf fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ArrayOfInlineAllOf.class);
   }
 
- /**
-  * Convert an instance of ArrayOfInlineAllOf to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of ArrayOfInlineAllOf to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

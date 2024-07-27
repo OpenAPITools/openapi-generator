@@ -52,10 +52,10 @@ public class Model200Response {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_NAME)
@@ -78,10 +78,10 @@ public class Model200Response {
     return this;
   }
 
-   /**
+  /**
    * Get propertyClass
    * @return propertyClass
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)

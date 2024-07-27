@@ -1,0 +1,12 @@
+README.md
+docs/Cat.md
+docs/DefaultApi.md
+docs/Dog.md
+docs/Status.md
+pom.xml
+src/main/java/org/openapitools/client/api/ApiException.java
+src/main/java/org/openapitools/client/api/ApiExceptionMapper.java
+src/main/java/org/openapitools/client/api/DefaultApi.java
+src/main/java/org/openapitools/client/model/Cat.java
+src/main/java/org/openapitools/client/model/Dog.java
+src/main/java/org/openapitools/client/model/Status.java

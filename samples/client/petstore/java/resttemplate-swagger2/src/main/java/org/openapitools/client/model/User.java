@@ -73,10 +73,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_ID)
@@ -99,10 +99,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get username
    * @return username
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_USERNAME)
@@ -125,10 +125,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get firstName
    * @return firstName
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_FIRST_NAME)
@@ -151,10 +151,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get lastName
    * @return lastName
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_LAST_NAME)
@@ -177,10 +177,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get email
    * @return email
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_EMAIL)
@@ -203,10 +203,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get password
    * @return password
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_PASSWORD)
@@ -229,10 +229,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get phone
    * @return phone
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_PHONE)
@@ -255,10 +255,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * User Status
    * @return userStatus
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "User Status")
   @JsonProperty(JSON_PROPERTY_USER_STATUS)

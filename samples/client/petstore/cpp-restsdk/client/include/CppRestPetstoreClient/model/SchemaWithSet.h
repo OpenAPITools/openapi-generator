@@ -32,6 +32,7 @@ namespace model {
 
 class SchemaWithSet_vaccinationBook;
 
+
 /// <summary>
 /// Schema with a set property
 /// </summary>

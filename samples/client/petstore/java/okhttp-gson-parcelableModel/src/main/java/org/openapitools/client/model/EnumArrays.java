@@ -175,10 +175,10 @@ public class EnumArrays implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get justSymbol
    * @return justSymbol
-  **/
+   */
   @javax.annotation.Nullable
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
@@ -202,10 +202,10 @@ public class EnumArrays implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get arrayEnum
    * @return arrayEnum
-  **/
+   */
   @javax.annotation.Nullable
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
@@ -293,12 +293,12 @@ public class EnumArrays implements Parcelable {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to EnumArrays
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to EnumArrays
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!EnumArrays.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -356,22 +356,22 @@ public class EnumArrays implements Parcelable {
     }
   }
 
- /**
-  * Create an instance of EnumArrays given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of EnumArrays
-  * @throws IOException if the JSON string is invalid with respect to EnumArrays
-  */
+  /**
+   * Create an instance of EnumArrays given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of EnumArrays
+   * @throws IOException if the JSON string is invalid with respect to EnumArrays
+   */
   public static EnumArrays fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, EnumArrays.class);
   }
 
- /**
-  * Convert an instance of EnumArrays to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of EnumArrays to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

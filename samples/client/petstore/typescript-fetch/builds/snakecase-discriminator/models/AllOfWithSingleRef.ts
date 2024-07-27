@@ -40,6 +40,8 @@ export interface AllOfWithSingleRef {
     singleRefType?: SingleRefType;
 }
 
+
+
 /**
  * Check if a given object implements the AllOfWithSingleRef interface.
  */

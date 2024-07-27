@@ -80,8 +80,8 @@ public class Order {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public Order(Long id, Long petId, Integer quantity, OffsetDateTime shipDate, StatusEnum status, Boolean complete) {
       this.id = id;
       this.petId = petId;
@@ -99,7 +99,7 @@ public class Order {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
@@ -119,7 +119,7 @@ public class Order {
   /**
    * Get petId
    * @return petId
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("petId")
@@ -139,7 +139,7 @@ public class Order {
   /**
    * Get quantity
    * @return quantity
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("quantity")
@@ -159,7 +159,7 @@ public class Order {
   /**
    * Get shipDate
    * @return shipDate
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("shipDate")
@@ -179,7 +179,7 @@ public class Order {
   /**
    * Order Status
    * @return status
-  */
+   */
   
   @ApiModelProperty(value = "Order Status")
   @JsonProperty("status")
@@ -199,7 +199,7 @@ public class Order {
   /**
    * Get complete
    * @return complete
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("complete")

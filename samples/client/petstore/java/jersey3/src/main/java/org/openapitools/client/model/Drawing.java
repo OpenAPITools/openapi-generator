@@ -73,10 +73,10 @@ public class Drawing {
     return this;
   }
 
-   /**
+  /**
    * Get mainShape
    * @return mainShape
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -100,10 +100,10 @@ public class Drawing {
     return this;
   }
 
-   /**
+  /**
    * Get shapeOrNull
    * @return shapeOrNull
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -135,10 +135,10 @@ public class Drawing {
     return this;
   }
 
-   /**
+  /**
    * Get nullableShape
    * @return nullableShape
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -178,10 +178,10 @@ public class Drawing {
     return this;
   }
 
-   /**
+  /**
    * Get shapes
    * @return shapes
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 

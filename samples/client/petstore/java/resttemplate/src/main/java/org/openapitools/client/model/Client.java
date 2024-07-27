@@ -38,8 +38,8 @@ public class Client {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public Client(@JsonProperty(JSON_PROPERTY_CLIENT) String client) {
     this.client = client;
   }
@@ -50,10 +50,10 @@ public class Client {
     return this;
   }
 
-   /**
+  /**
    * Get client
    * @return client
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CLIENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

@@ -751,6 +751,47 @@ paths:
       - fake
       x-accepts:
       - application/json
+  /fake/inline/schema/anyof/path1:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/myObject'
+          description: ""
+      tags:
+      - fake
+      x-accepts:
+      - application/json
+  /fake/inline/schema/anyof/path2:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/myObject'
+          description: ""
+      tags:
+      - fake
+      x-accepts:
+      - application/json
+  /fake/inline/schema/anyof/path3:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/myObject'
+                nullable: true
+          description: ""
+      tags:
+      - fake
+      x-accepts:
+      - application/json
 components:
   parameters:
     ref_to_uuid:
@@ -1074,6 +1115,8 @@ components:
     AllOfSimpleModel:
       allOf:
       - $ref: '#/components/schemas/SimpleModelWithArrayProperty'
+    myObject:
+      type: object
     updatePetWithForm_request:
       properties:
         name:

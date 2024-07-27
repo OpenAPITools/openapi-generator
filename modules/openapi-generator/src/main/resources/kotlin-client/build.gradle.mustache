@@ -137,8 +137,8 @@ dependencies {
     {{/gson}}
     {{#jackson}}
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.17.0"
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.0"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.17.1"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.1"
     {{/jackson}}
     {{#kotlinx_serialization}}
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3"
@@ -155,9 +155,6 @@ dependencies {
     implementation "io.ktor:ktor-serialization-jackson:$ktor_version"
     {{/jackson}}
     {{/jvm-ktor}}
-    {{#jvm-okhttp3}}
-    implementation "com.squareup.okhttp3:okhttp:3.14.9"
-    {{/jvm-okhttp3}}
     {{#jvm-okhttp4}}
     implementation "com.squareup.okhttp3:okhttp:4.12.0"
     {{/jvm-okhttp4}}

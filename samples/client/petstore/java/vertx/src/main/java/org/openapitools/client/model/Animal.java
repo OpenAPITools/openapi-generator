@@ -60,10 +60,10 @@ public class Animal {
     return this;
   }
 
-   /**
+  /**
    * Get className
    * @return className
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -85,10 +85,10 @@ public class Animal {
     return this;
   }
 
-   /**
+  /**
    * Get color
    * @return color
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_COLOR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

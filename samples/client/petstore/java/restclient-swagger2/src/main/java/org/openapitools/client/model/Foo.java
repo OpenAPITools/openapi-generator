@@ -44,10 +44,10 @@ public class Foo {
     return this;
   }
 
-   /**
+  /**
    * Get bar
    * @return bar
-  **/
+   */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_BAR)

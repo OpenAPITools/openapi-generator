@@ -23,8 +23,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
@@ -55,10 +55,10 @@ public class OuterComposite {
     return this;
   }
 
-   /**
+  /**
    * Get myNumber
    * @return myNumber
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
 
@@ -82,10 +82,10 @@ public class OuterComposite {
     return this;
   }
 
-   /**
+  /**
    * Get myString
    * @return myString
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_MY_STRING)
@@ -108,10 +108,10 @@ public class OuterComposite {
     return this;
   }
 
-   /**
+  /**
    * Get myBoolean
    * @return myBoolean
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)

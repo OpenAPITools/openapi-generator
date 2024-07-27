@@ -65,10 +65,10 @@ public class ModelFile implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Test capitalization
    * @return sourceURI
-  **/
+   */
   @javax.annotation.Nullable
   public String getSourceURI() {
     return sourceURI;
@@ -151,12 +151,12 @@ public class ModelFile implements Parcelable {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to ModelFile
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to ModelFile
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!ModelFile.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -206,22 +206,22 @@ public class ModelFile implements Parcelable {
     }
   }
 
- /**
-  * Create an instance of ModelFile given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of ModelFile
-  * @throws IOException if the JSON string is invalid with respect to ModelFile
-  */
+  /**
+   * Create an instance of ModelFile given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of ModelFile
+   * @throws IOException if the JSON string is invalid with respect to ModelFile
+   */
   public static ModelFile fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ModelFile.class);
   }
 
- /**
-  * Convert an instance of ModelFile to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of ModelFile to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

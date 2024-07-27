@@ -48,10 +48,10 @@ public class ModelFile {
     return this;
   }
 
-   /**
+  /**
    * Test capitalization
    * @return sourceURI
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)

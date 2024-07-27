@@ -21,7 +21,6 @@ import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.XML;
 import io.swagger.v3.oas.models.parameters.Parameter;
@@ -29,6 +28,7 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import joptsimple.internal.Strings;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -69,7 +69,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String packageName;
-    protected String packageVersion;
+    @Setter protected String packageVersion;
     protected String externCrateName;
     protected Map<String, Map<String, String>> pathSetMap = new HashMap();
     protected Map<String, Map<String, String>> callbacksPathSetMap = new HashMap();
@@ -280,10 +280,6 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
         // Also set the extern crate name, which has any '-' replace with a '_'.
         this.externCrateName = packageName.replace('-', '_');
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
     }
 
     @Override
@@ -1128,6 +1124,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         // the templates to process.
         List<Map.Entry<String, Map<String, String>>> pathSetEntryList = new ArrayList(pathSetMap.entrySet());
         Collections.sort(pathSetEntryList, new Comparator<Map.Entry<String, Map<String, String>>>() {
+            @Override
             public int compare(Map.Entry<String, Map<String, String>> a, Map.Entry<String, Map<String, String>> b) {
                 return a.getValue().get("path").compareTo(b.getValue().get("path"));
             }

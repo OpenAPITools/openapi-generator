@@ -110,12 +110,12 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get integer
    * minimum: 10
    * maximum: 100
    * @return integer
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_INTEGER)
@@ -138,12 +138,12 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get int32
    * minimum: 20
    * maximum: 200
    * @return int32
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_INT32)
@@ -166,10 +166,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get int64
    * @return int64
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_INT64)
@@ -192,12 +192,12 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get number
    * minimum: 32.1
    * maximum: 543.2
    * @return number
-  **/
+   */
   @javax.annotation.Nonnull
   @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_NUMBER)
@@ -220,12 +220,12 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get _float
    * minimum: 54.3
    * maximum: 987.6
    * @return _float
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_FLOAT)
@@ -248,12 +248,12 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get _double
    * minimum: 67.8
    * maximum: 123.4
    * @return _double
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_DOUBLE)
@@ -276,10 +276,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get decimal
    * @return decimal
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_DECIMAL)
@@ -302,10 +302,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get string
    * @return string
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_STRING)
@@ -328,10 +328,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get _byte
    * @return _byte
-  **/
+   */
   @javax.annotation.Nonnull
   @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_BYTE)
@@ -354,10 +354,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get binary
    * @return binary
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_BINARY)
@@ -380,10 +380,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get date
    * @return date
-  **/
+   */
   @javax.annotation.Nonnull
   @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_DATE)
@@ -406,10 +406,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get dateTime
    * @return dateTime
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
@@ -432,10 +432,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_UUID)
@@ -458,10 +458,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get password
    * @return password
-  **/
+   */
   @javax.annotation.Nonnull
   @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_PASSWORD)
@@ -484,10 +484,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * A string that is a 10 digit number. Can have leading zeros.
    * @return patternWithDigits
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "A string that is a 10 digit number. Can have leading zeros.")
   @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS)
@@ -510,10 +510,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
    * @return patternWithDigitsAndDelimiter
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
   @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER)

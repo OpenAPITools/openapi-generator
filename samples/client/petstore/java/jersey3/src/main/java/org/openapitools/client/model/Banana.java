@@ -49,10 +49,10 @@ public class Banana {
     return this;
   }
 
-   /**
+  /**
    * Get lengthCm
    * @return lengthCm
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 

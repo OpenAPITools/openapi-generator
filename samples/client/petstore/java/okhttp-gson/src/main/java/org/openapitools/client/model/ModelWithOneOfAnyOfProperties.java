@@ -69,10 +69,10 @@ public class ModelWithOneOfAnyOfProperties {
     return this;
   }
 
-   /**
+  /**
    * Get oneofProp
    * @return oneofProp
-  **/
+   */
   @javax.annotation.Nullable
   public ArrayOneOf getOneofProp() {
     return oneofProp;
@@ -88,10 +88,10 @@ public class ModelWithOneOfAnyOfProperties {
     return this;
   }
 
-   /**
+  /**
    * Get anyofProp
    * @return anyofProp
-  **/
+   */
   @javax.annotation.Nullable
   public ArrayAnyOf getAnyofProp() {
     return anyofProp;
@@ -202,12 +202,12 @@ public class ModelWithOneOfAnyOfProperties {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to ModelWithOneOfAnyOfProperties
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to ModelWithOneOfAnyOfProperties
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!ModelWithOneOfAnyOfProperties.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -297,22 +297,22 @@ public class ModelWithOneOfAnyOfProperties {
     }
   }
 
- /**
-  * Create an instance of ModelWithOneOfAnyOfProperties given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of ModelWithOneOfAnyOfProperties
-  * @throws IOException if the JSON string is invalid with respect to ModelWithOneOfAnyOfProperties
-  */
+  /**
+   * Create an instance of ModelWithOneOfAnyOfProperties given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of ModelWithOneOfAnyOfProperties
+   * @throws IOException if the JSON string is invalid with respect to ModelWithOneOfAnyOfProperties
+   */
   public static ModelWithOneOfAnyOfProperties fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ModelWithOneOfAnyOfProperties.class);
   }
 
- /**
-  * Convert an instance of ModelWithOneOfAnyOfProperties to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of ModelWithOneOfAnyOfProperties to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

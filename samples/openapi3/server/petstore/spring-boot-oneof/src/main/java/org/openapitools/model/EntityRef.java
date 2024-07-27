@@ -68,7 +68,7 @@ public class EntityRef {
   /**
    * Name of the related entity.
    * @return name
-  */
+   */
   
   @Schema(name = "name", description = "Name of the related entity.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
@@ -88,7 +88,7 @@ public class EntityRef {
   /**
    * The actual type of the target instance when needed for disambiguation.
    * @return atReferredType
-  */
+   */
   
   @Schema(name = "@referredType", description = "The actual type of the target instance when needed for disambiguation.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("@referredType")
@@ -108,7 +108,7 @@ public class EntityRef {
   /**
    * Hyperlink reference
    * @return href
-  */
+   */
   
   @Schema(name = "href", description = "Hyperlink reference", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("href")
@@ -128,7 +128,7 @@ public class EntityRef {
   /**
    * unique identifier
    * @return id
-  */
+   */
   
   @Schema(name = "id", description = "unique identifier", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
@@ -148,7 +148,7 @@ public class EntityRef {
   /**
    * A URI to a JSON-Schema file that defines additional attributes and relationships
    * @return atSchemaLocation
-  */
+   */
   
   @Schema(name = "@schemaLocation", description = "A URI to a JSON-Schema file that defines additional attributes and relationships", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("@schemaLocation")
@@ -168,7 +168,7 @@ public class EntityRef {
   /**
    * When sub-classing, this defines the super-class
    * @return atBaseType
-  */
+   */
   
   @Schema(name = "@baseType", description = "When sub-classing, this defines the super-class", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("@baseType")
@@ -188,7 +188,7 @@ public class EntityRef {
   /**
    * When sub-classing, this defines the sub-class Extensible name
    * @return atType
-  */
+   */
   @NotNull 
   @Schema(name = "@type", description = "When sub-classing, this defines the sub-class Extensible name", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("@type")

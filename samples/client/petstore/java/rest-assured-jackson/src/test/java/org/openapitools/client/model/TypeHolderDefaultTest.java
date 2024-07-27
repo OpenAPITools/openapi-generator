@@ -20,23 +20,23 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for TypeHolderDefault
  */
-public class TypeHolderDefaultTest {
+class TypeHolderDefaultTest {
     private final TypeHolderDefault model = new TypeHolderDefault();
 
     /**
      * Model tests for TypeHolderDefault
      */
     @Test
-    public void testTypeHolderDefault() {
+    void testTypeHolderDefault() {
         // TODO: test TypeHolderDefault
     }
 
@@ -44,7 +44,7 @@ public class TypeHolderDefaultTest {
      * Test the property 'stringItem'
      */
     @Test
-    public void stringItemTest() {
+    void stringItemTest() {
         // TODO: test stringItem
     }
 
@@ -52,7 +52,7 @@ public class TypeHolderDefaultTest {
      * Test the property 'numberItem'
      */
     @Test
-    public void numberItemTest() {
+    void numberItemTest() {
         // TODO: test numberItem
     }
 
@@ -60,7 +60,7 @@ public class TypeHolderDefaultTest {
      * Test the property 'integerItem'
      */
     @Test
-    public void integerItemTest() {
+    void integerItemTest() {
         // TODO: test integerItem
     }
 
@@ -68,7 +68,7 @@ public class TypeHolderDefaultTest {
      * Test the property 'boolItem'
      */
     @Test
-    public void boolItemTest() {
+    void boolItemTest() {
         // TODO: test boolItem
     }
 
@@ -76,7 +76,7 @@ public class TypeHolderDefaultTest {
      * Test the property 'arrayItem'
      */
     @Test
-    public void arrayItemTest() {
+    void arrayItemTest() {
         // TODO: test arrayItem
     }
 

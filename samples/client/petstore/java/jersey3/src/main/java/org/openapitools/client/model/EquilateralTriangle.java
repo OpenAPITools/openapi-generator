@@ -55,10 +55,10 @@ public class EquilateralTriangle {
     return this;
   }
 
-   /**
+  /**
    * Get shapeType
    * @return shapeType
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -82,10 +82,10 @@ public class EquilateralTriangle {
     return this;
   }
 
-   /**
+  /**
    * Get triangleType
    * @return triangleType
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 

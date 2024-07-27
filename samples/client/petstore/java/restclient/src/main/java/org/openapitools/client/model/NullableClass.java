@@ -100,10 +100,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get integerProp
    * @return integerProp
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonIgnore
 
@@ -133,10 +133,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get numberProp
    * @return numberProp
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonIgnore
 
@@ -166,10 +166,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get booleanProp
    * @return booleanProp
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonIgnore
 
@@ -199,10 +199,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get stringProp
    * @return stringProp
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonIgnore
 
@@ -232,10 +232,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get dateProp
    * @return dateProp
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonIgnore
 
@@ -265,10 +265,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get datetimeProp
    * @return datetimeProp
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonIgnore
 
@@ -310,10 +310,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get arrayNullableProp
    * @return arrayNullableProp
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonIgnore
 
@@ -355,10 +355,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get arrayAndItemsNullableProp
    * @return arrayAndItemsNullableProp
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonIgnore
 
@@ -396,10 +396,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get arrayItemsNullable
    * @return arrayItemsNullable
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEMS_NULLABLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -433,10 +433,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get objectNullableProp
    * @return objectNullableProp
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonIgnore
 
@@ -478,10 +478,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get objectAndItemsNullableProp
    * @return objectAndItemsNullableProp
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonIgnore
 
@@ -519,10 +519,10 @@ public class NullableClass extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get objectItemsNullable
    * @return objectItemsNullable
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_OBJECT_ITEMS_NULLABLE)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)

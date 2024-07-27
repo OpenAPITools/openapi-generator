@@ -58,10 +58,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapProperty
    * @return mapProperty
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
@@ -92,10 +92,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapOfMapProperty
    * @return mapOfMapProperty
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)

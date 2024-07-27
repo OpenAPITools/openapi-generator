@@ -45,7 +45,7 @@ public class NumberOnly {
     /**
      * Get justNumber
      * @return justNumber
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

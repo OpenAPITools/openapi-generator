@@ -21,8 +21,8 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
@@ -51,10 +51,10 @@ public class ModelApiResponse {
     return this;
   }
 
-   /**
+  /**
    * Get code
    * @return code
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -73,10 +73,10 @@ public class ModelApiResponse {
     return this;
   }
 
-   /**
+  /**
    * Get type
    * @return type
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -95,10 +95,10 @@ public class ModelApiResponse {
     return this;
   }
 
-   /**
+  /**
    * Get message
    * @return message
-  **/
+   */
   @javax.annotation.Nullable
 
 

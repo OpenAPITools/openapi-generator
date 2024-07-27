@@ -53,7 +53,7 @@ public class ArrayTestDto {
   /**
    * Get arrayOfString
    * @return arrayOfString
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("array_of_string")
@@ -81,7 +81,7 @@ public class ArrayTestDto {
   /**
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_integer")
@@ -109,7 +109,7 @@ public class ArrayTestDto {
   /**
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_model")

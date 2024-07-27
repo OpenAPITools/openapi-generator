@@ -52,10 +52,10 @@ public class SpecialModelName {
     return this;
   }
 
-   /**
+  /**
    * Get $specialPropertyName
    * @return $specialPropertyName
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
@@ -78,10 +78,10 @@ public class SpecialModelName {
     return this;
   }
 
-   /**
+  /**
    * Get specialModelName
    * @return specialModelName
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_SPECIAL_MODEL_NAME)

@@ -42,7 +42,7 @@ public class Category {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @JsonProperty("id")
   public Long getId() {
@@ -61,7 +61,7 @@ public class Category {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull
   @JsonProperty("name")
   public String getName() {

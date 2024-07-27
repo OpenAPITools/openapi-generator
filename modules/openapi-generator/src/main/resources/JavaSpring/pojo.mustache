@@ -128,8 +128,8 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{#vendorExtensions.x-java-all-args-constructor}}
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public {{classname}}({{#vendorExtensions.x-java-all-args-constructor-vars}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-java-all-args-constructor-vars}}) {
   {{#parent}}
       super({{#parentVars}}{{name}}{{^-last}}, {{/-last}}{{/parentVars}});
@@ -215,7 +215,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{#deprecated}}
    * @deprecated
   {{/deprecated}}
-  */
+   */
   {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
   {{/vendorExtensions.x-extra-annotation}}
@@ -234,9 +234,18 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{#jackson}}
   @JsonProperty("{{baseName}}")
   {{#withXml}}
-  @JacksonXmlProperty({{#isXmlAttribute}}isAttribute = true, {{/isXmlAttribute}}{{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}localName = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+  @JacksonXmlProperty(localName = "{{items.xmlName}}{{^items.xmlName}}{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}{{/items.xmlName}}"{{#isXmlAttribute}}, isAttribute = true{{/isXmlAttribute}}{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+    {{#isContainer}}
+  @JacksonXmlElementWrapper({{#isXmlWrapped}}localName = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}", {{#xmlNamespace}}namespace = "{{.}}", {{/xmlNamespace}}{{/isXmlWrapped}}useWrapping = {{isXmlWrapped}})
+    {{/isContainer}}
   {{/withXml}}
   {{/jackson}}
+  {{#withXml}}
+  @Xml{{#isXmlAttribute}}Attribute{{/isXmlAttribute}}{{^isXmlAttribute}}Element{{/isXmlAttribute}}(name = "{{items.xmlName}}{{^items.xmlName}}{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}{{/items.xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+    {{#isXmlWrapped}}
+  @XmlElementWrapper(name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+    {{/isXmlWrapped}}
+  {{/withXml}}
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}
@@ -249,7 +258,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{#deprecated}}
   /**
    * @deprecated
-  */
+   */
   {{/deprecated}}
   {{#vendorExtensions.x-setter-extra-annotation}}
   {{{vendorExtensions.x-setter-extra-annotation}}}

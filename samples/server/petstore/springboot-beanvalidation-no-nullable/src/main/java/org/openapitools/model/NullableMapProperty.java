@@ -42,7 +42,7 @@ public class NullableMapProperty {
   /**
    * Get languageValues
    * @return languageValues
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("languageValues")

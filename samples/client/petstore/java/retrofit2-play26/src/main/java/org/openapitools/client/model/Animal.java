@@ -63,10 +63,10 @@ public class Animal {
     return this;
   }
 
-   /**
+  /**
    * Get className
    * @return className
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -90,10 +90,10 @@ public class Animal {
     return this;
   }
 
-   /**
+  /**
    * Get color
    * @return color
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_COLOR)

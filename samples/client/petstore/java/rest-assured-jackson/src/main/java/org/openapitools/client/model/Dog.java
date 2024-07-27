@@ -26,8 +26,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.Animal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
@@ -57,10 +57,10 @@ public class Dog extends Animal {
     return this;
   }
 
-   /**
+  /**
    * Get breed
    * @return breed
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_BREED)

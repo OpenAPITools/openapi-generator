@@ -103,12 +103,12 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get integer
    * minimum: 10
    * maximum: 100
    * @return integer
-  **/
+   */
   @jakarta.annotation.Nullable
  @Min(10) @Max(100)
   @JsonProperty(JSON_PROPERTY_INTEGER)
@@ -131,12 +131,12 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get int32
    * minimum: 20
    * maximum: 200
    * @return int32
-  **/
+   */
   @jakarta.annotation.Nullable
  @Min(20) @Max(200)
   @JsonProperty(JSON_PROPERTY_INT32)
@@ -159,10 +159,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get int64
    * @return int64
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_INT64)
@@ -185,12 +185,12 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get number
    * minimum: 32.1
    * maximum: 543.2
    * @return number
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
   @Valid
@@ -215,12 +215,12 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get _float
    * minimum: 54.3
    * maximum: 987.6
    * @return _float
-  **/
+   */
   @jakarta.annotation.Nullable
  @DecimalMin("54.3") @DecimalMax("987.6")
   @JsonProperty(JSON_PROPERTY_FLOAT)
@@ -243,12 +243,12 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get _double
    * minimum: 67.8
    * maximum: 123.4
    * @return _double
-  **/
+   */
   @jakarta.annotation.Nullable
  @DecimalMin("67.8") @DecimalMax("123.4")
   @JsonProperty(JSON_PROPERTY_DOUBLE)
@@ -271,10 +271,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get string
    * @return string
-  **/
+   */
   @jakarta.annotation.Nullable
  @Pattern(regexp="/[a-z]/i")
   @JsonProperty(JSON_PROPERTY_STRING)
@@ -297,10 +297,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get _byte
    * @return _byte
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -324,10 +324,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get binary
    * @return binary
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -351,10 +351,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get date
    * @return date
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
   @Valid
@@ -379,10 +379,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get dateTime
    * @return dateTime
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -406,10 +406,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -433,10 +433,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get password
    * @return password
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
  @Size(min=10,max=64)
@@ -460,10 +460,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get bigDecimal
    * @return bigDecimal
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 

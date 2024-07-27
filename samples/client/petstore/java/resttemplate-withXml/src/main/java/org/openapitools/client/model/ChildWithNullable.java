@@ -63,10 +63,10 @@ public class ChildWithNullable extends ParentWithNullable {
     return this;
   }
 
-   /**
+  /**
    * Get otherProperty
    * @return otherProperty
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_OTHER_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

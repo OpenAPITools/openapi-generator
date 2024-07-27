@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
@@ -47,10 +47,10 @@ public class SpecialModelName {
     return this;
   }
 
-   /**
+  /**
    * Get $specialPropertyName
    * @return $specialPropertyName
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)

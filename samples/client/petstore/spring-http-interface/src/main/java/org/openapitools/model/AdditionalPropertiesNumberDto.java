@@ -36,7 +36,7 @@ public class AdditionalPropertiesNumberDto {
   /**
    * Get name
    * @return name
-  */
+   */
   
   @JsonProperty("name")
   public String getName() {

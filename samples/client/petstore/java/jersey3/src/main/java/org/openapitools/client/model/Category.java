@@ -51,10 +51,10 @@ public class Category {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ID)
@@ -77,10 +77,10 @@ public class Category {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 

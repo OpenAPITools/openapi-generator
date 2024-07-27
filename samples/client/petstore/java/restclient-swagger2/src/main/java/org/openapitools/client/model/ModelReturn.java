@@ -46,10 +46,10 @@ public class ModelReturn {
     return this;
   }
 
-   /**
+  /**
    * Get _return
    * @return _return
-  **/
+   */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_RETURN)

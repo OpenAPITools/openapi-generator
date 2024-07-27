@@ -56,7 +56,7 @@ public class Pizza extends Entity {
   /**
    * Get pizzaSize
    * @return pizzaSize
-  */
+   */
   @Valid 
   @Schema(name = "pizzaSize", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("pizzaSize")

@@ -29,7 +29,7 @@ public class Client {
   /**
    * Get client
    * @return client
-  */
+   */
   
   @JsonProperty("client")
   public String getClient() {

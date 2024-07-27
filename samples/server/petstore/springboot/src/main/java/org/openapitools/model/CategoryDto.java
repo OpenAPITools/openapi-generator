@@ -47,7 +47,7 @@ public class CategoryDto {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
@@ -67,7 +67,7 @@ public class CategoryDto {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")

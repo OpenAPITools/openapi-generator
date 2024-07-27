@@ -35,8 +35,8 @@ public class NullableMapProperty {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public NullableMapProperty(Map<String, String> languageValues) {
       this.languageValues = JsonNullable.of(languageValues);
   }
@@ -57,7 +57,7 @@ public class NullableMapProperty {
   /**
    * Get languageValues
    * @return languageValues
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("languageValues")

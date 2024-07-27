@@ -51,7 +51,7 @@ public class Tag {
     /**
      * Get id
      * @return id
-     **/
+     */
     @Nullable
     @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_ID)
@@ -74,7 +74,7 @@ public class Tag {
     /**
      * Get name
      * @return name
-     **/
+     */
     @Nullable
     @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_NAME)

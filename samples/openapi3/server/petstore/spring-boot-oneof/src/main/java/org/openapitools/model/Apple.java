@@ -49,7 +49,7 @@ public class Apple implements Fruit {
   /**
    * Get seeds
    * @return seeds
-  */
+   */
   @NotNull 
   @Schema(name = "seeds", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("seeds")
@@ -69,7 +69,7 @@ public class Apple implements Fruit {
   /**
    * Get fruitType
    * @return fruitType
-  */
+   */
   @NotNull @Valid 
   @Schema(name = "fruitType", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("fruitType")

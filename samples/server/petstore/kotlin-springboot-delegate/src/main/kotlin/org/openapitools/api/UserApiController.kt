@@ -6,9 +6,8 @@ import java.util.Optional
 
 @javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 8.0.0-SNAPSHOT")
 @Controller
-@RequestMapping("\${openapi.openAPIPetstore.base-path:/v2}")
 class UserApiController(
-        @org.springframework.beans.factory.annotation.Autowired(required = false) delegate: UserApiDelegate?
+        delegate: UserApiDelegate?
 ) : UserApi {
     private lateinit var delegate: UserApiDelegate
 

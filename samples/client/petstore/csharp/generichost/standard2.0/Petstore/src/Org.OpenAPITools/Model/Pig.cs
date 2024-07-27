@@ -85,7 +85,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -95,7 +95,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -208,12 +208,14 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            if (pig.BasquePig != null) {
+            if (pig.BasquePig != null)
+            {
                 BasquePigJsonConverter basquePigJsonConverter = (BasquePigJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(pig.BasquePig.GetType()));
                 basquePigJsonConverter.WriteProperties(writer, pig.BasquePig, jsonSerializerOptions);
             }
 
-            if (pig.DanishPig != null) {
+            if (pig.DanishPig != null)
+            {
                 DanishPigJsonConverter danishPigJsonConverter = (DanishPigJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(pig.DanishPig.GetType()));
                 danishPigJsonConverter.WriteProperties(writer, pig.DanishPig, jsonSerializerOptions);
             }

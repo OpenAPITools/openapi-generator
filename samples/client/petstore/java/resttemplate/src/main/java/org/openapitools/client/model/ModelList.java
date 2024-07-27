@@ -39,8 +39,8 @@ public class ModelList {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public ModelList(@JsonProperty(JSON_PROPERTY_123LIST) String _123list) {
     this._123list = _123list;
   }
@@ -51,10 +51,10 @@ public class ModelList {
     return this;
   }
 
-   /**
+  /**
    * Get _123list
    * @return _123list
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_123LIST)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

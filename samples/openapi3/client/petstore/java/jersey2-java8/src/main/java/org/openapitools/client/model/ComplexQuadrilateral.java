@@ -53,10 +53,10 @@ public class ComplexQuadrilateral {
     return this;
   }
 
-   /**
+  /**
    * Get shapeType
    * @return shapeType
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -78,10 +78,10 @@ public class ComplexQuadrilateral {
     return this;
   }
 
-   /**
+  /**
    * Get quadrilateralType
    * @return quadrilateralType
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

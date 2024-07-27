@@ -51,10 +51,10 @@ public class HasOnlyReadOnly {
   public HasOnlyReadOnly() {
   }
 
-   /**
+  /**
    * Get bar
    * @return bar
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -66,10 +66,10 @@ public class HasOnlyReadOnly {
 
 
 
-   /**
+  /**
    * Get foo
    * @return foo
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FOO)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

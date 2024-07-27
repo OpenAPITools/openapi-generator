@@ -24,8 +24,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
@@ -144,10 +144,10 @@ public class EnumArrays {
     return this;
   }
 
-   /**
+  /**
    * Get justSymbol
    * @return justSymbol
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -174,10 +174,10 @@ public class EnumArrays {
     return this;
   }
 
-   /**
+  /**
    * Get arrayEnum
    * @return arrayEnum
-  **/
+   */
   @javax.annotation.Nullable
 
 

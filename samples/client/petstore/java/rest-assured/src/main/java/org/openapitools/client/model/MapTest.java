@@ -23,8 +23,8 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
@@ -112,10 +112,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get mapMapOfString
    * @return mapMapOfString
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
 
@@ -143,10 +143,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get mapOfEnumString
    * @return mapOfEnumString
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -173,10 +173,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get directMap
    * @return directMap
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -203,10 +203,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get indirectMap
    * @return indirectMap
-  **/
+   */
   @javax.annotation.Nullable
 
 

@@ -53,10 +53,10 @@ public class OuterComposite {
     return this;
   }
 
-   /**
+  /**
    * Get myNumber
    * @return myNumber
-  **/
+   */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_MY_NUMBER)
@@ -79,10 +79,10 @@ public class OuterComposite {
     return this;
   }
 
-   /**
+  /**
    * Get myString
    * @return myString
-  **/
+   */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_MY_STRING)
@@ -105,10 +105,10 @@ public class OuterComposite {
     return this;
   }
 
-   /**
+  /**
    * Get myBoolean
    * @return myBoolean
-  **/
+   */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)

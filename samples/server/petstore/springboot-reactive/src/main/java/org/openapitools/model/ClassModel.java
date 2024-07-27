@@ -33,7 +33,7 @@ public class ClassModel {
   /**
    * Get propertyClass
    * @return propertyClass
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("_class")

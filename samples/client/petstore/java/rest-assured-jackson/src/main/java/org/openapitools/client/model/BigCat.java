@@ -26,8 +26,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.Cat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
@@ -96,10 +96,10 @@ public class BigCat extends Cat {
     return this;
   }
 
-   /**
+  /**
    * Get kind
    * @return kind
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_KIND)

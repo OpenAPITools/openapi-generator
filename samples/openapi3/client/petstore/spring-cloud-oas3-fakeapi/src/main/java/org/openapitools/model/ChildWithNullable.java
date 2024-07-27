@@ -39,7 +39,7 @@ public class ChildWithNullable extends ParentWithNullable {
   /**
    * Get otherProperty
    * @return otherProperty
-  */
+   */
   
   @Schema(name = "otherProperty", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("otherProperty")

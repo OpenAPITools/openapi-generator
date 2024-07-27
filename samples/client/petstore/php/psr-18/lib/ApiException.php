@@ -53,7 +53,7 @@ class ApiException extends RequestException
     /**
      * The HTTP header of the server response.
      *
-     * @var string[]|null
+     * @var string[][]|null
      */
     protected $responseHeaders;
 
@@ -81,7 +81,7 @@ class ApiException extends RequestException
     /**
      * Gets the HTTP response header
      *
-     * @return string[]|null HTTP response header
+     * @return string[][]|null HTTP response header
      */
     public function getResponseHeaders()
     {

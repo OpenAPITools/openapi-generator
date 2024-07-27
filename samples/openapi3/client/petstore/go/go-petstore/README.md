@@ -81,6 +81,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeAPI* | [**Call123TestSpecialTags**](docs/AnotherFakeAPI.md#call123testspecialtags) | **Patch** /another-fake/dummy | To test special tags
 *DefaultAPI* | [**FooGet**](docs/DefaultAPI.md#fooget) | **Get** /foo | 
+*DefaultAPI* | [**SomeOpsRequiringRefInt**](docs/DefaultAPI.md#someopsrequiringrefint) | **Post** /fake/wrapped-integer-ref | 
 *FakeAPI* | [**FakeHealthGet**](docs/FakeAPI.md#fakehealthget) | **Get** /fake/health | Health check endpoint
 *FakeAPI* | [**FakeOuterBooleanSerialize**](docs/FakeAPI.md#fakeouterbooleanserialize) | **Post** /fake/outer/boolean | 
 *FakeAPI* | [**FakeOuterCompositeSerialize**](docs/FakeAPI.md#fakeoutercompositeserialize) | **Post** /fake/outer/composite | 
@@ -130,6 +131,7 @@ Class | Method | HTTP request | Description
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [AllOfPrimitiveTypes](docs/AllOfPrimitiveTypes.md)
  - [Animal](docs/Animal.md)
+ - [AnyOfPrimitiveType](docs/AnyOfPrimitiveType.md)
  - [ApiResponse](docs/ApiResponse.md)
  - [Apple](docs/Apple.md)
  - [AppleReq](docs/AppleReq.md)
@@ -159,6 +161,7 @@ Class | Method | HTTP request | Description
  - [GmFruit](docs/GmFruit.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
+ - [IDsWrapper](docs/IDsWrapper.md)
  - [IncidentData](docs/IncidentData.md)
  - [List](docs/List.md)
  - [Mammal](docs/Mammal.md)
@@ -185,6 +188,7 @@ Class | Method | HTTP request | Description
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [ReadOnlyWithDefault](docs/ReadOnlyWithDefault.md)
  - [Return](docs/Return.md)
+ - [SomeOpsRequiringRefIntRequest](docs/SomeOpsRequiringRefIntRequest.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [Tag](docs/Tag.md)
  - [TestInlineFreeformAdditionalPropertiesRequest](docs/TestInlineFreeformAdditionalPropertiesRequest.md)

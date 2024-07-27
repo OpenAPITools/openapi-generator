@@ -33,8 +33,8 @@ public class AdditionalPropertiesString {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public AdditionalPropertiesString(String name) {
       this.name = name;
   }
@@ -47,7 +47,7 @@ public class AdditionalPropertiesString {
   /**
    * Get name
    * @return name
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")

@@ -41,8 +41,8 @@ public class Dog extends Animal {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public Dog(String breed, String className, String color) {
       super(className, color);
       this.breed = breed;
@@ -56,7 +56,7 @@ public class Dog extends Animal {
   /**
    * Get breed
    * @return breed
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("breed")

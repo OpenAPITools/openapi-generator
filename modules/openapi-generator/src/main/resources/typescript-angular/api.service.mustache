@@ -342,16 +342,16 @@ export class {{classname}} {
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
             {{paramName}}.forEach((element) => {
-                localVarFormParams = localVarFormParams.append('{{baseName}}', <any>element) as any || localVarFormParams;
+                localVarFormParams = localVarFormParams.append('{{baseName}}{{#useSquareBracketsInArrayNames}}[]{{/useSquareBracketsInArrayNames}}', <any>element) as any || localVarFormParams;
             })
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
             if (localVarUseForm) {
                 {{paramName}}.forEach((element) => {
-                    localVarFormParams = localVarFormParams.append('{{baseName}}', <any>element) as any || localVarFormParams;
+                    localVarFormParams = localVarFormParams.append('{{baseName}}{{#useSquareBracketsInArrayNames}}[]{{/useSquareBracketsInArrayNames}}', <any>element) as any || localVarFormParams;
             })
             } else {
-                localVarFormParams = localVarFormParams.append('{{baseName}}', [...{{paramName}}].join(COLLECTION_FORMATS['{{collectionFormat}}'])) as any || localVarFormParams;
+                localVarFormParams = localVarFormParams.append('{{baseName}}{{#useSquareBracketsInArrayNames}}[]{{/useSquareBracketsInArrayNames}}', [...{{paramName}}].join(COLLECTION_FORMATS['{{collectionFormat}}'])) as any || localVarFormParams;
             }
         {{/isCollectionFormatMulti}}
         }

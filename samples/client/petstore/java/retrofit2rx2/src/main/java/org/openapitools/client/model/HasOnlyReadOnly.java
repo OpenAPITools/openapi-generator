@@ -38,8 +38,8 @@ public class HasOnlyReadOnly {
   public HasOnlyReadOnly() {
   }
   /**
-  * Constructor with only readonly parameters
-  */
+   * Constructor with only readonly parameters
+   */
   
   public HasOnlyReadOnly(
      String bar, 
@@ -50,10 +50,10 @@ public class HasOnlyReadOnly {
     this.foo = foo;
   }
 
-   /**
+  /**
    * Get bar
    * @return bar
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getBar() {
@@ -62,10 +62,10 @@ public class HasOnlyReadOnly {
 
 
 
-   /**
+  /**
    * Get foo
    * @return foo
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getFoo() {

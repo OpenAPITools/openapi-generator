@@ -36,7 +36,7 @@ public class FileSchemaTestClass {
   /**
    * Get file
    * @return file
-  */
+   */
   
   @JsonProperty("file")
   public File getFile() {
@@ -63,7 +63,7 @@ public class FileSchemaTestClass {
   /**
    * Get files
    * @return files
-  */
+   */
   
   @JsonProperty("files")
   public List<File> getFiles() {

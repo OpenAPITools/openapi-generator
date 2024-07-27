@@ -55,10 +55,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   private OffsetDateTime dateTime;
 
   public static final String JSON_PROPERTY_MAP = "map";
-  // Is a container wrapped=false
-  // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
-  // items.example= items.type=Animal
-  @XmlElement(name = "inner")
+  @XmlElement(name = "map")
   private Map<String, Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass() {
@@ -70,10 +67,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -97,10 +94,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get dateTime
    * @return dateTime
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -132,10 +129,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get map
    * @return map
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

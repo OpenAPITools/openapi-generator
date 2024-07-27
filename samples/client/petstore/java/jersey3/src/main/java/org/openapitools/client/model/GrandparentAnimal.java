@@ -60,10 +60,10 @@ public class GrandparentAnimal {
     return this;
   }
 
-   /**
+  /**
    * Get petType
    * @return petType
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 

@@ -77,10 +77,10 @@ public class ArrayDefault {
     return this;
   }
 
-   /**
+  /**
    * Get withDefaultEmptyBracket
    * @return withDefaultEmptyBracket
-  **/
+   */
   @javax.annotation.Nullable
   public List<String> getWithDefaultEmptyBracket() {
     return withDefaultEmptyBracket;
@@ -104,10 +104,10 @@ public class ArrayDefault {
     return this;
   }
 
-   /**
+  /**
    * Get withoutDefault
    * @return withoutDefault
-  **/
+   */
   @javax.annotation.Nullable
   public List<String> getWithoutDefault() {
     return withoutDefault;
@@ -218,12 +218,12 @@ public class ArrayDefault {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to ArrayDefault
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to ArrayDefault
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!ArrayDefault.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -313,22 +313,22 @@ public class ArrayDefault {
     }
   }
 
- /**
-  * Create an instance of ArrayDefault given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of ArrayDefault
-  * @throws IOException if the JSON string is invalid with respect to ArrayDefault
-  */
+  /**
+   * Create an instance of ArrayDefault given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of ArrayDefault
+   * @throws IOException if the JSON string is invalid with respect to ArrayDefault
+   */
   public static ArrayDefault fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ArrayDefault.class);
   }
 
- /**
-  * Convert an instance of ArrayDefault to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of ArrayDefault to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

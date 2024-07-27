@@ -2059,6 +2059,13 @@ components:
       - $ref: '#/components/schemas/whale'
       - $ref: '#/components/schemas/zebra'
       - $ref: '#/components/schemas/Pig'
+    mammal_anyof:
+      anyOf:
+      - $ref: '#/components/schemas/whale'
+      - $ref: '#/components/schemas/zebra'
+      - $ref: '#/components/schemas/Pig'
+      discriminator:
+        propertyName: className
     whale:
       properties:
         hasBaleen:

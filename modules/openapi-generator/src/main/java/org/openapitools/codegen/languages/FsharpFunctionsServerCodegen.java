@@ -31,14 +31,17 @@ public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
 
      final Logger LOGGER = LoggerFactory.getLogger(FsharpFunctionsServerCodegen.class);
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "fsharp-functions";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a fsharp-functions server (beta).";
     }

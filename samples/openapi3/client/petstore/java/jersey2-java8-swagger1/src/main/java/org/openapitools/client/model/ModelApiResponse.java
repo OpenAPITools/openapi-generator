@@ -57,10 +57,10 @@ public class ModelApiResponse {
     return this;
   }
 
-   /**
+  /**
    * Get code
    * @return code
-  **/
+   */
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_CODE)
@@ -83,10 +83,10 @@ public class ModelApiResponse {
     return this;
   }
 
-   /**
+  /**
    * Get type
    * @return type
-  **/
+   */
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_TYPE)
@@ -109,10 +109,10 @@ public class ModelApiResponse {
     return this;
   }
 
-   /**
+  /**
    * Get message
    * @return message
-  **/
+   */
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MESSAGE)

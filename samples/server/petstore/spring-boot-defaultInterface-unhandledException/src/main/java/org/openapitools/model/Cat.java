@@ -55,7 +55,7 @@ public class Cat extends Animal {
   /**
    * Get declawed
    * @return declawed
-  */
+   */
   
   @Schema(name = "declawed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("declawed")

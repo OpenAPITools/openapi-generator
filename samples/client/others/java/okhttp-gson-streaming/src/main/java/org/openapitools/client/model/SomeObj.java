@@ -132,10 +132,10 @@ public class SomeObj implements Serializable {
     return this;
   }
 
-   /**
+  /**
    * Get $type
    * @return $type
-  **/
+   */
   @javax.annotation.Nullable
   public TypeEnum get$Type() {
     return $type;
@@ -151,10 +151,10 @@ public class SomeObj implements Serializable {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   public Long getId() {
     return id;
@@ -170,10 +170,10 @@ public class SomeObj implements Serializable {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
   public String getName() {
     return name;
@@ -189,10 +189,10 @@ public class SomeObj implements Serializable {
     return this;
   }
 
-   /**
+  /**
    * Get active
    * @return active
-  **/
+   */
   @javax.annotation.Nullable
   public Boolean getActive() {
     return active;
@@ -208,10 +208,10 @@ public class SomeObj implements Serializable {
     return this;
   }
 
-   /**
+  /**
    * Get type
    * @return type
-  **/
+   */
   @javax.annotation.Nullable
   public String getType() {
     return type;
@@ -285,12 +285,12 @@ public class SomeObj implements Serializable {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to SomeObj
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to SomeObj
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!SomeObj.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -350,22 +350,22 @@ public class SomeObj implements Serializable {
     }
   }
 
- /**
-  * Create an instance of SomeObj given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of SomeObj
-  * @throws IOException if the JSON string is invalid with respect to SomeObj
-  */
+  /**
+   * Create an instance of SomeObj given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of SomeObj
+   * @throws IOException if the JSON string is invalid with respect to SomeObj
+   */
   public static SomeObj fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, SomeObj.class);
   }
 
- /**
-  * Convert an instance of SomeObj to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of SomeObj to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

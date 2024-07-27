@@ -101,10 +101,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get mapMapOfString
    * @return mapMapOfString
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
@@ -135,10 +135,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get mapOfEnumString
    * @return mapOfEnumString
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
@@ -169,10 +169,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get directMap
    * @return directMap
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
@@ -203,10 +203,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get indirectMap
    * @return indirectMap
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)

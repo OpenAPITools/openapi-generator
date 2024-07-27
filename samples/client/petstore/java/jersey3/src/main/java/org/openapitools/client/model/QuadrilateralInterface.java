@@ -47,10 +47,10 @@ public class QuadrilateralInterface {
     return this;
   }
 
-   /**
+  /**
    * Get quadrilateralType
    * @return quadrilateralType
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 

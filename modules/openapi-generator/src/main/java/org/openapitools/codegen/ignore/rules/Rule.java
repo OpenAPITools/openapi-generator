@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.ignore.rules;
 
+import lombok.Getter;
+
 import java.util.List;
 
 public abstract class Rule {
@@ -24,7 +26,7 @@ public abstract class Rule {
     public enum Operation {EXCLUDE, INCLUDE, NOOP, EXCLUDE_AND_TERMINATE}
 
     // The original rule
-    private final String definition;
+    @Getter private final String definition;
 
     private final List<Part> syntax;
 
@@ -34,10 +36,6 @@ public abstract class Rule {
     }
 
     public abstract Boolean matches(String relativePath);
-
-    public String getDefinition() {
-        return this.definition;
-    }
 
     protected String getPattern() {
         if(syntax == null) return this.definition;

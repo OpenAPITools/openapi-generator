@@ -161,10 +161,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get attributeString
    * @return attributeString
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ATTRIBUTE_STRING)
@@ -187,10 +187,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get attributeNumber
    * @return attributeNumber
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -214,10 +214,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get attributeInteger
    * @return attributeInteger
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ATTRIBUTE_INTEGER)
@@ -240,10 +240,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get attributeBoolean
    * @return attributeBoolean
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ATTRIBUTE_BOOLEAN)
@@ -274,10 +274,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get wrappedArray
    * @return wrappedArray
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_WRAPPED_ARRAY)
@@ -300,10 +300,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get nameString
    * @return nameString
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_NAME_STRING)
@@ -326,10 +326,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get nameNumber
    * @return nameNumber
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -353,10 +353,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get nameInteger
    * @return nameInteger
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_NAME_INTEGER)
@@ -379,10 +379,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get nameBoolean
    * @return nameBoolean
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_NAME_BOOLEAN)
@@ -413,10 +413,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get nameArray
    * @return nameArray
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_NAME_ARRAY)
@@ -447,10 +447,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get nameWrappedArray
    * @return nameWrappedArray
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_NAME_WRAPPED_ARRAY)
@@ -473,10 +473,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixString
    * @return prefixString
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PREFIX_STRING)
@@ -499,10 +499,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixNumber
    * @return prefixNumber
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -526,10 +526,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixInteger
    * @return prefixInteger
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PREFIX_INTEGER)
@@ -552,10 +552,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixBoolean
    * @return prefixBoolean
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PREFIX_BOOLEAN)
@@ -586,10 +586,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixArray
    * @return prefixArray
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PREFIX_ARRAY)
@@ -620,10 +620,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixWrappedArray
    * @return prefixWrappedArray
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PREFIX_WRAPPED_ARRAY)
@@ -646,10 +646,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get namespaceString
    * @return namespaceString
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_NAMESPACE_STRING)
@@ -672,10 +672,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get namespaceNumber
    * @return namespaceNumber
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -699,10 +699,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get namespaceInteger
    * @return namespaceInteger
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_NAMESPACE_INTEGER)
@@ -725,10 +725,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get namespaceBoolean
    * @return namespaceBoolean
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_NAMESPACE_BOOLEAN)
@@ -759,10 +759,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get namespaceArray
    * @return namespaceArray
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_NAMESPACE_ARRAY)
@@ -793,10 +793,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get namespaceWrappedArray
    * @return namespaceWrappedArray
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY)
@@ -819,10 +819,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixNsString
    * @return prefixNsString
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_STRING)
@@ -845,10 +845,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixNsNumber
    * @return prefixNsNumber
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -872,10 +872,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixNsInteger
    * @return prefixNsInteger
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_INTEGER)
@@ -898,10 +898,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixNsBoolean
    * @return prefixNsBoolean
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_BOOLEAN)
@@ -932,10 +932,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixNsArray
    * @return prefixNsArray
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_ARRAY)
@@ -966,10 +966,10 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixNsWrappedArray
    * @return prefixNsWrappedArray
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY)

@@ -77,10 +77,10 @@ public class AllOfModelArrayAnyOf {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   public Long getId() {
     return id;
@@ -96,10 +96,10 @@ public class AllOfModelArrayAnyOf {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nonnull
   public String getName() {
     return name;
@@ -115,10 +115,10 @@ public class AllOfModelArrayAnyOf {
     return this;
   }
 
-   /**
+  /**
    * Get linkListColumn1
    * @return linkListColumn1
-  **/
+   */
   @javax.annotation.Nullable
   public AllOfModelArrayAnyOfAllOfLinkListColumn1 getLinkListColumn1() {
     return linkListColumn1;
@@ -134,10 +134,10 @@ public class AllOfModelArrayAnyOf {
     return this;
   }
 
-   /**
+  /**
    * Get attributes
    * @return attributes
-  **/
+   */
   @javax.annotation.Nullable
   public AllOfModelArrayAnyOfAllOfAttributes getAttributes() {
     return attributes;
@@ -255,12 +255,12 @@ public class AllOfModelArrayAnyOf {
     openapiRequiredFields.add("name");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to AllOfModelArrayAnyOf
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to AllOfModelArrayAnyOf
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!AllOfModelArrayAnyOf.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -360,22 +360,22 @@ public class AllOfModelArrayAnyOf {
     }
   }
 
- /**
-  * Create an instance of AllOfModelArrayAnyOf given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of AllOfModelArrayAnyOf
-  * @throws IOException if the JSON string is invalid with respect to AllOfModelArrayAnyOf
-  */
+  /**
+   * Create an instance of AllOfModelArrayAnyOf given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of AllOfModelArrayAnyOf
+   * @throws IOException if the JSON string is invalid with respect to AllOfModelArrayAnyOf
+   */
   public static AllOfModelArrayAnyOf fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, AllOfModelArrayAnyOf.class);
   }
 
- /**
-  * Convert an instance of AllOfModelArrayAnyOf to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of AllOfModelArrayAnyOf to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

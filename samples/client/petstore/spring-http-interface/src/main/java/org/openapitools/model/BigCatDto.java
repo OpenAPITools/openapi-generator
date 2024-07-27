@@ -80,7 +80,7 @@ public class BigCatDto extends CatDto {
   /**
    * Get kind
    * @return kind
-  */
+   */
   
   @JsonProperty("kind")
   public KindEnum getKind() {

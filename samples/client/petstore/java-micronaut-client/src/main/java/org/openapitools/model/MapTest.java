@@ -99,7 +99,7 @@ public class MapTest {
     /**
      * Get mapMapOfString
      * @return mapMapOfString
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -129,7 +129,7 @@ public class MapTest {
     /**
      * Get mapOfEnumString
      * @return mapOfEnumString
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -159,7 +159,7 @@ public class MapTest {
     /**
      * Get directMap
      * @return directMap
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -189,7 +189,7 @@ public class MapTest {
     /**
      * Get indirectMap
      * @return indirectMap
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

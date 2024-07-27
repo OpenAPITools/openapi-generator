@@ -49,7 +49,7 @@ public class Name {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")
@@ -69,7 +69,7 @@ public class Name {
   /**
    * Get snakeCase
    * @return snakeCase
-  */
+   */
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("snake_case")
@@ -89,7 +89,7 @@ public class Name {
   /**
    * Get property
    * @return property
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("property")
@@ -109,7 +109,7 @@ public class Name {
   /**
    * Get _123number
    * @return _123number
-  */
+   */
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("123Number")

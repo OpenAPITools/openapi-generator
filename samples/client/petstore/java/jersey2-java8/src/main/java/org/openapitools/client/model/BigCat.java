@@ -94,10 +94,10 @@ public class BigCat extends Cat {
     return this;
   }
 
-   /**
+  /**
    * Get kind
    * @return kind
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_KIND)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

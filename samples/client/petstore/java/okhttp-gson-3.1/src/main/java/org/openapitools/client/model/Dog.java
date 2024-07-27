@@ -65,10 +65,10 @@ public class Dog extends Animal {
     return this;
   }
 
-   /**
+  /**
    * Get breed
    * @return breed
-  **/
+   */
   @javax.annotation.Nullable
   public String getBreed() {
     return breed;
@@ -181,12 +181,12 @@ public class Dog extends Animal {
     openapiRequiredFields.add("className");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Dog
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to Dog
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Dog.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -274,22 +274,22 @@ public class Dog extends Animal {
     }
   }
 
- /**
-  * Create an instance of Dog given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Dog
-  * @throws IOException if the JSON string is invalid with respect to Dog
-  */
+  /**
+   * Create an instance of Dog given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of Dog
+   * @throws IOException if the JSON string is invalid with respect to Dog
+   */
   public static Dog fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Dog.class);
   }
 
- /**
-  * Convert an instance of Dog to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of Dog to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

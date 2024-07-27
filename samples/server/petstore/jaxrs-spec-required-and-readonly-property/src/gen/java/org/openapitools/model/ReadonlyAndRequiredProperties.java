@@ -43,7 +43,7 @@ public class ReadonlyAndRequiredProperties  implements Serializable {
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("requiredYesReadonlyYes")
-  @NotNull public String getRequiredYesReadonlyYes() {
+  public String getRequiredYesReadonlyYes() {
     return requiredYesReadonlyYes;
   }
 

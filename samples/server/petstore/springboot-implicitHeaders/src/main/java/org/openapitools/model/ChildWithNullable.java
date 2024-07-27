@@ -40,7 +40,7 @@ public class ChildWithNullable extends ParentWithNullable {
   /**
    * Get otherProperty
    * @return otherProperty
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("otherProperty")

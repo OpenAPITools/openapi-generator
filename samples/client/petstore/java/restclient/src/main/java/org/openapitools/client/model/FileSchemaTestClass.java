@@ -51,10 +51,10 @@ public class FileSchemaTestClass {
     return this;
   }
 
-   /**
+  /**
    * Get _file
    * @return _file
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -84,10 +84,10 @@ public class FileSchemaTestClass {
     return this;
   }
 
-   /**
+  /**
    * Get files
    * @return files
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FILES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

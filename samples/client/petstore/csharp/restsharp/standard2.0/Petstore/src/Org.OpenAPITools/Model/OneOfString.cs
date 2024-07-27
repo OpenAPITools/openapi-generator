@@ -60,7 +60,7 @@ namespace Org.OpenAPITools.Model
             }
             set
             {
-                if (value.GetType() == typeof(string))
+                if (value.GetType() == typeof(string) || value is string)
                 {
                     this._actualInstance = value;
                 }

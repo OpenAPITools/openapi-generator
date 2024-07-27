@@ -31,6 +31,7 @@ namespace model {
 
 class Vaccine;
 
+
 /// <summary>
 /// Vaccination book of the pet
 /// </summary>

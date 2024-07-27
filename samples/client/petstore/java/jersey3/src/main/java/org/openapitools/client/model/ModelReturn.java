@@ -48,10 +48,10 @@ public class ModelReturn {
     return this;
   }
 
-   /**
+  /**
    * Get _return
    * @return _return
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_RETURN)

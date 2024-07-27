@@ -87,7 +87,7 @@ public class MapTest {
   /**
    * Get mapMapOfString
    * @return mapMapOfString
-  */
+   */
   @Valid 
   @Schema(name = "map_map_of_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_map_of_string")
@@ -115,7 +115,7 @@ public class MapTest {
   /**
    * Get mapOfEnumString
    * @return mapOfEnumString
-  */
+   */
   
   @Schema(name = "map_of_enum_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_of_enum_string")
@@ -143,7 +143,7 @@ public class MapTest {
   /**
    * Get directMap
    * @return directMap
-  */
+   */
   
   @Schema(name = "direct_map", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("direct_map")
@@ -171,7 +171,7 @@ public class MapTest {
   /**
    * Get indirectMap
    * @return indirectMap
-  */
+   */
   
   @Schema(name = "indirect_map", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("indirect_map")

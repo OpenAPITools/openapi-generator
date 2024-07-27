@@ -30,8 +30,8 @@ import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
@@ -111,10 +111,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ID)
@@ -137,10 +137,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get category
    * @return category
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
 
@@ -164,10 +164,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nonnull
   @NotNull
 
@@ -199,10 +199,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get photoUrls
    * @return photoUrls
-  **/
+   */
   @javax.annotation.Nonnull
   @NotNull
 
@@ -235,10 +235,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get tags
    * @return tags
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
 
@@ -262,10 +262,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * pet status in the store
    * @return status
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_STATUS)

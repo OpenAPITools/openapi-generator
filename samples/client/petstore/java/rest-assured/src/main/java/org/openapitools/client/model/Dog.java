@@ -22,8 +22,8 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import org.openapitools.client.model.Animal;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
@@ -45,10 +45,10 @@ public class Dog extends Animal {
     return this;
   }
 
-   /**
+  /**
    * Get breed
    * @return breed
-  **/
+   */
   @javax.annotation.Nullable
 
 

@@ -33,7 +33,7 @@ public class NumberOnly {
   /**
    * Get justNumber
    * @return justNumber
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("JustNumber")

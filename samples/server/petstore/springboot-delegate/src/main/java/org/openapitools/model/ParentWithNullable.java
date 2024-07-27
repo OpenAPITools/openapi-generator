@@ -80,8 +80,8 @@ public class ParentWithNullable {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public ParentWithNullable(TypeEnum type, String nullableProperty) {
       this.type = type;
       this.nullableProperty = JsonNullable.of(nullableProperty);
@@ -95,7 +95,7 @@ public class ParentWithNullable {
   /**
    * Get type
    * @return type
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("type")
@@ -115,7 +115,7 @@ public class ParentWithNullable {
   /**
    * Get nullableProperty
    * @return nullableProperty
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("nullableProperty")

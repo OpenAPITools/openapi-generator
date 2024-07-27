@@ -37,7 +37,7 @@ public class AdditionalPropertiesArray {
   /**
    * Get name
    * @return name
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")

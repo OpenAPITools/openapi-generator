@@ -225,10 +225,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumString
    * @return enumString
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_ENUM_STRING)
@@ -251,10 +251,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumStringRequired
    * @return enumStringRequired
-  **/
+   */
   @javax.annotation.Nonnull
   @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
@@ -277,10 +277,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumInteger
    * @return enumInteger
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
@@ -303,10 +303,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumNumber
    * @return enumNumber
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
@@ -329,10 +329,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get outerEnum
    * @return outerEnum
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonIgnore
@@ -363,10 +363,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get outerEnumInteger
    * @return outerEnumInteger
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER)
@@ -389,10 +389,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get outerEnumDefaultValue
    * @return outerEnumDefaultValue
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE)
@@ -415,10 +415,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get outerEnumIntegerDefaultValue
    * @return outerEnumIntegerDefaultValue
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE)

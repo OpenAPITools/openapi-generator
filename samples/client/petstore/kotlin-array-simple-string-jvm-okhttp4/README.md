@@ -43,9 +43,9 @@ This runs all tests and packages the library.
 
 All URIs are relative to *http://localhost*
 
-Class | Method | HTTP request | Description
------------- | ------------- | ------------- | -------------
-*DefaultApi* | [**idsGet**](docs/DefaultApi.md#idsget) | **GET** /{ids} | 
+| Class | Method | HTTP request | Description |
+| ------------ | ------------- | ------------- | ------------- |
+| *DefaultApi* | [**idsGet**](docs/DefaultApi.md#idsget) | **GET** /{ids} |  |
 
 
 <a id="documentation-for-models"></a>

@@ -15,18 +15,19 @@ use std::pin::Pin;
 use std::option::Option;
 
 use hyper;
+use hyper_util::client::legacy::connect::Connect;
 use futures::Future;
 
 use crate::models;
 use super::{Error, configuration};
 use super::request as __internal_request;
 
-pub struct StoreApiClient<C: hyper::client::connect::Connect>
+pub struct StoreApiClient<C: Connect>
     where C: Clone + std::marker::Send + Sync + 'static {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::connect::Connect> StoreApiClient<C>
+impl<C: Connect> StoreApiClient<C>
     where C: Clone + std::marker::Send + Sync {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> StoreApiClient<C> {
         StoreApiClient {
@@ -42,7 +43,7 @@ pub trait StoreApi {
     fn place_order(&self, order: models::Order) -> Pin<Box<dyn Future<Output = Result<models::Order, Error>>>>;
 }
 
-impl<C: hyper::client::connect::Connect>StoreApi for StoreApiClient<C>
+impl<C: Connect>StoreApi for StoreApiClient<C>
     where C: Clone + std::marker::Send + Sync {
     #[allow(unused_mut)]
     fn delete_order(&self, order_id: &str) -> Pin<Box<dyn Future<Output = Result<(), Error>>>> {

@@ -33,4 +33,5 @@ Apis/SecretScanningApi.http
 Apis/SecurityAdvisoriesApi.http
 Apis/TeamsApi.http
 Apis/UsersApi.http
+Apis/http-client.template.env.json
 README.md

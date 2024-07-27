@@ -61,10 +61,10 @@ public class Animal {
     return this;
   }
 
-   /**
+  /**
    * Get className
    * @return className
-  **/
+   */
   @javax.annotation.Nonnull
   @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
@@ -87,10 +87,10 @@ public class Animal {
     return this;
   }
 
-   /**
+  /**
    * Get color
    * @return color
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_COLOR)

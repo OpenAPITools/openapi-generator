@@ -38,8 +38,8 @@ public class ClassModel {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public ClassModel(@JsonProperty(JSON_PROPERTY_PROPERTY_CLASS) String propertyClass) {
     this.propertyClass = propertyClass;
   }
@@ -50,10 +50,10 @@ public class ClassModel {
     return this;
   }
 
-   /**
+  /**
    * Get propertyClass
    * @return propertyClass
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

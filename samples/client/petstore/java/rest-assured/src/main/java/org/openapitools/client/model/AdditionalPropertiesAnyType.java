@@ -23,8 +23,8 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
@@ -46,10 +46,10 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
 
 

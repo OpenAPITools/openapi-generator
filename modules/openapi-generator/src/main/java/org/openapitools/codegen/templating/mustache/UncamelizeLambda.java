@@ -24,8 +24,6 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.IOException;
 import java.io.Writer;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-
 /**
  * Converts text in a fragment from camelCase or PascalCase to a space separated string
  *

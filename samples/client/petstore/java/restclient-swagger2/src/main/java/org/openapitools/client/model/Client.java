@@ -44,10 +44,10 @@ public class Client {
     return this;
   }
 
-   /**
+  /**
    * Get client
    * @return client
-  **/
+   */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_CLIENT)

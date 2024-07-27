@@ -1268,6 +1268,29 @@ paths:
       responses:
         200:
           description: OK
+  /fake/wrapped-integer-ref:
+    post:
+      operationId: someOpsRequiringRefInt
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - ids
+              properties:
+                MyIDs:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/IDsWrapper/properties/id'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2125,6 +2148,12 @@ components:
       type: array
       items:
         type: string
+    AnyOfPrimitiveType:
+      anyOf:
+      - $ref: '#/components/schemas/OneOfPrimitiveTypeChild'
+      - type: integer
+        format: int32
+      - $ref: '#/components/schemas/OneOfArrayOfString'
     # `dup-prop` is defined in both parent and child models
     #  but not identical: optional vs required
     DuplicatedPropChild:
@@ -2185,3 +2214,8 @@ components:
             type: object
         - type: object
         - type: "null"
+    IDsWrapper:
+      type: object
+      properties:
+        id:
+          type: integer

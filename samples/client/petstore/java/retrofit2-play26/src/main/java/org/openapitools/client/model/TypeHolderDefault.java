@@ -65,10 +65,10 @@ public class TypeHolderDefault {
     return this;
   }
 
-   /**
+  /**
    * Get stringItem
    * @return stringItem
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -92,10 +92,10 @@ public class TypeHolderDefault {
     return this;
   }
 
-   /**
+  /**
    * Get numberItem
    * @return numberItem
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
   @Valid
@@ -120,10 +120,10 @@ public class TypeHolderDefault {
     return this;
   }
 
-   /**
+  /**
    * Get integerItem
    * @return integerItem
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -147,10 +147,10 @@ public class TypeHolderDefault {
     return this;
   }
 
-   /**
+  /**
    * Get boolItem
    * @return boolItem
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -182,10 +182,10 @@ public class TypeHolderDefault {
     return this;
   }
 
-   /**
+  /**
    * Get arrayItem
    * @return arrayItem
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 

@@ -45,10 +45,10 @@ public class ShapeInterface {
     return this;
   }
 
-   /**
+  /**
    * Get shapeType
    * @return shapeType
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

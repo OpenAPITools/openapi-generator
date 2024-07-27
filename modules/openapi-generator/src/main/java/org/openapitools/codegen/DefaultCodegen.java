@@ -42,6 +42,8 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.text.StringEscapeUtils;
@@ -74,6 +76,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -181,12 +184,15 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> operationIdNameMapping = new HashMap<>();
     // a map to store the rules in OpenAPI Normalizer
     protected Map<String, String> openapiNormalizer = new HashMap<>();
-    protected String modelPackage = "", apiPackage = "", fileSuffix;
+    @Setter protected String modelPackage = "", apiPackage = "";
+    protected String fileSuffix;
+    @Getter @Setter
     protected String modelNamePrefix = "", modelNameSuffix = "";
+    @Getter @Setter
     protected String apiNamePrefix = "", apiNameSuffix = "Api";
     protected String testPackage = "";
-    protected String filesMetadataFilename = "FILES";
-    protected String versionMetadataFilename = "VERSION";
+    @Setter protected String filesMetadataFilename = "FILES";
+    @Setter protected String versionMetadataFilename = "VERSION";
     /*
     apiTemplateFiles are for API outputs only (controllers/handlers).
     API templates may be written multiple times; APIs are grouped by tag and the file is written once per tag group.
@@ -198,7 +204,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> apiDocTemplateFiles = new HashMap<>();
     protected Map<String, String> modelDocTemplateFiles = new HashMap<>();
     protected Map<String, String> reservedWordsMappings = new HashMap<>();
-    protected String templateDir;
+    @Setter protected String templateDir;
     protected String embeddedTemplateDir;
     protected Map<String, Object> additionalProperties = new HashMap<>();
     protected Map<String, String> serverVariables = new HashMap<>();
@@ -213,7 +219,9 @@ public class DefaultCodegen implements CodegenConfig {
     protected List<CliOption> cliOptions = new ArrayList<>();
     protected boolean skipOverwrite;
     protected boolean removeOperationIdPrefix;
+    @Getter @Setter
     protected String removeOperationIdPrefixDelimiter = "_";
+    @Getter @Setter
     protected int removeOperationIdPrefixCount = 1;
     protected boolean skipOperationExample;
 
@@ -246,9 +254,13 @@ public class DefaultCodegen implements CodegenConfig {
     protected boolean supportsMixins;
     protected Map<String, String> supportedLibraries = new LinkedHashMap<>();
     protected String library;
+    @Getter @Setter
     protected Boolean sortParamsByRequiredFlag = true;
+    @Getter @Setter
     protected Boolean sortModelPropertiesByRequiredFlag = false;
+    @Getter @Setter
     protected Boolean ensureUniqueParams = true;
+    @Getter @Setter
     protected Boolean allowUnicodeIdentifiers = false;
     protected String gitHost, gitUserId, gitRepoId, releaseNote;
     protected String httpUserAgent;
@@ -259,6 +271,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> specialCharReplacements = new LinkedHashMap<>();
     // When a model is an alias for a simple type
     protected Map<String, String> typeAliases = Collections.emptyMap();
+    @Getter @Setter
     protected Boolean prependFormOrBodyParameters = false;
     // The extension of the generated documentation files (defaults to markdown .md)
     protected String docExtension;
@@ -281,15 +294,15 @@ public class DefaultCodegen implements CodegenConfig {
     protected boolean removeEnumValuePrefix = true;
 
     // Support legacy logic for evaluating discriminators
-    protected boolean legacyDiscriminatorBehavior = true;
+    @Setter protected boolean legacyDiscriminatorBehavior = true;
 
     // Specify what to do if the 'additionalProperties' keyword is not present in a schema.
     // See CodegenConstants.java for more details.
-    protected boolean disallowAdditionalPropertiesIfNotPresent = true;
+    @Setter protected boolean disallowAdditionalPropertiesIfNotPresent = true;
 
     // If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.
     // With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.
-    protected boolean enumUnknownDefaultCase = false;
+    @Setter protected boolean enumUnknownDefaultCase = false;
     protected String enumUnknownDefaultCaseName = "unknown_default_open_api";
 
     // make openapi available to all methods
@@ -312,8 +325,9 @@ public class DefaultCodegen implements CodegenConfig {
     protected boolean addSuffixToDuplicateOperationNicknames = true;
 
     // Whether to automatically hardcode params that are considered Constants by OpenAPI Spec
-    protected boolean autosetConstants = false;
+    @Setter protected boolean autosetConstants = false;
 
+    @Override
     public boolean getAddSuffixToDuplicateOperationNicknames() {
         return addSuffixToDuplicateOperationNicknames;
     }
@@ -323,125 +337,57 @@ public class DefaultCodegen implements CodegenConfig {
         return cliOptions;
     }
 
+    /**
+     * add this instance to additionalProperties.
+     * This instance is used as parent context in Mustache.
+     * It means that Mustache uses the values found in this order:
+     * first from additionalProperties
+     * then from the getter in this instance
+     * then from the fields in this instance
+     *
+     */
+    protected void useCodegenAsMustacheParentContext() {
+        additionalProperties.put(CodegenConstants.MUSTACHE_PARENT_CONTEXT, this);
+    }
+
     @Override
     public void processOpts() {
 
-        if (additionalProperties.containsKey(CodegenConstants.TEMPLATE_DIR)) {
-            this.setTemplateDir((String) additionalProperties.get(CodegenConstants.TEMPLATE_DIR));
+        if (!additionalProperties.containsKey(CodegenConstants.MUSTACHE_PARENT_CONTEXT)) {
+            // by default empty parent context
+            additionalProperties.put(CodegenConstants.MUSTACHE_PARENT_CONTEXT, new Object());
+        }
+        convertPropertyToStringAndWriteBack(CodegenConstants.TEMPLATE_DIR, this::setTemplateDir);
+        convertPropertyToStringAndWriteBack(CodegenConstants.MODEL_PACKAGE, this::setModelPackage);
+        convertPropertyToStringAndWriteBack(CodegenConstants.API_PACKAGE, this::setApiPackage);
+
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.HIDE_GENERATION_TIMESTAMP, this::setHideGenerationTimestamp);
+        // put the value back in additionalProperties for backward compatibility with generators not using yet convertPropertyToBooleanAndWriteBack
+        writePropertyBack(CodegenConstants.HIDE_GENERATION_TIMESTAMP, isHideGenerationTimestamp());
+
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, this::setSortParamsByRequiredFlag);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, this::setSortModelPropertiesByRequiredFlag);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, this::setPrependFormOrBodyParameters);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.ENSURE_UNIQUE_PARAMS, this::setEnsureUniqueParams);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, this::setAllowUnicodeIdentifiers);
+        convertPropertyToStringAndWriteBack(CodegenConstants.API_NAME_PREFIX, this::setApiNamePrefix);
+        convertPropertyToStringAndWriteBack(CodegenConstants.API_NAME_SUFFIX, this::setApiNameSuffix);
+        convertPropertyToStringAndWriteBack(CodegenConstants.MODEL_NAME_PREFIX, this::setModelNamePrefix);
+        convertPropertyToStringAndWriteBack(CodegenConstants.MODEL_NAME_SUFFIX, this::setModelNameSuffix);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.REMOVE_OPERATION_ID_PREFIX, this::setRemoveOperationIdPrefix);
+        convertPropertyToStringAndWriteBack(CodegenConstants.REMOVE_OPERATION_ID_PREFIX_DELIMITER, this::setRemoveOperationIdPrefixDelimiter);
+        convertPropertyToTypeAndWriteBack(CodegenConstants.REMOVE_OPERATION_ID_PREFIX_COUNT, Integer::parseInt, this::setRemoveOperationIdPrefixCount);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.SKIP_OPERATION_EXAMPLE, this::setSkipOperationExample);
+        convertPropertyToStringAndWriteBack(CodegenConstants.DOCEXTENSION, this::setDocExtension);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.ENABLE_POST_PROCESS_FILE, this::setEnablePostProcessFile);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.GENERATE_ALIAS_AS_MODEL, ModelUtils::setGenerateAliasAsModel);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.REMOVE_ENUM_VALUE_PREFIX, this::setRemoveEnumValuePrefix);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, this::setLegacyDiscriminatorBehavior);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, this::setDisallowAdditionalPropertiesIfNotPresent);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, this::setEnumUnknownDefaultCase);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.AUTOSET_CONSTANTS, this::setAutosetConstants);
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
-            this.setModelPackage((String) additionalProperties.get(CodegenConstants.MODEL_PACKAGE));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
-            this.setApiPackage((String) additionalProperties.get(CodegenConstants.API_PACKAGE));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
-            setHideGenerationTimestamp(convertPropertyToBooleanAndWriteBack(CodegenConstants.HIDE_GENERATION_TIMESTAMP));
-        } else {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, hideGenerationTimestamp);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG)) {
-            this.setSortParamsByRequiredFlag(Boolean.valueOf(additionalProperties
-                    .get(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG).toString()));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG)) {
-            this.setSortModelPropertiesByRequiredFlag(Boolean.valueOf(additionalProperties
-                    .get(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG).toString()));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS)) {
-            this.setPrependFormOrBodyParameters(Boolean.valueOf(additionalProperties
-                    .get(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS).toString()));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.ENSURE_UNIQUE_PARAMS)) {
-            this.setEnsureUniqueParams(Boolean.valueOf(additionalProperties
-                    .get(CodegenConstants.ENSURE_UNIQUE_PARAMS).toString()));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS)) {
-            this.setAllowUnicodeIdentifiers(Boolean.valueOf(additionalProperties
-                    .get(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS).toString()));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.API_NAME_PREFIX)) {
-            this.setApiNamePrefix((String) additionalProperties.get(CodegenConstants.API_NAME_PREFIX));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.API_NAME_SUFFIX)) {
-            this.setApiNameSuffix((String) additionalProperties.get(CodegenConstants.API_NAME_SUFFIX));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.MODEL_NAME_PREFIX)) {
-            this.setModelNamePrefix((String) additionalProperties.get(CodegenConstants.MODEL_NAME_PREFIX));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.MODEL_NAME_SUFFIX)) {
-            this.setModelNameSuffix((String) additionalProperties.get(CodegenConstants.MODEL_NAME_SUFFIX));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.REMOVE_OPERATION_ID_PREFIX)) {
-            this.setRemoveOperationIdPrefix(Boolean.parseBoolean(additionalProperties
-                    .get(CodegenConstants.REMOVE_OPERATION_ID_PREFIX).toString()));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.REMOVE_OPERATION_ID_PREFIX_DELIMITER)) {
-            this.setRemoveOperationIdPrefixDelimiter(additionalProperties
-                    .get(CodegenConstants.REMOVE_OPERATION_ID_PREFIX_DELIMITER).toString());
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.REMOVE_OPERATION_ID_PREFIX_COUNT)) {
-            this.setRemoveOperationIdPrefixCount(Integer.parseInt(additionalProperties
-                    .get(CodegenConstants.REMOVE_OPERATION_ID_PREFIX_COUNT).toString()));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.SKIP_OPERATION_EXAMPLE)) {
-            this.setSkipOperationExample(Boolean.parseBoolean(additionalProperties
-                    .get(CodegenConstants.SKIP_OPERATION_EXAMPLE).toString()));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.DOCEXTENSION)) {
-            this.setDocExtension(String.valueOf(additionalProperties
-                    .get(CodegenConstants.DOCEXTENSION).toString()));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.ENABLE_POST_PROCESS_FILE)) {
-            this.setEnablePostProcessFile(Boolean.parseBoolean(additionalProperties
-                    .get(CodegenConstants.ENABLE_POST_PROCESS_FILE).toString()));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.GENERATE_ALIAS_AS_MODEL)) {
-            ModelUtils.setGenerateAliasAsModel(Boolean.parseBoolean(additionalProperties
-                    .get(CodegenConstants.GENERATE_ALIAS_AS_MODEL).toString()));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.REMOVE_ENUM_VALUE_PREFIX)) {
-            this.setRemoveEnumValuePrefix(Boolean.parseBoolean(additionalProperties
-                    .get(CodegenConstants.REMOVE_ENUM_VALUE_PREFIX).toString()));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR)) {
-            this.setLegacyDiscriminatorBehavior(Boolean.parseBoolean(additionalProperties
-                    .get(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR).toString()));
-        }
-        if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
-            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.parseBoolean(additionalProperties
-                    .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
-        }
-        if (additionalProperties.containsKey(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE)) {
-            this.setEnumUnknownDefaultCase(Boolean.parseBoolean(additionalProperties
-                    .get(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE).toString()));
-        }
-        if (additionalProperties.containsKey(CodegenConstants.AUTOSET_CONSTANTS)) {
-            this.setAutosetConstants(
-                    Boolean.parseBoolean(additionalProperties.get(CodegenConstants.AUTOSET_CONSTANTS).toString()));
-        }
-    }
 
     /***
      * Preset map builder with commonly used Mustache lambdas.
@@ -908,6 +854,18 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public String toEnumDefaultValue(String value, String datatype) {
         return datatype + "." + value;
+    }
+
+    /**
+     * Return the enum default value in the language specified format
+     *
+     * @param property  The codegen property to create the default for.
+     * @param value     Enum variable name
+     * @return the default value for the enum
+     */
+    public String toEnumDefaultValue(CodegenProperty property, String value) {
+        // Use the datatype with the value.
+        return toEnumDefaultValue(value, property.datatypeWithEnum);
     }
 
     /**
@@ -1456,125 +1414,21 @@ public class DefaultCodegen implements CodegenConfig {
         return filesMetadataFilename;
     }
 
-    public void setFilesMetadataFilename(String filesMetadataFilename) {
-        this.filesMetadataFilename = filesMetadataFilename;
-    }
-
     @Override
     public String getVersionMetadataFilename() {
         return versionMetadataFilename;
-    }
-
-    public void setVersionMetadataFilename(String versionMetadataFilename) {
-        this.versionMetadataFilename = versionMetadataFilename;
-    }
-
-    public void setTemplateDir(String templateDir) {
-        this.templateDir = templateDir;
-    }
-
-    public void setModelPackage(String modelPackage) {
-        this.modelPackage = modelPackage;
-    }
-
-    public String getModelNamePrefix() {
-        return modelNamePrefix;
-    }
-
-    public void setModelNamePrefix(String modelNamePrefix) {
-        this.modelNamePrefix = modelNamePrefix;
-    }
-
-    public String getModelNameSuffix() {
-        return modelNameSuffix;
-    }
-
-    public void setModelNameSuffix(String modelNameSuffix) {
-        this.modelNameSuffix = modelNameSuffix;
-    }
-
-    public String getApiNameSuffix() {
-        return apiNameSuffix;
-    }
-
-    public void setApiNameSuffix(String apiNameSuffix) {
-        this.apiNameSuffix = apiNameSuffix;
-    }
-
-    public String getApiNamePrefix() {
-        return apiNamePrefix;
-    }
-
-    public void setApiNamePrefix(String apiNamePrefix) {
-        this.apiNamePrefix = apiNamePrefix;
-    }
-
-    public void setApiPackage(String apiPackage) {
-        this.apiPackage = apiPackage;
-    }
-
-    public Boolean getSortParamsByRequiredFlag() {
-        return sortParamsByRequiredFlag;
-    }
-
-    public void setSortParamsByRequiredFlag(Boolean sortParamsByRequiredFlag) {
-        this.sortParamsByRequiredFlag = sortParamsByRequiredFlag;
-    }
-
-    public Boolean getSortModelPropertiesByRequiredFlag() {
-        return sortModelPropertiesByRequiredFlag;
-    }
-
-    public void setSortModelPropertiesByRequiredFlag(Boolean sortModelPropertiesByRequiredFlag) {
-        this.sortModelPropertiesByRequiredFlag = sortModelPropertiesByRequiredFlag;
-    }
-
-    public Boolean getPrependFormOrBodyParameters() {
-        return prependFormOrBodyParameters;
-    }
-
-    public void setPrependFormOrBodyParameters(Boolean prependFormOrBodyParameters) {
-        this.prependFormOrBodyParameters = prependFormOrBodyParameters;
-    }
-
-    public Boolean getEnsureUniqueParams() {
-        return ensureUniqueParams;
-    }
-
-    public void setEnsureUniqueParams(Boolean ensureUniqueParams) {
-        this.ensureUniqueParams = ensureUniqueParams;
     }
 
     public Boolean getLegacyDiscriminatorBehavior() {
         return legacyDiscriminatorBehavior;
     }
 
-    public void setLegacyDiscriminatorBehavior(boolean val) {
-        this.legacyDiscriminatorBehavior = val;
-    }
-
     public Boolean getDisallowAdditionalPropertiesIfNotPresent() {
         return disallowAdditionalPropertiesIfNotPresent;
     }
 
-    public void setDisallowAdditionalPropertiesIfNotPresent(boolean val) {
-        this.disallowAdditionalPropertiesIfNotPresent = val;
-    }
-
     public Boolean getEnumUnknownDefaultCase() {
         return enumUnknownDefaultCase;
-    }
-
-    public void setEnumUnknownDefaultCase(boolean val) {
-        this.enumUnknownDefaultCase = val;
-    }
-
-    public Boolean getAllowUnicodeIdentifiers() {
-        return allowUnicodeIdentifiers;
-    }
-
-    public void setAllowUnicodeIdentifiers(Boolean allowUnicodeIdentifiers) {
-        this.allowUnicodeIdentifiers = allowUnicodeIdentifiers;
     }
 
     public Boolean getUseOneOfInterfaces() {
@@ -1979,6 +1833,7 @@ public class DefaultCodegen implements CodegenConfig {
         specialCharReplacements.put("!=", "Not_Equal");
         specialCharReplacements.put("<>", "Not_Equal");
         specialCharReplacements.put("~=", "Tilde_Equal");
+        specialCharReplacements.put("==", "Double_Equal");
     }
 
     /**
@@ -2953,7 +2808,9 @@ public class DefaultCodegen implements CodegenConfig {
         if (null != existingProperties && null != newProperties) {
             Schema existingType = existingProperties.get("type");
             Schema newType = newProperties.get("type");
-            newProperties.forEach((key, value) -> existingProperties.put(key, ModelUtils.cloneSchema(value)));
+            newProperties.forEach((key, value) ->
+                    existingProperties.put(key, ModelUtils.cloneSchema(value, specVersionGreaterThanOrEqualTo310(openAPI)))
+            );
             if (null != existingType && null != newType && null != newType.getEnum() && !newType.getEnum().isEmpty()) {
                 for (Object e : newType.getEnum()) {
                     // ensure all interface enum types are added to schema
@@ -5265,6 +5122,9 @@ public class DefaultCodegen implements CodegenConfig {
         if (parameter.getExtensions() != null && !parameter.getExtensions().isEmpty()) {
             codegenParameter.vendorExtensions.putAll(parameter.getExtensions());
         }
+        if (parameter.getSchema() != null && parameter.getSchema().getExtensions() != null && !parameter.getSchema().getExtensions().isEmpty()) {
+            codegenParameter.vendorExtensions.putAll(parameter.getSchema().getExtensions());
+        }
 
         Schema parameterSchema;
 
@@ -6277,22 +6137,6 @@ public class DefaultCodegen implements CodegenConfig {
         this.removeOperationIdPrefix = removeOperationIdPrefix;
     }
 
-    public String getRemoveOperationIdPrefixDelimiter() {
-        return removeOperationIdPrefixDelimiter;
-    }
-
-    public void setRemoveOperationIdPrefixDelimiter(String removeOperationIdPrefixDelimiter) {
-        this.removeOperationIdPrefixDelimiter = removeOperationIdPrefixDelimiter;
-    }
-
-    public int getRemoveOperationIdPrefixCount() {
-        return removeOperationIdPrefixCount;
-    }
-
-    public void setRemoveOperationIdPrefixCount(int removeOperationIdPrefixCount) {
-        this.removeOperationIdPrefixCount = removeOperationIdPrefixCount;
-    }
-
     @Override
     public void setSkipOperationExample(boolean skipOperationExample) {
         this.skipOperationExample = skipOperationExample;
@@ -6750,7 +6594,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
             if (enumName != null) {
-                var.defaultValue = toEnumDefaultValue(enumName, var.datatypeWithEnum);
+                var.defaultValue = toEnumDefaultValue(var, enumName);
             }
         }
     }
@@ -6885,6 +6729,59 @@ public class DefaultCodegen implements CodegenConfig {
         boolean result = convertPropertyToBoolean(propertyKey);
         writePropertyBack(propertyKey, result);
         return result;
+    }
+
+
+    /**
+     * reads propertyKey from additionalProperties, converts it to a boolean and
+     * writes it back to additionalProperties to be usable as a boolean in
+     * mustache files.
+     *
+     * @param propertyKey property key
+     * @param booleanSetter the setter function reference
+     * @return property value as boolean or false if it does not exist
+     */
+    public boolean convertPropertyToBooleanAndWriteBack(String propertyKey, Consumer<Boolean> booleanSetter) {
+        if (additionalProperties.containsKey(propertyKey)) {
+            boolean result = convertPropertyToBoolean(propertyKey);
+            writePropertyBack(propertyKey, result);
+            booleanSetter.accept(result);
+            return result;
+        }
+        return false;
+    }
+
+    /**
+     * reads propertyKey from additionalProperties, converts it to a string and
+     * writes it back to additionalProperties to be usable as a string in
+     * mustache files.
+     *
+     * @param propertyKey property key
+     * @param stringSetter the setter function reference
+     * @return property value as String or null if not found
+     */
+    public String convertPropertyToStringAndWriteBack(String propertyKey, Consumer<String> stringSetter) {
+        return convertPropertyToTypeAndWriteBack(propertyKey, Function.identity(), stringSetter);
+    }
+
+    /**
+     * reads propertyKey from additionalProperties, converts it to T and
+     * writes it back to additionalProperties to be usable as T in
+     * mustache files.
+     *
+     * @param propertyKey property key
+     * @param genericTypeSetter the setter function reference
+     * @return property value as instance of type T or null if not found
+     */
+    public <T> T convertPropertyToTypeAndWriteBack(String propertyKey, Function<String, T> converter, Consumer<T> genericTypeSetter) {
+        if (additionalProperties.containsKey(propertyKey)) {
+            String value = additionalProperties.get(propertyKey).toString();
+            T result = converter.apply(value);
+            writePropertyBack(propertyKey, result);
+            genericTypeSetter.accept(result);
+            return result;
+        }
+        return null;
     }
 
     /**
@@ -8302,7 +8199,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * An map entry for cached sanitized names.
      */
-    private static class SanitizeNameOptions {
+    @Getter private static class SanitizeNameOptions {
         public SanitizeNameOptions(String name, String removeCharRegEx, List<String> exceptions) {
             this.name = name;
             this.removeCharRegEx = removeCharRegEx;
@@ -8311,18 +8208,6 @@ public class DefaultCodegen implements CodegenConfig {
             } else {
                 this.exceptions = Collections.emptyList();
             }
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getRemoveCharRegEx() {
-            return removeCharRegEx;
-        }
-
-        public List<String> getExceptions() {
-            return exceptions;
         }
 
         private final String name;
@@ -8531,10 +8416,6 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             throw new IllegalArgumentException("Invalid schema type; type must be Boolean or Schema");
         }
-    }
-
-    public void setAutosetConstants(boolean autosetConstants) {
-        this.autosetConstants = autosetConstants;
     }
 
     /**

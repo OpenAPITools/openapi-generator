@@ -36,8 +36,8 @@ public class FileSchemaTestClass {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public FileSchemaTestClass(File file, List<@Valid File> files) {
       this.file = file;
       this.files = files;
@@ -51,7 +51,7 @@ public class FileSchemaTestClass {
   /**
    * Get file
    * @return file
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("file")
@@ -79,7 +79,7 @@ public class FileSchemaTestClass {
   /**
    * Get files
    * @return files
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("files")

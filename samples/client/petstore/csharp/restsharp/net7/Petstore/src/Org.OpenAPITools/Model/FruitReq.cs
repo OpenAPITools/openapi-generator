@@ -81,11 +81,11 @@ namespace Org.OpenAPITools.Model
             }
             set
             {
-                if (value.GetType() == typeof(AppleReq))
+                if (value.GetType() == typeof(AppleReq) || value is AppleReq)
                 {
                     this._actualInstance = value;
                 }
-                else if (value.GetType() == typeof(BananaReq))
+                else if (value.GetType() == typeof(BananaReq) || value is BananaReq)
                 {
                     this._actualInstance = value;
                 }

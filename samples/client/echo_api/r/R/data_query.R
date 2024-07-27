@@ -30,13 +30,13 @@ DataQuery <- R6::R6Class(
     #' Initialize a new DataQuery class.
     #'
     #' @param id Query
-    #' @param outcomes outcomes. Default to ["SUCCESS","FAILURE"].
+    #' @param outcomes outcomes. Default to [SUCCESS, FAILURE].
     #' @param suffix test suffix
     #' @param text Some text containing white spaces
     #' @param date A date
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`id` = NULL, `outcomes` = ["SUCCESS","FAILURE"], `suffix` = NULL, `text` = NULL, `date` = NULL, ...) {
+    initialize = function(`id` = NULL, `outcomes` = [SUCCESS, FAILURE], `suffix` = NULL, `text` = NULL, `date` = NULL, ...) {
       if (!is.null(`id`)) {
         if (!(is.numeric(`id`) && length(`id`) == 1)) {
           stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))

@@ -39,8 +39,8 @@ public class SpecialModelName {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public SpecialModelName(@JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME) Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
@@ -51,10 +51,10 @@ public class SpecialModelName {
     return this;
   }
 
-   /**
+  /**
    * Get $specialPropertyName
    * @return $specialPropertyName
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

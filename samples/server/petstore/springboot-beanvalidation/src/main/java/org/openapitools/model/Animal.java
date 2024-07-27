@@ -59,7 +59,7 @@ public class Animal {
   /**
    * Get className
    * @return className
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("className")
@@ -79,7 +79,7 @@ public class Animal {
   /**
    * Get color
    * @return color
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("color")

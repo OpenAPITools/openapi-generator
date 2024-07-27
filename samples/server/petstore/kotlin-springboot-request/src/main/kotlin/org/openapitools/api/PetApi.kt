@@ -35,8 +35,8 @@ import jakarta.validation.Valid
 import kotlin.collections.List
 import kotlin.collections.Map
 
+@RestController
 @Validated
-@RequestMapping("\${api.base-path:/v2}")
 interface PetApi {
 
     @Operation(

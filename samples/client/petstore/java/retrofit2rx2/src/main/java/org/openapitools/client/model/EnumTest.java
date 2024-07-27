@@ -249,10 +249,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumString
    * @return enumString
-  **/
+   */
   @javax.annotation.Nullable
 
   public EnumStringEnum getEnumString() {
@@ -270,10 +270,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumStringRequired
    * @return enumStringRequired
-  **/
+   */
   @javax.annotation.Nonnull
 
   public EnumStringRequiredEnum getEnumStringRequired() {
@@ -291,10 +291,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumInteger
    * @return enumInteger
-  **/
+   */
   @javax.annotation.Nullable
 
   public EnumIntegerEnum getEnumInteger() {
@@ -312,10 +312,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumNumber
    * @return enumNumber
-  **/
+   */
   @javax.annotation.Nullable
 
   public EnumNumberEnum getEnumNumber() {
@@ -333,10 +333,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get outerEnum
    * @return outerEnum
-  **/
+   */
   @javax.annotation.Nullable
 
   public OuterEnum getOuterEnum() {

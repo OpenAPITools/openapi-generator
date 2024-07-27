@@ -69,5 +69,6 @@ data class Pet (
         @SerializedName(value = "pending") pending("pending"),
         @SerializedName(value = "sold") sold("sold");
     }
+
 }
 

@@ -43,8 +43,8 @@ public class HasOnlyReadOnly {
   public HasOnlyReadOnly() {
   }
   /**
-  * Constructor with only readonly parameters
-  */
+   * Constructor with only readonly parameters
+   */
   @JsonCreator
   public HasOnlyReadOnly(
     @JsonProperty(JSON_PROPERTY_BAR) String bar, 
@@ -55,10 +55,10 @@ public class HasOnlyReadOnly {
     this.foo = foo;
   }
 
-   /**
+  /**
    * Get bar
    * @return bar
-  **/
+   */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_BAR)
@@ -70,10 +70,10 @@ public class HasOnlyReadOnly {
 
 
 
-   /**
+  /**
    * Get foo
    * @return foo
-  **/
+   */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_FOO)

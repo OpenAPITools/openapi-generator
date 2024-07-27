@@ -35,7 +35,7 @@ public class HasOnlyReadOnly {
   /**
    * Get bar
    * @return bar
-  */
+   */
   
   @Schema(name = "bar", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("bar")
@@ -55,7 +55,7 @@ public class HasOnlyReadOnly {
   /**
    * Get foo
    * @return foo
-  */
+   */
   
   @Schema(name = "foo", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("foo")

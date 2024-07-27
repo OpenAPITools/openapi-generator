@@ -56,7 +56,7 @@ public class Animal {
   /**
    * Get className
    * @return className
-  */
+   */
   @NotNull
   @JsonProperty("className")
   public String getClassName() {
@@ -75,7 +75,7 @@ public class Animal {
   /**
    * Get color
    * @return color
-  */
+   */
   
   @JsonProperty("color")
   public String getColor() {

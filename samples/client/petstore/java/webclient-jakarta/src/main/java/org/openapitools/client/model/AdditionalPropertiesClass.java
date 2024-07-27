@@ -57,10 +57,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapProperty
    * @return mapProperty
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -90,10 +90,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapOfMapProperty
    * @return mapOfMapProperty
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

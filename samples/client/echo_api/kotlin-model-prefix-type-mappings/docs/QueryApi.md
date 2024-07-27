@@ -2,14 +2,14 @@
 
 All URIs are relative to *http://localhost:3000*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**testEnumRefString**](QueryApi.md#testEnumRefString) | **GET** query/enum_ref_string | Test query parameter(s)
-[**testQueryDatetimeDateString**](QueryApi.md#testQueryDatetimeDateString) | **GET** query/datetime/date/string | Test query parameter(s)
-[**testQueryIntegerBooleanString**](QueryApi.md#testQueryIntegerBooleanString) | **GET** query/integer/boolean/string | Test query parameter(s)
-[**testQueryStyleDeepObjectExplodeTrueObject**](QueryApi.md#testQueryStyleDeepObjectExplodeTrueObject) | **GET** query/style_deepObject/explode_true/object | Test query parameter(s)
-[**testQueryStyleFormExplodeTrueArrayString**](QueryApi.md#testQueryStyleFormExplodeTrueArrayString) | **GET** query/style_form/explode_true/array_string | Test query parameter(s)
-[**testQueryStyleFormExplodeTrueObject**](QueryApi.md#testQueryStyleFormExplodeTrueObject) | **GET** query/style_form/explode_true/object | Test query parameter(s)
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**testEnumRefString**](QueryApi.md#testEnumRefString) | **GET** query/enum_ref_string | Test query parameter(s) |
+| [**testQueryDatetimeDateString**](QueryApi.md#testQueryDatetimeDateString) | **GET** query/datetime/date/string | Test query parameter(s) |
+| [**testQueryIntegerBooleanString**](QueryApi.md#testQueryIntegerBooleanString) | **GET** query/integer/boolean/string | Test query parameter(s) |
+| [**testQueryStyleDeepObjectExplodeTrueObject**](QueryApi.md#testQueryStyleDeepObjectExplodeTrueObject) | **GET** query/style_deepObject/explode_true/object | Test query parameter(s) |
+| [**testQueryStyleFormExplodeTrueArrayString**](QueryApi.md#testQueryStyleFormExplodeTrueArrayString) | **GET** query/style_form/explode_true/array_string | Test query parameter(s) |
+| [**testQueryStyleFormExplodeTrueObject**](QueryApi.md#testQueryStyleFormExplodeTrueObject) | **GET** query/style_form/explode_true/object | Test query parameter(s) |
 
 
 
@@ -35,11 +35,10 @@ launch(Dispatchers.IO) {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **enumNonrefStringQuery** | **kotlin.String**|  | [optional] [enum: success, failure, unclassified]
- **enumRefStringQuery** | [**ApiStringEnumRef**](.md)|  | [optional] [enum: success, failure, unclassified]
+| **enumNonrefStringQuery** | **kotlin.String**|  | [optional] [enum: success, failure, unclassified] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **enumRefStringQuery** | [**ApiStringEnumRef**](.md)|  | [optional] [enum: success, failure, unclassified] |
 
 ### Return type
 
@@ -78,12 +77,11 @@ launch(Dispatchers.IO) {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **datetimeQuery** | **java.time.OffsetDateTime**|  | [optional]
- **dateQuery** | **java.time.LocalDate**|  | [optional]
- **stringQuery** | **kotlin.String**|  | [optional]
+| **datetimeQuery** | **java.time.OffsetDateTime**|  | [optional] |
+| **dateQuery** | **java.time.LocalDate**|  | [optional] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **stringQuery** | **kotlin.String**|  | [optional] |
 
 ### Return type
 
@@ -122,12 +120,11 @@ launch(Dispatchers.IO) {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **integerQuery** | **kotlin.Int**|  | [optional]
- **booleanQuery** | **kotlin.Boolean**|  | [optional]
- **stringQuery** | **kotlin.String**|  | [optional]
+| **integerQuery** | **kotlin.Int**|  | [optional] |
+| **booleanQuery** | **kotlin.Boolean**|  | [optional] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **stringQuery** | **kotlin.String**|  | [optional] |
 
 ### Return type
 
@@ -164,10 +161,9 @@ launch(Dispatchers.IO) {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **queryObject** | [**ApiPet**](.md)|  | [optional]
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **queryObject** | [**ApiPet**](.md)|  | [optional] |
 
 ### Return type
 
@@ -204,10 +200,9 @@ launch(Dispatchers.IO) {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **queryObject** | [**ApiTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter**](.md)|  | [optional]
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **queryObject** | [**ApiTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter**](.md)|  | [optional] |
 
 ### Return type
 
@@ -244,10 +239,9 @@ launch(Dispatchers.IO) {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **queryObject** | [**ApiPet**](.md)|  | [optional]
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **queryObject** | [**ApiPet**](.md)|  | [optional] |
 
 ### Return type
 

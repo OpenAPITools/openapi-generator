@@ -44,7 +44,7 @@ public class Category {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
@@ -64,7 +64,7 @@ public class Category {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull 
   @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")

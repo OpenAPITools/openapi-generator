@@ -292,10 +292,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumString
    * @return enumString
-  **/
+   */
   @javax.annotation.Nullable
   public EnumStringEnum getEnumString() {
     return enumString;
@@ -311,10 +311,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumStringRequired
    * @return enumStringRequired
-  **/
+   */
   @javax.annotation.Nonnull
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
@@ -330,10 +330,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumInteger
    * @return enumInteger
-  **/
+   */
   @javax.annotation.Nullable
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
@@ -349,10 +349,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumNumber
    * @return enumNumber
-  **/
+   */
   @javax.annotation.Nullable
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
@@ -368,10 +368,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get outerEnum
    * @return outerEnum
-  **/
+   */
   @javax.annotation.Nullable
   public OuterEnum getOuterEnum() {
     return outerEnum;
@@ -446,12 +446,12 @@ public class EnumTest {
     openapiRequiredFields.add("enum_string_required");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to EnumTest
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to EnumTest
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!EnumTest.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -529,22 +529,22 @@ public class EnumTest {
     }
   }
 
- /**
-  * Create an instance of EnumTest given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of EnumTest
-  * @throws IOException if the JSON string is invalid with respect to EnumTest
-  */
+  /**
+   * Create an instance of EnumTest given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of EnumTest
+   * @throws IOException if the JSON string is invalid with respect to EnumTest
+   */
   public static EnumTest fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, EnumTest.class);
   }
 
- /**
-  * Convert an instance of EnumTest to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of EnumTest to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

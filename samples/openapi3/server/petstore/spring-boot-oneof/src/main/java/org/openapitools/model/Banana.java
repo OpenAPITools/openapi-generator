@@ -49,7 +49,7 @@ public class Banana implements Fruit {
   /**
    * Get length
    * @return length
-  */
+   */
   @NotNull 
   @Schema(name = "length", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("length")
@@ -69,7 +69,7 @@ public class Banana implements Fruit {
   /**
    * Get fruitType
    * @return fruitType
-  */
+   */
   @NotNull @Valid 
   @Schema(name = "fruitType", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("fruitType")

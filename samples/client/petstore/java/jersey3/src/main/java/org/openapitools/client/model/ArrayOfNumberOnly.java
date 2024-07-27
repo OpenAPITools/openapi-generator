@@ -58,10 +58,10 @@ public class ArrayOfNumberOnly {
     return this;
   }
 
-   /**
+  /**
    * Get arrayNumber
    * @return arrayNumber
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 

@@ -73,10 +73,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ID)
@@ -99,10 +99,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get username
    * @return username
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_USERNAME)
@@ -125,10 +125,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get firstName
    * @return firstName
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_FIRST_NAME)
@@ -151,10 +151,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get lastName
    * @return lastName
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_LAST_NAME)
@@ -177,10 +177,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get email
    * @return email
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_EMAIL)
@@ -203,10 +203,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get password
    * @return password
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PASSWORD)
@@ -229,10 +229,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get phone
    * @return phone
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PHONE)
@@ -255,10 +255,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * User Status
    * @return userStatus
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_USER_STATUS)

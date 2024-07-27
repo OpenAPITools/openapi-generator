@@ -115,10 +115,10 @@ public class EnumStringDiscriminator {
     return this;
   }
 
-   /**
+  /**
    * enum string type
    * @return enumStrType
-  **/
+   */
   @javax.annotation.Nonnull
   public EnumStrTypeEnum getEnumStrType() {
     return enumStrType;
@@ -227,12 +227,12 @@ public class EnumStringDiscriminator {
     openapiRequiredFields.add("enum_str_type");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to EnumStringDiscriminator
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to EnumStringDiscriminator
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!EnumStringDiscriminator.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -320,22 +320,22 @@ public class EnumStringDiscriminator {
     }
   }
 
- /**
-  * Create an instance of EnumStringDiscriminator given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of EnumStringDiscriminator
-  * @throws IOException if the JSON string is invalid with respect to EnumStringDiscriminator
-  */
+  /**
+   * Create an instance of EnumStringDiscriminator given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of EnumStringDiscriminator
+   * @throws IOException if the JSON string is invalid with respect to EnumStringDiscriminator
+   */
   public static EnumStringDiscriminator fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, EnumStringDiscriminator.class);
   }
 
- /**
-  * Convert an instance of EnumStringDiscriminator to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of EnumStringDiscriminator to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

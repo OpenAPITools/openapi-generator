@@ -69,10 +69,10 @@ public class Name {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -91,10 +91,10 @@ public class Name {
   }
 
 
-   /**
+  /**
    * Get snakeCase
    * @return snakeCase
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
@@ -112,10 +112,10 @@ public class Name {
     return this;
   }
 
-   /**
+  /**
    * Get property
    * @return property
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PROPERTY)
@@ -133,10 +133,10 @@ public class Name {
   }
 
 
-   /**
+  /**
    * Get _123number
    * @return _123number
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_123NUMBER)

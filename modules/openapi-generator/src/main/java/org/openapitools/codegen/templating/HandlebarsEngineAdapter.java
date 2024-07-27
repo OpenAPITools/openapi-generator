@@ -30,6 +30,7 @@ import com.github.jknack.handlebars.io.AbstractTemplateLoader;
 import com.github.jknack.handlebars.io.StringTemplateSource;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import com.github.jknack.handlebars.io.TemplateSource;
+import lombok.Setter;
 import org.openapitools.codegen.api.AbstractTemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplatingExecutor;
 import org.slf4j.Logger;
@@ -50,7 +51,7 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
     // We use this as a simple lookup for valid file name extensions. This adapter will inspect .mustache (built-in) and infer the relevant handlebars filename
     private final String[] canCompileFromExtensions = {".handlebars",".hbs",".mustache"};
     private boolean infiniteLoops = false;
-    private boolean prettyPrint = false;
+    @Setter private boolean prettyPrint = false;
 
     /**
      * Provides an identifier used to load the adapter. This could be a name, uuid, or any other string.
@@ -62,6 +63,7 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
         return "handlebars";
     }
 
+    @Override
     public String compileTemplate(TemplatingExecutor executor,
                                   Map<String, Object> bundle, String templateFile) throws IOException {
         TemplateLoader loader = new AbstractTemplateLoader() {
@@ -165,8 +167,5 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
         return this;
     }
 
-    public void setPrettyPrint(boolean prettyPrint) {
-        this.prettyPrint = prettyPrint;
-    }
 }
 

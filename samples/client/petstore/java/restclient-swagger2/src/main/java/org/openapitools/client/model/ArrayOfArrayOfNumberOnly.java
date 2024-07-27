@@ -56,10 +56,10 @@ public class ArrayOfArrayOfNumberOnly {
     return this;
   }
 
-   /**
+  /**
    * Get arrayArrayNumber
    * @return arrayArrayNumber
-  **/
+   */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)

@@ -47,10 +47,10 @@ public class Bird {
     return this;
   }
 
-   /**
+  /**
    * Get size
    * @return size
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SIZE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -72,10 +72,10 @@ public class Bird {
     return this;
   }
 
-   /**
+  /**
    * Get color
    * @return color
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_COLOR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

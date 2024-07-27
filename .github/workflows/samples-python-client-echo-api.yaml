@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - samples/client/echo_api/python/**
+      - samples/client/echo_api/python-disallowAdditionalPropertiesIfNotPresent/**
       - .github/workflows/samples-python-client-echo-api.yaml
 jobs:
   build:
@@ -17,11 +18,11 @@ jobs:
           - samples/client/echo_api/python
           - samples/client/echo_api/python-disallowAdditionalPropertiesIfNotPresent
         python-version:
-          - "3.7"
           - "3.8"
           - "3.9"
           - "3.10"
           - "3.11"
+          - "3.12"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -41,7 +42,7 @@ jobs:
 
       - name: Test
         working-directory: ${{ matrix.sample }}
-        run: python -m pytest
+        run: python -m unittest discover
 
       - name: mypy
         working-directory: ${{ matrix.sample }}

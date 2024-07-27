@@ -57,10 +57,10 @@ public class DataQuery extends Query {
     return this;
   }
 
-   /**
+  /**
    * test suffix
    * @return suffix
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SUFFIX)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -82,10 +82,10 @@ public class DataQuery extends Query {
     return this;
   }
 
-   /**
+  /**
    * Some text containing white spaces
    * @return text
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_TEXT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -107,10 +107,10 @@ public class DataQuery extends Query {
     return this;
   }
 
-   /**
+  /**
    * A date
    * @return date
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

@@ -44,7 +44,7 @@ public class ArrayOfNumberOnly {
   /**
    * Get arrayNumber
    * @return arrayNumber
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("ArrayNumber")

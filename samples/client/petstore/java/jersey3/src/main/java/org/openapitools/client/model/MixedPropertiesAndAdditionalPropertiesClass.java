@@ -60,10 +60,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -87,10 +87,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get dateTime
    * @return dateTime
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -122,10 +122,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get map
    * @return map
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 

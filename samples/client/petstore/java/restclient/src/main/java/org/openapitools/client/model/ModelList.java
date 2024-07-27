@@ -44,10 +44,10 @@ public class ModelList {
     return this;
   }
 
-   /**
+  /**
    * Get _123list
    * @return _123list
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_123LIST)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

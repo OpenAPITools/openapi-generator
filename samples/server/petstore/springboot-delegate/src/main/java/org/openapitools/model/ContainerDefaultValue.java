@@ -52,8 +52,8 @@ public class ContainerDefaultValue {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public ContainerDefaultValue(List<String> nullableArray, List<String> nullableRequiredArray, List<String> requiredArray, List<String> nullableArrayWithDefault) {
       this.nullableArray = JsonNullable.of(nullableArray);
       this.nullableRequiredArray = JsonNullable.of(nullableRequiredArray);
@@ -77,7 +77,7 @@ public class ContainerDefaultValue {
   /**
    * Get nullableArray
    * @return nullableArray
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("nullable_array")
@@ -105,7 +105,7 @@ public class ContainerDefaultValue {
   /**
    * Get nullableRequiredArray
    * @return nullableRequiredArray
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("nullable_required_array")
@@ -133,7 +133,7 @@ public class ContainerDefaultValue {
   /**
    * Get requiredArray
    * @return requiredArray
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("required_array")
@@ -161,7 +161,7 @@ public class ContainerDefaultValue {
   /**
    * Get nullableArrayWithDefault
    * @return nullableArrayWithDefault
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("nullable_array_with_default")

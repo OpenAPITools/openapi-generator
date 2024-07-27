@@ -42,9 +42,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of string.</param>
         public MixedAnyOfContent(string actualInstance)
         {
-            this.IsNullable = false;
-            this.SchemaType= "anyOf";
-            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+            IsNullable = false;
+            SchemaType= "anyOf";
+            ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
         /// <summary>
@@ -54,9 +54,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of bool.</param>
         public MixedAnyOfContent(bool actualInstance)
         {
-            this.IsNullable = false;
-            this.SchemaType= "anyOf";
-            this.ActualInstance = actualInstance;
+            IsNullable = false;
+            SchemaType= "anyOf";
+            ActualInstance = actualInstance;
         }
 
         /// <summary>
@@ -66,9 +66,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of int.</param>
         public MixedAnyOfContent(int actualInstance)
         {
-            this.IsNullable = false;
-            this.SchemaType= "anyOf";
-            this.ActualInstance = actualInstance;
+            IsNullable = false;
+            SchemaType= "anyOf";
+            ActualInstance = actualInstance;
         }
 
         /// <summary>
@@ -78,9 +78,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of decimal.</param>
         public MixedAnyOfContent(decimal actualInstance)
         {
-            this.IsNullable = false;
-            this.SchemaType= "anyOf";
-            this.ActualInstance = actualInstance;
+            IsNullable = false;
+            SchemaType= "anyOf";
+            ActualInstance = actualInstance;
         }
 
         /// <summary>
@@ -90,9 +90,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of MixedSubId.</param>
         public MixedAnyOfContent(MixedSubId actualInstance)
         {
-            this.IsNullable = false;
-            this.SchemaType= "anyOf";
-            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+            IsNullable = false;
+            SchemaType= "anyOf";
+            ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
 
@@ -111,23 +111,23 @@ namespace Org.OpenAPITools.Model
             {
                 if (value.GetType() == typeof(MixedSubId))
                 {
-                    this._actualInstance = value;
+                    _actualInstance = value;
                 }
                 else if (value.GetType() == typeof(bool))
                 {
-                    this._actualInstance = value;
+                    _actualInstance = value;
                 }
                 else if (value.GetType() == typeof(decimal))
                 {
-                    this._actualInstance = value;
+                    _actualInstance = value;
                 }
                 else if (value.GetType() == typeof(int))
                 {
-                    this._actualInstance = value;
+                    _actualInstance = value;
                 }
                 else if (value.GetType() == typeof(string))
                 {
-                    this._actualInstance = value;
+                    _actualInstance = value;
                 }
                 else
                 {
@@ -143,7 +143,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of string</returns>
         public string GetString()
         {
-            return (string)this.ActualInstance;
+            return (string)ActualInstance;
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of bool</returns>
         public bool GetBool()
         {
-            return (bool)this.ActualInstance;
+            return (bool)ActualInstance;
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of int</returns>
         public int GetInt()
         {
-            return (int)this.ActualInstance;
+            return (int)ActualInstance;
         }
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of decimal</returns>
         public decimal GetDecimal()
         {
-            return (decimal)this.ActualInstance;
+            return (decimal)ActualInstance;
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of MixedSubId</returns>
         public MixedSubId GetMixedSubId()
         {
-            return (MixedSubId)this.ActualInstance;
+            return (MixedSubId)ActualInstance;
         }
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class MixedAnyOfContent {\n");
-            sb.Append("  ActualInstance: ").Append(this.ActualInstance).Append("\n");
+            sb.Append("  ActualInstance: ").Append(ActualInstance).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -205,7 +205,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance, MixedAnyOfContent.SerializerSettings);
+            return JsonConvert.SerializeObject(ActualInstance, MixedAnyOfContent.SerializerSettings);
         }
 
         /// <summary>
@@ -315,8 +315,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ActualInstance != null)
-                    hashCode = hashCode * 59 + this.ActualInstance.GetHashCode();
+                if (ActualInstance != null)
+                    hashCode = hashCode * 59 + ActualInstance.GetHashCode();
                 return hashCode;
             }
         }

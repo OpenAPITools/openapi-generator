@@ -48,10 +48,10 @@ public class FileSchemaTestClass {
     return this;
   }
 
-   /**
+  /**
    * Get _file
    * @return _file
-  **/
+   */
   @javax.annotation.Nullable
 
   public ModelFile getFile() {
@@ -77,10 +77,10 @@ public class FileSchemaTestClass {
     return this;
   }
 
-   /**
+  /**
    * Get files
    * @return files
-  **/
+   */
   @javax.annotation.Nullable
 
   public List<ModelFile> getFiles() {

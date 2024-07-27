@@ -68,7 +68,7 @@ public class TypeHolderExample {
     /**
      * Get stringItem
      * @return stringItem
-     **/
+     */
     @NotNull
     @JsonProperty(JSON_PROPERTY_STRING_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -90,7 +90,7 @@ public class TypeHolderExample {
     /**
      * Get numberItem
      * @return numberItem
-     **/
+     */
     @NotNull
     @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -112,7 +112,7 @@ public class TypeHolderExample {
     /**
      * Get floatItem
      * @return floatItem
-     **/
+     */
     @NotNull
     @JsonProperty(JSON_PROPERTY_FLOAT_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -134,7 +134,7 @@ public class TypeHolderExample {
     /**
      * Get integerItem
      * @return integerItem
-     **/
+     */
     @NotNull
     @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -156,7 +156,7 @@ public class TypeHolderExample {
     /**
      * Get boolItem
      * @return boolItem
-     **/
+     */
     @NotNull
     @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -183,7 +183,7 @@ public class TypeHolderExample {
     /**
      * Get arrayItem
      * @return arrayItem
-     **/
+     */
     @NotNull
     @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)

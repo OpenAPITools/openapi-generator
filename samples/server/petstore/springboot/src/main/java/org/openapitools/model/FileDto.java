@@ -35,7 +35,7 @@ public class FileDto {
   /**
    * Test capitalization
    * @return sourceURI
-  */
+   */
   
   @ApiModelProperty(value = "Test capitalization")
   @JsonProperty("sourceURI")

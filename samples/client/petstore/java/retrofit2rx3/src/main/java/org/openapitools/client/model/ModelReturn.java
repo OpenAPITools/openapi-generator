@@ -40,10 +40,10 @@ public class ModelReturn {
     return this;
   }
 
-   /**
+  /**
    * Get _return
    * @return _return
-  **/
+   */
   @javax.annotation.Nullable
 
   public Integer getReturn() {

@@ -40,7 +40,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
   /**
    * Get normalPropertyName
    * @return normalPropertyName
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("normalPropertyName")
@@ -60,7 +60,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
   /**
    * Get UPPER_CASE_PROPERTY_SNAKE
    * @return UPPER_CASE_PROPERTY_SNAKE
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("UPPER_CASE_PROPERTY_SNAKE")
@@ -80,7 +80,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
   /**
    * Get lowerCasePropertyDashes
    * @return lowerCasePropertyDashes
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("lower-case-property-dashes")
@@ -100,7 +100,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
   /**
    * Get propertyNameWithSpaces
    * @return propertyNameWithSpaces
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("property name with spaces")

@@ -22,8 +22,8 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
@@ -52,10 +52,10 @@ public class OuterComposite {
     return this;
   }
 
-   /**
+  /**
    * Get myNumber
    * @return myNumber
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
 
@@ -75,10 +75,10 @@ public class OuterComposite {
     return this;
   }
 
-   /**
+  /**
    * Get myString
    * @return myString
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -97,10 +97,10 @@ public class OuterComposite {
     return this;
   }
 
-   /**
+  /**
    * Get myBoolean
    * @return myBoolean
-  **/
+   */
   @javax.annotation.Nullable
 
 

@@ -26,8 +26,8 @@ import java.util.List;
 import org.openapitools.client.model.ReadOnlyFirst;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
@@ -66,10 +66,10 @@ public class ArrayTest {
     return this;
   }
 
-   /**
+  /**
    * Get arrayOfString
    * @return arrayOfString
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
@@ -100,10 +100,10 @@ public class ArrayTest {
     return this;
   }
 
-   /**
+  /**
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
 
@@ -135,10 +135,10 @@ public class ArrayTest {
     return this;
   }
 
-   /**
+  /**
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
 

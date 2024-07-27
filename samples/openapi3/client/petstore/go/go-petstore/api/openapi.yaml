@@ -1233,6 +1233,22 @@ paths:
       summary: parameter name mapping test
       tags:
       - fake
+  /fake/wrapped-integer-ref:
+    post:
+      operationId: someOpsRequiringRefInt
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/someOpsRequiringRefInt_request'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+          description: success
 components:
   requestBodies:
     UserArray:
@@ -2113,6 +2129,12 @@ components:
       items:
         type: string
       type: array
+    AnyOfPrimitiveType:
+      anyOf:
+      - $ref: '#/components/schemas/OneOfPrimitiveTypeChild'
+      - format: int32
+        type: integer
+      - $ref: '#/components/schemas/OneOfArrayOfString'
     DuplicatedPropChild:
       allOf:
       - $ref: '#/components/schemas/DuplicatedPropParent'
@@ -2171,6 +2193,11 @@ components:
           type: object
         type: array
       - type: object
+    IDsWrapper:
+      properties:
+        id:
+          type: integer
+      type: object
     _foo_get_default_response:
       example:
         string:
@@ -2323,6 +2350,15 @@ components:
           type: string
       required:
       - requiredFile
+      type: object
+    someOpsRequiringRefInt_request:
+      properties:
+        MyIDs:
+          items:
+            $ref: '#/components/schemas/IDsWrapper/properties/id'
+          type: array
+      required:
+      - ids
       type: object
   securitySchemes:
     petstore_auth:

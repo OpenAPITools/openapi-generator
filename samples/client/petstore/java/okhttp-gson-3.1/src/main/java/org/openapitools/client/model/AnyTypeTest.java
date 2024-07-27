@@ -74,10 +74,10 @@ public class AnyTypeTest {
     return this;
   }
 
-   /**
+  /**
    * Get anyTypeProperty
    * @return anyTypeProperty
-  **/
+   */
   @javax.annotation.Nullable
   public Object getAnyTypeProperty() {
     return anyTypeProperty;
@@ -101,10 +101,10 @@ public class AnyTypeTest {
     return this;
   }
 
-   /**
+  /**
    * test array in 3.1 spec
    * @return arrayProp
-  **/
+   */
   @javax.annotation.Nullable
   public List<String> getArrayProp() {
     return arrayProp;
@@ -128,10 +128,10 @@ public class AnyTypeTest {
     return this;
   }
 
-   /**
+  /**
    * An item that was added to the queue. 
    * @return refArrayPrefixItems
-  **/
+   */
   @javax.annotation.Nullable
   public List<String> getRefArrayPrefixItems() {
     return refArrayPrefixItems;
@@ -256,12 +256,12 @@ public class AnyTypeTest {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to AnyTypeTest
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to AnyTypeTest
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!AnyTypeTest.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -351,22 +351,22 @@ public class AnyTypeTest {
     }
   }
 
- /**
-  * Create an instance of AnyTypeTest given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of AnyTypeTest
-  * @throws IOException if the JSON string is invalid with respect to AnyTypeTest
-  */
+  /**
+   * Create an instance of AnyTypeTest given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of AnyTypeTest
+   * @throws IOException if the JSON string is invalid with respect to AnyTypeTest
+   */
   public static AnyTypeTest fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, AnyTypeTest.class);
   }
 
- /**
-  * Convert an instance of AnyTypeTest to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of AnyTypeTest to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

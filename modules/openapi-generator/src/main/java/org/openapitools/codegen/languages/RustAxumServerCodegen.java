@@ -20,7 +20,6 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -45,7 +44,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.ObjectInputFilter.Config;
 import java.math.BigInteger;
 import java.nio.file.Path;
 import java.util.*;
@@ -245,14 +243,17 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 .doNotOverwrite());
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "rust-axum";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Rust server library which bases on Axum.";
     }
@@ -474,16 +475,18 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 original = operation.getResponses().get(rsp.code);
             }
 
-            // Create a unique responseID for this response.
-            String[] words = rsp.message.split("[^A-Za-z ]");
+            // Create a unique responseID for this response, if one is not already specified with the "x-response-id" extension
+            if (!rsp.vendorExtensions.containsKey("x-response-id")) {
+                String[] words = rsp.message.split("[^A-Za-z ]");
 
-            // build responseId from both status code and description
-            String responseId = "Status" + rsp.code + (
-                    ((words.length != 0) && (!words[0].trim().isEmpty())) ?
-                            "_" + camelize(words[0].replace(" ", "_")) : ""
-            );
-
-            rsp.vendorExtensions.put("x-response-id", responseId);
+                // build responseId from both status code and description
+                String responseId = "Status" + rsp.code + (
+                        ((words.length != 0) && (!words[0].trim().isEmpty())) ?
+                                "_" + camelize(words[0].replace(" ", "_")) : ""
+                );
+                rsp.vendorExtensions.put("x-response-id", responseId);
+            }
+            
             if (rsp.dataType != null) {
                 // Get the mimetype which is produced by this response. Note
                 // that although in general responses produces a set of

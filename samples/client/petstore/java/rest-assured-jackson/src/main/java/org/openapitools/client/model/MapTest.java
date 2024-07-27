@@ -24,8 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
@@ -103,10 +103,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get mapMapOfString
    * @return mapMapOfString
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
 
@@ -138,10 +138,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get mapOfEnumString
    * @return mapOfEnumString
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
@@ -172,10 +172,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get directMap
    * @return directMap
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
@@ -206,10 +206,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get indirectMap
    * @return indirectMap
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)

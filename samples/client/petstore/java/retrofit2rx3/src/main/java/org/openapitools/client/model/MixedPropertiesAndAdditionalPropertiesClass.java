@@ -53,10 +53,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
+   */
   @javax.annotation.Nullable
 
   public UUID getUuid() {
@@ -74,10 +74,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get dateTime
    * @return dateTime
-  **/
+   */
   @javax.annotation.Nullable
 
   public OffsetDateTime getDateTime() {
@@ -103,10 +103,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get map
    * @return map
-  **/
+   */
   @javax.annotation.Nullable
 
   public Map<String, Animal> getMap() {

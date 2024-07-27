@@ -50,8 +50,8 @@ public class ChildWithNullable extends ParentWithNullable {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public ChildWithNullable(@JsonProperty(JSON_PROPERTY_OTHER_PROPERTY) String otherProperty, @JsonProperty(JSON_PROPERTY_TYPE) TypeEnum type, @JsonProperty(JSON_PROPERTY_NULLABLE_PROPERTY) String nullableProperty) {
     super(type, nullableProperty);
     this.otherProperty = otherProperty;
@@ -63,10 +63,10 @@ public class ChildWithNullable extends ParentWithNullable {
     return this;
   }
 
-   /**
+  /**
    * Get otherProperty
    * @return otherProperty
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_OTHER_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

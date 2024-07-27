@@ -59,25 +59,10 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{/isEnum}}
   public static final String SERIALIZED_NAME_{{nameInSnakeCase}} = "{{baseName}}";
   {{#withXml}}
-  {{#isXmlAttribute}}
-  @XmlAttribute(name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-  {{/isXmlAttribute}}
-  {{^isXmlAttribute}}
-    {{^isContainer}}
-  @XmlElement({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-    {{/isContainer}}
-    {{#isContainer}}
-  // Is a container wrapped={{isXmlWrapped}}
-      {{#items}}
-  // items.name={{name}} items.baseName={{baseName}} items.xmlName={{xmlName}} items.xmlNamespace={{xmlNamespace}}
-  // items.example={{example}} items.type={{dataType}}
-  @XmlElement({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-      {{/items}}
-      {{#isXmlWrapped}}
-  @XmlElementWrapper({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-      {{/isXmlWrapped}}
-    {{/isContainer}}
-  {{/isXmlAttribute}}
+  @Xml{{#isXmlAttribute}}Attribute{{/isXmlAttribute}}{{^isXmlAttribute}}Element{{/isXmlAttribute}}(name = "{{items.xmlName}}{{^items.xmlName}}{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}{{/items.xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+    {{#isXmlWrapped}}
+  @XmlElementWrapper(name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+    {{/isXmlWrapped}}
   {{/withXml}}
   {{#deprecated}}
   @Deprecated
@@ -148,7 +133,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{/isMap}}
 
   {{/isReadOnly}}
-   /**
+  /**
   {{#description}}
    * {{.}}
   {{/description}}
@@ -165,7 +150,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
    {{#deprecated}}
    * @deprecated
    {{/deprecated}}
-  **/
+   */
 {{#deprecated}}
   @Deprecated
 {{/deprecated}}
@@ -354,12 +339,12 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{/requiredVars}}
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to {{classname}}
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to {{classname}}
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!{{classname}}.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -585,22 +570,22 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   }
 {{/hasChildren}}
 
- /**
-  * Create an instance of {{classname}} given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of {{classname}}
-  * @throws IOException if the JSON string is invalid with respect to {{classname}}
-  */
+  /**
+   * Create an instance of {{classname}} given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of {{classname}}
+   * @throws IOException if the JSON string is invalid with respect to {{classname}}
+   */
   public static {{{classname}}} fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, {{{classname}}}.class);
   }
 
- /**
-  * Convert an instance of {{classname}} to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of {{classname}} to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

@@ -35,8 +35,8 @@ public class ModelApiResponse {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public ModelApiResponse(Integer code, String type, String message) {
       this.code = code;
       this.type = type;
@@ -51,7 +51,7 @@ public class ModelApiResponse {
   /**
    * Get code
    * @return code
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("code")
@@ -71,7 +71,7 @@ public class ModelApiResponse {
   /**
    * Get type
    * @return type
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("type")
@@ -91,7 +91,7 @@ public class ModelApiResponse {
   /**
    * Get message
    * @return message
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("message")

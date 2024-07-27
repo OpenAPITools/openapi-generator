@@ -53,7 +53,7 @@ public class OuterComposite {
     /**
      * Get myNumber
      * @return myNumber
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_MY_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -75,7 +75,7 @@ public class OuterComposite {
     /**
      * Get myString
      * @return myString
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_MY_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -97,7 +97,7 @@ public class OuterComposite {
     /**
      * Get myBoolean
      * @return myBoolean
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

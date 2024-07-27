@@ -96,19 +96,19 @@ namespace Org.OpenAPITools.Model
             }
             set
             {
-                if (value.GetType() == typeof(List<string>))
+                if (value.GetType() == typeof(List<string>) || value is List<string>)
                 {
                     this._actualInstance = value;
                 }
-                else if (value.GetType() == typeof(Object))
+                else if (value.GetType() == typeof(Object) || value is Object)
                 {
                     this._actualInstance = value;
                 }
-                else if (value.GetType() == typeof(bool))
+                else if (value.GetType() == typeof(bool) || value is bool)
                 {
                     this._actualInstance = value;
                 }
-                else if (value.GetType() == typeof(string))
+                else if (value.GetType() == typeof(string) || value is string)
                 {
                     this._actualInstance = value;
                 }

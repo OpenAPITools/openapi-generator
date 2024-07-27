@@ -121,10 +121,10 @@ public class EnumArrays {
     return this;
   }
 
-   /**
+  /**
    * Get justSymbol
    * @return justSymbol
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
@@ -155,10 +155,10 @@ public class EnumArrays {
     return this;
   }
 
-   /**
+  /**
    * Get arrayEnum
    * @return arrayEnum
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)

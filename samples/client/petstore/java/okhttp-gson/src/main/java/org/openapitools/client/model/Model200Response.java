@@ -67,10 +67,10 @@ public class Model200Response {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
   public Integer getName() {
     return name;
@@ -86,10 +86,10 @@ public class Model200Response {
     return this;
   }
 
-   /**
+  /**
    * Get propertyClass
    * @return propertyClass
-  **/
+   */
   @javax.annotation.Nullable
   public String getPropertyClass() {
     return propertyClass;
@@ -200,12 +200,12 @@ public class Model200Response {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Model200Response
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to Model200Response
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Model200Response.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -290,22 +290,22 @@ public class Model200Response {
     }
   }
 
- /**
-  * Create an instance of Model200Response given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Model200Response
-  * @throws IOException if the JSON string is invalid with respect to Model200Response
-  */
+  /**
+   * Create an instance of Model200Response given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of Model200Response
+   * @throws IOException if the JSON string is invalid with respect to Model200Response
+   */
   public static Model200Response fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Model200Response.class);
   }
 
- /**
-  * Convert an instance of Model200Response to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of Model200Response to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

@@ -70,6 +70,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val templateDir = project.objects.property<String?>()
 
     /**
+     * The template location (which may be a directory or a classpath location) holding custom templates.
+     */
+    val templateResourcePath = project.objects.property<String?>()
+
+    /**
      * Adds authorization headers when fetching the OpenAPI definitions remotely.
      * Pass in a URL-encoded string of name:header with a comma separating multiple values
      */

@@ -47,10 +47,10 @@ public class TriangleInterface {
     return this;
   }
 
-   /**
+  /**
    * Get triangleType
    * @return triangleType
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 

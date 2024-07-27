@@ -106,7 +106,7 @@ public class EnumArrays {
   /**
    * Get justSymbol
    * @return justSymbol
-  */
+   */
   
   @JsonProperty("just_symbol")
   public JustSymbolEnum getJustSymbol() {
@@ -133,7 +133,7 @@ public class EnumArrays {
   /**
    * Get arrayEnum
    * @return arrayEnum
-  */
+   */
   
   @JsonProperty("array_enum")
   public List<ArrayEnumEnum> getArrayEnum() {

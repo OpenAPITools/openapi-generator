@@ -102,8 +102,8 @@ test {
 
 ext {
     swagger_annotations_version = "1.6.11"
-    jackson_version = "2.14.3"
-    jackson_databind_version = "2.14.3"
+    jackson_version = "2.17.1"
+    jackson_databind_version = "2.17.1"
     jakarta_annotation_version = "1.3.5"
     feign_version = "10.12"
     feign_form_version = "3.8.0"

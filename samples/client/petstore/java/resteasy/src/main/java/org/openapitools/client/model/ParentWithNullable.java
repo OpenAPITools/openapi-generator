@@ -96,10 +96,10 @@ public class ParentWithNullable {
     return this;
   }
 
-   /**
+  /**
    * Get type
    * @return type
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -121,10 +121,10 @@ public class ParentWithNullable {
     return this;
   }
 
-   /**
+  /**
    * Get nullableProperty
    * @return nullableProperty
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
 

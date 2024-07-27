@@ -45,10 +45,10 @@ public class OuterObjectWithEnumProperty {
     return this;
   }
 
-   /**
+  /**
    * Get value
    * @return value
-  **/
+   */
   @jakarta.annotation.Nonnull
   @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_VALUE)

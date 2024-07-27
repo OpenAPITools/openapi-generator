@@ -84,10 +84,10 @@ public class Name {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nonnull
   public Integer getName() {
     return name;
@@ -98,10 +98,10 @@ public class Name {
   }
 
 
-   /**
+  /**
    * Get snakeCase
    * @return snakeCase
-  **/
+   */
   @javax.annotation.Nullable
   public Integer getSnakeCase() {
     return snakeCase;
@@ -114,10 +114,10 @@ public class Name {
     return this;
   }
 
-   /**
+  /**
    * Get property
    * @return property
-  **/
+   */
   @javax.annotation.Nullable
   public String getProperty() {
     return property;
@@ -128,10 +128,10 @@ public class Name {
   }
 
 
-   /**
+  /**
    * Get _123number
    * @return _123number
-  **/
+   */
   @javax.annotation.Nullable
   public Integer get123number() {
     return _123number;
@@ -246,12 +246,12 @@ public class Name {
     openapiRequiredFields.add("name");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Name
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to Name
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Name.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -343,22 +343,22 @@ public class Name {
     }
   }
 
- /**
-  * Create an instance of Name given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Name
-  * @throws IOException if the JSON string is invalid with respect to Name
-  */
+  /**
+   * Create an instance of Name given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of Name
+   * @throws IOException if the JSON string is invalid with respect to Name
+   */
   public static Name fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Name.class);
   }
 
- /**
-  * Convert an instance of Name to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of Name to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

@@ -38,7 +38,7 @@ public class FileSchemaTestClass {
   /**
    * Get file
    * @return file
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("file")
@@ -66,7 +66,7 @@ public class FileSchemaTestClass {
   /**
    * Get files
    * @return files
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("files")

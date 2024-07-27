@@ -166,10 +166,10 @@ export interface Pet {
     status: PetStatusEnum;
     /**
      * An array of all 15-minute time slots in 24 hours.
-     * @type {Array<Array<number>>}
+     * @type {Array<Array<number | null>>}
      * @memberof Pet
      */
-    regions?: Array<Array<number>>;
+    regions?: Array<Array<number | null>>;
 }
 
 

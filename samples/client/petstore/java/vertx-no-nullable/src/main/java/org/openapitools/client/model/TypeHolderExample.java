@@ -67,10 +67,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get stringItem
    * @return stringItem
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_STRING_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -92,10 +92,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get numberItem
    * @return numberItem
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -117,10 +117,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get floatItem
    * @return floatItem
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_FLOAT_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -142,10 +142,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get integerItem
    * @return integerItem
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -167,10 +167,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get boolItem
    * @return boolItem
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -200,10 +200,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get arrayItem
    * @return arrayItem
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

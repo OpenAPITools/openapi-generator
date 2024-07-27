@@ -31,8 +31,8 @@ public class Tag {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public Tag(Long id, String name) {
       this.id = id;
       this.name = name;
@@ -46,7 +46,7 @@ public class Tag {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
@@ -66,7 +66,7 @@ public class Tag {
   /**
    * Get name
    * @return name
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")

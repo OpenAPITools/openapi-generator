@@ -46,7 +46,7 @@ public abstract class AbstractOpenApiSchema {
      *
      * @return an instance of the actual schema/object
      */
-    public abstract Map<String, GenericType> getSchemas();
+    public abstract Map<String, GenericType<?>> getSchemas();
 
     /**
      * Get the actual instance

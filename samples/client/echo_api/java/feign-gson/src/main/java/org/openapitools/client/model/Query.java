@@ -96,10 +96,10 @@ public class Query {
     return this;
   }
 
-   /**
+  /**
    * Query
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
 
   public Long getId() {
@@ -126,10 +126,10 @@ public class Query {
     return this;
   }
 
-   /**
+  /**
    * Get outcomes
    * @return outcomes
-  **/
+   */
   @javax.annotation.Nullable
 
   public List<OutcomesEnum> getOutcomes() {

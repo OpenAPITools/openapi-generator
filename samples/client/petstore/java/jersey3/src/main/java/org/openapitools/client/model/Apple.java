@@ -52,10 +52,10 @@ public class Apple {
     return this;
   }
 
-   /**
+  /**
    * Get cultivar
    * @return cultivar
-  **/
+   */
   @jakarta.annotation.Nullable
  @Pattern(regexp="^[a-zA-Z\\s]*$")
   @JsonProperty(JSON_PROPERTY_CULTIVAR)
@@ -78,10 +78,10 @@ public class Apple {
     return this;
   }
 
-   /**
+  /**
    * Get origin
    * @return origin
-  **/
+   */
   @jakarta.annotation.Nullable
  @Pattern(regexp="/^[A-Z\\s]*$/i")
   @JsonProperty(JSON_PROPERTY_ORIGIN)

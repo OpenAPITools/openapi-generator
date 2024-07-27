@@ -53,10 +53,10 @@ public class BananaReq {
     return this;
   }
 
-   /**
+  /**
    * Get lengthCm
    * @return lengthCm
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
   @Valid
@@ -81,10 +81,10 @@ public class BananaReq {
     return this;
   }
 
-   /**
+  /**
    * Get sweet
    * @return sweet
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_SWEET)

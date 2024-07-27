@@ -33,7 +33,7 @@ public class HasOnlyReadOnlyDto {
   /**
    * Get bar
    * @return bar
-  */
+   */
   
   @JsonProperty("bar")
   public String getBar() {
@@ -52,7 +52,7 @@ public class HasOnlyReadOnlyDto {
   /**
    * Get foo
    * @return foo
-  */
+   */
   
   @JsonProperty("foo")
   public String getFoo() {

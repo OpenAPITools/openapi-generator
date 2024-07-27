@@ -49,10 +49,10 @@ public class IsoscelesTriangle {
     return this;
   }
 
-   /**
+  /**
    * Get shapeType
    * @return shapeType
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -74,10 +74,10 @@ public class IsoscelesTriangle {
     return this;
   }
 
-   /**
+  /**
    * Get triangleType
    * @return triangleType
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

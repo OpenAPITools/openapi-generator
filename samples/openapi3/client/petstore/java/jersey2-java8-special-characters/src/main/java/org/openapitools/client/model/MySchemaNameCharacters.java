@@ -60,10 +60,10 @@ public class MySchemaNameCharacters extends Parent {
     return this;
   }
 
-   /**
+  /**
    * Get prop2
    * @return prop2
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PROP2)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

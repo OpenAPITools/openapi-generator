@@ -51,10 +51,10 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
     return this;
   }
 
-   /**
+  /**
    * Get values
    * @return values
-  **/
+   */
   @javax.annotation.Nullable
 
   public List<String> getValues() {

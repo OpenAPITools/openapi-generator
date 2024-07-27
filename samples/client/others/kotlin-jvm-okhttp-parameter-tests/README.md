@@ -43,9 +43,9 @@ This runs all tests and packages the library.
 
 All URIs are relative to *http://localhost*
 
-Class | Method | HTTP request | Description
------------- | ------------- | ------------- | -------------
-*DefaultApi* | [**findPetsByStatus**](docs/DefaultApi.md#findpetsbystatus) | **GET** /test/parameters/{path_default}/{path_nullable} | Finds Pets by status
+| Class | Method | HTTP request | Description |
+| ------------ | ------------- | ------------- | ------------- |
+| *DefaultApi* | [**findPetsByStatus**](docs/DefaultApi.md#findpetsbystatus) | **GET** /test/parameters/{path_default}/{path_nullable} | Finds Pets by status |
 
 
 <a id="documentation-for-models"></a>

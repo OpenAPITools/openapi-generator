@@ -30,8 +30,8 @@ public class File {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public File(String sourceURI) {
       this.sourceURI = sourceURI;
   }
@@ -44,7 +44,7 @@ public class File {
   /**
    * Test capitalization
    * @return sourceURI
-  */
+   */
   
   @ApiModelProperty(value = "Test capitalization")
   @JsonProperty("sourceURI")

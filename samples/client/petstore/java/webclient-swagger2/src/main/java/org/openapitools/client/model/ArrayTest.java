@@ -64,10 +64,10 @@ public class ArrayTest {
     return this;
   }
 
-   /**
+  /**
    * Get arrayOfString
    * @return arrayOfString
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
@@ -98,10 +98,10 @@ public class ArrayTest {
     return this;
   }
 
-   /**
+  /**
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
@@ -132,10 +132,10 @@ public class ArrayTest {
     return this;
   }
 
-   /**
+  /**
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)

@@ -72,10 +72,10 @@ public class FileSchemaTestClass implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get _file
    * @return _file
-  **/
+   */
   @javax.annotation.Nullable
   public ModelFile getFile() {
     return _file;
@@ -99,10 +99,10 @@ public class FileSchemaTestClass implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get files
    * @return files
-  **/
+   */
   @javax.annotation.Nullable
   public List<ModelFile> getFiles() {
     return files;
@@ -190,12 +190,12 @@ public class FileSchemaTestClass implements Parcelable {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to FileSchemaTestClass
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to FileSchemaTestClass
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!FileSchemaTestClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -260,22 +260,22 @@ public class FileSchemaTestClass implements Parcelable {
     }
   }
 
- /**
-  * Create an instance of FileSchemaTestClass given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of FileSchemaTestClass
-  * @throws IOException if the JSON string is invalid with respect to FileSchemaTestClass
-  */
+  /**
+   * Create an instance of FileSchemaTestClass given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of FileSchemaTestClass
+   * @throws IOException if the JSON string is invalid with respect to FileSchemaTestClass
+   */
   public static FileSchemaTestClass fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, FileSchemaTestClass.class);
   }
 
- /**
-  * Convert an instance of FileSchemaTestClass to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of FileSchemaTestClass to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

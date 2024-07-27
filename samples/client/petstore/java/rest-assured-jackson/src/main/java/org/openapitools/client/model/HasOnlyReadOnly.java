@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
@@ -45,8 +45,8 @@ public class HasOnlyReadOnly {
   public HasOnlyReadOnly() {
   }
   /**
-  * Constructor with only readonly parameters
-  */
+   * Constructor with only readonly parameters
+   */
   @JsonCreator
   public HasOnlyReadOnly(
     @JsonProperty(JSON_PROPERTY_BAR) String bar, 
@@ -57,10 +57,10 @@ public class HasOnlyReadOnly {
     this.foo = foo;
   }
 
-   /**
+  /**
    * Get bar
    * @return bar
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_BAR)
@@ -72,10 +72,10 @@ public class HasOnlyReadOnly {
 
 
 
-   /**
+  /**
    * Get foo
    * @return foo
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_FOO)

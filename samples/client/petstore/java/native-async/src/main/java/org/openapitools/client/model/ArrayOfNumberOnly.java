@@ -31,6 +31,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * ArrayOfNumberOnly
  */
@@ -58,14 +59,13 @@ public class ArrayOfNumberOnly {
     return this;
   }
 
-   /**
+  /**
    * Get arrayNumber
    * @return arrayNumber
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
   }
@@ -156,7 +156,7 @@ public class ArrayOfNumberOnly {
         if (getArrayNumber().get(i) != null) {
           joiner.add(String.format("%sArrayNumber%s%s=%s", prefix, suffix,
               "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-              URLEncoder.encode(String.valueOf(getArrayNumber().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+              URLEncoder.encode(ApiClient.valueToString(getArrayNumber().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
       }
     }

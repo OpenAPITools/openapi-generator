@@ -45,10 +45,10 @@ public class SpecialModelName {
     return this;
   }
 
-   /**
+  /**
    * Get $specialPropertyName
    * @return $specialPropertyName
-  **/
+   */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)

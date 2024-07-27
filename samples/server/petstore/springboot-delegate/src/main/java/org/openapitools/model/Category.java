@@ -38,8 +38,8 @@ public class Category {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public Category(Long id, String name) {
       this.id = id;
       this.name = name;
@@ -53,7 +53,7 @@ public class Category {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
@@ -73,7 +73,7 @@ public class Category {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")

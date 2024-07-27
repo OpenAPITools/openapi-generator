@@ -6,9 +6,8 @@ import java.util.Optional
 
 @javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 8.0.0-SNAPSHOT")
 @Controller
-@RequestMapping("\${openapi.openAPIPetstore.base-path:/v2}")
 class PetApiController(
-        @org.springframework.beans.factory.annotation.Autowired(required = false) delegate: PetApiDelegate?
+        delegate: PetApiDelegate?
 ) : PetApi {
     private lateinit var delegate: PetApiDelegate
 

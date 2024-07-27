@@ -99,7 +99,7 @@ public class Order {
     /**
      * Get id
      * @return id
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -121,7 +121,7 @@ public class Order {
     /**
      * Get petId
      * @return petId
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_PET_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -143,7 +143,7 @@ public class Order {
     /**
      * Get quantity
      * @return quantity
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_QUANTITY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -165,7 +165,7 @@ public class Order {
     /**
      * Get shipDate
      * @return shipDate
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_SHIP_DATE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -189,7 +189,7 @@ public class Order {
     /**
      * Order Status
      * @return status
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_STATUS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -211,7 +211,7 @@ public class Order {
     /**
      * Get complete
      * @return complete
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_COMPLETE)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

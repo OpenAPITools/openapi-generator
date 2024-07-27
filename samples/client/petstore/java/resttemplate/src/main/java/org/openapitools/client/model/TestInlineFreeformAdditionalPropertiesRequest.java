@@ -42,8 +42,8 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public TestInlineFreeformAdditionalPropertiesRequest(@JsonProperty(JSON_PROPERTY_SOME_PROPERTY) String someProperty) {
     super();
     this.someProperty = someProperty;
@@ -55,10 +55,10 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
     return this;
   }
 
-   /**
+  /**
    * Get someProperty
    * @return someProperty
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SOME_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

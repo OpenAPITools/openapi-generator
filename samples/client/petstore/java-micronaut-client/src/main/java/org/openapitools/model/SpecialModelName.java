@@ -45,7 +45,7 @@ public class SpecialModelName {
     /**
      * Get $specialPropertyName
      * @return $specialPropertyName
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

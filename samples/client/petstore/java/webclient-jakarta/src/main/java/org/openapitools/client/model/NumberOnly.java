@@ -44,10 +44,10 @@ public class NumberOnly {
     return this;
   }
 
-   /**
+  /**
    * Get justNumber
    * @return justNumber
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

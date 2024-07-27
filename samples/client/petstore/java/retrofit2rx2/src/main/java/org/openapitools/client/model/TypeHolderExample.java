@@ -64,10 +64,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get stringItem
    * @return stringItem
-  **/
+   */
   @javax.annotation.Nonnull
 
   public String getStringItem() {
@@ -85,10 +85,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get numberItem
    * @return numberItem
-  **/
+   */
   @javax.annotation.Nonnull
 
   public BigDecimal getNumberItem() {
@@ -106,10 +106,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get floatItem
    * @return floatItem
-  **/
+   */
   @javax.annotation.Nonnull
 
   public Float getFloatItem() {
@@ -127,10 +127,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get integerItem
    * @return integerItem
-  **/
+   */
   @javax.annotation.Nonnull
 
   public Integer getIntegerItem() {
@@ -148,10 +148,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get boolItem
    * @return boolItem
-  **/
+   */
   @javax.annotation.Nonnull
 
   public Boolean getBoolItem() {
@@ -177,10 +177,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get arrayItem
    * @return arrayItem
-  **/
+   */
   @javax.annotation.Nonnull
 
   public List<Integer> getArrayItem() {

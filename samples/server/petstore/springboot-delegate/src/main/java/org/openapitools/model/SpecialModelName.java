@@ -31,8 +31,8 @@ public class SpecialModelName {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public SpecialModelName(Long $specialPropertyName) {
       this.$specialPropertyName = $specialPropertyName;
   }
@@ -45,7 +45,7 @@ public class SpecialModelName {
   /**
    * Get $specialPropertyName
    * @return $specialPropertyName
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("$special[property.name]")

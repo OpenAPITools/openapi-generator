@@ -83,10 +83,10 @@ public class Capitalization {
     return this;
   }
 
-   /**
+  /**
    * Get smallCamel
    * @return smallCamel
-  **/
+   */
   @javax.annotation.Nullable
   public String getSmallCamel() {
     return smallCamel;
@@ -102,10 +102,10 @@ public class Capitalization {
     return this;
   }
 
-   /**
+  /**
    * Get capitalCamel
    * @return capitalCamel
-  **/
+   */
   @javax.annotation.Nullable
   public String getCapitalCamel() {
     return capitalCamel;
@@ -121,10 +121,10 @@ public class Capitalization {
     return this;
   }
 
-   /**
+  /**
    * Get smallSnake
    * @return smallSnake
-  **/
+   */
   @javax.annotation.Nullable
   public String getSmallSnake() {
     return smallSnake;
@@ -140,10 +140,10 @@ public class Capitalization {
     return this;
   }
 
-   /**
+  /**
    * Get capitalSnake
    * @return capitalSnake
-  **/
+   */
   @javax.annotation.Nullable
   public String getCapitalSnake() {
     return capitalSnake;
@@ -159,10 +159,10 @@ public class Capitalization {
     return this;
   }
 
-   /**
+  /**
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
-  **/
+   */
   @javax.annotation.Nullable
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
@@ -178,10 +178,10 @@ public class Capitalization {
     return this;
   }
 
-   /**
+  /**
    * Name of the pet 
    * @return ATT_NAME
-  **/
+   */
   @javax.annotation.Nullable
   public String getATTNAME() {
     return ATT_NAME;
@@ -258,12 +258,12 @@ public class Capitalization {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Capitalization
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to Capitalization
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Capitalization.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -328,22 +328,22 @@ public class Capitalization {
     }
   }
 
- /**
-  * Create an instance of Capitalization given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Capitalization
-  * @throws IOException if the JSON string is invalid with respect to Capitalization
-  */
+  /**
+   * Create an instance of Capitalization given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of Capitalization
+   * @throws IOException if the JSON string is invalid with respect to Capitalization
+   */
   public static Capitalization fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Capitalization.class);
   }
 
- /**
-  * Convert an instance of Capitalization to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of Capitalization to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

@@ -1,8 +1,5 @@
 package org.openapitools.client.auth;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.MultiValueMap;
 

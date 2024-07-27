@@ -42,8 +42,8 @@ public class HealthCheckResult {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public HealthCheckResult(@JsonProperty(JSON_PROPERTY_NULLABLE_MESSAGE) String nullableMessage) {
     this.nullableMessage = nullableMessage == null ? JsonNullable.<String>undefined() : JsonNullable.of(nullableMessage);
   }
@@ -54,10 +54,10 @@ public class HealthCheckResult {
     return this;
   }
 
-   /**
+  /**
    * Get nullableMessage
    * @return nullableMessage
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
 

@@ -41,7 +41,7 @@ public class NameDto {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull
   @JsonProperty("name")
   public Integer getName() {
@@ -60,7 +60,7 @@ public class NameDto {
   /**
    * Get snakeCase
    * @return snakeCase
-  */
+   */
   
   @JsonProperty("snake_case")
   public Integer getSnakeCase() {
@@ -79,7 +79,7 @@ public class NameDto {
   /**
    * Get property
    * @return property
-  */
+   */
   
   @JsonProperty("property")
   public String getProperty() {
@@ -98,7 +98,7 @@ public class NameDto {
   /**
    * Get _123number
    * @return _123number
-  */
+   */
   
   @JsonProperty("123Number")
   public Integer get123number() {

@@ -68,10 +68,10 @@ public class Animal {
     return this;
   }
 
-   /**
+  /**
    * Get className
    * @return className
-  **/
+   */
   @javax.annotation.Nonnull
   public String getClassName() {
     return className;
@@ -87,10 +87,10 @@ public class Animal {
     return this;
   }
 
-   /**
+  /**
    * Get color
    * @return color
-  **/
+   */
   @javax.annotation.Nullable
   public String getColor() {
     return color;
@@ -202,12 +202,12 @@ public class Animal {
     openapiRequiredFields.add("className");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Animal
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to Animal
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Animal.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -229,22 +229,22 @@ public class Animal {
   }
 
 
- /**
-  * Create an instance of Animal given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Animal
-  * @throws IOException if the JSON string is invalid with respect to Animal
-  */
+  /**
+   * Create an instance of Animal given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of Animal
+   * @throws IOException if the JSON string is invalid with respect to Animal
+   */
   public static Animal fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Animal.class);
   }
 
- /**
-  * Convert an instance of Animal to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of Animal to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

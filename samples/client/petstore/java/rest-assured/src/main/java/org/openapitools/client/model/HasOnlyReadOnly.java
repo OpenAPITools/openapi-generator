@@ -21,8 +21,8 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
@@ -41,8 +41,8 @@ public class HasOnlyReadOnly {
   public HasOnlyReadOnly() {
   }
   /**
-  * Constructor with only readonly parameters
-  */
+   * Constructor with only readonly parameters
+   */
   
   public HasOnlyReadOnly(
      String bar, 
@@ -53,10 +53,10 @@ public class HasOnlyReadOnly {
     this.foo = foo;
   }
 
-   /**
+  /**
    * Get bar
    * @return bar
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -66,10 +66,10 @@ public class HasOnlyReadOnly {
 
 
 
-   /**
+  /**
    * Get foo
    * @return foo
-  **/
+   */
   @javax.annotation.Nullable
 
 
