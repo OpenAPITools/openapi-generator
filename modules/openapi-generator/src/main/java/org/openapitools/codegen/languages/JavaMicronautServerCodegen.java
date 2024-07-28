@@ -72,6 +72,7 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
         // It could be also StreamingFileUpload
         typeMapping.put("file", "CompletedFileUpload");
         importMapping.put("CompletedFileUpload", "io.micronaut.http.multipart.CompletedFileUpload");
+        updateReservedWords();
     }
 
     @Override

@@ -189,14 +189,14 @@ public interface FakeApiDelegate {
      * @param _double None (required)
      * @param patternWithoutDelimiter None (required)
      * @param _byte None (required)
-     * @param integer None (optional)
+     * @param _integer None (optional)
      * @param int32 None (optional)
      * @param int64 None (optional)
      * @param _float None (optional)
-     * @param string None (optional)
+     * @param _string None (optional)
      * @param binary None (optional)
-     * @param date None (optional)
-     * @param dateTime None (optional)
+     * @param _date None (optional)
+     * @param _dateTime None (optional)
      * @param password None (optional)
      * @param paramCallback None (optional)
      * @return Invalid username supplied (status code 400)
@@ -207,14 +207,14 @@ public interface FakeApiDelegate {
         Double _double,
         String patternWithoutDelimiter,
         byte[] _byte,
-        Integer integer,
+        Integer _integer,
         Integer int32,
         Long int64,
         Float _float,
-        String string,
+        String _string,
         MultipartFile binary,
-        LocalDate date,
-        OffsetDateTime dateTime,
+        LocalDate _date,
+        OffsetDateTime _dateTime,
         String password,
         String paramCallback) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);

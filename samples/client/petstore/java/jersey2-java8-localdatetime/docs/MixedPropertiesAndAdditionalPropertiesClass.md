@@ -7,9 +7,9 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**uuid** | **UUID** |  |  [optional] |
-|**dateTime** | **LocalDateTime** |  |  [optional] |
-|**map** | [**Map&lt;String, Animal&gt;**](Animal.md) |  |  [optional] |
+|**_uuid** | **UUID** |  |  [optional] |
+|**_dateTime** | **LocalDateTime** |  |  [optional] |
+|**_map** | [**Map&lt;String, Animal&gt;**](Animal.md) |  |  [optional] |
 
 
 

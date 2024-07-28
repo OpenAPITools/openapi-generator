@@ -74,7 +74,7 @@ No authorization required
 
 <a id="getParameterArrayNumber"></a>
 # **getParameterArrayNumber**
-> getParameterArrayNumber(array)
+> getParameterArrayNumber(_array)
 
 parameter array number default value
 
@@ -93,9 +93,9 @@ public class Example {
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
     AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
-    List<Integer> array = Arrays.asList(); // List<Integer> | array integer
+    List<Integer> _array = Arrays.asList(); // List<Integer> | array integer
     try {
-      apiInstance.getParameterArrayNumber(array);
+      apiInstance.getParameterArrayNumber(_array);
     } catch (ApiException e) {
       System.err.println("Exception when calling AnotherFakeApi#getParameterArrayNumber");
       System.err.println("Status code: " + e.getCode());
@@ -111,7 +111,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **array** | [**List&lt;Integer&gt;**](Integer.md)| array integer | |
+| **_array** | [**List&lt;Integer&gt;**](Integer.md)| array integer | |
 
 ### Return type
 

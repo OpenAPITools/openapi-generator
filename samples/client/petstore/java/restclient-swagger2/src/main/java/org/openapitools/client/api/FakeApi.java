@@ -991,19 +991,19 @@ public class FakeApi {
      * @param _double None
      * @param patternWithoutDelimiter None
      * @param _byte None
-     * @param integer None
+     * @param _integer None
      * @param int32 None
      * @param int64 None
      * @param _float None
-     * @param string None
+     * @param _string None
      * @param binary None
-     * @param date None
-     * @param dateTime None
+     * @param _date None
+     * @param _dateTime None
      * @param password None
      * @param paramCallback None
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testEndpointParametersRequestCreation(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws RestClientResponseException {
+    private ResponseSpec testEndpointParametersRequestCreation(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, File binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'number' is set
         if (number == null) {
@@ -1029,8 +1029,8 @@ public class FakeApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
 
-        if (integer != null)
-            formParams.add("integer", integer);
+        if (_integer != null)
+            formParams.add("integer", _integer);
         if (int32 != null)
             formParams.add("int32", int32);
         if (int64 != null)
@@ -1041,18 +1041,18 @@ public class FakeApi {
             formParams.add("float", _float);
         if (_double != null)
             formParams.add("double", _double);
-        if (string != null)
-            formParams.add("string", string);
+        if (_string != null)
+            formParams.add("string", _string);
         if (patternWithoutDelimiter != null)
             formParams.add("pattern_without_delimiter", patternWithoutDelimiter);
         if (_byte != null)
             formParams.add("byte", _byte);
         if (binary != null)
             formParams.add("binary", new FileSystemResource(binary));
-        if (date != null)
-            formParams.add("date", date);
-        if (dateTime != null)
-            formParams.add("dateTime", dateTime);
+        if (_date != null)
+            formParams.add("date", _date);
+        if (_dateTime != null)
+            formParams.add("dateTime", _dateTime);
         if (password != null)
             formParams.add("password", password);
         if (paramCallback != null)
@@ -1080,21 +1080,21 @@ public class FakeApi {
      * @param _double None
      * @param patternWithoutDelimiter None
      * @param _byte None
-     * @param integer None
+     * @param _integer None
      * @param int32 None
      * @param int64 None
      * @param _float None
-     * @param string None
+     * @param _string None
      * @param binary None
-     * @param date None
-     * @param dateTime None
+     * @param _date None
+     * @param _dateTime None
      * @param password None
      * @param paramCallback None
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws RestClientResponseException {
+    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, File binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        testEndpointParametersRequestCreation(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback).body(localVarReturnType);
+        testEndpointParametersRequestCreation(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback).body(localVarReturnType);
     }
 
     /**
@@ -1106,21 +1106,21 @@ public class FakeApi {
      * @param _double None
      * @param patternWithoutDelimiter None
      * @param _byte None
-     * @param integer None
+     * @param _integer None
      * @param int32 None
      * @param int64 None
      * @param _float None
-     * @param string None
+     * @param _string None
      * @param binary None
-     * @param date None
-     * @param dateTime None
+     * @param _date None
+     * @param _dateTime None
      * @param password None
      * @param paramCallback None
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws RestClientResponseException {
+    public ResponseEntity<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, File binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return testEndpointParametersRequestCreation(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback).toEntity(localVarReturnType);
+        return testEndpointParametersRequestCreation(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback).toEntity(localVarReturnType);
     }
 
     /**
@@ -1132,21 +1132,21 @@ public class FakeApi {
      * @param _double None
      * @param patternWithoutDelimiter None
      * @param _byte None
-     * @param integer None
+     * @param _integer None
      * @param int32 None
      * @param int64 None
      * @param _float None
-     * @param string None
+     * @param _string None
      * @param binary None
-     * @param date None
-     * @param dateTime None
+     * @param _date None
+     * @param _dateTime None
      * @param password None
      * @param paramCallback None
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testEndpointParametersWithResponseSpec(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws RestClientResponseException {
-        return testEndpointParametersRequestCreation(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
+    public ResponseSpec testEndpointParametersWithResponseSpec(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, File binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback) throws RestClientResponseException {
+        return testEndpointParametersRequestCreation(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback);
     }
     /**
      * To test enum parameters

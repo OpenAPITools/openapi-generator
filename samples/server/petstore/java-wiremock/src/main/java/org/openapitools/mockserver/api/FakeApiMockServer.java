@@ -433,7 +433,7 @@ public class FakeApiMockServer {
     }
 
 
-    public static MappingBuilder stubTestEndpointParameters400(@javax.annotation.Nonnull String number, @javax.annotation.Nonnull String _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull String _byte, @javax.annotation.Nullable String integer, @javax.annotation.Nullable String int32, @javax.annotation.Nullable String int64, @javax.annotation.Nullable String _float, @javax.annotation.Nullable String string, @javax.annotation.Nullable String binary, @javax.annotation.Nullable String date, @javax.annotation.Nullable String dateTime, @javax.annotation.Nullable String password, @javax.annotation.Nullable String paramCallback) {
+    public static MappingBuilder stubTestEndpointParameters400(@javax.annotation.Nonnull String number, @javax.annotation.Nonnull String _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull String _byte, @javax.annotation.Nullable String _integer, @javax.annotation.Nullable String int32, @javax.annotation.Nullable String int64, @javax.annotation.Nullable String _float, @javax.annotation.Nullable String _string, @javax.annotation.Nullable String binary, @javax.annotation.Nullable String _date, @javax.annotation.Nullable String _dateTime, @javax.annotation.Nullable String password, @javax.annotation.Nullable String paramCallback) {
         MappingBuilder stub = post(urlPathEqualTo("/fake"))
             .withHeader("Content-Type", havingExactly("application/x-www-form-urlencoded"))
             .withHeader("Authorization", matching(".*"))
@@ -441,8 +441,8 @@ public class FakeApiMockServer {
                 .withStatus(400)
             );
 
-        if(integer != null) {
-            stub = stub.withFormParam("integer", havingExactly(integer));
+        if(_integer != null) {
+            stub = stub.withFormParam("integer", havingExactly(_integer));
         }
         if(int32 != null) {
             stub = stub.withFormParam("int32", havingExactly(int32));
@@ -455,19 +455,19 @@ public class FakeApiMockServer {
             stub = stub.withFormParam("float", havingExactly(_float));
         }
         stub = stub.withFormParam("double", havingExactly(_double));
-        if(string != null) {
-            stub = stub.withFormParam("string", havingExactly(string));
+        if(_string != null) {
+            stub = stub.withFormParam("string", havingExactly(_string));
         }
         stub = stub.withFormParam("pattern_without_delimiter", havingExactly(patternWithoutDelimiter));
         stub = stub.withFormParam("byte", havingExactly(_byte));
         if(binary != null) {
             stub = stub.withFormParam("binary", havingExactly(binary));
         }
-        if(date != null) {
-            stub = stub.withFormParam("date", havingExactly(date));
+        if(_date != null) {
+            stub = stub.withFormParam("date", havingExactly(_date));
         }
-        if(dateTime != null) {
-            stub = stub.withFormParam("dateTime", havingExactly(dateTime));
+        if(_dateTime != null) {
+            stub = stub.withFormParam("dateTime", havingExactly(_dateTime));
         }
         if(password != null) {
             stub = stub.withFormParam("password", havingExactly(password));
@@ -479,7 +479,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubTestEndpointParameters404(@javax.annotation.Nonnull String number, @javax.annotation.Nonnull String _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull String _byte, @javax.annotation.Nullable String integer, @javax.annotation.Nullable String int32, @javax.annotation.Nullable String int64, @javax.annotation.Nullable String _float, @javax.annotation.Nullable String string, @javax.annotation.Nullable String binary, @javax.annotation.Nullable String date, @javax.annotation.Nullable String dateTime, @javax.annotation.Nullable String password, @javax.annotation.Nullable String paramCallback) {
+    public static MappingBuilder stubTestEndpointParameters404(@javax.annotation.Nonnull String number, @javax.annotation.Nonnull String _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull String _byte, @javax.annotation.Nullable String _integer, @javax.annotation.Nullable String int32, @javax.annotation.Nullable String int64, @javax.annotation.Nullable String _float, @javax.annotation.Nullable String _string, @javax.annotation.Nullable String binary, @javax.annotation.Nullable String _date, @javax.annotation.Nullable String _dateTime, @javax.annotation.Nullable String password, @javax.annotation.Nullable String paramCallback) {
         MappingBuilder stub = post(urlPathEqualTo("/fake"))
             .withHeader("Content-Type", havingExactly("application/x-www-form-urlencoded"))
             .withHeader("Authorization", matching(".*"))
@@ -487,8 +487,8 @@ public class FakeApiMockServer {
                 .withStatus(404)
             );
 
-        if(integer != null) {
-            stub = stub.withFormParam("integer", havingExactly(integer));
+        if(_integer != null) {
+            stub = stub.withFormParam("integer", havingExactly(_integer));
         }
         if(int32 != null) {
             stub = stub.withFormParam("int32", havingExactly(int32));
@@ -501,19 +501,19 @@ public class FakeApiMockServer {
             stub = stub.withFormParam("float", havingExactly(_float));
         }
         stub = stub.withFormParam("double", havingExactly(_double));
-        if(string != null) {
-            stub = stub.withFormParam("string", havingExactly(string));
+        if(_string != null) {
+            stub = stub.withFormParam("string", havingExactly(_string));
         }
         stub = stub.withFormParam("pattern_without_delimiter", havingExactly(patternWithoutDelimiter));
         stub = stub.withFormParam("byte", havingExactly(_byte));
         if(binary != null) {
             stub = stub.withFormParam("binary", havingExactly(binary));
         }
-        if(date != null) {
-            stub = stub.withFormParam("date", havingExactly(date));
+        if(_date != null) {
+            stub = stub.withFormParam("date", havingExactly(_date));
         }
-        if(dateTime != null) {
-            stub = stub.withFormParam("dateTime", havingExactly(dateTime));
+        if(_dateTime != null) {
+            stub = stub.withFormParam("dateTime", havingExactly(_dateTime));
         }
         if(password != null) {
             stub = stub.withFormParam("password", havingExactly(password));
@@ -525,7 +525,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubTestEndpointParametersFault(@javax.annotation.Nonnull String number, @javax.annotation.Nonnull String _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull String _byte, @javax.annotation.Nullable String integer, @javax.annotation.Nullable String int32, @javax.annotation.Nullable String int64, @javax.annotation.Nullable String _float, @javax.annotation.Nullable String string, @javax.annotation.Nullable String binary, @javax.annotation.Nullable String date, @javax.annotation.Nullable String dateTime, @javax.annotation.Nullable String password, @javax.annotation.Nullable String paramCallback, Fault fault) {
+    public static MappingBuilder stubTestEndpointParametersFault(@javax.annotation.Nonnull String number, @javax.annotation.Nonnull String _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull String _byte, @javax.annotation.Nullable String _integer, @javax.annotation.Nullable String int32, @javax.annotation.Nullable String int64, @javax.annotation.Nullable String _float, @javax.annotation.Nullable String _string, @javax.annotation.Nullable String binary, @javax.annotation.Nullable String _date, @javax.annotation.Nullable String _dateTime, @javax.annotation.Nullable String password, @javax.annotation.Nullable String paramCallback, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/fake"))
             .withHeader("Content-Type", havingExactly("application/x-www-form-urlencoded"))
             .withHeader("Authorization", matching(".*"))
@@ -533,8 +533,8 @@ public class FakeApiMockServer {
                 .withFault(fault)
             );
 
-        if(integer != null) {
-            stub = stub.withFormParam("integer", havingExactly(integer));
+        if(_integer != null) {
+            stub = stub.withFormParam("integer", havingExactly(_integer));
         }
         if(int32 != null) {
             stub = stub.withFormParam("int32", havingExactly(int32));
@@ -547,19 +547,19 @@ public class FakeApiMockServer {
             stub = stub.withFormParam("float", havingExactly(_float));
         }
         stub = stub.withFormParam("double", havingExactly(_double));
-        if(string != null) {
-            stub = stub.withFormParam("string", havingExactly(string));
+        if(_string != null) {
+            stub = stub.withFormParam("string", havingExactly(_string));
         }
         stub = stub.withFormParam("pattern_without_delimiter", havingExactly(patternWithoutDelimiter));
         stub = stub.withFormParam("byte", havingExactly(_byte));
         if(binary != null) {
             stub = stub.withFormParam("binary", havingExactly(binary));
         }
-        if(date != null) {
-            stub = stub.withFormParam("date", havingExactly(date));
+        if(_date != null) {
+            stub = stub.withFormParam("date", havingExactly(_date));
         }
-        if(dateTime != null) {
-            stub = stub.withFormParam("dateTime", havingExactly(dateTime));
+        if(_dateTime != null) {
+            stub = stub.withFormParam("dateTime", havingExactly(_dateTime));
         }
         if(password != null) {
             stub = stub.withFormParam("password", havingExactly(password));

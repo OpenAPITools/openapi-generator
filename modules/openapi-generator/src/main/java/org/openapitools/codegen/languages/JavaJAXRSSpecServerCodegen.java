@@ -107,6 +107,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         typeMapping.put("date", "LocalDate");
 
         importMapping.put("LocalDate", "org.joda.time.LocalDate");
+        updateReservedWords();
 
         super.embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "spec";
 

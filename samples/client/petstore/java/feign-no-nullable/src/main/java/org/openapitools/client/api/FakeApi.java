@@ -311,14 +311,14 @@ public interface FakeApi extends ApiClient.Api {
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
    * @param _byte None (required)
-   * @param integer None (optional)
+   * @param _integer None (optional)
    * @param int32 None (optional)
    * @param int64 None (optional)
    * @param _float None (optional)
-   * @param string None (optional)
+   * @param _string None (optional)
    * @param binary None (optional)
-   * @param date None (optional)
-   * @param dateTime None (optional)
+   * @param _date None (optional)
+   * @param _dateTime None (optional)
    * @param password None (optional)
    * @param paramCallback None (optional)
    */
@@ -327,7 +327,7 @@ public interface FakeApi extends ApiClient.Api {
     "Content-Type: application/x-www-form-urlencoded",
     "Accept: application/json",
   })
-  void testEndpointParameters(@Param("number") BigDecimal number, @Param("double") Double _double, @Param("pattern_without_delimiter") String patternWithoutDelimiter, @Param("byte") byte[] _byte, @Param("integer") Integer integer, @Param("int32") Integer int32, @Param("int64") Long int64, @Param("float") Float _float, @Param("string") String string, @Param("binary") File binary, @Param("date") LocalDate date, @Param("dateTime") OffsetDateTime dateTime, @Param("password") String password, @Param("callback") String paramCallback);
+  void testEndpointParameters(@Param("number") BigDecimal number, @Param("double") Double _double, @Param("pattern_without_delimiter") String patternWithoutDelimiter, @Param("byte") byte[] _byte, @Param("integer") Integer _integer, @Param("int32") Integer int32, @Param("int64") Long int64, @Param("float") Float _float, @Param("string") String _string, @Param("binary") File binary, @Param("date") LocalDate _date, @Param("dateTime") OffsetDateTime _dateTime, @Param("password") String password, @Param("callback") String paramCallback);
 
   /**
    * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -337,14 +337,14 @@ public interface FakeApi extends ApiClient.Api {
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
    * @param _byte None (required)
-   * @param integer None (optional)
+   * @param _integer None (optional)
    * @param int32 None (optional)
    * @param int64 None (optional)
    * @param _float None (optional)
-   * @param string None (optional)
+   * @param _string None (optional)
    * @param binary None (optional)
-   * @param date None (optional)
-   * @param dateTime None (optional)
+   * @param _date None (optional)
+   * @param _dateTime None (optional)
    * @param password None (optional)
    * @param paramCallback None (optional)
    */
@@ -353,7 +353,7 @@ public interface FakeApi extends ApiClient.Api {
     "Content-Type: application/x-www-form-urlencoded",
     "Accept: application/json",
   })
-  ApiResponse<Void> testEndpointParametersWithHttpInfo(@Param("number") BigDecimal number, @Param("double") Double _double, @Param("pattern_without_delimiter") String patternWithoutDelimiter, @Param("byte") byte[] _byte, @Param("integer") Integer integer, @Param("int32") Integer int32, @Param("int64") Long int64, @Param("float") Float _float, @Param("string") String string, @Param("binary") File binary, @Param("date") LocalDate date, @Param("dateTime") OffsetDateTime dateTime, @Param("password") String password, @Param("callback") String paramCallback);
+  ApiResponse<Void> testEndpointParametersWithHttpInfo(@Param("number") BigDecimal number, @Param("double") Double _double, @Param("pattern_without_delimiter") String patternWithoutDelimiter, @Param("byte") byte[] _byte, @Param("integer") Integer _integer, @Param("int32") Integer int32, @Param("int64") Long int64, @Param("float") Float _float, @Param("string") String _string, @Param("binary") File binary, @Param("date") LocalDate _date, @Param("dateTime") OffsetDateTime _dateTime, @Param("password") String password, @Param("callback") String paramCallback);
 
 
 

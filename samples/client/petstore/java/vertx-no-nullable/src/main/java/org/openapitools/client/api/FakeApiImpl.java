@@ -424,20 +424,20 @@ public class FakeApiImpl implements FakeApi {
         * @param _double None (required)
         * @param patternWithoutDelimiter None (required)
         * @param _byte None (required)
-        * @param integer None (optional)
+        * @param _integer None (optional)
         * @param int32 None (optional)
         * @param int64 None (optional)
         * @param _float None (optional)
-        * @param string None (optional)
+        * @param _string None (optional)
         * @param binary None (optional)
-        * @param date None (optional)
-        * @param dateTime None (optional)
+        * @param _date None (optional)
+        * @param _dateTime None (optional)
         * @param password None (optional)
         * @param paramCallback None (optional)
     * @param resultHandler Asynchronous result handler
     */
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, Handler<AsyncResult<Void>> resultHandler) {
-        testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, null, resultHandler);
+    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, AsyncFile binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback, Handler<AsyncResult<Void>> resultHandler) {
+        testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback, null, resultHandler);
     }
 
     /**
@@ -447,20 +447,20 @@ public class FakeApiImpl implements FakeApi {
     * @param _double None (required)
     * @param patternWithoutDelimiter None (required)
     * @param _byte None (required)
-    * @param integer None (optional)
+    * @param _integer None (optional)
     * @param int32 None (optional)
     * @param int64 None (optional)
     * @param _float None (optional)
-    * @param string None (optional)
+    * @param _string None (optional)
     * @param binary None (optional)
-    * @param date None (optional)
-    * @param dateTime None (optional)
+    * @param _date None (optional)
+    * @param _dateTime None (optional)
     * @param password None (optional)
     * @param paramCallback None (optional)
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler
     */
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, AsyncFile binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
         Object localVarBody = null;
         
         // verify the required parameter 'number' is set
@@ -502,18 +502,18 @@ public class FakeApiImpl implements FakeApi {
         // form params
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
-        if (integer != null) localVarFormParams.put("integer", integer);
+        if (_integer != null) localVarFormParams.put("integer", _integer);
 if (int32 != null) localVarFormParams.put("int32", int32);
 if (int64 != null) localVarFormParams.put("int64", int64);
 if (number != null) localVarFormParams.put("number", number);
 if (_float != null) localVarFormParams.put("float", _float);
 if (_double != null) localVarFormParams.put("double", _double);
-if (string != null) localVarFormParams.put("string", string);
+if (_string != null) localVarFormParams.put("string", _string);
 if (patternWithoutDelimiter != null) localVarFormParams.put("pattern_without_delimiter", patternWithoutDelimiter);
 if (_byte != null) localVarFormParams.put("byte", _byte);
 if (binary != null) localVarFormParams.put("binary", binary);
-if (date != null) localVarFormParams.put("date", date);
-if (dateTime != null) localVarFormParams.put("dateTime", dateTime);
+if (_date != null) localVarFormParams.put("date", _date);
+if (_dateTime != null) localVarFormParams.put("dateTime", _dateTime);
 if (password != null) localVarFormParams.put("password", password);
 if (paramCallback != null) localVarFormParams.put("callback", paramCallback);
 

@@ -39,7 +39,7 @@ import jakarta.validation.Valid;
 public class ObjectWithDeprecatedFields   {
   public static final String JSON_PROPERTY_UUID = "uuid";
   @JsonProperty(JSON_PROPERTY_UUID)
-  private String uuid;
+  private String _uuid;
 
   public static final String JSON_PROPERTY_ID = "id";
   @JsonProperty(JSON_PROPERTY_ID)
@@ -53,24 +53,24 @@ public class ObjectWithDeprecatedFields   {
   @JsonProperty(JSON_PROPERTY_BARS)
   private List<String> bars = new ArrayList<>();
 
-  public ObjectWithDeprecatedFields uuid(String uuid) {
-    this.uuid = uuid;
+  public ObjectWithDeprecatedFields _uuid(String _uuid) {
+    this._uuid = _uuid;
     return this;
   }
 
   /**
-   * Get uuid
-   * @return uuid
+   * Get _uuid
+   * @return _uuid
    **/
   @JsonProperty(value = "uuid")
   @Schema(description = "")
   
   public String getUuid() {
-    return uuid;
+    return _uuid;
   }
 
-  public void setUuid(String uuid) {
-    this.uuid = uuid;
+  public void setUuid(String _uuid) {
+    this._uuid = _uuid;
   }
 
   public ObjectWithDeprecatedFields id(BigDecimal id) {
@@ -151,7 +151,7 @@ public class ObjectWithDeprecatedFields   {
       return false;
     }
     ObjectWithDeprecatedFields objectWithDeprecatedFields = (ObjectWithDeprecatedFields) o;
-    return Objects.equals(this.uuid, objectWithDeprecatedFields.uuid) &&
+    return Objects.equals(this._uuid, objectWithDeprecatedFields._uuid) &&
         Objects.equals(this.id, objectWithDeprecatedFields.id) &&
         Objects.equals(this.deprecatedRef, objectWithDeprecatedFields.deprecatedRef) &&
         Objects.equals(this.bars, objectWithDeprecatedFields.bars);
@@ -159,7 +159,7 @@ public class ObjectWithDeprecatedFields   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(uuid, id, deprecatedRef, bars);
+    return Objects.hash(_uuid, id, deprecatedRef, bars);
   }
 
   @Override
@@ -167,7 +167,7 @@ public class ObjectWithDeprecatedFields   {
     StringBuilder sb = new StringBuilder();
     sb.append("class ObjectWithDeprecatedFields {\n");
     
-    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
+    sb.append("    _uuid: ").append(toIndentedString(_uuid)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    deprecatedRef: ").append(toIndentedString(deprecatedRef)).append("\n");
     sb.append("    bars: ").append(toIndentedString(bars)).append("\n");
