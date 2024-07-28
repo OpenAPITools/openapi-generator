@@ -23,7 +23,6 @@ import org.openapitools.server.model.HealthCheckResult;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
-import org.openapitools.server.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import java.util.Optional;
 import org.openapitools.server.model.OuterComposite;
@@ -191,14 +190,5 @@ public class FakeServiceImpl implements FakeService {
     @Path("/stringMap-reference")
     @Consumes({ "application/json" })
     public void testStringMapReference(@Valid @NotNull Map<String, String> requestBody) {
-    }
-
-    @POST
-    @Path("/{petId}/uploadImageWithRequiredFile")
-    @Consumes({ "multipart/form-data" })
-    @Produces({ "application/json" })
-    public ModelApiResponse uploadFileWithRequiredFile(@PathParam("petId") Long petId, @FormParam(value = "requiredFile") InputStream requiredFileInputStream,@FormParam(value = "additionalMetadata")  String additionalMetadata) {
-        ModelApiResponse result = null; // Replace with correct business logic.
-        return result;
     }
 }

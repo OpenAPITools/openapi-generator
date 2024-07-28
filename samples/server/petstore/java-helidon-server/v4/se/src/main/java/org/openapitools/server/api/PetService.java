@@ -24,7 +24,7 @@ import io.helidon.webserver.http.ServerResponse;
 import io.helidon.webserver.http.HttpService;
 
 @io.helidon.common.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen",
-                             trigger = "tag = '/pet'",
+                             trigger = "tag = 'Pet'",
                              version = "stable")
 public interface PetService extends HttpService {
 
@@ -34,14 +34,15 @@ public interface PetService extends HttpService {
      */
     @Override
     default void routing(HttpRules rules) {
-        rules.post("/", this::addPet);
-        rules.delete("/{petId}", this::deletePet);
-        rules.get("/findByStatus", this::findPetsByStatus);
-        rules.get("/findByTags", this::findPetsByTags);
-        rules.get("/{petId}", this::getPetById);
-        rules.put("/", this::updatePet);
-        rules.post("/{petId}", this::updatePetWithForm);
-        rules.post("/{petId}/uploadImage", this::uploadFile);
+        rules.post("/pet", this::addPet);
+        rules.delete("/pet/{petId}", this::deletePet);
+        rules.get("/pet/findByStatus", this::findPetsByStatus);
+        rules.get("/pet/findByTags", this::findPetsByTags);
+        rules.get("/pet/{petId}", this::getPetById);
+        rules.put("/pet", this::updatePet);
+        rules.post("/pet/{petId}", this::updatePetWithForm);
+        rules.post("/pet/{petId}/uploadImage", this::uploadFile);
+        rules.post("/fake/{petId}/uploadImageWithRequiredFile", this::uploadFileWithRequiredFile);
     }
 
 
@@ -101,4 +102,11 @@ public interface PetService extends HttpService {
      * @param response the server response
      */
     void uploadFile(ServerRequest request, ServerResponse response);
+    /**
+     * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required).
+     *
+     * @param request the server request
+     * @param response the server response
+     */
+    void uploadFileWithRequiredFile(ServerRequest request, ServerResponse response);
 }

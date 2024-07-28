@@ -14,6 +14,8 @@
 package org.openapitools.client.api;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map;
 import org.openapitools.client.model.ModelApiResponse;
 import java.util.Optional;
 import org.openapitools.client.model.Pet;
@@ -160,6 +162,20 @@ public class PetApiTest {
     @Test
     public void uploadFileTest() throws Exception {
         //ModelApiResponse response = client.uploadFile(petId, additionalMetadata, _file);
+        //assertNotNull(response);
+    }
+    
+    /**
+     * uploads an image (required)
+     *
+     * 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void uploadFileWithRequiredFileTest() throws Exception {
+        //ModelApiResponse response = client.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
         //assertNotNull(response);
     }
     

@@ -19,7 +19,7 @@ import io.helidon.webserver.http.ServerResponse;
 import io.helidon.webserver.http.HttpService;
 
 @io.helidon.common.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen",
-                             trigger = "tag = '/user'",
+                             trigger = "tag = 'User'",
                              version = "stable")
 public abstract class UserService implements HttpService {
 

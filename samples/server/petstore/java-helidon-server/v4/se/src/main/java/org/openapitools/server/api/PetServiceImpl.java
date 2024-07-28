@@ -82,6 +82,14 @@ public class PetServiceImpl implements PetService {
         response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
+    @Override
+    public void uploadFileWithRequiredFile(ServerRequest request, ServerResponse response) {
+        MultiPart multiPart = request.content().as(MultiPart.class);
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
+
+        response.status(Status.NOT_IMPLEMENTED_501).send();
+    }
+
 
     @Override
     public void afterStop() {

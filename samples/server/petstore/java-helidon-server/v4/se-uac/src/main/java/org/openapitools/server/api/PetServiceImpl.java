@@ -88,4 +88,13 @@ public class PetServiceImpl extends PetService {
         response.status(Status.NOT_IMPLEMENTED_501).send();
     }
 
+    @Override
+    protected void handleUploadFileWithRequiredFile(ServerRequest request, ServerResponse response, 
+                Long petId, 
+                ReadablePart requiredFile, 
+                Optional<ReadablePart> additionalMetadata) {
+
+        response.status(Status.NOT_IMPLEMENTED_501).send();
+    }
+
 }

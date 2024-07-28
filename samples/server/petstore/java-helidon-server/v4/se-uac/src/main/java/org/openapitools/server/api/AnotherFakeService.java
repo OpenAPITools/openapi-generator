@@ -13,7 +13,7 @@ import io.helidon.webserver.http.ServerResponse;
 import io.helidon.webserver.http.HttpService;
 
 @io.helidon.common.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen",
-                             trigger = "tag = '/another-fake'",
+                             trigger = "tag = 'AnotherFake'",
                              version = "stable")
 public abstract class AnotherFakeService implements HttpService {
 
@@ -29,7 +29,7 @@ public abstract class AnotherFakeService implements HttpService {
      */
     @Override
     public void routing(HttpRules rules) {
-        rules.patch("/dummy", this::call123testSpecialTags);
+        rules.patch("/", this::call123testSpecialTags);
     }
 
 

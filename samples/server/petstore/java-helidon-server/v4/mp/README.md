@@ -12,6 +12,7 @@ java -jar target/petstore-helidon-server-mp.jar
 
 ```
 curl -X PATCH http://petstore.swagger.io:80/v2
+curl -X GET http://petstore.swagger.io:80/v2
 curl -X GET http://petstore.swagger.io:80/v2/BigDecimalMap
 curl -X GET http://petstore.swagger.io:80/v2/health
 curl -X GET http://petstore.swagger.io:80/v2/http-signature-test
@@ -34,17 +35,16 @@ curl -X GET http://petstore.swagger.io:80/v2/jsonFormData
 curl -X POST http://petstore.swagger.io:80/v2/nullable
 curl -X PUT http://petstore.swagger.io:80/v2/test-query-parameters
 curl -X POST http://petstore.swagger.io:80/v2/stringMap-reference
-curl -X POST http://petstore.swagger.io:80/v2/{petId}/uploadImageWithRequiredFile
 curl -X PATCH http://petstore.swagger.io:80/v2
-curl -X GET http://petstore.swagger.io:80/v2
-curl -X POST http://petstore.swagger.io:80/v2
-curl -X DELETE http://petstore.swagger.io:80/v2/{petId}
-curl -X GET http://petstore.swagger.io:80/v2/findByStatus
-curl -X GET http://petstore.swagger.io:80/v2/findByTags
-curl -X GET http://petstore.swagger.io:80/v2/{petId}
-curl -X PUT http://petstore.swagger.io:80/v2
-curl -X POST http://petstore.swagger.io:80/v2/{petId}
-curl -X POST http://petstore.swagger.io:80/v2/{petId}/uploadImage
+curl -X POST http://petstore.swagger.io:80/v2/pet
+curl -X DELETE http://petstore.swagger.io:80/v2/pet/{petId}
+curl -X GET http://petstore.swagger.io:80/v2/pet/findByStatus
+curl -X GET http://petstore.swagger.io:80/v2/pet/findByTags
+curl -X GET http://petstore.swagger.io:80/v2/pet/{petId}
+curl -X PUT http://petstore.swagger.io:80/v2/pet
+curl -X POST http://petstore.swagger.io:80/v2/pet/{petId}
+curl -X POST http://petstore.swagger.io:80/v2/pet/{petId}/uploadImage
+curl -X POST http://petstore.swagger.io:80/v2/fake/{petId}/uploadImageWithRequiredFile
 curl -X DELETE http://petstore.swagger.io:80/v2/order/{order_id}
 curl -X GET http://petstore.swagger.io:80/v2/inventory
 curl -X GET http://petstore.swagger.io:80/v2/order/{order_id}

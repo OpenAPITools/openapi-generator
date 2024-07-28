@@ -19,8 +19,6 @@ import java.io.InputStream;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
-import org.openapitools.server.model.ModelApiResponse;
-import io.helidon.http.media.multipart.MultiPart;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Objects;
 import java.time.OffsetDateTime;
@@ -43,7 +41,7 @@ import io.helidon.webserver.http.ServerResponse;
 import io.helidon.webserver.http.HttpService;
 
 @io.helidon.common.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen",
-                             trigger = "tag = '/fake'",
+                             trigger = "tag = 'Fake'",
                              version = "stable")
 public interface FakeService extends HttpService {
 
@@ -75,7 +73,6 @@ public interface FakeService extends HttpService {
         rules.post("/nullable", this::testNullable);
         rules.put("/test-query-parameters", this::testQueryParameterCollectionFormat);
         rules.post("/stringMap-reference", this::testStringMapReference);
-        rules.post("/{petId}/uploadImageWithRequiredFile", this::uploadFileWithRequiredFile);
     }
 
 
@@ -233,11 +230,4 @@ public interface FakeService extends HttpService {
      * @param response the server response
      */
     void testStringMapReference(ServerRequest request, ServerResponse response);
-    /**
-     * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required).
-     *
-     * @param request the server request
-     * @param response the server response
-     */
-    void uploadFileWithRequiredFile(ServerRequest request, ServerResponse response);
 }

@@ -24,7 +24,6 @@ import org.openapitools.client.model.HealthCheckResult;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
-import org.openapitools.client.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import java.util.Optional;
 import org.openapitools.client.model.OuterComposite;
@@ -181,15 +180,5 @@ public interface FakeApi {
   * @return {@code ApiResponse<Void>}
   */
   ApiResponse<Void> testStringMapReference(Map<String, String> requestBody);
-
- /**
-  * uploads an image (required)
-  * 
-  * @param petId ID of pet to update (required)
-  * @param requiredFile file to upload (required)
-  * @param additionalMetadata Additional data to pass to server (optional)
-  * @return {@code ApiResponse<ModelApiResponse>}
-  */
-  ApiResponse<ModelApiResponse> uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata);
 
 }

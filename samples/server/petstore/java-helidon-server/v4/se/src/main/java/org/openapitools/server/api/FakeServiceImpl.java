@@ -19,8 +19,6 @@ import java.io.InputStream;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
-import org.openapitools.server.model.ModelApiResponse;
-import io.helidon.http.media.multipart.MultiPart;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Objects;
 import java.time.OffsetDateTime;
@@ -195,14 +193,6 @@ public class FakeServiceImpl implements FakeService {
 
     @Override
     public void testStringMapReference(ServerRequest request, ServerResponse response) {
-        ValidatorUtils.Validator validator = ValidatorUtils.validator();
-
-        response.status(Status.NOT_IMPLEMENTED_501).send();
-    }
-
-    @Override
-    public void uploadFileWithRequiredFile(ServerRequest request, ServerResponse response) {
-        MultiPart multiPart = request.content().as(MultiPart.class);
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
         response.status(Status.NOT_IMPLEMENTED_501).send();

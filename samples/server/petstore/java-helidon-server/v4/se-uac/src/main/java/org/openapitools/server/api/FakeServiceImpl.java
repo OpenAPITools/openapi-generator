@@ -21,8 +21,6 @@ import java.io.InputStream;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
-import org.openapitools.server.model.ModelApiResponse;
-import io.helidon.http.media.multipart.MultiPart;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Objects;
 import java.time.OffsetDateTime;
@@ -227,15 +225,6 @@ public class FakeServiceImpl extends FakeService {
     @Override
     protected void handleTestStringMapReference(ServerRequest request, ServerResponse response, 
                 Map<String, String> requestBody) {
-
-        response.status(Status.NOT_IMPLEMENTED_501).send();
-    }
-
-    @Override
-    protected void handleUploadFileWithRequiredFile(ServerRequest request, ServerResponse response, 
-                Long petId, 
-                ReadablePart requiredFile, 
-                Optional<ReadablePart> additionalMetadata) {
 
         response.status(Status.NOT_IMPLEMENTED_501).send();
     }

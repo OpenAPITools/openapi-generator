@@ -26,7 +26,6 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**testNullable**](FakeApi.md#testNullable) | **POST** /fake/nullable | test nullable parent property |
 | [**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters |  |
 | [**testStringMapReference**](FakeApi.md#testStringMapReference) | **POST** /fake/stringMap-reference | test referenced string map |
-| [**uploadFileWithRequiredFile**](FakeApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required) |
 
 
 
@@ -1533,81 +1532,6 @@ No authorization required
 
 - **Content-Type**: application/json
 - **Accept**: Not defined
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | successful operation |  -  |
-
-
-## uploadFileWithRequiredFile
-
-> ModelApiResponse uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
-
-uploads an image (required)
-
-
-
-### Example
-
-```java
-// Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.FakeApi;
-
-public class Example {
-    public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
-        
-        // Configure OAuth2 access token for authorization: petstore_auth
-        OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
-        petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
-
-        FakeApi apiInstance = new FakeApi(defaultClient);
-        Long petId = 56L; // Long | ID of pet to update
-        File requiredFile = new File("/path/to/file"); // File | file to upload
-        String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
-        try {
-            ModelApiResponse result = apiInstance.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling FakeApi#uploadFileWithRequiredFile");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
-            System.err.println("Response headers: " + e.getResponseHeaders());
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **petId** | **Long**| ID of pet to update | |
-| **requiredFile** | **File**| file to upload | |
-| **additionalMetadata** | **String**| Additional data to pass to server | [optional] |
-
-### Return type
-
-[**ModelApiResponse**](ModelApiResponse.md)
-
-### Authorization
-
-[petstore_auth](../README.md#petstore_auth)
-
-### HTTP request headers
-
-- **Content-Type**: multipart/form-data
-- **Accept**: application/json
 
 
 ### HTTP response details

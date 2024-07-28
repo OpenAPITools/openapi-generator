@@ -21,8 +21,9 @@ import org.openapitools.client.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
+import java.util.List;
 import java.time.LocalDate;
-import org.openapitools.client.model.ModelApiResponse;
+import java.util.Map;
 import java.time.OffsetDateTime;
 import java.util.Optional;
 import org.openapitools.client.model.OuterComposite;
@@ -324,20 +325,6 @@ public class FakeApiTest {
     @Test
     public void testStringMapReferenceTest() throws Exception {
         //void response = client.testStringMapReference(requestBody);
-        //assertNotNull(response);
-    }
-    
-    /**
-     * uploads an image (required)
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void uploadFileWithRequiredFileTest() throws Exception {
-        //ModelApiResponse response = client.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
         //assertNotNull(response);
     }
     

@@ -150,6 +150,8 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
             importMapping.put("Status", "io.helidon.http.Status");
             importMapping.put("Objects", "java.util.Objects");
             importMapping.put("Valid", "jakarta.validation.Valid");
+            importMapping.put("List", "java.util.List");
+            importMapping.put("Map", "java.util.Map");
         }
         supportingFiles.clear();
         dateLibrary = "java8";
@@ -422,6 +424,7 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
         OperationMap operations = objs.getOperations();
         if (HELIDON_MP.equals(getLibrary())) {
             return AbstractJavaJAXRSServerCodegen.jaxrsPostProcessOperations(objs);

@@ -133,8 +133,7 @@ public final class Main {
      */
     static void routing(HttpRouting.Builder routing) {
         routing{{#apiInfo}}{{#apis}}{{#operations}}
-                .register("{{{pathPrefix}}}", new {{classname}}Impl()){{/operations}}{{/apis}}{{/apiInfo}}
-                ;
+            .register("{{#x-helidon-v3}}/{{/x-helidon-v3}}{{{pathPrefix}}}", new {{classname}}Impl()){{^x-helidon-v3}}{{#x-helidon-fixupPath}}/* {{.}} */{{/x-helidon-fixupPath}}{{/x-helidon-v3}}{{/operations}}{{/apis}}{{/apiInfo}};
     }
 {{/x-helidon-v3}}
 }

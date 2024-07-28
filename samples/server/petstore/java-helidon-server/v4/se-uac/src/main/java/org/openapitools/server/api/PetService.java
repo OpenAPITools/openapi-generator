@@ -31,7 +31,7 @@ import io.helidon.webserver.http.ServerResponse;
 import io.helidon.webserver.http.HttpService;
 
 @io.helidon.common.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen",
-                             trigger = "tag = '/pet'",
+                             trigger = "tag = 'Pet'",
                              version = "stable")
 public abstract class PetService implements HttpService {
 
@@ -46,6 +46,7 @@ public abstract class PetService implements HttpService {
     protected UpdatePetOp updatePetOp = createUpdatePetOp();
     protected UpdatePetWithFormOp updatePetWithFormOp = createUpdatePetWithFormOp();
     protected UploadFileOp uploadFileOp = createUploadFileOp();
+    protected UploadFileWithRequiredFileOp uploadFileWithRequiredFileOp = createUploadFileWithRequiredFileOp();
 
 
     /**
@@ -54,14 +55,15 @@ public abstract class PetService implements HttpService {
      */
     @Override
     public void routing(HttpRules rules) {
-        rules.post("/", this::addPet);
-        rules.delete("/{petId}", this::deletePet);
-        rules.get("/findByStatus", this::findPetsByStatus);
-        rules.get("/findByTags", this::findPetsByTags);
-        rules.get("/{petId}", this::getPetById);
-        rules.put("/", this::updatePet);
-        rules.post("/{petId}", this::updatePetWithForm);
-        rules.post("/{petId}/uploadImage", this::uploadFile);
+        rules.post("/pet", this::addPet);
+        rules.delete("/pet/{petId}", this::deletePet);
+        rules.get("/pet/findByStatus", this::findPetsByStatus);
+        rules.get("/pet/findByTags", this::findPetsByTags);
+        rules.get("/pet/{petId}", this::getPetById);
+        rules.put("/pet", this::updatePet);
+        rules.post("/pet/{petId}", this::updatePetWithForm);
+        rules.post("/pet/{petId}/uploadImage", this::uploadFile);
+        rules.post("/fake/{petId}/uploadImageWithRequiredFile", this::uploadFileWithRequiredFile);
     }
 
 
@@ -345,6 +347,54 @@ public abstract class PetService implements HttpService {
                 Long petId, 
                 Optional<ReadablePart> additionalMetadata, 
                 Optional<ReadablePart> _file);
+
+    /**
+     * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required).
+     *
+     * @param request the server request
+     * @param response the server response
+     */
+    protected void uploadFileWithRequiredFile(ServerRequest request, ServerResponse response) { 
+
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
+
+        
+        Map<String, ReadablePart> parts = PartsUtils.partsMap(request);
+
+        // Parameter: petId
+        Long petId = uploadFileWithRequiredFileOp.petId(request, validator);
+
+        validator.require("petId", petId);
+
+        // Parameter: requiredFile
+        ReadablePart requiredFile = uploadFileWithRequiredFileOp.requiredFile(request, parts, validator);
+
+        validator.require("requiredFile", requiredFile);
+
+        // Parameter: additionalMetadata
+        Optional<ReadablePart> additionalMetadata = uploadFileWithRequiredFileOp.additionalMetadata(request, parts, validator);
+
+        validator.execute();
+
+        handleUploadFileWithRequiredFile(request, response, 
+                    petId, 
+                    requiredFile, 
+                    additionalMetadata);
+    }
+
+    /**
+     * Handle POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required).
+     *
+     * @param request the server request
+     * @param response the server response
+     * @param petId ID of pet to update 
+     * @param requiredFile file to upload 
+     * @param additionalMetadata Additional data to pass to server 
+     */
+    protected abstract void handleUploadFileWithRequiredFile(ServerRequest request, ServerResponse response, 
+                Long petId, 
+                ReadablePart requiredFile, 
+                Optional<ReadablePart> additionalMetadata);
 
     /**
      * Returns a new instance of the class which handles parameters to and responses from the addPet operation.
@@ -1726,6 +1776,145 @@ public abstract class PetService implements HttpService {
             /**
              * Creates a response builder for the status {@code 200} response
              * for the uploadFile operation; there are no required result values for this response.
+             *
+             * @return new builder for status 200
+             */
+            static Builder builder() {
+                return new Builder();
+            }
+
+            /**
+             * Builder for the Response200 result.
+             */
+            static class Builder implements io.helidon.common.Builder<Builder, Response200> {
+
+                private ModelApiResponse response;
+                @Override
+                public Response200 build() {
+                    return new Response200(response);
+                }
+
+                /**
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * assigning the HTTP status, any response headers, and any response entity.
+                 * <p>
+                 *     Equivalent to {@snippet :
+                 *     build().send(_serverResponse);
+                 *     }
+                 * </p>
+                 *
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 */
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
+                }
+
+                /**
+                 * Sets the value for the optional return property {@code response}.
+                 * @param response 
+                 * @return updated result builder
+                 */
+                Builder response(ModelApiResponse response) {
+                    this.response = response;
+                    return this;
+                }
+            }
+
+            /**
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             *
+             * @param _serverResponse the server response to which to apply these result values
+             */
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status(Status.OK_200);
+                if (response != null) { 
+                _serverResponse.send(response);
+                } else {
+                    _serverResponse.send();
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns a new instance of the class which handles parameters to and responses from the uploadFileWithRequiredFile operation.
+     * <p>
+     *     Developers can override this method if they extend the PetService class.
+     * </p>
+     *
+     * @return new UploadFileWithRequiredFile
+     */
+    protected UploadFileWithRequiredFileOp createUploadFileWithRequiredFileOp() {
+        return new UploadFileWithRequiredFileOp();
+    }
+
+    /**
+     * Helper elements for the {@code uploadFileWithRequiredFile} operation.
+     * <p>
+     * Also below are records for each response declared in the OpenAPI document, organized by response status.
+     * <p>
+     *     Once your code determines which (if any) declared response to send it can use the static {@code builder} method for
+     *     that specific result, passing the required elements of the response as parameters, and then assign any optional
+     *     response elements using the other builder methods.
+     * <p>
+     *     Finally, your code should invoke the {@code apply} method, passing the original {@link ServerResponse}. The
+     *     generated method sets any headers you have assigned, sets the correct status in the response, and sends
+     *     the response including any appropriate entity.
+     * </p>
+     */
+    public static class UploadFileWithRequiredFileOp {
+
+        /**
+         * Prepares the petId parameter.
+         *
+         * @param request {@link io.helidon.webserver.http.ServerRequest} containing the parameter
+         * @param validator {@link org.openapitools.server.api.ValidatorUtils.Validator} for validating all parameters to the operation
+         * @return petId parameter value
+         */
+        protected Long petId(ServerRequest request, ValidatorUtils.Validator validator) {
+            return request.path()
+                .pathParameters()
+                .first("petId")
+                .asOptional()
+                .map(Long::valueOf)
+                .orElse(null);
+        }
+
+        /**
+         * Prepares the requiredFile parameter.
+         *
+         * @param request {@link io.helidon.webserver.http.ServerRequest} containing the parameter
+         * @param parts {@code Map} of part names to {@link io.helidon.http.media.multipart.ReadablePart} for each part
+         * @param validator {@link org.openapitools.server.api.ValidatorUtils.Validator} for validating all parameters to the operation
+         * @return requiredFile parameter value
+         */
+        protected ReadablePart requiredFile(ServerRequest request, Map<String, ReadablePart> parts, ValidatorUtils.Validator validator) {
+            return parts.get("requiredFile");
+        }
+
+        /**
+         * Prepares the additionalMetadata parameter.
+         *
+         * @param request {@link io.helidon.webserver.http.ServerRequest} containing the parameter
+         * @param parts {@code Map} of part names to {@link io.helidon.http.media.multipart.ReadablePart} for each part
+         * @param validator {@link org.openapitools.server.api.ValidatorUtils.Validator} for validating all parameters to the operation
+         * @return additionalMetadata parameter value
+         */
+        protected Optional<ReadablePart> additionalMetadata(ServerRequest request, Map<String, ReadablePart> parts, ValidatorUtils.Validator validator) {
+            return Optional.ofNullable(parts.get("additionalMetadata"));
+        }
+
+        /**
+         * Response for HTTP status code {@code 200}.
+        *
+         * @param response 
+         */
+        record Response200(ModelApiResponse response) {
+
+            /**
+             * Creates a response builder for the status {@code 200} response
+             * for the uploadFileWithRequiredFile operation; there are no required result values for this response.
              *
              * @return new builder for status 200
              */

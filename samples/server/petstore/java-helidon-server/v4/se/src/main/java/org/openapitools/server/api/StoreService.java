@@ -12,7 +12,7 @@ import io.helidon.webserver.http.ServerResponse;
 import io.helidon.webserver.http.HttpService;
 
 @io.helidon.common.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen",
-                             trigger = "tag = '/store'",
+                             trigger = "tag = 'Store'",
                              version = "stable")
 public interface StoreService extends HttpService {
 

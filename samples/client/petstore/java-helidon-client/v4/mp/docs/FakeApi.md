@@ -26,7 +26,6 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**testNullable**](FakeApi.md#testNullable) | **POST** /fake/nullable | test nullable parent property |
 | [**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters |  |
 | [**testStringMapReference**](FakeApi.md#testStringMapReference) | **POST** /fake/stringMap-reference | test referenced string map |
-| [**uploadFileWithRequiredFile**](FakeApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required) |
 
 
 
@@ -818,43 +817,6 @@ No authorization required
 
 - **Content-Type**: application/json
 - **Accept**: Not defined
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | successful operation |  -  |
-
-
-## uploadFileWithRequiredFile
-
-> ModelApiResponse uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
-
-uploads an image (required)
-
-
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **petId** | **Long**| ID of pet to update | |
-| **requiredFile** | **File**| file to upload | |
-| **additionalMetadata** | **String**| Additional data to pass to server | [optional] |
-
-### Return type
-
-[**ModelApiResponse**](ModelApiResponse.md)
-
-### Authorization
-
-[petstore_auth](../README.md#petstore_auth)
-
-### HTTP request headers
-
-- **Content-Type**: multipart/form-data
-- **Accept**: application/json
 
 
 ### HTTP response details
