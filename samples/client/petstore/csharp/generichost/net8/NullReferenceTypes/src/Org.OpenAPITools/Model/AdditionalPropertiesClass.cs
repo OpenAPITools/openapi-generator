@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Anytype1
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Object?> Anytype1Option { get; private set; }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of EmptyMap
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Object?> EmptyMapOption { get; private set; }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of MapOfMapProperty
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, Dictionary<string, string>>?> MapOfMapPropertyOption { get; private set; }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of MapProperty
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, string>?> MapPropertyOption { get; private set; }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of MapWithUndeclaredPropertiesAnytype1
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Object?> MapWithUndeclaredPropertiesAnytype1Option { get; private set; }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of MapWithUndeclaredPropertiesAnytype2
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Object?> MapWithUndeclaredPropertiesAnytype2Option { get; private set; }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of MapWithUndeclaredPropertiesAnytype3
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, Object>?> MapWithUndeclaredPropertiesAnytype3Option { get; private set; }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of MapWithUndeclaredPropertiesString
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, string>?> MapWithUndeclaredPropertiesStringOption { get; private set; }
 
         /// <summary>

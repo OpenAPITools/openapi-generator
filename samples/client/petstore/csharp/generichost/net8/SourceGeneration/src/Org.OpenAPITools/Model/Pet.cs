@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Status
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<StatusEnum?> StatusOption { get; private set; }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Category
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Category?> CategoryOption { get; private set; }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Id
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<long?> IdOption { get; private set; }
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Tags
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<Tag>?> TagsOption { get; private set; }
 
         /// <summary>

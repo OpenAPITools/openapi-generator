@@ -49,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ArrayArrayNumber
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<List<decimal>>?> ArrayArrayNumberOption { get; private set; }
 
         /// <summary>

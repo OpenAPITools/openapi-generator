@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Client
         /// <param name="options"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryDeserialize<T>(string json, JsonSerializerOptions options, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T? result)
+        public static bool TryDeserialize<T>(string json, JsonSerializerOptions options, [global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T? result)
         {
             try
             {
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Client
         /// <param name="options"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryDeserialize<T>(ref Utf8JsonReader reader, JsonSerializerOptions options, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T? result)
+        public static bool TryDeserialize<T>(ref Utf8JsonReader reader, JsonSerializerOptions options, [global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out T? result)
         {
             try
             {
@@ -188,7 +188,7 @@ namespace Org.OpenAPITools.Client
         /// <returns>Encoded string.</returns>
         public static string Base64Encode(string text)
         {
-            return Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(text));
+            return Convert.ToBase64String(global::System.Text.Encoding.UTF8.GetBytes(text));
         }
 
         /// <summary>

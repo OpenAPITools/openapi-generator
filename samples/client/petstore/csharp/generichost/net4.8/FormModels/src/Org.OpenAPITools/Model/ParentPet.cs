@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// The discriminator
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public new string PetType { get; } = "ParentPet";
 
         /// <summary>

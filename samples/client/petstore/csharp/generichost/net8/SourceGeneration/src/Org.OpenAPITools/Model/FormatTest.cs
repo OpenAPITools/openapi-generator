@@ -110,7 +110,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Binary
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<System.IO.Stream?> BinaryOption { get; private set; }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of DateTime
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<DateTime?> DateTimeOption { get; private set; }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Decimal
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<decimal?> DecimalOption { get; private set; }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Double
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<double?> DoubleOption { get; private set; }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Float
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<float?> FloatOption { get; private set; }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Int32
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> Int32Option { get; private set; }
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Int64
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<long?> Int64Option { get; private set; }
 
         /// <summary>
@@ -202,7 +202,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Integer
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> IntegerOption { get; private set; }
 
         /// <summary>
@@ -215,7 +215,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of PatternWithBackslash
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> PatternWithBackslashOption { get; private set; }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of PatternWithDigits
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> PatternWithDigitsOption { get; private set; }
 
         /// <summary>
@@ -243,7 +243,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of PatternWithDigitsAndDelimiter
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> PatternWithDigitsAndDelimiterOption { get; private set; }
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of String
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> StringOption { get; private set; }
 
         /// <summary>
@@ -270,7 +270,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of UnsignedInteger
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<uint?> UnsignedIntegerOption { get; private set; }
 
         /// <summary>
@@ -283,7 +283,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of UnsignedLong
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<ulong?> UnsignedLongOption { get; private set; }
 
         /// <summary>
@@ -296,7 +296,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Uuid
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Guid?> UuidOption { get; private set; }
 
         /// <summary>

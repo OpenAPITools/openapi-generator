@@ -501,7 +501,7 @@ namespace Org.OpenAPITools.Client
                 binkey = Convert.FromBase64String(pvkstr);
                 return binkey;
             }
-            catch (System.FormatException)
+            catch (global::System.FormatException)
             {
                 StringReader str = new StringReader(pvkstr);
 
@@ -531,7 +531,7 @@ namespace Org.OpenAPITools.Client
                 {   //should have b64 encrypted RSA key now
                     binkey = Convert.FromBase64String(encryptedstr);
                 }
-                catch (System.FormatException)
+                catch (global::System.FormatException)
                 {   //data is not in base64 format
                     return null;
                 }

@@ -103,7 +103,7 @@ using System.Runtime.CompilerServices;
         /// <param name="options"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryDeserialize<T>(string json, JsonSerializerOptions options, {{#net60OrLater}}[System.Diagnostics.CodeAnalysis.NotNullWhen(true)] {{/net60OrLater}}out T{{#nrt}}{{#net60OrLater}}?{{/net60OrLater}}{{/nrt}} result)
+        public static bool TryDeserialize<T>(string json, JsonSerializerOptions options, {{#net60OrLater}}[global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] {{/net60OrLater}}out T{{#nrt}}{{#net60OrLater}}?{{/net60OrLater}}{{/nrt}} result)
         {
             try
             {
@@ -125,7 +125,7 @@ using System.Runtime.CompilerServices;
         /// <param name="options"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryDeserialize<T>(ref Utf8JsonReader reader, JsonSerializerOptions options, {{#net60OrLater}}[System.Diagnostics.CodeAnalysis.NotNullWhen(true)] {{/net60OrLater}}out T{{#nrt}}{{#net60OrLater}}?{{/net60OrLater}}{{/nrt}} result)
+        public static bool TryDeserialize<T>(ref Utf8JsonReader reader, JsonSerializerOptions options, {{#net60OrLater}}[global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] {{/net60OrLater}}out T{{#nrt}}{{#net60OrLater}}?{{/net60OrLater}}{{/nrt}} result)
         {
             try
             {
@@ -258,7 +258,7 @@ using System.Runtime.CompilerServices;
         /// <returns>Encoded string.</returns>
         public static string Base64Encode(string text)
         {
-            return Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(text));
+            return Convert.ToBase64String(global::System.Text.Encoding.UTF8.GetBytes(text));
         }
 
         /// <summary>

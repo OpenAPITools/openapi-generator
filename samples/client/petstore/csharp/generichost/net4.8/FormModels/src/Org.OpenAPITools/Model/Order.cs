@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Status
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<OrderStatus?> StatusOption { get; private set; }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Complete
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<bool?> CompleteOption { get; private set; }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Id
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<long?> IdOption { get; private set; }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of PetId
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<long?> PetIdOption { get; private set; }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Quantity
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> QuantityOption { get; private set; }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ShipDate
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<DateTime?> ShipDateOption { get; private set; }
 
         /// <summary>
