@@ -152,20 +152,20 @@ namespace Org.OpenAPITools.Client
     /// An interface for responses of type 
     /// </summary>
     /// <typeparam name="TType"></typeparam>
-    public interface ICustomHttpStatusCodeXX599<TType> : IApiResponse
+    public interface ICustomHttpStatusCode599<TType> : IApiResponse
     {
         /// <summary>
-        /// Deserializes the response if the response is CustomHttpStatusCodeXX599
+        /// Deserializes the response if the response is CustomHttpStatusCode599
         /// </summary>
         /// <returns></returns>
-        TType CustomHttpStatusCodeXX599();
+        TType CustomHttpStatusCode599();
 
         /// <summary>
-        /// Returns true if the response is CustomHttpStatusCodeXX599 and the deserialized response is not null
+        /// Returns true if the response is CustomHttpStatusCode599 and the deserialized response is not null
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        bool TryCustomHttpStatusCodeXX599(out TType result);
+        bool TryCustomHttpStatusCode599(out TType result);
     }
 
     /// <summary>

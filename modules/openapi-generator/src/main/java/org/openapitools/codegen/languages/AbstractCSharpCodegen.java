@@ -1023,7 +1023,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                                     postProcessResponseCode(response, "HttpStatusCode5XX", httpStatusesWithReturn);
                                     break;
                                 default:
-                                    postProcessResponseCode(response, "CustomHttpStatusCodeXX" + code, httpStatusesWithReturn);
+                                    postProcessResponseCode(response, "CustomHttpStatusCode" + code, httpStatusesWithReturn);
                             }
                         }
                     }
