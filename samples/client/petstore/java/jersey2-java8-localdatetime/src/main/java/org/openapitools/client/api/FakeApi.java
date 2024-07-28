@@ -373,14 +373,14 @@ public class FakeApi {
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
    * @param _byte None (required)
-   * @param integer None (optional)
+   * @param _integer None (optional)
    * @param int32 None (optional)
    * @param int64 None (optional)
    * @param _float None (optional)
-   * @param string None (optional)
+   * @param _string None (optional)
    * @param binary None (optional)
-   * @param date None (optional)
-   * @param dateTime None (optional)
+   * @param _date None (optional)
+   * @param _dateTime None (optional)
    * @param password None (optional)
    * @param paramCallback None (optional)
    * @throws ApiException if fails to make API call
@@ -391,8 +391,8 @@ public class FakeApi {
        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
-  public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, LocalDateTime dateTime, String password, String paramCallback) throws ApiException {
-    testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
+  public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, File binary, LocalDate _date, LocalDateTime _dateTime, String password, String paramCallback) throws ApiException {
+    testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback);
   }
 
   /**
@@ -402,14 +402,14 @@ public class FakeApi {
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
    * @param _byte None (required)
-   * @param integer None (optional)
+   * @param _integer None (optional)
    * @param int32 None (optional)
    * @param int64 None (optional)
    * @param _float None (optional)
-   * @param string None (optional)
+   * @param _string None (optional)
    * @param binary None (optional)
-   * @param date None (optional)
-   * @param dateTime None (optional)
+   * @param _date None (optional)
+   * @param _dateTime None (optional)
    * @param password None (optional)
    * @param paramCallback None (optional)
    * @return ApiResponse&lt;Void&gt;
@@ -421,7 +421,7 @@ public class FakeApi {
        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, LocalDateTime dateTime, String password, String paramCallback) throws ApiException {
+  public ApiResponse<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, File binary, LocalDate _date, LocalDateTime _dateTime, String password, String paramCallback) throws ApiException {
     // Check required parameters
     if (number == null) {
       throw new ApiException(400, "Missing the required parameter 'number' when calling testEndpointParameters");
@@ -438,8 +438,8 @@ public class FakeApi {
 
     // Form parameters
     Map<String, Object> localVarFormParams = new LinkedHashMap<>();
-    if (integer != null) {
-      localVarFormParams.put("integer", integer);
+    if (_integer != null) {
+      localVarFormParams.put("integer", _integer);
     }
     if (int32 != null) {
       localVarFormParams.put("int32", int32);
@@ -452,19 +452,19 @@ public class FakeApi {
       localVarFormParams.put("float", _float);
     }
     localVarFormParams.put("double", _double);
-    if (string != null) {
-      localVarFormParams.put("string", string);
+    if (_string != null) {
+      localVarFormParams.put("string", _string);
     }
     localVarFormParams.put("pattern_without_delimiter", patternWithoutDelimiter);
     localVarFormParams.put("byte", _byte);
     if (binary != null) {
       localVarFormParams.put("binary", binary);
     }
-    if (date != null) {
-      localVarFormParams.put("date", date);
+    if (_date != null) {
+      localVarFormParams.put("date", _date);
     }
-    if (dateTime != null) {
-      localVarFormParams.put("dateTime", dateTime);
+    if (_dateTime != null) {
+      localVarFormParams.put("dateTime", _dateTime);
     }
     if (password != null) {
       localVarFormParams.put("password", password);

@@ -23,37 +23,37 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("format_test")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 public class FormatTest  implements Serializable {
-  private Integer integer;
+  private Integer _integer;
   private Integer int32;
   private Long int64;
   private BigDecimal number;
   private Float _float;
   private Double _double;
   private BigDecimal decimal;
-  private String string;
+  private String _string;
   private byte[] _byte;
   private File binary;
-  private LocalDate date;
-  private LocalDateTime dateTime;
-  private UUID uuid;
+  private LocalDate _date;
+  private LocalDateTime _dateTime;
+  private UUID _uuid;
   private String password;
   private String patternWithDigits;
   private String patternWithDigitsAndDelimiter;
 
   protected FormatTest(FormatTestBuilder<?, ?> b) {
-    this.integer = b.integer;
+    this._integer = b._integer;
     this.int32 = b.int32;
     this.int64 = b.int64;
     this.number = b.number;
     this._float = b._float;
     this._double = b._double;
     this.decimal = b.decimal;
-    this.string = b.string;
+    this._string = b._string;
     this._byte = b._byte;
     this.binary = b.binary;
-    this.date = b.date;
-    this.dateTime = b.dateTime;
-    this.uuid = b.uuid;
+    this._date = b._date;
+    this._dateTime = b._dateTime;
+    this._uuid = b._uuid;
     this.password = b.password;
     this.patternWithDigits = b.patternWithDigits;
     this.patternWithDigitsAndDelimiter = b.patternWithDigitsAndDelimiter;
@@ -66,8 +66,8 @@ public class FormatTest  implements Serializable {
    * minimum: 10
    * maximum: 100
    **/
-  public FormatTest integer(Integer integer) {
-    this.integer = integer;
+  public FormatTest _integer(Integer _integer) {
+    this._integer = _integer;
     return this;
   }
 
@@ -75,12 +75,12 @@ public class FormatTest  implements Serializable {
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("integer")
    @Min(10) @Max(100)public Integer getInteger() {
-    return integer;
+    return _integer;
   }
 
   @JsonProperty("integer")
-  public void setInteger(Integer integer) {
-    this.integer = integer;
+  public void setInteger(Integer _integer) {
+    this._integer = _integer;
   }
 
   /**
@@ -207,8 +207,8 @@ public class FormatTest  implements Serializable {
 
   /**
    **/
-  public FormatTest string(String string) {
-    this.string = string;
+  public FormatTest _string(String _string) {
+    this._string = _string;
     return this;
   }
 
@@ -216,12 +216,12 @@ public class FormatTest  implements Serializable {
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("string")
    @Pattern(regexp="/[a-z]/i")public String getString() {
-    return string;
+    return _string;
   }
 
   @JsonProperty("string")
-  public void setString(String string) {
-    this.string = string;
+  public void setString(String _string) {
+    this._string = _string;
   }
 
   /**
@@ -264,8 +264,8 @@ public class FormatTest  implements Serializable {
 
   /**
    **/
-  public FormatTest date(LocalDate date) {
-    this.date = date;
+  public FormatTest _date(LocalDate _date) {
+    this._date = _date;
     return this;
   }
 
@@ -273,18 +273,18 @@ public class FormatTest  implements Serializable {
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty("date")
   @NotNull public LocalDate getDate() {
-    return date;
+    return _date;
   }
 
   @JsonProperty("date")
-  public void setDate(LocalDate date) {
-    this.date = date;
+  public void setDate(LocalDate _date) {
+    this._date = _date;
   }
 
   /**
    **/
-  public FormatTest dateTime(LocalDateTime dateTime) {
-    this.dateTime = dateTime;
+  public FormatTest _dateTime(LocalDateTime _dateTime) {
+    this._dateTime = _dateTime;
     return this;
   }
 
@@ -292,18 +292,18 @@ public class FormatTest  implements Serializable {
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("dateTime")
   public LocalDateTime getDateTime() {
-    return dateTime;
+    return _dateTime;
   }
 
   @JsonProperty("dateTime")
-  public void setDateTime(LocalDateTime dateTime) {
-    this.dateTime = dateTime;
+  public void setDateTime(LocalDateTime _dateTime) {
+    this._dateTime = _dateTime;
   }
 
   /**
    **/
-  public FormatTest uuid(UUID uuid) {
-    this.uuid = uuid;
+  public FormatTest _uuid(UUID _uuid) {
+    this._uuid = _uuid;
     return this;
   }
 
@@ -311,12 +311,12 @@ public class FormatTest  implements Serializable {
   @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", description = "")
   @JsonProperty("uuid")
   public UUID getUuid() {
-    return uuid;
+    return _uuid;
   }
 
   @JsonProperty("uuid")
-  public void setUuid(UUID uuid) {
-    this.uuid = uuid;
+  public void setUuid(UUID _uuid) {
+    this._uuid = _uuid;
   }
 
   /**
@@ -388,19 +388,19 @@ public class FormatTest  implements Serializable {
       return false;
     }
     FormatTest formatTest = (FormatTest) o;
-    return Objects.equals(this.integer, formatTest.integer) &&
+    return Objects.equals(this._integer, formatTest._integer) &&
         Objects.equals(this.int32, formatTest.int32) &&
         Objects.equals(this.int64, formatTest.int64) &&
         Objects.equals(this.number, formatTest.number) &&
         Objects.equals(this._float, formatTest._float) &&
         Objects.equals(this._double, formatTest._double) &&
         Objects.equals(this.decimal, formatTest.decimal) &&
-        Objects.equals(this.string, formatTest.string) &&
+        Objects.equals(this._string, formatTest._string) &&
         Arrays.equals(this._byte, formatTest._byte) &&
         Objects.equals(this.binary, formatTest.binary) &&
-        Objects.equals(this.date, formatTest.date) &&
-        Objects.equals(this.dateTime, formatTest.dateTime) &&
-        Objects.equals(this.uuid, formatTest.uuid) &&
+        Objects.equals(this._date, formatTest._date) &&
+        Objects.equals(this._dateTime, formatTest._dateTime) &&
+        Objects.equals(this._uuid, formatTest._uuid) &&
         Objects.equals(this.password, formatTest.password) &&
         Objects.equals(this.patternWithDigits, formatTest.patternWithDigits) &&
         Objects.equals(this.patternWithDigitsAndDelimiter, formatTest.patternWithDigitsAndDelimiter);
@@ -408,7 +408,7 @@ public class FormatTest  implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, decimal, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
+    return Objects.hash(_integer, int32, int64, number, _float, _double, decimal, _string, Arrays.hashCode(_byte), binary, _date, _dateTime, _uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
   }
 
   @Override
@@ -416,19 +416,19 @@ public class FormatTest  implements Serializable {
     StringBuilder sb = new StringBuilder();
     sb.append("class FormatTest {\n");
     
-    sb.append("    integer: ").append(toIndentedString(integer)).append("\n");
+    sb.append("    _integer: ").append(toIndentedString(_integer)).append("\n");
     sb.append("    int32: ").append(toIndentedString(int32)).append("\n");
     sb.append("    int64: ").append(toIndentedString(int64)).append("\n");
     sb.append("    number: ").append(toIndentedString(number)).append("\n");
     sb.append("    _float: ").append(toIndentedString(_float)).append("\n");
     sb.append("    _double: ").append(toIndentedString(_double)).append("\n");
     sb.append("    decimal: ").append(toIndentedString(decimal)).append("\n");
-    sb.append("    string: ").append(toIndentedString(string)).append("\n");
+    sb.append("    _string: ").append(toIndentedString(_string)).append("\n");
     sb.append("    _byte: ").append(toIndentedString(_byte)).append("\n");
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
-    sb.append("    date: ").append(toIndentedString(date)).append("\n");
-    sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
-    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
+    sb.append("    _date: ").append(toIndentedString(_date)).append("\n");
+    sb.append("    _dateTime: ").append(toIndentedString(_dateTime)).append("\n");
+    sb.append("    _uuid: ").append(toIndentedString(_uuid)).append("\n");
     sb.append("    password: ").append("*").append("\n");
     sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");
     sb.append("    patternWithDigitsAndDelimiter: ").append(toIndentedString(patternWithDigitsAndDelimiter)).append("\n");
@@ -466,19 +466,19 @@ public class FormatTest  implements Serializable {
   }
 
   public static abstract class FormatTestBuilder<C extends FormatTest, B extends FormatTestBuilder<C, B>>  {
-    private Integer integer;
+    private Integer _integer;
     private Integer int32;
     private Long int64;
     private BigDecimal number;
     private Float _float;
     private Double _double;
     private BigDecimal decimal;
-    private String string;
+    private String _string;
     private byte[] _byte;
     private File binary;
-    private LocalDate date;
-    private LocalDateTime dateTime;
-    private UUID uuid;
+    private LocalDate _date;
+    private LocalDateTime _dateTime;
+    private UUID _uuid;
     private String password;
     private String patternWithDigits;
     private String patternWithDigitsAndDelimiter;
@@ -486,8 +486,8 @@ public class FormatTest  implements Serializable {
 
     public abstract C build();
 
-    public B integer(Integer integer) {
-      this.integer = integer;
+    public B _integer(Integer _integer) {
+      this._integer = _integer;
       return self();
     }
     public B int32(Integer int32) {
@@ -514,8 +514,8 @@ public class FormatTest  implements Serializable {
       this.decimal = decimal;
       return self();
     }
-    public B string(String string) {
-      this.string = string;
+    public B _string(String _string) {
+      this._string = _string;
       return self();
     }
     public B _byte(byte[] _byte) {
@@ -526,16 +526,16 @@ public class FormatTest  implements Serializable {
       this.binary = binary;
       return self();
     }
-    public B date(LocalDate date) {
-      this.date = date;
+    public B _date(LocalDate _date) {
+      this._date = _date;
       return self();
     }
-    public B dateTime(LocalDateTime dateTime) {
-      this.dateTime = dateTime;
+    public B _dateTime(LocalDateTime _dateTime) {
+      this._dateTime = _dateTime;
       return self();
     }
-    public B uuid(UUID uuid) {
-      this.uuid = uuid;
+    public B _uuid(UUID _uuid) {
+      this._uuid = _uuid;
       return self();
     }
     public B password(String password) {

@@ -401,20 +401,20 @@ public class FakeApi {
     * @param _double None (required)
     * @param patternWithoutDelimiter None (required)
     * @param _byte None (required)
-    * @param integer None (optional)
+    * @param _integer None (optional)
     * @param int32 None (optional)
     * @param int64 None (optional)
     * @param _float None (optional)
-    * @param string None (optional)
+    * @param _string None (optional)
     * @param binary None (optional)
-    * @param date None (optional)
-    * @param dateTime None (optional)
+    * @param _date None (optional)
+    * @param _dateTime None (optional)
     * @param password None (optional)
     * @param paramCallback None (optional)
     * @param resultHandler Asynchronous result handler
     */
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, resultHandler);
+    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, AsyncFile binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback, resultHandler);
     }
 
     /**
@@ -424,21 +424,21 @@ public class FakeApi {
     * @param _double None (required)
     * @param patternWithoutDelimiter None (required)
     * @param _byte None (required)
-    * @param integer None (optional)
+    * @param _integer None (optional)
     * @param int32 None (optional)
     * @param int64 None (optional)
     * @param _float None (optional)
-    * @param string None (optional)
+    * @param _string None (optional)
     * @param binary None (optional)
-    * @param date None (optional)
-    * @param dateTime None (optional)
+    * @param _date None (optional)
+    * @param _dateTime None (optional)
     * @param password None (optional)
     * @param paramCallback None (optional)
     * @param authInfo call specific auth overrides
     * @param resultHandler Asynchronous result handler
     */
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, authInfo, resultHandler);
+    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, AsyncFile binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback, authInfo, resultHandler);
     }
 
     /**
@@ -448,21 +448,21 @@ public class FakeApi {
     * @param _double None (required)
     * @param patternWithoutDelimiter None (required)
     * @param _byte None (required)
-    * @param integer None (optional)
+    * @param _integer None (optional)
     * @param int32 None (optional)
     * @param int64 None (optional)
     * @param _float None (optional)
-    * @param string None (optional)
+    * @param _string None (optional)
     * @param binary None (optional)
-    * @param date None (optional)
-    * @param dateTime None (optional)
+    * @param _date None (optional)
+    * @param _dateTime None (optional)
     * @param password None (optional)
     * @param paramCallback None (optional)
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Void> rxTestEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) {
+    public Single<Void> rxTestEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, AsyncFile binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, fut)
+            delegate.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback, fut)
         ));
     }
 
@@ -473,22 +473,22 @@ public class FakeApi {
     * @param _double None (required)
     * @param patternWithoutDelimiter None (required)
     * @param _byte None (required)
-    * @param integer None (optional)
+    * @param _integer None (optional)
     * @param int32 None (optional)
     * @param int64 None (optional)
     * @param _float None (optional)
-    * @param string None (optional)
+    * @param _string None (optional)
     * @param binary None (optional)
-    * @param date None (optional)
-    * @param dateTime None (optional)
+    * @param _date None (optional)
+    * @param _dateTime None (optional)
     * @param password None (optional)
     * @param paramCallback None (optional)
     * @param authInfo call specific auth overrides
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Void> rxTestEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, ApiClient.AuthInfo authInfo) {
+    public Single<Void> rxTestEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer _integer, Integer int32, Long int64, Float _float, String _string, AsyncFile binary, LocalDate _date, OffsetDateTime _dateTime, String password, String paramCallback, ApiClient.AuthInfo authInfo) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, authInfo, fut)
+            delegate.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, _integer, int32, int64, _float, _string, binary, _date, _dateTime, password, paramCallback, authInfo, fut)
         ));
     }
     /**

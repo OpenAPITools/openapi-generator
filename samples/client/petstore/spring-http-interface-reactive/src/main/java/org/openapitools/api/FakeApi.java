@@ -187,14 +187,14 @@ public interface FakeApi {
      * @param _double None (required)
      * @param patternWithoutDelimiter None (required)
      * @param _byte None (required)
-     * @param integer None (optional)
+     * @param _integer None (optional)
      * @param int32 None (optional)
      * @param int64 None (optional)
      * @param _float None (optional)
-     * @param string None (optional)
+     * @param _string None (optional)
      * @param binary None (optional)
-     * @param date None (optional)
-     * @param dateTime None (optional)
+     * @param _date None (optional)
+     * @param _dateTime None (optional)
      * @param password None (optional)
      * @param paramCallback None (optional)
      * @return Invalid username supplied (status code 400)
@@ -211,14 +211,14 @@ public interface FakeApi {
          @RequestPart(value = "double", required = true) Double _double,
          @RequestPart(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
          @RequestPart(value = "byte", required = true) byte[] _byte,
-         @RequestPart(value = "integer", required = false) Integer integer,
+         @RequestPart(value = "integer", required = false) Integer _integer,
          @RequestPart(value = "int32", required = false) Integer int32,
          @RequestPart(value = "int64", required = false) Long int64,
          @RequestPart(value = "float", required = false) Float _float,
-         @RequestPart(value = "string", required = false) String string,
+         @RequestPart(value = "string", required = false) String _string,
          @RequestPart(value = "binary", required = false) Flux<Part> binary,
-         @RequestPart(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-         @RequestPart(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
+         @RequestPart(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate _date,
+         @RequestPart(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime _dateTime,
          @RequestPart(value = "password", required = false) String password,
          @RequestPart(value = "callback", required = false) String paramCallback
     );

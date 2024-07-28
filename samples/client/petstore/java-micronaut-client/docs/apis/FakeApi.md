@@ -247,7 +247,7 @@ To test \&quot;client\&quot; model
 <a id="testEndpointParameters"></a>
 # **testEndpointParameters**
 ```java
-Mono<Void> FakeApi.testEndpointParameters(number_doublepatternWithoutDelimiter_byteintegerint32int64_floatstringbinarydatedateTimepasswordparamCallback)
+Mono<Void> FakeApi.testEndpointParameters(number_doublepatternWithoutDelimiter_byte_integerint32int64_float_stringbinary_date_dateTimepasswordparamCallback)
 ```
 
 Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -261,14 +261,14 @@ Fake endpoint for testing various parameters  假端點  偽のエンドポイ�
 | **_double** | `Double`| None | |
 | **patternWithoutDelimiter** | `String`| None | |
 | **_byte** | `byte[]`| None | |
-| **integer** | `Integer`| None | [optional parameter] |
+| **_integer** | `Integer`| None | [optional parameter] |
 | **int32** | `Integer`| None | [optional parameter] |
 | **int64** | `Long`| None | [optional parameter] |
 | **_float** | `Float`| None | [optional parameter] |
-| **string** | `String`| None | [optional parameter] |
+| **_string** | `String`| None | [optional parameter] |
 | **binary** | `File`| None | [optional parameter] |
-| **date** | `LocalDate`| None | [optional parameter] |
-| **dateTime** | `OffsetDateTime`| None | [optional parameter] |
+| **_date** | `LocalDate`| None | [optional parameter] |
+| **_dateTime** | `OffsetDateTime`| None | [optional parameter] |
 | **password** | `String`| None | [optional parameter] |
 | **paramCallback** | `String`| None | [optional parameter] |
 

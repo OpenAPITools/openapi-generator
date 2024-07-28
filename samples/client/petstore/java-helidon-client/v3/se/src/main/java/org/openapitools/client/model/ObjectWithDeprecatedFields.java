@@ -28,7 +28,7 @@ import org.openapitools.client.model.DeprecatedObject;
 
 public class ObjectWithDeprecatedFields  {
   
-  private String uuid;
+  private String _uuid;
 
   private BigDecimal id;
 
@@ -37,22 +37,22 @@ public class ObjectWithDeprecatedFields  {
   private List<String> bars = null;
 
  /**
-   * Get uuid
-   * @return uuid
+   * Get _uuid
+   * @return _uuid
   **/
   public String getUuid() {
-    return uuid;
+    return _uuid;
   }
 
   /**
-    * Set uuid
+    * Set _uuid
   **/
-  public void setUuid(String uuid) {
-    this.uuid = uuid;
+  public void setUuid(String _uuid) {
+    this._uuid = _uuid;
   }
 
-  public ObjectWithDeprecatedFields uuid(String uuid) {
-    this.uuid = uuid;
+  public ObjectWithDeprecatedFields _uuid(String _uuid) {
+    this._uuid = _uuid;
     return this;
   }
 
@@ -136,7 +136,7 @@ public class ObjectWithDeprecatedFields  {
     StringBuilder sb = new StringBuilder();
     sb.append("class ObjectWithDeprecatedFields {\n");
     
-    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
+    sb.append("    _uuid: ").append(toIndentedString(_uuid)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    deprecatedRef: ").append(toIndentedString(deprecatedRef)).append("\n");
     sb.append("    bars: ").append(toIndentedString(bars)).append("\n");

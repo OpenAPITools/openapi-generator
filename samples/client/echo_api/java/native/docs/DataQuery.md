@@ -9,7 +9,7 @@
 |------------ | ------------- | ------------- | -------------|
 |**suffix** | **String** | test suffix |  [optional] |
 |**text** | **String** | Some text containing white spaces |  [optional] |
-|**date** | **Instant** | A date |  [optional] |
+|**_date** | **Instant** | A date |  [optional] |
 
 
 

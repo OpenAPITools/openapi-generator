@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 public class FooGetDefaultResponse {
   public static final String JSON_PROPERTY_STRING = "string";
-  private Foo string;
+  private Foo _string;
 
   public FooGetDefaultResponse() {
   }
@@ -42,33 +42,33 @@ public class FooGetDefaultResponse {
   /**
    * Constructor with all args parameters
    */
-  public FooGetDefaultResponse(@JsonProperty(JSON_PROPERTY_STRING) Foo string) {
-    this.string = string;
+  public FooGetDefaultResponse(@JsonProperty(JSON_PROPERTY_STRING) Foo _string) {
+    this._string = _string;
   }
 
-  public FooGetDefaultResponse string(Foo string) {
+  public FooGetDefaultResponse _string(Foo _string) {
     
-    this.string = string;
+    this._string = _string;
     return this;
   }
 
   /**
-   * Get string
-   * @return string
+   * Get _string
+   * @return _string
    */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Foo getString() {
-    return string;
+    return _string;
   }
 
 
   @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setString(Foo string) {
-    this.string = string;
+  public void setString(Foo _string) {
+    this._string = _string;
   }
 
   @Override
@@ -80,19 +80,19 @@ public class FooGetDefaultResponse {
       return false;
     }
     FooGetDefaultResponse fooGetDefaultResponse = (FooGetDefaultResponse) o;
-    return Objects.equals(this.string, fooGetDefaultResponse.string);
+    return Objects.equals(this._string, fooGetDefaultResponse._string);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(string);
+    return Objects.hash(_string);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class FooGetDefaultResponse {\n");
-    sb.append("    string: ").append(toIndentedString(string)).append("\n");
+    sb.append("    _string: ").append(toIndentedString(_string)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -120,8 +120,8 @@ public class FooGetDefaultResponse {
       this.instance = instance;
     }
 
-    public FooGetDefaultResponse.Builder string(Foo string) {
-      this.instance.string = string;
+    public FooGetDefaultResponse.Builder _string(Foo _string) {
+      this.instance._string = _string;
       return this;
     }
 
@@ -158,7 +158,7 @@ public class FooGetDefaultResponse {
   */
   public FooGetDefaultResponse.Builder toBuilder() {
     return new FooGetDefaultResponse.Builder()
-      .string(getString());
+      ._string(getString());
   }
 
 

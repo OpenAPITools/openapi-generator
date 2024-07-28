@@ -9,7 +9,7 @@ import jakarta.validation.Valid;
 
 public class FooGetDefaultResponse   {
 
-    private Foo string;
+    private Foo _string;
 
     /**
      * Default constructor.
@@ -21,26 +21,26 @@ public class FooGetDefaultResponse   {
     /**
      * Create FooGetDefaultResponse.
      *
-     * @param string string
+     * @param _string _string
      */
     public FooGetDefaultResponse(
-        Foo string
+        Foo _string
     ) {
-        this.string = string;
+        this._string = _string;
     }
 
 
 
     /**
-     * Get string
-     * @return string
+     * Get _string
+     * @return _string
      */
     public Foo getString() {
-        return string;
+        return _string;
     }
 
-    public void setString(Foo string) {
-        this.string = string;
+    public void setString(Foo _string) {
+        this._string = _string;
     }
 
     /**
@@ -51,7 +51,7 @@ public class FooGetDefaultResponse   {
         StringBuilder sb = new StringBuilder();
         sb.append("class FooGetDefaultResponse {\n");
         
-        sb.append("    string: ").append(toIndentedString(string)).append("\n");
+        sb.append("    _string: ").append(toIndentedString(_string)).append("\n");
         sb.append("}");
         return sb.toString();
     }

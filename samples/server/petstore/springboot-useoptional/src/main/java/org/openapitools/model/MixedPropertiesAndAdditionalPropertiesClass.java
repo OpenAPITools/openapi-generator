@@ -28,80 +28,80 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass {
 
-  private Optional<UUID> uuid = Optional.empty();
+  private Optional<UUID> _uuid = Optional.empty();
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private Optional<OffsetDateTime> dateTime = Optional.empty();
+  private Optional<OffsetDateTime> _dateTime = Optional.empty();
 
   @Valid
-  private Map<String, Animal> map = new HashMap<>();
+  private Map<String, Animal> _map = new HashMap<>();
 
-  public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
-    this.uuid = Optional.of(uuid);
+  public MixedPropertiesAndAdditionalPropertiesClass _uuid(UUID _uuid) {
+    this._uuid = Optional.of(_uuid);
     return this;
   }
 
   /**
-   * Get uuid
-   * @return uuid
+   * Get _uuid
+   * @return _uuid
    */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("uuid")
   public Optional<UUID> getUuid() {
-    return uuid;
+    return _uuid;
   }
 
-  public void setUuid(Optional<UUID> uuid) {
-    this.uuid = uuid;
+  public void setUuid(Optional<UUID> _uuid) {
+    this._uuid = _uuid;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
-    this.dateTime = Optional.of(dateTime);
+  public MixedPropertiesAndAdditionalPropertiesClass _dateTime(OffsetDateTime _dateTime) {
+    this._dateTime = Optional.of(_dateTime);
     return this;
   }
 
   /**
-   * Get dateTime
-   * @return dateTime
+   * Get _dateTime
+   * @return _dateTime
    */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
   public Optional<OffsetDateTime> getDateTime() {
-    return dateTime;
+    return _dateTime;
   }
 
-  public void setDateTime(Optional<OffsetDateTime> dateTime) {
-    this.dateTime = dateTime;
+  public void setDateTime(Optional<OffsetDateTime> _dateTime) {
+    this._dateTime = _dateTime;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
-    this.map = map;
+  public MixedPropertiesAndAdditionalPropertiesClass _map(Map<String, Animal> _map) {
+    this._map = _map;
     return this;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
-    if (this.map == null) {
-      this.map = new HashMap<>();
+  public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal _mapItem) {
+    if (this._map == null) {
+      this._map = new HashMap<>();
     }
-    this.map.put(key, mapItem);
+    this._map.put(key, _mapItem);
     return this;
   }
 
   /**
-   * Get map
-   * @return map
+   * Get _map
+   * @return _map
    */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("map")
   public Map<String, Animal> getMap() {
-    return map;
+    return _map;
   }
 
-  public void setMap(Map<String, Animal> map) {
-    this.map = map;
+  public void setMap(Map<String, Animal> _map) {
+    this._map = _map;
   }
 
   @Override
@@ -113,23 +113,23 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
       return false;
     }
     MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass = (MixedPropertiesAndAdditionalPropertiesClass) o;
-    return Objects.equals(this.uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
-        Objects.equals(this.dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
-        Objects.equals(this.map, mixedPropertiesAndAdditionalPropertiesClass.map);
+    return Objects.equals(this._uuid, mixedPropertiesAndAdditionalPropertiesClass._uuid) &&
+        Objects.equals(this._dateTime, mixedPropertiesAndAdditionalPropertiesClass._dateTime) &&
+        Objects.equals(this._map, mixedPropertiesAndAdditionalPropertiesClass._map);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(uuid, dateTime, map);
+    return Objects.hash(_uuid, _dateTime, _map);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class MixedPropertiesAndAdditionalPropertiesClass {\n");
-    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
-    sb.append("    map: ").append(toIndentedString(map)).append("\n");
+    sb.append("    _uuid: ").append(toIndentedString(_uuid)).append("\n");
+    sb.append("    _dateTime: ").append(toIndentedString(_dateTime)).append("\n");
+    sb.append("    _map: ").append(toIndentedString(_map)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -158,24 +158,24 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     }
 
     protected Builder copyOf(MixedPropertiesAndAdditionalPropertiesClass value) { 
-      this.instance.setUuid(value.uuid);
-      this.instance.setDateTime(value.dateTime);
-      this.instance.setMap(value.map);
+      this.instance.setUuid(value._uuid);
+      this.instance.setDateTime(value._dateTime);
+      this.instance.setMap(value._map);
       return this;
     }
 
-    public MixedPropertiesAndAdditionalPropertiesClass.Builder uuid(UUID uuid) {
-      this.instance.uuid(uuid);
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder _uuid(UUID _uuid) {
+      this.instance._uuid(_uuid);
       return this;
     }
     
-    public MixedPropertiesAndAdditionalPropertiesClass.Builder dateTime(OffsetDateTime dateTime) {
-      this.instance.dateTime(dateTime);
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder _dateTime(OffsetDateTime _dateTime) {
+      this.instance._dateTime(_dateTime);
       return this;
     }
     
-    public MixedPropertiesAndAdditionalPropertiesClass.Builder map(Map<String, Animal> map) {
-      this.instance.map(map);
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder _map(Map<String, Animal> _map) {
+      this.instance._map(_map);
       return this;
     }
     

@@ -159,14 +159,14 @@ public interface FakeApi {
      * @param _double None
      * @param patternWithoutDelimiter None
      * @param _byte None
-     * @param integer None
+     * @param _integer None
      * @param int32 None
      * @param int64 None
      * @param _float None
-     * @param string None
+     * @param _string None
      * @param binary None
-     * @param date None
-     * @param dateTime None
+     * @param _date None
+     * @param _dateTime None
      * @param password None
      * @param paramCallback None
      * @return Invalid username supplied
@@ -181,7 +181,7 @@ public interface FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
-    Response testEndpointParameters(@FormParam(value = "number")  BigDecimal number,@FormParam(value = "double")  Double _double,@FormParam(value = "pattern_without_delimiter")  String patternWithoutDelimiter,@FormParam(value = "byte")  byte[] _byte,@FormParam(value = "integer")  Integer integer,@FormParam(value = "int32")  Integer int32,@FormParam(value = "int64")  Long int64,@FormParam(value = "float")  Float _float,@FormParam(value = "string")  String string, @FormParam(value = "binary") InputStream binaryInputStream,@FormParam(value = "date")  LocalDate date,@FormParam(value = "dateTime")  Date dateTime,@FormParam(value = "password")  String password,@FormParam(value = "callback")  String paramCallback);
+    Response testEndpointParameters(@FormParam(value = "number")  BigDecimal number,@FormParam(value = "double")  Double _double,@FormParam(value = "pattern_without_delimiter")  String patternWithoutDelimiter,@FormParam(value = "byte")  byte[] _byte,@FormParam(value = "integer")  Integer _integer,@FormParam(value = "int32")  Integer int32,@FormParam(value = "int64")  Long int64,@FormParam(value = "float")  Float _float,@FormParam(value = "string")  String _string, @FormParam(value = "binary") InputStream binaryInputStream,@FormParam(value = "date")  LocalDate _date,@FormParam(value = "dateTime")  Date _dateTime,@FormParam(value = "password")  String password,@FormParam(value = "callback")  String paramCallback);
 
 
     /**

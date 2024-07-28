@@ -228,7 +228,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         setReservedWordsLowerCase(
                 Arrays.asList(
                         // special words
-                        "object", "list", "file",
+                        "list", "file",
                         // used as internal variables, can collide with parameter names
                         "localVarPath", "localVarQueryParams", "localVarCollectionQueryParams",
                         "localVarHeaderParams", "localVarCookieParams", "localVarFormParams", "localVarPostBody",
@@ -238,12 +238,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
                         // language reserved words
                         "_", "abstract", "continue", "for", "new", "switch", "assert",
-                        "default", "if", "package", "synchronized", "boolean", "do", "goto", "private",
-                        "this", "break", "double", "implements", "protected", "throw", "byte", "else",
+                        "default", "if", "package", "synchronized", "do", "goto", "private",
+                        "this", "break", "implements", "protected", "throw", "byte", "else",
                         "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
                         "catch", "extends", "int", "short", "try", "char", "final", "interface", "static",
-                        "void", "class", "finally", "long", "strictfp", "volatile", "const", "float",
-                        "native", "super", "while", "null", "offsetdatetime", "localdate", "localtime")
+                        "void", "class", "finally", "strictfp", "volatile", "const",
+                        "native", "super", "while", "null")
         );
 
         languageSpecificPrimitives = Sets.newHashSet("String",
@@ -280,6 +280,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("LocalDateTime", "org.joda.time.*");
         importMapping.put("LocalDate", "org.joda.time.*");
         importMapping.put("LocalTime", "org.joda.time.*");
+
+        updateReservedWords();
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
@@ -628,6 +630,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             additionalProperties.put("legacyDates", "true");
         }
 
+        updateReservedWords();
+
         convertPropertyToStringAndWriteBack(TEST_OUTPUT, this::setOutputTestFolder);
         convertPropertyToBooleanAndWriteBack(USE_JAKARTA_EE, this::setUseJakartaEe);
         if (useJakartaEe) {
@@ -793,6 +797,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     protected void applyJakartaPackage() {
         writePropertyBack(JAVAX_PACKAGE, "jakarta");
+    }
+
+    protected void updateReservedWords() {
+        final List<String> newReservedWords = new ArrayList<>(reservedWords());
+        newReservedWords.addAll(importMapping().keySet());
+        newReservedWords.addAll(languageSpecificPrimitives());
+        setReservedWordsLowerCase(newReservedWords);
     }
 
     @Override

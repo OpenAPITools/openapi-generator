@@ -153,6 +153,7 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
         importMapping.put("ObjectMapper", "com.fasterxml.jackson.databind.ObjectMapper");
         importMapping.put("Jsonb", rootJavaEEPackage() + ".json.bind.Jsonb");
         importMapping.put("JsonbBuilder", rootJavaEEPackage() + ".json.bind.JsonbBuilder");
+        updateReservedWords();
 
         convertPropertyToBooleanAndWriteBack(USE_ABSTRACT_CLASS, value -> useAbstractClass = value);
         convertPropertyToBooleanAndWriteBack(GRADLE_PROJECT, value -> gradleProject = value);
@@ -205,6 +206,7 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
                 importMapping.put("ByteArrayInputStream", "java.io.ByteArrayInputStream");
             }
             importMapping.put("Handler", "io.helidon.webserver.Handler");
+            updateReservedWords();
             processSupportingFiles(modifiable, unmodifiable);
         } else {
             LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
