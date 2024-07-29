@@ -22,6 +22,7 @@ var _ MappedNullable = &Foo{}
 // Foo struct for Foo
 type Foo struct {
 	Bar string `json:"bar"`
+	Baz Baz `json:"baz"`
 	Map *map[string][]time.Time `json:"map,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
@@ -32,9 +33,10 @@ type _Foo Foo
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewFoo(bar string) *Foo {
+func NewFoo(bar string, baz Baz) *Foo {
 	this := Foo{}
 	this.Bar = bar
+	this.Baz = baz
 	return &this
 }
 
@@ -45,6 +47,8 @@ func NewFooWithDefaults() *Foo {
 	this := Foo{}
 	var bar string = "bar"
 	this.Bar = bar
+	var baz Baz = BAZ_VALUE1
+	this.Baz = baz
 	return &this
 }
 
@@ -70,6 +74,42 @@ func (o *Foo) GetBarOk() (*string, bool) {
 // SetBar sets field value
 func (o *Foo) SetBar(v string) {
 	o.Bar = v
+}
+// GetDefaultbar function assigns the default value &quot;bar&quot; to the Bar field
+// of the Foo struct and returns the "bar".
+func (o *Foo) GetDefaultbar() interface{}  {
+	o.Bar = "bar"
+	return "bar"
+}
+
+// GetBaz returns the Baz field value
+func (o *Foo) GetBaz() Baz {
+	if o == nil {
+		var ret Baz
+		return ret
+	}
+
+	return o.Baz
+}
+
+// GetBazOk returns a tuple with the Baz field value
+// and a boolean to check if the value has been set.
+func (o *Foo) GetBazOk() (*Baz, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Baz, true
+}
+
+// SetBaz sets field value
+func (o *Foo) SetBaz(v Baz) {
+	o.Baz = v
+}
+// GetDefaultbaz function assigns the default value BAZ_VALUE1 to the Baz field
+// of the Foo struct and returns the BAZ_VALUE1.
+func (o *Foo) GetDefaultbaz() interface{}  {
+	o.Baz = BAZ_VALUE1
+	return BAZ_VALUE1
 }
 
 // GetMap returns the Map field value if set, zero value otherwise.
@@ -114,7 +154,14 @@ func (o Foo) MarshalJSON() ([]byte, error) {
 
 func (o Foo) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if _, exists := toSerialize["bar"]; !exists {
+		toSerialize["bar"] = o.GetDefaultbar()
+	}
 	toSerialize["bar"] = o.Bar
+	if _, exists := toSerialize["baz"]; !exists {
+		toSerialize["baz"] = o.GetDefaultbaz()
+	}
+	toSerialize["baz"] = o.Baz
 	if !IsNil(o.Map) {
 		toSerialize["map"] = o.Map
 	}
@@ -132,8 +179,16 @@ func (o *Foo) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"bar",
+		"baz",
 	}
 
+	// defaultValueFuncMap captures the default values for required properties.
+	// These values are used when required properties are missing from the payload.
+	defaultValueFuncMap := map[string]func() interface{} {
+		"bar": o.GetDefaultbar,
+		"baz": o.GetDefaultbaz,
+	}
+	var defaultValueApplied bool
 	allProperties := make(map[string]interface{})
 
 	err = json.Unmarshal(data, &allProperties)
@@ -143,11 +198,23 @@ func (o *Foo) UnmarshalJSON(data []byte) (err error) {
 	}
 
 	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
+		if value, exists := allProperties[requiredProperty]; !exists || value == "" {
+			if _, ok := defaultValueFuncMap[requiredProperty]; ok {
+				allProperties[requiredProperty] = defaultValueFuncMap[requiredProperty]()
+				defaultValueApplied = true
+			}
+		}
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
 	}
 
+	if defaultValueApplied {
+		data, err = json.Marshal(allProperties)
+		if err != nil{
+			return err
+		}
+	}
 	varFoo := _Foo{}
 
 	err = json.Unmarshal(data, &varFoo)
@@ -162,6 +229,7 @@ func (o *Foo) UnmarshalJSON(data []byte) (err error) {
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "bar")
+		delete(additionalProperties, "baz")
 		delete(additionalProperties, "map")
 		o.AdditionalProperties = additionalProperties
 	}

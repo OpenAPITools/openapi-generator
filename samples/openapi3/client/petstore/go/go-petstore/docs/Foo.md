@@ -5,13 +5,14 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Bar** | **string** |  | [default to "bar"]
+**Baz** | [**Baz**](Baz.md) |  | [default to BAZ_VALUE1]
 **Map** | Pointer to [**map[string][]time.Time**](array.md) |  | [optional] 
 
 ## Methods
 
 ### NewFoo
 
-`func NewFoo(bar string, ) *Foo`
+`func NewFoo(bar string, baz Baz, ) *Foo`
 
 NewFoo instantiates a new Foo object
 This constructor will assign default values to properties that have it defined,
@@ -44,6 +45,26 @@ and a boolean to check if the value has been set.
 `func (o *Foo) SetBar(v string)`
 
 SetBar sets Bar field to given value.
+
+
+### GetBaz
+
+`func (o *Foo) GetBaz() Baz`
+
+GetBaz returns the Baz field if non-nil, zero value otherwise.
+
+### GetBazOk
+
+`func (o *Foo) GetBazOk() (*Baz, bool)`
+
+GetBazOk returns a tuple with the Baz field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetBaz
+
+`func (o *Foo) SetBaz(v Baz)`
+
+SetBaz sets Baz field to given value.
 
 
 ### GetMap
