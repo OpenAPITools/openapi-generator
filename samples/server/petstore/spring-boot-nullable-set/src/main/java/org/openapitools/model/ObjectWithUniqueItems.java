@@ -67,7 +67,7 @@ public class ObjectWithUniqueItems {
    * @return nullSet
   */
   
-  @Schema(name = "nullSet", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "nullSet", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullSet")
   public JsonNullable<Set<String>> getNullSet() {
     return nullSet;
@@ -124,7 +124,7 @@ public class ObjectWithUniqueItems {
    * @return nullList
   */
   
-  @Schema(name = "nullList", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "nullList", requiredMode = Schema.RequiredMode.NOT_REQUIRED, nullable = true)
   @JsonProperty("nullList")
   public JsonNullable<List<String>> getNullList() {
     return nullList;
