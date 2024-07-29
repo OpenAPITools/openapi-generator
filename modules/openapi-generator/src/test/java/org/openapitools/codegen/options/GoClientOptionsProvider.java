@@ -65,6 +65,7 @@ public class GoClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.GENERATE_UNMARSHAL_JSON, "true")
                 .put("generateInterfaces", "true")
                 .put("structPrefix", "true")
+                .put(CodegenConstants.USE_DEFAULT_VALUES_FOR_REQUIRED_VARS, "true")
                 .build();
     }
 
