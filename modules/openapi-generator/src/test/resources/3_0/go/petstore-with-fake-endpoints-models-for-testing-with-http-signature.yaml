@@ -1386,22 +1386,14 @@ components:
       type: object
       required:
         - bar
-        - baz
       properties:
         bar:
           $ref: '#/components/schemas/Bar'
-        baz:
-          $ref: '#/components/schemas/Baz'
         map:
           $ref: '#/components/schemas/MapWithDateTime'
     Bar:
       type: string
       default: bar
-    Baz:
-      type: string
-      enum:
-        - value1
-      default: value1
     Order:
       type: object
       properties:

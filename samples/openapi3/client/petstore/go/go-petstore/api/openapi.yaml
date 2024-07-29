@@ -1288,7 +1288,6 @@ components:
     Foo:
       example:
         bar: bar
-        baz: value1
         map:
           key:
           - 2000-01-23T04:56:07.000+00:00
@@ -1297,8 +1296,6 @@ components:
         bar:
           default: bar
           type: string
-        baz:
-          $ref: '#/components/schemas/Baz'
         map:
           additionalProperties:
             items:
@@ -1308,15 +1305,9 @@ components:
           type: object
       required:
       - bar
-      - baz
       type: object
     Bar:
       default: bar
-      type: string
-    Baz:
-      default: value1
-      enum:
-      - value1
       type: string
     Order:
       example:
@@ -2211,7 +2202,6 @@ components:
       example:
         string:
           bar: bar
-          baz: value1
           map:
             key:
             - 2000-01-23T04:56:07.000+00:00

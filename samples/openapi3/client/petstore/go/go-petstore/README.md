@@ -140,7 +140,6 @@ Class | Method | HTTP request | Description
  - [ArrayTest](docs/ArrayTest.md)
  - [Banana](docs/Banana.md)
  - [BananaReq](docs/BananaReq.md)
- - [Baz](docs/Baz.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
  - [Category](docs/Category.md)

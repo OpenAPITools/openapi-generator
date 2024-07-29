@@ -24,7 +24,6 @@ docs/ArrayOfNumberOnly.md
 docs/ArrayTest.md
 docs/Banana.md
 docs/BananaReq.md
-docs/Baz.md
 docs/Capitalization.md
 docs/Cat.md
 docs/Category.md
@@ -104,7 +103,6 @@ model_array_of_number_only.go
 model_array_test_.go
 model_banana.go
 model_banana_req.go
-model_baz.go
 model_capitalization.go
 model_cat.go
 model_category.go
