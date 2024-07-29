@@ -278,9 +278,9 @@
                 <version>${rxjava-version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.akarnokd</groupId>
-                <artifactId>rxjava3-retrofit-adapter</artifactId>
-                <version>3.0.0</version>
+                <groupId>com.squareup.retrofit2</groupId>
+                <artifactId>adapter-rxjava3</artifactId>
+                <version>${retrofit-version}</version>
             </dependency>
         {{/useRxJava3}}
         {{#jackson}}
@@ -393,7 +393,7 @@
         {{#usePlayWS}}
         <play-version>2.6.7</play-version>
         {{/usePlayWS}}
-        <retrofit-version>2.5.0</retrofit-version>
+        <retrofit-version>2.11.0</retrofit-version>
         {{#useRxJava2}}
         <rxjava-version>2.1.1</rxjava-version>
         {{/useRxJava2}}

@@ -9,9 +9,9 @@ lazy val root = (project in file(".")).
     publishArtifact in (Compile, packageDoc) := false,
     resolvers += Resolver.mavenLocal,
     libraryDependencies ++= Seq(
-      "com.squareup.retrofit2" % "retrofit" % "2.3.0" % "compile",
-      "com.squareup.retrofit2" % "converter-scalars" % "2.3.0" % "compile",
-      "com.squareup.retrofit2" % "converter-gson" % "2.3.0" % "compile",
+      "com.squareup.retrofit2" % "retrofit" % "2.11.0" % "compile",
+      "com.squareup.retrofit2" % "converter-scalars" % "2.11.0" % "compile",
+      "com.squareup.retrofit2" % "converter-gson" % "2.11.0" % "compile",
       "io.swagger" % "swagger-annotations" % "1.5.21" % "compile",
       "org.apache.oltu.oauth2" % "org.apache.oltu.oauth2.client" % "1.0.1" % "compile",
       "io.gsonfire" % "gson-fire" % "1.9.0" % "compile",
