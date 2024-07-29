@@ -51,7 +51,6 @@ public class ModelApiResponse {
   @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("code")
   @JacksonXmlProperty(localName = "code")
-  @XmlElement(name = "code")
   public Integer getCode() {
     return code;
   }
@@ -73,7 +72,6 @@ public class ModelApiResponse {
   @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("type")
   @JacksonXmlProperty(localName = "type")
-  @XmlElement(name = "type")
   public String getType() {
     return type;
   }
@@ -95,7 +93,6 @@ public class ModelApiResponse {
   @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("message")
   @JacksonXmlProperty(localName = "message")
-  @XmlElement(name = "message")
   public String getMessage() {
     return message;
   }
