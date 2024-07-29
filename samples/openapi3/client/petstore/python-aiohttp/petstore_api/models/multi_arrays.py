@@ -17,20 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.file import File
+from petstore_api.models.tag import Tag
 from typing import Optional, Set
 from typing_extensions import Self
 
-class FileSchemaTestClass(BaseModel):
+class MultiArrays(BaseModel):
     """
-    FileSchemaTestClass
+    MultiArrays
     """ # noqa: E501
-    file: Optional[File] = None
-    files: Optional[List[File]] = None
-    additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["file", "files"]
+    tags: Optional[List[Tag]] = None
+    files: Optional[List[File]] = Field(default=None, description="Another array of objects in addition to tags (mypy check to not to reuse the same iterator)")
+    __properties: ClassVar[List[str]] = ["tags", "files"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -50,7 +50,7 @@ class FileSchemaTestClass(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of FileSchemaTestClass from a JSON string"""
+        """Create an instance of MultiArrays from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -62,10 +62,8 @@ class FileSchemaTestClass(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
-        * Fields in `self.additional_properties` are added to the output dict.
         """
         excluded_fields: Set[str] = set([
-            "additional_properties",
         ])
 
         _dict = self.model_dump(
@@ -73,9 +71,13 @@ class FileSchemaTestClass(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of file
-        if self.file:
-            _dict['file'] = self.file.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in tags (list)
+        _items = []
+        if self.tags:
+            for _item_tags in self.tags:
+                if _item_tags:
+                    _items.append(_item_tags.to_dict())
+            _dict['tags'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in files (list)
         _items = []
         if self.files:
@@ -83,16 +85,11 @@ class FileSchemaTestClass(BaseModel):
                 if _item_files:
                     _items.append(_item_files.to_dict())
             _dict['files'] = _items
-        # puts key-value pairs in additional_properties in the top level
-        if self.additional_properties is not None:
-            for _key, _value in self.additional_properties.items():
-                _dict[_key] = _value
-
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of FileSchemaTestClass from a dict"""
+        """Create an instance of MultiArrays from a dict"""
         if obj is None:
             return None
 
@@ -100,14 +97,9 @@ class FileSchemaTestClass(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "file": File.from_dict(obj["file"]) if obj.get("file") is not None else None,
+            "tags": [Tag.from_dict(_item) for _item in obj["tags"]] if obj.get("tags") is not None else None,
             "files": [File.from_dict(_item) for _item in obj["files"]] if obj.get("files") is not None else None
         })
-        # store additional fields in additional_properties
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                _obj.additional_properties[_key] = obj.get(_key)
-
         return _obj
 
 

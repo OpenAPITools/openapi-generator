@@ -2253,6 +2253,18 @@ components:
             enum:
               - fish
               - crab
+    MultiArrays:
+      type: object
+      properties:
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        files:
+          type: array
+          description: Another array of objects in addition to tags (mypy check to not to reuse the same iterator)
+          items:
+            $ref: '#/components/schemas/File'
     FreeFormObject:
       type: object
       description: A schema consisting only of additional properties
