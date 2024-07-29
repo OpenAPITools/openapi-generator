@@ -60,6 +60,7 @@ Class | Method | HTTP request | Description
  - [Category](docs/Category.md)
  - [EnumArrayTesting](docs/EnumArrayTesting.md)
  - [NullableArray](docs/NullableArray.md)
+ - [NumericEnumTesting](docs/NumericEnumTesting.md)
  - [OptionalTesting](docs/OptionalTesting.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)

@@ -2,6 +2,7 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonValue
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
@@ -18,10 +19,18 @@ import io.swagger.v3.oas.annotations.media.Schema
 * additional field as Enum
 * Values: ALLOWED,IN_PROGRESS,REJECTED
 */
-enum class MultipartMixedStatus(val value: kotlin.String) {
+enum class MultipartMixedStatus(@get:JsonValue val value: kotlin.String) {
 
-    @JsonProperty("ALLOWED") ALLOWED("ALLOWED"),
-    @JsonProperty("IN_PROGRESS") IN_PROGRESS("IN_PROGRESS"),
-    @JsonProperty("REJECTED") REJECTED("REJECTED")
+    ALLOWED("ALLOWED"),
+    IN_PROGRESS("IN_PROGRESS"),
+    REJECTED("REJECTED");
+
+    companion object {
+        @JvmStatic
+        @JsonCreator
+        fun forValue(value: kotlin.String): MultipartMixedStatus {
+                return values().first{it -> it.value == value}
+        }
+    }
 }
 

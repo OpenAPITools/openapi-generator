@@ -7,7 +7,7 @@ import java.util.Optional
 @javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.8.0-SNAPSHOT")
 @Controller
 class PetApiController(
-        @org.springframework.beans.factory.annotation.Autowired(required = false) delegate: PetApiDelegate?
+        delegate: PetApiDelegate?
 ) : PetApi {
     private lateinit var delegate: PetApiDelegate
 

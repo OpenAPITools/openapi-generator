@@ -997,6 +997,26 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                                 case "511":
                                     postProcessResponseCode(response, "NetworkAuthenticationRequired", httpStatusesWithReturn);
                                     break;
+                                case "1xx":
+                                    response.vendorExtensions.put("x-http-status-range", 1);
+                                    postProcessResponseCode(response, "HttpStatusCode1XX", httpStatusesWithReturn);
+                                    break;
+                                case "2xx":
+                                    response.vendorExtensions.put("x-http-status-range", 2);
+                                    postProcessResponseCode(response, "HttpStatusCode2XX", httpStatusesWithReturn);
+                                    break;
+                                case "3xx":
+                                    response.vendorExtensions.put("x-http-status-range", 3);
+                                    postProcessResponseCode(response, "HttpStatusCode3XX", httpStatusesWithReturn);
+                                    break;
+                                case "4xx":
+                                    response.vendorExtensions.put("x-http-status-range", 4);
+                                    postProcessResponseCode(response, "HttpStatusCode4XX", httpStatusesWithReturn);
+                                    break;
+                                case "5xx":
+                                    response.vendorExtensions.put("x-http-status-range", 5);
+                                    postProcessResponseCode(response, "HttpStatusCode5XX", httpStatusesWithReturn);
+                                    break;
                                 default:
                                     postProcessResponseCode(response, "CustomHttpStatusCode" + code, httpStatusesWithReturn);
                             }
