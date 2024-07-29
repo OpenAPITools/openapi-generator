@@ -167,13 +167,13 @@ func (o *{{classname}}) Set{{name}}(v {{vendorExtensions.x-go-base-type}}) {
 	o.{{name}} = v
 {{/isNullable}}
 }
+
 {{#useDefaultValuesForRequiredVars}}
 {{^isReadOnly}}
 {{#defaultValue}}
 // GetDefault{{baseName}} function assigns the default value {{defaultValue}} to the {{name}} field
 // of the {{classname}} struct and returns the {{{defaultValue}}}.
 func (o *{{classname}}) GetDefault{{baseName}}() interface{}  {
-	o.{{name}} = {{{defaultValue}}}
 	return {{{defaultValue}}}
 }
 {{/defaultValue}}

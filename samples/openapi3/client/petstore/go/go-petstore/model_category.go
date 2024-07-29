@@ -102,10 +102,10 @@ func (o *Category) GetNameOk() (*string, bool) {
 func (o *Category) SetName(v string) {
 	o.Name = v
 }
+
 // GetDefaultname function assigns the default value &quot;default-name&quot; to the Name field
 // of the Category struct and returns the "default-name".
 func (o *Category) GetDefaultname() interface{}  {
-	o.Name = "default-name"
 	return "default-name"
 }
 

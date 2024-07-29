@@ -182,6 +182,7 @@ func (o *FormatTest) SetNumber(v float32) {
 	o.Number = v
 }
 
+
 // GetFloat returns the Float field value if set, zero value otherwise.
 func (o *FormatTest) GetFloat() float32 {
 	if o == nil || IsNil(o.Float) {
@@ -302,6 +303,7 @@ func (o *FormatTest) SetByte(v string) {
 	o.Byte = v
 }
 
+
 // GetBinary returns the Binary field value if set, zero value otherwise.
 func (o *FormatTest) GetBinary() *os.File {
 	if o == nil || IsNil(o.Binary) {
@@ -357,6 +359,7 @@ func (o *FormatTest) GetDateOk() (*string, bool) {
 func (o *FormatTest) SetDate(v string) {
 	o.Date = v
 }
+
 
 // GetDateTime returns the DateTime field value if set, zero value otherwise.
 func (o *FormatTest) GetDateTime() time.Time {
@@ -445,6 +448,7 @@ func (o *FormatTest) GetPasswordOk() (*string, bool) {
 func (o *FormatTest) SetPassword(v string) {
 	o.Password = v
 }
+
 
 // GetBigDecimal returns the BigDecimal field value if set, zero value otherwise.
 func (o *FormatTest) GetBigDecimal() float64 {

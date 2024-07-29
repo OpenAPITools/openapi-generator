@@ -69,6 +69,7 @@ func (o *NestedObject2) SetField2(v string) {
 	o.Field2 = v
 }
 
+
 func (o NestedObject2) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {

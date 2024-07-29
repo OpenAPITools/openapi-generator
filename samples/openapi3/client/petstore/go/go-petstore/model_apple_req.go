@@ -69,6 +69,7 @@ func (o *AppleReq) SetCultivar(v string) {
 	o.Cultivar = v
 }
 
+
 // GetMealy returns the Mealy field value if set, zero value otherwise.
 func (o *AppleReq) GetMealy() bool {
 	if o == nil || IsNil(o.Mealy) {

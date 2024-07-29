@@ -134,6 +134,7 @@ func (o *Whale) SetClassName(v string) {
 	o.ClassName = v
 }
 
+
 func (o Whale) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {

@@ -69,6 +69,7 @@ func (o *DuplicatedPropParent) SetDupProp(v string) {
 	o.DupProp = v
 }
 
+
 func (o DuplicatedPropParent) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {

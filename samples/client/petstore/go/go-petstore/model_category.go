@@ -103,6 +103,7 @@ func (o *Category) SetName(v string) {
 	o.Name = v
 }
 
+
 func (o Category) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {

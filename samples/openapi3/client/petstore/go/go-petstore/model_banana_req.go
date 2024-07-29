@@ -69,6 +69,7 @@ func (o *BananaReq) SetLengthCm(v float32) {
 	o.LengthCm = v
 }
 
+
 // GetSweet returns the Sweet field value if set, zero value otherwise.
 func (o *BananaReq) GetSweet() bool {
 	if o == nil || IsNil(o.Sweet) {

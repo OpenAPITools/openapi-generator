@@ -101,6 +101,7 @@ func (o *Zebra) SetClassName(v string) {
 	o.ClassName = v
 }
 
+
 func (o Zebra) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
