@@ -39,6 +39,7 @@ public class GoClientOptionsProvider implements OptionsProvider {
     public static final boolean WITH_GO_MOD_VALUE = true;
     public static final boolean GENERATE_MARSHAL_JSON_VALUE = true;
     public static final boolean GENERATE_UNMARSHAL_JSON_VALUE = true;
+    public static final boolean USE_DEFAULT_VALUES_FOR_REQUIRED_VARS_VALUE = true;
 
     @Override
     public String getLanguage() {
