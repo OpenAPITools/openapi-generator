@@ -120,6 +120,8 @@ paths:
                 - sold
               default: available
       responses:
+        '2XX':
+          description: Anything within 200-299
         '200':
           description: successful operation
           content:
@@ -135,6 +137,8 @@ paths:
                   $ref: '#/components/schemas/Pet'
         '400':
           description: Invalid status value
+        '4XX':
+          description: Anything within 400-499
       security:
         - http_signature_test: []
         - petstore_auth:

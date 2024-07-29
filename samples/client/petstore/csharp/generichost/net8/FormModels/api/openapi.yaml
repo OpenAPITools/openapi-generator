@@ -133,6 +133,8 @@ paths:
           type: array
         style: form
       responses:
+        "2XX":
+          description: Anything within 200-299
         "200":
           content:
             application/xml:
@@ -148,6 +150,8 @@ paths:
           description: successful operation
         "400":
           description: Invalid status value
+        "4XX":
+          description: Anything within 400-499
       security:
       - http_signature_test: []
       - petstore_auth:
