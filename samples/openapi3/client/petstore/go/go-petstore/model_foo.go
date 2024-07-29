@@ -74,7 +74,7 @@ func (o *Foo) SetBar(v string) {
 
 // GetDefaultbar function assigns the default value &quot;bar&quot; to the Bar field
 // of the Foo struct and returns the "bar".
-func (o *Foo) GetDefaultbar() interface{}  {
+func (o *Foo) GetDefaultBar() interface{}  {
 	return "bar"
 }
 
@@ -121,7 +121,7 @@ func (o Foo) MarshalJSON() ([]byte, error) {
 func (o Foo) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if _, exists := toSerialize["bar"]; !exists {
-		toSerialize["bar"] = o.GetDefaultbar()
+		toSerialize["bar"] = o.GetDefaultBar()
 	}
 	toSerialize["bar"] = o.Bar
 	if !IsNil(o.Map) {
@@ -146,7 +146,7 @@ func (o *Foo) UnmarshalJSON(data []byte) (err error) {
 	// defaultValueFuncMap captures the default values for required properties.
 	// These values are used when required properties are missing from the payload.
 	defaultValueFuncMap := map[string]func() interface{} {
-		"bar": o.GetDefaultbar,
+		"bar": o.GetDefaultBar,
 	}
 	var defaultValueApplied bool
 	allProperties := make(map[string]interface{})

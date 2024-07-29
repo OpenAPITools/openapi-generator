@@ -105,7 +105,7 @@ func (o *Category) SetName(v string) {
 
 // GetDefaultname function assigns the default value &quot;default-name&quot; to the Name field
 // of the Category struct and returns the "default-name".
-func (o *Category) GetDefaultname() interface{}  {
+func (o *Category) GetDefaultName() interface{}  {
 	return "default-name"
 }
 
@@ -123,7 +123,7 @@ func (o Category) ToMap() (map[string]interface{}, error) {
 		toSerialize["id"] = o.Id
 	}
 	if _, exists := toSerialize["name"]; !exists {
-		toSerialize["name"] = o.GetDefaultname()
+		toSerialize["name"] = o.GetDefaultName()
 	}
 	toSerialize["name"] = o.Name
 
@@ -145,7 +145,7 @@ func (o *Category) UnmarshalJSON(data []byte) (err error) {
 	// defaultValueFuncMap captures the default values for required properties.
 	// These values are used when required properties are missing from the payload.
 	defaultValueFuncMap := map[string]func() interface{} {
-		"name": o.GetDefaultname,
+		"name": o.GetDefaultName,
 	}
 	var defaultValueApplied bool
 	allProperties := make(map[string]interface{})

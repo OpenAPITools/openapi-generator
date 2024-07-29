@@ -173,7 +173,7 @@ func (o *{{classname}}) Set{{name}}(v {{vendorExtensions.x-go-base-type}}) {
 {{#defaultValue}}
 // GetDefault{{baseName}} function assigns the default value {{defaultValue}} to the {{name}} field
 // of the {{classname}} struct and returns the {{{defaultValue}}}.
-func (o *{{classname}}) GetDefault{{baseName}}() interface{}  {
+func (o *{{classname}}) GetDefault{{nameInPascalCase}}() interface{}  {
 	return {{{defaultValue}}}
 }
 {{/defaultValue}}
@@ -334,7 +334,7 @@ func (o {{classname}}) ToMap() (map[string]interface{}, error) {
 	{{^isReadOnly}}
 	{{#defaultValue}}
 	if _, exists := toSerialize["{{{baseName}}}"]; !exists {
-		toSerialize["{{{baseName}}}"] = o.GetDefault{{baseName}}()
+		toSerialize["{{{baseName}}}"] = o.GetDefault{{nameInPascalCase}}()
 	}
 	{{/defaultValue}}
 	{{/isReadOnly}}
@@ -384,7 +384,7 @@ func (o *{{{classname}}}) UnmarshalJSON(data []byte) (err error) {
 {{#requiredVars}}
 {{#defaultValue}}
 {{^isReadOnly}}
-		"{{baseName}}": o.GetDefault{{baseName}},
+		"{{baseName}}": o.GetDefault{{nameInPascalCase}},
 {{/isReadOnly}}
 {{/defaultValue}}
 {{/requiredVars}}
