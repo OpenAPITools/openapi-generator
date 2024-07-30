@@ -146,19 +146,34 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         if (!${{{paramName}}}) {
             throw "Error! The required parameter `{{paramName}}` missing when calling {{operationId}}."
         }
+        {{#isFile}}
+        $LocalVarFormParameters['{{baseName}}'] = $executionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath(${{{paramName}}})
+        {{/isFile}}
+        {{^isFile}}
         $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}}
+        {{/isFile}}
 
         {{/isNullable}}
         {{/required}}
         {{^required}}
         {{^isNullable}}
         if (${{{paramName}}}) {
+        {{#isFile}}
+            $LocalVarFormParameters['{{baseName}}'] = $executionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath(${{{paramName}}})
+        {{/isFile}}
+        {{^isFile}}
             $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}}
+        {{/isFile}}
         }
 
         {{/isNullable}}
         {{#isNullable}}
+        {{#isFile}}
+        $LocalVarFormParameters['{{baseName}}'] = $executionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath(${{{paramName}}})
+        {{/isFile}}
+        {{^isFile}}
         $LocalVarFormParameters['{{baseName}}'] = ${{{paramName}}}
+        {{/isFile}}
 
         {{/isNullable}}
         {{/required}}

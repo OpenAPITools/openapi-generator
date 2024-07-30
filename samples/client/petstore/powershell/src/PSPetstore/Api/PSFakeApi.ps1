@@ -909,7 +909,7 @@ function Test-PSEndpointParameters {
         $LocalVarFormParameters['byte'] = $Byte
 
         if ($Binary) {
-            $LocalVarFormParameters['binary'] = $Binary
+            $LocalVarFormParameters['binary'] = $executionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($Binary)
         }
 
         if ($Date) {
