@@ -171,15 +171,14 @@ func (o *{{classname}}) Set{{name}}(v {{vendorExtensions.x-go-base-type}}) {
 {{#useDefaultValuesForRequiredVars}}
 {{^isReadOnly}}
 {{#defaultValue}}
-// GetDefault{{baseName}} function assigns the default value {{defaultValue}} to the {{name}} field
-// of the {{classname}} struct and returns the {{{defaultValue}}}.
+// GetDefault{{{nameInPascalCase}}} returns the default value {{{defaultValue}}} of the {{{name}}} field.
 func (o *{{classname}}) GetDefault{{nameInPascalCase}}() interface{}  {
 	return {{{defaultValue}}}
 }
 {{/defaultValue}}
 {{/isReadOnly}}
-{{/useDefaultValuesForRequiredVars}}
 
+{{/useDefaultValuesForRequiredVars}}
 {{/required}}
 {{^required}}
 // Get{{name}} returns the {{name}} field value if set, zero value otherwise{{#isNullable}} (both if not set or set to explicit null){{/isNullable}}.
