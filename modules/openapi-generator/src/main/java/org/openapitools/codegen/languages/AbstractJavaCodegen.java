@@ -84,6 +84,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String ADDITIONAL_ENUM_TYPE_ANNOTATIONS = "additionalEnumTypeAnnotations";
     public static final String DISCRIMINATOR_CASE_SENSITIVE = "discriminatorCaseSensitive";
     public static final String OPENAPI_NULLABLE = "openApiNullable";
+    public static final String FAIL_ON_UNKNOWN_PROPERTIES = "failOnUnknownProperties";
     public static final String JACKSON = "jackson";
     public static final String TEST_OUTPUT = "testOutput";
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
@@ -168,6 +169,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Setter protected List<String> additionalEnumTypeAnnotations = new LinkedList<>();
     @Getter @Setter
     protected boolean openApiNullable = true;
+    @Getter @Setter
+    protected boolean failOnUnknownProperties = true;
     @Setter protected String outputTestFolder = "";
     protected DocumentationProvider documentationProvider;
     protected AnnotationLibrary annotationLibrary;
@@ -322,6 +325,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newString(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
         cliOptions.add(CliOption.newString(ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS, "Additional annotations for oneOf interfaces(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
         cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE, "Enable OpenAPI Jackson Nullable library", this.openApiNullable));
+        cliOptions.add(CliOption.newBoolean(FAIL_ON_UNKNOWN_PROPERTIES, "Fail Jackson de-serialization on unknown properties", this.failOnUnknownProperties));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Skip header parameters in the generated API methods using @ApiImplicitParams annotation.", implicitHeaders));
         cliOptions.add(CliOption.newString(IMPLICIT_HEADERS_REGEX, "Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true"));
         cliOptions.add(CliOption.newBoolean(CAMEL_CASE_DOLLAR_SIGN, "Fix camelCase when starting with $ sign. when true : $Value when false : $value"));
@@ -546,6 +550,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         convertPropertyToBooleanAndWriteBack(DISCRIMINATOR_CASE_SENSITIVE, this::setDiscriminatorCaseSensitive);
         convertPropertyToBooleanAndWriteBack(WITH_XML, this::setWithXml);
         convertPropertyToBooleanAndWriteBack(OPENAPI_NULLABLE, this::setOpenApiNullable);
+        convertPropertyToBooleanAndWriteBack(FAIL_ON_UNKNOWN_PROPERTIES, this::setFailOnUnknownProperties);
         convertPropertyToStringAndWriteBack(CodegenConstants.PARENT_GROUP_ID, this::setParentGroupId);
         convertPropertyToStringAndWriteBack(CodegenConstants.PARENT_ARTIFACT_ID, this::setParentArtifactId);
         convertPropertyToStringAndWriteBack(CodegenConstants.PARENT_VERSION, this::setParentVersion);
