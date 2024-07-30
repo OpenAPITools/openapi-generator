@@ -70,6 +70,7 @@ func (o *BaseItem) SetTitle(v string) {
 	o.Title = v
 }
 
+
 // GetType returns the Type field value
 func (o *BaseItem) GetType() string {
 	if o == nil {
@@ -93,6 +94,7 @@ func (o *BaseItem) GetTypeOk() (*string, bool) {
 func (o *BaseItem) SetType(v string) {
 	o.Type = v
 }
+
 
 func (o BaseItem) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()

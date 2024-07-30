@@ -108,6 +108,7 @@ func (o *Pet) SetName(v string) {
 	o.Name = v
 }
 
+
 // GetCategory returns the Category field value if set, zero value otherwise.
 func (o *Pet) GetCategory() Category {
 	if o == nil || IsNil(o.Category) {
@@ -163,6 +164,7 @@ func (o *Pet) GetPhotoUrlsOk() ([]string, bool) {
 func (o *Pet) SetPhotoUrls(v []string) {
 	o.PhotoUrls = v
 }
+
 
 // GetTags returns the Tags field value if set, zero value otherwise.
 func (o *Pet) GetTags() []Tag {

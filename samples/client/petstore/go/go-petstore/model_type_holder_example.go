@@ -78,6 +78,7 @@ func (o *TypeHolderExample) SetStringItem(v string) {
 	o.StringItem = v
 }
 
+
 // GetNumberItem returns the NumberItem field value
 func (o *TypeHolderExample) GetNumberItem() float32 {
 	if o == nil {
@@ -101,6 +102,7 @@ func (o *TypeHolderExample) GetNumberItemOk() (*float32, bool) {
 func (o *TypeHolderExample) SetNumberItem(v float32) {
 	o.NumberItem = v
 }
+
 
 // GetFloatItem returns the FloatItem field value
 func (o *TypeHolderExample) GetFloatItem() float32 {
@@ -126,6 +128,7 @@ func (o *TypeHolderExample) SetFloatItem(v float32) {
 	o.FloatItem = v
 }
 
+
 // GetIntegerItem returns the IntegerItem field value
 func (o *TypeHolderExample) GetIntegerItem() int32 {
 	if o == nil {
@@ -149,6 +152,7 @@ func (o *TypeHolderExample) GetIntegerItemOk() (*int32, bool) {
 func (o *TypeHolderExample) SetIntegerItem(v int32) {
 	o.IntegerItem = v
 }
+
 
 // GetBoolItem returns the BoolItem field value
 func (o *TypeHolderExample) GetBoolItem() bool {
@@ -174,6 +178,7 @@ func (o *TypeHolderExample) SetBoolItem(v bool) {
 	o.BoolItem = v
 }
 
+
 // GetArrayItem returns the ArrayItem field value
 func (o *TypeHolderExample) GetArrayItem() []int32 {
 	if o == nil {
@@ -197,6 +202,7 @@ func (o *TypeHolderExample) GetArrayItemOk() ([]int32, bool) {
 func (o *TypeHolderExample) SetArrayItem(v []int32) {
 	o.ArrayItem = v
 }
+
 
 func (o TypeHolderExample) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()

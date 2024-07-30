@@ -73,6 +73,7 @@ func (o *Animal) SetClassName(v string) {
 	o.ClassName = v
 }
 
+
 // GetColor returns the Color field value if set, zero value otherwise.
 func (o *Animal) GetColor() string {
 	if o == nil || IsNil(o.Color) {

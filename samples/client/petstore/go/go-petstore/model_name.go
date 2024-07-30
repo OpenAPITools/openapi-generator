@@ -71,6 +71,7 @@ func (o *Name) SetName(v int32) {
 	o.Name = v
 }
 
+
 // GetSnakeCase returns the SnakeCase field value if set, zero value otherwise.
 func (o *Name) GetSnakeCase() int32 {
 	if o == nil || IsNil(o.SnakeCase) {
