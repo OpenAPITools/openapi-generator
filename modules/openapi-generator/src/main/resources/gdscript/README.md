@@ -29,9 +29,9 @@ Godot does not have an `Exception` (`try / catch`) mechanism, by design.
 Therefore, whenever there's trouble in paradise, we pass around an `ApiError` object. (a `RefCounted`, don't worry about garbage collection)
 
 
-### AoiResponse
+### ApiResponse
 
-A wrapper for an Api Response, used in callbacks.
+A wrapper for an API Response, used in callbacks.
 Holds the HTTP components of the Response, as well as the deserialized `data` (if any).
 
 
