@@ -74,7 +74,6 @@ func (o *AdditionalData) SetProp1(v string) {
 	o.Prop1 = v
 }
 
-
 // GetQuantity returns the Quantity field value
 func (o *AdditionalData) GetQuantity() int32 {
 	if o == nil {
@@ -98,7 +97,6 @@ func (o *AdditionalData) GetQuantityOk() (*int32, bool) {
 func (o *AdditionalData) SetQuantity(v int32) {
 	o.Quantity = v
 }
-
 
 // GetUnitPrice returns the UnitPrice field value
 func (o *AdditionalData) GetUnitPrice() float64 {
@@ -124,7 +122,6 @@ func (o *AdditionalData) SetUnitPrice(v float64) {
 	o.UnitPrice = v
 }
 
-
 // GetTotalPrice returns the TotalPrice field value
 func (o *AdditionalData) GetTotalPrice() float64 {
 	if o == nil {
@@ -148,7 +145,6 @@ func (o *AdditionalData) GetTotalPriceOk() (*float64, bool) {
 func (o *AdditionalData) SetTotalPrice(v float64) {
 	o.TotalPrice = v
 }
-
 
 func (o AdditionalData) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
