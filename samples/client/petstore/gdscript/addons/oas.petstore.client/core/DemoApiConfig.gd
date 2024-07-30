@@ -42,14 +42,13 @@ enum LogLevel {
 }
 
 
-# Log level to configure verbosity.
-# @export_enum ain't working for ints yet (2023-03)
+## Log level to configure verbosity.
 @export var log_level := LogLevel.WARNING
 
 
-# The host to connect to, with or without the protocol scheme.
-# Eg: "gitea.com", "https://gitea.com"
-# We toggle TLS accordingly to the provided scheme, if any.
+## The host to connect to, with or without the protocol scheme.
+## Eg: "gitea.com", "https://gitea.com"
+## We toggle TLS accordingly to the provided scheme, if any.
 @export var host := BEE_DEFAULT_HOST:
 	set(value):
 		if value.begins_with("https://"):
@@ -61,14 +60,14 @@ enum LogLevel {
 		host = value
 
 
-# Port through which the connection will be established.
-# Note: changing the host may change the port as well if the scheme was provided, see above.
+## Port through which the connection will be established.
+## NOTE: changing the host may change the port as well if the scheme was provided, see above.
 @export var port := BEE_DEFAULT_PORT_HTTP
 
 
-# Headers used as base for all requests made by Api instances using this config.
-# Those are the lowest priority headers, and are merged with custom headers provided in the bee_request() method call
-# as well as the headers override below, to compute the final, actually sent headers.
+## Headers used as base for all requests made by Api instances using this config.
+## Those are the lowest priority headers, and are merged with custom headers provided in the bee_request() method call
+## as well as the headers override below, to compute the final, actually sent headers.
 @export var headers_base := {
 	# Stigmergy: everyone does what is left to do (like ants do)
 	"User-Agent": "Stigmergiac/1.0 (Godot)",
@@ -78,30 +77,30 @@ enum LogLevel {
 }
 
 
-# High-priority headers, they will always override other headers coming from the base above or the method call.
+## High-priority headers, they will always override other headers coming from the base above or the method call.
 @export var headers_override := {}
 
 
-# Duration of sleep between poll() calls.
+## Duration of sleep between poll() calls.
 @export var polling_interval_ms := BEE_DEFAULT_POLLING_INTERVAL_MS  # milliseconds
 
 
-# Enable the Transport Security Layer (packet encryption, HTTPS)
+## Enable the Transport Security Layer (packet encryption, HTTPS)
 @export var tls_enabled := false:
 	set(value):
 		tls_enabled = value
 		port = BEE_DEFAULT_PORT_HTTPS if tls_enabled else BEE_DEFAULT_PORT_HTTP
 
 
-# You should preload your *.crt file (the whole chain) in here if you want TLS.
-# I usually concatenate my /etc/ssl/certs/ca-certificates.crt and webserver certs here.
-# Remember to add the *.crt file to the exports, if necessary.
+## You should preload your *.crt file (the whole chain) in here if you want TLS.
+## I usually concatenate my /etc/ssl/certs/ca-certificates.crt and webserver certs here.
+## Remember to add the *.crt file to the exports, if necessary.
 @export var trusted_chain: X509Certificate  # only used if tls is enabled
 @export var common_name_override := ""  # for TLSOptions
 
 
-# Dynamic accessor using the TLS properties above, but you may inject your own
-# for example if you need to use TLSOptions.client_unsafe.  Best not @export this.
+## Dynamic accessor using the TLS properties above, but you may inject your own
+## for example if you need to use TLSOptions.client_unsafe.  Best not @export this.
 var tls_options: TLSOptions:
 	set(value):
 		tls_options = value
@@ -131,7 +130,7 @@ func log_debug(message: String):
 
 
 # Authentication method `petstore_auth`.
-# → Skipped: not implemented in the gdscript templates.  (contribs welcome)
+# → Skipped: not implemented in the gdscript templates.  (contribs are welcome)
 
 
 # Authentication method `api_key`.

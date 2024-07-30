@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+
 public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     // All generated core classes will use this affixes both in class_name and file name.
@@ -190,7 +191,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         );
 
         // It makes sense to package the generated code like a Godot addon, for ease of installation.
-        // Since most users will set the output dir, we perhaps ought to to document that fact.
+        // Since most users will set the output dir, we perhaps ought to document that fact.
         String addonName = "goas.client";
         outputFolder = "generated-code"
                 + File.separator + "gdscript"
@@ -245,10 +246,11 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         cliOptions.add(new CliOption(ANTICOLLISION_SUFFIX, "Suffix added at the ending of reserved words")
                 .defaultValue(ANTICOLLISION_SUFFIX_VALUE));
 
-        // Also, I have not taken care of escaping things properly in the templates.
+        // Alas, I have not taken care of escaping things properly in the templates.
         // I'm not sure how to handle the different escaping strategies required.
-        LOGGER.warn("---- THE GENERATED CODE MAY BE UNSAFE AND MALICIOUS OAS FILES MAY HURT YOU ----");
-        LOGGER.warn("PLEASE READ *CAREFULLY* THE OAS FILE YOU ARE USING BEFORE YOU TRUST IT.");
+        // FIXME: we can't log like this here → too verbose
+        //LOGGER.warn("---- THE GENERATED CODE MAY BE UNSAFE AND MALICIOUS OAS FILES MAY HURT YOU ----");
+        //LOGGER.warn("PLEASE READ *CAREFULLY* THE OAS FILE YOU ARE USING BEFORE YOU TRUST IT.");
     }
 
     @Override
@@ -451,9 +453,9 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
                 "randfn", "randi", "randi_range", "randomize", "remap", "rid_allocate_id", "rid_from_int64",
                 "round", "roundf", "roundi", "seed", "sign", "signf", "signi", "sin", "sinh", "smoothstep",
                 "snapped", "sqrt", "step_decimals", "str", "str_to_var", "tan", "tanh", "typeof",
-                "var_to_bytes", "var_to_bytes_with_objects", "var_to_str", "weakref", "wrap", "wrapf",
+                "var_to_bytes", "var_to_bytes_with_objects", "var_to_str", "weakref", "wrap", "wrapf", "wrapi",
                 // Godot's global constants
-                "wrapi", "SIDE_LEFT", "SIDE_TOP", "SIDE_RIGHT", "SIDE_BOTTOM", "CORNER_TOP_LEFT",
+                "SIDE_LEFT", "SIDE_TOP", "SIDE_RIGHT", "SIDE_BOTTOM", "CORNER_TOP_LEFT",
                 "CORNER_TOP_RIGHT", "CORNER_BOTTOM_RIGHT", "CORNER_BOTTOM_LEFT", "VERTICAL", "HORIZONTAL",
                 "CLOCKWISE", "COUNTERCLOCKWISE", "HORIZONTAL_ALIGNMENT_LEFT", "HORIZONTAL_ALIGNMENT_CENTER",
                 "HORIZONTAL_ALIGNMENT_RIGHT", "HORIZONTAL_ALIGNMENT_FILL", "VERTICAL_ALIGNMENT_TOP",
@@ -585,8 +587,9 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
                 "OP_GREATER_EQUAL", "OP_ADD", "OP_SUBTRACT", "OP_MULTIPLY", "OP_DIVIDE", "OP_NEGATE",
                 "OP_POSITIVE", "OP_MODULE", "OP_POWER", "OP_SHIFT_LEFT", "OP_SHIFT_RIGHT", "OP_BIT_AND",
                 "OP_BIT_OR", "OP_BIT_XOR", "OP_BIT_NEGATE", "OP_AND", "OP_OR", "OP_XOR", "OP_NOT", "OP_IN",
+                "OP_MAX",
                 // Godot's singletons
-                "OP_MAX", "AudioServer", "CameraServer", "ClassDB", "DisplayServer", "Engine",
+                "AudioServer", "CameraServer", "ClassDB", "DisplayServer", "Engine",
                 "EngineDebugger", "Geometry2D", "Geometry3D", "GodotSharp", "IP", "Input", "InputMap",
                 "JavaClassWrapper", "JavaScriptBridge", "Marshalls", "NativeExtensionManager",
                 "NavigationMeshGenerator", "NavigationServer2D", "NavigationServer3D", "OS", "Performance",
@@ -606,9 +609,9 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
                 "var", "void", "yield",
                 // Constants
                 "PI", "TAU", "INF", "NaN",
-
+                // Primitive (lowercase) types
                 "float", "int", "bool",
-
+                // Types
                 "AABB",
                 "AcceptDialog",
                 "AESContext",

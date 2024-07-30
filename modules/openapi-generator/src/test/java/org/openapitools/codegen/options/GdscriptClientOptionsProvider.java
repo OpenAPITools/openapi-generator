@@ -7,7 +7,7 @@ import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 
-public class GdscriptClientCodegenOptionsProvider implements OptionsProvider {
+public class GdscriptClientOptionsProvider implements OptionsProvider {
 
 //    public static final String MODEL_PACKAGE_VALUE = "package";
 //    public static final String API_PACKAGE_VALUE = "apiPackage";
@@ -41,7 +41,7 @@ public class GdscriptClientCodegenOptionsProvider implements OptionsProvider {
                 .put(GdscriptClientCodegen.ANTICOLLISION_PREFIX, GdscriptClientCodegen.ANTICOLLISION_PREFIX_VALUE)
                 .put(GdscriptClientCodegen.ANTICOLLISION_SUFFIX, GdscriptClientCodegen.ANTICOLLISION_SUFFIX_VALUE)
 
-                // > "le remblai, c'était mieux avant"
+                // Things we *might* need (we'll see)
 
 //                .put(CodegenConstants.API_PACKAGE, API_PACKAGE_VALUE)
 //                .put(PhpClientCodegen.VARIABLE_NAMING_CONVENTION, VARIABLE_NAMING_CONVENTION_VALUE)
@@ -53,6 +53,7 @@ public class GdscriptClientCodegenOptionsProvider implements OptionsProvider {
 
                 // The following is required by CodeGen
 
+                //.put(CodegenConstants.TEMPLATING_ENGINE, "handlebars")
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
                 .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)

@@ -15,16 +15,16 @@ class_name DemoApiResponse
 # is injected in the error object.
 #
 
-# Headers sent back by the server
+## Headers sent back by the server
 @export var headers := Dictionary()
 
-# The HTTP response code, if any.  A constant like HTTPClient.RESPONSE_XXXX
+## The HTTP response code, if any.  A constant like HTTPClient.RESPONSE_XXXX
 @export var code := 0
 
-# Raw body of this response, in String form (before deserialization)
+## Raw body of this response, in String form (before deserialization)
 @export var body := ""
 
-# Deserialized body (may be pretty much any type)
+## Deserialized body (may be pretty much any type)
 var data
 
 
