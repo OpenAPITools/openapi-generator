@@ -72,8 +72,7 @@ func (o *Foo) SetBar(v string) {
 	o.Bar = v
 }
 
-// GetDefaultbar function assigns the default value &quot;bar&quot; to the Bar field
-// of the Foo struct and returns the "bar".
+// GetDefaultBar returns the default value "bar" of the Bar field.
 func (o *Foo) GetDefaultBar() interface{}  {
 	return "bar"
 }

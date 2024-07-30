@@ -104,7 +104,6 @@ func (o *EnumTest) SetEnumStringRequired(v string) {
 	o.EnumStringRequired = v
 }
 
-
 // GetEnumInteger returns the EnumInteger field value if set, zero value otherwise.
 func (o *EnumTest) GetEnumInteger() int32 {
 	if o == nil || IsNil(o.EnumInteger) {
