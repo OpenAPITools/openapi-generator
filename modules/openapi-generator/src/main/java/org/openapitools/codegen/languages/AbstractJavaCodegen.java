@@ -167,6 +167,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected List<String> additionalOneOfTypeAnnotations = new LinkedList<>();
     @Setter protected List<String> additionalEnumTypeAnnotations = new LinkedList<>();
     @Getter @Setter
+    protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.UPPERCASE;
+    @Getter @Setter
     protected boolean openApiNullable = true;
     @Setter protected String outputTestFolder = "";
     protected DocumentationProvider documentationProvider;
@@ -1955,35 +1957,53 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return enumNameMapping.get(value);
         }
 
-        if (value.length() == 0) {
-            return "EMPTY";
-        }
-
-        // for symbol, e.g. $, #
-        if (getSymbolName(value) != null) {
-            return getSymbolName(value).toUpperCase(Locale.ROOT);
-        }
-
-        if (" ".equals(value)) {
-            return "SPACE";
-        }
-
-        // number
-        if ("Integer".equals(datatype) || "Long".equals(datatype) ||
+        String modified;
+        if (value.isEmpty()) {
+            modified = "EMPTY";
+        } else if (" ".equals(value)) {
+            modified = "SPACE";
+        } else if (getSymbolName(value) != null) {
+            // for symbol, e.g. $, #
+            modified = getSymbolName(value);
+        } else if ("Integer".equals(datatype) || "Long".equals(datatype) ||
                 "Float".equals(datatype) || "Double".equals(datatype) || "BigDecimal".equals(datatype)) {
-            String varName = "NUMBER_" + value;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
-            return varName;
+                // number
+                modified = "NUMBER_" + value;
+                modified = modified.replaceAll("-", "MINUS_")
+                    .replaceAll("\\+", "PLUS_")
+                    .replaceAll("\\.", "_DOT_");
+        } else {
+            modified = value;
         }
 
-        // string
-        String var = underscore(value.replaceAll("\\W+", "_")).toUpperCase(Locale.ROOT);
-        if (var.matches("\\d.*")) {
-            var = "_" + var;
+        switch (getEnumPropertyNaming()) {
+            case original:
+                // NOTE: This is provided as a last-case allowance, but will still result in reserved words being escaped.
+                modified = value;
+                break;
+            case camelCase:
+                // NOTE: Removes hyphens and underscores
+                modified = camelize(modified, LOWERCASE_FIRST_LETTER);
+                break;
+            case PascalCase:
+                // NOTE: Removes hyphens and underscores
+                modified = camelize(modified);
+                break;
+            case snake_case:
+                // NOTE: Removes hyphens
+                modified = underscore(modified);
+                break;
+            case UPPERCASE:
+                modified = modified.replaceAll("\\W+", "_");
+                modified = underscore(modified).toUpperCase(Locale.ROOT);
+                break;
         }
-        return this.toVarName(var);
+
+        if (reservedWords.contains(modified)) {
+            modified = escapeReservedWord(modified);
+        }
+
+        return toVarName(modified);
     }
 
     @Override
