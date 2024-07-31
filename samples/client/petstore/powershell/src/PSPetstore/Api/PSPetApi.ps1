@@ -679,7 +679,7 @@ function Invoke-PSUploadFile {
         }
 
         if ($File) {
-            $LocalVarFormParameters['file'] = $File
+            $LocalVarFormParameters['file'] = $executionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($File)
         }
 
 
@@ -778,7 +778,7 @@ function Invoke-PSUploadFileWithRequiredFile {
         if (!$RequiredFile) {
             throw "Error! The required parameter `RequiredFile` missing when calling uploadFileWithRequiredFile."
         }
-        $LocalVarFormParameters['requiredFile'] = $RequiredFile
+        $LocalVarFormParameters['requiredFile'] = $executionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($RequiredFile)
 
 
         $LocalVarResult = Invoke-PSApiClient -Method 'POST' `
