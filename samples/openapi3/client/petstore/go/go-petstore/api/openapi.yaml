@@ -2198,6 +2198,12 @@ components:
         id:
           type: integer
       type: object
+    OneOfWithComplexType:
+      oneOf:
+      - type: string
+      - items:
+          type: string
+        type: array
     _foo_get_default_response:
       example:
         string:

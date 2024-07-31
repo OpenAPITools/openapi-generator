@@ -2219,3 +2219,9 @@ components:
       properties:
         id:
           type: integer
+    OneOfWithComplexType:
+      oneOf:
+        - type: string
+        - type: array
+          items:
+            type: string
