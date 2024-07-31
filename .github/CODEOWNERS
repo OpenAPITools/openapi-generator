@@ -12,21 +12,10 @@ modules/openapi-generator-core/**/* @OpenAPITools/generator-core-team
 # No need for auto-generated subdirectories (reduces noise)
 docs/ @OpenAPITools/generator-core-team
 
-## Individual interests
-.github/**/* @jimschubert
-scripts/**/* @jimschubert
-website/**/* @jimschubert
-bin/ci/**/* @jimschubert
-
 ## Build related
 CI/**/* @OpenAPITools/build
 .mvn/**/* @OpenAPITools/build
 bin/utils/**/* @OpenAPITools/build
-
-## Module-specific
-modules/openapi-generator-cli/**/* @jimschubert
-modules/openapi-generator-gradle-plugin/**/* @jimschubert
-modules/openapi-generator-maven-plugin/**/* @jimschubert
 
 # cpp-qt-client technical committee
 modules/openapi-generator/src/main/resources/cpp-qt-client/**/* @ravinikam
