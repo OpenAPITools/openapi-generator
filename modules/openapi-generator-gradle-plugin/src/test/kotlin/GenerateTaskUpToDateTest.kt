@@ -1,6 +1,7 @@
 package org.openapitools.generator.gradle.plugin
 
 import org.gradle.testkit.runner.TaskOutcome
+import org.openapitools.codegen.util.ClassLoadingUtils
 import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
 import java.io.File
@@ -167,7 +168,7 @@ class GenerateTaskUpToDateTest : TestBase() {
             }
             """.trimIndent()
         File(temp, "build.gradle").writeText(buildContents)
-        File(javaClass.classLoader.getResource("specs/petstore-v3.0.yaml")!!.toURI())
+        File(ClassLoadingUtils.getResource("specs/petstore-v3.0.yaml", javaClass.classLoader)!!.toURI())
             .copyTo(File(temp, "spec.yaml"))
     }
 }

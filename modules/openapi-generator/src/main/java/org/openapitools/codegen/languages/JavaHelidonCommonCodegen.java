@@ -54,6 +54,7 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
+import org.openapitools.codegen.util.ClassLoadingUtils;
 
 import static org.openapitools.codegen.CodegenConstants.DEVELOPER_EMAIL;
 import static org.openapitools.codegen.CodegenConstants.DEVELOPER_NAME;
@@ -555,7 +556,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         }
 
         private static List<String> localDefaultVersions() throws IOException {
-            URL versionsURL = VersionUtil.class.getResource("versions.xml");
+            URL versionsURL = ClassLoadingUtils.getResource("versions.xml", VersionUtil.class);
             if (versionsURL == null) {
                 return extractVersions(DEFAULT_VERSIONS);
             }

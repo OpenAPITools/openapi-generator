@@ -15,6 +15,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.util.ClassLoadingUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -114,7 +115,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
         final List<String> reservedWordsList = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(DartClientCodegen.class.getResourceAsStream("/dart/dart-keywords.txt"),
+                new InputStreamReader(ClassLoadingUtils.getResourceAsStream("/dart/dart-keywords.txt", DartClientCodegen.class),
                         StandardCharsets.UTF_8))) {
             while (reader.ready()) {
                 reservedWordsList.add(reader.readLine());

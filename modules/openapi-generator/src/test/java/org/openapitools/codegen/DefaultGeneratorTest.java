@@ -15,6 +15,7 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.util.ClassLoadingUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -306,10 +307,10 @@ public class DefaultGeneratorTest {
 
             // Create custom template directory
             Files.copy(
-                    Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream("templating/templates/jmeter/api.hbs")),
+                    Objects.requireNonNull(ClassLoadingUtils.getResourceAsStream("templating/templates/jmeter/api.hbs", this.getClass())),
                     new File(templateDir, "api.hbs").toPath());
             Files.copy(
-                    Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream("templating/templates/jmeter/testdata-localhost.hbs")),
+                    Objects.requireNonNull(ClassLoadingUtils.getResourceAsStream("templating/templates/jmeter/testdata-localhost.hbs", this.getClass())),
                     new File(templateDir, "testdata-localhost.hbs").toPath());
 
             final ClientOptInput clientOptInput = configurator.toClientOptInput();

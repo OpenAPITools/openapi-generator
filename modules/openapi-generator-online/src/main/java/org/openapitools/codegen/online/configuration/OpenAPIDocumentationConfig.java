@@ -18,6 +18,7 @@
 package org.openapitools.codegen.online.configuration;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.openapitools.codegen.util.ClassLoadingUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
@@ -48,7 +49,7 @@ public class OpenAPIDocumentationConfig {
 
     ApiInfo apiInfo() {
         final Properties properties = new Properties();
-        try (InputStream stream = this.getClass().getResourceAsStream("/version.properties")) {
+        try (InputStream stream = ClassLoadingUtils.getResourceAsStream("/version.properties", this.getClass())) {
             if (stream != null) {
                 properties.load(stream);
             }

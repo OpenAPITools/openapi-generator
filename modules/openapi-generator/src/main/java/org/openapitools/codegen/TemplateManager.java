@@ -8,6 +8,7 @@ import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplatingExecutor;
 import org.openapitools.codegen.templating.TemplateManagerOptions;
 import org.openapitools.codegen.templating.TemplateNotFoundException;
+import org.openapitools.codegen.util.ClassLoadingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -137,7 +138,7 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
 
     private InputStream getInputStream(String name) throws FileNotFoundException {
         InputStream is;
-        is = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(name));
+        is = ClassLoadingUtils.getResourceAsStream(getCPResourcePath(name), this.getClass());
         if (is == null) {
             if (name == null || name.contains("..")) {
                 throw new IllegalArgumentException("Template location must be constrained to template directory.");

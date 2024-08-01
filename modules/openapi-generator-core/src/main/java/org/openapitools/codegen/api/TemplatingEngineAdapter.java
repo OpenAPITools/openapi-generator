@@ -16,6 +16,8 @@
 
 package org.openapitools.codegen.api;
 
+import org.openapitools.codegen.util.ClassLoadingUtils;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -93,7 +95,7 @@ public interface TemplatingEngineAdapter {
                 String resourcePath = System.getProperty("os.name").startsWith("Windows") ?
                         path.toString().replace("\\", "/") :
                         path.toString();
-                is = this.getClass().getClassLoader().getResourceAsStream(resourcePath);
+                is = ClassLoadingUtils.getResourceAsStream(resourcePath, this.getClass());
                 if (is == null) {
                     is = new FileInputStream(path.toFile());
                 }
