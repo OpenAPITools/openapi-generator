@@ -26,7 +26,7 @@ data class ModelApiResponse(
     @get:JsonProperty("type") val type: kotlin.String? = null,
 
     @get:JsonProperty("message") val message: kotlin.String? = null
-) : Serializable{
+    ) : Serializable{
 
     companion object {
         private const val serialVersionUID: kotlin.Long = 1
