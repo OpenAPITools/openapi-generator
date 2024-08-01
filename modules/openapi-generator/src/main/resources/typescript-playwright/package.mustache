@@ -1,0 +1,40 @@
+{
+  "name": "{{npmName}}",
+  "version": "{{npmVersion}}",
+  "description": "OpenAPI client for {{npmName}}",
+  "author": "OpenAPI-Generator",
+  "repository": {
+    "type": "git",
+    "url": "https://{{gitHost}}/{{gitUserId}}/{{gitRepoId}}.git"
+  },
+{{#packageAsSourceOnlyLibrary}}
+  "main": "./index.ts",
+{{/packageAsSourceOnlyLibrary}}
+{{^packageAsSourceOnlyLibrary}}
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+{{#supportsES6}}
+  "module": "./dist/esm/index.js",
+  "sideEffects": false,
+{{/supportsES6}}
+  "scripts": {
+    "build": "tsc{{#supportsES6}} && tsc -p tsconfig.esm.json{{/supportsES6}}"{{^sagasAndRecords}},
+    "prepare": "npm run build"{{/sagasAndRecords}}
+  },
+{{/packageAsSourceOnlyLibrary}}
+  "devDependencies": {
+{{#sagasAndRecords}}
+    "immutable": "^4.0.0-rc.12",
+    "normalizr": "^3.6.1",
+    "redux-saga": "^1.1.3",
+    "redux-ts-simple": "^3.2.0",
+    "reselect": "^4.0.0",
+{{/sagasAndRecords}}
+    "typescript": "^4.0 || ^5.0"
+  }{{#npmRepository}},{{/npmRepository}}
+{{#npmRepository}}
+  "publishConfig": {
+    "registry": "{{npmRepository}}"
+  }
+{{/npmRepository}}
+}
