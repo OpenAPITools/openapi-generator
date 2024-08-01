@@ -748,28 +748,36 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets RequiredNullableUuid
         /// </summary>
-        /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
+        /*
+        <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
+        */
         [DataMember(Name = "required_nullable_uuid", IsRequired = true, EmitDefaultValue = true)]
         public Guid? RequiredNullableUuid { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNotnullableUuid
         /// </summary>
-        /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
+        /*
+        <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
+        */
         [DataMember(Name = "required_notnullable_uuid", IsRequired = true, EmitDefaultValue = true)]
         public Guid RequiredNotnullableUuid { get; set; }
 
         /// <summary>
         /// Gets or Sets NotrequiredNullableUuid
         /// </summary>
-        /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
+        /*
+        <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
+        */
         [DataMember(Name = "notrequired_nullable_uuid", EmitDefaultValue = true)]
         public Guid? NotrequiredNullableUuid { get; set; }
 
         /// <summary>
         /// Gets or Sets NotrequiredNotnullableUuid
         /// </summary>
-        /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
+        /*
+        <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
+        */
         [DataMember(Name = "notrequired_notnullable_uuid", EmitDefaultValue = false)]
         public Guid NotrequiredNotnullableUuid { get; set; }
 

@@ -171,7 +171,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
-        /// <example>Sun Feb 02 00:00:00 UTC 2020</example>
+        /*
+        <example>Sun Feb 02 00:00:00 UTC 2020</example>
+        */
         [DataMember(Name = "date", IsRequired = true, EmitDefaultValue = true)]
         [JsonConverter(typeof(OpenAPIDateConverter))]
         public DateTime Date { get; set; }
@@ -179,14 +181,18 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
-        /// <example>2007-12-03T10:15:30+01:00</example>
+        /*
+        <example>2007-12-03T10:15:30+01:00</example>
+        */
         [DataMember(Name = "dateTime", EmitDefaultValue = false)]
         public DateTime DateTime { get; set; }
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
-        /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
+        /*
+        <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
+        */
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
         public Guid Uuid { get; set; }
 

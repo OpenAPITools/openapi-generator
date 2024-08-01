@@ -199,7 +199,9 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
-        /// <example>2020-02-02T20:20:20.000222Z</example>
+        /*
+        <example>2020-02-02T20:20:20.000222Z</example>
+        */
         [DataMember(Name = "shipDate", EmitDefaultValue = false)]
         public DateTime ShipDate
         {

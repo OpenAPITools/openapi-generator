@@ -1391,7 +1391,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets RequiredNotnullableUuid
         /// </summary>
-        /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
+        /* <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example> */
         [JsonPropertyName("required_notnullable_uuid")]
         public Guid RequiredNotnullableUuid { get; set; }
 
@@ -1515,7 +1515,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets NotrequiredNotnullableUuid
         /// </summary>
-        /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
+        /* <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example> */
         [JsonPropertyName("notrequired_notnullable_uuid")]
         public Guid? NotrequiredNotnullableUuid { get { return this.NotrequiredNotnullableUuidOption; } set { this.NotrequiredNotnullableUuidOption = new Option<Guid?>(value); } }
 
@@ -1581,7 +1581,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets NotrequiredNullableUuid
         /// </summary>
-        /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
+        /* <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example> */
         [JsonPropertyName("notrequired_nullable_uuid")]
         public Guid? NotrequiredNullableUuid { get { return this.NotrequiredNullableUuidOption; } set { this.NotrequiredNullableUuidOption = new Option<Guid?>(value); } }
 
@@ -1624,7 +1624,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets RequiredNullableUuid
         /// </summary>
-        /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
+        /* <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example> */
         [JsonPropertyName("required_nullable_uuid")]
         public Guid? RequiredNullableUuid { get; set; }
 
