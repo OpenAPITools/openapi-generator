@@ -16,19 +16,20 @@
         }
     ],
     "require": {
-        "php": ">=7.4.0|>=8.0.2",
+        "php": ">=8.1",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "symfony/validator": "^5.0|^6.0",
-        "jms/serializer-bundle": "^4.0",
-        "symfony/framework-bundle": "^5.0|^6.0"
+        "doctrine/annotations": "^2.0",
+        "symfony/validator": "^6.4|^7.0",
+        "jms/serializer-bundle": "^5.4",
+        "symfony/framework-bundle": "^6.4|^7.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5",
-        "friendsofphp/php-cs-fixer": "^2.16.3",
-        "symfony/browser-kit": "^5.0|^6.0",
-        "symfony/yaml": "^5.0|^6.0",
+        "phpunit/phpunit": "^10.5|^11.0",
+        "friendsofphp/php-cs-fixer": "*",
+        "symfony/browser-kit": "^6.4|7.0",
+        "symfony/yaml": "^6.4|^7.0",
         "hoa/regex": "~1.0"
     },
     "autoload": {

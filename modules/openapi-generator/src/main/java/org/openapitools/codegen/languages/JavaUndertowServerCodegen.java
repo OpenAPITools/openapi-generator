@@ -190,6 +190,7 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
         return objs;
     }
 
+    @Override
     public String apiFilename(String templateName, String tag) {
         String result = super.apiFilename(templateName, tag);
 

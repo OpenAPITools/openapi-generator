@@ -13,18 +13,18 @@
  */
 
 import { mapValues } from '../runtime';
-import type { PetPartType } from './PetPartType';
-import {
-    PetPartTypeFromJSON,
-    PetPartTypeFromJSONTyped,
-    PetPartTypeToJSON,
-} from './PetPartType';
 import type { ResponseMeta } from './ResponseMeta';
 import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
 } from './ResponseMeta';
+import type { PetPartType } from './PetPartType';
+import {
+    PetPartTypeFromJSON,
+    PetPartTypeFromJSONTyped,
+    PetPartTypeToJSON,
+} from './PetPartType';
 
 /**
  * 
@@ -46,11 +46,13 @@ export interface GetPetPartTypeResponse {
     data?: PetPartType;
 }
 
+
+
 /**
  * Check if a given object implements the GetPetPartTypeResponse interface.
  */
-export function instanceOfGetPetPartTypeResponse(value: object): boolean {
-    if (!('meta' in value)) return false;
+export function instanceOfGetPetPartTypeResponse(value: object): value is GetPetPartTypeResponse {
+    if (!('meta' in value) || value['meta'] === undefined) return false;
     return true;
 }
 

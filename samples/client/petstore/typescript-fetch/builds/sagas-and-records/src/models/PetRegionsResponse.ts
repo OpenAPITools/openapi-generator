@@ -34,17 +34,17 @@ export interface PetRegionsResponse {
     meta: ResponseMeta;
     /**
      * An array of all 15-minute time slots in 24 hours.
-     * @type {Array<Array<number>>}
+     * @type {Array<Array<number | null>>}
      * @memberof PetRegionsResponse
      */
-    data?: Array<Array<number>>;
+    data?: Array<Array<number | null>>;
 }
 
 /**
  * Check if a given object implements the PetRegionsResponse interface.
  */
-export function instanceOfPetRegionsResponse(value: object): boolean {
-    if (!('meta' in value)) return false;
+export function instanceOfPetRegionsResponse(value: object): value is PetRegionsResponse {
+    if (!('meta' in value) || value['meta'] === undefined) return false;
     return true;
 }
 

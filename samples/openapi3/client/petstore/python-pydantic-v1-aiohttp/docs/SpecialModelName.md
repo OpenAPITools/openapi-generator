@@ -21,7 +21,7 @@ print SpecialModelName.to_json()
 # convert the object into a dict
 special_model_name_dict = special_model_name_instance.to_dict()
 # create an instance of SpecialModelName from a dict
-special_model_name_form_dict = special_model_name.from_dict(special_model_name_dict)
+special_model_name_from_dict = SpecialModelName.from_dict(special_model_name_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -367,6 +367,12 @@ namespace {{packageName}}.Client
         public virtual string OAuthClientSecret { get; set; }
 
         /// <summary>
+        /// Gets or sets the client scope for OAuth2 authentication.
+        /// </summary>
+        /// <value>The OAuth Client Scope.</value>
+        public virtual string{{nrt?}} OAuthScope { get; set; }
+
+        /// <summary>
         /// Gets or sets the flow for OAuth2 authentication.
         /// </summary>
         /// <value>The OAuth Flow.</value>
@@ -711,6 +717,7 @@ namespace {{packageName}}.Client
                 OAuthTokenUrl = second.OAuthTokenUrl ?? first.OAuthTokenUrl,
                 OAuthClientId = second.OAuthClientId ?? first.OAuthClientId,
                 OAuthClientSecret = second.OAuthClientSecret ?? first.OAuthClientSecret,
+                OAuthScope = second.OAuthScope ?? first.OAuthScope,
                 OAuthFlow = second.OAuthFlow ?? first.OAuthFlow,
                 {{/hasOAuthMethods}}
                 {{/useRestSharp}}

@@ -28,7 +28,7 @@ type FormatTest struct {
 	Number float32 `json:"number"`
 	Float *float32 `json:"float,omitempty"`
 	Double *float64 `json:"double,omitempty"`
-	String *string `json:"string,omitempty"`
+	String *string `json:"string,omitempty" validate:"regexp=[a-z]/i"`
 	Byte string `json:"byte"`
 	Binary **os.File `json:"binary,omitempty"`
 	Date string `json:"date"`
@@ -36,9 +36,9 @@ type FormatTest struct {
 	Uuid *string `json:"uuid,omitempty"`
 	Password string `json:"password"`
 	// A string that is a 10 digit number. Can have leading zeros.
-	PatternWithDigits *string `json:"pattern_with_digits,omitempty"`
+	PatternWithDigits *string `json:"pattern_with_digits,omitempty" validate:"regexp=^\\\\d{10}$"`
 	// A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
-	PatternWithDigitsAndDelimiter *string `json:"pattern_with_digits_and_delimiter,omitempty"`
+	PatternWithDigitsAndDelimiter *string `json:"pattern_with_digits_and_delimiter,omitempty" validate:"regexp=^image_\\\\d{1,3}$/i"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -185,6 +185,7 @@ func (o *FormatTest) SetNumber(v float32) {
 	o.Number = v
 }
 
+
 // GetFloat returns the Float field value if set, zero value otherwise.
 func (o *FormatTest) GetFloat() float32 {
 	if o == nil || IsNil(o.Float) {
@@ -305,6 +306,7 @@ func (o *FormatTest) SetByte(v string) {
 	o.Byte = v
 }
 
+
 // GetBinary returns the Binary field value if set, zero value otherwise.
 func (o *FormatTest) GetBinary() *os.File {
 	if o == nil || IsNil(o.Binary) {
@@ -360,6 +362,7 @@ func (o *FormatTest) GetDateOk() (*string, bool) {
 func (o *FormatTest) SetDate(v string) {
 	o.Date = v
 }
+
 
 // GetDateTime returns the DateTime field value if set, zero value otherwise.
 func (o *FormatTest) GetDateTime() time.Time {
@@ -448,6 +451,7 @@ func (o *FormatTest) GetPasswordOk() (*string, bool) {
 func (o *FormatTest) SetPassword(v string) {
 	o.Password = v
 }
+
 
 // GetPatternWithDigits returns the PatternWithDigits field value if set, zero value otherwise.
 func (o *FormatTest) GetPatternWithDigits() string {
@@ -579,6 +583,11 @@ func (o *FormatTest) UnmarshalJSON(data []byte) (err error) {
 		"password",
 	}
 
+	// defaultValueFuncMap captures the default values for required properties.
+	// These values are used when required properties are missing from the payload.
+	defaultValueFuncMap := map[string]func() interface{} {
+	}
+	var defaultValueApplied bool
 	allProperties := make(map[string]interface{})
 
 	err = json.Unmarshal(data, &allProperties)
@@ -588,11 +597,23 @@ func (o *FormatTest) UnmarshalJSON(data []byte) (err error) {
 	}
 
 	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
+		if value, exists := allProperties[requiredProperty]; !exists || value == "" {
+			if _, ok := defaultValueFuncMap[requiredProperty]; ok {
+				allProperties[requiredProperty] = defaultValueFuncMap[requiredProperty]()
+				defaultValueApplied = true
+			}
+		}
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
 	}
 
+	if defaultValueApplied {
+		data, err = json.Marshal(allProperties)
+		if err != nil{
+			return err
+		}
+	}
 	varFormatTest := _FormatTest{}
 
 	err = json.Unmarshal(data, &varFormatTest)

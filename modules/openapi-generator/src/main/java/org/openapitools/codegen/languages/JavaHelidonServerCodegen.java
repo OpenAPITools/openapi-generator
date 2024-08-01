@@ -1,6 +1,6 @@
 /*
- * Copyright 2022 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright (c) 2022 Oracle and/or its affiliates
+ * Copyright 2022, 2024 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ * Copyright (c) 2022, 2024 Oracle and/or its affiliates
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ import java.util.Map;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
+import lombok.Getter;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -54,9 +55,8 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
     public static final String USE_ABSTRACT_CLASS = "useAbstractClass";
     public static final String GRADLE_PROJECT = "gradleProject";
 
-    protected boolean useBeanValidation = true;
     protected String implFolder = "src/main/java";
-    protected String serializationLibrary = null;
+    @Getter protected String serializationLibrary = null;
 
     private boolean useAbstractClass = false;
     private boolean gradleProject = false;
@@ -70,6 +70,7 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
 
         modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
+        this.useBeanValidation = true;
         outputFolder = "generated-code" + File.separator + "java";
         embeddedTemplateDir = templateDir = "java-helidon" + File.separator + "server";
         invokerPackage = "org.openapitools.server";
@@ -104,8 +105,6 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
 
         supportedLibraries.put(HELIDON_MP, "Helidon MP Server");
         supportedLibraries.put(HELIDON_SE, "Helidon SE Server");
-        supportedLibraries.put(HELIDON_NIMA, "Helidon NIMA Server");
-        supportedLibraries.put(HELIDON_NIMA_ANNOTATIONS, "Helidon NIMA Annotations Server");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -151,36 +150,19 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
         List<SupportingFile> unmodifiable = new ArrayList<>();
         unmodifiable.add(openApiFile);
 
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
-        }
-        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
-
         importMapping.put("ObjectMapper", "com.fasterxml.jackson.databind.ObjectMapper");
         importMapping.put("Jsonb", rootJavaEEPackage() + ".json.bind.Jsonb");
         importMapping.put("JsonbBuilder", rootJavaEEPackage() + ".json.bind.JsonbBuilder");
 
-        if (additionalProperties.containsKey(USE_ABSTRACT_CLASS)) {
-            useAbstractClass = Boolean.parseBoolean(additionalProperties.get(USE_ABSTRACT_CLASS).toString());
-        }
-        if (!useAbstractClass) {
-            additionalProperties.remove(USE_ABSTRACT_CLASS);
-        }
-
-        if (additionalProperties.containsKey(GRADLE_PROJECT)) {
-            gradleProject = Boolean.parseBoolean(additionalProperties.get(GRADLE_PROJECT).toString());
-        }
-        if (!gradleProject) {
-            additionalProperties.remove(GRADLE_PROJECT);
-        } else {
+        convertPropertyToBooleanAndWriteBack(USE_ABSTRACT_CLASS, value -> useAbstractClass = value);
+        convertPropertyToBooleanAndWriteBack(GRADLE_PROJECT, value -> gradleProject = value);
+        if (gradleProject) {
             modifiable.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
             modifiable.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
             modifiable.remove(pomFile);
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
-            setSerializationLibrary(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY).toString());
-        }
+        convertPropertyToStringAndWriteBack(CodegenConstants.SERIALIZATION_LIBRARY, this::setSerializationLibrary);
 
         String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
 
@@ -224,10 +206,6 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
             }
             importMapping.put("Handler", "io.helidon.webserver.Handler");
             processSupportingFiles(modifiable, unmodifiable);
-        } else if (isLibrary(HELIDON_NIMA)) {
-            throw new UnsupportedOperationException("Not implemented");
-        } else if (isLibrary(HELIDON_NIMA_ANNOTATIONS)) {
-            throw new UnsupportedOperationException("Not implemented");
         } else {
             LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
             throw new IllegalArgumentException(
@@ -281,7 +259,7 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
         if (HELIDON_SE.equals(getLibrary())) {
-            if (additionalProperties.containsKey(JACKSON)) {
+            if (isJackson()) {
                 codegenOperation.imports.add("ObjectMapper");
             }
             if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JSONB)) {
@@ -358,7 +336,7 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
 
         if (Boolean.TRUE.equals(model.hasEnums)) {
             // Add imports for Jackson
-            if (additionalProperties.containsKey(JACKSON)) {
+            if (isJackson()) {
                 model.imports.add("JsonValue");
                 model.imports.add("JsonCreator");
             }
@@ -380,26 +358,18 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
         return "Generates a Java Helidon Server application.";
     }
 
-
-    @Override
-    public void setUseBeanValidation(boolean useBeanValidation) {
-        this.useBeanValidation = useBeanValidation;
-    }
-
     @Override
     public void setPerformBeanValidation(boolean performBeanValidation) {
         throw new UnsupportedOperationException("Not implemented");
     }
 
-    public String getSerializationLibrary() {
-        return serializationLibrary;
-    }
-
     public void setSerializationLibrary(String serializationLibrary) {
         if (SERIALIZATION_LIBRARY_JACKSON.equalsIgnoreCase(serializationLibrary)) {
             this.serializationLibrary = SERIALIZATION_LIBRARY_JACKSON;
+            this.jackson = true;
         } else if (SERIALIZATION_LIBRARY_JSONB.equalsIgnoreCase(serializationLibrary)) {
             this.serializationLibrary = SERIALIZATION_LIBRARY_JSONB;
+            this.jackson = false;
         } else {
             throw new IllegalArgumentException("Unexpected serializationLibrary value: " + serializationLibrary);
         }

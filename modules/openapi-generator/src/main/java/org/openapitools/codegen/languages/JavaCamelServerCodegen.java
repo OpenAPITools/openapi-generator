@@ -19,7 +19,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.Operation;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenType;
+
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.OptionalFeatures;
@@ -58,14 +58,12 @@ public class JavaCamelServerCodegen extends SpringCodegen implements BeanValidat
 
     private final Logger LOGGER = LoggerFactory.getLogger(JavaCamelServerCodegen.class);
 
-    public CodegenType getTag() {
-        return CodegenType.SERVER;
-    }
-
+    @Override
     public String getName() {
         return "java-camel";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Java Camel server (beta).";
     }

@@ -58,6 +58,26 @@ class TestPetApiTests(unittest.TestCase):
         self.test_file_dir = os.path.realpath(self.test_file_dir)
         self.foo = os.path.join(self.test_file_dir, "foo.png")
 
+    def test_accept_header_serialization(self):
+        (_, _, headers, *_) = self.pet_api._get_pet_by_id_serialize(
+            pet_id=self.pet.id,
+            _request_auth=None,
+            _content_type=None,
+            _headers=None,
+            _host_index=0
+        )
+        self.assertEqual(headers['Accept'], 'application/json')
+
+        (_, _, headers_overwritten, *_) = self.pet_api._get_pet_by_id_serialize(
+            pet_id=self.pet.id,
+            _request_auth=None,
+            _content_type=None,
+            _headers={'Accept': 'text/plain'},
+            _host_index=0
+        )
+        self.assertEqual(headers_overwritten['Accept'], 'text/plain')
+
+    
     def test_separate_default_client_instances(self):
         pet_api = petstore_api.PetApi()
         pet_api2 = petstore_api.PetApi()

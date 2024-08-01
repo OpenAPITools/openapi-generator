@@ -75,19 +75,21 @@ class MapTest {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is MapTest &&
-     other.mapMapOfString == mapMapOfString &&
-     other.mapOfEnumString == mapOfEnumString &&
-     other.directMap == directMap &&
-     other.indirectMap == indirectMap;
 
-  @override
-  int get hashCode =>
-    mapMapOfString.hashCode +
-    mapOfEnumString.hashCode +
-    directMap.hashCode +
-    indirectMap.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is MapTest &&
+      other.mapMapOfString == mapMapOfString &&
+      other.mapOfEnumString == mapOfEnumString &&
+      other.directMap == directMap &&
+      other.indirectMap == indirectMap;
+
+    @override
+    int get hashCode =>
+        mapMapOfString.hashCode +
+        mapOfEnumString.hashCode +
+        directMap.hashCode +
+        indirectMap.hashCode;
 
   factory MapTest.fromJson(Map<String, dynamic> json) => _$MapTestFromJson(json);
 

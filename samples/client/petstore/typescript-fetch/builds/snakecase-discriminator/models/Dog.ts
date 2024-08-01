@@ -37,7 +37,7 @@ export interface Dog extends Animal {
 /**
  * Check if a given object implements the Dog interface.
  */
-export function instanceOfDog(value: object): boolean {
+export function instanceOfDog(value: object): value is Dog {
     return true;
 }
 

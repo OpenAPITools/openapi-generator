@@ -72,7 +72,7 @@ export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnu
 /**
  * Check if a given object implements the Order interface.
  */
-export function instanceOfOrder(value: object): boolean {
+export function instanceOfOrder(value: object): value is Order {
     return true;
 }
 

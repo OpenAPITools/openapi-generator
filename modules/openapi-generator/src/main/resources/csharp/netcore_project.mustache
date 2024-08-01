@@ -21,37 +21,41 @@
     <PackageReleaseNotes>{{.}}</PackageReleaseNotes>{{/releaseNote}}{{#packageTags}}
     <PackageTags>{{{.}}}</PackageTags>{{/packageTags}}{{#nrt}}
     <Nullable>{{#useGenericHost}}enable{{/useGenericHost}}{{^useGenericHost}}annotations{{/useGenericHost}}</Nullable>{{/nrt}}
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
   </PropertyGroup>
 
   <ItemGroup>
     {{#useCompareNetObjects}}
-    <PackageReference Include="CompareNETObjects" Version="4.82.0" />
+    <PackageReference Include="CompareNETObjects" Version="4.83.0" />
     {{/useCompareNetObjects}}
     {{^useGenericHost}}
     <PackageReference Include="JsonSubTypes" Version="2.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     {{/useGenericHost}}
-      {{#useRestSharp}}
+    {{#useRestSharp}}
     <PackageReference Include="RestSharp" Version="110.2.0" />
-      {{/useRestSharp}}
-      {{#useGenericHost}}
+    {{/useRestSharp}}
+    {{#useGenericHost}}
     <PackageReference Include="Microsoft.Extensions.Http" Version="{{#lambda.first}}{{#netStandard}}5.0.0  {{/netStandard}}{{#net47}}7.0.0  {{/net47}}{{#net48}}7.0.0  {{/net48}}{{#net6.0}}6.0.0  {{/net6.0}}{{#net7.0}}7.0.0  {{/net7.0}}{{#net8.0}}8.0.0  {{/net8.0}}{{/lambda.first}}" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="{{#lambda.first}}{{#netStandard}}5.0.0  {{/netStandard}}{{#net47}}7.0.0  {{/net47}}{{#net48}}7.0.0  {{/net48}}{{#net6.0}}6.0.1  {{/net6.0}}{{#net7.0}}7.0.1  {{/net7.0}}{{#net8.0}}8.0.0  {{/net8.0}}{{/lambda.first}}" />
-      {{#supportsRetry}}
-    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="{{#lambda.first}}{{#netStandard}}5.0.1  {{/netStandard}}{{#net47}}7.0.0  {{/net47}}{{#net48}}7.0.0  {{/net48}}{{#net6.0}}6.0.19  {{/net6.0}}{{#net7.0}}7.0.11  {{/net7.0}}{{#net8.0}}8.0.0  {{/net8.0}}{{/lambda.first}}" />
-      {{/supportsRetry}}
-      {{#net80OrLater}}
-    <PackageReference Include="Microsoft.Net.Http.Headers" Version="8.0.0" />
-      {{/net80OrLater}}
-      {{#netStandard}}
+    {{#supportsRetry}}
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="{{#lambda.first}}{{#netStandard}}5.0.1  {{/netStandard}}{{#net47}}7.0.0  {{/net47}}{{#net48}}7.0.0  {{/net48}}{{#net6.0}}6.0.19  {{/net6.0}}{{#net7.0}}7.0.11  {{/net7.0}}{{#net8.0}}8.0.3  {{/net8.0}}{{/lambda.first}}" />
+    {{/supportsRetry}}
+    {{#net80OrLater}}
+    <PackageReference Include="Microsoft.Net.Http.Headers" Version="8.0.3" />
+    {{/net80OrLater}}
+    {{^net60OrLater}}
     <PackageReference Include="System.Threading.Channels" Version="8.0.0" />
-      {{/netStandard}}
-      {{/useGenericHost}}
-      {{^useGenericHost}}
-      {{#supportsRetry}}
+    {{#net47OrLater}}
+    <Reference Include="System.Web" />
+    {{/net47OrLater}}
+    {{/net60OrLater}}
+    {{/useGenericHost}}
+    {{^useGenericHost}}
+    {{#supportsRetry}}
     <PackageReference Include="Polly" Version="{{^netStandard}}8.1.0{{/netStandard}}{{#netStandard}}8.1.0{{/netStandard}}" />
-      {{/supportsRetry}}
-      {{/useGenericHost}}
+    {{/supportsRetry}}
+    {{/useGenericHost}}
     {{#validatable}}
     {{^net60OrLater}}
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
@@ -61,13 +65,17 @@
 
 {{^useGenericHost}}
   <ItemGroup>
+    {{^net60OrLater}}
     <None Remove="System.Web" />
+    {{/net60OrLater}}
     {{#net48}}
     <None Remove="System.Net.Http" />
     {{/net48}}
   </ItemGroup>
   <ItemGroup>
+    {{^net60OrLater}}
     <Reference Include="System.Web" />
+    {{/net60OrLater}}
     {{#net48}}
     <Reference Include="System.Net.Http" />
     {{/net48}}

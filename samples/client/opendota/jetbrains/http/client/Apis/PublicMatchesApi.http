@@ -2,5 +2,5 @@
 
 ### GET /publicMatches
 ## GET /publicMatches
-GET https://api.opendota.com/api/publicMatches
+GET https://api.opendota.com/api/publicMatches?mmrAscending={{mmrAscending}}&mmrDescending={{mmrDescending}}&lessThanMatchId={{lessThanMatchId}}
 Accept: application/json; charset=utf-8

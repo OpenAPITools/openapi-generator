@@ -1,0 +1,5 @@
+generatorName: kotlin-spring
+outputDir: samples/server/petstore/kotlin-springboot-multipart-request-model
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/3_0/issue_15251_multipart_request_model.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-spring

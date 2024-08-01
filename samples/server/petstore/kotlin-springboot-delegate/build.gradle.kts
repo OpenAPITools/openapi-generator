@@ -40,9 +40,8 @@ dependencies {
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
     compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
-    compile("jakarta.validation:jakarta.validation-api")
-    compile("jakarta.annotation:jakarta.annotation-api:2.1.0")
-
+    compile("javax.validation:validation-api")
+    compile("javax.annotation:javax.annotation-api:1.3.2")
     testCompile("org.jetbrains.kotlin:kotlin-test-junit5")
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")

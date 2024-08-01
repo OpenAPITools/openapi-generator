@@ -10,19 +10,13 @@ use validator::{Validate, ValidationErrors};
 use crate::{header, types::*};
 
 #[allow(unused_imports)]
-use crate::models;
-
-use crate::{
-    AllOfGetResponse, Api, DummyGetResponse, DummyPutResponse, FileResponseGetResponse,
-    GetStructuredYamlResponse, HtmlPostResponse, PostYamlResponse, RawJsonGetResponse,
-    SoloObjectPostResponse,
-};
+use crate::{apis, models};
 
 /// Setup API Server.
 pub fn new<I, A>(api_impl: I) -> Router
 where
     I: AsRef<A> + Clone + Send + Sync + 'static,
-    A: Api + 'static,
+    A: apis::default::Default + 'static,
 {
     // build our application with a route
     Router::new()
@@ -41,7 +35,6 @@ where
 fn all_of_get_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// AllOfGet - GET /allOf
 #[tracing::instrument(skip_all)]
 async fn all_of_get<I, A>(
@@ -52,7 +45,7 @@ async fn all_of_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::default::Default,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || all_of_get_validation())
@@ -72,7 +65,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            AllOfGetResponse::Status200_OK(body) => {
+            apis::default::AllOfGetResponse::Status200_OK(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -113,7 +106,6 @@ where
 fn dummy_get_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// DummyGet - GET /dummy
 #[tracing::instrument(skip_all)]
 async fn dummy_get<I, A>(
@@ -124,7 +116,7 @@ async fn dummy_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::default::Default,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || dummy_get_validation())
@@ -144,7 +136,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            DummyGetResponse::Status200_Success => {
+            apis::default::DummyGetResponse::Status200_Success => {
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -165,7 +157,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct DummyPutBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::DummyPutRequest,
 }
 
@@ -178,7 +170,6 @@ fn dummy_put_validation(
 
     Ok((body,))
 }
-
 /// DummyPut - PUT /dummy
 #[tracing::instrument(skip_all)]
 async fn dummy_put<I, A>(
@@ -190,7 +181,7 @@ async fn dummy_put<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::default::Default,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || dummy_put_validation(body))
@@ -213,7 +204,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            DummyPutResponse::Status200_Success => {
+            apis::default::DummyPutResponse::Status200_Success => {
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -235,7 +226,6 @@ where
 fn file_response_get_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// FileResponseGet - GET /file_response
 #[tracing::instrument(skip_all)]
 async fn file_response_get<I, A>(
@@ -246,7 +236,7 @@ async fn file_response_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::default::Default,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || file_response_get_validation())
@@ -269,7 +259,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            FileResponseGetResponse::Status200_Success(body) => {
+            apis::default::FileResponseGetResponse::Status200_Success(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -310,7 +300,6 @@ where
 fn get_structured_yaml_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// GetStructuredYaml - GET /get-structured-yaml
 #[tracing::instrument(skip_all)]
 async fn get_structured_yaml<I, A>(
@@ -321,7 +310,7 @@ async fn get_structured_yaml<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::default::Default,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || get_structured_yaml_validation())
@@ -344,7 +333,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            GetStructuredYamlResponse::Status200_OK(body) => {
+            apis::default::GetStructuredYamlResponse::Status200_OK(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -384,7 +373,6 @@ struct HtmlPostBodyValidator<'a> {
 fn html_post_validation(body: String) -> std::result::Result<(String,), ValidationErrors> {
     Ok((body,))
 }
-
 /// HtmlPost - POST /html
 #[tracing::instrument(skip_all)]
 async fn html_post<I, A>(
@@ -396,7 +384,7 @@ async fn html_post<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::default::Default,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || html_post_validation(body))
@@ -419,7 +407,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            HtmlPostResponse::Status200_Success(body) => {
+            apis::default::HtmlPostResponse::Status200_Success(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -459,7 +447,6 @@ struct PostYamlBodyValidator<'a> {
 fn post_yaml_validation(body: String) -> std::result::Result<(String,), ValidationErrors> {
     Ok((body,))
 }
-
 /// PostYaml - POST /post-yaml
 #[tracing::instrument(skip_all)]
 async fn post_yaml<I, A>(
@@ -471,7 +458,7 @@ async fn post_yaml<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::default::Default,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || post_yaml_validation(body))
@@ -494,7 +481,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            PostYamlResponse::Status204_OK => {
+            apis::default::PostYamlResponse::Status204_OK => {
                 let mut response = response.status(204);
                 response.body(Body::empty())
             }
@@ -516,7 +503,6 @@ where
 fn raw_json_get_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// RawJsonGet - GET /raw_json
 #[tracing::instrument(skip_all)]
 async fn raw_json_get<I, A>(
@@ -527,7 +513,7 @@ async fn raw_json_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::default::Default,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || raw_json_get_validation())
@@ -547,7 +533,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            RawJsonGetResponse::Status200_Success(body) => {
+            apis::default::RawJsonGetResponse::Status200_Success(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -599,7 +585,6 @@ fn solo_object_post_validation(
 
     Ok((body,))
 }
-
 /// SoloObjectPost - POST /solo-object
 #[tracing::instrument(skip_all)]
 async fn solo_object_post<I, A>(
@@ -611,7 +596,7 @@ async fn solo_object_post<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::default::Default,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || solo_object_post_validation(body))
@@ -634,7 +619,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            SoloObjectPostResponse::Status204_OK => {
+            apis::default::SoloObjectPostResponse::Status204_OK => {
                 let mut response = response.status(204);
                 response.body(Body::empty())
             }

@@ -14,9 +14,9 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
-import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.Assert;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Assertions;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -28,7 +28,7 @@ import java.util.Map;
 /**
  * API tests for FormApi
  */
-@Ignore
+@Disabled
 public class FormApiTest {
 
     private final FormApi api = new FormApi();

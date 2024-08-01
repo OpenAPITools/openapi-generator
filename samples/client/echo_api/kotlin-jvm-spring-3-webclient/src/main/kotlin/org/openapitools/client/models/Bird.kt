@@ -29,11 +29,14 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class Bird (
 
-    @field:JsonProperty("size")
+    @get:JsonProperty("size")
     val propertySize: kotlin.String? = null,
 
-    @field:JsonProperty("color")
+    @get:JsonProperty("color")
     val color: kotlin.String? = null
 
-)
+) {
+
+
+}
 

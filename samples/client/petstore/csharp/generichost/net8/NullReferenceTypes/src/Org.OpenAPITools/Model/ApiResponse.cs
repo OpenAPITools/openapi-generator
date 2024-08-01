@@ -114,7 +114,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -200,7 +200,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, apiResponse, jsonSerializerOptions);
+            WriteProperties(writer, apiResponse, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -211,7 +211,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="apiResponse"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, ApiResponse apiResponse, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, ApiResponse apiResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (apiResponse.MessageOption.IsSet && apiResponse.Message == null)
                 throw new ArgumentNullException(nameof(apiResponse.Message), "Property is required for class ApiResponse.");

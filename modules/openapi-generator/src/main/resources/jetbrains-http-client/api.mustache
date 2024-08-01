@@ -5,13 +5,16 @@
 {{#vendorExtensions.requests}}
 ### {{#summary}}{{summary}}{{/summary}}
 ## {{name}}
-{{httpMethod}} {{basePath}}{{#lambda.doubleMustache}}{{path}}{{/lambda.doubleMustache}}{{#authMethods}}{{#isKeyInQuery}}?{{keyParamName}}={{#lambda.doubleMustache}}{queryKey}{{/lambda.doubleMustache}}{{/isKeyInQuery}}{{/authMethods}}
+{{httpMethod}} {{basePath}}{{#lambda.doubleMustache}}{{path}}{{/lambda.doubleMustache}}{{>queryParams}}
 {{#consumes}}
 Content-Type: {{{mediaType}}}
 {{/consumes}}
 {{#produces}}
 Accept: {{{mediaType}}}
 {{/produces}}
+{{#headerParams}}
+{{baseName}}: {{=<% %>=}}{{<%paramName%>}}<%={{ }}=%>
+{{/headerParams}}
 {{#vendorExtensions.customHeaders}}
 {{{.}}}
 {{/vendorExtensions.customHeaders}}

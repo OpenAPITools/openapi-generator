@@ -18,7 +18,6 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
@@ -52,6 +51,30 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     public static final String HELPERS_PACKAGE_NAME_DESC = "Specify the package name to be used for the helpers (e.g. org.openapitools.server.helpers).";
     protected final String PREFIX = "";
     protected String helpersPackage = "";
+
+    /** OpenApi types that shouldn't have a namespace added with getTypeDeclaration() at generation time (for nlohmann::json) */
+    private final Set<String> openAPITypesWithoutModelNamespace = new HashSet<>();
+
+    /** int32_t (for integer) */
+    private static final String INT32_T = "int32_t";
+
+    /** int64_t (for long) */
+    private static final String INT64_T = "int64_t";
+
+    /** nlohmann::json (for object, AnyType) */
+    private static final String NLOHMANN_JSON = "nlohmann::json";
+
+    /** std:string (for date, DateTime, string, file, binary, UUID, URI, ByteArray) */
+    private static final String STD_STRING = "std::string";
+
+    /** std:map (for map) */
+    private static final String STD_MAP = "std::map";
+
+    /** std:set (for set) */
+    private static final String STD_SET = "std::set";
+
+    /** std:vector (for array) */
+    private static final String STD_VECTOR = "std::vector";
 
     @Override
     public CodegenType getTag() {
@@ -117,33 +140,36 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         setupSupportingFiles();
 
         languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList("int", "char", "bool", "long", "float", "double", "int32_t", "int64_t"));
+                Arrays.asList("int", "char", "bool", "long", "float", "double", INT32_T, INT64_T));
 
         typeMapping = new HashMap<>();
-        typeMapping.put("date", "std::string");
-        typeMapping.put("DateTime", "std::string");
-        typeMapping.put("string", "std::string");
-        typeMapping.put("integer", "int32_t");
-        typeMapping.put("long", "int64_t");
+        typeMapping.put("date", STD_STRING);
+        typeMapping.put("DateTime", STD_STRING);
+        typeMapping.put("string", STD_STRING);
+        typeMapping.put("integer", INT32_T);
+        typeMapping.put("long", INT64_T);
         typeMapping.put("boolean", "bool");
-        typeMapping.put("array", "std::vector");
-        typeMapping.put("map", "std::map");
-        typeMapping.put("set", "std::vector");
-        typeMapping.put("file", "std::string");
-        typeMapping.put("object", "Object");
-        typeMapping.put("binary", "std::string");
+        typeMapping.put("array", STD_VECTOR);
+        typeMapping.put("map", STD_MAP);
+        typeMapping.put("set", STD_SET);
+        typeMapping.put("file", STD_STRING);
+        typeMapping.put("object", NLOHMANN_JSON);
+        typeMapping.put("binary", STD_STRING);
         typeMapping.put("number", "double");
-        typeMapping.put("UUID", "std::string");
-        typeMapping.put("URI", "std::string");
-        typeMapping.put("ByteArray", "std::string");
-        typeMapping.put("AnyType", "nlohmann::json");
+        typeMapping.put("UUID", STD_STRING);
+        typeMapping.put("URI", STD_STRING);
+        typeMapping.put("ByteArray", STD_STRING);
+        typeMapping.put("AnyType", NLOHMANN_JSON);
 
         super.importMapping = new HashMap<>();
-        importMapping.put("std::vector", "#include <vector>");
-        importMapping.put("std::map", "#include <map>");
-        importMapping.put("std::string", "#include <string>");
-        importMapping.put("Object", "#include \"Object.h\"");
-        importMapping.put("nlohmann::json", "#include <nlohmann/json.hpp>");
+        importMapping.put(STD_VECTOR, "#include <vector>");
+        importMapping.put(STD_MAP, "#include <map>");
+        importMapping.put(STD_SET, "#include <set>");
+        importMapping.put(STD_STRING, "#include <string>");
+        importMapping.put(NLOHMANN_JSON, "#include <nlohmann/json.hpp>");
+
+        // nlohmann:json doesn't belong to model package
+        this.openAPITypesWithoutModelNamespace.add(NLOHMANN_JSON);
     }
 
     private void setupSupportingFiles() {
@@ -202,8 +228,16 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toModelImport(String name) {
+        // Do not reattempt to add #include on an already solved #include
+        if (name.startsWith("#include")) {
+           return null;
+        }
+
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         } else {
@@ -214,20 +248,23 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     @Override
     public CodegenModel fromModel(String name, Schema model) {
+        // Exchange import directives from core model with ours
         CodegenModel codegenModel = super.fromModel(name, model);
 
         Set<String> oldImports = codegenModel.imports;
         codegenModel.imports = new HashSet<>();
+
         for (String imp : oldImports) {
             String newImp = toModelImport(imp);
-            if (!newImp.isEmpty()) {
+
+            if (newImp != null && !newImp.isEmpty()) {
                 codegenModel.imports.add(newImp);
             }
         }
 
         if(!codegenModel.isEnum
                 && codegenModel.anyOf.size()>1
-                && codegenModel.anyOf.contains("std::string")
+                && codegenModel.anyOf.contains(STD_STRING)
                 && !codegenModel.anyOf.contains("AnyType")
                 && codegenModel.interfaces.size()==1
         ){
@@ -319,13 +356,17 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
      * data types for Header and Query parameters.
      * @param param CodegenParameter to be modified.
      */
-    private static void postProcessSingleParam(CodegenParameter param) {
+    private void postProcessSingleParam(CodegenParameter param) {
         //TODO: This changes the info about the real type but it is needed to parse the header params
         if (param.isHeaderParam) {
             param.dataType = "std::optional<Pistache::Http::Header::Raw>";
             param.baseType = "std::optional<Pistache::Http::Header::Raw>";
         } else if (param.isQueryParam) {
-            param.dataType = "std::optional<" + param.dataType + ">";
+            String dataTypeWithNamespace = param.isPrimitiveType ? param.dataType : prefixWithNameSpaceIfNeeded(param.dataType);
+
+            param.dataType = "std::optional<" + dataTypeWithNamespace + ">";
+            param.isOptional = true;
+
             if (!param.isPrimitiveType) {
                 param.baseType = "std::optional<" + param.baseType + ">";
             }
@@ -381,15 +422,14 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         String openAPIType = getSchemaType(p);
 
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         }
         if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isByteArraySchema(p)) {
-            return "std::string";
+            return STD_STRING;
         }
         if (ModelUtils.isStringSchema(p)
                 || ModelUtils.isDateSchema(p)
@@ -398,8 +438,23 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             return toModelName(openAPIType);
         }
 
-        String namespace = (String)additionalProperties.get("modelNamespace");
-        return namespace + "::" + openAPIType;
+        return prefixWithNameSpaceIfNeeded(openAPIType);
+    }
+
+    /**
+     * Prefix an open API type with a namespace or not, depending of its current type and if it is on a list to avoid it.
+     * @param openAPIType Open API Type.
+     * @return type prefixed with the namespace or not.
+     */
+    private String prefixWithNameSpaceIfNeeded(String openAPIType) {
+        // Some types might not support namespace
+        if (this.openAPITypesWithoutModelNamespace.contains(openAPIType) || openAPIType.startsWith("std::")) {
+            return openAPIType;
+        }
+        else {
+            String namespace = (String) additionalProperties.get("modelNamespace");
+            return namespace + "::" + openAPIType;
+        }
     }
 
     @Override
@@ -474,8 +529,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "std::map<std::string, " + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
+            String inner = getSchemaType(ModelUtils.getSchemaItems(p));
             if (!languageSpecificPrimitives.contains(inner)) {
                 inner = "std::shared_ptr<" + inner + ">";
             }

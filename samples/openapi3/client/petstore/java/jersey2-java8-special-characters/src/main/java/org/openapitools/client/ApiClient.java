@@ -70,7 +70,7 @@ import org.openapitools.client.auth.ApiKeyAuth;
 /**
  * <p>ApiClient class.</p>
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
   private static final Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
 
@@ -159,7 +159,7 @@ public class ApiClient extends JavaTimeFormatter {
    * <p>Setter for the field <code>httpClient</code>.</p>
    *
    * @param httpClient a {@link javax.ws.rs.client.Client} object.
-   * @return a {@link org.openapitools.client.ApiClient} object.
+   * @return a {@link ApiClient} object.
    */
   public ApiClient setHttpClient(Client httpClient) {
     this.httpClient = httpClient;
@@ -179,7 +179,7 @@ public class ApiClient extends JavaTimeFormatter {
    * Sets the base URL to the location where the OpenAPI document is being served.
    *
    * @param basePath The base URL to the target host.
-   * @return a {@link org.openapitools.client.ApiClient} object.
+   * @return a {@link ApiClient} object.
    */
   public ApiClient setBasePath(String basePath) {
     this.basePath = basePath;
@@ -199,7 +199,7 @@ public class ApiClient extends JavaTimeFormatter {
    * <p>Setter for the field <code>servers</code>.</p>
    *
    * @param servers a {@link java.util.List} of servers.
-   * @return a {@link org.openapitools.client.ApiClient} object.
+   * @return a {@link ApiClient} object.
    */
   public ApiClient setServers(List<ServerConfiguration> servers) {
     this.servers = servers;
@@ -220,7 +220,7 @@ public class ApiClient extends JavaTimeFormatter {
    * <p>Setter for the field <code>serverIndex</code>.</p>
    *
    * @param serverIndex the server index
-   * @return a {@link org.openapitools.client.ApiClient} object.
+   * @return a {@link ApiClient} object.
    */
   public ApiClient setServerIndex(Integer serverIndex) {
     this.serverIndex = serverIndex;
@@ -241,7 +241,7 @@ public class ApiClient extends JavaTimeFormatter {
    * <p>Setter for the field <code>serverVariables</code>.</p>
    *
    * @param serverVariables a {@link java.util.Map} of server variables.
-   * @return a {@link org.openapitools.client.ApiClient} object.
+   * @return a {@link ApiClient} object.
    */
   public ApiClient setServerVariables(Map<String, String> serverVariables) {
     this.serverVariables = serverVariables;
@@ -278,7 +278,7 @@ public class ApiClient extends JavaTimeFormatter {
    * Helper method to set username for the first HTTP basic authentication.
    *
    * @param username Username
-   * @return a {@link org.openapitools.client.ApiClient} object.
+   * @return a {@link ApiClient} object.
    */
   public ApiClient setUsername(String username) {
     for (Authentication auth : authentications.values()) {
@@ -294,7 +294,7 @@ public class ApiClient extends JavaTimeFormatter {
    * Helper method to set password for the first HTTP basic authentication.
    *
    * @param password Password
-   * @return a {@link org.openapitools.client.ApiClient} object.
+   * @return a {@link ApiClient} object.
    */
   public ApiClient setPassword(String password) {
     for (Authentication auth : authentications.values()) {
@@ -310,7 +310,7 @@ public class ApiClient extends JavaTimeFormatter {
    * Helper method to set API key value for the first API key authentication.
    *
    * @param apiKey API key
-   * @return a {@link org.openapitools.client.ApiClient} object.
+   * @return a {@link ApiClient} object.
    */
   public ApiClient setApiKey(String apiKey) {
     for (Authentication auth : authentications.values()) {
@@ -326,7 +326,7 @@ public class ApiClient extends JavaTimeFormatter {
    * Helper method to configure authentications which respects aliases of API keys.
    *
    * @param secrets Hash map from authentication name to its secret.
-   * @return a {@link org.openapitools.client.ApiClient} object.
+   * @return a {@link ApiClient} object.
    */
   public ApiClient configureApiKeys(Map<String, String> secrets) {
     for (Map.Entry<String, Authentication> authEntry : authentications.entrySet()) {
@@ -348,7 +348,7 @@ public class ApiClient extends JavaTimeFormatter {
    * Helper method to set API key prefix for the first API key authentication.
    *
    * @param apiKeyPrefix API key prefix
-   * @return a {@link org.openapitools.client.ApiClient} object.
+   * @return a {@link ApiClient} object.
    */
   public ApiClient setApiKeyPrefix(String apiKeyPrefix) {
     for (Authentication auth : authentications.values()) {
@@ -364,7 +364,7 @@ public class ApiClient extends JavaTimeFormatter {
    * Helper method to set bearer token for the first Bearer authentication.
    *
    * @param bearerToken Bearer token
-   * @return a {@link org.openapitools.client.ApiClient} object.
+   * @return a {@link ApiClient} object.
    */
   public ApiClient setBearerToken(String bearerToken) {
     for (Authentication auth : authentications.values()) {
@@ -380,7 +380,7 @@ public class ApiClient extends JavaTimeFormatter {
    * Set the User-Agent header's value (by adding to the default header map).
    *
    * @param userAgent Http user agent
-   * @return a {@link org.openapitools.client.ApiClient} object.
+   * @return a {@link ApiClient} object.
    */
   public ApiClient setUserAgent(String userAgent) {
     this.userAgent = userAgent;
@@ -402,7 +402,7 @@ public class ApiClient extends JavaTimeFormatter {
    *
    * @param key The header's key
    * @param value The header's value
-   * @return a {@link org.openapitools.client.ApiClient} object.
+   * @return a {@link ApiClient} object.
    */
   public ApiClient addDefaultHeader(String key, String value) {
     defaultHeaderMap.put(key, value);
@@ -414,7 +414,7 @@ public class ApiClient extends JavaTimeFormatter {
    *
    * @param key The cookie's key
    * @param value The cookie's value
-   * @return a {@link org.openapitools.client.ApiClient} object.
+   * @return a {@link ApiClient} object.
    */
   public ApiClient addDefaultCookie(String key, String value) {
     defaultCookieMap.put(key, value);
@@ -434,7 +434,7 @@ public class ApiClient extends JavaTimeFormatter {
    * Set the client config.
    *
    * @param clientConfig Set the client config
-   * @return a {@link org.openapitools.client.ApiClient} object.
+   * @return a {@link ApiClient} object.
    */
   public ApiClient setClientConfig(ClientConfig clientConfig) {
     this.clientConfig = clientConfig;
@@ -456,7 +456,7 @@ public class ApiClient extends JavaTimeFormatter {
    * Enable/disable debugging for this API client.
    *
    * @param debugging To enable (true) or disable (false) debugging
-   * @return a {@link org.openapitools.client.ApiClient} object.
+   * @return a {@link ApiClient} object.
    */
   public ApiClient setDebugging(boolean debugging) {
     this.debugging = debugging;
@@ -480,7 +480,7 @@ public class ApiClient extends JavaTimeFormatter {
    * Set temp folder path
    *
    * @param tempFolderPath Temp folder path
-   * @return a {@link org.openapitools.client.ApiClient} object.
+   * @return a {@link ApiClient} object.
    */
   public ApiClient setTempFolderPath(String tempFolderPath) {
     this.tempFolderPath = tempFolderPath;
@@ -502,7 +502,7 @@ public class ApiClient extends JavaTimeFormatter {
    * {@link Integer#MAX_VALUE}.
    *
    * @param connectionTimeout Connection timeout in milliseconds
-   * @return a {@link org.openapitools.client.ApiClient} object.
+   * @return a {@link ApiClient} object.
    */
   public ApiClient setConnectTimeout(int connectionTimeout) {
     this.connectionTimeout = connectionTimeout;
@@ -525,7 +525,7 @@ public class ApiClient extends JavaTimeFormatter {
    * {@link Integer#MAX_VALUE}.
    *
    * @param readTimeout Read timeout in milliseconds
-   * @return a {@link org.openapitools.client.ApiClient} object.
+   * @return a {@link ApiClient} object.
    */
   public ApiClient setReadTimeout(int readTimeout) {
     this.readTimeout = readTimeout;
@@ -546,7 +546,7 @@ public class ApiClient extends JavaTimeFormatter {
    * Set the date format used to parse/format date parameters.
    *
    * @param dateFormat Date format
-   * @return a {@link org.openapitools.client.ApiClient} object.
+   * @return a {@link ApiClient} object.
    */
   public ApiClient setDateFormat(DateFormat dateFormat) {
     this.dateFormat = dateFormat;
@@ -592,9 +592,9 @@ public class ApiClient extends JavaTimeFormatter {
       return formatDate((Date) param);
     } else if (param instanceof OffsetDateTime) {
       return formatOffsetDateTime((OffsetDateTime) param);
-    } else if (param instanceof Collection) {
+    } else if (param instanceof Collection<?>) {
       StringBuilder b = new StringBuilder();
-      for(Object o : (Collection)param) {
+      for(Object o : (Collection<?>)param) {
         if(b.length() > 0) {
           b.append(',');
         }
@@ -620,9 +620,9 @@ public class ApiClient extends JavaTimeFormatter {
     // preconditions
     if (name == null || name.isEmpty() || value == null) return params;
 
-    Collection valueCollection;
-    if (value instanceof Collection) {
-      valueCollection = (Collection) value;
+    Collection<?> valueCollection;
+    if (value instanceof Collection<?>) {
+      valueCollection = (Collection<?>) value;
     } else {
       params.add(new Pair(name, parameterToString(value)));
       return params;
@@ -758,7 +758,7 @@ public class ApiClient extends JavaTimeFormatter {
           File file = (File) param.getValue();
           FormDataContentDisposition contentDisp = FormDataContentDisposition.name(param.getKey())
               .fileName(file.getName()).size(file.length()).build();
-          
+
           // Attempt to probe the content type for the file so that the form part is more correctly
           // and precisely identified, but fall back to application/octet-stream if that fails.
           MediaType type;
@@ -767,7 +767,7 @@ public class ApiClient extends JavaTimeFormatter {
           } catch (IOException | IllegalArgumentException e) {
             type = MediaType.APPLICATION_OCTET_STREAM_TYPE;
           }
-          
+
           multiPart.bodyPart(new FormDataBodyPart(contentDisp, file, type));
         } else {
           FormDataContentDisposition contentDisp = FormDataContentDisposition.name(param.getKey()).build();

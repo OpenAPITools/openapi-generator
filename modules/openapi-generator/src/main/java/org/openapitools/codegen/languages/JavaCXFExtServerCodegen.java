@@ -17,41 +17,35 @@
 
 package org.openapitools.codegen.languages;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import org.apache.commons.text.StringEscapeUtils;
+import com.fasterxml.jackson.core.JsonPointer;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.mifmif.common.regex.Generex;
+import io.swagger.v3.oas.models.media.Schema;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.SupportingFile;
+import org.apache.commons.text.StringEscapeUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.CXFExtServerFeatures;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.JsonCache;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.JsonCache.CacheException;
 import org.openapitools.codegen.utils.JsonCache.Root.MergePolicy;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.core.JsonPointer;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.mifmif.common.regex.Generex;
-
-import io.swagger.v3.oas.models.media.Schema;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * An Apache CXF-based JAX-RS server with extended capabilities.
@@ -312,19 +306,19 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
 
     private final Map<String, Generex> REGEX_GENERATORS = new HashMap<>();
 
-    protected boolean generateOperationBody = false;
+    @Setter protected boolean generateOperationBody = false;
 
-    protected boolean loadTestDataFromFile = false;
+    @Setter protected boolean loadTestDataFromFile = false;
 
-    protected boolean supportMultipleSpringServices = false;
+    @Setter protected boolean supportMultipleSpringServices = false;
 
     protected JsonCache testDataCache = null;
 
     protected JsonCache testDataControlCache = null;
 
-    protected File testDataFile = null;
+    @Setter protected File testDataFile = null;
 
-    protected File testDataControlFile = null;
+    @Setter protected File testDataControlFile = null;
 
     public JavaCXFExtServerCodegen() {
         super();
@@ -1288,11 +1282,11 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                 if (testDataCache.root().isDirty()) {
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     testDataCache.root().flush(out);
-                    String testDataJson = out.toString("UTF-8");
+                    String testDataJson = out.toString(StandardCharsets.UTF_8);
                     objs.put("test-data.json", testDataJson);
                     supportingFiles.add(new SupportingFile("testData.mustache", testDataFile.getAbsolutePath()));
                 }
-            } catch (CacheException | UnsupportedEncodingException e) {
+            } catch (CacheException e) {
                 LOGGER.error("Error writing JSON test data file " + testDataFile, e);
             }
 
@@ -1300,12 +1294,12 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                 if (testDataControlCache.root().isDirty()) {
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     testDataControlCache.root().flush(out);
-                    String testDataControlJson = out.toString("UTF-8");
+                    String testDataControlJson = out.toString(StandardCharsets.UTF_8);
                     objs.put("test-data-control.json", testDataControlJson);
                     supportingFiles
                             .add(new SupportingFile("testDataControl.mustache", testDataControlFile.getAbsolutePath()));
                 }
-            } catch (CacheException | UnsupportedEncodingException e) {
+            } catch (CacheException e) {
                 LOGGER.error("Error writing JSON test data control file " + testDataControlFile, e);
             }
         }
@@ -1317,13 +1311,10 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(GENERATE_SPRING_APPLICATION)) {
-            this.setSupportMultipleSpringServices(
-                    convertPropertyToBooleanAndWriteBack(SUPPORT_MULTIPLE_SPRING_SERVICES));
-        }
-        if (additionalProperties.containsKey(GENERATE_OPERATION_BODY)) {
-            boolean generateOperationBody = convertPropertyToBooleanAndWriteBack(GENERATE_OPERATION_BODY);
-            this.setGenerateOperationBody(generateOperationBody);
+        convertPropertyToBooleanAndWriteBack(GENERATE_SPRING_APPLICATION, this::setSupportMultipleSpringServices);
+
+        convertPropertyToBooleanAndWriteBack(GENERATE_OPERATION_BODY, this::setGenerateOperationBody);
+        if (generateOperationBody) {
 
             boolean loadTestDataFromFile = convertPropertyToBooleanAndWriteBack(LOAD_TEST_DATA_FROM_FILE);
             this.setLoadTestDataFromFile(loadTestDataFromFile);
@@ -1401,26 +1392,6 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                 }
             }
         }
-    }
-
-    public void setGenerateOperationBody(boolean generateOperationBody) {
-        this.generateOperationBody = generateOperationBody;
-    }
-
-    public void setLoadTestDataFromFile(boolean loadTestDataFromFile) {
-        this.loadTestDataFromFile = loadTestDataFromFile;
-    }
-
-    public void setSupportMultipleSpringServices(boolean supportMultipleSpringServices) {
-        this.supportMultipleSpringServices = supportMultipleSpringServices;
-    }
-
-    public void setTestDataControlFile(File testDataControlFile) {
-        this.testDataControlFile = testDataControlFile;
-    }
-
-    public void setTestDataFile(File testDataFile) {
-        this.testDataFile = testDataFile;
     }
 
     @Override

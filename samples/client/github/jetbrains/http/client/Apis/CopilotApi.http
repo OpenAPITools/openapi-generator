@@ -56,5 +56,5 @@ Accept: application/json
 
 ### List all Copilot seat assignments for an organization
 ## List all Copilot seat assignments for an organization
-GET https://api.github.com/orgs/{{org}}/copilot/billing/seats
+GET https://api.github.com/orgs/{{org}}/copilot/billing/seats?page={{page}}&perPage={{perPage}}
 Accept: application/json

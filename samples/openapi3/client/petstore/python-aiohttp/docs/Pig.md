@@ -24,7 +24,7 @@ print(Pig.to_json())
 # convert the object into a dict
 pig_dict = pig_instance.to_dict()
 # create an instance of Pig from a dict
-pig_form_dict = pig.from_dict(pig_dict)
+pig_from_dict = Pig.from_dict(pig_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

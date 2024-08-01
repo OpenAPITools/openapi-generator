@@ -1,16 +1,18 @@
-name: Samples Kotlin server
+name: Samples Kotlin server (jdk17)
 
 on:
   push:
     branches:
       - 'samples/server/petstore/kotlin-springboot-3*/**'
       - 'samples/server/petstore/kotlin-server/javalin/**'
+      - 'samples/server/petstore/kotlin-server/javalin-6/**'
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
   pull_request:
     paths:
       - 'samples/server/petstore/kotlin-springboot-3*/**'
       - 'samples/server/petstore/kotlin-server/javalin/**'
+      - 'samples/server/petstore/kotlin-server/javalin-6/**'
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
 
@@ -27,8 +29,11 @@ jobs:
         sample:
           # server
           - samples/server/petstore/kotlin-springboot-3
+          - samples/server/petstore/kotlin-springboot-delegate-nodefaults
           - samples/server/petstore/kotlin-springboot-request
+          - samples/server/petstore/kotlin-springboot-request-cookie
           - samples/server/petstore/kotlin-server/javalin
+          - samples/server/petstore/kotlin-server/javalin-6
           # comment out due to gradle build failure
           # - samples/server/petstore/kotlin-spring-default/
     steps:

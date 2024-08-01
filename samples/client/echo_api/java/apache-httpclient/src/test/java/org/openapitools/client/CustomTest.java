@@ -17,8 +17,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.openapitools.client.api.BodyApi;
 import org.openapitools.client.api.QueryApi;
 import org.openapitools.client.model.Category;
@@ -52,13 +52,13 @@ public class CustomTest {
             photoUrls( Arrays.asList( new String[] { "http://a.com", "http://b.com" } ) ).category( new Category().id( 987L ).name( "new category" ) );
 
       final Pet p = bodyApi.testEchoBodyPet( queryObject );
-      Assert.assertNotNull( p );
-      Assert.assertEquals( "Hello World", p.getName() );
-      Assert.assertEquals( Long.valueOf( 12345L ), p.getId() );
+      Assertions.assertNotNull( p );
+      Assertions.assertEquals( "Hello World", p.getName() );
+      Assertions.assertEquals( Long.valueOf( 12345L ), p.getId() );
 
       // response is empty body
       final Pet p2 = bodyApi.testEchoBodyPet( null );
-      Assert.assertNull( p2 );
+      Assertions.assertNull( p2 );
    }
 
    /**
@@ -72,7 +72,7 @@ public class CustomTest {
    public void testEchoBodyPetResponseString() throws ApiException {
       // response is empty body
       final String p2 = bodyApi.testEchoBodyPetResponseString( null );
-      Assert.assertNull( p2 );
+      Assertions.assertNull( p2 );
    }
 
    /**
@@ -89,7 +89,7 @@ public class CustomTest {
 
       final String response = api.testQueryStyleFormExplodeTrueObject( queryObject );
       final org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser( response );
-      Assert.assertEquals(
+      Assertions.assertEquals(
             "/query/style_form/explode_true/object?id=12345&name=Hello%20World&category=class%20Category%20%7B%0A%20%20%20%20id%3A%20987%0A%20%20%20%20name%3A%20new%20category%0A%7D&photoUrls=http%3A%2F%2Fa.com&photoUrls=http%3A%2F%2Fb.com",
             p.path );
    }
@@ -106,13 +106,13 @@ public class CustomTest {
       final Pet queryObject = new Pet().id( 12345L ).name( "Hello World" ).
             photoUrls( Arrays.asList( new String[] { "http://a.com", "http://b.com" } ) ).category( new Category().id( 987L ).name( "new category" ) );
 
-      Assert.assertEquals(
+      Assertions.assertEquals(
             "query_object[id]=12345&query_object[name]=Hello%20World&query_object[category][id]=987&query_object[category][name]=new%20category&query_object[photoUrls][0]=http%3A%2F%2Fa.com&query_object[photoUrls][1]=http%3A%2F%2Fb.com",
             queryObject.toUrlQueryString( "query_object" ) );
 
       final String response = api.testQueryStyleDeepObjectExplodeTrueObject( queryObject );
       final org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser( response );
-      Assert.assertEquals(
+      Assertions.assertEquals(
             "/query/style_deepObject/explode_true/object?query_object[id]=12345&query_object[name]=Hello%20World&query_object[category][id]=987&query_object[category][name]=new%20category&query_object[photoUrls][0]=http%3A%2F%2Fa.com&query_object[photoUrls][1]=http%3A%2F%2Fb.com",
             p.path );
    }
@@ -132,7 +132,7 @@ public class CustomTest {
 
       final String response = api.testQueryStyleFormExplodeTrueObjectAllOf( queryObject );
       final org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser( response );
-      Assert.assertEquals( "/query/style_form/explode_true/object/allOf?id=3487&outcomes=SKIPPED&outcomes=FAILURE&text=Hello%20World", p.path );
+      Assertions.assertEquals( "/query/style_form/explode_true/object/allOf?id=3487&outcomes=SKIPPED&outcomes=FAILURE&text=Hello%20World", p.path );
    }
 
    /**
@@ -149,7 +149,7 @@ public class CustomTest {
 
       final String response = api.testQueryStyleFormExplodeTrueArrayString( q );
       final org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser( response );
-      Assert.assertEquals( "/query/style_form/explode_true/array_string?values=hello%20world%201&values=hello%20world%202", p.path );
+      Assertions.assertEquals( "/query/style_form/explode_true/array_string?values=hello%20world%201&values=hello%20world%202", p.path );
    }
 
    /**
@@ -163,44 +163,44 @@ public class CustomTest {
    public void testQueryIntegerBooleanString() throws ApiException {
       final String response = api.testQueryIntegerBooleanString( 1, true, "Hello World" );
       final org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser( response );
-      Assert.assertEquals( "/query/integer/boolean/string?integer_query=1&boolean_query=true&string_query=Hello%20World", p.path );
+      Assertions.assertEquals( "/query/integer/boolean/string?integer_query=1&boolean_query=true&string_query=Hello%20World", p.path );
    }
 
    @Test
    public void testArrayDefaultValues() {
       // test array default values
       final DefaultValue d = new DefaultValue();
-      Assert.assertEquals( d.getArrayStringEnumRefDefault().size(), 2 );
-      Assert.assertEquals( d.getArrayStringEnumRefDefault().get( 0 ), StringEnumRef.SUCCESS );
-      Assert.assertEquals( d.getArrayStringEnumRefDefault().get( 1 ), StringEnumRef.FAILURE );
+      Assertions.assertEquals( d.getArrayStringEnumRefDefault().size(), 2 );
+      Assertions.assertEquals( d.getArrayStringEnumRefDefault().get( 0 ), StringEnumRef.SUCCESS );
+      Assertions.assertEquals( d.getArrayStringEnumRefDefault().get( 1 ), StringEnumRef.FAILURE );
 
-      Assert.assertEquals( d.getArrayStringEnumDefault().size(), 2 );
-      Assert.assertEquals( d.getArrayStringEnumDefault().get( 0 ), DefaultValue.ArrayStringEnumDefaultEnum.SUCCESS );
-      Assert.assertEquals( d.getArrayStringEnumDefault().get( 1 ), DefaultValue.ArrayStringEnumDefaultEnum.FAILURE );
+      Assertions.assertEquals( d.getArrayStringEnumDefault().size(), 2 );
+      Assertions.assertEquals( d.getArrayStringEnumDefault().get( 0 ), DefaultValue.ArrayStringEnumDefaultEnum.SUCCESS );
+      Assertions.assertEquals( d.getArrayStringEnumDefault().get( 1 ), DefaultValue.ArrayStringEnumDefaultEnum.FAILURE );
 
-      Assert.assertEquals( d.getArrayStringDefault().size(), 2 );
-      Assert.assertEquals( d.getArrayStringDefault().get( 0 ), "failure" );
-      Assert.assertEquals( d.getArrayStringDefault().get( 1 ), "skipped" );
+      Assertions.assertEquals( d.getArrayStringDefault().size(), 2 );
+      Assertions.assertEquals( d.getArrayStringDefault().get( 0 ), "failure" );
+      Assertions.assertEquals( d.getArrayStringDefault().get( 1 ), "skipped" );
 
-      Assert.assertEquals( d.getArrayIntegerDefault().size(), 2 );
-      Assert.assertEquals( d.getArrayIntegerDefault().get( 0 ), Integer.valueOf( 1 ) );
-      Assert.assertEquals( d.getArrayIntegerDefault().get( 1 ), Integer.valueOf( 3 ) );
+      Assertions.assertEquals( d.getArrayIntegerDefault().size(), 2 );
+      Assertions.assertEquals( d.getArrayIntegerDefault().get( 0 ), Integer.valueOf( 1 ) );
+      Assertions.assertEquals( d.getArrayIntegerDefault().get( 1 ), Integer.valueOf( 3 ) );
 
-      Assert.assertNull( d.getArrayStringNullable() );
-      Assert.assertEquals( d.getArrayString(), Collections.emptyList() );
+      Assertions.assertNull( d.getArrayStringNullable() );
+      Assertions.assertEquals( d.getArrayString(), Collections.emptyList() );
 
       // test addItem
       d.addArrayStringEnumDefaultItem( DefaultValue.ArrayStringEnumDefaultEnum.UNCLASSIFIED );
-      Assert.assertEquals( d.getArrayStringEnumDefault().size(), 3 );
-      Assert.assertEquals( d.getArrayStringEnumDefault().get( 2 ), DefaultValue.ArrayStringEnumDefaultEnum.UNCLASSIFIED );
+      Assertions.assertEquals( d.getArrayStringEnumDefault().size(), 3 );
+      Assertions.assertEquals( d.getArrayStringEnumDefault().get( 2 ), DefaultValue.ArrayStringEnumDefaultEnum.UNCLASSIFIED );
 
       d.addArrayStringDefaultItem( "new item" );
-      Assert.assertEquals( d.getArrayStringDefault().size(), 3 );
-      Assert.assertEquals( d.getArrayStringDefault().get( 2 ), "new item" );
+      Assertions.assertEquals( d.getArrayStringDefault().size(), 3 );
+      Assertions.assertEquals( d.getArrayStringDefault().get( 2 ), "new item" );
 
       d.addArrayIntegerDefaultItem( 5 );
-      Assert.assertEquals( d.getArrayIntegerDefault().size(), 3 );
-      Assert.assertEquals( d.getArrayIntegerDefault().get( 2 ), Integer.valueOf( 5 ) );
+      Assertions.assertEquals( d.getArrayIntegerDefault().size(), 3 );
+      Assertions.assertEquals( d.getArrayIntegerDefault().get( 2 ), Integer.valueOf( 5 ) );
 
    }
 
@@ -213,26 +213,26 @@ public class CustomTest {
       final DefaultValue d = apiClient.getObjectMapper().readValue( str, new TypeReference<DefaultValue>() {
       } );
 
-      Assert.assertEquals( d.getArrayStringEnumRefDefault().size(), 2 );
-      Assert.assertEquals( d.getArrayStringEnumRefDefault().get( 0 ), StringEnumRef.SUCCESS );
-      Assert.assertEquals( d.getArrayStringEnumRefDefault().get( 1 ), StringEnumRef.FAILURE );
+      Assertions.assertEquals( d.getArrayStringEnumRefDefault().size(), 2 );
+      Assertions.assertEquals( d.getArrayStringEnumRefDefault().get( 0 ), StringEnumRef.SUCCESS );
+      Assertions.assertEquals( d.getArrayStringEnumRefDefault().get( 1 ), StringEnumRef.FAILURE );
 
-      Assert.assertEquals( d.getArrayStringEnumDefault().size(), 2 );
-      Assert.assertEquals( d.getArrayStringEnumDefault().get( 0 ), DefaultValue.ArrayStringEnumDefaultEnum.SUCCESS );
-      Assert.assertEquals( d.getArrayStringEnumDefault().get( 1 ), DefaultValue.ArrayStringEnumDefaultEnum.FAILURE );
+      Assertions.assertEquals( d.getArrayStringEnumDefault().size(), 2 );
+      Assertions.assertEquals( d.getArrayStringEnumDefault().get( 0 ), DefaultValue.ArrayStringEnumDefaultEnum.SUCCESS );
+      Assertions.assertEquals( d.getArrayStringEnumDefault().get( 1 ), DefaultValue.ArrayStringEnumDefaultEnum.FAILURE );
 
-      Assert.assertEquals( d.getArrayStringDefault().size(), 2 );
-      Assert.assertEquals( d.getArrayStringDefault().get( 0 ), "failure" );
-      Assert.assertEquals( d.getArrayStringDefault().get( 1 ), "skipped" );
+      Assertions.assertEquals( d.getArrayStringDefault().size(), 2 );
+      Assertions.assertEquals( d.getArrayStringDefault().get( 0 ), "failure" );
+      Assertions.assertEquals( d.getArrayStringDefault().get( 1 ), "skipped" );
 
-      Assert.assertEquals( d.getArrayIntegerDefault().size(), 2 );
-      Assert.assertEquals( d.getArrayIntegerDefault().get( 0 ), Integer.valueOf( 1 ) );
-      Assert.assertEquals( d.getArrayIntegerDefault().get( 1 ), Integer.valueOf( 3 ) );
+      Assertions.assertEquals( d.getArrayIntegerDefault().size(), 2 );
+      Assertions.assertEquals( d.getArrayIntegerDefault().get( 0 ), Integer.valueOf( 1 ) );
+      Assertions.assertEquals( d.getArrayIntegerDefault().get( 1 ), Integer.valueOf( 3 ) );
 
-      Assert.assertNull( d.getArrayStringNullable() );
-      Assert.assertEquals( d.getArrayString(), Collections.emptyList() );
+      Assertions.assertNull( d.getArrayStringNullable() );
+      Assertions.assertEquals( d.getArrayString(), Collections.emptyList() );
 
-      Assert.assertEquals( apiClient.getObjectMapper().writeValueAsString( d ),
+      Assertions.assertEquals( apiClient.getObjectMapper().writeValueAsString( d ),
             "{\"array_string_enum_ref_default\":[\"success\",\"failure\"],\"array_string_enum_default\":[\"success\",\"failure\"],\"array_string_default\":[\"failure\",\"skipped\"],\"array_integer_default\":[1,3],\"array_string\":[]}" );
    }
 
@@ -245,23 +245,23 @@ public class CustomTest {
       final DefaultValue d = apiClient.getObjectMapper().readValue( str, new TypeReference<DefaultValue>() {
       } );
 
-      Assert.assertEquals( d.getArrayStringEnumRefDefault().size(), 1 );
-      Assert.assertEquals( d.getArrayStringEnumRefDefault().get( 0 ), StringEnumRef.UNCLASSIFIED );
+      Assertions.assertEquals( d.getArrayStringEnumRefDefault().size(), 1 );
+      Assertions.assertEquals( d.getArrayStringEnumRefDefault().get( 0 ), StringEnumRef.UNCLASSIFIED );
 
-      Assert.assertEquals( d.getArrayStringEnumDefault().size(), 1 );
-      Assert.assertEquals( d.getArrayStringEnumDefault().get( 0 ), DefaultValue.ArrayStringEnumDefaultEnum.UNCLASSIFIED );
+      Assertions.assertEquals( d.getArrayStringEnumDefault().size(), 1 );
+      Assertions.assertEquals( d.getArrayStringEnumDefault().get( 0 ), DefaultValue.ArrayStringEnumDefaultEnum.UNCLASSIFIED );
 
-      Assert.assertEquals( d.getArrayStringDefault().size(), 1 );
-      Assert.assertEquals( d.getArrayStringDefault().get( 0 ), "failure" );
+      Assertions.assertEquals( d.getArrayStringDefault().size(), 1 );
+      Assertions.assertEquals( d.getArrayStringDefault().get( 0 ), "failure" );
 
-      Assert.assertEquals( d.getArrayIntegerDefault().size(), 2 );
-      Assert.assertEquals( d.getArrayIntegerDefault().get( 0 ), Integer.valueOf( 1 ) );
-      Assert.assertEquals( d.getArrayIntegerDefault().get( 1 ), Integer.valueOf( 3 ) );
+      Assertions.assertEquals( d.getArrayIntegerDefault().size(), 2 );
+      Assertions.assertEquals( d.getArrayIntegerDefault().get( 0 ), Integer.valueOf( 1 ) );
+      Assertions.assertEquals( d.getArrayIntegerDefault().get( 1 ), Integer.valueOf( 3 ) );
 
-      Assert.assertNull( d.getArrayStringNullable() );
-      Assert.assertEquals( d.getArrayString(), Collections.emptyList() );
+      Assertions.assertNull( d.getArrayStringNullable() );
+      Assertions.assertEquals( d.getArrayString(), Collections.emptyList() );
 
-      Assert.assertEquals( apiClient.getObjectMapper().writeValueAsString( d ),
+      Assertions.assertEquals( apiClient.getObjectMapper().writeValueAsString( d ),
             "{\"array_string_enum_ref_default\":[\"unclassified\"],\"array_string_enum_default\":[\"unclassified\"],\"array_string_default\":[\"failure\"],\"array_integer_default\":[1,3],\"array_string\":[]}" );
    }
 
@@ -274,11 +274,11 @@ public class CustomTest {
       try {
          final DefaultValue d = apiClient.getObjectMapper().readValue( str, new TypeReference<DefaultValue>() {
          } );
-         Assert.assertTrue( false ); // the test should not reach this line
+         Assertions.assertTrue( false ); // the test should not reach this line
       } catch ( final com.fasterxml.jackson.databind.exc.ValueInstantiationException e ) {
-         Assert.assertEquals( e.getMessage(),
+         Assertions.assertEquals( e.getMessage(),
                "Cannot construct instance of `org.openapitools.client.model.DefaultValue$ArrayStringEnumDefaultEnum`, problem: Unexpected value 'invalid'\n" +
-                     " at [Source: (String)\"{ \"array_string_enum_default\": [\"invalid\"] }\"; line: 1, column: 33] (through reference chain: org.openapitools.client.model.DefaultValue[\"array_string_enum_default\"]->java.util.ArrayList[0])" );
+                     " at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 33] (through reference chain: org.openapitools.client.model.DefaultValue[\"array_string_enum_default\"]->java.util.ArrayList[0])" );
       }
    }
 

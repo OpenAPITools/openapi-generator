@@ -23,7 +23,7 @@ print(DanishPig.to_json())
 # convert the object into a dict
 danish_pig_dict = danish_pig_instance.to_dict()
 # create an instance of DanishPig from a dict
-danish_pig_form_dict = danish_pig.from_dict(danish_pig_dict)
+danish_pig_from_dict = DanishPig.from_dict(danish_pig_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

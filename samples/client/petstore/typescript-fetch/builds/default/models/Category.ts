@@ -36,7 +36,7 @@ export interface Category {
 /**
  * Check if a given object implements the Category interface.
  */
-export function instanceOfCategory(value: object): boolean {
+export function instanceOfCategory(value: object): value is Category {
     return true;
 }
 

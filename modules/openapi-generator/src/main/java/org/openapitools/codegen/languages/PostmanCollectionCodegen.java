@@ -10,6 +10,8 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.ServerVariable;
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -85,6 +87,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
      * @return  the CodegenType for this generator
      * @see     org.openapitools.codegen.CodegenType
      */
+    @Override
     public CodegenType getTag() {
         return CodegenType.SCHEMA;
     }
@@ -101,6 +104,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
      *
      * @return the friendly name for the generator
      */
+    @Override
     public String getName() {
         return "postman-collection";
     }
@@ -453,6 +457,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
      *
      * @return A string value for the help message
      */
+    @Override
     public String getHelp() {
         return "Generates a Postman collection (format v2.1.0) JSON file";
     }
@@ -505,6 +510,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
      * @param input String to be cleaned up
      * @return string with quotation mark removed or escaped
      */
+    @Override
     public String escapeQuotationMark(String input) {
         //TODO: check that this logic is safe to escape quotation mark to avoid code injection
         return input.replace("\"", "\\\"");
@@ -753,6 +759,9 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             } else if (value instanceof Integer) {
                 ret = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": " +
                         value;
+            } else if (value instanceof Boolean) {
+                ret = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": " +
+                        value;
             } else if (value instanceof LinkedHashMap) {
                 String in = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": ";
                 ret = traverseMap(((LinkedHashMap<String, Object>) value),  in);
@@ -817,7 +826,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     }
 
     // Supporting models
-    public class PostmanRequestItem {
+    @Getter @Setter public class PostmanRequestItem {
 
         private String name;
         private String body;
@@ -830,23 +839,9 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             this.body = body;
         }
 
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getBody() {
-            return body;
-        }
-
-        public void setBody(String body) {
-            this.body = body;
-        }
     }
 
+    @Getter @Setter
     class PostmanVariable {
 
         private String name;
@@ -866,30 +861,6 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
         public PostmanVariable addeDefaultValue(String defaultValue) {
             this.defaultValue = defaultValue;
             return this;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public String getDefaultValue() {
-            return defaultValue;
-        }
-
-        public void setDefaultValue(String defaultValue) {
-            this.defaultValue = defaultValue;
         }
 
         @Override
@@ -914,6 +885,5 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
                     '}';
         }
     }
-
 }
 

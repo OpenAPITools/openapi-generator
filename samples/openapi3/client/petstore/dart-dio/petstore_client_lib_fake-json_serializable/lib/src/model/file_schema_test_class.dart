@@ -48,15 +48,17 @@ class FileSchemaTestClass {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is FileSchemaTestClass &&
-     other.file == file &&
-     other.files == files;
 
-  @override
-  int get hashCode =>
-    file.hashCode +
-    files.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is FileSchemaTestClass &&
+      other.file == file &&
+      other.files == files;
+
+    @override
+    int get hashCode =>
+        file.hashCode +
+        files.hashCode;
 
   factory FileSchemaTestClass.fromJson(Map<String, dynamic> json) => _$FileSchemaTestClassFromJson(json);
 

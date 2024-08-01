@@ -12,6 +12,7 @@ package petstore
 
 import (
 	"encoding/json"
+	"gopkg.in/validator.v2"
 	"fmt"
 )
 
@@ -55,7 +56,11 @@ func (dst *OneOfPrimitiveType) UnmarshalJSON(data []byte) error {
 		if string(jsonOneOfPrimitiveTypeChild) == "{}" { // empty struct
 			dst.OneOfPrimitiveTypeChild = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.OneOfPrimitiveTypeChild); err != nil {
+				dst.OneOfPrimitiveTypeChild = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.OneOfPrimitiveTypeChild = nil
@@ -68,7 +73,11 @@ func (dst *OneOfPrimitiveType) UnmarshalJSON(data []byte) error {
 		if string(jsonArrayOfString) == "{}" { // empty struct
 			dst.ArrayOfString = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.ArrayOfString); err != nil {
+				dst.ArrayOfString = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.ArrayOfString = nil
@@ -81,7 +90,11 @@ func (dst *OneOfPrimitiveType) UnmarshalJSON(data []byte) error {
 		if string(jsonInt32) == "{}" { // empty struct
 			dst.Int32 = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.Int32); err != nil {
+				dst.Int32 = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.Int32 = nil

@@ -81,3 +81,18 @@ extension OpenAPIDateWithoutTime: JSONEncodable {
         return OpenISO8601DateFormatter.withoutTime.string(from: self.normalizedWrappedDate())
     }
 }
+
+extension OpenAPIDateWithoutTime: RawRepresentable {
+    public typealias RawValue = String
+    public init?(rawValue: String) {
+        if let date = OpenISO8601DateFormatter.withoutTime.date(from: rawValue) {
+            self.init(wrappedDate: date)
+        } else {
+            return nil
+        }
+    }
+
+    public var rawValue: String {
+        OpenISO8601DateFormatter.withoutTime.string(from: normalizedWrappedDate())
+    }
+}

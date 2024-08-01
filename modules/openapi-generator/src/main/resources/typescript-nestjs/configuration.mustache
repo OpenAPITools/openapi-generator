@@ -4,7 +4,7 @@ export interface ConfigurationParameters {
     apiKeys?: {[ key: string ]: string};
     username?: string;
     password?: string;
-    accessToken?: string | (() => string);
+    accessToken?: string | Promise<string> | (() => string | Promise<string>);
     basePath?: string;
     withCredentials?: boolean;
 }
@@ -13,7 +13,7 @@ export class Configuration {
     apiKeys?: {[ key: string ]: string};
     username?: string;
     password?: string;
-    accessToken?: string | (() => string);
+    accessToken?: string | Promise<string> | (() => string | Promise<string>);
     basePath?: string;
     withCredentials?: boolean;
 

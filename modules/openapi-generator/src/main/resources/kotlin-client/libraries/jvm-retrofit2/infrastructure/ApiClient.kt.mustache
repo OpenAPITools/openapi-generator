@@ -55,7 +55,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory
 {{/jackson}}
 
 {{#kotlinx_serialization}}
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import {{packageName}}.infrastructure.Serializer.kotlinxSerializationJson
 import okhttp3.MediaType.Companion.toMediaType
 {{/kotlinx_serialization}}
@@ -64,9 +64,9 @@ import okhttp3.MediaType.Companion.toMediaType
     private var baseUrl: String = defaultBasePath,
     private val okHttpClientBuilder: OkHttpClient.Builder? = null,
     {{^kotlinx_serialization}}
-    private val serializerBuilder: {{#gson}}GsonBuilder{{/gson}}{{#moshi}}Moshi.Builder{{/moshi}}{{#jackson}}ObjectMapper{{/jackson}} = Serializer.{{#gson}}gsonBuilder{{/gson}}{{#moshi}}moshiBuilder{{/moshi}}{{#jackson}}jacksonObjectMapper{{/jackson}},
+    private val serializerBuilder: {{#gson}}GsonBuilder{{/gson}}{{#moshi}}Moshi.Builder{{/moshi}}{{#jackson}}ObjectMapper{{/jackson}} = {{#generateOneOfAnyOfWrappers}}{{#gson}}registerTypeAdapterFactoryForAllModels({{/gson}}{{/generateOneOfAnyOfWrappers}}Serializer.{{#gson}}gsonBuilder{{/gson}}{{#generateOneOfAnyOfWrappers}}{{#gson}}){{/gson}}{{/generateOneOfAnyOfWrappers}}{{#moshi}}moshiBuilder{{/moshi}}{{#jackson}}jacksonObjectMapper{{/jackson}},
     {{/kotlinx_serialization}}
-    private val callFactory : Call.Factory? = null,
+    private val callFactory: Call.Factory? = null,
     private val callAdapterFactories: List<CallAdapter.Factory> = listOf(
         {{#useRxJava}}
         RxJavaCallAdapterFactory.create(),
@@ -148,6 +148,21 @@ import okhttp3.MediaType.Companion.toMediaType
                 addAuthorization(authName, auth)
             }
         }
+        {{#generateOneOfAnyOfWrappers}}
+        {{^kotlinx_serialization}}
+        {{#gson}}
+        {{#models}}
+        {{#model}}
+        {{^isEnum}}
+        {{^hasChildren}}
+        serializerBuilder.registerTypeAdapterFactory({{modelPackage}}.{{{classname}}}.CustomTypeAdapterFactory())
+        {{/hasChildren}}
+        {{/isEnum}}
+        {{/model}}
+        {{/models}}
+        {{/gson}}
+        {{/kotlinx_serialization}}
+        {{/generateOneOfAnyOfWrappers}}
     }
 
     {{#authMethods}}
@@ -238,9 +253,9 @@ import okhttp3.MediaType.Companion.toMediaType
     {{/hasAuthMethods}}
     {{#hasOAuthMethods}}
     /**
-    * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
-    * @return Token request builder
-    */
+     * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
+     * @return Token request builder
+     */
     fun getTokenEndPoint(): TokenRequestBuilder? {
         var result: TokenRequestBuilder? = null
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
@@ -250,9 +265,9 @@ import okhttp3.MediaType.Companion.toMediaType
     }
 
     /**
-    * Helper method to configure authorization endpoint of the first oauth found in the apiAuthorizations (there should be only one)
-    * @return Authentication request builder
-    */
+     * Helper method to configure authorization endpoint of the first oauth found in the apiAuthorizations (there should be only one)
+     * @return Authentication request builder
+     */
     fun getAuthorizationEndPoint(): AuthenticationRequestBuilder? {
         var result: AuthenticationRequestBuilder? = null
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
@@ -262,10 +277,10 @@ import okhttp3.MediaType.Companion.toMediaType
     }
 
     /**
-    * Helper method to pre-set the oauth access token of the first oauth found in the apiAuthorizations (there should be only one)
-    * @param accessToken Access token
-    * @return ApiClient
-    */
+     * Helper method to pre-set the oauth access token of the first oauth found in the apiAuthorizations (there should be only one)
+     * @param accessToken Access token
+     * @return ApiClient
+     */
     fun setAccessToken(accessToken: String): ApiClient {
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
             setAccessToken(accessToken)
@@ -274,12 +289,12 @@ import okhttp3.MediaType.Companion.toMediaType
     }
 
     /**
-    * Helper method to configure the oauth accessCode/implicit flow parameters
-    * @param clientId Client ID
-    * @param clientSecret Client secret
-    * @param redirectURI Redirect URI
-    * @return ApiClient
-    */
+     * Helper method to configure the oauth accessCode/implicit flow parameters
+     * @param clientId Client ID
+     * @param clientSecret Client secret
+     * @param redirectURI Redirect URI
+     * @return ApiClient
+     */
     fun configureAuthorizationFlow(clientId: String, clientSecret: String, redirectURI: String): ApiClient {
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
             tokenRequestBuilder
@@ -294,10 +309,10 @@ import okhttp3.MediaType.Companion.toMediaType
     }
 
     /**
-    * Configures a listener which is notified when a new access token is received.
-    * @param accessTokenListener Access token listener
-    * @return ApiClient
-    */
+     * Configures a listener which is notified when a new access token is received.
+     * @param accessTokenListener Access token listener
+     * @return ApiClient
+     */
     fun registerAccessTokenListener(accessTokenListener: AccessTokenListener): ApiClient {
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
             registerAccessTokenListener(accessTokenListener)
@@ -331,6 +346,20 @@ import okhttp3.MediaType.Companion.toMediaType
         return retrofitBuilder.callFactory(usedCallFactory).build().create(serviceClass)
     }
 
+    {{#generateOneOfAnyOfWrappers}}
+    {{^kotlinx_serialization}}
+    {{#gson}}
+    /**
+     * Gets the serializer builder.
+     * @return serial builder
+     */
+    fun getSerializerBuilder(): GsonBuilder {
+        return serializerBuilder
+    }
+
+    {{/gson}}
+    {{/kotlinx_serialization}}
+    {{/generateOneOfAnyOfWrappers}}
     private fun normalizeBaseUrl() {
         if (!baseUrl.endsWith("/")) {
             baseUrl += "/"
@@ -339,7 +368,7 @@ import okhttp3.MediaType.Companion.toMediaType
 
     private inline fun <T, reified U> Iterable<T>.runOnFirst(callback: U.() -> Unit) {
         for (element in this) {
-            if (element is U)  {
+            if (element is U) {
                 callback.invoke(element)
                 break
             }
@@ -356,3 +385,28 @@ import okhttp3.MediaType.Companion.toMediaType
         }
     }
 }
+{{#generateOneOfAnyOfWrappers}}
+{{^kotlinx_serialization}}
+{{#gson}}
+
+/**
+ * Registers all models with the type adapter factory.
+ *
+ * @param gsonBuilder gson builder
+ * @return GSON builder
+ */
+fun registerTypeAdapterFactoryForAllModels(gsonBuilder: GsonBuilder): GsonBuilder {
+    {{#models}}
+    {{#model}}
+    {{^isEnum}}
+    {{^hasChildren}}
+    gsonBuilder.registerTypeAdapterFactory({{modelPackage}}.{{{classname}}}.CustomTypeAdapterFactory())
+    {{/hasChildren}}
+    {{/isEnum}}
+    {{/model}}
+    {{/models}}
+    return gsonBuilder
+}
+{{/gson}}
+{{/kotlinx_serialization}}
+{{/generateOneOfAnyOfWrappers}}

@@ -17,13 +17,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.*;
 
 import okio.ByteString;
 import org.junit.jupiter.api.*;
@@ -41,6 +35,28 @@ public class JSONTest {
         apiClient = new ApiClient();
         json = apiClient.getJSON();
         order = new Order();
+    }
+
+    @Test
+    public void testOneOfFreeFormObject() {
+        final Map<String, Object> map = new LinkedHashMap<>();
+        map.put("someString", "abc");
+        map.put("someBoolean", false);
+
+        final String json1 = "{\"someString\":\"abc\",\"someBoolean\":false}";
+        final FreeFormObjectTestClassProperties properties = new FreeFormObjectTestClassProperties();
+        properties.setActualInstance(map);
+
+        assertEquals(json1, json.serialize(properties));
+        assertEquals(json.deserialize(json1, FreeFormObjectTestClassProperties.class), properties);
+
+
+        final String json2 = "\"abc\"";
+        final FreeFormObjectTestClassProperties properties2 = new FreeFormObjectTestClassProperties();
+        properties2.setActualInstance("abc");
+
+        assertEquals(json2, json.serialize(properties2));
+        assertEquals(json.deserialize(json2, FreeFormObjectTestClassProperties.class), properties2);
     }
 
     @Test
@@ -614,5 +630,45 @@ public class JSONTest {
         t.setName("just a tag");
         z.putAdditionalProperty("new_object_array", Arrays.asList(t));
         assertEquals(z.toJson(), "{\"className\":\"zebra\",\"object_array\":[{\"id\":34.0,\"name\":\"just a tag\"}],\"empty_array\":[],\"array\":[\"1\",\"2\",\"3\"],\"new_array\":[\"1\",\"2\",\"3\"],\"new_empty_array\":[],\"new_object_array\":[{\"id\":34,\"name\":\"just a tag\"}]}");
+    }
+
+    /**
+     * Validate a oneOf, anyOf schema with array sub-schema can be deserialized into the expected class.
+     */
+    @Test
+    public void testOneOfAnyOfArray() throws Exception {
+        {
+            String str = "{\"oneof_prop\":23,\"anyof_prop\":45}";
+
+            ModelWithOneOfAnyOfProperties m = json.getGson().fromJson(str, ModelWithOneOfAnyOfProperties.class);
+            Integer anyofProp = (Integer) m.getAnyofProp().getActualInstance();
+            assertEquals(anyofProp, 45);
+            Integer oneofProp = (Integer) m.getOneofProp().getActualInstance();
+            assertEquals(oneofProp, 23);
+
+            String str2 = "{ \"oneof_prop\": [\"test oneof\"], \"anyof_prop\": [\"test anyof\"] }";
+
+            ModelWithOneOfAnyOfProperties m2 = json.getGson().fromJson(str2, ModelWithOneOfAnyOfProperties.class);
+            List<String> anyofProp2 = (List<String>) m2.getAnyofProp().getActualInstance();
+            assertEquals(anyofProp2, Arrays.asList("test anyof"));
+            List<String> oneofProp2 =  (List<String>) m2.getOneofProp().getActualInstance();
+            assertEquals(oneofProp2, Arrays.asList("test oneof"));
+        }
+        {
+            // incorrect payload results in exception
+            String str = "{ \"oneof_prop\": \"23\", \"anyof_prop\": \"45\" }";
+            Exception exception = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
+                ModelWithOneOfAnyOfProperties o = json.getGson().fromJson(str, ModelWithOneOfAnyOfProperties.class);
+            });
+            assertTrue(exception.getMessage().contains("java.io.IOException: The JSON string is invalid for"));
+        }
+        {
+            // incorrect payload (array item type mismatch) results in exception
+            String str = "{ \"oneof_prop\": [23], \"anyof_prop\": [true] }";
+            Exception exception = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
+                ModelWithOneOfAnyOfProperties o = json.getGson().fromJson(str, ModelWithOneOfAnyOfProperties.class);
+            });
+            assertTrue(exception.getMessage().contains("java.io.IOException: The JSON string is invalid for"));
+        }
     }
 }

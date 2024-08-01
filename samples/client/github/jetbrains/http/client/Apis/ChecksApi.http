@@ -43,22 +43,22 @@ Accept: application/json
 
 ### List check run annotations
 ## List check run annotations
-GET https://api.github.com/repos/{{owner}}/{{repo}}/check-runs/{{check_run_id}}/annotations
+GET https://api.github.com/repos/{{owner}}/{{repo}}/check-runs/{{check_run_id}}/annotations?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List check runs for a Git reference
 ## List check runs for a Git reference
-GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}/check-runs
+GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}/check-runs?checkName={{checkName}}&status={{status}}&filter={{filter}}&perPage={{perPage}}&page={{page}}&appId={{appId}}
 Accept: application/json
 
 ### List check runs in a check suite
 ## List check runs in a check suite
-GET https://api.github.com/repos/{{owner}}/{{repo}}/check-suites/{{check_suite_id}}/check-runs
+GET https://api.github.com/repos/{{owner}}/{{repo}}/check-suites/{{check_suite_id}}/check-runs?checkName={{checkName}}&status={{status}}&filter={{filter}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List check suites for a Git reference
 ## List check suites for a Git reference
-GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}/check-suites
+GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}/check-suites?appId={{appId}}&checkName={{checkName}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### Rerequest a check run
