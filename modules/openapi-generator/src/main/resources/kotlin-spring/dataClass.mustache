@@ -17,7 +17,7 @@
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>dataClassOptVar}}{{^-last}},
 {{/-last}}{{/optionalVars}}
-) {{/discriminator}}{{#parent}}: {{{.}}}{{#serializableModel}}, Serializable{{/serializableModel}}{{/parent}}{{#serializableModel}}: Serializable{{/serializableModel}}{
+    ) {{/discriminator}}{{#parent}}: {{{.}}}{{#serializableModel}}, Serializable{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}: Serializable{{/serializableModel}}{{/parent}}{
 {{#discriminator}}
     {{#requiredVars}}
         {{>interfaceReqVar}}
