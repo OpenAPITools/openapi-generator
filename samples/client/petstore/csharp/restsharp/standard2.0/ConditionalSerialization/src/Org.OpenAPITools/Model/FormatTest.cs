@@ -45,6 +45,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="integer">integer.</param>
         /// <param name="int32">int32.</param>
+        /// <param name="largeInteger">largeInteger.</param>
         /// <param name="unsignedInteger">unsignedInteger.</param>
         /// <param name="int64">int64.</param>
         /// <param name="unsignedLong">unsignedLong.</param>
@@ -62,7 +63,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
         /// <param name="patternWithBackslash">None.</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double), decimal varDecimal = default(decimal), string varString = default(string), byte[] varByte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
+        public FormatTest(int integer = default(int), int int32 = default(int), int largeInteger = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double), decimal varDecimal = default(decimal), string varString = default(string), byte[] varByte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
         {
             this._Number = number;
             // to ensure "varByte" is required (not null)
@@ -87,6 +88,11 @@ namespace Org.OpenAPITools.Model
             if (this.Int32 != null)
             {
                 this._flagInt32 = true;
+            }
+            this._LargeInteger = largeInteger;
+            if (this.LargeInteger != null)
+            {
+                this._flagLargeInteger = true;
             }
             this._UnsignedInteger = unsignedInteger;
             if (this.UnsignedInteger != null)
@@ -203,6 +209,30 @@ namespace Org.OpenAPITools.Model
         public bool ShouldSerializeInt32()
         {
             return _flagInt32;
+        }
+        /// <summary>
+        /// Gets or Sets LargeInteger
+        /// </summary>
+        [DataMember(Name = "largeInteger", EmitDefaultValue = false)]
+        public long LargeInteger
+        {
+            get{ return _LargeInteger;}
+            set
+            {
+                _LargeInteger = value;
+                _flagLargeInteger = true;
+            }
+        }
+        private long _LargeInteger;
+        private bool _flagLargeInteger;
+
+        /// <summary>
+        /// Returns false as LargeInteger should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeLargeInteger()
+        {
+            return _flagLargeInteger;
         }
         /// <summary>
         /// Gets or Sets UnsignedInteger
@@ -635,6 +665,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class FormatTest {\n");
             sb.Append("  Integer: ").Append(Integer).Append("\n");
             sb.Append("  Int32: ").Append(Int32).Append("\n");
+            sb.Append("  LargeInteger: ").Append(LargeInteger).Append("\n");
             sb.Append("  UnsignedInteger: ").Append(UnsignedInteger).Append("\n");
             sb.Append("  Int64: ").Append(Int64).Append("\n");
             sb.Append("  UnsignedLong: ").Append(UnsignedLong).Append("\n");
@@ -697,6 +728,7 @@ namespace Org.OpenAPITools.Model
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.Integer.GetHashCode();
                 hashCode = (hashCode * 59) + this.Int32.GetHashCode();
+                hashCode = (hashCode * 59) + this.LargeInteger.GetHashCode();
                 hashCode = (hashCode * 59) + this.UnsignedInteger.GetHashCode();
                 hashCode = (hashCode * 59) + this.Int64.GetHashCode();
                 hashCode = (hashCode * 59) + this.UnsignedLong.GetHashCode();
@@ -781,6 +813,18 @@ namespace Org.OpenAPITools.Model
             if (this.Int32 < (int)20)
             {
                 yield return new ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
+            }
+
+            // LargeInteger (long) maximum
+            if (this.LargeInteger > (long)999999999999)
+            {
+                yield return new ValidationResult("Invalid value for LargeInteger, must be a value less than or equal to 999999999999.", new [] { "LargeInteger" });
+            }
+
+            // LargeInteger (long) minimum
+            if (this.LargeInteger < (long)-999999999999)
+            {
+                yield return new ValidationResult("Invalid value for LargeInteger, must be a value greater than or equal to -999999999999.", new [] { "LargeInteger" });
             }
 
             // UnsignedInteger (uint) maximum

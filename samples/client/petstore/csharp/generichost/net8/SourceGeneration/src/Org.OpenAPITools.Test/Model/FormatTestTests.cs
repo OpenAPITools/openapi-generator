@@ -162,6 +162,15 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'LargeInteger'
+        /// </summary>
+        [Fact]
+        public void LargeIntegerTest()
+        {
+            // TODO unit test for the property 'LargeInteger'
+        }
+
+        /// <summary>
         /// Test the property 'PatternWithBackslash'
         /// </summary>
         [Fact]

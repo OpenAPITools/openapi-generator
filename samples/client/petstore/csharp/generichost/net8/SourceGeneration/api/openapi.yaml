@@ -1617,6 +1617,10 @@ components:
           maximum: 200
           minimum: 20
           type: integer
+        largeInteger:
+          maximum: 999999999999
+          minimum: -999999999999
+          type: integer
         unsigned_integer:
           format: int32
           maximum: 200

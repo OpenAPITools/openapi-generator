@@ -480,6 +480,40 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             property.isInnerEnum = false;
             property.isString = false;
         }
+
+        if (property.dataType.equals("int") && isDouble(property.maximum) && !isInteger(property.maximum)) {
+            property.dataType = "long";
+            property.datatypeWithEnum = "long";
+        }
+
+        if (property.dataType.equals("int") && isDouble(property.minimum) && !isInteger(property.minimum)) {
+            property.dataType = "long";
+            property.datatypeWithEnum = "long";
+        }
+    }
+
+    public static boolean isDouble(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isInteger(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            Integer.parseInt(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 
     @Override

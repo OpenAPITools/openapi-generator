@@ -46,6 +46,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="int32">int32</param>
         /// <param name="int64">int64</param>
         /// <param name="integer">integer</param>
+        /// <param name="largeInteger">largeInteger</param>
         /// <param name="patternWithBackslash">None</param>
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros.</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</param>
@@ -54,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="unsignedLong">unsignedLong</param>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        public FormatTest(byte[] @byte, DateOnly date, decimal number, string password, Option<System.IO.Stream?> binary = default, Option<DateTime?> dateTime = default, Option<decimal?> @decimal = default, Option<double?> @double = default, Option<float?> @float = default, Option<int?> int32 = default, Option<long?> int64 = default, Option<int?> integer = default, Option<string?> patternWithBackslash = default, Option<string?> patternWithDigits = default, Option<string?> patternWithDigitsAndDelimiter = default, Option<string?> @string = default, Option<uint?> unsignedInteger = default, Option<ulong?> unsignedLong = default, Option<Guid?> uuid = default)
+        public FormatTest(byte[] @byte, DateOnly date, decimal number, string password, Option<System.IO.Stream?> binary = default, Option<DateTime?> dateTime = default, Option<decimal?> @decimal = default, Option<double?> @double = default, Option<float?> @float = default, Option<int?> int32 = default, Option<long?> int64 = default, Option<int?> integer = default, Option<long?> largeInteger = default, Option<string?> patternWithBackslash = default, Option<string?> patternWithDigits = default, Option<string?> patternWithDigitsAndDelimiter = default, Option<string?> @string = default, Option<uint?> unsignedInteger = default, Option<ulong?> unsignedLong = default, Option<Guid?> uuid = default)
         {
             Byte = @byte;
             Date = date;
@@ -68,6 +69,7 @@ namespace Org.OpenAPITools.Model
             Int32Option = int32;
             Int64Option = int64;
             IntegerOption = integer;
+            LargeIntegerOption = largeInteger;
             PatternWithBackslashOption = patternWithBackslash;
             PatternWithDigitsOption = patternWithDigits;
             PatternWithDigitsAndDelimiterOption = patternWithDigitsAndDelimiter;
@@ -211,6 +213,19 @@ namespace Org.OpenAPITools.Model
         public int? Integer { get { return this.IntegerOption; } set { this.IntegerOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of LargeInteger
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<long?> LargeIntegerOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets LargeInteger
+        /// </summary>
+        [JsonPropertyName("largeInteger")]
+        public long? LargeInteger { get { return this.LargeIntegerOption; } set { this.LargeIntegerOption = new(value); } }
+
+        /// <summary>
         /// Used to track the state of PatternWithBackslash
         /// </summary>
         [JsonIgnore]
@@ -331,6 +346,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Int32: ").Append(Int32).Append("\n");
             sb.Append("  Int64: ").Append(Int64).Append("\n");
             sb.Append("  Integer: ").Append(Integer).Append("\n");
+            sb.Append("  LargeInteger: ").Append(LargeInteger).Append("\n");
             sb.Append("  PatternWithBackslash: ").Append(PatternWithBackslash).Append("\n");
             sb.Append("  PatternWithDigits: ").Append(PatternWithDigits).Append("\n");
             sb.Append("  PatternWithDigitsAndDelimiter: ").Append(PatternWithDigitsAndDelimiter).Append("\n");
@@ -420,6 +436,18 @@ namespace Org.OpenAPITools.Model
             if (this.IntegerOption.IsSet && this.IntegerOption.Value < (int)10)
             {
                 yield return new ValidationResult("Invalid value for Integer, must be a value greater than or equal to 10.", new [] { "Integer" });
+            }
+
+            // LargeInteger (long) maximum
+            if (this.LargeIntegerOption.IsSet && this.LargeIntegerOption.Value > (long)999999999999)
+            {
+                yield return new ValidationResult("Invalid value for LargeInteger, must be a value less than or equal to 999999999999.", new [] { "LargeInteger" });
+            }
+
+            // LargeInteger (long) minimum
+            if (this.LargeIntegerOption.IsSet && this.LargeIntegerOption.Value < (long)-999999999999)
+            {
+                yield return new ValidationResult("Invalid value for LargeInteger, must be a value greater than or equal to -999999999999.", new [] { "LargeInteger" });
             }
 
             if (this.PatternWithBackslashOption.Value != null) {
@@ -522,6 +550,7 @@ namespace Org.OpenAPITools.Model
             Option<int?> int32 = default;
             Option<long?> int64 = default;
             Option<int?> integer = default;
+            Option<long?> largeInteger = default;
             Option<string?> patternWithBackslash = default;
             Option<string?> patternWithDigits = default;
             Option<string?> patternWithDigitsAndDelimiter = default;
@@ -591,6 +620,10 @@ namespace Org.OpenAPITools.Model
                         case "integer":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 integer = new Option<int?>(utf8JsonReader.GetInt32());
+                            break;
+                        case "largeInteger":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                largeInteger = new Option<long?>(utf8JsonReader.GetInt32());
                             break;
                         case "pattern_with_backslash":
                             patternWithBackslash = new Option<string?>(utf8JsonReader.GetString()!);
@@ -670,6 +703,9 @@ namespace Org.OpenAPITools.Model
             if (integer.IsSet && integer.Value == null)
                 throw new ArgumentNullException(nameof(integer), "Property is not nullable for class FormatTest.");
 
+            if (largeInteger.IsSet && largeInteger.Value == null)
+                throw new ArgumentNullException(nameof(largeInteger), "Property is not nullable for class FormatTest.");
+
             if (patternWithBackslash.IsSet && patternWithBackslash.Value == null)
                 throw new ArgumentNullException(nameof(patternWithBackslash), "Property is not nullable for class FormatTest.");
 
@@ -691,7 +727,7 @@ namespace Org.OpenAPITools.Model
             if (uuid.IsSet && uuid.Value == null)
                 throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class FormatTest.");
 
-            return new FormatTest(varByte.Value!, date.Value!.Value!, number.Value!.Value!, password.Value!, binary, dateTime, varDecimal, varDouble, varFloat, int32, int64, integer, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, unsignedInteger, unsignedLong, uuid);
+            return new FormatTest(varByte.Value!, date.Value!.Value!, number.Value!.Value!, password.Value!, binary, dateTime, varDecimal, varDouble, varFloat, int32, int64, integer, largeInteger, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, unsignedInteger, unsignedLong, uuid);
         }
 
         /// <summary>
@@ -774,6 +810,9 @@ namespace Org.OpenAPITools.Model
 
             if (formatTest.IntegerOption.IsSet)
                 writer.WriteNumber("integer", formatTest.IntegerOption.Value!.Value);
+
+            if (formatTest.LargeIntegerOption.IsSet)
+                writer.WriteNumber("largeInteger", formatTest.LargeIntegerOption.Value!.Value);
 
             if (formatTest.PatternWithBackslashOption.IsSet)
                 writer.WriteString("pattern_with_backslash", formatTest.PatternWithBackslash);

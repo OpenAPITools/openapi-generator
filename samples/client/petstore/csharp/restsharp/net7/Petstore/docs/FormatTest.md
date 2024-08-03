@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Integer** | **int** |  | [optional] 
 **Int32** | **int** |  | [optional] 
+**LargeInteger** | **long** |  | [optional] 
 **UnsignedInteger** | **uint** |  | [optional] 
 **Int64** | **long** |  | [optional] 
 **UnsignedLong** | **ulong** |  | [optional] 
