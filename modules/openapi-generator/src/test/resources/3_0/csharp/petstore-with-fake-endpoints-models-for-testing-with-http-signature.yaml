@@ -1684,10 +1684,24 @@ components:
           format: int32
           maximum: 200
           minimum: 20
-        largeInteger:
+        int32Range:
           type: integer
-          maximum: 999999999999
-          minimum: -999999999999
+          maximum: 2147483647
+          minimum: -2147483648
+        int64Positive:
+          type: integer
+          minimum: 2147483648 # int.MaxValue + 1
+        int64Negative:
+          type: integer
+          maximum: -2147483649 # int.MinValue - 1
+        int64PositiveExclusive:
+          type: integer
+          minimum: 2147483647
+          exclusiveMinimum: true
+        int64NegativeExclusive:
+          type: integer
+          maximum: -2147483648
+          exclusiveMaximum: true
         unsigned_integer:
           type: integer
           format: int32

@@ -481,39 +481,45 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             property.isString = false;
         }
 
-        if (property.dataType.equals("int") && isDouble(property.maximum) && !isInteger(property.maximum)) {
-            property.dataType = "long";
-            property.datatypeWithEnum = "long";
+        Double maximum = asDouble(property.maximum);
+        if (property.dataType.equals("int") && maximum != null) {
+            if ((!property.exclusiveMaximum && asInteger(property.maximum) == null) || (property.exclusiveMaximum && asInteger((maximum + 1) + "") == null)) {
+                property.dataType = "long";
+                property.datatypeWithEnum = "long";
+            }
         }
 
-        if (property.dataType.equals("int") && isDouble(property.minimum) && !isInteger(property.minimum)) {
-            property.dataType = "long";
-            property.datatypeWithEnum = "long";
+        Double minimum = asDouble(property.minimum);
+        if (property.dataType.equals("int") && minimum != null) {
+            if ((!property.exclusiveMinimum && asInteger(property.minimum) == null) || (property.exclusiveMinimum && asInteger((minimum - 1) + "") == null)) {
+                property.dataType = "long";
+                property.datatypeWithEnum = "long";
+            }
         }
     }
 
-    public static boolean isDouble(String strNum) {
+    /** If the value can be parsed as a double, returns the value, otherwise returns null */
+    public static Double asDouble(String strNum) {
         if (strNum == null) {
-            return false;
+            return null;
         }
         try {
-            Double.parseDouble(strNum);
+            return Double.parseDouble(strNum);
         } catch (NumberFormatException nfe) {
-            return false;
+            return null;
         }
-        return true;
     }
 
-    public static boolean isInteger(String strNum) {
+    /** If the value can be parsed as an integer, returns the value, otherwise returns null */
+    public static Integer asInteger(String strNum) {
         if (strNum == null) {
-            return false;
+            return null;
         }
         try {
-            Integer.parseInt(strNum);
+            return Integer.parseInt(strNum);
         } catch (NumberFormatException nfe) {
-            return false;
+            return null;
         }
-        return true;
     }
 
     @Override

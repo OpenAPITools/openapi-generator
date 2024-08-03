@@ -1576,9 +1576,23 @@ components:
           maximum: 200
           minimum: 20
           type: integer
-        largeInteger:
-          maximum: 999999999999
-          minimum: -999999999999
+        int32Range:
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+        int64Positive:
+          minimum: 2147483648
+          type: integer
+        int64Negative:
+          maximum: -2147483649
+          type: integer
+        int64PositiveExclusive:
+          exclusiveMinimum: true
+          minimum: 2147483647
+          type: integer
+        int64NegativeExclusive:
+          exclusiveMaximum: true
+          maximum: -2147483648
           type: integer
         unsigned_integer:
           format: int32

@@ -144,6 +144,15 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'Int32Range'
+        /// </summary>
+        [Fact]
+        public void Int32RangeTest()
+        {
+            // TODO unit test for the property 'Int32Range'
+        }
+
+        /// <summary>
         /// Test the property 'Int64'
         /// </summary>
         [Fact]
@@ -153,21 +162,48 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'Int64Negative'
+        /// </summary>
+        [Fact]
+        public void Int64NegativeTest()
+        {
+            // TODO unit test for the property 'Int64Negative'
+        }
+
+        /// <summary>
+        /// Test the property 'Int64NegativeExclusive'
+        /// </summary>
+        [Fact]
+        public void Int64NegativeExclusiveTest()
+        {
+            // TODO unit test for the property 'Int64NegativeExclusive'
+        }
+
+        /// <summary>
+        /// Test the property 'Int64Positive'
+        /// </summary>
+        [Fact]
+        public void Int64PositiveTest()
+        {
+            // TODO unit test for the property 'Int64Positive'
+        }
+
+        /// <summary>
+        /// Test the property 'Int64PositiveExclusive'
+        /// </summary>
+        [Fact]
+        public void Int64PositiveExclusiveTest()
+        {
+            // TODO unit test for the property 'Int64PositiveExclusive'
+        }
+
+        /// <summary>
         /// Test the property 'Integer'
         /// </summary>
         [Fact]
         public void IntegerTest()
         {
             // TODO unit test for the property 'Integer'
-        }
-
-        /// <summary>
-        /// Test the property 'LargeInteger'
-        /// </summary>
-        [Fact]
-        public void LargeIntegerTest()
-        {
-            // TODO unit test for the property 'LargeInteger'
         }
 
         /// <summary>
