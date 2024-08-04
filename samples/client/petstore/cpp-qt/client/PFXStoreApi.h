@@ -110,6 +110,10 @@ Q_SIGNALS:
     void getOrderByIdSignal(PFXOrder summary);
     void placeOrderSignal(PFXOrder summary);
 
+    void deleteOrderProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void getInventoryProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void getOrderByIdProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void placeOrderProgress(qint64 bytesReceived, qint64 bytesTotal);
 
     void deleteOrderSignalFull(PFXHttpRequestWorker *worker);
     void getInventorySignalFull(PFXHttpRequestWorker *worker, QMap<QString, qint32> summary);

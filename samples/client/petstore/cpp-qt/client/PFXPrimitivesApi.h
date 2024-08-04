@@ -96,6 +96,8 @@ Q_SIGNALS:
     void primitivesIntegerPostSignal();
     void primitivesNumberPutSignal();
 
+    void primitivesIntegerPostProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void primitivesNumberPutProgress(qint64 bytesReceived, qint64 bytesTotal);
 
     void primitivesIntegerPostSignalFull(PFXHttpRequestWorker *worker);
     void primitivesNumberPutSignalFull(PFXHttpRequestWorker *worker);

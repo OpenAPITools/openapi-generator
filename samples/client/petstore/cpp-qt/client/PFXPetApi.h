@@ -152,6 +152,15 @@ Q_SIGNALS:
     void updatePetWithFormSignal();
     void uploadFileSignal(PFXApiResponse summary);
 
+    void addPetProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void allPetsProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void deletePetProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void findPetsByStatusProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void findPetsByTagsProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void getPetByIdProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void updatePetProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void updatePetWithFormProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void uploadFileProgress(qint64 bytesReceived, qint64 bytesTotal);
 
     void addPetSignalFull(PFXHttpRequestWorker *worker);
     void allPetsSignalFull(PFXHttpRequestWorker *worker, QSet<PFXPet> summary);

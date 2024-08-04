@@ -139,6 +139,14 @@ Q_SIGNALS:
     void logoutUserSignal();
     void updateUserSignal();
 
+    void createUserProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void createUsersWithArrayInputProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void createUsersWithListInputProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void deleteUserProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void getUserByNameProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void loginUserProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void logoutUserProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void updateUserProgress(qint64 bytesReceived, qint64 bytesTotal);
 
     void createUserSignalFull(PFXHttpRequestWorker *worker);
     void createUsersWithArrayInputSignalFull(PFXHttpRequestWorker *worker);

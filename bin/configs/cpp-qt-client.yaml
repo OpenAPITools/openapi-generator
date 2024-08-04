@@ -6,3 +6,4 @@ additionalProperties:
   packageName: CppQtPetstoreClient
   cppNamespace: test_namespace
   modelNamePrefix: PFX
+  addDownloadProgress: true
