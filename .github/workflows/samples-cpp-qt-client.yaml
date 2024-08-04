@@ -30,4 +30,4 @@ jobs:
           target: "desktop"
       - name: Build
         working-directory: "samples/client/petstore/cpp-qt"
-        run: cmake . && cmake --build .
+        run: cmake . && cmake --build . --verbose

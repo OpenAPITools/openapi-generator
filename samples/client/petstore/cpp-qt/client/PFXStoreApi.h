@@ -110,6 +110,7 @@ Q_SIGNALS:
     void getOrderByIdSignal(PFXOrder summary);
     void placeOrderSignal(PFXOrder summary);
 
+
     void deleteOrderSignalFull(PFXHttpRequestWorker *worker);
     void getInventorySignalFull(PFXHttpRequestWorker *worker, QMap<QString, qint32> summary);
     void getOrderByIdSignalFull(PFXHttpRequestWorker *worker, PFXOrder summary);
