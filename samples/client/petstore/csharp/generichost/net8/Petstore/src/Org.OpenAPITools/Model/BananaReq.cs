@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Sweet
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<bool?> SweetOption { get; private set; }
 
         /// <summary>

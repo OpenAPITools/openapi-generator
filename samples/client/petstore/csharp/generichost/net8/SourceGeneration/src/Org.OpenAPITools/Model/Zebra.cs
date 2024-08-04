@@ -131,7 +131,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Type
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<TypeEnum?> TypeOption { get; private set; }
 
         /// <summary>

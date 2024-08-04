@@ -288,7 +288,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestEnumRefStringAsync(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestEnumRefStringAsync(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
 
         /// <summary>
         /// Test query parameter(s)
@@ -302,7 +302,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestEnumRefStringWithHttpInfoAsync(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestEnumRefStringWithHttpInfoAsync(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -316,7 +316,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestQueryDatetimeDateStringAsync(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestQueryDatetimeDateStringAsync(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
 
         /// <summary>
         /// Test query parameter(s)
@@ -331,7 +331,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryDatetimeDateStringWithHttpInfoAsync(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryDatetimeDateStringWithHttpInfoAsync(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -345,7 +345,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestQueryIntegerBooleanStringAsync(int? integerQuery = default(int?), bool? booleanQuery = default(bool?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestQueryIntegerBooleanStringAsync(int? integerQuery = default(int?), bool? booleanQuery = default(bool?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
 
         /// <summary>
         /// Test query parameter(s)
@@ -360,7 +360,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryIntegerBooleanStringWithHttpInfoAsync(int? integerQuery = default(int?), bool? booleanQuery = default(bool?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryIntegerBooleanStringWithHttpInfoAsync(int? integerQuery = default(int?), bool? booleanQuery = default(bool?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -372,7 +372,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestQueryStyleDeepObjectExplodeTrueObjectAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestQueryStyleDeepObjectExplodeTrueObjectAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
 
         /// <summary>
         /// Test query parameter(s)
@@ -385,7 +385,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleDeepObjectExplodeTrueObjectWithHttpInfoAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleDeepObjectExplodeTrueObjectWithHttpInfoAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -397,7 +397,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestQueryStyleDeepObjectExplodeTrueObjectAllOfAsync(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter? queryObject = default(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestQueryStyleDeepObjectExplodeTrueObjectAllOfAsync(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter? queryObject = default(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
 
         /// <summary>
         /// Test query parameter(s)
@@ -410,7 +410,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfoAsync(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter? queryObject = default(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfoAsync(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter? queryObject = default(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -422,7 +422,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeFalseArrayIntegerAsync(List<int>? queryObject = default(List<int>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeFalseArrayIntegerAsync(List<int>? queryObject = default(List<int>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
 
         /// <summary>
         /// Test query parameter(s)
@@ -435,7 +435,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleFormExplodeFalseArrayIntegerWithHttpInfoAsync(List<int>? queryObject = default(List<int>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleFormExplodeFalseArrayIntegerWithHttpInfoAsync(List<int>? queryObject = default(List<int>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -447,7 +447,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeFalseArrayStringAsync(List<string>? queryObject = default(List<string>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeFalseArrayStringAsync(List<string>? queryObject = default(List<string>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
 
         /// <summary>
         /// Test query parameter(s)
@@ -460,7 +460,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleFormExplodeFalseArrayStringWithHttpInfoAsync(List<string>? queryObject = default(List<string>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleFormExplodeFalseArrayStringWithHttpInfoAsync(List<string>? queryObject = default(List<string>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -472,7 +472,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueArrayStringAsync(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? queryObject = default(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueArrayStringAsync(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? queryObject = default(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
 
         /// <summary>
         /// Test query parameter(s)
@@ -485,7 +485,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleFormExplodeTrueArrayStringWithHttpInfoAsync(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? queryObject = default(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleFormExplodeTrueArrayStringWithHttpInfoAsync(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? queryObject = default(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -497,7 +497,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueObjectAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueObjectAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
 
         /// <summary>
         /// Test query parameter(s)
@@ -510,7 +510,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleFormExplodeTrueObjectWithHttpInfoAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleFormExplodeTrueObjectWithHttpInfoAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -522,7 +522,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueObjectAllOfAsync(DataQuery? queryObject = default(DataQuery?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueObjectAllOfAsync(DataQuery? queryObject = default(DataQuery?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
 
         /// <summary>
         /// Test query parameter(s)
@@ -535,7 +535,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleFormExplodeTrueObjectAllOfWithHttpInfoAsync(DataQuery? queryObject = default(DataQuery?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleFormExplodeTrueObjectAllOfWithHttpInfoAsync(DataQuery? queryObject = default(DataQuery?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -738,7 +738,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestEnumRefStringAsync(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestEnumRefStringAsync(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestEnumRefStringWithHttpInfoAsync(enumNonrefStringQuery, enumRefStringQuery, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -753,7 +753,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestEnumRefStringWithHttpInfoAsync(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestEnumRefStringWithHttpInfoAsync(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -895,7 +895,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestQueryDatetimeDateStringAsync(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestQueryDatetimeDateStringAsync(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestQueryDatetimeDateStringWithHttpInfoAsync(datetimeQuery, dateQuery, stringQuery, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -911,7 +911,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryDatetimeDateStringWithHttpInfoAsync(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryDatetimeDateStringWithHttpInfoAsync(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1057,7 +1057,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestQueryIntegerBooleanStringAsync(int? integerQuery = default(int?), bool? booleanQuery = default(bool?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestQueryIntegerBooleanStringAsync(int? integerQuery = default(int?), bool? booleanQuery = default(bool?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestQueryIntegerBooleanStringWithHttpInfoAsync(integerQuery, booleanQuery, stringQuery, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1073,7 +1073,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryIntegerBooleanStringWithHttpInfoAsync(int? integerQuery = default(int?), bool? booleanQuery = default(bool?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryIntegerBooleanStringWithHttpInfoAsync(int? integerQuery = default(int?), bool? booleanQuery = default(bool?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1228,7 +1228,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestQueryStyleDeepObjectExplodeTrueObjectAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestQueryStyleDeepObjectExplodeTrueObjectAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestQueryStyleDeepObjectExplodeTrueObjectWithHttpInfoAsync(queryObject, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1242,7 +1242,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleDeepObjectExplodeTrueObjectWithHttpInfoAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleDeepObjectExplodeTrueObjectWithHttpInfoAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1388,7 +1388,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestQueryStyleDeepObjectExplodeTrueObjectAllOfAsync(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter? queryObject = default(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestQueryStyleDeepObjectExplodeTrueObjectAllOfAsync(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter? queryObject = default(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfoAsync(queryObject, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1402,7 +1402,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfoAsync(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter? queryObject = default(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfoAsync(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter? queryObject = default(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1525,7 +1525,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeFalseArrayIntegerAsync(List<int>? queryObject = default(List<int>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeFalseArrayIntegerAsync(List<int>? queryObject = default(List<int>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestQueryStyleFormExplodeFalseArrayIntegerWithHttpInfoAsync(queryObject, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1539,7 +1539,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleFormExplodeFalseArrayIntegerWithHttpInfoAsync(List<int>? queryObject = default(List<int>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleFormExplodeFalseArrayIntegerWithHttpInfoAsync(List<int>? queryObject = default(List<int>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1663,7 +1663,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeFalseArrayStringAsync(List<string>? queryObject = default(List<string>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeFalseArrayStringAsync(List<string>? queryObject = default(List<string>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestQueryStyleFormExplodeFalseArrayStringWithHttpInfoAsync(queryObject, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1677,7 +1677,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleFormExplodeFalseArrayStringWithHttpInfoAsync(List<string>? queryObject = default(List<string>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleFormExplodeFalseArrayStringWithHttpInfoAsync(List<string>? queryObject = default(List<string>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1801,7 +1801,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueArrayStringAsync(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? queryObject = default(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueArrayStringAsync(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? queryObject = default(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestQueryStyleFormExplodeTrueArrayStringWithHttpInfoAsync(queryObject, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1815,7 +1815,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleFormExplodeTrueArrayStringWithHttpInfoAsync(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? queryObject = default(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleFormExplodeTrueArrayStringWithHttpInfoAsync(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? queryObject = default(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1939,7 +1939,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueObjectAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueObjectAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestQueryStyleFormExplodeTrueObjectWithHttpInfoAsync(queryObject, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1953,7 +1953,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleFormExplodeTrueObjectWithHttpInfoAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleFormExplodeTrueObjectWithHttpInfoAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -2077,7 +2077,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueObjectAllOfAsync(DataQuery? queryObject = default(DataQuery?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueObjectAllOfAsync(DataQuery? queryObject = default(DataQuery?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestQueryStyleFormExplodeTrueObjectAllOfWithHttpInfoAsync(queryObject, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -2091,7 +2091,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleFormExplodeTrueObjectAllOfWithHttpInfoAsync(DataQuery? queryObject = default(DataQuery?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleFormExplodeTrueObjectAllOfWithHttpInfoAsync(DataQuery? queryObject = default(DataQuery?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();

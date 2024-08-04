@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of String
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Foo> StringOption { get; private set; }
 
         /// <summary>

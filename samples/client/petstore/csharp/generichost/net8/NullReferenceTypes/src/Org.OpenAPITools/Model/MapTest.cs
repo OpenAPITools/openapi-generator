@@ -120,7 +120,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of DirectMap
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, bool>?> DirectMapOption { get; private set; }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of IndirectMap
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, bool>?> IndirectMapOption { get; private set; }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of MapMapOfString
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, Dictionary<string, string>>?> MapMapOfStringOption { get; private set; }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of MapOfEnumString
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Dictionary<string, MapTest.InnerEnum>?> MapOfEnumStringOption { get; private set; }
 
         /// <summary>

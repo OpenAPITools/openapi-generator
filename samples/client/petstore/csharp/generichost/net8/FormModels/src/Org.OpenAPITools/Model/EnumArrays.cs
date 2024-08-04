@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of JustSymbol
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<EnumArraysJustSymbol?> JustSymbolOption { get; private set; }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ArrayEnum
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<EnumArraysArrayEnumInner>> ArrayEnumOption { get; private set; }
 
         /// <summary>
