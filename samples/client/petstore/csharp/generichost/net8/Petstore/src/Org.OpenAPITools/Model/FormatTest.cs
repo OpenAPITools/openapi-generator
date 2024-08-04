@@ -196,7 +196,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Int32Range
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> Int32RangeOption { get; private set; }
 
         /// <summary>
@@ -222,7 +222,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Int64Negative
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<long?> Int64NegativeOption { get; private set; }
 
         /// <summary>
@@ -235,7 +235,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Int64NegativeExclusive
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<long?> Int64NegativeExclusiveOption { get; private set; }
 
         /// <summary>
@@ -248,7 +248,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Int64Positive
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<long?> Int64PositiveOption { get; private set; }
 
         /// <summary>
@@ -261,7 +261,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Int64PositiveExclusive
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<long?> Int64PositiveExclusiveOption { get; private set; }
 
         /// <summary>
