@@ -217,7 +217,6 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         additionalProperties.put(AbstractJavaCodegen.SUPPORT_ASYNC, "true");
         additionalProperties.put(AbstractJavaCodegen.WITH_XML, "true");
         additionalProperties.put(AbstractJavaCodegen.OPENAPI_NULLABLE, "false");
-        additionalProperties.put(AbstractJavaCodegen.FAIL_ON_UNKNOWN_PROPERTIES, "false");
         // Options processed by AbstractJavaJAXRSServerCodegen
         additionalProperties.put(CodegenConstants.IMPL_FOLDER, "myimpl");
         additionalProperties.put(BeanValidationFeatures.USE_BEANVALIDATION, "true");
@@ -291,7 +290,6 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         assertEquals(testerCodegen.isSupportAsync(), true);
         assertEquals(testerCodegen.isWithXml(), true);
         assertEquals(testerCodegen.isOpenApiNullable(), false);
-        assertEquals(testerCodegen.isFailOnUnknownProperties(), false);
         // Options processed by AbstractJavaJAXRSServerCodegen
         assertEquals(testerCodegen.getImplFolder(), "myimpl");
         assertEquals(testerCodegen.isUseBeanValidation(), true);

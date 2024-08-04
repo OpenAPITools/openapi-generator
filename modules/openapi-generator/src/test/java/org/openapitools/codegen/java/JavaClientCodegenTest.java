@@ -33,6 +33,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.languages.JavaCXFClientCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
@@ -242,6 +243,21 @@ public class JavaClientCodegenTest {
         configAssert.assertValue(CodegenConstants.API_PACKAGE, codegen::apiPackage, "xyz.yyyyy.zzzzzzz.api");
         configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "xyz.yyyyy.zzzzzzz.invoker");
         Assertions.assertEquals(codegen.getSerializationLibrary(), JavaClientCodegen.SERIALIZATION_LIBRARY_GSON); // the library JavaClientCodegen.OKHTTP_GSON only supports GSON
+    }
+
+    @Test
+    public void testFailOnUnknownPropertiesAdditionalProperty() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+
+        codegen.processOpts();
+
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+        configAssert.assertValue(JavaClientCodegen.FAIL_ON_UNKNOWN_PROPERTIES, codegen::isFailOnUnknownProperties, Boolean.TRUE);
+
+        codegen.additionalProperties().put(JavaClientCodegen.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        codegen.processOpts();
+
+        configAssert.assertValue(JavaClientCodegen.FAIL_ON_UNKNOWN_PROPERTIES, codegen::isFailOnUnknownProperties, Boolean.FALSE);
     }
 
     @Test

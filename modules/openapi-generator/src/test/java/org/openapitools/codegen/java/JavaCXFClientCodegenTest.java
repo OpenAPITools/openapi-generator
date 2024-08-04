@@ -197,21 +197,6 @@ public class JavaCXFClientCodegenTest {
     }
 
     @Test
-    public void testFailOnUnknownPropertiesAdditionalProperty() throws Exception {
-        JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
-
-        codegen.processOpts();
-
-        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
-        configAssert.assertValue(AbstractJavaCodegen.FAIL_ON_UNKNOWN_PROPERTIES, codegen::isFailOnUnknownProperties, Boolean.TRUE);
-
-        codegen.additionalProperties().put(AbstractJavaCodegen.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        codegen.processOpts();
-
-        configAssert.assertValue(AbstractJavaCodegen.FAIL_ON_UNKNOWN_PROPERTIES, codegen::isFailOnUnknownProperties, Boolean.FALSE);
-    }
-
-    @Test
     public void testPostProcessNullableModelPropertyWithOpenApiNullableEnabled() throws Exception {
         JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
         codegen.additionalProperties().put(AbstractJavaCodegen.JACKSON, true);
