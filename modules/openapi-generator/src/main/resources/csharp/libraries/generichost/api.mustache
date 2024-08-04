@@ -436,7 +436,6 @@ namespace {{packageName}}.{{apiPackage}}
                     {{#queryParams}}
                     {{^required}}
                     if ({{paramName}}.IsSet)
-                        // here too
                         parseQueryStringLocalVar["{{baseName}}"] = ClientUtils.ParameterToString({{paramName}}.Value);
 
                     {{/required}}
