@@ -1190,6 +1190,22 @@ paths:
           description: OK
       tags:
       - fake
+  /fake/deep_object_anyof_test:
+    get:
+      operationId: test_query_deep_object_anyof
+      parameters:
+      - explode: false
+        in: query
+        name: filter
+        required: false
+        schema:
+          $ref: '#/components/schemas/FilterAny'
+        style: deepObject
+      responses:
+        "200":
+          description: OK
+      tags:
+      - fake
   /fake/parameter-name-mapping:
     get:
       operationId: getParameterNameMapping
@@ -1278,6 +1294,41 @@ components:
       description: Pet object that needs to be added to the store
       required: true
   schemas:
+    FilterTypeRegex:
+      properties:
+        type:
+          enum:
+          - set
+          - range
+          type: string
+        regex:
+          type: string
+      required:
+      - type
+      type: object
+    FilterTypeRange:
+      properties:
+        type:
+          enum:
+          - set
+          - range
+          type: string
+        data:
+          items:
+            type: string
+          type: array
+      required:
+      - type
+      type: object
+    FilterAny:
+      anyOf:
+      - $ref: '#/components/schemas/FilterTypeRegex'
+      - $ref: '#/components/schemas/FilterTypeRange'
+      discriminator:
+        mapping:
+          set: '#/components/schemas/FilterTypeRegex'
+          range: '#/components/schemas/FilterTypeRange'
+        propertyName: type
     MapWithDateTime:
       additionalProperties:
         items:
@@ -2198,6 +2249,12 @@ components:
         id:
           type: integer
       type: object
+    OneOfWithComplexType:
+      oneOf:
+      - type: string
+      - items:
+          type: string
+        type: array
     _foo_get_default_response:
       example:
         string:

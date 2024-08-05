@@ -98,7 +98,7 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     oltu_version = "1.0.1"
-    retrofit_version = "2.3.0"
+    retrofit_version = "2.11.0"
     {{#jackson}}
     jackson_version = "2.17.1"
     jackson_databind_version = "2.17.1"
@@ -134,7 +134,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rx_java_version"
     {{/useRxJava2}}
     {{#useRxJava3}}
-    implementation 'com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava3:$$retrofit_version'
     implementation "io.reactivex.rxjava3:rxjava:$rx_java_version"
     {{/useRxJava3}}
     implementation "io.swagger:swagger-annotations:$swagger_annotations_version"

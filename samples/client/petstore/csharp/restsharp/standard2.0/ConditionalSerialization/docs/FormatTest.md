@@ -6,6 +6,11 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Integer** | **int** |  | [optional] 
 **Int32** | **int** |  | [optional] 
+**Int32Range** | **int** |  | [optional] 
+**Int64Positive** | **long** |  | [optional] 
+**Int64Negative** | **long** |  | [optional] 
+**Int64PositiveExclusive** | **long** |  | [optional] 
+**Int64NegativeExclusive** | **long** |  | [optional] 
 **UnsignedInteger** | **uint** |  | [optional] 
 **Int64** | **long** |  | [optional] 
 **UnsignedLong** | **ulong** |  | [optional] 

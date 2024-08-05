@@ -451,6 +451,10 @@ class ObjectSerializer
             }
         }
 
+        if ($class === '\Psr\Http\Message\StreamInterface') {
+            return Utils::streamFor($data);
+        }
+
         if ($class === '\SplFileObject') {
             $data = Utils::streamFor($data);
 

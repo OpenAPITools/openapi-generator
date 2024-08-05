@@ -49,6 +49,11 @@
   infoLink: "https://www.askul.co.jp/"
   pinned: true
 -
+  caption: aspectivo
+  image: "img/companies/aspectivo.png"
+  infoLink: "https://aspectivo.ai/"
+  pinned: false 
+-
   caption: Amazon Web Services (AWS)
   image: "img/companies/aws.png"
   infoLink: "https://aws.amazon.com/"
@@ -169,6 +174,11 @@
   infoLink: "https://www.deeproute.ai/"
   pinned: false
 -
+  caption: Develocity
+  image: "img/companies/develocity.png"
+  infoLink: "https://gradle.com/"
+  pinned: false
+-
   caption: "dmTECH GmbH"
   image: "img/companies/dmtech.jpeg"
   infoLink: "https://www.dmTECH.de"
@@ -262,11 +272,6 @@
   caption: "GoDaddy"
   image: "img/companies/godaddy.png"
   infoLink: "https://www.godaddy.com/"
-  pinned: false
--
-  caption: Gradle Enterprise
-  image: "img/companies/gradle-enterprise.png"
-  infoLink: "https://gradle.com/"
   pinned: false
 -
   caption: "Gumtree"

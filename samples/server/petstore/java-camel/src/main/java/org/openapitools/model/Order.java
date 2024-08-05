@@ -96,7 +96,6 @@ public class Order {
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
-  @XmlElement(name = "id")
   public Long getId() {
     return id;
   }
@@ -118,7 +117,6 @@ public class Order {
   @Schema(name = "petId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("petId")
   @JacksonXmlProperty(localName = "petId")
-  @XmlElement(name = "petId")
   public Long getPetId() {
     return petId;
   }
@@ -140,7 +138,6 @@ public class Order {
   @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("quantity")
   @JacksonXmlProperty(localName = "quantity")
-  @XmlElement(name = "quantity")
   public Integer getQuantity() {
     return quantity;
   }
@@ -162,7 +159,6 @@ public class Order {
   @Schema(name = "shipDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("shipDate")
   @JacksonXmlProperty(localName = "shipDate")
-  @XmlElement(name = "shipDate")
   public Date getShipDate() {
     return shipDate;
   }
@@ -184,7 +180,6 @@ public class Order {
   @Schema(name = "status", description = "Order Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
   @JacksonXmlProperty(localName = "status")
-  @XmlElement(name = "status")
   public StatusEnum getStatus() {
     return status;
   }
@@ -206,7 +201,6 @@ public class Order {
   @Schema(name = "complete", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("complete")
   @JacksonXmlProperty(localName = "complete")
-  @XmlElement(name = "complete")
   public Boolean getComplete() {
     return complete;
   }

@@ -11,7 +11,7 @@ import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRe
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
-import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import org.openapitools.client.auth.HttpBasicAuth;

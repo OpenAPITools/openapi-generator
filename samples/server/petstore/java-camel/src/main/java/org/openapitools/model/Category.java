@@ -47,7 +47,6 @@ public class Category {
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
-  @XmlElement(name = "id")
   public Long getId() {
     return id;
   }
@@ -69,7 +68,6 @@ public class Category {
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
   @JacksonXmlProperty(localName = "name")
-  @XmlElement(name = "name")
   public String getName() {
     return name;
   }

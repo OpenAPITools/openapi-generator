@@ -26,7 +26,7 @@ data class Category(
 
     @Schema(example = "null", description = "")
     @get:JsonProperty("name") var name: kotlin.String? = null
-) : Serializable{
+    ) : Serializable{
 
     companion object {
         private const val serialVersionUID: kotlin.Long = 1

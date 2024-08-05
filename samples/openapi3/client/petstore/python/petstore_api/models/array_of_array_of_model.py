@@ -75,10 +75,10 @@ class ArrayOfArrayOfModel(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of each item in another_property (list of list)
         _items = []
         if self.another_property:
-            for _item in self.another_property:
-                if _item:
+            for _item_another_property in self.another_property:
+                if _item_another_property:
                     _items.append(
-                         [_inner_item.to_dict() for _inner_item in _item if _inner_item is not None]
+                         [_inner_item.to_dict() for _inner_item in _item_another_property if _inner_item is not None]
                     )
             _dict['another_property'] = _items
         # puts key-value pairs in additional_properties in the top level

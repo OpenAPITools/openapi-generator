@@ -99,6 +99,7 @@ Class | Method | HTTP request | Description
 *FakeAPI* | [**TestInlineFreeformAdditionalProperties**](docs/FakeAPI.md#testinlinefreeformadditionalproperties) | **Post** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeAPI* | [**TestJsonFormData**](docs/FakeAPI.md#testjsonformdata) | **Get** /fake/jsonFormData | test json serialization of form data
 *FakeAPI* | [**TestQueryDeepObject**](docs/FakeAPI.md#testquerydeepobject) | **Get** /fake/deep_object_test | 
+*FakeAPI* | [**TestQueryDeepObjectAnyof**](docs/FakeAPI.md#testquerydeepobjectanyof) | **Get** /fake/deep_object_anyof_test | 
 *FakeAPI* | [**TestQueryParameterCollectionFormat**](docs/FakeAPI.md#testqueryparametercollectionformat) | **Put** /fake/test-query-parameters | 
 *FakeAPI* | [**TestStringMapReference**](docs/FakeAPI.md#teststringmapreference) | **Post** /fake/stringMap-reference | test referenced string map
 *FakeAPI* | [**TestUniqueItemsHeaderAndQueryParameterCollectionFormat**](docs/FakeAPI.md#testuniqueitemsheaderandqueryparametercollectionformat) | **Put** /fake/test-unique-parameters | 
@@ -153,6 +154,9 @@ Class | Method | HTTP request | Description
  - [EnumTest](docs/EnumTest.md)
  - [File](docs/File.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
+ - [FilterAny](docs/FilterAny.md)
+ - [FilterTypeRange](docs/FilterTypeRange.md)
+ - [FilterTypeRegex](docs/FilterTypeRegex.md)
  - [Foo](docs/Foo.md)
  - [FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
  - [FormatTest](docs/FormatTest.md)
@@ -177,6 +181,7 @@ Class | Method | HTTP request | Description
  - [OneOfPrimitiveType](docs/OneOfPrimitiveType.md)
  - [OneOfPrimitiveTypeChild](docs/OneOfPrimitiveTypeChild.md)
  - [OneOfPrimitiveTypes](docs/OneOfPrimitiveTypes.md)
+ - [OneOfWithComplexType](docs/OneOfWithComplexType.md)
  - [Order](docs/Order.md)
  - [OuterComposite](docs/OuterComposite.md)
  - [OuterEnum](docs/OuterEnum.md)
