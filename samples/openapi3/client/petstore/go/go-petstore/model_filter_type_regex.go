@@ -69,6 +69,7 @@ func (o *FilterTypeRegex) SetType(v string) {
 	o.Type = v
 }
 
+
 // GetRegex returns the Regex field value if set, zero value otherwise.
 func (o *FilterTypeRegex) GetRegex() string {
 	if o == nil || IsNil(o.Regex) {
@@ -131,6 +132,11 @@ func (o *FilterTypeRegex) UnmarshalJSON(data []byte) (err error) {
 		"type",
 	}
 
+	// defaultValueFuncMap captures the default values for required properties.
+	// These values are used when required properties are missing from the payload.
+	defaultValueFuncMap := map[string]func() interface{} {
+	}
+	var defaultValueApplied bool
 	allProperties := make(map[string]interface{})
 
 	err = json.Unmarshal(data, &allProperties)
@@ -140,11 +146,23 @@ func (o *FilterTypeRegex) UnmarshalJSON(data []byte) (err error) {
 	}
 
 	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
+		if value, exists := allProperties[requiredProperty]; !exists || value == "" {
+			if _, ok := defaultValueFuncMap[requiredProperty]; ok {
+				allProperties[requiredProperty] = defaultValueFuncMap[requiredProperty]()
+				defaultValueApplied = true
+			}
+		}
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
 	}
 
+	if defaultValueApplied {
+		data, err = json.Marshal(allProperties)
+		if err != nil{
+			return err
+		}
+	}
 	varFilterTypeRegex := _FilterTypeRegex{}
 
 	err = json.Unmarshal(data, &varFilterTypeRegex)
