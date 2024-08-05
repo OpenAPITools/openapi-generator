@@ -30,6 +30,15 @@ const requestOptionsMiddleware = (z, bundle, requestOptions) => {
   return requestOptions
 }
 
+const isTrigger = (key) => {
+    // TODO: custom logic
+    return false
+}
+
+const triggerMiddleware = (action) => {
+    return action
+}
+
 module.exports = {
     replacePathParameters: replacePathParameters,
     childMapping: childMapping,
@@ -39,4 +48,6 @@ module.exports = {
     isSearchAction: isSearchAction,
     searchMiddleware: searchMiddleware,
     requestOptionsMiddleware: requestOptionsMiddleware,
+    isTrigger: isTrigger,
+    triggerMiddleware: triggerMiddleware,
 }
