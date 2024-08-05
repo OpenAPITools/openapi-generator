@@ -120,6 +120,8 @@ paths:
                 - sold
               default: available
       responses:
+        '2XX':
+          description: Anything within 200-299
         '200':
           description: successful operation
           content:
@@ -135,6 +137,8 @@ paths:
                   $ref: '#/components/schemas/Pet'
         '400':
           description: Invalid status value
+        '4XX':
+          description: Anything within 400-499
       security:
         - http_signature_test: []
         - petstore_auth:
@@ -1680,6 +1684,24 @@ components:
           format: int32
           maximum: 200
           minimum: 20
+        int32Range:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        int64Positive:
+          type: integer
+          minimum: 2147483648 # int.MaxValue + 1
+        int64Negative:
+          type: integer
+          maximum: -2147483649 # int.MinValue - 1
+        int64PositiveExclusive:
+          type: integer
+          minimum: 2147483647
+          exclusiveMinimum: true
+        int64NegativeExclusive:
+          type: integer
+          maximum: -2147483648
+          exclusiveMaximum: true
         unsigned_integer:
           type: integer
           format: int32

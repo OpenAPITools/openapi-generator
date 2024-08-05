@@ -1233,6 +1233,22 @@ paths:
       responses:
         '200':
           description: OK
+  /fake/deep_object_anyof_test:
+    get:
+      tags:
+        - fake
+      operationId: test_query_deep_object_anyof
+      parameters:
+        - name: filter
+          in: query
+          required: false
+          style: deepObject
+          schema:
+            $ref: '#/components/schemas/FilterAny'
+          explode: false
+      responses:
+        '200':
+          description: OK
   /fake/parameter-name-mapping:
     get:
       tags:
@@ -1375,6 +1391,41 @@ components:
       type: http
       scheme: signature
   schemas:
+    FilterTypeRegex:
+      type: object
+      properties:
+        type:
+          enum:
+          - set
+          - range
+          type: string
+        regex:
+          type: string
+      required:
+      - type
+    FilterTypeRange:
+      type: object
+      properties:
+        type:
+          enum:
+          - set
+          - range
+          type: string
+        data:
+          type: array
+          items:
+            type: string
+      required:
+      - type
+    FilterAny:
+      anyOf:
+      - $ref: '#/components/schemas/FilterTypeRegex'
+      - $ref: '#/components/schemas/FilterTypeRange'
+      discriminator:
+        mapping:
+          set: '#/components/schemas/FilterTypeRegex'
+          range: '#/components/schemas/FilterTypeRange'
+        propertyName: type  
     MapWithDateTime:
       type: object
       additionalProperties:
@@ -2219,3 +2270,9 @@ components:
       properties:
         id:
           type: integer
+    OneOfWithComplexType:
+      oneOf:
+        - type: string
+        - type: array
+          items:
+            type: string

@@ -23,12 +23,7 @@
 Building the API client library requires:
 
 1. Java 17+
-{{#jersey2}}
-2. Maven (3.8.3+)/Gradle (7.2+)
-{{/jersey2}}
-{{^jersey2}}
 2. Maven/Gradle
-{{/jersey2}}
 
 ## Installation
 
@@ -87,33 +82,6 @@ Then manually install the following JARs:
 - `target/{{{artifactId}}}-{{{artifactVersion}}}.jar`
 - `target/lib/*.jar`
 
-{{#jersey2}}
-## Usage
-
-To add a HTTP proxy for the API client, use `ClientConfig`:
-```java
-{{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
-import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
-import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.client.ClientProperties;
-import {{{invokerPackage}}}.*;
-import {{{package}}}.{{{classname}}};
-
-...
-
-ApiClient defaultClient = Configuration.getDefaultApiClient();
-ClientConfig clientConfig = defaultClient.getClientConfig();
-clientConfig.connectorProvider(new ApacheConnectorProvider());
-clientConfig.property(ClientProperties.PROXY_URI, "http://proxy_url_here");
-clientConfig.property(ClientProperties.PROXY_USERNAME, "proxy_username");
-clientConfig.property(ClientProperties.PROXY_PASSWORD, "proxy_password");
-defaultClient.setClientConfig(clientConfig);
-
-{{{classname}}} apiInstance = new {{{classname}}}(defaultClient);
-{{/-first}}{{/operation}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
-```
-
-{{/jersey2}}
 ## Getting Started
 
 Please follow the [installation](#installation) instruction and execute the following Java code:
@@ -128,7 +96,7 @@ import {{{package}}}.{{{classname}}};
 public class {{{classname}}}Example {
 
     public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        ApiClient defaultClient = new ApiClient();
         defaultClient.setBasePath("{{{basePath}}}");
         {{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
         // Configure HTTP basic authorization: {{{name}}}
@@ -173,10 +141,10 @@ public class {{{classname}}}Example {
         try {
             {{#returnType}}{{{.}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
             System.out.println(result);{{/returnType}}
-        } catch (ApiException e) {
+        } catch (HttpStatusCodeException e) {
             System.err.println("Exception when calling {{{classname}}}#{{{operationId}}}");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Status code: " + e.getStatusCode().value());
+            System.err.println("Reason: " + e.getResponseBodyAsString());
             System.err.println("Response headers: " + e.getResponseHeaders());
             e.printStackTrace();
         }

@@ -133,6 +133,8 @@ paths:
           type: array
         style: form
       responses:
+        "2XX":
+          description: Anything within 200-299
         "200":
           content:
             application/xml:
@@ -148,6 +150,8 @@ paths:
           description: successful operation
         "400":
           description: Invalid status value
+        "4XX":
+          description: Anything within 400-499
       security:
       - http_signature_test: []
       - petstore_auth:
@@ -1571,6 +1575,24 @@ components:
           format: int32
           maximum: 200
           minimum: 20
+          type: integer
+        int32Range:
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+        int64Positive:
+          minimum: 2147483648
+          type: integer
+        int64Negative:
+          maximum: -2147483649
+          type: integer
+        int64PositiveExclusive:
+          exclusiveMinimum: true
+          minimum: 2147483647
+          type: integer
+        int64NegativeExclusive:
+          exclusiveMaximum: true
+          maximum: -2147483648
           type: integer
         unsigned_integer:
           format: int32

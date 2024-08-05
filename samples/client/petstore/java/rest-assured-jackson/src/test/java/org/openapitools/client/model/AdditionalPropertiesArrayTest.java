@@ -21,22 +21,21 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for AdditionalPropertiesArray
  */
-public class AdditionalPropertiesArrayTest {
+class AdditionalPropertiesArrayTest {
     private final AdditionalPropertiesArray model = new AdditionalPropertiesArray();
 
     /**
      * Model tests for AdditionalPropertiesArray
      */
     @Test
-    public void testAdditionalPropertiesArray() {
+    void testAdditionalPropertiesArray() {
         // TODO: test AdditionalPropertiesArray
     }
 
@@ -44,7 +43,7 @@ public class AdditionalPropertiesArrayTest {
      * Test the property 'name'
      */
     @Test
-    public void nameTest() {
+    void nameTest() {
         // TODO: test name
     }
 

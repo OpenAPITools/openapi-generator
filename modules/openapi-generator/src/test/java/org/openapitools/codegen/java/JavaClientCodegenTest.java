@@ -2955,4 +2955,26 @@ public class JavaClientCodegenTest {
 
     }
 
+    @Test public void testRestClientWithXML_issue_19137() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(Map.of(
+                        CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
+                        CodegenConstants.WITH_XML, true
+                ))
+                .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        TestUtils.assertFileContains(
+                output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
+                "import com.fasterxml.jackson.dataformat.xml.XmlMapper;",
+                "import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;"
+        );
+    }
+
 }

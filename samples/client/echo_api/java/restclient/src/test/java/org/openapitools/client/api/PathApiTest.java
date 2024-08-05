@@ -10,42 +10,40 @@
  * Do not edit the class manually.
  */
 
-
 package org.openapitools.client.api;
 
-import org.openapitools.client.model.StringEnumRef;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import org.junit.Test;
-import org.junit.Ignore;
+import org.openapitools.client.model.StringEnumRef;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-/**
- * API tests for PathApi
- */
-@Ignore
+/** API tests for PathApi */
 public class PathApiTest {
 
-    private final PathApi api = new PathApi();
+  private final PathApi api = new PathApi();
 
-    
-    /**
-     * Test path parameter(s)
-     *
-     * Test path parameter(s)
-     */
-    @Test
-    public void testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathTest()  {
-        String pathString = null;
-        Integer pathInteger = null;
-        String enumNonrefStringPath = null;
-        StringEnumRef enumRefStringPath = null;
-        String response = api.testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
+  /**
+   * Test path parameter(s)
+   *
+   * <p>Test path parameter(s)
+   */
+  @Test
+  public void
+      testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathTest() {
+    // Given
+    String pathString = "simple String Path";
+    Integer pathInteger = 50;
+    String enumNonrefStringPath = "true";
+    StringEnumRef enumRefStringPath = StringEnumRef.SUCCESS;
 
-        // TODO: test validations
-    }
-    
+    // When
+    String response =
+        api.testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(
+            pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
+
+    // Then
+    assertThat(
+        response, containsString("/path/string/simple%20String%20Path/integer/50/true/success"));
+  }
 }

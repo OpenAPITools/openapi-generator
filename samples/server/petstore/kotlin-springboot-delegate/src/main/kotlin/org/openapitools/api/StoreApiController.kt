@@ -7,7 +7,7 @@ import java.util.Optional
 @javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.8.0-SNAPSHOT")
 @Controller
 class StoreApiController(
-        @org.springframework.beans.factory.annotation.Autowired(required = false) delegate: StoreApiDelegate?
+        delegate: StoreApiDelegate?
 ) : StoreApi {
     private lateinit var delegate: StoreApiDelegate
 

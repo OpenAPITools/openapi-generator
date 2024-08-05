@@ -483,7 +483,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NotrequiredNotnullableEnumInteger
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<NotrequiredNotnullableEnumIntegerEnum?> NotrequiredNotnullableEnumIntegerOption { get; private set; }
 
         /// <summary>
@@ -555,7 +555,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NotrequiredNotnullableEnumIntegerOnly
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<NotrequiredNotnullableEnumIntegerOnlyEnum?> NotrequiredNotnullableEnumIntegerOnlyOption { get; private set; }
 
         /// <summary>
@@ -718,7 +718,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NotrequiredNotnullableEnumString
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<NotrequiredNotnullableEnumStringEnum?> NotrequiredNotnullableEnumStringOption { get; private set; }
 
         /// <summary>
@@ -731,7 +731,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NotrequiredNotnullableOuterEnumDefaultValue
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<OuterEnumDefaultValue?> NotrequiredNotnullableOuterEnumDefaultValueOption { get; private set; }
 
         /// <summary>
@@ -803,7 +803,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NotrequiredNullableEnumInteger
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<NotrequiredNullableEnumIntegerEnum?> NotrequiredNullableEnumIntegerOption { get; private set; }
 
         /// <summary>
@@ -875,7 +875,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NotrequiredNullableEnumIntegerOnly
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<NotrequiredNullableEnumIntegerOnlyEnum?> NotrequiredNullableEnumIntegerOnlyOption { get; private set; }
 
         /// <summary>
@@ -1041,7 +1041,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NotrequiredNullableEnumString
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<NotrequiredNullableEnumStringEnum?> NotrequiredNullableEnumStringOption { get; private set; }
 
         /// <summary>
@@ -1054,7 +1054,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NotrequiredNullableOuterEnumDefaultValue
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<OuterEnumDefaultValue?> NotrequiredNullableOuterEnumDefaultValueOption { get; private set; }
 
         /// <summary>
@@ -1405,7 +1405,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NotRequiredNotnullableDateProp
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<DateOnly?> NotRequiredNotnullableDatePropOption { get; private set; }
 
         /// <summary>
@@ -1418,7 +1418,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NotRequiredNotnullableintegerProp
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> NotRequiredNotnullableintegerPropOption { get; private set; }
 
         /// <summary>
@@ -1431,7 +1431,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NotRequiredNullableDateProp
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<DateOnly?> NotRequiredNullableDatePropOption { get; private set; }
 
         /// <summary>
@@ -1444,7 +1444,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NotRequiredNullableIntegerProp
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> NotRequiredNullableIntegerPropOption { get; private set; }
 
         /// <summary>
@@ -1457,7 +1457,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NotrequiredNotnullableArrayOfString
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<string>> NotrequiredNotnullableArrayOfStringOption { get; private set; }
 
         /// <summary>
@@ -1470,7 +1470,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NotrequiredNotnullableBooleanProp
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<bool?> NotrequiredNotnullableBooleanPropOption { get; private set; }
 
         /// <summary>
@@ -1483,7 +1483,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NotrequiredNotnullableDatetimeProp
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<DateTime?> NotrequiredNotnullableDatetimePropOption { get; private set; }
 
         /// <summary>
@@ -1496,7 +1496,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NotrequiredNotnullableStringProp
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> NotrequiredNotnullableStringPropOption { get; private set; }
 
         /// <summary>
@@ -1509,7 +1509,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NotrequiredNotnullableUuid
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Guid?> NotrequiredNotnullableUuidOption { get; private set; }
 
         /// <summary>
@@ -1523,7 +1523,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NotrequiredNullableArrayOfString
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<string>> NotrequiredNullableArrayOfStringOption { get; private set; }
 
         /// <summary>
@@ -1536,7 +1536,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NotrequiredNullableBooleanProp
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<bool?> NotrequiredNullableBooleanPropOption { get; private set; }
 
         /// <summary>
@@ -1549,7 +1549,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NotrequiredNullableDatetimeProp
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<DateTime?> NotrequiredNullableDatetimePropOption { get; private set; }
 
         /// <summary>
@@ -1562,7 +1562,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NotrequiredNullableStringProp
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> NotrequiredNullableStringPropOption { get; private set; }
 
         /// <summary>
@@ -1575,7 +1575,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NotrequiredNullableUuid
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Guid?> NotrequiredNullableUuidOption { get; private set; }
 
         /// <summary>

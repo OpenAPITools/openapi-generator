@@ -157,4 +157,15 @@ public class TypeScriptClientCodegenTest {
             Assert.fail("Exception was thrown.");
         }
     }
+
+    @Test
+    public void arrayItemsCanBeNullable() throws Exception {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/array-nullable-items.yaml");
+        final DefaultCodegen codegen = new TypeScriptClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        final ArraySchema schema = (ArraySchema) openAPI.getComponents().getSchemas().get("ArrayWithNullableItemsModel")
+            .getProperties()
+            .get("foo");
+        Assert.assertEquals(codegen.getTypeDeclaration(schema), "Array<string | null>");
+    }
 }

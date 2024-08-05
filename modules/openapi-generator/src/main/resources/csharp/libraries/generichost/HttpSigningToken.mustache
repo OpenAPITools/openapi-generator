@@ -34,7 +34,7 @@ namespace {{packageName}}.{{clientPackage}}
         /// <param name="request"></param>
         /// <param name="requestBody"></param>
         /// <param name="cancellationToken"></param>
-        public void UseInHeader(System.Net.Http.HttpRequestMessage request, string requestBody, CancellationToken cancellationToken = default{{^netstandard20OrLater}}(System.Threading.CancellationToken){{/netstandard20OrLater}})
+        public void UseInHeader(global::System.Net.Http.HttpRequestMessage request, string requestBody, CancellationToken cancellationToken = default{{^netstandard20OrLater}}(global::System.Threading.CancellationToken){{/netstandard20OrLater}})
         {
             var signedHeaders = _configuration.GetHttpSignedHeader(request, requestBody, cancellationToken);
 

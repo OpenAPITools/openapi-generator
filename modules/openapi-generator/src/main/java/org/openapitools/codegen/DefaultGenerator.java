@@ -469,14 +469,7 @@ public class DefaultGenerator implements Generator {
             try {
                 //don't generate models that have an import mapping
                 if (config.schemaMapping().containsKey(name)) {
-                    LOGGER.debug("Model {} not imported due to import mapping", name);
-
-                    for (String templateName : config.modelTemplateFiles().keySet()) {
-                        // HACK: Because this returns early, could lead to some invalid model reporting.
-                        String filename = config.modelFilename(templateName, name);
-                        Path path = java.nio.file.Paths.get(filename);
-                        this.templateProcessor.skip(path, "Skipped prior to model processing due to schema mapping.");
-                    }
+                    LOGGER.info("Model {} not generated due to schema mapping", name);
                     continue;
                 }
 

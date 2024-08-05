@@ -4,14 +4,18 @@ on:
     paths:
       # clients
       - samples/client/petstore/java-helidon-client/v4/mp/**
+      - samples/client/petstore/java-helidon-client/v4/se/**
       # servers
       - samples/server/petstore/java-helidon-server/v4/mp/**
+      - samples/server/petstore/java-helidon-server/v4/se/**
   pull_request:
     paths:
       # clients
       - samples/client/petstore/java-helidon-client/v4/mp/**
+      - samples/client/petstore/java-helidon-client/v4/se/**
       # servers
       - samples/server/petstore/java-helidon-server/v4/mp/**
+      - samples/server/petstore/java-helidon-server/v4/se/**
 jobs:
   build:
     name: Build with JDK21
@@ -22,8 +26,10 @@ jobs:
         sample:
           # clients
           - samples/client/petstore/java-helidon-client/v4/mp/
+          - samples/client/petstore/java-helidon-client/v4/se/
           # servers
           - samples/server/petstore/java-helidon-server/v4/mp/
+          - samples/server/petstore/java-helidon-server/v4/se/
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4

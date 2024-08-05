@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Apple
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Apple> AppleOption { get; private set; }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Banana
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Banana> BananaOption { get; private set; }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Color
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> ColorOption { get; private set; }
 
         /// <summary>

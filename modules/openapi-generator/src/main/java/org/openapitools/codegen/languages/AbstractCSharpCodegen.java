@@ -208,11 +208,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         instantiationTypes.put("array", "List");
         instantiationTypes.put("list", "List");
         instantiationTypes.put("map", "Dictionary");
-
-        this.setSortParamsByRequiredFlag(true);
-
-        // do it only on newer libraries to avoid breaking changes
-        // this.setSortModelPropertiesByRequiredFlag(true);
     }
 
     public void setUseCollection(boolean useCollection) {
@@ -484,6 +479,46 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             property.isEnum = false;
             property.isInnerEnum = false;
             property.isString = false;
+        }
+
+        Double maximum = asDouble(property.maximum);
+        if (property.dataType.equals("int") && maximum != null) {
+            if ((!property.exclusiveMaximum && asInteger(property.maximum) == null) || (property.exclusiveMaximum && asInteger((maximum + 1) + "") == null)) {
+                property.dataType = "long";
+                property.datatypeWithEnum = "long";
+            }
+        }
+
+        Double minimum = asDouble(property.minimum);
+        if (property.dataType.equals("int") && minimum != null) {
+            if ((!property.exclusiveMinimum && asInteger(property.minimum) == null) || (property.exclusiveMinimum && asInteger((minimum - 1) + "") == null)) {
+                property.dataType = "long";
+                property.datatypeWithEnum = "long";
+            }
+        }
+    }
+
+    /** If the value can be parsed as a double, returns the value, otherwise returns null */
+    public static Double asDouble(String strNum) {
+        if (strNum == null) {
+            return null;
+        }
+        try {
+            return Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return null;
+        }
+    }
+
+    /** If the value can be parsed as an integer, returns the value, otherwise returns null */
+    public static Integer asInteger(String strNum) {
+        if (strNum == null) {
+            return null;
+        }
+        try {
+            return Integer.parseInt(strNum);
+        } catch (NumberFormatException nfe) {
+            return null;
         }
     }
 
@@ -1001,6 +1036,26 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                                     break;
                                 case "511":
                                     postProcessResponseCode(response, "NetworkAuthenticationRequired", httpStatusesWithReturn);
+                                    break;
+                                case "1xx":
+                                    response.vendorExtensions.put("x-http-status-range", 1);
+                                    postProcessResponseCode(response, "HttpStatusCode1XX", httpStatusesWithReturn);
+                                    break;
+                                case "2xx":
+                                    response.vendorExtensions.put("x-http-status-range", 2);
+                                    postProcessResponseCode(response, "HttpStatusCode2XX", httpStatusesWithReturn);
+                                    break;
+                                case "3xx":
+                                    response.vendorExtensions.put("x-http-status-range", 3);
+                                    postProcessResponseCode(response, "HttpStatusCode3XX", httpStatusesWithReturn);
+                                    break;
+                                case "4xx":
+                                    response.vendorExtensions.put("x-http-status-range", 4);
+                                    postProcessResponseCode(response, "HttpStatusCode4XX", httpStatusesWithReturn);
+                                    break;
+                                case "5xx":
+                                    response.vendorExtensions.put("x-http-status-range", 5);
+                                    postProcessResponseCode(response, "HttpStatusCode5XX", httpStatusesWithReturn);
                                     break;
                                 default:
                                     postProcessResponseCode(response, "CustomHttpStatusCode" + code, httpStatusesWithReturn);

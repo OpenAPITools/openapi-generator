@@ -857,16 +857,16 @@ export interface NullableClass {
     'array_nullable_prop'?: Array<object> | null;
     /**
      * 
-     * @type {Array<object>}
+     * @type {Array<object | null>}
      * @memberof NullableClass
      */
-    'array_and_items_nullable_prop'?: Array<object> | null;
+    'array_and_items_nullable_prop'?: Array<object | null> | null;
     /**
      * 
-     * @type {Array<object>}
+     * @type {Array<object | null>}
      * @memberof NullableClass
      */
-    'array_items_nullable'?: Array<object>;
+    'array_items_nullable'?: Array<object | null>;
     /**
      * 
      * @type {{ [key: string]: object; }}
