@@ -187,4 +187,18 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
     public TypeAnnotationsAssert assertTypeAnnotations() {
         return new TypeAnnotationsAssert(this, actual.getType(0).getAnnotations());
     }
+
+    public JavaFileAssert fileContainsPattern(final String pattern) {
+        final String actualBody = actual.getTokenRange()
+                .orElseThrow(() -> new IllegalStateException("Empty file"))
+                .toString();
+        Assertions.assertThat(actualBody)
+                .withFailMessage(
+                        "File should contains pattern\n====\n%s\n====\nbut actually was\n====\n%s\n====",
+                        pattern, actualBody
+                )
+                .containsPattern(pattern);
+
+        return this;
+    }
 }
