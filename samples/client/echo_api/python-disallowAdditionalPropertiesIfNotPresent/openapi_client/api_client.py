@@ -536,7 +536,7 @@ class ApiClient:
 
         return "&".join(["=".join(map(str, item)) for item in new_params])
 
-    def files_parameters(self, files: Dict[str, Union[str, bytes]]):
+    def files_parameters(self, files: Dict[str, Union[str, bytes, List[str], List[bytes]]]):
         """Builds form parameters.
 
         :param files: File parameters.
@@ -551,6 +551,10 @@ class ApiClient:
             elif isinstance(v, bytes):
                 filename = k
                 filedata = v
+            elif isinstance(v, list):
+                for file_param in v:
+                    params.extend(self.files_parameters({k: file_param}))
+                continue
             else:
                 raise ValueError("Unsupported file value")
             mimetype = (
