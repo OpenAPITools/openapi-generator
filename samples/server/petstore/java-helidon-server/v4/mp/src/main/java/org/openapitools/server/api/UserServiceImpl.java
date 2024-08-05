@@ -14,6 +14,7 @@ package org.openapitools.server.api;
 
 import java.util.List;
 import java.time.OffsetDateTime;
+import java.util.Optional;
 import org.openapitools.server.model.User;
 
 import jakarta.ws.rs.*;

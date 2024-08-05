@@ -1,2 +1,2 @@
-{{#isPathParam}}{{> dataType }} {{paramName}} = {{> paramValue }}{{#useBeanValidation}}
-                {{>beanValidationPathParams}}{{/useBeanValidation}}{{/isPathParam}}
+{{#isPathParam}}{{> paramDecl }} = {{> paramValue }}{{#useBeanValidation}}
+        {{#x-helidon-v3}}        {{/x-helidon-v3}}{{>beanValidationPathParams}}{{/useBeanValidation}}{{/isPathParam}}
