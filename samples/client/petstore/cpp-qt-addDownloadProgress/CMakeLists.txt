@@ -17,7 +17,12 @@ add_subdirectory(client)
 
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Test)
 
-add_executable(cpp-qt-petstore)
+add_executable(cpp-qt-petstore
+    PetStore/main.cpp
+    PetStore/PetApiTests.cpp
+    PetStore/StoreApiTests.cpp
+    PetStore/UserApiTests.cpp
+    )
 
 target_link_libraries(cpp-qt-petstore PRIVATE CppQtPetstoreClient Qt${QT_VERSION_MAJOR}::Test)
 

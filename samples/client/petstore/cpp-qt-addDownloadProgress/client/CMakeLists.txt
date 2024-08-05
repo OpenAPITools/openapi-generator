@@ -11,10 +11,17 @@ include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
 add_library(${PROJECT_NAME}
+  PFXApiResponse.h
   PFXCategory.h
+  PFXOrder.h
   PFXPet.h
   PFXTag.h
+  PFXTestAnyType.h
+  PFXUser.h
   PFXPetApi.h
+  PFXPrimitivesApi.h
+  PFXStoreApi.h
+  PFXUserApi.h
   PFXHelpers.h
   PFXHttpRequest.h
   PFXObject.h
@@ -23,10 +30,17 @@ add_library(${PROJECT_NAME}
   PFXServerConfiguration.h
   PFXServerVariable.h
   PFXOauth.h
+  PFXApiResponse.cpp
   PFXCategory.cpp
+  PFXOrder.cpp
   PFXPet.cpp
   PFXTag.cpp
+  PFXTestAnyType.cpp
+  PFXUser.cpp
   PFXPetApi.cpp
+  PFXPrimitivesApi.cpp
+  PFXStoreApi.cpp
+  PFXUserApi.cpp
   PFXHelpers.cpp
   PFXHttpRequest.cpp
   PFXHttpFileElement.cpp
