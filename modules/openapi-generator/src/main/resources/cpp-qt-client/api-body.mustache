@@ -660,6 +660,8 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 
+{{#addDownloadProgress}}
+    connect(worker, &{{prefix}}HttpRequestWorker::downloadProgress, this, &{{classname}}::{{nickname}}Progress);{{/addDownloadProgress}}
     connect(worker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
     connect(this, &{{classname}}::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {

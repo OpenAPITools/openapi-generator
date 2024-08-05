@@ -372,6 +372,7 @@ void {{prefix}}HttpRequestWorker::execute({{prefix}}HttpRequestInput *input) {
     }
     if (reply != nullptr) {
         reply->setParent(this);
+        connect(reply, &QNetworkReply::downloadProgress, this, &{{prefix}}HttpRequestWorker::downloadProgress);
         connect(reply, &QNetworkReply::finished, [this, reply] {
             on_reply_finished(reply);
         });
