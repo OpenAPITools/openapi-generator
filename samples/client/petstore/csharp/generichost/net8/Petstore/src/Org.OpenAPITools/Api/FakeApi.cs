@@ -4304,14 +4304,14 @@ namespace Org.OpenAPITools.Api
                     if (enumQueryStringArray.IsSet)
                         parseQueryStringLocalVar["enum_query_string_array"] = ClientUtils.ParameterToString(enumQueryStringArray.Value);
 
-                    if (enumQueryDouble.IsSet)
-                        parseQueryStringLocalVar["enum_query_double"] = ClientUtils.ParameterToString(enumQueryDouble.Value);
+                    if (enumQueryString.IsSet)
+                        parseQueryStringLocalVar["enum_query_string"] = ClientUtils.ParameterToString(enumQueryString.Value);
 
                     if (enumQueryInteger.IsSet)
                         parseQueryStringLocalVar["enum_query_integer"] = ClientUtils.ParameterToString(enumQueryInteger.Value);
 
-                    if (enumQueryString.IsSet)
-                        parseQueryStringLocalVar["enum_query_string"] = ClientUtils.ParameterToString(enumQueryString.Value);
+                    if (enumQueryDouble.IsSet)
+                        parseQueryStringLocalVar["enum_query_double"] = ClientUtils.ParameterToString(enumQueryDouble.Value);
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 

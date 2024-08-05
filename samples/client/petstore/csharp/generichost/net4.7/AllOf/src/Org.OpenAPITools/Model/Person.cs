@@ -49,13 +49,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string> FirstNameOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets FirstName
-        /// </summary>
-        [JsonPropertyName("firstName")]
-        public string FirstName { get { return this.FirstNameOption; } set { this.FirstNameOption = new Option<string>(value); } }
+        public string Type { get; } = "Person";
 
         /// <summary>
         /// Used to track the state of LastName
@@ -75,7 +69,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public string Type { get; } = "Person";
+        public Option<string> FirstNameOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets FirstName
+        /// </summary>
+        [JsonPropertyName("firstName")]
+        public string FirstName { get { return this.FirstNameOption; } set { this.FirstNameOption = new Option<string>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// The discriminator
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public new string Type { get; } = "Adult";
 
         /// <summary>
@@ -63,13 +63,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("children")]
         public List<Child> Children { get { return this.ChildrenOption; } set { this.ChildrenOption = new Option<List<Child>>(value); } }
-
-        /// <summary>
-        /// The discriminator
-        /// </summary>
-        [JsonIgnore]
-        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public new string Type { get; } = "Adult";
 
         /// <summary>
         /// Returns the string presentation of the object
