@@ -168,8 +168,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Setter protected List<String> additionalEnumTypeAnnotations = new LinkedList<>();
     @Getter @Setter
     protected boolean openApiNullable = true;
-    @Getter @Setter
-    protected boolean failOnUnknownProperties = true;
     @Setter protected String outputTestFolder = "";
     protected DocumentationProvider documentationProvider;
     protected AnnotationLibrary annotationLibrary;

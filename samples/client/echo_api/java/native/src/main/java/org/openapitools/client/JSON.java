@@ -21,7 +21,7 @@ public class JSON {
     mapper = JsonMapper.builder()
         .serializationInclusion(JsonInclude.Include.NON_NULL)
         .disable(MapperFeature.ALLOW_COERCION_OF_SCALARS)
-        .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
         .enable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE)
         .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
         .enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING)

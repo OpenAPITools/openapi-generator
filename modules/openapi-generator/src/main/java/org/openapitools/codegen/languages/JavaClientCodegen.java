@@ -135,6 +135,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Setter protected boolean withAWSV4Signature = false;
     @Setter protected String gradleProperties;
     @Setter protected String errorObjectType;
+    @Getter @Setter protected boolean failOnUnknownProperties = false;
     protected String authFolder;
     /**
      *  Serialization library.

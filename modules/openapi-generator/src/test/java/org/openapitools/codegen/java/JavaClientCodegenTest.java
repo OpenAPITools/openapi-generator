@@ -33,7 +33,6 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
-import org.openapitools.codegen.languages.JavaCXFClientCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
@@ -252,12 +251,12 @@ public class JavaClientCodegenTest {
         codegen.processOpts();
 
         ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
-        configAssert.assertValue(JavaClientCodegen.FAIL_ON_UNKNOWN_PROPERTIES, codegen::isFailOnUnknownProperties, Boolean.TRUE);
+        configAssert.assertValue(JavaClientCodegen.FAIL_ON_UNKNOWN_PROPERTIES, codegen::isFailOnUnknownProperties, Boolean.FALSE);
 
-        codegen.additionalProperties().put(JavaClientCodegen.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        codegen.additionalProperties().put(JavaClientCodegen.FAIL_ON_UNKNOWN_PROPERTIES, true);
         codegen.processOpts();
 
-        configAssert.assertValue(JavaClientCodegen.FAIL_ON_UNKNOWN_PROPERTIES, codegen::isFailOnUnknownProperties, Boolean.FALSE);
+        configAssert.assertValue(JavaClientCodegen.FAIL_ON_UNKNOWN_PROPERTIES, codegen::isFailOnUnknownProperties, Boolean.TRUE);
     }
 
     @Test
