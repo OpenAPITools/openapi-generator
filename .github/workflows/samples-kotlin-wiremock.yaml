@@ -19,6 +19,7 @@ jobs:
       matrix:
         sample:
           - samples/server/petstore/kotlin-wiremock
+          - samples/server/petstore/kotlin-wiremock-responses
           - samples/server/echo_api/kotlin-wiremock
     steps:
       - uses: actions/checkout@v4

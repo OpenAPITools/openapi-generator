@@ -18,45 +18,46 @@ import org.openapitools.models.*
  */
 class AddPetStubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
 
-    /**
-     * Let the stub for addPet respond with HTTP status code 200.
-     *
-     * @param body response body for the [MappingBuilder].
-     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return a [MappingBuilder] to be registered with a WireMock instance.
-     */
-    fun respondWith200(
-        body: Pet,
-        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-    ): MappingBuilder =
+        /**
+        * Let the stub for addPet respond with HTTP status code [code].
+        *
+        * @param code the response code.
+        * @param body response body for the [MappingBuilder].
+        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+        * @return a [MappingBuilder] to be registered with a WireMock instance.
+        */
+        fun respondWith200(
+            code: Int,
+            body: Pet,
+            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+        ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(200)
+            .withStatus(code)
             .withHeader("Content-Type", "application/json")
             .withBody(objectMapper.writeValueAsString(body))
             .configurer()
         )
 
-    /**
-     * Let the stub for addPet respond with HTTP status code 405.
-     *
-     * @param body response body for the [MappingBuilder].
-     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return a [MappingBuilder] to be registered with a WireMock instance.
-     */
-    fun respondWith405(
-        body: Pet,
-        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-    ): MappingBuilder =
+        /**
+        * Let the stub for addPet respond with HTTP status code [code].
+        *
+        * @param code the response code.
+        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+        * @return a [MappingBuilder] to be registered with a WireMock instance.
+        */
+        fun respondWith405(
+            code: Int,
+            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+        ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(405)
-            .withHeader("Content-Type", "application/json")
-            .withBody(objectMapper.writeValueAsString(body))
+            .withStatus(code)
             .configurer()
         )
 
     /**
      * Let the stub for addPet respond with HTTP status code [code].
      *
+     * @param code the response code.
      * @param body response body for the [MappingBuilder].
      * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return a [MappingBuilder] to be registered with a WireMock instance.
@@ -83,23 +84,27 @@ class AddPetStubBuilder internal constructor(private val objectMapper: ObjectMap
  */
 class DeletePetStubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
 
-    /**
-     * Let the stub for deletePet respond with HTTP status code 400.
-     *
-     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return a [MappingBuilder] to be registered with a WireMock instance.
-     */
-    fun respondWith400(
-        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-    ): MappingBuilder =
+        /**
+        * Let the stub for deletePet respond with HTTP status code [code].
+        *
+        * @param code the response code.
+        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+        * @return a [MappingBuilder] to be registered with a WireMock instance.
+        */
+        fun respondWith400(
+            code: Int,
+            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+        ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(400)
+            .withStatus(code)
             .configurer()
         )
 
     /**
      * Let the stub for deletePet respond with HTTP status code [code].
      *
+     * @param code the response code.
+     * @param body response body for the [MappingBuilder].
      * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
@@ -125,45 +130,46 @@ class DeletePetStubBuilder internal constructor(private val objectMapper: Object
  */
 class FindPetsByStatusStubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
 
-    /**
-     * Let the stub for findPetsByStatus respond with HTTP status code 200.
-     *
-     * @param body response body for the [MappingBuilder].
-     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return a [MappingBuilder] to be registered with a WireMock instance.
-     */
-    fun respondWith200(
-        body: kotlin.collections.List<Pet>,
-        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-    ): MappingBuilder =
+        /**
+        * Let the stub for findPetsByStatus respond with HTTP status code [code].
+        *
+        * @param code the response code.
+        * @param body response body for the [MappingBuilder].
+        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+        * @return a [MappingBuilder] to be registered with a WireMock instance.
+        */
+        fun respondWith200(
+            code: Int,
+            body: kotlin.collections.List<Pet>,
+            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+        ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(200)
+            .withStatus(code)
             .withHeader("Content-Type", "application/json")
             .withBody(objectMapper.writeValueAsString(body))
             .configurer()
         )
 
-    /**
-     * Let the stub for findPetsByStatus respond with HTTP status code 400.
-     *
-     * @param body response body for the [MappingBuilder].
-     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return a [MappingBuilder] to be registered with a WireMock instance.
-     */
-    fun respondWith400(
-        body: kotlin.collections.List<Pet>,
-        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-    ): MappingBuilder =
+        /**
+        * Let the stub for findPetsByStatus respond with HTTP status code [code].
+        *
+        * @param code the response code.
+        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+        * @return a [MappingBuilder] to be registered with a WireMock instance.
+        */
+        fun respondWith400(
+            code: Int,
+            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+        ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(400)
-            .withHeader("Content-Type", "application/json")
-            .withBody(objectMapper.writeValueAsString(body))
+            .withStatus(code)
             .configurer()
         )
 
     /**
      * Let the stub for findPetsByStatus respond with HTTP status code [code].
      *
+     * @param code the response code.
      * @param body response body for the [MappingBuilder].
      * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return a [MappingBuilder] to be registered with a WireMock instance.
@@ -190,45 +196,46 @@ class FindPetsByStatusStubBuilder internal constructor(private val objectMapper:
  */
 class FindPetsByTagsStubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
 
-    /**
-     * Let the stub for findPetsByTags respond with HTTP status code 200.
-     *
-     * @param body response body for the [MappingBuilder].
-     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return a [MappingBuilder] to be registered with a WireMock instance.
-     */
-    fun respondWith200(
-        body: kotlin.collections.List<Pet>,
-        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-    ): MappingBuilder =
+        /**
+        * Let the stub for findPetsByTags respond with HTTP status code [code].
+        *
+        * @param code the response code.
+        * @param body response body for the [MappingBuilder].
+        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+        * @return a [MappingBuilder] to be registered with a WireMock instance.
+        */
+        fun respondWith200(
+            code: Int,
+            body: kotlin.collections.List<Pet>,
+            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+        ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(200)
+            .withStatus(code)
             .withHeader("Content-Type", "application/json")
             .withBody(objectMapper.writeValueAsString(body))
             .configurer()
         )
 
-    /**
-     * Let the stub for findPetsByTags respond with HTTP status code 400.
-     *
-     * @param body response body for the [MappingBuilder].
-     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return a [MappingBuilder] to be registered with a WireMock instance.
-     */
-    fun respondWith400(
-        body: kotlin.collections.List<Pet>,
-        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-    ): MappingBuilder =
+        /**
+        * Let the stub for findPetsByTags respond with HTTP status code [code].
+        *
+        * @param code the response code.
+        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+        * @return a [MappingBuilder] to be registered with a WireMock instance.
+        */
+        fun respondWith400(
+            code: Int,
+            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+        ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(400)
-            .withHeader("Content-Type", "application/json")
-            .withBody(objectMapper.writeValueAsString(body))
+            .withStatus(code)
             .configurer()
         )
 
     /**
      * Let the stub for findPetsByTags respond with HTTP status code [code].
      *
+     * @param code the response code.
      * @param body response body for the [MappingBuilder].
      * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return a [MappingBuilder] to be registered with a WireMock instance.
@@ -255,63 +262,62 @@ class FindPetsByTagsStubBuilder internal constructor(private val objectMapper: O
  */
 class GetPetByIdStubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
 
-    /**
-     * Let the stub for getPetById respond with HTTP status code 200.
-     *
-     * @param body response body for the [MappingBuilder].
-     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return a [MappingBuilder] to be registered with a WireMock instance.
-     */
-    fun respondWith200(
-        body: Pet,
-        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-    ): MappingBuilder =
+        /**
+        * Let the stub for getPetById respond with HTTP status code [code].
+        *
+        * @param code the response code.
+        * @param body response body for the [MappingBuilder].
+        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+        * @return a [MappingBuilder] to be registered with a WireMock instance.
+        */
+        fun respondWith200(
+            code: Int,
+            body: Pet,
+            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+        ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(200)
+            .withStatus(code)
             .withHeader("Content-Type", "application/json")
             .withBody(objectMapper.writeValueAsString(body))
             .configurer()
         )
 
-    /**
-     * Let the stub for getPetById respond with HTTP status code 400.
-     *
-     * @param body response body for the [MappingBuilder].
-     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return a [MappingBuilder] to be registered with a WireMock instance.
-     */
-    fun respondWith400(
-        body: Pet,
-        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-    ): MappingBuilder =
+        /**
+        * Let the stub for getPetById respond with HTTP status code [code].
+        *
+        * @param code the response code.
+        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+        * @return a [MappingBuilder] to be registered with a WireMock instance.
+        */
+        fun respondWith400(
+            code: Int,
+            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+        ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(400)
-            .withHeader("Content-Type", "application/json")
-            .withBody(objectMapper.writeValueAsString(body))
+            .withStatus(code)
             .configurer()
         )
 
-    /**
-     * Let the stub for getPetById respond with HTTP status code 404.
-     *
-     * @param body response body for the [MappingBuilder].
-     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return a [MappingBuilder] to be registered with a WireMock instance.
-     */
-    fun respondWith404(
-        body: Pet,
-        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-    ): MappingBuilder =
+        /**
+        * Let the stub for getPetById respond with HTTP status code [code].
+        *
+        * @param code the response code.
+        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+        * @return a [MappingBuilder] to be registered with a WireMock instance.
+        */
+        fun respondWith404(
+            code: Int,
+            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+        ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(404)
-            .withHeader("Content-Type", "application/json")
-            .withBody(objectMapper.writeValueAsString(body))
+            .withStatus(code)
             .configurer()
         )
 
     /**
      * Let the stub for getPetById respond with HTTP status code [code].
      *
+     * @param code the response code.
      * @param body response body for the [MappingBuilder].
      * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return a [MappingBuilder] to be registered with a WireMock instance.
@@ -338,81 +344,78 @@ class GetPetByIdStubBuilder internal constructor(private val objectMapper: Objec
  */
 class UpdatePetStubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
 
-    /**
-     * Let the stub for updatePet respond with HTTP status code 200.
-     *
-     * @param body response body for the [MappingBuilder].
-     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return a [MappingBuilder] to be registered with a WireMock instance.
-     */
-    fun respondWith200(
-        body: Pet,
-        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-    ): MappingBuilder =
+        /**
+        * Let the stub for updatePet respond with HTTP status code [code].
+        *
+        * @param code the response code.
+        * @param body response body for the [MappingBuilder].
+        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+        * @return a [MappingBuilder] to be registered with a WireMock instance.
+        */
+        fun respondWith200(
+            code: Int,
+            body: Pet,
+            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+        ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(200)
+            .withStatus(code)
             .withHeader("Content-Type", "application/json")
             .withBody(objectMapper.writeValueAsString(body))
             .configurer()
         )
 
-    /**
-     * Let the stub for updatePet respond with HTTP status code 400.
-     *
-     * @param body response body for the [MappingBuilder].
-     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return a [MappingBuilder] to be registered with a WireMock instance.
-     */
-    fun respondWith400(
-        body: Pet,
-        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-    ): MappingBuilder =
+        /**
+        * Let the stub for updatePet respond with HTTP status code [code].
+        *
+        * @param code the response code.
+        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+        * @return a [MappingBuilder] to be registered with a WireMock instance.
+        */
+        fun respondWith400(
+            code: Int,
+            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+        ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(400)
-            .withHeader("Content-Type", "application/json")
-            .withBody(objectMapper.writeValueAsString(body))
+            .withStatus(code)
             .configurer()
         )
 
-    /**
-     * Let the stub for updatePet respond with HTTP status code 404.
-     *
-     * @param body response body for the [MappingBuilder].
-     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return a [MappingBuilder] to be registered with a WireMock instance.
-     */
-    fun respondWith404(
-        body: Pet,
-        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-    ): MappingBuilder =
+        /**
+        * Let the stub for updatePet respond with HTTP status code [code].
+        *
+        * @param code the response code.
+        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+        * @return a [MappingBuilder] to be registered with a WireMock instance.
+        */
+        fun respondWith404(
+            code: Int,
+            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+        ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(404)
-            .withHeader("Content-Type", "application/json")
-            .withBody(objectMapper.writeValueAsString(body))
+            .withStatus(code)
             .configurer()
         )
 
-    /**
-     * Let the stub for updatePet respond with HTTP status code 405.
-     *
-     * @param body response body for the [MappingBuilder].
-     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return a [MappingBuilder] to be registered with a WireMock instance.
-     */
-    fun respondWith405(
-        body: Pet,
-        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-    ): MappingBuilder =
+        /**
+        * Let the stub for updatePet respond with HTTP status code [code].
+        *
+        * @param code the response code.
+        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+        * @return a [MappingBuilder] to be registered with a WireMock instance.
+        */
+        fun respondWith405(
+            code: Int,
+            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+        ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(405)
-            .withHeader("Content-Type", "application/json")
-            .withBody(objectMapper.writeValueAsString(body))
+            .withStatus(code)
             .configurer()
         )
 
     /**
      * Let the stub for updatePet respond with HTTP status code [code].
      *
+     * @param code the response code.
      * @param body response body for the [MappingBuilder].
      * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return a [MappingBuilder] to be registered with a WireMock instance.
@@ -439,23 +442,27 @@ class UpdatePetStubBuilder internal constructor(private val objectMapper: Object
  */
 class UpdatePetWithFormStubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
 
-    /**
-     * Let the stub for updatePetWithForm respond with HTTP status code 405.
-     *
-     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return a [MappingBuilder] to be registered with a WireMock instance.
-     */
-    fun respondWith405(
-        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-    ): MappingBuilder =
+        /**
+        * Let the stub for updatePetWithForm respond with HTTP status code [code].
+        *
+        * @param code the response code.
+        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+        * @return a [MappingBuilder] to be registered with a WireMock instance.
+        */
+        fun respondWith405(
+            code: Int,
+            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+        ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(405)
+            .withStatus(code)
             .configurer()
         )
 
     /**
      * Let the stub for updatePetWithForm respond with HTTP status code [code].
      *
+     * @param code the response code.
+     * @param body response body for the [MappingBuilder].
      * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
@@ -481,19 +488,21 @@ class UpdatePetWithFormStubBuilder internal constructor(private val objectMapper
  */
 class UploadFileStubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
 
-    /**
-     * Let the stub for uploadFile respond with HTTP status code 200.
-     *
-     * @param body response body for the [MappingBuilder].
-     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return a [MappingBuilder] to be registered with a WireMock instance.
-     */
-    fun respondWith200(
-        body: ApiResponse,
-        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-    ): MappingBuilder =
+        /**
+        * Let the stub for uploadFile respond with HTTP status code [code].
+        *
+        * @param code the response code.
+        * @param body response body for the [MappingBuilder].
+        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+        * @return a [MappingBuilder] to be registered with a WireMock instance.
+        */
+        fun respondWith200(
+            code: Int,
+            body: ApiResponse,
+            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+        ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(200)
+            .withStatus(code)
             .withHeader("Content-Type", "application/json")
             .withBody(objectMapper.writeValueAsString(body))
             .configurer()
@@ -502,6 +511,7 @@ class UploadFileStubBuilder internal constructor(private val objectMapper: Objec
     /**
      * Let the stub for uploadFile respond with HTTP status code [code].
      *
+     * @param code the response code.
      * @param body response body for the [MappingBuilder].
      * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return a [MappingBuilder] to be registered with a WireMock instance.

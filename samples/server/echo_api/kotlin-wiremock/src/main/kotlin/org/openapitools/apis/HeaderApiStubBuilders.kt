@@ -18,19 +18,21 @@ import org.openapitools.models.*
  */
 class TestHeaderIntegerBooleanStringEnumsStubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
 
-    /**
-     * Let the stub for testHeaderIntegerBooleanStringEnums respond with HTTP status code 200.
-     *
-     * @param body response body for the [MappingBuilder].
-     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return a [MappingBuilder] to be registered with a WireMock instance.
-     */
-    fun respondWith200(
-        body: kotlin.String,
-        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-    ): MappingBuilder =
+        /**
+        * Let the stub for testHeaderIntegerBooleanStringEnums respond with HTTP status code [code].
+        *
+        * @param code the response code.
+        * @param body response body for the [MappingBuilder].
+        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+        * @return a [MappingBuilder] to be registered with a WireMock instance.
+        */
+        fun respondWith200(
+            code: Int,
+            body: kotlin.String,
+            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+        ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(200)
+            .withStatus(code)
             .withHeader("Content-Type", "application/json")
             .withBody(objectMapper.writeValueAsString(body))
             .configurer()
@@ -39,6 +41,7 @@ class TestHeaderIntegerBooleanStringEnumsStubBuilder internal constructor(privat
     /**
      * Let the stub for testHeaderIntegerBooleanStringEnums respond with HTTP status code [code].
      *
+     * @param code the response code.
      * @param body response body for the [MappingBuilder].
      * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return a [MappingBuilder] to be registered with a WireMock instance.
