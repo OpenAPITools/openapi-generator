@@ -14,6 +14,7 @@ import org.openapitools.codegen.model.ModelsMap;
 import java.io.File;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -130,7 +131,7 @@ public class KotlinWiremockServerCodegen extends AbstractKotlinCodegen {
     public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
         var r = super.fromResponse(responseCode, response);
 
-        var isRange = List.of("1xx", "2xx", "3xx", "4xx", "5xx").contains(responseCode.toLowerCase());
+        var isRange = List.of("1xx", "2xx", "3xx", "4xx", "5xx").contains(responseCode.toLowerCase(Locale.ROOT));
         r.vendorExtensions.put(VENDOR_EXTENSION_IS_RANGE_RESPONSE_CODE, isRange);
         return r;
     }
