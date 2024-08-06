@@ -18,21 +18,19 @@ import org.openapitools.models.*
  */
 class TestBinaryGifStubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
 
-        /**
-        * Let the stub for testBinaryGif respond with HTTP status code [code].
-        *
-        * @param code the response code.
-        * @param body response body for the [MappingBuilder].
-        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
-        * @return a [MappingBuilder] to be registered with a WireMock instance.
-        */
-        fun respondWith200(
-            code: Int,
-            body: java.io.File,
-            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-        ): MappingBuilder =
+    /**
+     * Let the stub for testBinaryGif respond with HTTP status code 200.
+     *
+     * @param body response body for the [MappingBuilder].
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
+     */
+    fun respondWith200(
+        body: java.io.File,
+        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+    ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(code)
+            .withStatus(200)
             .withHeader("Content-Type", "application/json")
             .withBody(objectMapper.writeValueAsString(body))
             .configurer()
@@ -68,21 +66,19 @@ class TestBinaryGifStubBuilder internal constructor(private val objectMapper: Ob
  */
 class TestBodyApplicationOctetstreamBinaryStubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
 
-        /**
-        * Let the stub for testBodyApplicationOctetstreamBinary respond with HTTP status code [code].
-        *
-        * @param code the response code.
-        * @param body response body for the [MappingBuilder].
-        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
-        * @return a [MappingBuilder] to be registered with a WireMock instance.
-        */
-        fun respondWith200(
-            code: Int,
-            body: kotlin.String,
-            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-        ): MappingBuilder =
+    /**
+     * Let the stub for testBodyApplicationOctetstreamBinary respond with HTTP status code 200.
+     *
+     * @param body response body for the [MappingBuilder].
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
+     */
+    fun respondWith200(
+        body: kotlin.String,
+        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+    ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(code)
+            .withStatus(200)
             .withHeader("Content-Type", "application/json")
             .withBody(objectMapper.writeValueAsString(body))
             .configurer()
@@ -118,21 +114,19 @@ class TestBodyApplicationOctetstreamBinaryStubBuilder internal constructor(priva
  */
 class TestBodyMultipartFormdataArrayOfBinaryStubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
 
-        /**
-        * Let the stub for testBodyMultipartFormdataArrayOfBinary respond with HTTP status code [code].
-        *
-        * @param code the response code.
-        * @param body response body for the [MappingBuilder].
-        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
-        * @return a [MappingBuilder] to be registered with a WireMock instance.
-        */
-        fun respondWith200(
-            code: Int,
-            body: kotlin.String,
-            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-        ): MappingBuilder =
+    /**
+     * Let the stub for testBodyMultipartFormdataArrayOfBinary respond with HTTP status code 200.
+     *
+     * @param body response body for the [MappingBuilder].
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
+     */
+    fun respondWith200(
+        body: kotlin.String,
+        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+    ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(code)
+            .withStatus(200)
             .withHeader("Content-Type", "application/json")
             .withBody(objectMapper.writeValueAsString(body))
             .configurer()
@@ -168,21 +162,19 @@ class TestBodyMultipartFormdataArrayOfBinaryStubBuilder internal constructor(pri
  */
 class TestBodyMultipartFormdataSingleBinaryStubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
 
-        /**
-        * Let the stub for testBodyMultipartFormdataSingleBinary respond with HTTP status code [code].
-        *
-        * @param code the response code.
-        * @param body response body for the [MappingBuilder].
-        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
-        * @return a [MappingBuilder] to be registered with a WireMock instance.
-        */
-        fun respondWith200(
-            code: Int,
-            body: kotlin.String,
-            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-        ): MappingBuilder =
+    /**
+     * Let the stub for testBodyMultipartFormdataSingleBinary respond with HTTP status code 200.
+     *
+     * @param body response body for the [MappingBuilder].
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
+     */
+    fun respondWith200(
+        body: kotlin.String,
+        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+    ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(code)
+            .withStatus(200)
             .withHeader("Content-Type", "application/json")
             .withBody(objectMapper.writeValueAsString(body))
             .configurer()
@@ -218,21 +210,19 @@ class TestBodyMultipartFormdataSingleBinaryStubBuilder internal constructor(priv
  */
 class TestEchoBodyFreeFormObjectResponseStringStubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
 
-        /**
-        * Let the stub for testEchoBodyFreeFormObjectResponseString respond with HTTP status code [code].
-        *
-        * @param code the response code.
-        * @param body response body for the [MappingBuilder].
-        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
-        * @return a [MappingBuilder] to be registered with a WireMock instance.
-        */
-        fun respondWith200(
-            code: Int,
-            body: kotlin.String,
-            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-        ): MappingBuilder =
+    /**
+     * Let the stub for testEchoBodyFreeFormObjectResponseString respond with HTTP status code 200.
+     *
+     * @param body response body for the [MappingBuilder].
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
+     */
+    fun respondWith200(
+        body: kotlin.String,
+        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+    ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(code)
+            .withStatus(200)
             .withHeader("Content-Type", "application/json")
             .withBody(objectMapper.writeValueAsString(body))
             .configurer()
@@ -268,21 +258,19 @@ class TestEchoBodyFreeFormObjectResponseStringStubBuilder internal constructor(p
  */
 class TestEchoBodyPetStubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
 
-        /**
-        * Let the stub for testEchoBodyPet respond with HTTP status code [code].
-        *
-        * @param code the response code.
-        * @param body response body for the [MappingBuilder].
-        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
-        * @return a [MappingBuilder] to be registered with a WireMock instance.
-        */
-        fun respondWith200(
-            code: Int,
-            body: Pet,
-            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-        ): MappingBuilder =
+    /**
+     * Let the stub for testEchoBodyPet respond with HTTP status code 200.
+     *
+     * @param body response body for the [MappingBuilder].
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
+     */
+    fun respondWith200(
+        body: Pet,
+        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+    ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(code)
+            .withStatus(200)
             .withHeader("Content-Type", "application/json")
             .withBody(objectMapper.writeValueAsString(body))
             .configurer()
@@ -318,21 +306,19 @@ class TestEchoBodyPetStubBuilder internal constructor(private val objectMapper: 
  */
 class TestEchoBodyPetResponseStringStubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
 
-        /**
-        * Let the stub for testEchoBodyPetResponseString respond with HTTP status code [code].
-        *
-        * @param code the response code.
-        * @param body response body for the [MappingBuilder].
-        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
-        * @return a [MappingBuilder] to be registered with a WireMock instance.
-        */
-        fun respondWith200(
-            code: Int,
-            body: kotlin.String,
-            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-        ): MappingBuilder =
+    /**
+     * Let the stub for testEchoBodyPetResponseString respond with HTTP status code 200.
+     *
+     * @param body response body for the [MappingBuilder].
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
+     */
+    fun respondWith200(
+        body: kotlin.String,
+        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+    ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(code)
+            .withStatus(200)
             .withHeader("Content-Type", "application/json")
             .withBody(objectMapper.writeValueAsString(body))
             .configurer()
@@ -368,21 +354,19 @@ class TestEchoBodyPetResponseStringStubBuilder internal constructor(private val 
  */
 class TestEchoBodyTagResponseStringStubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
 
-        /**
-        * Let the stub for testEchoBodyTagResponseString respond with HTTP status code [code].
-        *
-        * @param code the response code.
-        * @param body response body for the [MappingBuilder].
-        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
-        * @return a [MappingBuilder] to be registered with a WireMock instance.
-        */
-        fun respondWith200(
-            code: Int,
-            body: kotlin.String,
-            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-        ): MappingBuilder =
+    /**
+     * Let the stub for testEchoBodyTagResponseString respond with HTTP status code 200.
+     *
+     * @param body response body for the [MappingBuilder].
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
+     */
+    fun respondWith200(
+        body: kotlin.String,
+        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+    ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(code)
+            .withStatus(200)
             .withHeader("Content-Type", "application/json")
             .withBody(objectMapper.writeValueAsString(body))
             .configurer()

@@ -130,7 +130,7 @@ public class KotlinWiremockServerCodegen extends AbstractKotlinCodegen {
     public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
         var r = super.fromResponse(responseCode, response);
 
-        var isRange = r.is1xx || r.is2xx || r.is3xx || r.is4xx || r.is5xx;
+        var isRange = List.of("1xx", "2xx", "3xx", "4xx", "5xx").contains(responseCode.toLowerCase());
         r.vendorExtensions.put(VENDOR_EXTENSION_IS_RANGE_RESPONSE_CODE, isRange);
         return r;
     }

@@ -18,41 +18,37 @@ import org.openapitools.models.*
  */
 class FooGetStubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
 
-        /**
-        * Let the stub for fooGet respond with HTTP status code [code].
-        *
-        * @param code the response code.
-        * @param body response body for the [MappingBuilder].
-        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
-        * @return a [MappingBuilder] to be registered with a WireMock instance.
-        */
-        fun respondWith404(
-            code: Int,
-            body: kotlin.String,
-            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-        ): MappingBuilder =
+    /**
+     * Let the stub for fooGet respond with HTTP status code 404.
+     *
+     * @param body response body for the [MappingBuilder].
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
+     */
+    fun respondWith404(
+        body: kotlin.String,
+        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+    ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(code)
+            .withStatus(404)
             .withHeader("Content-Type", "application/json")
             .withBody(objectMapper.writeValueAsString(body))
             .configurer()
         )
 
-        /**
-        * Let the stub for fooGet respond with HTTP status code [code].
-        *
-        * @param code the response code.
-        * @param body response body for the [MappingBuilder].
-        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
-        * @return a [MappingBuilder] to be registered with a WireMock instance.
-        */
-        fun respondWith400(
-            code: Int,
-            body: kotlin.collections.List<Foo>,
-            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-        ): MappingBuilder =
+    /**
+     * Let the stub for fooGet respond with HTTP status code 400.
+     *
+     * @param body response body for the [MappingBuilder].
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
+     */
+    fun respondWith400(
+        body: kotlin.collections.List<Foo>,
+        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+    ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(code)
+            .withStatus(400)
             .withHeader("Content-Type", "application/json")
             .withBody(objectMapper.writeValueAsString(body))
             .configurer()

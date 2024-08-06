@@ -18,21 +18,19 @@ import org.openapitools.models.*
  */
 class TestAuthHttpBasicStubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
 
-        /**
-        * Let the stub for testAuthHttpBasic respond with HTTP status code [code].
-        *
-        * @param code the response code.
-        * @param body response body for the [MappingBuilder].
-        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
-        * @return a [MappingBuilder] to be registered with a WireMock instance.
-        */
-        fun respondWith200(
-            code: Int,
-            body: kotlin.String,
-            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-        ): MappingBuilder =
+    /**
+     * Let the stub for testAuthHttpBasic respond with HTTP status code 200.
+     *
+     * @param body response body for the [MappingBuilder].
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
+     */
+    fun respondWith200(
+        body: kotlin.String,
+        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+    ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(code)
+            .withStatus(200)
             .withHeader("Content-Type", "application/json")
             .withBody(objectMapper.writeValueAsString(body))
             .configurer()
@@ -68,21 +66,19 @@ class TestAuthHttpBasicStubBuilder internal constructor(private val objectMapper
  */
 class TestAuthHttpBearerStubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
 
-        /**
-        * Let the stub for testAuthHttpBearer respond with HTTP status code [code].
-        *
-        * @param code the response code.
-        * @param body response body for the [MappingBuilder].
-        * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
-        * @return a [MappingBuilder] to be registered with a WireMock instance.
-        */
-        fun respondWith200(
-            code: Int,
-            body: kotlin.String,
-            configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
-        ): MappingBuilder =
+    /**
+     * Let the stub for testAuthHttpBearer respond with HTTP status code 200.
+     *
+     * @param body response body for the [MappingBuilder].
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
+     */
+    fun respondWith200(
+        body: kotlin.String,
+        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+    ): MappingBuilder =
         stub.willReturn(aResponse()
-            .withStatus(code)
+            .withStatus(200)
             .withHeader("Content-Type", "application/json")
             .withBody(objectMapper.writeValueAsString(body))
             .configurer()
