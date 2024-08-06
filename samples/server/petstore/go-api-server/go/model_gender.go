@@ -55,7 +55,6 @@ func NewGenderFromValue(v string) (Gender, error) {
 }
 
 
-
 // AssertGenderRequired checks if the required fields are not zero-ed
 func AssertGenderRequired(obj Gender) error {
 	return nil

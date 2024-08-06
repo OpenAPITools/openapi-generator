@@ -21,6 +21,14 @@ type Tag struct {
 	Name string `json:"name,omitempty"`
 }
 
+// NewTagWithDefaults instantiates a new Tag object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewTagWithDefaults() Tag {
+	this := Tag{}
+	return this
+}
+
 // AssertTagRequired checks if the required fields are not zero-ed
 func AssertTagRequired(obj Tag) error {
 	return nil

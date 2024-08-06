@@ -651,6 +651,7 @@ components:
         quantity:
           type: integer
           format: int32
+          default: 1
         shipDate:
           type: string
           format: date-time
@@ -669,6 +670,7 @@ components:
           type: string
         type:
           type: string
+          default: "dog"
       required:
         - requireTest
       xml:
@@ -687,9 +689,6 @@ components:
         petId:
           type: integer
           format: int64
-        quantity:
-          type: integer
-          format: int32
         shipDate:
           type: string
           format: date-time
@@ -700,6 +699,7 @@ components:
             - placed
             - approved
             - delivered
+          default: "placed"
         complete:
           type: boolean
           default: false

@@ -55,7 +55,6 @@ func NewColourFromValue(v string) (Colour, error) {
 }
 
 
-
 // AssertColourRequired checks if the required fields are not zero-ed
 func AssertColourRequired(obj Colour) error {
 	return nil

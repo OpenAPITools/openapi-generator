@@ -22,6 +22,15 @@ type AnObject struct {
 	Pet []Pet `json:"Pet,omitempty"`
 }
 
+// NewAnObjectWithDefaults instantiates a new AnObject object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewAnObjectWithDefaults() AnObject {
+	this := AnObject{}
+	this.Tag = NewTagWithDefaults()
+	return this
+}
+
 // AssertAnObjectRequired checks if the required fields are not zero-ed
 func AssertAnObjectRequired(obj AnObject) error {
 	if err := AssertTagRequired(obj.Tag); err != nil {

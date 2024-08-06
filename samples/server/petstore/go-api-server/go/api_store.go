@@ -129,7 +129,7 @@ func (c *StoreAPIController) GetOrderById(w http.ResponseWriter, r *http.Request
 
 // PlaceOrder - Place an order for a pet
 func (c *StoreAPIController) PlaceOrder(w http.ResponseWriter, r *http.Request) {
-	orderParam := Order{}
+	orderParam := NewOrderWithDefaults()
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(&orderParam); err != nil {
