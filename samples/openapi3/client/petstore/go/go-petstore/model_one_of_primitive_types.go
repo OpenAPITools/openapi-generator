@@ -13,6 +13,7 @@ package petstore
 import (
 	"encoding/json"
 	"time"
+	"gopkg.in/validator.v2"
 	"fmt"
 )
 
@@ -48,7 +49,11 @@ func (dst *OneOfPrimitiveTypes) UnmarshalJSON(data []byte) error {
 		if string(jsonString) == "{}" { // empty struct
 			dst.String = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.String); err != nil {
+				dst.String = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.String = nil
@@ -61,7 +66,11 @@ func (dst *OneOfPrimitiveTypes) UnmarshalJSON(data []byte) error {
 		if string(jsonTimeTime) == "{}" { // empty struct
 			dst.TimeTime = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.TimeTime); err != nil {
+				dst.TimeTime = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.TimeTime = nil

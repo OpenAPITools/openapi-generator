@@ -2,7 +2,15 @@
 * {{{description}}}
 * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
 */
-enum class {{classname}}(val value: {{dataType}}) {
+enum class {{classname}}(@get:JsonValue val value: {{dataType}}) {
 {{#allowableValues}}{{#enumVars}}
-    @JsonProperty({{{value}}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+    {{&name}}({{{value}}}){{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}};
+
+    companion object {
+        @JvmStatic
+        @JsonCreator
+        fun forValue(value: {{dataType}}): {{classname}} {
+                return values().first{it -> it.value == value}
+        }
+    }
 }

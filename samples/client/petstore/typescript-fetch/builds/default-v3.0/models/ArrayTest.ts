@@ -49,7 +49,7 @@ export interface ArrayTest {
 /**
  * Check if a given object implements the ArrayTest interface.
  */
-export function instanceOfArrayTest(value: object): boolean {
+export function instanceOfArrayTest(value: object): value is ArrayTest {
     return true;
 }
 

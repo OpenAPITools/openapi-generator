@@ -22,7 +22,7 @@ print(ParentWithOptionalDict.to_json())
 # convert the object into a dict
 parent_with_optional_dict_dict = parent_with_optional_dict_instance.to_dict()
 # create an instance of ParentWithOptionalDict from a dict
-parent_with_optional_dict_form_dict = parent_with_optional_dict.from_dict(parent_with_optional_dict_dict)
+parent_with_optional_dict_from_dict = ParentWithOptionalDict.from_dict(parent_with_optional_dict_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -122,6 +122,38 @@ namespace Org.OpenAPITools.Test.Api
         }
 
         /// <summary>
+        /// Test GetMixedAnyOf
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task GetMixedAnyOfAsyncTest()
+        {
+            var response = await _instance.GetMixedAnyOfAsync();
+            var model = response.Ok();
+            Assert.IsType<MixedAnyOf>(model);
+        }
+
+        /// <summary>
+        /// Test GetMixedOneOf
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task GetMixedOneOfAsyncTest()
+        {
+            var response = await _instance.GetMixedOneOfAsync();
+            var model = response.Ok();
+            Assert.IsType<MixedOneOf>(model);
+        }
+
+        /// <summary>
+        /// Test TestAdditionalPropertiesReference
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task TestAdditionalPropertiesReferenceAsyncTest()
+        {
+            Dictionary<string, Object> requestBody = default;
+            await _instance.TestAdditionalPropertiesReferenceAsync(requestBody);
+        }
+
+        /// <summary>
         /// Test TestBodyWithFileSchema
         /// </summary>
         [Fact (Skip = "not implemented")]
@@ -256,6 +288,16 @@ namespace Org.OpenAPITools.Test.Api
             Client.Option<string> notRequiredNotNullable = default;
             Client.Option<string> notRequiredNullable = default;
             await _instance.TestQueryParameterCollectionFormatAsync(pipe, ioutil, http, url, context, requiredNotNullable, requiredNullable, notRequiredNotNullable, notRequiredNullable);
+        }
+
+        /// <summary>
+        /// Test TestStringMapReference
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task TestStringMapReferenceAsyncTest()
+        {
+            Dictionary<string, string> requestBody = default;
+            await _instance.TestStringMapReferenceAsync(requestBody);
         }
     }
 }

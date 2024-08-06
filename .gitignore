@@ -1,4 +1,5 @@
 .mvn/.gradle-enterprise/
+.mvn/.develocity/
 .scannerwork/
 .vscode
 *.iml
@@ -87,6 +88,11 @@ samples/client/petstore/cpp-restsdk/CMakeCache.txt
 samples/client/petstore/cpp-restsdk/CMakeFiles/
 samples/client/petstore/cpp-restsdk/Makefile
 samples/client/petstore/cpp-restsdk/cmake_install.cmake
+samples/client/petstore/cpp-restsdk/client/CMakeFiles
+samples/client/petstore/cpp-restsdk/client/Makefile
+samples/client/petstore/cpp-restsdk/client/cmake_install.cmake
+samples/client/petstore/cpp-restsdk/client/CppRestPetstoreClientConfig.cmake
+samples/client/petstore/cpp-restsdk/client/CMakeCache.txt
 
 #Java/Android
 **/.gradle

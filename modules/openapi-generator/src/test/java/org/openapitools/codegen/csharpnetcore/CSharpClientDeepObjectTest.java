@@ -32,7 +32,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 
 public class CSharpClientDeepObjectTest {

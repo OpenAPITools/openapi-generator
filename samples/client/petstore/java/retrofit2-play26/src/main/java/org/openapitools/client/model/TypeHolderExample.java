@@ -40,7 +40,7 @@ import jakarta.validation.Valid;
   TypeHolderExample.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderExample.JSON_PROPERTY_ARRAY_ITEM
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class TypeHolderExample {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
   private String stringItem;
@@ -69,10 +69,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get stringItem
    * @return stringItem
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -90,17 +90,16 @@ public class TypeHolderExample {
     this.stringItem = stringItem;
   }
 
-
   public TypeHolderExample numberItem(BigDecimal numberItem) {
     
     this.numberItem = numberItem;
     return this;
   }
 
-   /**
+  /**
    * Get numberItem
    * @return numberItem
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
   @Valid
@@ -119,17 +118,16 @@ public class TypeHolderExample {
     this.numberItem = numberItem;
   }
 
-
   public TypeHolderExample floatItem(Float floatItem) {
     
     this.floatItem = floatItem;
     return this;
   }
 
-   /**
+  /**
    * Get floatItem
    * @return floatItem
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -147,17 +145,16 @@ public class TypeHolderExample {
     this.floatItem = floatItem;
   }
 
-
   public TypeHolderExample integerItem(Integer integerItem) {
     
     this.integerItem = integerItem;
     return this;
   }
 
-   /**
+  /**
    * Get integerItem
    * @return integerItem
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -175,17 +172,16 @@ public class TypeHolderExample {
     this.integerItem = integerItem;
   }
 
-
   public TypeHolderExample boolItem(Boolean boolItem) {
     
     this.boolItem = boolItem;
     return this;
   }
 
-   /**
+  /**
    * Get boolItem
    * @return boolItem
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -203,7 +199,6 @@ public class TypeHolderExample {
     this.boolItem = boolItem;
   }
 
-
   public TypeHolderExample arrayItem(List<Integer> arrayItem) {
     
     this.arrayItem = arrayItem;
@@ -218,10 +213,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get arrayItem
    * @return arrayItem
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 

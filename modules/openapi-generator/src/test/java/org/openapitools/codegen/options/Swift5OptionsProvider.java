@@ -21,7 +21,6 @@ import com.google.common.collect.ImmutableMap;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.Swift5ClientCodegen;
 
-import java.io.File;
 import java.util.Map;
 
 public class Swift5OptionsProvider implements OptionsProvider {

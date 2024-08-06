@@ -21,7 +21,6 @@ import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.XML;
 import io.swagger.v3.oas.models.parameters.Parameter;
@@ -29,6 +28,7 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import joptsimple.internal.Strings;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -69,7 +69,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String packageName;
-    protected String packageVersion;
+    @Setter protected String packageVersion;
     protected String externCrateName;
     protected Map<String, Map<String, String>> pathSetMap = new HashMap();
     protected Map<String, Map<String, String>> callbacksPathSetMap = new HashMap();
@@ -230,11 +230,15 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         supportingFiles.add(new SupportingFile("context.mustache", "src", "context.rs"));
         supportingFiles.add(new SupportingFile("models.mustache", "src", "models.rs"));
         supportingFiles.add(new SupportingFile("header.mustache", "src", "header.rs"));
+        supportingFiles.add(new SupportingFile("auth.mustache", "src", "auth.rs"));
         supportingFiles.add(new SupportingFile("server-mod.mustache", "src/server", "mod.rs"));
+        supportingFiles.add(new SupportingFile("server-server_auth.mustache", "src/server", "server_auth.rs"));
         supportingFiles.add(new SupportingFile("client-mod.mustache", "src/client", "mod.rs"));
         supportingFiles.add(new SupportingFile("example-server-main.mustache", "examples/server", "main.rs"));
         supportingFiles.add(new SupportingFile("example-server-server.mustache", "examples/server", "server.rs"));
+        supportingFiles.add(new SupportingFile("example-server-auth.mustache", "examples/server", "server_auth.rs"));
         supportingFiles.add(new SupportingFile("example-client-main.mustache", "examples/client", "main.rs"));
+        supportingFiles.add(new SupportingFile("example-client-auth.mustache", "examples/client", "client_auth.rs"));
         supportingFiles.add(new SupportingFile("example-ca.pem", "examples", "ca.pem"));
         supportingFiles.add(new SupportingFile("example-server-chain.pem", "examples", "server-chain.pem"));
         supportingFiles.add(new SupportingFile("example-server-key.pem", "examples", "server-key.pem"));
@@ -276,10 +280,6 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
         // Also set the extern crate name, which has any '-' replace with a '_'.
         this.externCrateName = packageName.replace('-', '_');
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
     }
 
     @Override
@@ -981,8 +981,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return instantiationTypes.get("array") + "<" + getSchemaType(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -1000,21 +999,21 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         CodegenModel mdl = super.fromModel(name, model);
 
         if (ModelUtils.isArraySchema(model)) {
-            ArraySchema am = (ArraySchema) model;
+            Schema inner = ModelUtils.getSchemaItems(model);
             String xmlName = null;
 
             // Detect XML list where the inner item is defined directly.
-            if ((am.getItems() != null) &&
-                    (am.getItems().getXml() != null)) {
-                xmlName = am.getItems().getXml().getName();
+            if ((inner != null) &&
+                    (inner.getXml() != null)) {
+                xmlName = inner.getXml().getName();
             }
 
             // Detect XML list where the inner item is a reference.
-            if (am.getXml() != null && am.getXml().getWrapped() &&
-                    am.getItems() != null &&
-                    !StringUtils.isEmpty(am.getItems().get$ref())) {
+            if (model.getXml() != null && model.getXml().getWrapped() &&
+                    inner != null &&
+                    !StringUtils.isEmpty(inner.get$ref())) {
                 Schema inner_schema = allDefinitions.get(
-                        ModelUtils.getSimpleRef(am.getItems().get$ref()));
+                        ModelUtils.getSimpleRef(inner.get$ref()));
 
                 if (inner_schema.getXml() != null &&
                         inner_schema.getXml().getName() != null) {
@@ -1125,6 +1124,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         // the templates to process.
         List<Map.Entry<String, Map<String, String>>> pathSetEntryList = new ArrayList(pathSetMap.entrySet());
         Collections.sort(pathSetEntryList, new Comparator<Map.Entry<String, Map<String, String>>>() {
+            @Override
             public int compare(Map.Entry<String, Map<String, String>> a, Map.Entry<String, Map<String, String>> b) {
                 return a.getValue().get("path").compareTo(b.getValue().get("path"));
             }

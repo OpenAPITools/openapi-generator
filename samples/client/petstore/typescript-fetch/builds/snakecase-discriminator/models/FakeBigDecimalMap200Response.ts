@@ -36,7 +36,7 @@ export interface FakeBigDecimalMap200Response {
 /**
  * Check if a given object implements the FakeBigDecimalMap200Response interface.
  */
-export function instanceOfFakeBigDecimalMap200Response(value: object): boolean {
+export function instanceOfFakeBigDecimalMap200Response(value: object): value is FakeBigDecimalMap200Response {
     return true;
 }
 

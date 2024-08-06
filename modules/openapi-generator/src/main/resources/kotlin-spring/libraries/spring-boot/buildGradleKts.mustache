@@ -20,6 +20,12 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
+{{#interfaceOnly}}
+tasks.bootJar {
+    enabled = false
+}
+
+{{/interfaceOnly}}
 plugins {
     val kotlinVersion = "1.6.21"
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
@@ -51,9 +57,8 @@ dependencies {
     compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
 {{#useBeanValidation}}
-    compile("jakarta.validation:jakarta.validation-api"){{/useBeanValidation}}
-    compile("jakarta.annotation:jakarta.annotation-api:2.1.0")
-
+    compile("javax.validation:validation-api"){{/useBeanValidation}}
+    compile("javax.annotation:javax.annotation-api:1.3.2")
     testCompile("org.jetbrains.kotlin:kotlin-test-junit5")
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")

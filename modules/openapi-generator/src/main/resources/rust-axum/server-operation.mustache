@@ -45,9 +45,9 @@ async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}<I, A>(
 {{/x-consumes-multipart-related}}
 {{/vendorExtensions}}
 ) -> Result<Response, StatusCode>
-where 
+where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::{{classFilename}}::{{classnamePascalCase}},
 {
 {{#headerParams}}
   {{#-first}}
@@ -94,21 +94,21 @@ where
        }
   };
 
-  {{/-last}} 
+  {{/-last}}
 {{/headerParams}}
 
   {{^disableValidator}}
     {{^allowBlockingValidator}}
       #[allow(clippy::redundant_closure)]
-      let validation = tokio::task::spawn_blocking(move || 
-    {{/allowBlockingValidator}} 
+      let validation = tokio::task::spawn_blocking(move ||
+    {{/allowBlockingValidator}}
     {{#allowBlockingValidator}}
       let validation =
     {{/allowBlockingValidator}}
     {{#vendorExtensions}}{{{x-operation-id}}}_validation{{/vendorExtensions}}(
       {{#headerParams.size}}
         header_params,
-      {{/headerParams.size}} 
+      {{/headerParams.size}}
       {{#pathParams.size}}
         path_params,
       {{/pathParams.size}}
@@ -120,7 +120,7 @@ where
         {{#bodyParam}}
           body,
         {{/bodyParam}}
-      {{/x-consumes-multipart}} 
+      {{/x-consumes-multipart}}
       {{/x-consumes-multipart-related}}
     )
   {{^allowBlockingValidator}}).await.unwrap(){{/allowBlockingValidator}};
@@ -128,7 +128,7 @@ where
   let Ok((
   {{#headerParams.size}}
     header_params,
-  {{/headerParams.size}} 
+  {{/headerParams.size}}
   {{#pathParams.size}}
     path_params,
   {{/pathParams.size}}
@@ -140,13 +140,13 @@ where
     {{#bodyParam}}
       body,
     {{/bodyParam}}
-  {{/x-consumes-multipart}}  
+  {{/x-consumes-multipart}}
   {{/x-consumes-multipart-related}}
   )) = validation else {
     return Response::builder()
             .status(StatusCode::BAD_REQUEST)
             .body(Body::from(validation.unwrap_err().to_string()))
-            .map_err(|_| StatusCode::BAD_REQUEST); 
+            .map_err(|_| StatusCode::BAD_REQUEST);
   };
   {{/disableValidator}}
 
@@ -187,7 +187,7 @@ where
   let resp = match result {
                                             Ok(rsp) => match rsp {
 {{#responses}}
-                                                {{{operationId}}}Response::{{#vendorExtensions}}{{x-response-id}}{{/vendorExtensions}}
+                                                apis::{{classFilename}}::{{{operationId}}}Response::{{#vendorExtensions}}{{x-response-id}}{{/vendorExtensions}}
 {{#dataType}}
 {{^headers}}
                                                     (body)
@@ -228,7 +228,7 @@ where
                                                         }
                                                     };
 
-                                                    
+
                                                     {
                                                       let mut response_headers = response.headers_mut().unwrap();
                                                       response_headers.insert(
@@ -240,8 +240,12 @@ where
                                                     }
   {{/required}}
 {{/headers}}
-
+{{#range}}
+                                                  response.status::<u16>(body.code.parse().unwrap());  // {{{code}}}
+{{/range}}
+{{^range}}
                                                   let mut response = response.status({{{code}}});
+{{/range}}
 {{#produces}}
 {{#-first}}
 {{#dataType}}
@@ -264,7 +268,7 @@ where
                                                   let body_content =  tokio::task::spawn_blocking(move ||
   {{/allowBlockingResponseSerialize}}
   {{#allowBlockingResponseSerialize}}
-                                                  let body_content = 
+                                                  let body_content =
   {{/allowBlockingResponseSerialize}}
                                                       serde_json::to_vec(&body).map_err(|e| {
                                                         error!(error = ?e);
@@ -276,7 +280,7 @@ where
                                                   let body_content =  tokio::task::spawn_blocking(move ||
   {{/allowBlockingResponseSerialize}}
   {{#allowBlockingResponseSerialize}}
-                                                  let body_content = 
+                                                  let body_content =
   {{/allowBlockingResponseSerialize}}
                                                       serde_urlencoded::to_string(body).map_err(|e| {
                                                         error!(error = ?e);

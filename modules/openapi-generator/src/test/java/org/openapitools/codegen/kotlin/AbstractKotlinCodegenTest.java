@@ -5,31 +5,42 @@ import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import org.mockito.Answers;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractKotlinCodegen;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.withSettings;
 import static org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.*;
 import static org.openapitools.codegen.TestUtils.createCodegenModelWrapper;
 import static org.testng.Assert.*;
 
 public class AbstractKotlinCodegenTest {
 
-    private final AbstractKotlinCodegen codegen = new P_AbstractKotlinCodegen();
+    private AbstractKotlinCodegen codegen;
+
+    /**
+     * In TEST-NG, test class (and its fields) is only constructed once (vs. for every test in Jupiter),
+     * using @BeforeMethod to have a fresh codegen mock for each test
+     */
+    @BeforeMethod void mockAbstractCodegen() {
+        codegen = mock(
+            AbstractKotlinCodegen.class, withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()
+        );
+    }
 
     @Test
     public void camlCaseEnumConverter() {
@@ -60,6 +71,7 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toEnumVarName("long Name", null), "long_Name");
         assertEquals(codegen.toEnumVarName("1long Name", null), "_1long_Name");
         assertEquals(codegen.toEnumVarName("not1long Name", null), "not1long_Name");
+        assertEquals(codegen.toEnumVarName("data/*", null), "dataSlashStar");
     }
     @Test
     public void pascalCaseEnumConverter() {
@@ -78,23 +90,7 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toEnumValue("5", "kotlin.Float"), "5f");
         assertEquals(codegen.toEnumValue("1.0", "kotlin.Float"), "1.0f");
         assertEquals(codegen.toEnumValue("data", "Something"), "\"data\"");
-    }
-
-    private static class P_AbstractKotlinCodegen extends AbstractKotlinCodegen {
-        @Override
-        public CodegenType getTag() {
-            return null;
-        }
-
-        @Override
-        public String getName() {
-            return null;
-        }
-
-        @Override
-        public String getHelp() {
-            return null;
-        }
+        assertEquals(codegen.toEnumValue("data/*", "Something"), "\"data/*\"");
     }
 
     @Test
@@ -239,7 +235,6 @@ public class AbstractKotlinCodegenTest {
         openAPI.getComponents().addSchemas(parent.getName(), parent);
         openAPI.getComponents().addSchemas(child.getName(), child);
 
-        final DefaultCodegen codegen = new P_AbstractKotlinCodegen();
         codegen.setOpenAPI(openAPI);
 
         final CodegenModel pm = codegen
@@ -265,7 +260,6 @@ public class AbstractKotlinCodegenTest {
     @Test(description = "Issue #10591")
     public void testEnumPropertyWithDefaultValue() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/issue10591-enum-defaultValue.yaml");
-        final AbstractKotlinCodegen codegen = new P_AbstractKotlinCodegen();
         codegen.setOpenAPI(openAPI);
 
         Schema test1 = openAPI.getComponents().getSchemas().get("ModelWithEnumPropertyHavingDefault");
@@ -287,7 +281,6 @@ public class AbstractKotlinCodegenTest {
     @Test(description = "Issue #3804")
     public void testEnumPropertyWithCapitalization() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/issue3804-enum-enum-capitalization.yaml");
-        final AbstractKotlinCodegen codegen = new P_AbstractKotlinCodegen();
 
         Schema test1 = openAPI.getComponents().getSchemas().get("ModelWithEnumPropertyHavingDefault");
         CodegenModel cm1 = codegen.fromModel("ModelWithEnumPropertyHavingDefault", test1);
@@ -310,7 +303,6 @@ public class AbstractKotlinCodegenTest {
     @Test(description = "Issue #3804")
     public void testEnumPropertyDefaultWithCapitalization() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/issue3804-enum-enum-capitalization.yaml");
-        final AbstractKotlinCodegen codegen = new P_AbstractKotlinCodegen();
 
         Schema test1 = openAPI.getComponents().getSchemas().get("ModelWithEnumPropertyHavingDefault");
         CodegenModel cm1 = codegen.fromModel("ModelWithEnumPropertyHavingDefault", test1);
@@ -330,7 +322,6 @@ public class AbstractKotlinCodegenTest {
     @Test(description = "Issue #3804")
     public void testEnumPropertyWithKeyword() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/issue3804-enum-enum-capitalization.yaml");
-        final AbstractKotlinCodegen codegen = new P_AbstractKotlinCodegen();
 
         Schema test1 = openAPI.getComponents().getSchemas().get("ModelWithEnumPropertyHavingDefault");
         CodegenModel cm1 = codegen.fromModel("ModelWithEnumPropertyHavingDefault", test1);
@@ -371,7 +362,6 @@ public class AbstractKotlinCodegenTest {
         openAPI.getComponents().addSchemas(child.getName(), child);
         openAPI.getComponents().addSchemas(mapSchema.getName(), mapSchema);
 
-        final DefaultCodegen codegen = new P_AbstractKotlinCodegen();
         codegen.setOpenAPI(openAPI);
 
         final CodegenModel pm = codegen

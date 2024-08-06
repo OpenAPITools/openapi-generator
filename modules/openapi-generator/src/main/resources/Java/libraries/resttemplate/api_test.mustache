@@ -4,8 +4,9 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.springframework.web.client.RestClientException;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -14,11 +15,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+{{#useBeanValidation}}
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+
+{{/useBeanValidation}}
 /**
  * API tests for {{classname}}
  */
-@Ignore
-public class {{classname}}Test {
+@Disabled
+class {{classname}}Test {
 
     private final {{classname}} api = new {{classname}}();
 
@@ -28,11 +34,11 @@ public class {{classname}}Test {
      *
      * {{notes}}
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void {{operationId}}Test() {
+    void {{operationId}}Test() {
         {{#allParams}}
         {{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.Resource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.Resource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}} = null;
         {{/allParams}}

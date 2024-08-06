@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.v3.oas.models.tags.Tag;
-import org.junit.Assert;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.PostmanCollectionCodegen;
@@ -22,8 +21,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.openapitools.codegen.TestUtils.*;
 
 public class PostmanCollectionCodegenTest {
@@ -33,11 +31,11 @@ public class PostmanCollectionCodegenTest {
         final PostmanCollectionCodegen postmanCollectionCodegen = new PostmanCollectionCodegen();
         postmanCollectionCodegen.processOpts();
 
-        Assert.assertEquals(postmanCollectionCodegen.folderStrategy, "Tags");
-        Assert.assertEquals(postmanCollectionCodegen.postmanFile, "postman.json");
+        assertEquals(postmanCollectionCodegen.folderStrategy, "Tags");
+        assertEquals(postmanCollectionCodegen.postmanFile, "postman.json");
 
-        Assert.assertNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsList"));
-        Assert.assertNotNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsByTag"));
+        assertNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsList"));
+        assertNotNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsByTag"));
     }
 
     @Test
@@ -47,10 +45,10 @@ public class PostmanCollectionCodegenTest {
         postmanCollectionCodegen.additionalProperties().put(postmanCollectionCodegen.FOLDER_STRATEGY, "Tags");
         postmanCollectionCodegen.processOpts();
 
-        Assert.assertEquals(postmanCollectionCodegen.folderStrategy, "Tags");
+        assertEquals(postmanCollectionCodegen.folderStrategy, "Tags");
 
-        Assert.assertNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsList"));
-        Assert.assertNotNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsByTag"));
+        assertNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsList"));
+        assertNotNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsByTag"));
     }
 
     @Test
@@ -602,11 +600,12 @@ public class PostmanCollectionCodegenTest {
     @Test
     public void convertLinkedHashMapToJson() {
 
-        final String EXPECTED = "{\\n \\\"id\\\": 1,\\n \\\"city\\\": \\\"Amsterdam\\\"\\n}";
+        final String EXPECTED = "{\\n \\\"id\\\": 1,\\n \\\"city\\\": \\\"Amsterdam\\\",\\n \\\"safe\\\": true\\n}";
 
         LinkedHashMap<String, Object> city = new LinkedHashMap<>();
         city.put("id", 1);
         city.put("city", "Amsterdam");
+        city.put("safe", true);
 
         assertEquals(EXPECTED, new PostmanCollectionCodegen().convertToJson(city));
 

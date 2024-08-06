@@ -37,7 +37,7 @@ export interface FooGetDefaultResponse {
 /**
  * Check if a given object implements the FooGetDefaultResponse interface.
  */
-export function instanceOfFooGetDefaultResponse(value: object): boolean {
+export function instanceOfFooGetDefaultResponse(value: object): value is FooGetDefaultResponse {
     return true;
 }
 

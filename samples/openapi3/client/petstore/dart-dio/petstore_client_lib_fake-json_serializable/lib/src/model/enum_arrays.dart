@@ -47,15 +47,17 @@ class EnumArrays {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is EnumArrays &&
-     other.justSymbol == justSymbol &&
-     other.arrayEnum == arrayEnum;
 
-  @override
-  int get hashCode =>
-    justSymbol.hashCode +
-    arrayEnum.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is EnumArrays &&
+      other.justSymbol == justSymbol &&
+      other.arrayEnum == arrayEnum;
+
+    @override
+    int get hashCode =>
+        justSymbol.hashCode +
+        arrayEnum.hashCode;
 
   factory EnumArrays.fromJson(Map<String, dynamic> json) => _$EnumArraysFromJson(json);
 

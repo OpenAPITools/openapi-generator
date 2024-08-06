@@ -34,11 +34,13 @@ export interface OuterObjectWithEnumProperty {
     value: OuterEnumInteger;
 }
 
+
+
 /**
  * Check if a given object implements the OuterObjectWithEnumProperty interface.
  */
-export function instanceOfOuterObjectWithEnumProperty(value: object): boolean {
-    if (!('value' in value)) return false;
+export function instanceOfOuterObjectWithEnumProperty(value: object): value is OuterObjectWithEnumProperty {
+    if (!('value' in value) || value['value'] === undefined) return false;
     return true;
 }
 

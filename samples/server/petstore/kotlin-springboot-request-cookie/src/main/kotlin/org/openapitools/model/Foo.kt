@@ -21,7 +21,7 @@ data class Foo(
 
     @Schema(example = "null", description = "")
     @get:JsonProperty("bar") val bar: kotlin.String? = "bar"
-) {
+    ) {
 
 }
 

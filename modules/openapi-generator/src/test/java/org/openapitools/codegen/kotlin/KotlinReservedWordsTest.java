@@ -8,6 +8,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.KotlinClientCodegen;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
 import org.openapitools.codegen.utils.StringUtils;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -22,7 +23,11 @@ import static org.testng.Assert.assertEquals;
 
 @SuppressWarnings("rawtypes")
 public class KotlinReservedWordsTest {
-    final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/reserved_words.yaml");
+    OpenAPI openAPI;
+
+    @BeforeTest void loadOpenApi() {
+        openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/reserved_words.yaml");
+    }
 
     @DataProvider(name = "reservedWords")
     static Object[][] reservedWords() {

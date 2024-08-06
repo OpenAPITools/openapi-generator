@@ -17,8 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -44,9 +44,9 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected static int emptyFunctionNameCounter = 0;
     public static final String MODULE_NAME = "moduleName";
     public static final String MODULE_VERSION = "moduleVersion";
-    protected String moduleName = "WWW::OpenAPIClient";
-    protected String modulePathPart = moduleName.replaceAll("::", Matcher.quoteReplacement(File.separator));
-    protected String moduleVersion = "1.0.0";
+    @Setter protected String moduleName = "WWW::OpenAPIClient";
+    @Setter protected String modulePathPart = moduleName.replaceAll("::", Matcher.quoteReplacement(File.separator));
+    @Setter protected String moduleVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
@@ -261,8 +261,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -464,18 +463,6 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         //return underscore(operationId).replaceAll("[^A-Za-z0-9_]", "");
         return underscore(sanitizeName(operationId));
-    }
-
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
-    }
-
-    public void setModulePathPart(String modulePathPart) {
-        this.modulePathPart = modulePathPart;
-    }
-
-    public void setModuleVersion(String moduleVersion) {
-        this.moduleVersion = moduleVersion;
     }
 
     @Override

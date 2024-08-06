@@ -2,10 +2,10 @@
 
 All URIs are relative to *http://localhost:3000*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**testAuthHttpBasic**](AuthApi.md#testAuthHttpBasic) | **POST** auth/http/basic | To test HTTP basic authentication
-[**testAuthHttpBearer**](AuthApi.md#testAuthHttpBearer) | **POST** auth/http/bearer | To test HTTP bearer authentication
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**testAuthHttpBasic**](AuthApi.md#testAuthHttpBasic) | **POST** auth/http/basic | To test HTTP basic authentication |
+| [**testAuthHttpBearer**](AuthApi.md#testAuthHttpBearer) | **POST** auth/http/bearer | To test HTTP bearer authentication |
 
 
 

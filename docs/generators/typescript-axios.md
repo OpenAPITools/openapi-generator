@@ -20,6 +20,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiPackage|package for generated api classes| |null|
+|axiosVersion|Use this property to override the axios version in package.json| |^1.6.1|
 |disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |enumNameSuffix|Suffix that will be appended to all enum names.| |Enum|
@@ -40,6 +41,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |stringEnums|Generate string enums instead of objects for enum values.| |false|
 |supportsES6|Generate code that conforms to ES6.| |false|
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |false|
+|useSquareBracketsInArrayNames|Setting this property to true will add brackets to array attribute names, e.g. my_values[].| |false|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
 |withNodeImports|Setting this property to true adds imports for NodeJS| |false|
 |withSeparateModelsAndApi|Put the model and api in separate folders and in separate classes. This requires in addition a value for 'apiPackage' and 'modelPackage'| |false|

@@ -36,7 +36,7 @@ export interface AdditionalPropertiesClass {
 /**
  * Check if a given object implements the AdditionalPropertiesClass interface.
  */
-export function instanceOfAdditionalPropertiesClass(value: object): boolean {
+export function instanceOfAdditionalPropertiesClass(value: object): value is AdditionalPropertiesClass {
     return true;
 }
 

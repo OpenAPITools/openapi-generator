@@ -24,6 +24,9 @@ import org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen;
 
 import java.util.Map;
 
+import static org.openapitools.codegen.languages.TypeScriptFetchClientCodegen.CAMEL_CASE;
+import static org.openapitools.codegen.languages.TypeScriptFetchClientCodegen.PASCAL_CASE;
+
 public class TypeScriptFetchClientOptionsProvider implements OptionsProvider {
     public static final String SORT_PARAMS_VALUE = "false";
     public static final String SORT_MODEL_PROPERTIES_VALUE = "false";
@@ -32,9 +35,9 @@ public class TypeScriptFetchClientOptionsProvider implements OptionsProvider {
     public static final String IMPORT_FILE_EXTENSION_VALUE = "";
     public static final Boolean NULL_SAFE_ADDITIONAL_PROPS_VALUE = false;
     public static final String ENUM_NAME_SUFFIX = "Enum";
-    public static final String MODEL_PROPERTY_NAMING_VALUE = "camelCase";
-    public static final String PARAM_NAMING_VALUE = "camelCase";
-    public static final String ENUM_PROPERTY_NAMING_VALUE = "PascalCase";
+    public static final String MODEL_PROPERTY_NAMING_VALUE = CAMEL_CASE;
+    public static final String PARAM_NAMING_VALUE = CAMEL_CASE;
+    public static final String ENUM_PROPERTY_NAMING_VALUE = PASCAL_CASE;
     private static final String NMP_NAME = "npmName";
     private static final String NMP_VERSION = "1.0.0";
     private static final String NPM_REPOSITORY = "https://registry.npmjs.org";
@@ -44,6 +47,7 @@ public class TypeScriptFetchClientOptionsProvider implements OptionsProvider {
     public static final String SAGAS_AND_RECORDS = "false";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
     public static final String STRING_ENUMS = "false";
+    public static final String FILE_NAMING_VALUE = PASCAL_CASE;
     public static final String ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR_VALUE = "false";
 
     @Override
@@ -74,12 +78,14 @@ public class TypeScriptFetchClientOptionsProvider implements OptionsProvider {
                 .put(TypeScriptFetchClientCodegen.WITHOUT_RUNTIME_CHECKS, WITHOUT_RUNTIME_CHECKS)
                 .put(TypeScriptFetchClientCodegen.SAGAS_AND_RECORDS, SAGAS_AND_RECORDS)
                 .put(TypeScriptFetchClientCodegen.IMPORT_FILE_EXTENSION_SWITCH, IMPORT_FILE_EXTENSION_VALUE)
+                .put(TypeScriptFetchClientCodegen.FILE_NAMING, FILE_NAMING_VALUE)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
                 .put(TypeScriptFetchClientCodegen.STRING_ENUMS, STRING_ENUMS)
+                .put(TypeScriptFetchClientCodegen.USE_SQUARE_BRACKETS_IN_ARRAY_NAMES, Boolean.FALSE.toString())
                 .build();
     }
 

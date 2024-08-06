@@ -17,11 +17,13 @@
 
 package org.openapitools.codegen.java;
 
+import org.mockito.Answers;
+import org.mockito.Mockito;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
@@ -29,7 +31,17 @@ import java.util.Collections;
 
 public class AbstractJavaCodegenExampleValuesTest {
 
-    private final AbstractJavaCodegen fakeJavaCodegen = new P_AbstractJavaCodegen();
+    private AbstractJavaCodegen codegen;
+
+    /**
+     * In TEST-NG, test class (and its fields) is only constructed once (vs. for every test in Jupiter),
+     * using @BeforeMethod to have a fresh codegen mock for each test
+     */
+    @BeforeMethod void mockAbstractCodegen() {
+        codegen = Mockito.mock(
+            AbstractJavaCodegen.class, Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()
+        );
+    }
 
     @Test
     void referencedEnumTakeFirstName() {
@@ -37,7 +49,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         p.allowableValues = Collections.singletonMap("values", Arrays.asList("first", "second"));
         p.dataType = "WrappedEnum";
 
-        fakeJavaCodegen.setParameterExampleValue(p);
+        codegen.setParameterExampleValue(p);
         Assert.assertEquals(p.example, "WrappedEnum.fromValue(\"first\")");
     }
 
@@ -48,7 +60,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         p.isEnum = true;
         p.dataType = "String";
 
-        fakeJavaCodegen.setParameterExampleValue(p);
+        codegen.setParameterExampleValue(p);
         Assert.assertEquals(p.example, "\"first\"");
     }
 
@@ -61,7 +73,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         p.dataType = "List<String>";
         p.items = new CodegenProperty();
 
-        fakeJavaCodegen.setParameterExampleValue(p);
+        codegen.setParameterExampleValue(p);
         Assert.assertEquals(p.example, "Arrays.asList()");
     }
 
@@ -71,7 +83,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         p.isDate = true;
         p.dataType = "LocalDate";
 
-        fakeJavaCodegen.setParameterExampleValue(p);
+        codegen.setParameterExampleValue(p);
         Assert.assertEquals(p.example, "LocalDate.now()");
     }
 
@@ -82,7 +94,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         p.dataType = "LocalDate";
         p.example = "2017-03-30";
 
-        fakeJavaCodegen.setParameterExampleValue(p);
+        codegen.setParameterExampleValue(p);
         Assert.assertEquals(p.example, "LocalDate.parse(\"2017-03-30\")");
     }
 
@@ -92,7 +104,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         p.isDateTime = true;
         p.dataType = "OffsetDateTime";
 
-        fakeJavaCodegen.setParameterExampleValue(p);
+        codegen.setParameterExampleValue(p);
         Assert.assertEquals(p.example, "OffsetDateTime.now()");
     }
 
@@ -103,7 +115,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         p.dataType = "OffsetDateTime";
         p.example = "2007-12-03T10:15:30+01:00";
 
-        fakeJavaCodegen.setParameterExampleValue(p);
+        codegen.setParameterExampleValue(p);
         Assert.assertEquals(p.example, "OffsetDateTime.parse(\"2007-12-03T10:15:30+01:00\")");
     }
 
@@ -113,7 +125,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         p.isUuid = true;
         p.dataType = "UUID";
 
-        fakeJavaCodegen.setParameterExampleValue(p);
+        codegen.setParameterExampleValue(p);
         Assert.assertEquals(p.example, "UUID.randomUUID()");
     }
 
@@ -124,46 +136,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         p.dataType = "UUID";
         p.example = "13b48713-b931-45ea-bd60-b07491245960";
 
-        fakeJavaCodegen.setParameterExampleValue(p);
+        codegen.setParameterExampleValue(p);
         Assert.assertEquals(p.example, "UUID.fromString(\"13b48713-b931-45ea-bd60-b07491245960\")");
-    }
-
-    private static class P_AbstractJavaCodegen extends AbstractJavaCodegen {
-        @Override
-        public CodegenType getTag() {
-            return null;
-        }
-
-        @Override
-        public String getName() {
-            return null;
-        }
-
-        @Override
-        public String getHelp() {
-            return null;
-        }
-
-        /**
-         * Gets artifact version.
-         * Only for testing purposes.
-         *
-         * @return version
-         */
-        public String getArtifactVersion() {
-            return this.artifactVersion;
-        }
-        @Test
-        void customExampleForEnumValue() {
-            final AbstractJavaCodegen fakeJavaCodegen = new P_AbstractJavaCodegen();
-            final CodegenParameter p = new CodegenParameter();
-            p.allowableValues = Collections.singletonMap("values", Arrays.asList("first", "second"));
-            p.dataType = "WrappedEnum";
-            p.example = "CustomEnumValue";
-
-            fakeJavaCodegen.setParameterExampleValue(p);
-            // Custom example value should not be modified
-            Assert.assertEquals(p.example, "CustomEnumValue");
-        }
     }
 }

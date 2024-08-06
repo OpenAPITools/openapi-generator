@@ -33,13 +33,15 @@ class SpecialModelName {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is SpecialModelName &&
-     other.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket == dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
 
-  @override
-  int get hashCode =>
-    dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is SpecialModelName &&
+      other.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket == dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
+
+    @override
+    int get hashCode =>
+        dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket.hashCode;
 
   factory SpecialModelName.fromJson(Map<String, dynamic> json) => _$SpecialModelNameFromJson(json);
 

@@ -297,6 +297,18 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <returns></returns>
         bool IsBadRequest { get; }
+
+        /// <summary>
+        /// Returns true if the response is 2XX HttpStatusCode2XX
+        /// </summary>
+        /// <returns></returns>
+        bool IsHttpStatusCode2XX { get; }
+
+        /// <summary>
+        /// Returns true if the response is 4XX HttpStatusCode4XX
+        /// </summary>
+        /// <returns></returns>
+        bool IsHttpStatusCode4XX { get; }
     }
 
     /// <summary>
@@ -1173,7 +1185,7 @@ namespace Org.OpenAPITools.Api
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryStringLocalVar["status"] = status.ToString();
+                    parseQueryStringLocalVar["status"] = ClientUtils.ParameterToString(status);
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
@@ -1310,6 +1322,32 @@ namespace Org.OpenAPITools.Api
             /// <returns></returns>
             public bool IsBadRequest => 400 == (int)StatusCode;
 
+            /// <summary>
+            /// Returns true if the response is 2XX HttpStatusCode2XX
+            /// </summary>
+            /// <returns></returns>
+            public bool IsHttpStatusCode2XX
+            {
+                get
+                {
+                    int statusCode = (int)StatusCode;
+                    return 200 >= statusCode && 299 <= statusCode;
+                }
+            }
+
+            /// <summary>
+            /// Returns true if the response is 4XX HttpStatusCode4XX
+            /// </summary>
+            /// <returns></returns>
+            public bool IsHttpStatusCode4XX
+            {
+                get
+                {
+                    int statusCode = (int)StatusCode;
+                    return 400 >= statusCode && 499 <= statusCode;
+                }
+            }
+
             private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
             {
                 bool suppressDefaultLog = false;
@@ -1424,7 +1462,7 @@ namespace Org.OpenAPITools.Api
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryStringLocalVar["tags"] = tags.ToString();
+                    parseQueryStringLocalVar["tags"] = ClientUtils.ParameterToString(tags);
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 

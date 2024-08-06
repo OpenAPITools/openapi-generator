@@ -408,7 +408,7 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(a.pattern_with_digits_and_delimiter, "image_123")
 
         # test sanitize for serialization with different data types
-        self.assertEquals(petstore_api.ApiClient().sanitize_for_serialization(a), {'byte': b'string', 'date': '2013-09-17', 'number': 123.45, 'password': 'testing09876', 'pattern_with_digits_and_delimiter': 'image_123'})
+        self.assertEqual(petstore_api.ApiClient().sanitize_for_serialization(a), {'byte': b'string', 'date': '2013-09-17', 'number': 123.45, 'password': 'testing09876', 'pattern_with_digits_and_delimiter': 'image_123'})
 
         # test sanitize for serialization with SecretStr (format: password)
         class LoginTest(BaseModel):
@@ -619,6 +619,23 @@ class ModelTests(unittest.TestCase):
         assert model is not None
         self.assertEqual(model.to_json(), '{"skill": "none", "type": "tiger", "info": {"name": "creature info"}}')
 
+    def test_allof_circular_imports(self):
+        # for issue 18271
+        model_a = petstore_api.models.circular_all_of_ref.CircularAllOfRef.from_json('{"_name": "nameA", "second_circular_all_of_ref": {"name": "nameB"}}')
+        model_b = petstore_api.models.second_circular_all_of_ref.SecondCircularAllOfRef.from_json('{"_name": "nameB", "circular_all_of_ref": {"name": "nameA"}}')
+        # shouldn't throw ImportError
+        assert model_a is not None
+        assert model_b is not None
+        self.assertEqual(model_a.to_json(), '{"_name": "nameA", "second_circular_all_of_ref": {"name": "nameB"}}')
+        self.assertEqual(model_b.to_json(), '{"_name": "nameB", "circular_all_of_ref": {"name": "nameA"}}')
+
+    def test_allof_discriminator_mapping(self):
+        # for issue 18498
+        user_info_json = '{"_typeName": "Info", "val": {"_typeName": "string", "_value": "some string"}}'
+        user_info = petstore_api.models.Info.from_json(user_info_json)
+        # shouldn't throw ValueError("BaseDiscriminator failed to lookup discriminator value...")
+        assert user_info is not None
+        self.assertEqual(user_info.to_json(), user_info_json)
 
 class TestdditionalPropertiesAnyType(unittest.TestCase):
     def test_additional_properties(self):

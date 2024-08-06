@@ -21,7 +21,7 @@ import {{invokerPackage}}.JSON;
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{>xmlAnnotation}}
 @JsonDeserialize(using={{classname}}.{{classname}}Deserializer.class)
 @JsonSerialize(using = {{classname}}.{{classname}}Serializer.class)
-public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-implements}}, {{{.}}}{{/vendorExtensions.x-implements}} {
+public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-implements}} implements {{{.}}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-implements}} {
     private static final Logger log = Logger.getLogger({{classname}}.class.getName());
 
     public static class {{classname}}Serializer extends StdSerializer<{{classname}}> {
@@ -54,7 +54,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
             Object deserialized = null;
             {{#discriminator}}
-            Class<?> cls = JSON.getClassForElement(tree, {{classname}}.class);
+            Class<?> cls = JSON.getClassForElement(tree, new {{classname}}().getClass());
             if (cls != null) {
                 // When the OAS schema includes a discriminator, use the discriminator value to
                 // discriminate the anyOf schemas.

@@ -3,6 +3,8 @@ package org.openapitools.codegen.languages;
 import java.util.Arrays;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
@@ -22,10 +24,10 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
 
     public static final String NAME = "java-micronaut-client";
 
-    protected boolean configureAuthorization;
-    protected List<String> additionalClientTypeAnnotations;
+    @Getter protected boolean configureAuthorization;
+    @Setter protected List<String> additionalClientTypeAnnotations;
     protected String authorizationFilterPattern;
-    protected String basePathSeparator = "-";
+    @Setter protected String basePathSeparator = "-";
     protected String clientId;
 
     public JavaMicronautClientCodegen() {
@@ -61,29 +63,17 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
         return "Generates a Java Micronaut Client.";
     }
 
-    public boolean isConfigureAuthorization() {
-        return configureAuthorization;
-    }
-
     @Override
     public void processOpts() {
         super.processOpts();
-
-        if (additionalProperties.containsKey(OPT_CONFIGURE_AUTH)) {
-            this.configureAuthorization = convertPropertyToBoolean(OPT_CONFIGURE_AUTH);
-        }
-        writePropertyBack(OPT_CONFIGURE_AUTH, configureAuthorization);
+        convertPropertyToBooleanAndWriteBack(OPT_CONFIGURE_AUTH, value -> this.configureAuthorization = value);
 
         // Write property that is present in server
         writePropertyBack(OPT_USE_AUTH, true);
 
         writePropertyBack(OPT_CONFIGURE_AUTH_FILTER_PATTERN, false);
         writePropertyBack(OPT_CONFIGURE_CLIENT_ID, false);
-
-        if(additionalProperties.containsKey(BASE_PATH_SEPARATOR)) {
-            basePathSeparator = additionalProperties.get(BASE_PATH_SEPARATOR).toString();
-        }
-        writePropertyBack(BASE_PATH_SEPARATOR, basePathSeparator);
+        convertPropertyToStringAndWriteBack(BASE_PATH_SEPARATOR, this::setBasePathSeparator);
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
 
@@ -143,10 +133,6 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
         apiDocTemplateFiles.put("client/doc/api_doc.mustache", ".md");
     }
 
-    public void setAdditionalClientTypeAnnotations(final List<String> additionalClientTypeAnnotations) {
-        this.additionalClientTypeAnnotations = additionalClientTypeAnnotations;
-    }
-
     public void setAuthorizationFilterPattern(final String pattern) {
         writePropertyBack(OPT_CONFIGURE_AUTH_FILTER_PATTERN, true);
         this.authorizationFilterPattern = pattern;
@@ -155,9 +141,5 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
     public void setClientId(final String id) {
         writePropertyBack(OPT_CONFIGURE_CLIENT_ID, true);
         this.clientId = id;
-    }
-
-    public void setBasePathSeparator(final String separator) {
-        this.basePathSeparator = separator;
     }
 }

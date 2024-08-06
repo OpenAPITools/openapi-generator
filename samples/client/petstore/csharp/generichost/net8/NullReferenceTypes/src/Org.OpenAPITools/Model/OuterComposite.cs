@@ -114,7 +114,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -201,7 +201,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, outerComposite, jsonSerializerOptions);
+            WriteProperties(writer, outerComposite, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -212,7 +212,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="outerComposite"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, OuterComposite outerComposite, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, OuterComposite outerComposite, JsonSerializerOptions jsonSerializerOptions)
         {
             if (outerComposite.MyStringOption.IsSet && outerComposite.MyString == null)
                 throw new ArgumentNullException(nameof(outerComposite.MyString), "Property is required for class OuterComposite.");

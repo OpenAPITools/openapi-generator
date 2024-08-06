@@ -10,7 +10,7 @@ publish_to: {{.}}
 {{/pubPublishTo}}
 
 environment:
-  sdk: '>={{#useJsonSerializable}}2.17.0{{/useJsonSerializable}}{{^useJsonSerializable}}2.15.0{{/useJsonSerializable}} <3.0.0'
+  sdk: '>={{#useJsonSerializable}}2.17.0{{/useJsonSerializable}}{{^useJsonSerializable}}2.15.0{{/useJsonSerializable}} <4.0.0'
 
 dependencies:
   dio: '^5.2.0'
@@ -20,6 +20,9 @@ dependencies:
   built_value: '>=8.4.0 <9.0.0'
   built_collection: '>=5.1.1 <6.0.0'
 {{/useBuiltValue}}
+{{#useEquatable}}
+  equatable: '^2.0.5'
+{{/useEquatable}}
 {{#useJsonSerializable}}
   json_annotation: '^4.4.0'
 {{/useJsonSerializable}}

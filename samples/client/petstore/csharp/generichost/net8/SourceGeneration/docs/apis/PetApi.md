@@ -1,4 +1,4 @@
-# UseSourceGeneration.Api.PetApi
+# Org.OpenAPITools.Api.PetApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -24,9 +24,9 @@ Add a new pet to the store
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using UseSourceGeneration.Api;
-using UseSourceGeneration.Client;
-using UseSourceGeneration.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -112,9 +112,9 @@ Deletes a pet
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using UseSourceGeneration.Api;
-using UseSourceGeneration.Client;
-using UseSourceGeneration.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -204,9 +204,9 @@ Multiple status values can be provided with comma separated strings
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using UseSourceGeneration.Api;
-using UseSourceGeneration.Client;
-using UseSourceGeneration.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -284,6 +284,8 @@ catch (ApiException e)
 |-------------|-------------|------------------|
 | **200** | successful operation |  -  |
 | **400** | Invalid status value |  -  |
+| **2XX** | Anything within 200-299 |  -  |
+| **4XX** | Anything within 400-499 |  -  |
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
@@ -299,9 +301,9 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using UseSourceGeneration.Api;
-using UseSourceGeneration.Client;
-using UseSourceGeneration.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -394,9 +396,9 @@ Returns a single pet
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using UseSourceGeneration.Api;
-using UseSourceGeneration.Client;
-using UseSourceGeneration.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -494,9 +496,9 @@ Update an existing pet
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using UseSourceGeneration.Api;
-using UseSourceGeneration.Client;
-using UseSourceGeneration.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -584,9 +586,9 @@ Updates a pet in the store with form data
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using UseSourceGeneration.Api;
-using UseSourceGeneration.Client;
-using UseSourceGeneration.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -676,9 +678,9 @@ uploads an image
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using UseSourceGeneration.Api;
-using UseSourceGeneration.Client;
-using UseSourceGeneration.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -772,9 +774,9 @@ uploads an image (required)
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using UseSourceGeneration.Api;
-using UseSourceGeneration.Client;
-using UseSourceGeneration.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {

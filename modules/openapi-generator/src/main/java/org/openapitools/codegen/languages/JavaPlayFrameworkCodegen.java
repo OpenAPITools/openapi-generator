@@ -19,6 +19,8 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -52,22 +54,24 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     private static final String X_TOKEN_INTROSPECT_URL = "x-tokenIntrospectUrl";
 
 
-    protected String title = "openapi-java-playframework";
+    @Setter protected String title = "openapi-java-playframework";
+    @Getter @Setter
     protected String configPackage = "org.openapitools.configuration";
+    @Getter @Setter
     protected String basePackage = "org.openapitools";
-    protected boolean controllerOnly = false;
-    protected boolean useInterfaces = true;
-    protected boolean useBeanValidation = true;
-    protected boolean handleExceptions = true;
-    protected boolean wrapCalls = true;
-    protected boolean useSwaggerUI = true;
-    protected boolean supportAsync = false;
+    @Setter protected boolean controllerOnly = false;
+    @Setter protected boolean useInterfaces = true;
+    @Setter protected boolean handleExceptions = true;
+    @Setter protected boolean wrapCalls = true;
+    @Setter protected boolean useSwaggerUI = true;
+    @Setter protected boolean supportAsync = false;
 
     public JavaPlayFrameworkCodegen() {
         super();
 
         modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
+        useBeanValidation = true;
         outputFolder = "generated-code/javaPlayFramework";
         apiTestTemplateFiles.clear();
         embeddedTemplateDir = templateDir = "JavaPlayFramework";
@@ -89,7 +93,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
         additionalProperties.put("java8", true);
-        additionalProperties.put(JACKSON, "true");
+        this.jackson = true;
 
         cliOptions.add(new CliOption(TITLE, "server title name or client service name").defaultValue(title));
         cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code").defaultValue(getConfigPackage()));
@@ -129,57 +133,20 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         //TODO: add doc templates
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
+        convertPropertyToStringAndWriteBack(TITLE, this::setTitle);
 
-        if (additionalProperties.containsKey(TITLE)) {
-            this.setTitle((String) additionalProperties.get(TITLE));
-        }
+        convertPropertyToStringAndWriteBack(CONFIG_PACKAGE, this::setConfigPackage);
 
-        if (additionalProperties.containsKey(CONFIG_PACKAGE)) {
-            this.setConfigPackage((String) additionalProperties.get(CONFIG_PACKAGE));
-        } else {
-            additionalProperties.put(CONFIG_PACKAGE, configPackage);
-        }
+        convertPropertyToStringAndWriteBack(BASE_PACKAGE, this::setBasePackage);
+        convertPropertyToBooleanAndWriteBack(CONTROLLER_ONLY, this::setControllerOnly);
 
-        if (additionalProperties.containsKey(BASE_PACKAGE)) {
-            this.setBasePackage((String) additionalProperties.get(BASE_PACKAGE));
-        } else {
-            additionalProperties.put(BASE_PACKAGE, basePackage);
-        }
+        convertPropertyToBooleanAndWriteBack(USE_INTERFACES, this::setUseInterfaces);
 
-        if (additionalProperties.containsKey(CONTROLLER_ONLY)) {
-            this.setControllerOnly(convertPropertyToBoolean(CONTROLLER_ONLY));
-        }
-        writePropertyBack(CONTROLLER_ONLY, controllerOnly);
+        convertPropertyToBooleanAndWriteBack(HANDLE_EXCEPTIONS, this::setHandleExceptions);
+        convertPropertyToBooleanAndWriteBack(WRAP_CALLS, this::setWrapCalls);
 
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
-        }
-        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
-
-        if (additionalProperties.containsKey(USE_INTERFACES)) {
-            this.setUseInterfaces(convertPropertyToBoolean(USE_INTERFACES));
-        }
-        writePropertyBack(USE_INTERFACES, useInterfaces);
-
-        if (additionalProperties.containsKey(HANDLE_EXCEPTIONS)) {
-            this.setHandleExceptions(convertPropertyToBoolean(HANDLE_EXCEPTIONS));
-        }
-        writePropertyBack(HANDLE_EXCEPTIONS, handleExceptions);
-
-        if (additionalProperties.containsKey(WRAP_CALLS)) {
-            this.setWrapCalls(convertPropertyToBoolean(WRAP_CALLS));
-        }
-        writePropertyBack(WRAP_CALLS, wrapCalls);
-
-        if (additionalProperties.containsKey(USE_SWAGGER_UI)) {
-            this.setUseSwaggerUI(convertPropertyToBoolean(USE_SWAGGER_UI));
-        }
-        writePropertyBack(USE_SWAGGER_UI, useSwaggerUI);
-
-        if (additionalProperties.containsKey(SUPPORT_ASYNC)) {
-            this.setSupportAsync(convertPropertyToBoolean(SUPPORT_ASYNC));
-        }
-        writePropertyBack(SUPPORT_ASYNC, supportAsync);
+        convertPropertyToBooleanAndWriteBack(USE_SWAGGER_UI, this::setUseSwaggerUI);
+        convertPropertyToBooleanAndWriteBack(SUPPORT_ASYNC, this::setSupportAsync);
 
         //We don't use annotation anymore
         importMapping.remove("ApiModelProperty");
@@ -256,54 +223,6 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
             codegenModel.imports.remove("ApiModel");
         }
         return codegenModel;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getConfigPackage() {
-        return configPackage;
-    }
-
-    public void setConfigPackage(String configPackage) {
-        this.configPackage = configPackage;
-    }
-
-    public String getBasePackage() {
-        return basePackage;
-    }
-
-    public void setBasePackage(String basePackage) {
-        this.basePackage = basePackage;
-    }
-
-    public void setControllerOnly(boolean controllerOnly) {
-        this.controllerOnly = controllerOnly;
-    }
-
-    public void setUseInterfaces(boolean useInterfaces) {
-        this.useInterfaces = useInterfaces;
-    }
-
-    public void setUseBeanValidation(boolean useBeanValidation) {
-        this.useBeanValidation = useBeanValidation;
-    }
-
-    public void setHandleExceptions(boolean handleExceptions) {
-        this.handleExceptions = handleExceptions;
-    }
-
-    public void setWrapCalls(boolean wrapCalls) {
-        this.wrapCalls = wrapCalls;
-    }
-
-    public void setUseSwaggerUI(boolean useSwaggerUI) {
-        this.useSwaggerUI = useSwaggerUI;
-    }
-
-    public void setSupportAsync(boolean supportAsync) {
-        this.supportAsync = supportAsync;
     }
 
     @Override
@@ -460,6 +379,5 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
             sb.append(", tokenIntrospectUrl='").append(tokenIntrospectUrl).append('\'');
             return sb.toString();
         }
-
     }
 }

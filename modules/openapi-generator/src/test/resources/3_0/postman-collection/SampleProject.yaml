@@ -194,6 +194,7 @@ paths:
               Update Email:
                 value:
                   email: rebecca@gmail.com
+                  verified: true
               Update Last Name & Date of Birth:
                 value:
                   lastName: Baker

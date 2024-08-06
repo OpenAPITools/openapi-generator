@@ -23,7 +23,7 @@ print Feeding.to_json()
 # convert the object into a dict
 feeding_dict = feeding_instance.to_dict()
 # create an instance of Feeding from a dict
-feeding_form_dict = feeding.from_dict(feeding_dict)
+feeding_from_dict = Feeding.from_dict(feeding_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
