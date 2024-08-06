@@ -32,4 +32,4 @@ jobs:
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
       - name: Build
         working-directory: ${{ matrix.sample }}
-        run: mvn clean package
+        run: mvn clean package --no-transfer-progress

@@ -40,7 +40,7 @@ import org.openapitools.client.JSON;
   Zebra.JSON_PROPERTY_CLASS_NAME
 })
 @JsonTypeName("zebra")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Zebra {
   /**
    * Gets or Sets type
@@ -93,10 +93,10 @@ public class Zebra {
     return this;
   }
 
-   /**
+  /**
    * Get type
    * @return type
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_TYPE)
@@ -119,10 +119,10 @@ public class Zebra {
     return this;
   }
 
-   /**
+  /**
    * Get className
    * @return className
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 

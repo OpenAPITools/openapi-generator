@@ -100,7 +100,6 @@ lib/database/.gitignore
 lib/database/factories/UserFactory.php
 lib/database/migrations/2014_10_12_000000_create_users_table.php
 lib/database/migrations/2019_08_19_000000_create_failed_jobs_table.php
-lib/database/migrations/2019_08_19_000000_create_failed_jobs_table.php
 lib/database/seeds/DatabaseSeeder.php
 lib/package.json
 lib/phpunit.xml

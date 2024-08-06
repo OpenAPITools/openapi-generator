@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Bar extends Entity implements BarRefOrValue {
 
   private String id;
@@ -55,7 +55,7 @@ public class Bar extends Entity implements BarRefOrValue {
   /**
    * Get id
    * @return id
-  */
+   */
   @NotNull 
   @Schema(name = "id", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("id")
@@ -75,7 +75,7 @@ public class Bar extends Entity implements BarRefOrValue {
   /**
    * Get barPropA
    * @return barPropA
-  */
+   */
   
   @Schema(name = "barPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("barPropA")
@@ -95,7 +95,7 @@ public class Bar extends Entity implements BarRefOrValue {
   /**
    * Get fooPropB
    * @return fooPropB
-  */
+   */
   
   @Schema(name = "fooPropB", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fooPropB")
@@ -115,7 +115,7 @@ public class Bar extends Entity implements BarRefOrValue {
   /**
    * Get foo
    * @return foo
-  */
+   */
   @Valid 
   @Schema(name = "foo", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("foo")

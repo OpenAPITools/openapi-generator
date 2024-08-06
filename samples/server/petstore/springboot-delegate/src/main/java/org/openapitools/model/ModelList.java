@@ -21,7 +21,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("List")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ModelList {
 
   private String _123list;
@@ -31,8 +31,8 @@ public class ModelList {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public ModelList(String _123list) {
       this._123list = _123list;
   }
@@ -45,7 +45,7 @@ public class ModelList {
   /**
    * Get _123list
    * @return _123list
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("123-list")

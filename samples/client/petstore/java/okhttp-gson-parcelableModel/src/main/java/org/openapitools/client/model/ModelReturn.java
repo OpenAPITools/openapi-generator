@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * Model for testing reserved words
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ModelReturn implements Parcelable {
   public static final String SERIALIZED_NAME_RETURN = "return";
   @SerializedName(SERIALIZED_NAME_RETURN)
@@ -65,10 +65,10 @@ public class ModelReturn implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get _return
    * @return _return
-  **/
+   */
   @javax.annotation.Nullable
   public Integer getReturn() {
     return _return;
@@ -151,12 +151,12 @@ public class ModelReturn implements Parcelable {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to ModelReturn
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to ModelReturn
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!ModelReturn.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -203,22 +203,22 @@ public class ModelReturn implements Parcelable {
     }
   }
 
- /**
-  * Create an instance of ModelReturn given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of ModelReturn
-  * @throws IOException if the JSON string is invalid with respect to ModelReturn
-  */
+  /**
+   * Create an instance of ModelReturn given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of ModelReturn
+   * @throws IOException if the JSON string is invalid with respect to ModelReturn
+   */
   public static ModelReturn fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ModelReturn.class);
   }
 
- /**
-  * Convert an instance of ModelReturn to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of ModelReturn to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

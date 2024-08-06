@@ -37,7 +37,7 @@ import org.openapitools.client.JSON;
   Whale.JSON_PROPERTY_CLASS_NAME
 })
 @JsonTypeName("whale")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Whale {
   public static final String JSON_PROPERTY_HAS_BALEEN = "hasBaleen";
   private Boolean hasBaleen;
@@ -56,10 +56,10 @@ public class Whale {
     return this;
   }
 
-   /**
+  /**
    * Get hasBaleen
    * @return hasBaleen
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_HAS_BALEEN)
@@ -82,10 +82,10 @@ public class Whale {
     return this;
   }
 
-   /**
+  /**
    * Get hasTeeth
    * @return hasTeeth
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_HAS_TEETH)
@@ -108,10 +108,10 @@ public class Whale {
     return this;
   }
 
-   /**
+  /**
    * Get className
    * @return className
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 

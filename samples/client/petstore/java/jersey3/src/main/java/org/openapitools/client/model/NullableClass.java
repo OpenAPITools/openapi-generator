@@ -60,7 +60,7 @@ import org.openapitools.client.JSON;
   NullableClass.JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP,
   NullableClass.JSON_PROPERTY_OBJECT_ITEMS_NULLABLE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class NullableClass {
   public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";
   private JsonNullable<Integer> integerProp = JsonNullable.<Integer>undefined();
@@ -106,10 +106,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get integerProp
    * @return integerProp
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonIgnore
@@ -140,10 +140,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get numberProp
    * @return numberProp
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -175,10 +175,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get booleanProp
    * @return booleanProp
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonIgnore
@@ -209,10 +209,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get stringProp
    * @return stringProp
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonIgnore
@@ -243,10 +243,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get dateProp
    * @return dateProp
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -278,10 +278,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get datetimeProp
    * @return datetimeProp
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -325,10 +325,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get arrayNullableProp
    * @return arrayNullableProp
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonIgnore
@@ -371,10 +371,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get arrayAndItemsNullableProp
    * @return arrayAndItemsNullableProp
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonIgnore
@@ -413,10 +413,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get arrayItemsNullable
    * @return arrayItemsNullable
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEMS_NULLABLE)
@@ -451,10 +451,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get objectNullableProp
    * @return objectNullableProp
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonIgnore
@@ -497,10 +497,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get objectAndItemsNullableProp
    * @return objectAndItemsNullableProp
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonIgnore
@@ -539,10 +539,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get objectItemsNullable
    * @return objectItemsNullable
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_OBJECT_ITEMS_NULLABLE)

@@ -21,22 +21,21 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for MapTest
  */
-public class MapTestTest {
+class MapTestTest {
     private final MapTest model = new MapTest();
 
     /**
      * Model tests for MapTest
      */
     @Test
-    public void testMapTest() {
+    void testMapTest() {
         // TODO: test MapTest
     }
 
@@ -44,7 +43,7 @@ public class MapTestTest {
      * Test the property 'mapMapOfString'
      */
     @Test
-    public void mapMapOfStringTest() {
+    void mapMapOfStringTest() {
         // TODO: test mapMapOfString
     }
 
@@ -52,7 +51,7 @@ public class MapTestTest {
      * Test the property 'mapOfEnumString'
      */
     @Test
-    public void mapOfEnumStringTest() {
+    void mapOfEnumStringTest() {
         // TODO: test mapOfEnumString
     }
 
@@ -60,7 +59,7 @@ public class MapTestTest {
      * Test the property 'directMap'
      */
     @Test
-    public void directMapTest() {
+    void directMapTest() {
         // TODO: test directMap
     }
 
@@ -68,7 +67,7 @@ public class MapTestTest {
      * Test the property 'indirectMap'
      */
     @Test
-    public void indirectMapTest() {
+    void indirectMapTest() {
         // TODO: test indirectMap
     }
 

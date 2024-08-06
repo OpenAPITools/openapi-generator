@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  * EnumArrays
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class EnumArrays {
 
   /**
@@ -109,7 +109,7 @@ public class EnumArrays {
   /**
    * Get justSymbol
    * @return justSymbol
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("just_symbol")
@@ -137,7 +137,7 @@ public class EnumArrays {
   /**
    * Get arrayEnum
    * @return arrayEnum
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("array_enum")

@@ -35,14 +35,17 @@ public class ZapierClientCodegen extends DefaultCodegen implements CodegenConfig
 
     private final Logger LOGGER = LoggerFactory.getLogger(ZapierClientCodegen.class);
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "zapier";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a zapier client.";
     }

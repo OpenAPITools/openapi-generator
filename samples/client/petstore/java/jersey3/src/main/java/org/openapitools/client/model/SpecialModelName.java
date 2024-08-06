@@ -36,7 +36,7 @@ import org.openapitools.client.JSON;
   SpecialModelName.JSON_PROPERTY_SPECIAL_MODEL_NAME
 })
 @JsonTypeName("_special_model.name_")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class SpecialModelName {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   private Long $specialPropertyName;
@@ -52,10 +52,10 @@ public class SpecialModelName {
     return this;
   }
 
-   /**
+  /**
    * Get $specialPropertyName
    * @return $specialPropertyName
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
@@ -78,10 +78,10 @@ public class SpecialModelName {
     return this;
   }
 
-   /**
+  /**
    * Get specialModelName
    * @return specialModelName
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_SPECIAL_MODEL_NAME)

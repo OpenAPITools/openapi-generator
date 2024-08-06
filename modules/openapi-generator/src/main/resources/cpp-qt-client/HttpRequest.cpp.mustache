@@ -7,11 +7,7 @@
 #include <QUrl>
 #include <QUuid>
 #include <QtGlobal>
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-    #define SKIP_EMPTY_PARTS Qt::SkipEmptyParts
-#else
-    #define SKIP_EMPTY_PARTS QString::SkipEmptyParts
-#endif{{#contentCompression}}
+{{#contentCompression}}
 #include <zlib.h>{{/contentCompression}}
 
 #include "{{prefix}}HttpRequest.h"
@@ -376,6 +372,7 @@ void {{prefix}}HttpRequestWorker::execute({{prefix}}HttpRequestInput *input) {
     }
     if (reply != nullptr) {
         reply->setParent(this);
+        connect(reply, &QNetworkReply::downloadProgress, this, &{{prefix}}HttpRequestWorker::downloadProgress);
         connect(reply, &QNetworkReply::finished, [this, reply] {
             on_reply_finished(reply);
         });
@@ -440,14 +437,14 @@ void {{prefix}}HttpRequestWorker::process_response(QNetworkReply *reply) {
     }
 
     if (!contentDispositionHdr.isEmpty()) {
-        auto contentDisposition = contentDispositionHdr.split(QString(";"), SKIP_EMPTY_PARTS);
+        auto contentDisposition = contentDispositionHdr.split(QString(";"), Qt::SkipEmptyParts);
         auto contentType =
-            !contentTypeHdr.isEmpty() ? contentTypeHdr.split(QString(";"), SKIP_EMPTY_PARTS).first() : QString();
+            !contentTypeHdr.isEmpty() ? contentTypeHdr.split(QString(";"), Qt::SkipEmptyParts).first() : QString();
         if ((contentDisposition.count() > 0) && (contentDisposition.first() == QString("attachment"))) {
             QString filename = QUuid::createUuid().toString();
             for (const auto &file : contentDisposition) {
                 if (file.contains(QString("filename"))) {
-                    filename = file.split(QString("="), SKIP_EMPTY_PARTS).at(1);
+                    filename = file.split(QString("="), Qt::SkipEmptyParts).at(1);
                     break;
                 }
             }
@@ -457,14 +454,14 @@ void {{prefix}}HttpRequestWorker::process_response(QNetworkReply *reply) {
         }
 
     } else if (!contentTypeHdr.isEmpty()) {
-        auto contentType = contentTypeHdr.split(QString(";"), SKIP_EMPTY_PARTS);
+        auto contentType = contentTypeHdr.split(QString(";"), Qt::SkipEmptyParts);
         if ((contentType.count() > 0) && (contentType.first() == QString("multipart/form-data"))) {
             // TODO : Handle Multipart responses
         } else {
             if(!contentEncodingHdr.isEmpty()){
-                auto encoding = contentEncodingHdr.split(QString(";"), SKIP_EMPTY_PARTS);
+                auto encoding = contentEncodingHdr.split(QString(";"), Qt::SkipEmptyParts);
                 if(encoding.count() > 0){
-                    auto compressionTypes = encoding.first().split(',', SKIP_EMPTY_PARTS);
+                    auto compressionTypes = encoding.first().split(',', Qt::SkipEmptyParts);
                     if(compressionTypes.contains("gzip", Qt::CaseInsensitive) || compressionTypes.contains("deflate", Qt::CaseInsensitive)){
                         response = decompress(reply->readAll());
                     } else if(compressionTypes.contains("identity", Qt::CaseInsensitive)){

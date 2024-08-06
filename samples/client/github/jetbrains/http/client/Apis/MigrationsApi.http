@@ -27,7 +27,7 @@ Accept: application/json
 
 ### Get commit authors
 ## Get commit authors
-GET https://api.github.com/repos/{{owner}}/{{repo}}/import/authors
+GET https://api.github.com/repos/{{owner}}/{{repo}}/import/authors?since={{since}}
 Accept: application/json
 
 ### Get an import status
@@ -42,32 +42,32 @@ Accept: application/json
 
 ### Get a user migration status
 ## Get a user migration status
-GET https://api.github.com/user/migrations/{{migration_id}}
+GET https://api.github.com/user/migrations/{{migration_id}}?exclude={{exclude}}
 Accept: application/json
 
 ### Get an organization migration status
 ## Get an organization migration status
-GET https://api.github.com/orgs/{{org}}/migrations/{{migration_id}}
+GET https://api.github.com/orgs/{{org}}/migrations/{{migration_id}}?exclude={{exclude}}
 Accept: application/json
 
 ### List user migrations
 ## List user migrations
-GET https://api.github.com/user/migrations
+GET https://api.github.com/user/migrations?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List organization migrations
 ## List organization migrations
-GET https://api.github.com/orgs/{{org}}/migrations
+GET https://api.github.com/orgs/{{org}}/migrations?perPage={{perPage}}&page={{page}}&exclude={{exclude}}
 Accept: application/json
 
 ### List repositories for a user migration
 ## List repositories for a user migration
-GET https://api.github.com/user/migrations/{{migration_id}}/repositories
+GET https://api.github.com/user/migrations/{{migration_id}}/repositories?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repositories in an organization migration
 ## List repositories in an organization migration
-GET https://api.github.com/orgs/{{org}}/migrations/{{migration_id}}/repositories
+GET https://api.github.com/orgs/{{org}}/migrations/{{migration_id}}/repositories?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### Map a commit author

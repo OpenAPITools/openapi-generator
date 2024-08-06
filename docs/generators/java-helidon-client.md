@@ -65,6 +65,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
+|x-helidon-groupBy|Selects how to group operations into APIs|<dl><dt>**tags**</dt><dd>Use the 'tags' settings on each operation</dd><dt>**first-path-segment**</dt><dd>Use the first segment of the path</dd></dl>|tags|
+|x-helidon-useOptional|Wrap optional parameters in an Optional (Helidon 4 and later)| |true|
 
 ## SUPPORTED VENDOR EXTENSIONS
 
@@ -77,7 +79,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-accepts|Specify custom value for 'Accept' header for operation|OPERATION|null
 |x-content-type|Specify custom value for 'Content-Type' header for operation|OPERATION|null
 |x-class-extra-annotation|List of custom annotations to be added to model|MODEL|null
-|x-field-extra-annotation|List of custom annotations to be added to property|FIELD|null
+|x-field-extra-annotation|List of custom annotations to be added to property|FIELD, OPERATION_PARAMETER|null
 |x-webclient-blocking|Specifies if method for specific operation should be blocking or non-blocking(ex: return `Mono<T>/Flux<T>` or `return T/List<T>/Set<T>` & execute `.block()` inside generated method)|OPERATION|false
 
 

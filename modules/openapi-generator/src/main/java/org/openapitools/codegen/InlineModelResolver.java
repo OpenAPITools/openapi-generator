@@ -231,7 +231,9 @@ public class InlineModelResolver {
                 if (schema.equals(c)) {
                     return isModelNeeded((Schema) schema.getAllOf().get(0), visitedSchemas);
                 }
-            } else if (isSingleAllOf && StringUtils.isNotEmpty(((Schema) schema.getAllOf().get(0)).get$ref())) {
+            }
+
+            if (isSingleAllOf && StringUtils.isNotEmpty(((Schema) schema.getAllOf().get(0)).get$ref())) {
                 // single allOf and it's a ref
                 return isModelNeeded((Schema) schema.getAllOf().get(0), visitedSchemas);
             }
@@ -314,7 +316,7 @@ public class InlineModelResolver {
                 if (schema.getAdditionalProperties() instanceof Schema) {
                     Schema inner = (Schema) schema.getAdditionalProperties();
                     if (inner != null) {
-                        String schemaName = resolveModelName(schema.getTitle(), modelPrefix + this.inlineSchemaOptions.get("MAP_ITEM_SUFFIX"));
+                        String schemaName = resolveModelName(inner.getTitle(), modelPrefix + this.inlineSchemaOptions.get("MAP_ITEM_SUFFIX"));
                         // Recurse to create $refs for inner models
                         gatherInlineModels(inner, schemaName);
                         if (isModelNeeded(inner)) {

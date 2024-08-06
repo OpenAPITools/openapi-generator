@@ -16,9 +16,9 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.exceptions.ProtoBufIndexComputationException;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -56,7 +56,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     private final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
 
-    protected String packageName = "openapitools";
+    @Setter protected String packageName = "openapitools";
 
     private boolean numberedFieldNumberList = false;
 
@@ -67,10 +67,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         return CodegenType.SCHEMA;
     }
 
+    @Override
     public String getName() {
         return "protobuf-schema";
     }
 
+    @Override
     public String getHelp() {
         return "Generates gRPC and protocol buffer schema files (beta)";
     }
@@ -483,10 +485,6 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             return "default_service";
         }
         return underscore(name) + "_service";
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
     }
 
     @Override

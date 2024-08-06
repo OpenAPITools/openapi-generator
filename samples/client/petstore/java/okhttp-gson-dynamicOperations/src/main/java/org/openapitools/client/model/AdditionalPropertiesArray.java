@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * AdditionalPropertiesArray
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class AdditionalPropertiesArray {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -64,10 +64,10 @@ public class AdditionalPropertiesArray {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
   public String getName() {
     return name;
@@ -175,12 +175,12 @@ public class AdditionalPropertiesArray {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to AdditionalPropertiesArray
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to AdditionalPropertiesArray
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!AdditionalPropertiesArray.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -265,22 +265,22 @@ public class AdditionalPropertiesArray {
     }
   }
 
- /**
-  * Create an instance of AdditionalPropertiesArray given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of AdditionalPropertiesArray
-  * @throws IOException if the JSON string is invalid with respect to AdditionalPropertiesArray
-  */
+  /**
+   * Create an instance of AdditionalPropertiesArray given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of AdditionalPropertiesArray
+   * @throws IOException if the JSON string is invalid with respect to AdditionalPropertiesArray
+   */
   public static AdditionalPropertiesArray fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, AdditionalPropertiesArray.class);
   }
 
- /**
-  * Convert an instance of AdditionalPropertiesArray to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of AdditionalPropertiesArray to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

@@ -204,11 +204,6 @@
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson-databind-version}</version>
-        </dependency>
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
@@ -253,6 +248,11 @@
                 <version>${jackson-version}</version>
             </dependency>
             <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson-databind-version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.openapitools</groupId>
                 <artifactId>jackson-databind-nullable</artifactId>
                 <version>${jackson-databind-nullable-version}</version>
@@ -277,6 +277,11 @@
                 <artifactId>play-ahc-ws_2.12</artifactId>
                 <version>${play-version}</version>
             </dependency>
+            <dependency>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>${beanvalidation-version}</version>
+            </dependency>
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
@@ -285,8 +290,8 @@
         </dependency>
         <!-- test dependencies -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <version>${junit-version}</version>
             <scope>test</scope>
         </dependency>
@@ -297,15 +302,15 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <swagger-annotations-version>1.6.3</swagger-annotations-version>
-        <jackson-databind-version>2.15.2</jackson-databind-version>
-        <jackson-version>2.15.2</jackson-version>
+        <jackson-databind-version>2.17.1</jackson-databind-version>
+        <jackson-version>2.17.1</jackson-version>
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
         <javax.ws.rs-api-version>2.1.1</javax.ws.rs-api-version>
         <play-version>2.6.7</play-version>
-        <retrofit-version>2.5.0</retrofit-version>
+        <retrofit-version>2.11.0</retrofit-version>
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
         <beanvalidation-version>3.0.2</beanvalidation-version>
         <oltu-version>1.0.1</oltu-version>
-        <junit-version>4.13.2</junit-version>
+        <junit-version>5.10.3</junit-version>
     </properties>
 </project>

@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import lombok.Setter;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
@@ -38,7 +39,8 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
     protected String packageName = "";
     // source folder where to write the files
     protected String sourceFolder = "client";
-    protected boolean optionalProjectFileFlag = true;
+    @Setter protected boolean optionalProjectFileFlag = true;
+    @Setter protected boolean addDownloadProgress = false;
 
     public CppQtClientCodegen() {
         super();
@@ -97,6 +99,7 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
         // CLI options
         addOption(CodegenConstants.PACKAGE_NAME, "C++ package (library) name.", DEFAULT_PACKAGE_NAME);
         addSwitch(CodegenConstants.OPTIONAL_PROJECT_FILE, OPTIONAL_PROJECT_FILE_DESC, this.optionalProjectFileFlag);
+        addSwitch("addDownloadProgress", "Add support for Qt download progress", this.addDownloadProgress);
 
         supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder, PREFIX + "Helpers.h"));
         supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder, PREFIX + "Helpers.cpp"));
@@ -222,10 +225,6 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
     @Override
     public String toApiFilename(String name) {
         return modelNamePrefix + sanitizeName(camelize(name)) + "Api";
-    }
-
-    public void setOptionalProjectFileFlag(boolean flag) {
-        this.optionalProjectFileFlag = flag;
     }
 
     @Override

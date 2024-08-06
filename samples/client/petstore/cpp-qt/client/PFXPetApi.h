@@ -152,6 +152,7 @@ Q_SIGNALS:
     void updatePetWithFormSignal();
     void uploadFileSignal(PFXApiResponse summary);
 
+
     void addPetSignalFull(PFXHttpRequestWorker *worker);
     void allPetsSignalFull(PFXHttpRequestWorker *worker, QSet<PFXPet> summary);
     void deletePetSignalFull(PFXHttpRequestWorker *worker);

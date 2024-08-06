@@ -25,7 +25,7 @@ import org.openapitools.client.JSON;
 /**
  * Order
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Order {
   public Order() {
   }
@@ -78,12 +78,12 @@ public class Order {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Order
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to Order
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Order.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -129,22 +129,22 @@ public class Order {
     }
   }
 
- /**
-  * Create an instance of Order given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Order
-  * @throws IOException if the JSON string is invalid with respect to Order
-  */
+  /**
+   * Create an instance of Order given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of Order
+   * @throws IOException if the JSON string is invalid with respect to Order
+   */
   public static Order fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Order.class);
   }
 
- /**
-  * Convert an instance of Order to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of Order to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

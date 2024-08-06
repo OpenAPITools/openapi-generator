@@ -22,7 +22,7 @@ import javax.annotation.Generated;
  * Apple
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Apple implements Fruit {
 
   private Integer seeds;
@@ -49,7 +49,7 @@ public class Apple implements Fruit {
   /**
    * Get seeds
    * @return seeds
-  */
+   */
   @NotNull 
   @Schema(name = "seeds", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("seeds")
@@ -69,7 +69,7 @@ public class Apple implements Fruit {
   /**
    * Get fruitType
    * @return fruitType
-  */
+   */
   @NotNull @Valid 
   @Schema(name = "fruitType", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("fruitType")

@@ -19,7 +19,7 @@ import javax.annotation.Generated;
  */
 
 @Schema(name = "Addressable", description = "Base schema for addressable entities")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Addressable {
 
   private String href;
@@ -34,7 +34,7 @@ public class Addressable {
   /**
    * Hyperlink reference
    * @return href
-  */
+   */
   
   @Schema(name = "href", description = "Hyperlink reference", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("href")
@@ -54,7 +54,7 @@ public class Addressable {
   /**
    * unique identifier
    * @return id
-  */
+   */
   
   @Schema(name = "id", description = "unique identifier", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")

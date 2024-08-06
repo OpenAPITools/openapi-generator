@@ -1,6 +1,7 @@
 use std::rc::Rc;
 
 use hyper;
+use hyper_util::client::legacy::connect::Connect;
 use super::configuration::Configuration;
 
 pub struct APIClient {
@@ -12,7 +13,7 @@ pub struct APIClient {
 }
 
 impl APIClient {
-    pub fn new<C: hyper::client::connect::Connect>(configuration: Configuration<C>) -> APIClient
+    pub fn new<C: Connect>(configuration: Configuration<C>) -> APIClient
         where C: Clone + std::marker::Send + Sync + 'static {
         let rc = Rc::new(configuration);
 

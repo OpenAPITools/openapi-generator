@@ -43,7 +43,7 @@ export type ErrorCode = typeof ErrorCode[keyof typeof ErrorCode];
 export function instanceOfErrorCode(value: any): boolean {
     for (const key in ErrorCode) {
         if (Object.prototype.hasOwnProperty.call(ErrorCode, key)) {
-            if ((ErrorCode as Record<string, ErrorCode>)[key] === value) {
+            if (ErrorCode[key as keyof typeof ErrorCode] === value) {
                 return true;
             }
         }

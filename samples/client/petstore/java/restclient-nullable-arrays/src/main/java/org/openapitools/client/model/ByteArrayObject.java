@@ -38,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ByteArrayObject.JSON_PROPERTY_STRING_FIELD,
   ByteArrayObject.JSON_PROPERTY_INT_FIELD
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ByteArrayObject {
   public static final String JSON_PROPERTY_NULLABLE_ARRAY = "nullableArray";
   private JsonNullable<byte[]> nullableArray = JsonNullable.<byte[]>undefined();
@@ -64,10 +64,10 @@ public class ByteArrayObject {
     return this;
   }
 
-   /**
+  /**
    * byte array.
    * @return nullableArray
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonIgnore
 
@@ -97,10 +97,10 @@ public class ByteArrayObject {
     return this;
   }
 
-   /**
+  /**
    * byte array.
    * @return normalArray
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_NORMAL_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -122,10 +122,10 @@ public class ByteArrayObject {
     return this;
   }
 
-   /**
+  /**
    * Get nullableString
    * @return nullableString
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonIgnore
 
@@ -155,10 +155,10 @@ public class ByteArrayObject {
     return this;
   }
 
-   /**
+  /**
    * Get stringField
    * @return stringField
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_STRING_FIELD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -180,10 +180,10 @@ public class ByteArrayObject {
     return this;
   }
 
-   /**
+  /**
    * Get intField
    * @return intField
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_INT_FIELD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

@@ -436,7 +436,6 @@ namespace {{packageName}}.{{apiPackage}}
                     {{#queryParams}}
                     {{^required}}
                     if ({{paramName}}.IsSet)
-                        // here too
                         parseQueryStringLocalVar["{{baseName}}"] = ClientUtils.ParameterToString({{paramName}}.Value);
 
                     {{/required}}
@@ -710,7 +709,7 @@ namespace {{packageName}}.{{apiPackage}}
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
             {{#responses}}
 
             {{#vendorExtensions.x-http-status-is-default}}
@@ -725,7 +724,19 @@ namespace {{packageName}}.{{apiPackage}}
             /// Returns true if the response is {{code}} {{vendorExtensions.x-http-status}}
             /// </summary>
             /// <returns></returns>
+            {{#vendorExtensions.x-http-status-range}}
+            public bool Is{{vendorExtensions.x-http-status}}
+            {
+                get
+                {
+                    int statusCode = (int)StatusCode;
+                    return {{vendorExtensions.x-http-status-range}}00 >= statusCode && {{vendorExtensions.x-http-status-range}}99 <= statusCode;
+                }
+            }
+            {{/vendorExtensions.x-http-status-range}}
+            {{^vendorExtensions.x-http-status-range}}
             public bool Is{{vendorExtensions.x-http-status}} => {{code}} == (int)StatusCode;
+            {{/vendorExtensions.x-http-status-range}}
             {{/vendorExtensions.x-http-status-is-default}}
             {{#dataType}}
 
@@ -756,7 +767,7 @@ namespace {{packageName}}.{{apiPackage}}
                     result = {{vendorExtensions.x-http-status}}();
                 } catch (Exception e)
                 {
-                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode){{code}});
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode){{#vendorExtensions.x-http-status-range}}{{.}}{{/vendorExtensions.x-http-status-range}}{{^vendorExtensions.x-http-status-range}}{{code}}{{/vendorExtensions.x-http-status-range}});
                 }
 
                 return result != null;

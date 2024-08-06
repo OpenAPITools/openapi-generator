@@ -16,10 +16,10 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
@@ -54,7 +54,7 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
 
     public static final String PROJECT_NAME = "projectName";
     public static final String MAP_FILE_BINARY_TO_DATA = "mapFileBinaryToData";
-    protected String projectName = "OpenAPIClient";
+    @Setter protected String projectName = "OpenAPIClient";
     protected String privateFolder = "Sources/Private";
     protected String sourceFolder = "Sources";
     protected String transportFolder = "OpenAPITransport";
@@ -551,10 +551,6 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
                 .filter(p -> allVarsMap.containsKey(p.baseName))
                 .forEach(p -> p.isInherited = true);
         return m;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
     }
 
     @Override

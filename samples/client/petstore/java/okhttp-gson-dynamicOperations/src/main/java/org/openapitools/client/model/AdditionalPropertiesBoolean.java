@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * AdditionalPropertiesBoolean
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class AdditionalPropertiesBoolean {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -63,10 +63,10 @@ public class AdditionalPropertiesBoolean {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
   public String getName() {
     return name;
@@ -174,12 +174,12 @@ public class AdditionalPropertiesBoolean {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to AdditionalPropertiesBoolean
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to AdditionalPropertiesBoolean
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!AdditionalPropertiesBoolean.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -264,22 +264,22 @@ public class AdditionalPropertiesBoolean {
     }
   }
 
- /**
-  * Create an instance of AdditionalPropertiesBoolean given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of AdditionalPropertiesBoolean
-  * @throws IOException if the JSON string is invalid with respect to AdditionalPropertiesBoolean
-  */
+  /**
+   * Create an instance of AdditionalPropertiesBoolean given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of AdditionalPropertiesBoolean
+   * @throws IOException if the JSON string is invalid with respect to AdditionalPropertiesBoolean
+   */
   public static AdditionalPropertiesBoolean fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, AdditionalPropertiesBoolean.class);
   }
 
- /**
-  * Convert an instance of AdditionalPropertiesBoolean to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of AdditionalPropertiesBoolean to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

@@ -59,7 +59,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ATT_NAME
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> ATT_NAMEOption { get; private set; }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of CapitalCamel
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> CapitalCamelOption { get; private set; }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of CapitalSnake
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> CapitalSnakeOption { get; private set; }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of SCAETHFlowPoints
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> SCAETHFlowPointsOption { get; private set; }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of SmallCamel
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> SmallCamelOption { get; private set; }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of SmallSnake
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> SmallSnakeOption { get; private set; }
 
         /// <summary>
@@ -164,7 +164,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

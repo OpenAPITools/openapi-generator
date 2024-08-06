@@ -54,5 +54,6 @@ public class GoClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setWithGoMod(GoClientOptionsProvider.WITH_GO_MOD_VALUE);
         verify(clientCodegen).setGenerateMarshalJSON(GoClientOptionsProvider.GENERATE_MARSHAL_JSON_VALUE);
         verify(clientCodegen).setGenerateUnmarshalJSON(GoClientOptionsProvider.GENERATE_UNMARSHAL_JSON_VALUE);
+        verify(clientCodegen).setUseDefaultValuesForRequiredVars(GoClientOptionsProvider.USE_DEFAULT_VALUES_FOR_REQUIRED_VARS_VALUE);
     }
 }

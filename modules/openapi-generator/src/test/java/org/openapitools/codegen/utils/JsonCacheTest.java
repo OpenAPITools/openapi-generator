@@ -32,7 +32,6 @@ import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -205,7 +204,7 @@ public class JsonCacheTest {
     private JsonCache.Root root;
     private JsonCache cache;
 
-    private void reload() throws CacheException, UnsupportedEncodingException {
+    private void reload() throws CacheException {
         root.unload();
         root.load(new ByteArrayInputStream(JSON.getBytes(StandardCharsets.UTF_8)));
     }

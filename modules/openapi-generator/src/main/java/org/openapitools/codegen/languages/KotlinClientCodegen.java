@@ -27,6 +27,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.samskivert.mustache.Mustache;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -94,22 +96,22 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
-    protected String dateLibrary = DateLibrary.JAVA8.value;
-    protected String requestDateConverter = RequestDateConverter.TO_JSON.value;
-    protected String collectionType = CollectionType.LIST.value;
+    @Setter protected String dateLibrary = DateLibrary.JAVA8.value;
+    @Setter protected String requestDateConverter = RequestDateConverter.TO_JSON.value;
+    @Setter protected String collectionType = CollectionType.LIST.value;
     protected boolean useRxJava3 = false;
     protected boolean useCoroutines = false;
     // backwards compatibility for openapi configs that specify neither rx1 nor rx2
     // (mustache does not allow for boolean operators so we need this extra field)
     protected boolean doNotUseRxAndCoroutines = true;
     protected boolean generateRoomModels = false;
-    protected String roomModelPackage = "";
-    protected boolean omitGradleWrapper = false;
-    protected boolean generateOneOfAnyOfWrappers = true;
+    @Setter protected String roomModelPackage = "";
+    @Setter protected boolean omitGradleWrapper = false;
+    @Setter protected boolean generateOneOfAnyOfWrappers = true;
 
     protected String authFolder;
 
-    protected SERIALIZATION_LIBRARY_TYPE serializationLibrary = SERIALIZATION_LIBRARY_TYPE.moshi;
+    @Getter protected SERIALIZATION_LIBRARY_TYPE serializationLibrary = SERIALIZATION_LIBRARY_TYPE.moshi;
     public static final String SERIALIZATION_LIBRARY_DESC = "What serialization library to use: 'moshi' (default), or 'gson' or 'jackson' or 'kotlinx_serialization'";
 
     public enum SERIALIZATION_LIBRARY_TYPE {moshi, gson, jackson, kotlinx_serialization}
@@ -270,14 +272,17 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(serializationLibraryOpt.defaultValue(serializationLibrary.name()));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "kotlin";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Kotlin client.";
     }
@@ -322,40 +327,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         this.useCoroutines = useCoroutines;
     }
 
-
-    public void setDateLibrary(String library) {
-        this.dateLibrary = library;
-    }
-
-    public void setRequestDateConverter(String converter) {
-        this.requestDateConverter = converter;
-    }
-
-    public void setCollectionType(String collectionType) {
-        this.collectionType = collectionType;
-    }
-
-    public void setRoomModelPackage(String roomModelPackage) {
-        this.roomModelPackage = roomModelPackage;
-    }
-
-    public void setOmitGradleWrapper(boolean omitGradleWrapper) {
-        this.omitGradleWrapper = omitGradleWrapper;
-    }
-
-    public void setGenerateOneOfAnyOfWrappers(boolean generateOneOfAnyOfWrappers) {
-        this.generateOneOfAnyOfWrappers = generateOneOfAnyOfWrappers;
-    }
-
-    public SERIALIZATION_LIBRARY_TYPE getSerializationLibrary() {
-        return this.serializationLibrary;
-    }
-
     /**
      * Sets the serialization engine for Kotlin
      *
      * @param enumSerializationLibrary The string representation of the serialization library as defined by
-     *                                 {@link org.openapitools.codegen.languages.AbstractKotlinCodegen.SERIALIZATION_LIBRARY_TYPE}
+     *                                 {@link org.openapitools.codegen.languages.KotlinClientCodegen.SERIALIZATION_LIBRARY_TYPE}
      */
     public void setSerializationLibrary(final String enumSerializationLibrary) {
         try {

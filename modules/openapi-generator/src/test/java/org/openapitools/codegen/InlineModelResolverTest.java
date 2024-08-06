@@ -1171,4 +1171,30 @@ public class InlineModelResolverTest {
                 ((Schema) inlineFormParaemter.getProperties().get("enum_form_string")).get$ref());
 
     }
+
+    @Test
+    public void doNotWrapSingleAllOfRefs() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue_15077.yaml");
+        new InlineModelResolver().flatten(openAPI);
+
+        // None of these cases should be wrapped in an inline schema and should reference the original schema "NumberRange"
+        Schema limitsModel = (Schema) openAPI.getComponents().getSchemas().get("Limits");
+        final String numberRangeRef = "#/components/schemas/NumberRange";
+
+        Schema allOfRef = (Schema) limitsModel.getProperties().get("allOfRef");
+        assertNotNull(allOfRef.getAllOf());
+        assertEquals(numberRangeRef, ((Schema) allOfRef.getAllOf().get(0)).get$ref());
+
+        Schema allOfRefWithDescription = (Schema) limitsModel.getProperties().get("allOfRefWithDescription");
+        assertNotNull(allOfRefWithDescription.getAllOf());
+        assertEquals(numberRangeRef, ((Schema) allOfRefWithDescription.getAllOf().get(0)).get$ref());
+
+        Schema allOfRefWithReadonly = (Schema) limitsModel.getProperties().get("allOfRefWithReadonly");
+        assertNotNull(allOfRefWithReadonly.getAllOf());
+        assertEquals(numberRangeRef, ((Schema) allOfRefWithReadonly.getAllOf().get(0)).get$ref());
+
+        Schema allOfRefWithDescriptionAndReadonly = (Schema) limitsModel.getProperties().get("allOfRefWithDescriptionAndReadonly");
+        assertNotNull(allOfRefWithDescriptionAndReadonly.getAllOf());
+        assertEquals(numberRangeRef, ((Schema) allOfRefWithDescriptionAndReadonly.getAllOf().get(0)).get$ref());
+    }
 }

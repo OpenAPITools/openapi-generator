@@ -26,12 +26,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.junit.Assert;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.JavaHelidonCommonCodegen;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -97,7 +97,7 @@ public class JavaHelidonCommonCodegenTest {
 
     @Test
     public void bothNotEqualsVersionTest() {
-        IllegalArgumentException e = Assert.assertThrows(IllegalArgumentException.class,() -> runServerVersionTest("1.0.0", "2.0.0"));
+        IllegalArgumentException e = Assert.expectThrows(IllegalArgumentException.class, () -> runServerVersionTest("1.0.0", "2.0.0"));
         Assert.assertEquals(
                 "Both parentVersion and helidonVersion properties were set with different value.",
                 e.getMessage());

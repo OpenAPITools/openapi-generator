@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * CircularReference2
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class CircularReference2 {
   public static final String SERIALIZED_NAME_PROP1 = "prop1";
   @SerializedName(SERIALIZED_NAME_PROP1)
@@ -64,10 +64,10 @@ public class CircularReference2 {
     return this;
   }
 
-   /**
+  /**
    * Get prop1
    * @return prop1
-  **/
+   */
   @javax.annotation.Nullable
   public CircularReference3 getProp1() {
     return prop1;
@@ -175,12 +175,12 @@ public class CircularReference2 {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to CircularReference2
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to CircularReference2
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!CircularReference2.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -266,22 +266,22 @@ public class CircularReference2 {
     }
   }
 
- /**
-  * Create an instance of CircularReference2 given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of CircularReference2
-  * @throws IOException if the JSON string is invalid with respect to CircularReference2
-  */
+  /**
+   * Create an instance of CircularReference2 given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of CircularReference2
+   * @throws IOException if the JSON string is invalid with respect to CircularReference2
+   */
   public static CircularReference2 fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, CircularReference2.class);
   }
 
- /**
-  * Convert an instance of CircularReference2 to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of CircularReference2 to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

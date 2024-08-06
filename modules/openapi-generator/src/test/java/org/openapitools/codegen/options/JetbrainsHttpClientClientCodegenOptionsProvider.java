@@ -1,6 +1,5 @@
 package org.openapitools.codegen.options;
 
-import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.JetbrainsHttpClientClientCodegen;
 
 import com.google.common.collect.ImmutableMap;

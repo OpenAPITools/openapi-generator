@@ -1,0 +1,26 @@
+openapi: 3.0.0
+info:
+  title: 'Array nullable items'
+  version: latest
+paths:
+  '/':
+    get:
+      operationId: operation
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayWithNullableItemsModel'
+components:
+  schemas:
+    ArrayWithNullableItemsModel:
+      required:
+        - foo
+      properties:
+        foo:
+          type: array
+          items:
+            type: string
+            nullable: true

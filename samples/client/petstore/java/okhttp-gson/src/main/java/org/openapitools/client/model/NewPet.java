@@ -54,7 +54,7 @@ import org.openapitools.client.JSON;
 /**
  * NewPet
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class NewPet {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -67,6 +67,14 @@ public class NewPet {
   public static final String SERIALIZED_NAME_CATEGORY_ALL_OF_REF = "category_allOf_ref";
   @SerializedName(SERIALIZED_NAME_CATEGORY_ALL_OF_REF)
   private Category categoryAllOfRef;
+
+  public static final String SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION = "category_allOf_ref_description";
+  @SerializedName(SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION)
+  private Category categoryAllOfRefDescription;
+
+  public static final String SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION_READONLY = "category_allOf_ref_description_readonly";
+  @SerializedName(SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION_READONLY)
+  private Category categoryAllOfRefDescriptionReadonly;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -141,15 +149,22 @@ public class NewPet {
   public NewPet() {
   }
 
+  public NewPet(
+     Category categoryAllOfRefDescriptionReadonly
+  ) {
+    this();
+    this.categoryAllOfRefDescriptionReadonly = categoryAllOfRefDescriptionReadonly;
+  }
+
   public NewPet id(Long id) {
     this.id = id;
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   public Long getId() {
     return id;
@@ -165,10 +180,10 @@ public class NewPet {
     return this;
   }
 
-   /**
+  /**
    * Get categoryInlineAllof
    * @return categoryInlineAllof
-  **/
+   */
   @javax.annotation.Nullable
   public NewPetCategoryInlineAllof getCategoryInlineAllof() {
     return categoryInlineAllof;
@@ -184,10 +199,10 @@ public class NewPet {
     return this;
   }
 
-   /**
+  /**
    * Get categoryAllOfRef
    * @return categoryAllOfRef
-  **/
+   */
   @javax.annotation.Nullable
   public Category getCategoryAllOfRef() {
     return categoryAllOfRef;
@@ -198,15 +213,45 @@ public class NewPet {
   }
 
 
+  public NewPet categoryAllOfRefDescription(Category categoryAllOfRefDescription) {
+    this.categoryAllOfRefDescription = categoryAllOfRefDescription;
+    return this;
+  }
+
+  /**
+   * Adding description to property using allOf 
+   * @return categoryAllOfRefDescription
+   */
+  @javax.annotation.Nullable
+  public Category getCategoryAllOfRefDescription() {
+    return categoryAllOfRefDescription;
+  }
+
+  public void setCategoryAllOfRefDescription(Category categoryAllOfRefDescription) {
+    this.categoryAllOfRefDescription = categoryAllOfRefDescription;
+  }
+
+
+  /**
+   * Adding description to readonly property using allOf 
+   * @return categoryAllOfRefDescriptionReadonly
+   */
+  @javax.annotation.Nullable
+  public Category getCategoryAllOfRefDescriptionReadonly() {
+    return categoryAllOfRefDescriptionReadonly;
+  }
+
+
+
   public NewPet name(String name) {
     this.name = name;
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nonnull
   public String getName() {
     return name;
@@ -230,10 +275,10 @@ public class NewPet {
     return this;
   }
 
-   /**
+  /**
    * Get photoUrls
    * @return photoUrls
-  **/
+   */
   @javax.annotation.Nonnull
   public List<String> getPhotoUrls() {
     return photoUrls;
@@ -257,10 +302,10 @@ public class NewPet {
     return this;
   }
 
-   /**
+  /**
    * Get tags
    * @return tags
-  **/
+   */
   @javax.annotation.Nullable
   public List<Tag> getTags() {
     return tags;
@@ -276,10 +321,10 @@ public class NewPet {
     return this;
   }
 
-   /**
+  /**
    * pet status in the store
    * @return status
-  **/
+   */
   @javax.annotation.Nullable
   public StatusEnum getStatus() {
     return status;
@@ -347,6 +392,8 @@ public class NewPet {
     return Objects.equals(this.id, newPet.id) &&
         Objects.equals(this.categoryInlineAllof, newPet.categoryInlineAllof) &&
         Objects.equals(this.categoryAllOfRef, newPet.categoryAllOfRef) &&
+        Objects.equals(this.categoryAllOfRefDescription, newPet.categoryAllOfRefDescription) &&
+        Objects.equals(this.categoryAllOfRefDescriptionReadonly, newPet.categoryAllOfRefDescriptionReadonly) &&
         Objects.equals(this.name, newPet.name) &&
         Objects.equals(this.photoUrls, newPet.photoUrls) &&
         Objects.equals(this.tags, newPet.tags) &&
@@ -356,7 +403,7 @@ public class NewPet {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, categoryInlineAllof, categoryAllOfRef, name, photoUrls, tags, status, additionalProperties);
+    return Objects.hash(id, categoryInlineAllof, categoryAllOfRef, categoryAllOfRefDescription, categoryAllOfRefDescriptionReadonly, name, photoUrls, tags, status, additionalProperties);
   }
 
   @Override
@@ -366,6 +413,8 @@ public class NewPet {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    categoryInlineAllof: ").append(toIndentedString(categoryInlineAllof)).append("\n");
     sb.append("    categoryAllOfRef: ").append(toIndentedString(categoryAllOfRef)).append("\n");
+    sb.append("    categoryAllOfRefDescription: ").append(toIndentedString(categoryAllOfRefDescription)).append("\n");
+    sb.append("    categoryAllOfRefDescriptionReadonly: ").append(toIndentedString(categoryAllOfRefDescriptionReadonly)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    photoUrls: ").append(toIndentedString(photoUrls)).append("\n");
     sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
@@ -396,6 +445,8 @@ public class NewPet {
     openapiFields.add("id");
     openapiFields.add("category_inline_allof");
     openapiFields.add("category_allOf_ref");
+    openapiFields.add("category_allOf_ref_description");
+    openapiFields.add("category_allOf_ref_description_readonly");
     openapiFields.add("name");
     openapiFields.add("photoUrls");
     openapiFields.add("tags");
@@ -407,12 +458,12 @@ public class NewPet {
     openapiRequiredFields.add("photoUrls");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to NewPet
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to NewPet
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!NewPet.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -434,6 +485,14 @@ public class NewPet {
       // validate the optional field `category_allOf_ref`
       if (jsonObj.get("category_allOf_ref") != null && !jsonObj.get("category_allOf_ref").isJsonNull()) {
         Category.validateJsonElement(jsonObj.get("category_allOf_ref"));
+      }
+      // validate the optional field `category_allOf_ref_description`
+      if (jsonObj.get("category_allOf_ref_description") != null && !jsonObj.get("category_allOf_ref_description").isJsonNull()) {
+        Category.validateJsonElement(jsonObj.get("category_allOf_ref_description"));
+      }
+      // validate the optional field `category_allOf_ref_description_readonly`
+      if (jsonObj.get("category_allOf_ref_description_readonly") != null && !jsonObj.get("category_allOf_ref_description_readonly").isJsonNull()) {
+        Category.validateJsonElement(jsonObj.get("category_allOf_ref_description_readonly"));
       }
       if (!jsonObj.get("name").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
@@ -539,22 +598,22 @@ public class NewPet {
     }
   }
 
- /**
-  * Create an instance of NewPet given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of NewPet
-  * @throws IOException if the JSON string is invalid with respect to NewPet
-  */
+  /**
+   * Create an instance of NewPet given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of NewPet
+   * @throws IOException if the JSON string is invalid with respect to NewPet
+   */
   public static NewPet fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, NewPet.class);
   }
 
- /**
-  * Convert an instance of NewPet to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of NewPet to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

@@ -58,8 +58,8 @@ func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 	// try to unmarshal data into {{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}}
 	err = json.Unmarshal(data, &dst.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}})
 	if err == nil {
-		json{{{.}}}, _ := json.Marshal(dst.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}})
-		if string(json{{{.}}}) == "{}" { // empty struct
+		json{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}}, _ := json.Marshal(dst.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}})
+		if string(json{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}}) == "{}" { // empty struct
 			dst.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}} = nil
 		} else {
 			match++
@@ -93,7 +93,11 @@ func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 		if string(json{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}}) == "{}" { // empty struct
 			dst.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}} = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}}); err != nil {
+				dst.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}} = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}} = nil

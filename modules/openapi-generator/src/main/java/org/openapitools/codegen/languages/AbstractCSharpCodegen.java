@@ -23,6 +23,8 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -52,53 +54,55 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     protected boolean optionalEmitDefaultValuesFlag = false;
     protected boolean conditionalSerialization = false;
     protected boolean optionalProjectFileFlag = true;
-    protected boolean optionalMethodArgumentFlag = true;
+    @Setter protected boolean optionalMethodArgumentFlag = true;
     protected boolean useDateTimeOffsetFlag = false;
     protected boolean useDateTimeForDateFlag = false;
     protected boolean useCollection = false;
-    protected boolean returnICollection = false;
-    protected boolean netCoreProjectFileFlag = false;
+    @Setter protected boolean returnICollection = false;
+    @Setter protected boolean netCoreProjectFileFlag = false;
     protected boolean nullReferenceTypesFlag = false;
     protected boolean useSourceGeneration = false;
 
     protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
 
-    protected String licenseUrl = "http://localhost";
-    protected String licenseName = "NoLicense";
+    @Setter protected String licenseUrl = "http://localhost";
+    @Setter protected String licenseName = "NoLicense";
 
-    protected String packageVersion = "1.0.0";
-    protected String packageName = "Org.OpenAPITools";
-    protected String packageTitle = "OpenAPI Library";
-    protected String packageProductName = "OpenAPILibrary";
-    protected String packageDescription = "A library generated from a OpenAPI doc";
-    protected String packageCompany = "OpenAPI";
-    protected String packageCopyright = "No Copyright";
-    protected String packageAuthors = "OpenAPI";
+    @Setter protected String packageVersion = "1.0.0";
+    @Setter protected String packageName = "Org.OpenAPITools";
+    @Setter protected String packageTitle = "OpenAPI Library";
+    @Setter protected String packageProductName = "OpenAPILibrary";
+    @Setter protected String packageDescription = "A library generated from a OpenAPI doc";
+    @Setter protected String packageCompany = "OpenAPI";
+    @Setter protected String packageCopyright = "No Copyright";
+    @Setter protected String packageAuthors = "OpenAPI";
     public static final String DATE_FORMAT = "dateFormat";
-    protected String dateFormat = "yyyy'-'MM'-'dd";
+    @Setter protected String dateFormat = "yyyy'-'MM'-'dd";
     public static final String DATETIME_FORMAT = "dateTimeFormat";
-    protected String dateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+    @Setter protected String dateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
+    @Getter @Setter
     protected String interfacePrefix = "I";
-    protected String enumNameSuffix = "Enum";
-    protected String enumValueSuffix = "Enum";
+    @Setter protected String enumNameSuffix = "Enum";
+    @Setter protected String enumValueSuffix = "Enum";
 
-    protected String sourceFolder = "src";
+    @Setter protected String sourceFolder = "src";
     protected static final String invalidParameterNamePrefix = "var";
     protected static final String invalidPropertyNamePrefix = "Var";
-    protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.PascalCase;
+    @Getter protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.PascalCase;
 
     // TODO: Add option for test folder output location. Nice to allow e.g. ./test instead of ./src.
     //       This would require updating relative paths (e.g. path to main project file in test project file)
-    protected String testFolder = sourceFolder;
+    @Setter protected String testFolder = sourceFolder;
 
     protected Set<String> collectionTypes;
     protected Set<String> mapTypes;
 
     // true if support nullable type
+    @Getter @Setter
     protected boolean supportNullable = Boolean.FALSE;
 
-    protected Boolean zeroBasedEnums = null;
+    @Setter protected Boolean zeroBasedEnums = null;
     protected static final String zeroBasedEnumVendorExtension = "x-zero-based-enum";
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
@@ -204,15 +208,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         instantiationTypes.put("array", "List");
         instantiationTypes.put("list", "List");
         instantiationTypes.put("map", "Dictionary");
-
-        this.setSortParamsByRequiredFlag(true);
-
-        // do it only on newer libraries to avoid breaking changes
-        // this.setSortModelPropertiesByRequiredFlag(true);
-    }
-
-    public void setReturnICollection(boolean returnICollection) {
-        this.returnICollection = returnICollection;
     }
 
     public void setUseCollection(boolean useCollection) {
@@ -222,14 +217,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             instantiationTypes.put("list", "Collection");
         }
         this.setTypeMapping();
-    }
-
-    public void setOptionalMethodArgumentFlag(boolean flag) {
-        this.optionalMethodArgumentFlag = flag;
-    }
-
-    public void setNetCoreProjectFileFlag(boolean flag) {
-        this.netCoreProjectFileFlag = flag;
     }
 
     public void useDateTimeOffset(boolean flag) {
@@ -493,6 +480,46 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             property.isInnerEnum = false;
             property.isString = false;
         }
+
+        Double maximum = asDouble(property.maximum);
+        if (property.dataType.equals("int") && maximum != null) {
+            if ((!property.exclusiveMaximum && asInteger(property.maximum) == null) || (property.exclusiveMaximum && asInteger((maximum + 1) + "") == null)) {
+                property.dataType = "long";
+                property.datatypeWithEnum = "long";
+            }
+        }
+
+        Double minimum = asDouble(property.minimum);
+        if (property.dataType.equals("int") && minimum != null) {
+            if ((!property.exclusiveMinimum && asInteger(property.minimum) == null) || (property.exclusiveMinimum && asInteger((minimum - 1) + "") == null)) {
+                property.dataType = "long";
+                property.datatypeWithEnum = "long";
+            }
+        }
+    }
+
+    /** If the value can be parsed as a double, returns the value, otherwise returns null */
+    public static Double asDouble(String strNum) {
+        if (strNum == null) {
+            return null;
+        }
+        try {
+            return Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return null;
+        }
+    }
+
+    /** If the value can be parsed as an integer, returns the value, otherwise returns null */
+    public static Integer asInteger(String strNum) {
+        if (strNum == null) {
+            return null;
+        }
+        try {
+            return Integer.parseInt(strNum);
+        } catch (NumberFormatException nfe) {
+            return null;
+        }
     }
 
     @Override
@@ -603,6 +630,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                         property.name = patchPropertyName(model, camelize(property.baseType));
                         property.isNullable = true;
                         patchPropertyVendorExtensions(property);
+                        property.vendorExtensions.put("x-base-name", model.name.substring(model.name.lastIndexOf('_') + 1));
                     }
                 }
 
@@ -613,6 +641,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                         property.name = patchPropertyName(model, camelize(property.baseType));
                         property.isNullable = true;
                         patchPropertyVendorExtensions(property);
+                        property.vendorExtensions.put("x-base-name", model.name.substring(model.name.lastIndexOf('_') + 1));
                     }
                 }
             }
@@ -1007,6 +1036,26 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                                     break;
                                 case "511":
                                     postProcessResponseCode(response, "NetworkAuthenticationRequired", httpStatusesWithReturn);
+                                    break;
+                                case "1xx":
+                                    response.vendorExtensions.put("x-http-status-range", 1);
+                                    postProcessResponseCode(response, "HttpStatusCode1XX", httpStatusesWithReturn);
+                                    break;
+                                case "2xx":
+                                    response.vendorExtensions.put("x-http-status-range", 2);
+                                    postProcessResponseCode(response, "HttpStatusCode2XX", httpStatusesWithReturn);
+                                    break;
+                                case "3xx":
+                                    response.vendorExtensions.put("x-http-status-range", 3);
+                                    postProcessResponseCode(response, "HttpStatusCode3XX", httpStatusesWithReturn);
+                                    break;
+                                case "4xx":
+                                    response.vendorExtensions.put("x-http-status-range", 4);
+                                    postProcessResponseCode(response, "HttpStatusCode4XX", httpStatusesWithReturn);
+                                    break;
+                                case "5xx":
+                                    response.vendorExtensions.put("x-http-status-range", 5);
+                                    postProcessResponseCode(response, "HttpStatusCode5XX", httpStatusesWithReturn);
                                     break;
                                 default:
                                     postProcessResponseCode(response, "CustomHttpStatusCode" + code, httpStatusesWithReturn);
@@ -1539,70 +1588,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         return toModelName(name) + "Tests";
     }
 
-    public void setLicenseUrl(String licenseUrl) {
-        this.licenseUrl = licenseUrl;
-    }
-
-    public void setLicenseName(String licenseName) {
-        this.licenseName = licenseName;
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
-    }
-
-    public void setPackageTitle(String packageTitle) {
-        this.packageTitle = packageTitle;
-    }
-
-    public void setPackageProductName(String packageProductName) {
-        this.packageProductName = packageProductName;
-    }
-
-    public void setDateFormat(String dateFormat) {
-        this.dateFormat = dateFormat;
-    }
-
-    public void setDateTimeFormat(String dateTimeFormat) {
-        this.dateTimeFormat = dateTimeFormat;
-    }
-
-    public void setPackageDescription(String packageDescription) {
-        this.packageDescription = packageDescription;
-    }
-
-    public void setPackageCompany(String packageCompany) {
-        this.packageCompany = packageCompany;
-    }
-
-    public void setPackageCopyright(String packageCopyright) {
-        this.packageCopyright = packageCopyright;
-    }
-
-    public void setPackageAuthors(String packageAuthors) {
-        this.packageAuthors = packageAuthors;
-    }
-
-    public void setSourceFolder(String sourceFolder) {
-        this.sourceFolder = sourceFolder;
-    }
-
-    public void setTestFolder(String testFolder) {
-        this.testFolder = testFolder;
-    }
-
-    public String getInterfacePrefix() {
-        return interfacePrefix;
-    }
-
-    public void setZeroBasedEnums(final Boolean zeroBasedEnums) {
-        this.zeroBasedEnums = zeroBasedEnums;
-    }
-
     public void setNullableReferenceTypes(final Boolean nullReferenceTypesFlag) {
         this.nullReferenceTypesFlag = nullReferenceTypesFlag;
         additionalProperties.put("nullableReferenceTypes", nullReferenceTypesFlag);
@@ -1627,30 +1612,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
     public boolean getUseSourceGeneration() {
         return this.useSourceGeneration;
-    }
-
-    public void setInterfacePrefix(final String interfacePrefix) {
-        this.interfacePrefix = interfacePrefix;
-    }
-
-    public void setEnumNameSuffix(final String enumNameSuffix) {
-        this.enumNameSuffix = enumNameSuffix;
-    }
-
-    public void setEnumValueSuffix(final String enumValueSuffix) {
-        this.enumValueSuffix = enumValueSuffix;
-    }
-
-    public boolean isSupportNullable() {
-        return supportNullable;
-    }
-
-    public void setSupportNullable(final boolean supportNullable) {
-        this.supportNullable = supportNullable;
-    }
-
-    public CodegenConstants.ENUM_PROPERTY_NAMING_TYPE getEnumPropertyNaming() {
-        return this.enumPropertyNaming;
     }
 
     public void setEnumPropertyNaming(final String enumPropertyNamingType) {

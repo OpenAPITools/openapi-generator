@@ -19,9 +19,9 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.Iterables;
 import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -37,8 +37,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -47,7 +45,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public class GoClientCodegen extends AbstractGoCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(GoClientCodegen.class);
-    protected String packageVersion = "1.0.0";
+    @Setter protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String modelFileFolder = null;
@@ -57,9 +55,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
     public static final String GENERATE_INTERFACES = "generateInterfaces";
     public static final String MODEL_FILE_FOLDER = "modelFileFolder";
     public static final String WITH_GO_MOD = "withGoMod";
-    protected String goImportAlias = "openapiclient";
+    public static final String USE_DEFAULT_VALUES_FOR_REQUIRED_VARS = "useDefaultValuesForRequiredVars";
+    @Setter protected String goImportAlias = "openapiclient";
     protected boolean isGoSubmodule = false;
-    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
 
     // A cache to efficiently lookup schema `toModelName()` based on the schema Key
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
@@ -128,6 +127,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         cliOptions.add(CliOption.newBoolean(STRUCT_PREFIX, "whether to prefix struct with the class name. e.g. DeletePetOpts => PetApiDeletePetOpts"));
         cliOptions.add(CliOption.newBoolean(WITH_AWSV4_SIGNATURE, "whether to include AWS v4 signature support"));
         cliOptions.add(CliOption.newBoolean(GENERATE_INTERFACES, "Generate interfaces for api classes"));
+        cliOptions.add(CliOption.newBoolean(USE_DEFAULT_VALUES_FOR_REQUIRED_VARS, "Use default values for required variables when available"));
 
         // option to change the order of form/body parameter
         cliOptions.add(CliOption.newBoolean(
@@ -169,7 +169,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
      * Configures the type of generator.
      *
      * @return the CodegenType for this generator
-     * @see org.openapitools.codegen.CodegenType
+     * @see CodegenType
      */
     @Override
     public CodegenType getTag() {
@@ -248,6 +248,11 @@ public class GoClientCodegen extends AbstractGoCodegen {
             additionalProperties.put(GENERATE_INTERFACES, generateInterfaces);
         }
 
+        if (additionalProperties.containsKey(USE_DEFAULT_VALUES_FOR_REQUIRED_VARS)) {
+            setUseDefaultValuesForRequiredVars(Boolean.parseBoolean(additionalProperties.get(USE_DEFAULT_VALUES_FOR_REQUIRED_VARS).toString()));
+            additionalProperties.put(USE_DEFAULT_VALUES_FOR_REQUIRED_VARS, useDefaultValuesForRequiredVars);
+        }
+
         // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
         Map<String, SecurityScheme> securitySchemeMap = openAPI != null ?
                 (openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null) : null;
@@ -312,20 +317,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("utils.mustache", "", "utils.go"));
     }
 
-    public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
-        this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
-    }
-
     public boolean getUseOneOfDiscriminatorLookup() {
         return this.useOneOfDiscriminatorLookup;
-    }
-
-    public void setGoImportAlias(String goImportAlias) {
-        this.goImportAlias = goImportAlias;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
     }
 
     public void setIsGoSubmodule(boolean isGoSubmodule) {
@@ -375,12 +368,6 @@ public class GoClientCodegen extends AbstractGoCodegen {
     }
 
     @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
-    }
-
-
-    @Override
     public String toModelName(String name) {
         if (schemaKeyToModelNameCache.containsKey(name)) {
             return schemaKeyToModelNameCache.get(name);
@@ -392,6 +379,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         return camelizedName;
     }
 
+    @Override
     public String escapeReservedWord(String name) {
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
@@ -424,7 +412,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
     /**
      * Determines if at least one of the allOf pieces of a schema are of type string
      *
-     * @param p
+     * @param schema
      * @return
      */
     private boolean isAllOfStringSchema(Schema schema) {

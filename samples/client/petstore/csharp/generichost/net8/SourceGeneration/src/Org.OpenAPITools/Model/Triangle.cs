@@ -103,7 +103,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -113,7 +113,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -235,17 +235,20 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            if (triangle.EquilateralTriangle != null) {
+            if (triangle.EquilateralTriangle != null)
+            {
                 EquilateralTriangleJsonConverter equilateralTriangleJsonConverter = (EquilateralTriangleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(triangle.EquilateralTriangle.GetType()));
                 equilateralTriangleJsonConverter.WriteProperties(writer, triangle.EquilateralTriangle, jsonSerializerOptions);
             }
 
-            if (triangle.IsoscelesTriangle != null) {
+            if (triangle.IsoscelesTriangle != null)
+            {
                 IsoscelesTriangleJsonConverter isoscelesTriangleJsonConverter = (IsoscelesTriangleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(triangle.IsoscelesTriangle.GetType()));
                 isoscelesTriangleJsonConverter.WriteProperties(writer, triangle.IsoscelesTriangle, jsonSerializerOptions);
             }
 
-            if (triangle.ScaleneTriangle != null) {
+            if (triangle.ScaleneTriangle != null)
+            {
                 ScaleneTriangleJsonConverter scaleneTriangleJsonConverter = (ScaleneTriangleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(triangle.ScaleneTriangle.GetType()));
                 scaleneTriangleJsonConverter.WriteProperties(writer, triangle.ScaleneTriangle, jsonSerializerOptions);
             }

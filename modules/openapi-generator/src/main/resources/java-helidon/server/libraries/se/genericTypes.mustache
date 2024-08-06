@@ -1,0 +1,12 @@
+package {{modelPackage}};
+
+import java.util.List;
+import java.util.Map;
+
+import io.helidon.common.GenericType;
+
+public interface GenericTypes {
+{{#x-helidon-genericTypeDeclarations}}
+    GenericType<{{collectionType}}<{{#isMap}}String, {{/isMap}}{{baseType}}>> TYPE__{{collectionType}}_{{baseType}} = new GenericType<>() {};
+{{/x-helidon-genericTypeDeclarations}}
+}

@@ -107,6 +107,25 @@ class PetApiTests(unittest.TestCase):
         self.pet_api.add_pet(self.pet, _request_timeout=5.0)
         self.pet_api.add_pet(self.pet, _request_timeout=(1.0, 2.0))
 
+    def test_accept_header_serialization(self):
+        (_, _, headers, *_) = self.pet_api._get_pet_by_id_serialize(
+            pet_id=self.pet.id,
+            _request_auth=None,
+            _content_type=None,
+            _headers=None,
+            _host_index=0
+        )
+        self.assertEqual(headers['Accept'], 'application/json')
+
+        (_, _, headers_overwritten, *_) = self.pet_api._get_pet_by_id_serialize(
+            pet_id=self.pet.id,
+            _request_auth=None,
+            _content_type=None,
+            _headers={'Accept': 'text/plain'},
+            _host_index=0
+        )
+        self.assertEqual(headers_overwritten['Accept'], 'text/plain')
+
     def test_separate_default_config_instances(self):
         # ensure the default api client is used
         pet_api = petstore_api.PetApi()

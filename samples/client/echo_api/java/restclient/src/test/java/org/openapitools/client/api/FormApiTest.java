@@ -10,72 +10,154 @@
  * Do not edit the class manually.
  */
 
-
 package org.openapitools.client.api;
 
-import org.openapitools.client.model.TestFormObjectMultipartRequestMarker;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import org.junit.Test;
-import org.junit.Ignore;
+import org.openapitools.client.model.TestFormObjectMultipartRequestMarker;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-/**
- * API tests for FormApi
- */
-@Ignore
+/** API tests for FormApi */
 public class FormApiTest {
 
-    private final FormApi api = new FormApi();
+  private final FormApi api = new FormApi();
 
-    
-    /**
-     * Test form parameter(s)
-     *
-     * Test form parameter(s)
-     */
-    @Test
-    public void testFormIntegerBooleanStringTest()  {
-        Integer integerForm = null;
-        Boolean booleanForm = null;
-        String stringForm = null;
-        String response = api.testFormIntegerBooleanString(integerForm, booleanForm, stringForm);
+  /**
+   * Test form parameter(s)
+   *
+   * <p>Test form parameter(s)
+   */
+  @Test
+  public void testFormIntegerBooleanStringTest() {
+    // Given
+    // The content length must be set to disable the Transfer-Encoding: chunked which would lead to
+    // unparsable response because the echo server is replying them as body.
+    api.getApiClient().addDefaultHeader("Content-Length", "53");
 
-        // TODO: test validations
-    }
-    
-    /**
-     * Test form parameter(s) for multipart schema
-     *
-     * Test form parameter(s) for multipart schema
-     */
-    @Test
-    public void testFormObjectMultipartTest()  {
-        TestFormObjectMultipartRequestMarker marker = null;
-        String response = api.testFormObjectMultipart(marker);
+    Integer integerForm = 42;
+    Boolean booleanForm = true;
+    String stringForm = "Test123";
 
-        // TODO: test validations
-    }
-    
-    /**
-     * Test form parameter(s) for oneOf schema
-     *
-     * Test form parameter(s) for oneOf schema
-     */
-    @Test
-    public void testFormOneofTest()  {
-        String form1 = null;
-        Integer form2 = null;
-        String form3 = null;
-        Boolean form4 = null;
-        Long id = null;
-        String name = null;
-        String response = api.testFormOneof(form1, form2, form3, form4, id, name);
+    // When
+    String response = api.testFormIntegerBooleanString(integerForm, booleanForm, stringForm);
 
-        // TODO: test validations
-    }
-    
+    // Then
+    assertThat(response, containsString("integer_form=42&boolean_form=true&string_form=Test123"));
+  }
+
+  /**
+   * Test form parameter(s) for multipart schema
+   *
+   * <p>Test form parameter(s) for multipart schema
+   */
+  @Test
+  public void testFormObjectMultipartTest() {
+    // Given
+    TestFormObjectMultipartRequestMarker marker =
+        new TestFormObjectMultipartRequestMarker().name("Test Marker");
+
+    // When
+    String response = api.testFormObjectMultipart(marker);
+
+    // Then
+    assertThat(response, containsString("{\"name\":\"Test Marker\"}"));
+  }
+
+  /**
+   * Test form parameter(s) for oneOf schema with only the first parameters filled
+   *
+   * <p>Test form parameter(s) for oneOf schema
+   */
+  @Test
+  public void testFormOneofTest_first() {
+    // Given
+    String form1 = "test12";
+    Integer form2 = 12;
+
+    String form3 = null;
+    Boolean form4 = null;
+
+    Long id = null;
+    String name = null;
+
+    // When
+    String response = api.testFormOneof(form1, form2, form3, form4, id, name);
+
+    // Then
+    assertThat(response, containsString("form1=test12&form2=12"));
+  }
+
+  /**
+   * Test form parameter(s) for oneOf schema with only the second parameters filled
+   *
+   * <p>Test form parameter(s) for oneOf schema
+   */
+  @Test
+  public void testFormOneofTest_second() {
+    // Given
+    String form1 = null;
+    Integer form2 = null;
+
+    String form3 = "34test";
+    Boolean form4 = false;
+
+    Long id = null;
+    String name = null;
+
+    // When
+    String response = api.testFormOneof(form1, form2, form3, form4, id, name);
+
+    // Then
+    assertThat(response, containsString("form3=34test&form4=false"));
+  }
+
+  /**
+   * Test form parameter(s) for oneOf schema with only the third parameters filled
+   *
+   * <p>Test form parameter(s) for oneOf schema
+   */
+  @Test
+  public void testFormOneofTest_third() {
+    // Given
+    String form1 = null;
+    Integer form2 = null;
+
+    String form3 = null;
+    Boolean form4 = null;
+
+    Long id = 21L;
+    String name = "Hans";
+
+    // When
+    String response = api.testFormOneof(form1, form2, form3, form4, id, name);
+
+    // Then
+    assertThat(response, containsString("id=21&name=Hans"));
+  }
+
+  /**
+   * Test form parameter(s) for oneOf schema with all parameters filled
+   *
+   * <p>Test form parameter(s) for oneOf schema
+   */
+  @Test
+  public void testFormOneofTest_all() {
+    // Given
+    String form1 = "test12";
+    Integer form2 = 12;
+
+    String form3 = "34test";
+    Boolean form4 = false;
+
+    Long id = 21L;
+    String name = "Hans";
+
+    // When
+    String response = api.testFormOneof(form1, form2, form3, form4, id, name);
+
+    // Then
+    assertThat(
+        response, containsString("form1=test12&form2=12&form3=34test&form4=false&id=21&name=Hans"));
+  }
 }

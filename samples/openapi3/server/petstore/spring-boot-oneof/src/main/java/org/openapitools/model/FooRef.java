@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class FooRef extends EntityRef implements FooRefOrValue {
 
   private String foorefPropA;
@@ -47,7 +47,7 @@ public class FooRef extends EntityRef implements FooRefOrValue {
   /**
    * Get foorefPropA
    * @return foorefPropA
-  */
+   */
   
   @Schema(name = "foorefPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("foorefPropA")

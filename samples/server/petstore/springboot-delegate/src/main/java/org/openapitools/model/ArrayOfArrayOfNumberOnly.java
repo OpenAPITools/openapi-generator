@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  * ArrayOfArrayOfNumberOnly
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class ArrayOfArrayOfNumberOnly {
 
   @Valid
@@ -34,8 +34,8 @@ public class ArrayOfArrayOfNumberOnly {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public ArrayOfArrayOfNumberOnly(List<List<BigDecimal>> arrayArrayNumber) {
       this.arrayArrayNumber = arrayArrayNumber;
   }
@@ -56,7 +56,7 @@ public class ArrayOfArrayOfNumberOnly {
   /**
    * Get arrayArrayNumber
    * @return arrayArrayNumber
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("ArrayArrayNumber")

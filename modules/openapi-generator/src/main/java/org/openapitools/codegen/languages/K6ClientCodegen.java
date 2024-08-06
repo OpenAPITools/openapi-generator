@@ -45,6 +45,8 @@ import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableMap;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -70,6 +72,8 @@ import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 
 public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -298,6 +302,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         @Nullable
         HTTPBody body;
         boolean hasBodyExample;
+        boolean hasCookie;
         @Nullable
         HTTPParameters params;
         @Nullable
@@ -306,7 +311,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         DataExtractSubstituteParameter dataExtract;
 
         public HTTPRequest(String operationId, String method, String path, @Nullable List<Parameter> query, @Nullable HTTPBody body,
-                           boolean hasBodyExample, @Nullable HTTPParameters params, @Nullable List<k6Check> k6Checks,
+                           boolean hasBodyExample, boolean hasCookie, @Nullable HTTPParameters params, @Nullable List<k6Check> k6Checks,
                            DataExtractSubstituteParameter dataExtract) {
             // NOTE: https://k6.io/docs/javascript-api/k6-http/del-url-body-params
             this.method = method.equals("delete") ? "del" : method;
@@ -316,6 +321,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
             this.query = query;
             this.body = body;
             this.hasBodyExample = hasBodyExample;
+            this.hasCookie = hasCookie;
             this.params = params;
             this.k6Checks = k6Checks;
             this.dataExtract = dataExtract;
@@ -361,16 +367,17 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     static final String[][] JAVASCRIPT_SUPPORTING_FILES = {
             new String[]{"script.mustache", "script.js"}, new String[]{"README.mustache", "README.md"}};
 
-    protected String projectName;
-    protected String moduleName;
-    protected String projectDescription;
-    protected String projectVersion;
-    protected String licenseName;
+    @Setter protected String projectName;
+    @Setter protected String moduleName;
+    @Setter protected String projectDescription;
+    @Setter protected String projectVersion;
+    @Setter protected String licenseName;
 
+    @Getter @Setter
     protected String invokerPackage;
-    protected String sourceFolder = "";
-    private String modelPropertyNaming = "camelCase";
-    protected boolean preserveLeadingParamChar = false;
+    @Setter protected String sourceFolder = "";
+    @Getter private String modelPropertyNaming = "camelCase";
+    @Setter protected boolean preserveLeadingParamChar = false;
 
     @Override
     public CodegenType getTag() {
@@ -491,6 +498,29 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         Set<Parameter> extraParameters = new HashSet<>();
         Map<String, Set<Parameter>> pathVariables = new HashMap<>();
 
+        // get security schema from components
+        Map<String, SecurityScheme> securitySchemeMap = openAPI != null ?
+                (openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null) : null;
+
+        // get global security requirements
+        List<SecurityRequirement> securityRequirements = openAPI.getSecurity();
+
+        // match global security requirements with security schemes and transform them to global auth methods
+        // global auth methods is a list of auth methods that are used in all requests
+        List<CodegenSecurity> globalAuthMethods = new ArrayList<>();
+        Map<String, SecurityScheme> globalSecurityMap = new HashMap<>();
+        if (securityRequirements != null) {
+            for (SecurityRequirement securityRequirement : securityRequirements) {
+                for (String securityRequirementKey : securityRequirement.keySet()) {
+                    SecurityScheme securityScheme = securitySchemeMap.get(securityRequirementKey);
+                    if (securityScheme != null) {
+                        globalSecurityMap.put(securityRequirementKey, securityScheme);
+                    }
+                }
+            }
+            globalAuthMethods = fromSecurity(globalSecurityMap);
+        }
+
         for (String path : openAPI.getPaths().keySet()) {
             Map<Integer, HTTPRequest> requests = new HashMap<>();
             Set<Parameter> variables = new HashSet<>();
@@ -500,6 +530,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
             for (Map.Entry<PathItem.HttpMethod, Operation> methodOperation : openAPI.getPaths().get(path).
                     readOperationsMap().entrySet()) {
                 List<Parameter> httpParams = new ArrayList<>();
+                List<Parameter> cookieParams = new ArrayList<>();
                 List<Parameter> queryParams = new ArrayList<>();
                 List<Parameter> bodyOrFormParams = new ArrayList<>();
                 List<k6Check> k6Checks = new ArrayList<>();
@@ -635,7 +666,19 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
                 pathVariables.put(groupName, variables);
 
-                final HTTPParameters params = new HTTPParameters(null, null, httpParams, null, null, null, null, null,
+                // put auth medthods in header or cookie
+                for (CodegenSecurity globalAuthMethod : globalAuthMethods) {
+                    if (globalAuthMethod.isKeyInHeader) {
+                        httpParams.add(new Parameter(globalAuthMethod.keyParamName, getTemplateString(toVarName(globalAuthMethod.keyParamName))));
+                        extraParameters.add(new Parameter(toVarName(globalAuthMethod.keyParamName), globalAuthMethod.keyParamName.toUpperCase(Locale.ROOT)));
+                    }
+                    if (globalAuthMethod.isKeyInCookie) {
+                        cookieParams.add(new Parameter(globalAuthMethod.keyParamName, getTemplateString(toVarName(globalAuthMethod.keyParamName))));
+                        extraParameters.add(new Parameter(toVarName(globalAuthMethod.keyParamName), globalAuthMethod.keyParamName.toUpperCase(Locale.ROOT)));
+                    }
+                }
+
+                final HTTPParameters params = new HTTPParameters(null, cookieParams, httpParams, null, null, null, null, null,
                         responseType.length() > 0 ? responseType : null);
 
                 assert params.headers != null;
@@ -647,11 +690,18 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                 // calculate order for this current request
                 Integer requestOrder = calculateRequestOrder(operationGroupingOrder, requests.size());
 
-                requests.put(requestOrder, new HTTPRequest(operationId, method.toString().toLowerCase(Locale.ROOT), path,
-                        queryParams.size() > 0 ? queryParams : null,
-                        bodyOrFormParams.size() > 0 ? new HTTPBody(bodyOrFormParams) : null, hasRequestBodyExample,
-                        params.headers.size() > 0 ? params : null, k6Checks.size() > 0 ? k6Checks : null,
-                        dataExtract.orElse(null)));
+                requests.put(requestOrder, new HTTPRequest(
+                    operationId,
+                    method.toString().toLowerCase(Locale.ROOT),
+                    path,
+                    queryParams.size() > 0 ? queryParams : null,
+                    bodyOrFormParams.size() > 0 ? new HTTPBody(bodyOrFormParams) : null,
+                    hasRequestBodyExample,
+                    params.cookies.size() > 0 ? true : false,
+                    params.headers.size() > 0 ? params : null,
+                    k6Checks.size() > 0 ? k6Checks : null,
+                    dataExtract.orElse(null))
+                );
             }
 
             addOrUpdateRequestGroup(requestGroups, groupName, pathVariables.get(groupName), requests);
@@ -700,10 +750,6 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     private String getTemplateVariable(String input) {
         return "${" + input + "}";
-    }
-
-    public String getModelPropertyNaming() {
-        return this.modelPropertyNaming;
     }
 
     private String getNameUsingModelPropertyNaming(String name) {
@@ -797,38 +843,6 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         return createPath(outputFolder, sourceFolder, invokerPackage, apiPackage());
     }
 
-    public String getInvokerPackage() {
-        return invokerPackage;
-    }
-
-    public void setInvokerPackage(String invokerPackage) {
-        this.invokerPackage = invokerPackage;
-    }
-
-    public void setSourceFolder(String sourceFolder) {
-        this.sourceFolder = sourceFolder;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
-    }
-
-    public void setProjectDescription(String projectDescription) {
-        this.projectDescription = projectDescription;
-    }
-
-    public void setProjectVersion(String projectVersion) {
-        this.projectVersion = projectVersion;
-    }
-
-    public void setLicenseName(String licenseName) {
-        this.licenseName = licenseName;
-    }
-
     public void setModelPropertyNaming(String naming) {
         if ("original".equals(naming) || "camelCase".equals(naming) || "PascalCase".equals(naming)
                 || "snake_case".equals(naming)) {
@@ -837,10 +851,6 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
             throw new IllegalArgumentException("Invalid model property naming '" + naming
                     + "'. Must be 'original', 'camelCase', " + "'PascalCase' or 'snake_case'");
         }
-    }
-
-    public void setPreserveLeadingParamChar(boolean preserveLeadingParamChar) {
-        this.preserveLeadingParamChar = preserveLeadingParamChar;
     }
 
     @Override

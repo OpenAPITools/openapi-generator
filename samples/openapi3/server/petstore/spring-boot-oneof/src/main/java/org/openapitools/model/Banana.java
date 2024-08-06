@@ -22,7 +22,7 @@ import javax.annotation.Generated;
  * Banana
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.8.0-SNAPSHOT")
 public class Banana implements Fruit {
 
   private Integer length;
@@ -49,7 +49,7 @@ public class Banana implements Fruit {
   /**
    * Get length
    * @return length
-  */
+   */
   @NotNull 
   @Schema(name = "length", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("length")
@@ -69,7 +69,7 @@ public class Banana implements Fruit {
   /**
    * Get fruitType
    * @return fruitType
-  */
+   */
   @NotNull @Valid 
   @Schema(name = "fruitType", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("fruitType")
