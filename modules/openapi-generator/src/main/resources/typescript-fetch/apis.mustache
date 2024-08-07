@@ -278,7 +278,20 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/formParams}}
         {{/hasFormParams}}
         const response = await this.request({
-            path: `{{{path}}}`{{#pathParams}}{{#isDateTimeType}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(requestParameters['{{paramName}}'].toISOString())){{/isDateTimeType}}{{^isDateTimeType}}{{#isDateType}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(requestParameters['{{paramName}}'].toISOString().substring(0,10))){{/isDateType}}{{^isDateType}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters['{{paramName}}']))){{/isDateType}}{{/isDateTimeType}}{{/pathParams}},
+            path: `{{{path}}}`
+            {{#pathParams}}
+            {{#isDateTimeType}}
+              .replace(`{${"{{baseName}}"}}`, encodeURIComponent((requestParameters['{{paramName}}'] as any).toISOString()))
+            {{/isDateTimeType}}
+            {{^isDateTimeType}}
+            {{#isDateType}}
+              .replace(`{${"{{baseName}}"}}`, encodeURIComponent((requestParameters['{{paramName}}'] as any).toISOString().substring(0,10)))
+            {{/isDateType}}
+            {{^isDateType}}
+              .replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters['{{paramName}}'])))
+            {{/isDateType}}
+            {{/isDateTimeType}}
+            {{/pathParams}},
             method: '{{httpMethod}}',
             headers: headerParameters,
             query: queryParameters,
