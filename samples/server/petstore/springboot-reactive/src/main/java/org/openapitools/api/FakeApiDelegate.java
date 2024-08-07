@@ -4,6 +4,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import java.math.BigDecimal;
 import org.openapitools.model.ChildWithNullable;
 import org.openapitools.model.Client;
+import org.openapitools.model.CreateParkPersonRequest;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.model.FileSchemaTestClass;
 import java.time.LocalDate;
@@ -40,6 +41,21 @@ public interface FakeApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
+    }
+
+    /**
+     * POST /fake/one-of-within-one-of-park-persons : Create a Park Person
+     *
+     * @param createParkPersonRequest  (required)
+     * @return Park Person created (status code 201)
+     * @see FakeApi#createParkPerson
+     */
+    default Mono<ResponseEntity<String>> createParkPerson(Mono<CreateParkPersonRequest> createParkPersonRequest,
+        ServerWebExchange exchange) {
+        Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return result.then(createParkPersonRequest).then(Mono.empty());
+
     }
 
     /**
