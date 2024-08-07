@@ -412,12 +412,12 @@ class ApiClient:
                 data = json.loads(response_text)
             except ValueError:
                 data = response_text
-        elif content_type.startswith("application/json"):
+        elif re.match(r'^application/(json|[\w!#$&.+-^_]+\+json)\s*(;|$)', content_type, re.IGNORECASE):
             if response_text == "":
                 data = ""
             else:
                 data = json.loads(response_text)
-        elif content_type.startswith("text/plain"):
+        elif re.match(r'^text/plain\s*(;|$)', content_type, re.IGNORECASE):
             data = response_text
         else:
             raise ApiException(
