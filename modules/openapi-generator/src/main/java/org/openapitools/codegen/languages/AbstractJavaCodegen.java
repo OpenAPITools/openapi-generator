@@ -568,8 +568,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         this.sanitizeConfig();
 
         // optional jackson mappings for BigDecimal support
-        importMapping.put("ToStringSerializer", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer");
-        importMapping.put("JsonSerialize", "com.fasterxml.jackson.databind.annotation.JsonSerialize");
+        importMapping.put("JsonFormat", "com.fasterxml.jackson.annotation.JsonFormat");
         importMapping.put("JsonDeserialize", "com.fasterxml.jackson.databind.annotation.JsonDeserialize");
 
         // imports for pojos
@@ -1705,11 +1704,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (serializeBigDecimalAsString && jackson) {
             if ("decimal".equals(property.baseType) || "bigdecimal".equalsIgnoreCase(property.baseType)) {
                 // we serialize BigDecimal as `string` to avoid precision loss
-                property.vendorExtensions.put("x-extra-annotation", "@JsonSerialize(using = ToStringSerializer.class)");
+                property.vendorExtensions.put("x-extra-annotation", "@JsonFormat(shape = JsonFormat.Shape.STRING)");
 
                 // this requires some more imports to be added for this model...
-                model.imports.add("ToStringSerializer");
-                model.imports.add("JsonSerialize");
+                model.imports.add("JsonFormat");
             }
         }
 
