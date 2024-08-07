@@ -187,6 +187,8 @@ class RESTClientObject:
                         # Ensures that dict objects are serialized
                         if isinstance(v, dict):
                             v = json.dumps(v)
+                        elif isinstance(v, int):
+                            v = str(v)
                         data.add_field(k, v)
                 args["data"] = data
 
