@@ -68,31 +68,31 @@ fn main() {
         .arg(Arg::with_name("operation")
             .help("Sets the operation to run")
             .possible_values(&[
-                "Call123example", 
-                "FakeOuterBooleanSerialize", 
-                "FakeOuterCompositeSerialize", 
-                "FakeOuterNumberSerialize", 
-                "FakeOuterStringSerialize", 
-                "FakeResponseWithNumericalDescription", 
-                "HyphenParam", 
-                "TestEndpointParameters", 
-                "TestEnumParameters", 
-                "TestJsonFormData", 
-                "DeletePet", 
-                "FindPetsByStatus", 
-                "FindPetsByTags", 
-                "GetPetById", 
-                "UpdatePetWithForm", 
-                "UploadFile", 
-                "DeleteOrder", 
-                "GetInventory", 
-                "GetOrderById", 
-                "CreateUsersWithArrayInput", 
-                "CreateUsersWithListInput", 
-                "DeleteUser", 
-                "GetUserByName", 
-                "LoginUser", 
-                "LogoutUser", 
+                "Call123example",
+                "FakeOuterBooleanSerialize",
+                "FakeOuterCompositeSerialize",
+                "FakeOuterNumberSerialize",
+                "FakeOuterStringSerialize",
+                "FakeResponseWithNumericalDescription",
+                "HyphenParam",
+                "TestEndpointParameters",
+                "TestEnumParameters",
+                "TestJsonFormData",
+                "DeletePet",
+                "FindPetsByStatus",
+                "FindPetsByTags",
+                "GetPetById",
+                "UpdatePetWithForm",
+                "UploadFile",
+                "DeleteOrder",
+                "GetInventory",
+                "GetOrderById",
+                "CreateUsersWithArrayInput",
+                "CreateUsersWithListInput",
+                "DeleteUser",
+                "GetUserByName",
+                "LoginUser",
+                "LogoutUser",
             ])
             .required(true)
             .index(1))
@@ -115,10 +115,9 @@ fn main() {
     // In a real (production) system this Bearer token should be obtained via an external Identity/Authentication-server
     // Ensure that you set the correct algorithm and encodingkey that matches what is used on the server side.
     // See https://github.com/Keats/jsonwebtoken for more information
-
     let auth_token = build_token(
             Claims {
-                sub: "tester@acme.com".to_owned(), 
+                sub: "tester@acme.com".to_owned(),
                 company: "ACME".to_owned(),
                 iss: "my_identity_provider".to_owned(),
                 // added a very long expiry time
