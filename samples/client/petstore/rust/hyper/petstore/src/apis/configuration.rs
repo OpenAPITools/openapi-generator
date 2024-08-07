@@ -42,10 +42,11 @@ impl Configuration<HttpConnector> {
     /// # Example
     ///
     /// ```
-    /// let api_config = {
-    ///   api_key: "my-api-key",
-    ///   ...Configuration::new()
-    /// }
+    /// # use petstore_hyper::apis::configuration::Configuration;
+    /// let api_config = Configuration {
+    ///   basic_auth: Some(("user".into(), None)),
+    ///   ..Configuration::new()
+    /// };
     /// ```
     pub fn new() -> Configuration<HttpConnector> {
         Configuration::default()
@@ -60,6 +61,11 @@ impl<C: Connect> Configuration<C>
     /// # Example
     ///
     /// ```
+    /// # use core::time::Duration;
+    /// # use petstore_hyper::apis::configuration::Configuration;
+    /// use hyper_util::client::legacy::Client;
+    /// use hyper_util::rt::TokioExecutor;
+    ///
     /// let client = Client::builder(TokioExecutor::new())
     ///   .pool_idle_timeout(Duration::from_secs(30))
     ///   .build_http();
@@ -68,7 +74,7 @@ impl<C: Connect> Configuration<C>
     /// ```
     pub fn with_client(client: Client<C, String>) -> Configuration<C> {
         Configuration {
-            base_path: "http://petstore.swagger.io/v2".to_owned(),
+            base_path: "https://petstore.swagger.io/v2".to_owned(),
             user_agent: Some("OpenAPI-Generator/1.0.0/rust".to_owned()),
             client,
             basic_auth: None,
