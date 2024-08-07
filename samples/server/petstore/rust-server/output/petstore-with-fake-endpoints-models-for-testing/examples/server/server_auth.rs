@@ -15,19 +15,20 @@ use log::{error, debug};
 
 /// Get a dummy claim with full permissions (all scopes) for testing purposes
 fn full_permission_claim() -> Claims {
-        Claims {
-            sub: "tester@acme.com".to_owned(), 
-            company: "ACME".to_owned(),
-            iss: "mini-bank-IDP".to_owned(),
-            aud: "org.acme.Resource_Server".to_string(),
-            // added a very long expiry time
-            exp: 10000000000,
-            // In this example code all available Scopes are added, so the current Bearer Token gets fully authorization.
-            scopes: [
-                        "write:pets",
-                        "read:pets",
-            ].join(", ")
-        }
+    // In this example code all available Scopes are added, so the current Bearer Token gets fully authorization.
+    Claims {
+        sub: "tester@acme.com".to_owned(),
+        company: "ACME".to_owned(),
+        iss: "mini-bank-IDP".to_owned(),
+        aud: "org.acme.Resource_Server".to_string(),
+        // added a very long expiry time
+        exp: 10000000000,
+        scopes:
+          [
+                    "write:pets",
+                    "read:pets",
+          ].join::<&str>(", ")
+    }
 }
 
 

@@ -117,11 +117,12 @@ fn main() {
                 aud: "org.acme.Resource_Server".to_string(),
                 exp: 10000000000,
                 // In this example code all available Scopes are added, so the current Bearer Token gets fully authorization.
-                scopes: [
+                scopes:
+                  [
                             "test.read",
                             "test.write",
-                ].join(", ")
-            }, 
+                  ].join::<&str>(", ")
+            },
             b"secret").unwrap();
 
     let auth_data = if !auth_token.is_empty() {
