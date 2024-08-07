@@ -483,7 +483,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     }
 
     private void setHelidonVersion(String version) {
-        helidonVersion = VersionUtil.instance().chooseVersion(version);
+        helidonVersion = VersionUtil.instance().chooseVersionBestMatchOrSelf(version);
         setParentVersion(helidonVersion);
         helidonMajorVersion = VersionUtil.majorVersion(helidonVersion);
     }
@@ -767,6 +767,30 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
          */
         String chooseVersion(String requestedVersion) {
             return chooseVersion(requestedVersion, versions);
+        }
+
+        /**
+         *  Returns either the best match version of, if there is none, the requested version itself to allow references to
+         * unpublished releases such as snapshots.
+         *
+         * @param requestedVersion version to search for
+         * @return either the best match or, if none, the requested version itself
+         */
+        String chooseVersionBestMatchOrSelf(String requestedVersion) {
+            return chooseVersionBestMatchOrSelf(requestedVersion, versions);
+        }
+
+        /**
+         * Returns either the best match version of, if there is none, the requested version itself to allow references to
+         * unpublished releases such as snapshots.
+         *
+         * @param requestedVersion version to search for
+         * @param candidateVersions releases to consider
+         * @return either the best match or, if none, the requested version itself
+         */
+        String chooseVersionBestMatchOrSelf(String requestedVersion, List<String> candidateVersions) {
+            String bestMatch = chooseVersion(requestedVersion, candidateVersions);
+            return bestMatch != null ? bestMatch : requestedVersion;
         }
 
         /**

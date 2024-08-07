@@ -48,4 +48,10 @@ public class HelidonCommonCodegenTest {
     }
 
 
+
+    @Test void checkUseOfUnpublishedRelease() {
+        assertThat(test.chooseVersionBestMatchOrSelf("4.0.11-SNAPSHOT",
+                                                     List.of("4.0.10", "3.2.1", "3.2.0", "2.0.4", "1.2.3", "1.2.2", "1.1.0")))
+                .isEqualTo("4.0.11-SNAPSHOT");
+    }
 }
