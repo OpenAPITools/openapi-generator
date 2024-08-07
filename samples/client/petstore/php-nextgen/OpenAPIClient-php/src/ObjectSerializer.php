@@ -267,6 +267,11 @@ class ObjectSerializer
 
         $value = $flattenArray($value, $paramName);
 
+        // https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#style-values
+        if ($openApiType === 'array' && $style === 'deepObject' && $explode) {
+            return $value;
+        }
+
         if ($openApiType === 'object' && ($style === 'deepObject' || $explode)) {
             return $value;
         }
