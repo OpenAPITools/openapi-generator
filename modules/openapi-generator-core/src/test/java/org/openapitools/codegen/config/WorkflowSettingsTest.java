@@ -62,14 +62,14 @@ public class WorkflowSettingsTest {
                 .withGlobalProperty("second", "2nd")
                 .build();
 
-        Map<String, String> properties = modified.getGlobalProperties();
-        assertEquals(properties.size(), 2, "System Properties map should allow mutation when invoked via copy constructor");
-        assertEquals(properties.getOrDefault("first", ""), "1st");
-        assertEquals(properties.getOrDefault("second", ""), "2nd");
+        Map<String, String> globalProperties = modified.getGlobalProperties();
+        assertEquals(globalProperties.size(), 2, "System Properties map should allow mutation when invoked via copy constructor");
+        assertEquals(globalProperties.getOrDefault("first", ""), "1st");
+        assertEquals(globalProperties.getOrDefault("second", ""), "2nd");
     }
 
-    private void assertOnChangesToDefaults(WorkflowSettings defaults) {
-        WorkflowSettings settings = WorkflowSettings.newBuilder()
+    private void assertOnChangesToDefaults(WorkflowSettings defaultSettings) {
+        WorkflowSettings newSettings = WorkflowSettings.newBuilder()
                 .withOutputDir("output")
                 .withVerbose(true)
                 .withSkipOverwrite(true)
@@ -81,32 +81,32 @@ public class WorkflowSettingsTest {
                 .withStrictSpecBehavior(false)
                 .build();
 
-        assertNotEquals(defaults.getOutputDir(), settings.getOutputDir());
-        assertEquals(settings.getOutputDir(), Paths.get("output").toAbsolutePath().toString());
+        assertNotEquals(defaultSettings.getOutputDir(), newSettings.getOutputDir());
+        assertEquals(newSettings.getOutputDir(), Paths.get("output").toAbsolutePath().toString());
 
-        assertNotEquals(defaults.isVerbose(), settings.isVerbose());
-        assertTrue(settings.isVerbose());
+        assertNotEquals(defaultSettings.isVerbose(), newSettings.isVerbose());
+        assertTrue(newSettings.isVerbose());
 
-        assertNotEquals(defaults.isSkipOverwrite(), settings.isSkipOverwrite());
-        assertTrue(settings.isSkipOverwrite());
+        assertNotEquals(defaultSettings.isSkipOverwrite(), newSettings.isSkipOverwrite());
+        assertTrue(newSettings.isSkipOverwrite());
 
-        assertNotEquals(defaults.isRemoveOperationIdPrefix(), settings.isRemoveOperationIdPrefix());
-        assertTrue(settings.isRemoveOperationIdPrefix());
+        assertNotEquals(defaultSettings.isRemoveOperationIdPrefix(), newSettings.isRemoveOperationIdPrefix());
+        assertTrue(newSettings.isRemoveOperationIdPrefix());
 
-        assertNotEquals(defaults.isLogToStderr(), settings.isLogToStderr());
-        assertTrue(settings.isLogToStderr());
+        assertNotEquals(defaultSettings.isLogToStderr(), newSettings.isLogToStderr());
+        assertTrue(newSettings.isLogToStderr());
 
-        assertNotEquals(defaults.isValidateSpec(), settings.isValidateSpec());
-        assertFalse(settings.isValidateSpec());
+        assertNotEquals(defaultSettings.isValidateSpec(), newSettings.isValidateSpec());
+        assertFalse(newSettings.isValidateSpec());
 
-        assertNotEquals(defaults.isEnablePostProcessFile(), settings.isEnablePostProcessFile());
-        assertTrue(settings.isEnablePostProcessFile());
+        assertNotEquals(defaultSettings.isEnablePostProcessFile(), newSettings.isEnablePostProcessFile());
+        assertTrue(newSettings.isEnablePostProcessFile());
 
-        assertNotEquals(defaults.isEnableMinimalUpdate(), settings.isEnableMinimalUpdate());
-        assertTrue(settings.isEnableMinimalUpdate());
+        assertNotEquals(defaultSettings.isEnableMinimalUpdate(), newSettings.isEnableMinimalUpdate());
+        assertTrue(newSettings.isEnableMinimalUpdate());
 
-        assertNotEquals(defaults.isStrictSpecBehavior(), settings.isStrictSpecBehavior());
-        assertFalse(settings.isStrictSpecBehavior());
+        assertNotEquals(defaultSettings.isStrictSpecBehavior(), newSettings.isStrictSpecBehavior());
+        assertFalse(newSettings.isStrictSpecBehavior());
     }
 
     @Test
