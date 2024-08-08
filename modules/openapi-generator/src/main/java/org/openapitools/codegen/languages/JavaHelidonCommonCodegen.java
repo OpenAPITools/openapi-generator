@@ -770,7 +770,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         }
 
         /**
-         *  Returns either the best match version of, if there is none, the requested version itself to allow references to
+         *  Returns either the best match version or, if there is none, the requested version itself to allow references to
          * unpublished releases such as snapshots.
          *
          * @param requestedVersion version to search for
