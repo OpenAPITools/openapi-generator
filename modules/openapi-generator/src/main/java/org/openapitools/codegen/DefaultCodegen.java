@@ -4445,21 +4445,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         // store the original operationId for plug-in
         op.operationIdOriginal = operation.getOperationId();
-
-        String operationId = getOrGenerateOperationId(operation, path, httpMethod);
-        // remove prefix in operationId
-        if (removeOperationIdPrefix) {
-            // The prefix is everything before the removeOperationIdPrefixCount occurrence of removeOperationIdPrefixDelimiter
-            String[] components = operationId.split("[" + removeOperationIdPrefixDelimiter + "]");
-            if (components.length > 1) {
-                // If removeOperationIdPrefixCount is -1 or bigger that the number of occurrences, uses the last one
-                int component_number = removeOperationIdPrefixCount == -1 ? components.length - 1 : removeOperationIdPrefixCount;
-                component_number = Math.min(component_number, components.length - 1);
-                // Reconstruct the operationId from its split elements and the delimiter
-                operationId = String.join(removeOperationIdPrefixDelimiter, Arrays.copyOfRange(components, component_number, components.length));
-            }
-        }
-        operationId = removeNonNameElementToCamelCase(operationId);
+        op.operationId = getOrGenerateOperationId(operation, path, httpMethod);
 
         if (isStrictSpecBehavior() && !path.startsWith("/")) {
             // modifies an operation.path to strictly conform to OpenAPI Spec
@@ -4468,11 +4454,6 @@ public class DefaultCodegen implements CodegenConfig {
             op.path = path;
         }
 
-        if (operationIdNameMapping.containsKey(operationId)) {
-            op.operationId = operationIdNameMapping.get(operationId);
-        } else {
-            op.operationId = toOperationId(operationId);
-        }
         op.summary = escapeText(operation.getSummary());
         op.unescapedNotes = operation.getDescription();
         op.notes = escapeText(operation.getDescription());
@@ -5599,7 +5580,26 @@ public class DefaultCodegen implements CodegenConfig {
             operationId = sanitizeName(builder.toString());
             LOGGER.warn("Empty operationId found for path: {} {}. Renamed to auto-generated operationId: {}", httpMethod, path, operationId);
         }
-        return operationId;
+
+        // remove prefix in operationId
+        if (removeOperationIdPrefix) {
+            // The prefix is everything before the removeOperationIdPrefixCount occurrence of removeOperationIdPrefixDelimiter
+            String[] components = operationId.split("[" + removeOperationIdPrefixDelimiter + "]");
+            if (components.length > 1) {
+                // If removeOperationIdPrefixCount is -1 or bigger that the number of occurrences, uses the last one
+                int component_number = removeOperationIdPrefixCount == -1 ? components.length - 1 : removeOperationIdPrefixCount;
+                component_number = Math.min(component_number, components.length - 1);
+                // Reconstruct the operationId from its split elements and the delimiter
+                operationId = String.join(removeOperationIdPrefixDelimiter, Arrays.copyOfRange(components, component_number, components.length));
+            }
+        }
+        operationId = removeNonNameElementToCamelCase(operationId);
+
+        if (operationIdNameMapping.containsKey(operationId)) {
+            return operationIdNameMapping.get(operationId);
+        } else {
+            return toOperationId(operationId);
+        }
     }
 
     /**
