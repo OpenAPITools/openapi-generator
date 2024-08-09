@@ -2672,10 +2672,8 @@ public class JavaClientCodegenTest {
         assertThat(files).hasSize(1).first(FILE).content()
             .contains(
                 "@JsonDeserialize(as = LinkedHashSet.class)",
-                "@JsonSerialize(using = ToStringSerializer.class)",
-                "com.fasterxml.jackson.databind.ser.std.ToStringSerializer",
-                "com.fasterxml.jackson.databind.annotation.JsonDeserialize",
-                "com.fasterxml.jackson.databind.annotation.JsonSerialize"
+                "@JsonFormat(shape = JsonFormat.Shape.STRING)",
+                "com.fasterxml.jackson.databind.annotation.JsonDeserialize"
             );
     }
         
