@@ -1,0 +1,26 @@
+import {Map, Record, RecordOf} from 'immutable';
+
+import {
+{{#models}}
+{{#model}}
+{{#isEntity}}
+    {{classname}}RecordEntity,
+{{/isEntity}}
+{{/model}}
+{{/models}}
+} from "./models"
+
+export const ApiEntitiesRecordProps = {
+    recType: "ApiEntitiesRecord" as "ApiEntitiesRecord",
+{{#models}}
+{{#model}}
+{{#isEntity}}
+    {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: ({{classname}}RecordEntity(), Map<string, {{classname}}RecordEntity>()),
+{{/isEntity}}
+{{/model}}
+{{/models}}
+};
+
+export type ApiEntitiesRecordPropsType = typeof ApiEntitiesRecordProps;
+export const ApiEntitiesRecord = Record(ApiEntitiesRecordProps, ApiEntitiesRecordProps.recType);
+export type ApiEntitiesRecord = RecordOf<ApiEntitiesRecordPropsType>;
