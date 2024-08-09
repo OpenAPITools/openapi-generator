@@ -94,10 +94,10 @@ namespace org::openapitools::server::helpers
     }
 
     /// <summary>
-    /// Determine if the given vector<T> only has unique elements. T must provide the == operator.
+    /// Determine if the given set<T> only has unique elements.
     /// </summary>
     template <typename T>
-    bool hasOnlyUniqueItems(const std::set<T>& set)
+    bool hasOnlyUniqueItems(const std::set<T>&)
     {
         return true;
     }
