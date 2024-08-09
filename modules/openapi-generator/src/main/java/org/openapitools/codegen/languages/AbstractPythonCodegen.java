@@ -1951,9 +1951,22 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
 
                 moduleImports.add("typing", "Union");
+
                 PythonType pt = new PythonType("Union");
                 pt.addTypeParam(bytest);
                 pt.addTypeParam(strt);
+
+                if (cp.getIsBinary()) {
+                    moduleImports.add("typing", "Tuple");
+
+                    PythonType tt = new PythonType("Tuple");
+                    // this string is a filename, not a validated value
+                    tt.addTypeParam(new PythonType("str"));
+                    tt.addTypeParam(bytest);
+
+                    pt.addTypeParam(tt);
+                }
+
                 return pt;
             } else {
                 // same as above which has validation
@@ -1964,6 +1977,17 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 PythonType pt = new PythonType("Union");
                 pt.addTypeParam(new PythonType("StrictBytes"));
                 pt.addTypeParam(new PythonType("StrictStr"));
+
+                if (cp.getIsBinary()) {
+                    moduleImports.add("typing", "Tuple");
+
+                    PythonType tt = new PythonType("Tuple");
+                    tt.addTypeParam(new PythonType("StrictStr"));
+                    tt.addTypeParam(new PythonType("StrictBytes"));
+
+                    pt.addTypeParam(tt);
+                }
+
                 return pt;
             }
         }
