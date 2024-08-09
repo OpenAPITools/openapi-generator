@@ -13,22 +13,22 @@ part of openapi.api;
 class FormatTest {
   /// Returns a new [FormatTest] instance.
   FormatTest({
-    this.integer,
-    this.int32,
-    this.int64,
-    required this.number,
-    this.float,
-    this.double_,
-    this.decimal,
-    this.string,
-    required this.byte,
-    this.binary,
-    required this.date,
-    this.dateTime,
-    this.uuid,
-    required this.password,
-    this.patternWithDigits,
-    this.patternWithDigitsAndDelimiter,
+     this.integer,
+     this.int32,
+     this.int64,
+     required this.number,
+     this.float,
+     this.double_,
+     this.decimal,
+     this.string,
+     required this.byte,
+     this.binary,
+     required this.date,
+     this.dateTime,
+     this.uuid,
+     required this.password,
+     this.patternWithDigits,
+     this.patternWithDigitsAndDelimiter,
   });
 
   /// Minimum value: 10
@@ -107,7 +107,7 @@ class FormatTest {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  MultipartFile? binary;
+  Uint8List? binary;
 
   DateTime date;
 

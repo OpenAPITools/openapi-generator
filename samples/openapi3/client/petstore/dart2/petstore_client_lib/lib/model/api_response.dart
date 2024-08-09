@@ -13,9 +13,9 @@ part of openapi.api;
 class ApiResponse {
   /// Returns a new [ApiResponse] instance.
   ApiResponse({
-    this.code,
-    this.type,
-    this.message,
+     this.code,
+     this.type,
+     this.message,
   });
 
   ///

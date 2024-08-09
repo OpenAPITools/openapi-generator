@@ -48,6 +48,13 @@ class OuterEnumInteger {
     }
     return result.toList(growable: growable);
   }
+
+  
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is OuterEnumInteger && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
 }
 
 /// Transformation class that can [encode] an instance of [OuterEnumInteger] to int,

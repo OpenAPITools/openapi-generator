@@ -13,7 +13,7 @@ part of openapi.api;
 class SpecialModelName {
   /// Returns a new [SpecialModelName] instance.
   SpecialModelName({
-    this.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket,
+     this.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket,
   });
 
   ///

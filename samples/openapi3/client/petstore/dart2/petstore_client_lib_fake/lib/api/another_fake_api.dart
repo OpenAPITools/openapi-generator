@@ -28,26 +28,26 @@ class AnotherFakeApi {
   ///   client model
   Future<Response> call123testSpecialTagsWithHttpInfo(ModelClient modelClient,) async {
     // ignore: prefer_const_declarations
-    final path = r'/another-fake/dummy';
+    final _path = r'/another-fake/dummy';
 
     // ignore: prefer_final_locals
-    Object? postBody = modelClient;
+    Object? _postBody = modelClient;
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
+    final __queryParams = <QueryParam>[];
+    final _headerParams = <String, String>{};
+    final _formParams = <String, String>{};
 
-    const contentTypes = <String>['application/json'];
+    const _contentTypes = <String>['application/json'];
 
 
     return apiClient.invokeAPI(
-      path,
+      _path,
       'PATCH',
-      queryParams,
-      postBody,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
+      __queryParams,
+      _postBody,
+      _headerParams,
+      _formParams,
+      _contentTypes.isEmpty ? null : _contentTypes.first,
     );
   }
 
@@ -60,15 +60,15 @@ class AnotherFakeApi {
   /// * [ModelClient] modelClient (required):
   ///   client model
   Future<ModelClient?> call123testSpecialTags(ModelClient modelClient,) async {
-    final response = await call123testSpecialTagsWithHttpInfo(modelClient,);
-    if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    final _response = await call123testSpecialTagsWithHttpInfo(modelClient,);
+    if (_response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(_response.statusCode, await _decodeBodyBytes(_response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ModelClient',) as ModelClient;
+    if (_response.bodyBytes.isNotEmpty && _response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(_response), 'ModelClient',) as ModelClient;
     
     }
     return null;

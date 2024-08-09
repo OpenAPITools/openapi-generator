@@ -13,7 +13,7 @@ part of openapi.api;
 class ModelClient {
   /// Returns a new [ModelClient] instance.
   ModelClient({
-    this.client,
+     this.client,
   });
 
   ///
