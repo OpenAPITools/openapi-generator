@@ -12,7 +12,7 @@ import { FilePostRequest } from '../models/FilePostRequest';
 import { PetByAge } from '../models/PetByAge';
 import { PetByType, PetByTypePetTypeEnum    } from '../models/PetByType';
 import { PetsFilteredPatchRequest  , PetsFilteredPatchRequestPetTypeEnum    } from '../models/PetsFilteredPatchRequest';
-import { PetsPatchRequest   , PetsPatchRequestBreedEnum   } from '../models/PetsPatchRequest';
+import { PetsPatchRequestClass } from '../models/PetsPatchRequest';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [
@@ -40,7 +40,7 @@ let typeMap: {[index: string]: any} = {
     "PetByAge": PetByAge,
     "PetByType": PetByType,
     "PetsFilteredPatchRequest": PetsFilteredPatchRequest,
-    "PetsPatchRequest": PetsPatchRequest,
+    "PetsPatchRequest": PetsPatchRequestClass,
 }
 
 type MimeTypeDescriptor = {
@@ -119,8 +119,11 @@ export class ObjectSerializer {
             } else {
                 if (data[discriminatorProperty]) {
                     var discriminatorType = data[discriminatorProperty];
-                    if(typeMap[discriminatorType]){
-                        return discriminatorType; // use the type given in the discriminator
+                    let mapping = typeMap[expectedType].mapping;
+                    if (mapping != undefined && mapping[discriminatorType]) {
+                        return mapping[discriminatorType]; // use the type given in the discriminator
+                    } else if(typeMap[discriminatorType]) {
+                        return discriminatorType;
                     } else {
                         return expectedType; // discriminator did not map to a type
                     }

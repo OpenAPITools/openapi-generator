@@ -1,0 +1,40 @@
+{{#hasImports}}
+import {
+    {{#imports}}
+    {{{.}}}{{importFileExtension}},
+    {{/imports}}
+} from './';
+
+{{/hasImports}}
+/**
+ * @type {{classname}}
+ * Type
+ * @export
+ */
+export type {{classname}} = {{#oneOf}}{{{.}}}{{^-last}} | {{/-last}}{{/oneOf}};
+
+/**
+* @type {{classname}}Class{{#description}}
+    * {{{.}}}{{/description}}
+* @export
+*/
+export class {{classname}}Class {
+    {{#discriminator}}
+    static readonly discriminator: string | undefined = "{{discriminatorName}}";
+    {{/discriminator}}
+    {{^discriminator}}
+    static readonly discriminator: string | undefined = undefined;
+    {{/discriminator}}
+    {{#hasDiscriminatorWithNonEmptyMapping}}
+
+    static readonly mapping: {[index: string]: string} | undefined = {
+    {{#discriminator.mappedModels}}
+        "{{mappingName}}": "{{modelName}}",
+    {{/discriminator.mappedModels}}
+    };
+    {{/hasDiscriminatorWithNonEmptyMapping}}
+    {{^hasDiscriminatorWithNonEmptyMapping}}
+
+    static readonly mapping: {[index: string]: string} | undefined = undefined;
+    {{/hasDiscriminatorWithNonEmptyMapping}}
+}
