@@ -1155,6 +1155,28 @@ paths:
       - fake
       x-accepts:
       - application/json
+  /fake/free-form-query-parameters:
+    get:
+      parameters:
+      - explode: true
+        in: query
+        name: fixed
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: free-form
+        required: false
+        schema:
+          type: object
+        style: form
+      responses:
+        "200":
+          description: OK
+      x-accepts:
+      - application/json
   /fake/test-query-parameters:
     put:
       description: To test the collection format in query parameters

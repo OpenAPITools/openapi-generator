@@ -1092,6 +1092,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FreeFormObjectTestClass'
+  /fake/free-form-query-parameters:
+    get:
+      parameters:
+        - in: "query"
+          name: "fixed"
+          schema:
+            type: "string"
+        - in: "query"
+          name: "free-form"
+          schema:
+            type: "object"
+          style: "form"
+      responses:
+        200:
+          description: OK
   /fake/test-query-parameters:
     put:
       tags:

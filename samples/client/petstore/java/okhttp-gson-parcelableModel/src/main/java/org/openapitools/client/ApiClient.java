@@ -836,6 +836,30 @@ public class ApiClient {
     }
 
     /**
+    * Formats the specified free-form query parameters to a list of {@code Pair} objects.
+    *
+    * @param value The free-form query parameters.
+    * @return A list of {@code Pair} objects.
+    */
+    public List<Pair> freeFormParameterToPairs(Object value) {
+        List<Pair> params = new ArrayList<>();
+
+        // preconditions
+        if (value == null || !(value instanceof Map )) {
+            return params;
+        }
+
+        final Map<String, Object> valuesMap = (Map<String, Object>) value;
+
+        for (Map.Entry<String, Object> entry : valuesMap.entrySet()) {
+            params.add(new Pair(entry.getKey(), parameterToString(entry.getValue())));
+        }
+
+        return params;
+    }
+
+
+    /**
      * Formats the specified collection path parameter to a string value.
      *
      * @param collectionFormat The collection format of the parameter.

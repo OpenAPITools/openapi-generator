@@ -169,7 +169,7 @@ public class {{classname}} {
         {{^dynamicOperations}}
         {{#queryParams}}
         if ({{paramName}} != null) {
-            {{#collectionFormat}}localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("{{{.}}}", {{/collectionFormat}}{{^collectionFormat}}localVarQueryParams.addAll(localVarApiClient.parameterToPair({{/collectionFormat}}"{{baseName}}", {{paramName}}));
+            {{#isFreeFormObject}}localVarQueryParams.addAll(localVarApiClient.freeFormParameterToPairs({{paramName}}));{{/isFreeFormObject}}{{^isFreeFormObject}}{{#collectionFormat}}localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("{{{.}}}", {{/collectionFormat}}{{^collectionFormat}}localVarQueryParams.addAll(localVarApiClient.parameterToPair({{/collectionFormat}}"{{baseName}}", {{paramName}}));{{/isFreeFormObject}}
         }
 
         {{/queryParams}}
