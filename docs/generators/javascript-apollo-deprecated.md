@@ -37,6 +37,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |projectDescription|description of the project (Default: using info.description or &quot;Client library of &lt;projectName&gt;&quot;)| |null|
 |projectName|name of the project (Default: generated from info.title or &quot;openapi-js-client&quot;)| |null|
 |projectVersion|version of the project (Default: using info.version or &quot;1.0.0&quot;)| |null|
+|removeEnumValuePrefix|Remove the common prefix of enum values|<dl><dt>**false**</dt><dd>No changes to the enum's are made.</dd><dt>**true**</dt><dd>With this option disabled, each enum will have the common prefix between them removed. This is the default option.</dd></dl>|true|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|

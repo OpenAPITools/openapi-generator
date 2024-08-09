@@ -37,6 +37,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |paramNaming|Naming convention for parameters: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
 |platform|Specifies the platform the code should run on. The default is 'node' for the 'request' framework and 'browser' otherwise.|<dl><dt>**browser**</dt><dd>browser</dd><dt>**node**</dt><dd>node</dd><dt>**deno**</dt><dd>deno</dd></dl>|browser|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|removeEnumValuePrefix|Remove the common prefix of enum values|<dl><dt>**false**</dt><dd>No changes to the enum's are made.</dd><dt>**true**</dt><dd>With this option disabled, each enum will have the common prefix between them removed. This is the default option.</dd></dl>|true|
 |snapshot|When setting this property to true, the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|

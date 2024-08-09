@@ -43,6 +43,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |modelDeriving|Additional classes to include in the deriving() clause of Models| |null|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |queryExtraUnreserved|Configures additional querystring characters which must not be URI encoded, e.g. '+' or ':'| |null|
+|removeEnumValuePrefix|Remove the common prefix of enum values|<dl><dt>**false**</dt><dd>No changes to the enum's are made.</dd><dt>**true**</dt><dd>With this option disabled, each enum will have the common prefix between them removed. This is the default option.</dd></dl>|true|
 |requestType|Set the name of the type used to generate requests| |null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|

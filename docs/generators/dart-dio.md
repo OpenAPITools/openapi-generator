@@ -36,6 +36,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |pubPublishTo|Publish_to in generated pubspec| |null|
 |pubRepository|Repository in generated pubspec| |null|
 |pubVersion|Version in generated pubspec| |1.0.0|
+|removeEnumValuePrefix|Remove the common prefix of enum values|<dl><dt>**false**</dt><dd>No changes to the enum's are made.</dd><dt>**true**</dt><dd>With this option disabled, each enum will have the common prefix between them removed. This is the default option.</dd></dl>|true|
 |serializationLibrary|Specify serialization library|<dl><dt>**built_value**</dt><dd>[DEFAULT] built_value</dd><dt>**json_serializable**</dt><dd>[BETA] json_serializable</dd></dl>|built_value|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
