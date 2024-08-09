@@ -891,7 +891,7 @@ No authorization required
 
 <a id="testbodywithqueryparams"></a>
 # **TestBodyWithQueryParams**
-> void TestBodyWithQueryParams (User user, string query)
+> void TestBodyWithQueryParams (string query, User user)
 
 
 
@@ -912,12 +912,12 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(config);
-            var user = new User(); // User | 
             var query = "query_example";  // string | 
+            var user = new User(); // User | 
 
             try
             {
-                apiInstance.TestBodyWithQueryParams(user, query);
+                apiInstance.TestBodyWithQueryParams(query, user);
             }
             catch (ApiException  e)
             {
@@ -936,7 +936,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    apiInstance.TestBodyWithQueryParamsWithHttpInfo(user, query);
+    apiInstance.TestBodyWithQueryParamsWithHttpInfo(query, user);
 }
 catch (ApiException e)
 {
@@ -950,8 +950,8 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **user** | [**User**](User.md) |  |  |
 | **query** | **string** |  |  |
+| **user** | [**User**](User.md) |  |  |
 
 ### Return type
 
@@ -1067,7 +1067,7 @@ No authorization required
 
 <a id="testendpointparameters"></a>
 # **TestEndpointParameters**
-> void TestEndpointParameters (byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateOnly date = null, System.IO.Stream binary = null, float varFloat = null, int integer = null, int int32 = null, long int64 = null, string varString = null, string password = null, string callback = null, DateTime dateTime = null)
+> void TestEndpointParameters (decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int integer = null, int int32 = null, long int64 = null, float varFloat = null, string varString = null, System.IO.Stream binary = null, DateOnly date = null, DateTime dateTime = null, string password = null, string callback = null)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -1094,25 +1094,25 @@ namespace Example
             config.Password = "YOUR_PASSWORD";
 
             var apiInstance = new FakeApi(config);
-            var varByte = System.Text.Encoding.ASCII.GetBytes("BYTE_ARRAY_DATA_HERE");  // byte[] | None
             var number = 8.14D;  // decimal | None
             var varDouble = 1.2D;  // double | None
             var patternWithoutDelimiter = "patternWithoutDelimiter_example";  // string | None
-            var date = DateOnly.Parse("2013-10-20");  // DateOnly | None (optional) 
-            var binary = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | None (optional) 
-            var varFloat = 3.4F;  // float | None (optional) 
+            var varByte = System.Text.Encoding.ASCII.GetBytes("BYTE_ARRAY_DATA_HERE");  // byte[] | None
             var integer = 56;  // int | None (optional) 
             var int32 = 56;  // int | None (optional) 
             var int64 = 789L;  // long | None (optional) 
+            var varFloat = 3.4F;  // float | None (optional) 
             var varString = "varString_example";  // string | None (optional) 
+            var binary = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | None (optional) 
+            var date = DateOnly.Parse("2013-10-20");  // DateOnly | None (optional) 
+            var dateTime = DateTime.Parse(""2010-02-01T10:20:10.111110+01:00"");  // DateTime | None (optional)  (default to "2010-02-01T10:20:10.111110+01:00")
             var password = "password_example";  // string | None (optional) 
             var callback = "callback_example";  // string | None (optional) 
-            var dateTime = DateTime.Parse(""2010-02-01T10:20:10.111110+01:00"");  // DateTime | None (optional)  (default to "2010-02-01T10:20:10.111110+01:00")
 
             try
             {
                 // Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-                apiInstance.TestEndpointParameters(varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
+                apiInstance.TestEndpointParameters(number, varDouble, patternWithoutDelimiter, varByte, integer, int32, int64, varFloat, varString, binary, date, dateTime, password, callback);
             }
             catch (ApiException  e)
             {
@@ -1132,7 +1132,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    apiInstance.TestEndpointParametersWithHttpInfo(varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
+    apiInstance.TestEndpointParametersWithHttpInfo(number, varDouble, patternWithoutDelimiter, varByte, integer, int32, int64, varFloat, varString, binary, date, dateTime, password, callback);
 }
 catch (ApiException e)
 {
@@ -1146,20 +1146,20 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **varByte** | **byte[]** | None |  |
 | **number** | **decimal** | None |  |
 | **varDouble** | **double** | None |  |
 | **patternWithoutDelimiter** | **string** | None |  |
-| **date** | **DateOnly** | None | [optional]  |
-| **binary** | **System.IO.Stream****System.IO.Stream** | None | [optional]  |
-| **varFloat** | **float** | None | [optional]  |
+| **varByte** | **byte[]** | None |  |
 | **integer** | **int** | None | [optional]  |
 | **int32** | **int** | None | [optional]  |
 | **int64** | **long** | None | [optional]  |
+| **varFloat** | **float** | None | [optional]  |
 | **varString** | **string** | None | [optional]  |
+| **binary** | **System.IO.Stream****System.IO.Stream** | None | [optional]  |
+| **date** | **DateOnly** | None | [optional]  |
+| **dateTime** | **DateTime** | None | [optional] [default to &quot;2010-02-01T10:20:10.111110+01:00&quot;] |
 | **password** | **string** | None | [optional]  |
 | **callback** | **string** | None | [optional]  |
-| **dateTime** | **DateTime** | None | [optional] [default to &quot;2010-02-01T10:20:10.111110+01:00&quot;] |
 
 ### Return type
 
@@ -1185,7 +1185,7 @@ void (empty response body)
 
 <a id="testenumparameters"></a>
 # **TestEnumParameters**
-> void TestEnumParameters (List<TestEnumParametersRequestEnumFormStringArrayInner> enumHeaderStringArray = null, List<TestEnumParametersRequestEnumFormStringArrayInner> enumQueryStringArray = null, List<TestEnumParametersRequestEnumFormStringArrayInner> enumFormStringArray = null, TestEnumParametersEnumHeaderStringParameter enumHeaderString = null, TestEnumParametersEnumHeaderStringParameter enumQueryString = null, TestEnumParametersEnumQueryDoubleParameter enumQueryDouble = null, TestEnumParametersEnumQueryIntegerParameter enumQueryInteger = null, TestEnumParametersRequestEnumFormString enumFormString = null)
+> void TestEnumParameters (List<TestEnumParametersRequestEnumFormStringArrayInner> enumHeaderStringArray = null, TestEnumParametersEnumHeaderStringParameter enumHeaderString = null, List<TestEnumParametersRequestEnumFormStringArrayInner> enumQueryStringArray = null, TestEnumParametersEnumHeaderStringParameter enumQueryString = null, TestEnumParametersEnumQueryIntegerParameter enumQueryInteger = null, TestEnumParametersEnumQueryDoubleParameter enumQueryDouble = null, List<TestEnumParametersRequestEnumFormStringArrayInner> enumFormStringArray = null, TestEnumParametersRequestEnumFormString enumFormString = null)
 
 To test enum parameters
 
@@ -1209,18 +1209,18 @@ namespace Example
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(config);
             var enumHeaderStringArray = new List<TestEnumParametersRequestEnumFormStringArrayInner>(); // List<TestEnumParametersRequestEnumFormStringArrayInner> | Header parameter enum test (string array) (optional) 
-            var enumQueryStringArray = new List<TestEnumParametersRequestEnumFormStringArrayInner>(); // List<TestEnumParametersRequestEnumFormStringArrayInner> | Query parameter enum test (string array) (optional) 
-            var enumFormStringArray = new List<TestEnumParametersRequestEnumFormStringArrayInner>(); // List<TestEnumParametersRequestEnumFormStringArrayInner> | Form parameter enum test (string array) (optional) 
             var enumHeaderString = (TestEnumParametersEnumHeaderStringParameter) "_abc";  // TestEnumParametersEnumHeaderStringParameter | Header parameter enum test (string) (optional) 
+            var enumQueryStringArray = new List<TestEnumParametersRequestEnumFormStringArrayInner>(); // List<TestEnumParametersRequestEnumFormStringArrayInner> | Query parameter enum test (string array) (optional) 
             var enumQueryString = (TestEnumParametersEnumHeaderStringParameter) "_abc";  // TestEnumParametersEnumHeaderStringParameter | Query parameter enum test (string) (optional) 
-            var enumQueryDouble = (TestEnumParametersEnumQueryDoubleParameter) "1.1";  // TestEnumParametersEnumQueryDoubleParameter | Query parameter enum test (double) (optional) 
             var enumQueryInteger = (TestEnumParametersEnumQueryIntegerParameter) "1";  // TestEnumParametersEnumQueryIntegerParameter | Query parameter enum test (double) (optional) 
+            var enumQueryDouble = (TestEnumParametersEnumQueryDoubleParameter) "1.1";  // TestEnumParametersEnumQueryDoubleParameter | Query parameter enum test (double) (optional) 
+            var enumFormStringArray = new List<TestEnumParametersRequestEnumFormStringArrayInner>(); // List<TestEnumParametersRequestEnumFormStringArrayInner> | Form parameter enum test (string array) (optional) 
             var enumFormString = (TestEnumParametersRequestEnumFormString) "_abc";  // TestEnumParametersRequestEnumFormString |  (optional) 
 
             try
             {
                 // To test enum parameters
-                apiInstance.TestEnumParameters(enumHeaderStringArray, enumQueryStringArray, enumFormStringArray, enumHeaderString, enumQueryString, enumQueryDouble, enumQueryInteger, enumFormString);
+                apiInstance.TestEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
             }
             catch (ApiException  e)
             {
@@ -1240,7 +1240,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // To test enum parameters
-    apiInstance.TestEnumParametersWithHttpInfo(enumHeaderStringArray, enumQueryStringArray, enumFormStringArray, enumHeaderString, enumQueryString, enumQueryDouble, enumQueryInteger, enumFormString);
+    apiInstance.TestEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
 }
 catch (ApiException e)
 {
@@ -1255,12 +1255,12 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **enumHeaderStringArray** | [**List&lt;TestEnumParametersRequestEnumFormStringArrayInner&gt;**](TestEnumParametersRequestEnumFormStringArrayInner.md) | Header parameter enum test (string array) | [optional]  |
-| **enumQueryStringArray** | [**List&lt;TestEnumParametersRequestEnumFormStringArrayInner&gt;**](TestEnumParametersRequestEnumFormStringArrayInner.md) | Query parameter enum test (string array) | [optional]  |
-| **enumFormStringArray** | [**List&lt;TestEnumParametersRequestEnumFormStringArrayInner&gt;**](TestEnumParametersRequestEnumFormStringArrayInner.md) | Form parameter enum test (string array) | [optional]  |
 | **enumHeaderString** | **TestEnumParametersEnumHeaderStringParameter** | Header parameter enum test (string) | [optional]  |
+| **enumQueryStringArray** | [**List&lt;TestEnumParametersRequestEnumFormStringArrayInner&gt;**](TestEnumParametersRequestEnumFormStringArrayInner.md) | Query parameter enum test (string array) | [optional]  |
 | **enumQueryString** | **TestEnumParametersEnumHeaderStringParameter** | Query parameter enum test (string) | [optional]  |
-| **enumQueryDouble** | **TestEnumParametersEnumQueryDoubleParameter** | Query parameter enum test (double) | [optional]  |
 | **enumQueryInteger** | **TestEnumParametersEnumQueryIntegerParameter** | Query parameter enum test (double) | [optional]  |
+| **enumQueryDouble** | **TestEnumParametersEnumQueryDoubleParameter** | Query parameter enum test (double) | [optional]  |
+| **enumFormStringArray** | [**List&lt;TestEnumParametersRequestEnumFormStringArrayInner&gt;**](TestEnumParametersRequestEnumFormStringArrayInner.md) | Form parameter enum test (string array) | [optional]  |
 | **enumFormString** | **TestEnumParametersRequestEnumFormString** |  | [optional]  |
 
 ### Return type
@@ -1287,7 +1287,7 @@ No authorization required
 
 <a id="testgroupparameters"></a>
 # **TestGroupParameters**
-> void TestGroupParameters (bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool booleanGroup = null, int stringGroup = null, long int64Group = null)
+> void TestGroupParameters (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int stringGroup = null, bool booleanGroup = null, long int64Group = null)
 
 Fake endpoint to test group parameters (optional)
 
@@ -1313,17 +1313,17 @@ namespace Example
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
             var apiInstance = new FakeApi(config);
-            var requiredBooleanGroup = true;  // bool | Required Boolean in group parameters
             var requiredStringGroup = 56;  // int | Required String in group parameters
+            var requiredBooleanGroup = true;  // bool | Required Boolean in group parameters
             var requiredInt64Group = 789L;  // long | Required Integer in group parameters
-            var booleanGroup = true;  // bool | Boolean in group parameters (optional) 
             var stringGroup = 56;  // int | String in group parameters (optional) 
+            var booleanGroup = true;  // bool | Boolean in group parameters (optional) 
             var int64Group = 789L;  // long | Integer in group parameters (optional) 
 
             try
             {
                 // Fake endpoint to test group parameters (optional)
-                apiInstance.TestGroupParameters(requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
+                apiInstance.TestGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
             }
             catch (ApiException  e)
             {
@@ -1343,7 +1343,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Fake endpoint to test group parameters (optional)
-    apiInstance.TestGroupParametersWithHttpInfo(requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
+    apiInstance.TestGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
 }
 catch (ApiException e)
 {
@@ -1357,11 +1357,11 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **requiredBooleanGroup** | **bool** | Required Boolean in group parameters |  |
 | **requiredStringGroup** | **int** | Required String in group parameters |  |
+| **requiredBooleanGroup** | **bool** | Required Boolean in group parameters |  |
 | **requiredInt64Group** | **long** | Required Integer in group parameters |  |
-| **booleanGroup** | **bool** | Boolean in group parameters | [optional]  |
 | **stringGroup** | **int** | String in group parameters | [optional]  |
+| **booleanGroup** | **bool** | Boolean in group parameters | [optional]  |
 | **int64Group** | **long** | Integer in group parameters | [optional]  |
 
 ### Return type

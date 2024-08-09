@@ -54,21 +54,21 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Age'
-        /// </summary>
-        [Fact]
-        public void AgeTest()
-        {
-            // TODO unit test for the property 'Age'
-        }
-
-        /// <summary>
         /// Test the property 'BoosterSeat'
         /// </summary>
         [Fact]
         public void BoosterSeatTest()
         {
             // TODO unit test for the property 'BoosterSeat'
+        }
+
+        /// <summary>
+        /// Test the property 'Age'
+        /// </summary>
+        [Fact]
+        public void AgeTest()
+        {
+            // TODO unit test for the property 'Age'
         }
     }
 }
