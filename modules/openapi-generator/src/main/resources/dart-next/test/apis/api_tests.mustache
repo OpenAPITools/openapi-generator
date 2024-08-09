@@ -1,0 +1,75 @@
+import 'package:test/test.dart';
+import 'package:{{pubName}}/_internal.dart';
+
+Stream<List<int>> _streamOfText(String value, {Encoding? encoding}) async* {
+  yield (encoding ?? utf8).encode(value);
+}
+
+final baseUrl = Uri.https("example.com", "/api");
+HttpResponseBase createFakeResponse({
+  required int statusCode,
+  required Stream<List<int>> bodyBytesStream,
+  Map<String, String> headers = const {},
+  String? reasonPhrase,
+}) {
+  return HttpResponseBase.stream(
+    originalRequest: HttpRequestBase.empty(url: baseUrl, method: 'GET'),
+    bodyBytesStream: bodyBytesStream,
+    statusCode: statusCode,
+    reasonPhrase: reasonPhrase,
+    headers: headers,
+  );
+}
+
+HttpResponseBase createFakeTextResponse({
+  required int statusCode,
+  required String value,
+  Map<String, String> headers = const {},
+  String? contentType,
+  Encoding? encoding,
+  String? reasonPhrase,
+}) {
+  var parsedContentType =
+      contentType == null ? null : MediaType.parse(contentType);
+  if (encoding != null) {
+    parsedContentType = parsedContentType?.change(parameters: {
+      ...parsedContentType.parameters,
+      'charset': encoding.name,
+    });
+  }
+  return createFakeResponse(
+    statusCode: statusCode,
+    headers: {
+      'Content-Type': 'text/plain; charset=utf-8',
+      if (parsedContentType != null)
+        'Content-Type': parsedContentType.toString(),
+      ...headers,
+    },
+    reasonPhrase: reasonPhrase,
+    bodyBytesStream: _streamOfText(value, encoding: encoding),
+  );
+}
+
+{{#operations}}
+/// tests for {{{classname}}}
+void main() {
+  group({{{classname}}}, () {
+    final baseUrl = Uri.https("example.com", "/api");
+    {{#operation}}
+    {{#summary}}
+    // {{{.}}}
+    //
+    {{/summary}}
+    {{#notes}}
+    // {{{.}}}
+    //
+    {{/notes}}
+    group(r'{{{operationId}}}', () {
+      {{>test/apis/request_tests}}
+
+      {{>test/apis/response_tests}}
+    });
+    {{/operation}}
+  });
+}
+{{/operations}}

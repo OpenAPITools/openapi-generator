@@ -1,0 +1,3 @@
+{{#allParams}}{{^isFormParam}}{{^isBodyParam}}
+{{paramName}}: {{^required}}UndefinedWrapper({{/required}} {{#schema}}{{>lib/src/models/reflection/example_recursive}}{{/schema}}{{^required}}){{/required}},
+{{/isBodyParam}}{{/isFormParam}}{{/allParams}}

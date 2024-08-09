@@ -1,0 +1,6 @@
+(v is {{dataType}}
+    {{#isNumeric}} || ({{dataType}}.tryParse(v.toString()) != null){{/isNumeric}}
+    {{#isBoolean}} || ({{dataType}}.tryParse(v.toString()) != null){{/isBoolean}}
+    {{#isDateTime}} || (v is int || {{dataType}}.tryParse(v.toString()) != null){{/isDateTime}}
+    {{#isEnum}} && {{datatypeWithEnum}}.canDeserialize(v){{/isEnum}}
+)
