@@ -369,7 +369,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected Set<String> getNullableTypes() {
         return GENERICHOST.equals(getLibrary())
                 ? super.getNullableTypes()
-                : new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateTimeOffset", "Guid"));
+                : new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateOnly", "DateTimeOffset", "Guid"));
     }
 
     @Override
