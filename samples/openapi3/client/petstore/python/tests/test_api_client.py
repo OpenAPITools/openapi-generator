@@ -184,7 +184,7 @@ class ApiClientTests(unittest.TestCase):
     def test_sanitize_for_serialization_decimal(self):
         data = Decimal("1.0")
         result = self.api_client.sanitize_for_serialization(data)
-        self.assertEquals(result, "1.0")
+        self.assertEqual(result, "1.0")
 
     def test_sanitize_for_serialization_list_enum(self):
         class EnumSerialization(int, Enum):
