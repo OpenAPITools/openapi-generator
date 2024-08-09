@@ -1321,7 +1321,7 @@ public class ApiClient {
         // update parameters with authentication settings
         updateParamsForAuth(authNames, allQueryParams, headerParams, cookieParams, requestBodyToString(reqBody), method, URI.create(url));
 
-        final Request.Builder reqBuilder = new Request.Builder().url(url);
+        final Request.Builder reqBuilder = new Request.Builder().url(buildUrl(baseUrl, path, queryParams, collectionQueryParams));
         processHeaderParams(headerParams, reqBuilder);
         processCookieParams(cookieParams, reqBuilder);
 
