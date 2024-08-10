@@ -290,8 +290,8 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
     }
 
     @Override
-    public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
-        var result = super.fromResponse(responseCode, response);
+    public CodegenResponse fromResponse(String opId, String responseCode, ApiResponse response) {
+        var result = super.fromResponse(opId, responseCode, response);
         result.vendorExtensions.put(X_RESULT_STATUS_DECL, statusDeclaration(result.code));
         return result;
     }

@@ -1175,8 +1175,28 @@ public class ModelUtils {
      * @param requestBody request body of the operation
      * @return first schema
      */
-    public static Schema getSchemaFromRequestBody(RequestBody requestBody) {
-        return getSchemaFromContent(requestBody.getContent());
+    public static Schema getFirstSchemaFromRequestBody(RequestBody requestBody) {
+        return getFirstSchemaFromContent(requestBody.getContent());
+    }
+
+    /**
+     * Return the schemas for a RequestBody
+     *
+     * @param requestBody request body of the operation
+     * @return schemas
+     */
+    public static Map<String, Schema> getSchemasFromRequestBody(RequestBody requestBody) {
+        return getSchemasFromContent(requestBody.getContent());
+    }
+
+    /**
+     * Return the Media Type for a RequestBody
+     *
+     * @param requestBody request body of the operation
+     * @return schemas
+     */
+    public static MediaType getFirstMediaTypeFromRequestBody(RequestBody requestBody) {
+        return getFirstMediaTypeFromContent(requestBody.getContent());
     }
 
     /**
@@ -1186,12 +1206,27 @@ public class ModelUtils {
      * @param response API response of the operation
      * @return firstSchema
      */
-    public static Schema getSchemaFromResponse(OpenAPI openAPI, ApiResponse response) {
+    public static Schema getFirstSchemaFromResponse(OpenAPI openAPI, ApiResponse response) {
         ApiResponse result = getReferencedApiResponse(openAPI, response);
         if (result == null) {
             return null;
         } else {
-            return getSchemaFromContent(result.getContent());
+            return getFirstSchemaFromContent(result.getContent());
+        }
+    }
+
+    /**
+     * Return the Schemas for a ApiResponse
+     *
+     * @param response api response of the operation
+     * @return schemas
+     */
+    public static Map<String, Schema> getSchemasFromResponse(OpenAPI openAPI, ApiResponse response) {
+        ApiResponse result = getReferencedApiResponse(openAPI, response);
+        if (result == null) {
+            return null;
+        } else {
+            return getSchemasFromContent(result.getContent());
         }
     }
 
@@ -1213,18 +1248,63 @@ public class ModelUtils {
      * @param content a 'content' section in the OAS specification.
      * @return the Schema.
      */
-    private static Schema getSchemaFromContent(Content content) {
+    private static Schema getFirstSchemaFromContent(Content content) {
+        MediaType mediaType = getFirstMediaTypeFromContent(content);
+
+        if (mediaType == null) {
+            return null;
+        } else {
+            return mediaType.getSchema();
+        }
+    }
+
+    /**
+     * Return the first MediaType from a specified OAS 'content' section.
+     * <p>
+     * For example, given the following OAS, this method returns the 'application/json'
+     * media type because it is listed first in the OAS.
+     * <p>
+     * responses:
+     *   '200':
+     *     content:
+     *       application/json:
+     *         schema:
+     *           $ref: '#/components/schemas/XYZ'
+     *       application/xml:
+     *          ...
+     *
+     * @param content a 'content' section in the OAS specification.
+     * @return the Schema.
+     */
+    private static MediaType getFirstMediaTypeFromContent(Content content) {
         if (content == null || content.isEmpty()) {
             return null;
         }
+
         Map.Entry<String, MediaType> entry = content.entrySet().iterator().next();
+
         if (content.size() > 1) {
             // Other content types are currently ignored by codegen. If you see this warning,
             // reorder the OAS spec to put the desired content type first.
             once(LOGGER).debug("Multiple schemas found in the OAS 'content' section, returning only the first one ({})",
                     entry.getKey());
         }
-        return entry.getValue().getSchema();
+
+        return entry.getValue();
+    }
+
+    private static Map<String, Schema> getSchemasFromContent(Content content) {
+        if (content == null || content.isEmpty()) {
+            return null;
+        }
+
+        Map<String, Schema> schemas = new HashMap(content.values().size());
+
+        for (Map.Entry<String, MediaType> entry : content.entrySet()) {
+            schemas.put(entry.getKey(), entry.getValue().getSchema());
+        }
+
+        return schemas;
     }
 
     /**

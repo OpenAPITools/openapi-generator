@@ -689,9 +689,9 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     // Thus, we grab the inner schema beforehand, and then tinker afterward to
     // restore things to sensible values.
     @Override
-    public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
-        Schema original_schema = ModelUtils.getSchemaFromRequestBody(body);
-        CodegenParameter codegenParameter = super.fromRequestBody(body, imports, bodyParameterName);
+    public CodegenParameter fromRequestBody(RequestBody body, String opId, Set<String> imports, String bodyParameterName) {
+        Schema original_schema = ModelUtils.getFirstSchemaFromRequestBody(body);
+        CodegenParameter codegenParameter = super.fromRequestBody(body, opId, imports, bodyParameterName);
 
         if (StringUtils.isNotBlank(original_schema.get$ref())) {
             // Undo the mess `super.fromRequestBody` made - re-wrap the inner

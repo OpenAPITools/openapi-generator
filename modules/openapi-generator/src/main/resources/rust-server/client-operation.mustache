@@ -85,7 +85,8 @@
                 Ok(req) => req,
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
-{{>client-request-body-instance}}
+
+{{>client-request-body}}
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -180,8 +181,9 @@
         match response.status().as_u16() {
 {{#responses}}
             {{{code}}} => {
+                let (header, body) = response.into_parts();
 {{#headers}}
-                let response_{{{name}}} = match response.headers().get(HeaderName::from_static("{{{nameInLowerCase}}}")) {
+                let response_{{{name}}} = match header.headers.get(HeaderName::from_static("{{{nameInLowerCase}}}")) {
                     Some(response_{{{name}}}) => {
                         let response_{{{name}}} = response_{{{name}}}.clone();
                         let response_{{{name}}} = match TryInto::<header::IntoHeaderValue<{{{dataType}}}>>::try_into(response_{{{name}}}) {
@@ -207,12 +209,11 @@
 
 {{/headers}}
 {{#dataType}}
-                let body = response.into_body();
                 let body = body
                         .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
 
-{{>client-response-body-instance}}
+{{>client-response-body}}
 
                 Ok({{{operationId}}}Response::{{#vendorExtensions}}{{x-response-id}}{{/vendorExtensions}}
 {{^headers}}

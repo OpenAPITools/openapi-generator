@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -519,8 +520,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
-    public List<CodegenParameter> fromRequestBodyToFormParameters(RequestBody body, Set<String> imports) {
-        List<CodegenParameter> superParams = super.fromRequestBodyToFormParameters(body, imports);
+    public List<CodegenParameter> fromSchemaToFormParameters(Schema schema, MediaType mediaType, Set<String> imports) {
+        List<CodegenParameter> superParams = super.fromSchemaToFormParameters(schema, mediaType, imports);
         List<CodegenParameter> extendedParams = new ArrayList<CodegenParameter>();
         for (CodegenParameter cp : superParams) {
             extendedParams.add(new ExtendedCodegenParameter(cp));
@@ -541,8 +542,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
-    public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
-        CodegenParameter cp = super.fromRequestBody(body, imports, bodyParameterName);
+    public CodegenParameter fromRequestBody(RequestBody body, String opId, Set<String> imports, String bodyParameterName) {
+        CodegenParameter cp = super.fromRequestBody(body, opId, imports, bodyParameterName);
         return new ExtendedCodegenParameter(cp);
     }
 
@@ -614,7 +615,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 }
 
                 if (!op.hasReturnPassthroughVoid) {
-                    Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(openAPI, methodResponse));
+                    Schema responseSchema = unaliasSchema(ModelUtils.getFirstSchemaFromResponse(openAPI, methodResponse));
                     ExtendedCodegenProperty cp = null;
                     if (op.returnPassthrough instanceof String && cm != null) {
                         cp = (ExtendedCodegenProperty) this.processCodeGenModel(cm).vars.get(1);

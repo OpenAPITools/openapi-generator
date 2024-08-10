@@ -116,15 +116,15 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
-        Assertions.assertFalse(codegen.hasBodyParameter(pingOperation));
-        Assertions.assertTrue(codegen.hasBodyParameter(createOperation));
+        Assertions.assertFalse(codegen.hasFirstBodyParameter(pingOperation));
+        Assertions.assertTrue(codegen.hasFirstBodyParameter(createOperation));
     }
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testParameterEmptyDescription() {
         DefaultCodegen codegen = new DefaultCodegen();
 
-        codegen.fromRequestBody(null, new HashSet<>(), null);
+        codegen.fromRequestBody(null, "opId", new HashSet<>(), null);
     }
 
     @Test
@@ -259,7 +259,7 @@ public class DefaultCodegenTest {
         codegen.setOpenAPI(openAPI);
 
         Schema requestBodySchema = ModelUtils.getReferencedSchema(openAPI,
-                ModelUtils.getSchemaFromRequestBody(openAPI.getPaths().get("/fake").getGet().getRequestBody()));
+                ModelUtils.getFirstSchemaFromRequestBody(openAPI.getPaths().get("/fake").getGet().getRequestBody()));
         CodegenParameter codegenParameter = codegen.fromFormProperty("enum_form_string", (Schema) requestBodySchema.getProperties().get("enum_form_string"), new HashSet<String>());
 
         Assertions.assertEquals(codegenParameter.defaultValue, "-efg");
@@ -272,7 +272,7 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
-        Schema requestBodySchema = ModelUtils.getSchemaFromRequestBody(openAPI.getPaths().get("/thingy/{date}").getPost().getRequestBody());
+        Schema requestBodySchema = ModelUtils.getFirstSchemaFromRequestBody(openAPI.getPaths().get("/thingy/{date}").getPost().getRequestBody());
         // dereference
         requestBodySchema = ModelUtils.getReferencedSchema(openAPI, requestBodySchema);
         CodegenParameter codegenParameter = codegen.fromFormProperty("visitDate", (Schema) requestBodySchema.getProperties().get("visitDate"),
@@ -648,7 +648,7 @@ public class DefaultCodegenTest {
 
         Operation operation = openAPI.getPaths().get("/state").getPost();
         Schema schema = ModelUtils.getReferencedSchema(openAPI,
-                ModelUtils.getSchemaFromRequestBody(operation.getRequestBody()));
+                ModelUtils.getFirstSchemaFromRequestBody(operation.getRequestBody()));
         String type = codegen.getSchemaType(schema);
 
         Assertions.assertNotNull(type);
@@ -1871,7 +1871,7 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
-        CodegenResponse cr = codegen.fromResponse("2XX", response2XX);
+        CodegenResponse cr = codegen.fromResponse("op1", "2XX", response2XX);
         Assertions.assertNotNull(cr);
         Assertions.assertTrue(cr.hasHeaders);
     }
@@ -2231,7 +2231,7 @@ public class DefaultCodegenTest {
         RequestBody requestBody = openAPI.getPaths().get("/api/instruments").getPost().getRequestBody();
 
         HashSet<String> imports = new HashSet<>();
-        codegen.fromRequestBody(requestBody, imports, "");
+        codegen.fromRequestBody(requestBody, "opId", imports, "");
 
         HashSet<String> expected = Sets.newHashSet("InstrumentDefinition", "map");
 
@@ -2319,7 +2319,7 @@ public class DefaultCodegenTest {
 
         RequestBody body = openAPI.getPaths().get("/examples").getPost().getRequestBody();
 
-        CodegenParameter codegenParameter = codegen.fromRequestBody(body, imports, "");
+        CodegenParameter codegenParameter = codegen.fromRequestBody(body, "opId", imports, "");
 
         Assertions.assertTrue(codegenParameter.isContainer);
         Assertions.assertTrue(codegenParameter.items.isModel);
@@ -2337,7 +2337,7 @@ public class DefaultCodegenTest {
 
         RequestBody body = openAPI.getPaths().get("/examples").getPost().getRequestBody();
 
-        CodegenParameter codegenParameter = codegen.fromRequestBody(body, imports, "");
+        CodegenParameter codegenParameter = codegen.fromRequestBody(body, "opId", imports, "");
 
         Assertions.assertTrue(codegenParameter.isContainer);
         Assertions.assertTrue(codegenParameter.items.isModel);
@@ -4324,7 +4324,7 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
-        Schema requestBodySchema = ModelUtils.getSchemaFromRequestBody(
+        Schema requestBodySchema = ModelUtils.getFirstSchemaFromRequestBody(
                 openAPI.getPaths().get("/thingy/{date}").getPost().getRequestBody());
         Assertions.assertEquals(requestBodySchema.get$ref(), "#/components/schemas/updatePetWithForm_request");
         Assertions.assertEquals(ModelUtils.getSimpleRef(requestBodySchema.get$ref()), "updatePetWithForm_request");

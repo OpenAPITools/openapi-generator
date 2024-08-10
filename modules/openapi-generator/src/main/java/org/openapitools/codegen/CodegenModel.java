@@ -124,6 +124,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     @Getter @Setter
     public String arrayModelType;
     public boolean isAlias; // Is this effectively an alias of another simple type
+    public boolean isVariant; // Does this represent a schema variant?
     public boolean isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble, isDate, isDateTime,
             isDecimal, isShort, isUnboundedInteger, isPrimitiveType, isBoolean, isFreeFormObject;
     private boolean additionalPropertiesIsAnyType;
@@ -866,6 +867,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         if (!(o instanceof CodegenModel)) return false;
         CodegenModel that = (CodegenModel) o;
         return isAlias == that.isAlias &&
+                isVariant == that.isVariant &&
                 isString == that.isString &&
                 isInteger == that.isInteger &&
                 isShort == that.isShort &&
@@ -978,7 +980,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getInterfaceModels(), getChildren(), anyOf, oneOf, allOf, getName(), getSchemaName(), getClassname(), getTitle(),
                 getDescription(), getClassVarName(), getModelJson(), getDataType(), getXmlPrefix(), getXmlNamespace(),
                 getXmlName(), getClassFilename(), getUnescapedDescription(), getDiscriminator(), getDefaultValue(),
-                getArrayModelType(), isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
+                getArrayModelType(), isAlias, isVariant, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
                 isDate, isDateTime, isNull, hasValidation, isShort, isUnboundedInteger, isBoolean,
                 getVars(), getAllVars(), getNonNullableVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
                 getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
@@ -1023,6 +1025,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", defaultValue='").append(defaultValue).append('\'');
         sb.append(", arrayModelType='").append(arrayModelType).append('\'');
         sb.append(", isAlias=").append(isAlias);
+        sb.append(", isVariant=").append(isVariant);
         sb.append(", isString=").append(isString);
         sb.append(", isInteger=").append(isInteger);
         sb.append(", isShort=").append(isShort);

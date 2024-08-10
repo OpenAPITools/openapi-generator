@@ -144,7 +144,7 @@ public class JavaClientCodegenTest {
             "application/json",
             new MediaType().schema(new ArraySchema().items(new StringSchema()))
         ));
-        CodegenParameter codegenParameter1 = codegen.fromRequestBody(body1, new HashSet<>(), null);
+        CodegenParameter codegenParameter1 = codegen.fromRequestBody(body1, "opId", new HashSet<>(), null);
         Assertions.assertEquals(codegenParameter1.description, "A list of ids");
         Assertions.assertEquals(codegenParameter1.dataType, "List<String>");
         Assertions.assertEquals(codegenParameter1.baseType, "String");
@@ -155,7 +155,7 @@ public class JavaClientCodegenTest {
             "application/json", 
             new MediaType().schema(new ArraySchema().items(new ArraySchema().items(new IntegerSchema())))
         ));
-        CodegenParameter codegenParameter2 = codegen.fromRequestBody(body2, new HashSet<>(), null);
+        CodegenParameter codegenParameter2 = codegen.fromRequestBody(body2, "opId", new HashSet<>(), null);
         Assertions.assertEquals(codegenParameter2.description, "A list of list of values");
         Assertions.assertEquals(codegenParameter2.dataType, "List<List<Integer>>");
         Assertions.assertEquals(codegenParameter2.baseType, "List");
@@ -174,7 +174,7 @@ public class JavaClientCodegenTest {
         point.addProperty("message", new StringSchema());
         point.addProperty("x", new IntegerSchema().format(SchemaTypeUtil.INTEGER32_FORMAT));
         point.addProperty("y", new IntegerSchema().format(SchemaTypeUtil.INTEGER32_FORMAT));
-        CodegenParameter codegenParameter3 = codegen.fromRequestBody(body3, new HashSet<>(), null);
+        CodegenParameter codegenParameter3 = codegen.fromRequestBody(body3, "opId", new HashSet<>(), null);
         Assertions.assertEquals(codegenParameter3.description, "A list of points");
         Assertions.assertEquals(codegenParameter3.dataType, "List<Point>");
         Assertions.assertEquals(codegenParameter3.baseType, "Point");
@@ -595,7 +595,7 @@ public class JavaClientCodegenTest {
         codegen.setOpenAPI(openAPI);
 
         ApiResponse ok_200 = openAPI.getComponents().getResponses().get("OK_200");
-        CodegenResponse response = codegen.fromResponse("200", ok_200);
+        CodegenResponse response = codegen.fromResponse("opId", "200", ok_200);
 
         Assertions.assertEquals(response.headers.size(), 1);
         CodegenProperty header = response.headers.get(0);

@@ -125,6 +125,19 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
      * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-multipleof">JSON Schema Validation Spec, Section 6.2.1</a>
      */
     public Number multipleOf;
+    /**
+     * If this is a body parameter, we might have several different variants
+     * depending on which content type is used.
+     */
+    public List<CodegenParameter> schemaVariants;
+    /**
+     * If this is a schema variant, this gives the schema variant type
+     */
+    public String variantType;
+    /**
+     * If this is a body schema, representing a simple form, these are the form parameters
+     */
+    public List<CodegenParameter> formParams;
     private Integer maxProperties;
     private Integer minProperties;
     public boolean isNull;
@@ -241,6 +254,12 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         if (this.ref != null) {
             output.setRef(this.ref);
         }
+        if (this.schemaVariants != null) {
+            output.schemaVariants = new ArrayList(this.schemaVariants);
+        }
+        if (this.formParams != null) {
+            output.formParams = new ArrayList(this.formParams);
+        }
         output.hasValidation = this.hasValidation;
         output.isNullable = this.isNullable;
         output.isDeprecated = this.isDeprecated;
@@ -274,6 +293,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.isMatrix = this.isMatrix;
         output.isAllowEmptyValue = this.isAllowEmptyValue;
         output.contentType = this.contentType;
+        output.variantType = this.variantType;
 
         return output;
     }
@@ -295,7 +315,8 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 additionalPropertiesIsAnyType, hasVars, hasRequired, isShort, isUnboundedInteger,
                 hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, schema, content,
                 requiredVarsMap, ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties,
-                nameInPascalCase, nameInCamelCase, nameInLowerCase, nameInSnakeCase);
+                nameInPascalCase, nameInCamelCase, nameInLowerCase, nameInSnakeCase,
+                schemaVariants, variantType, formParams);
     }
 
     @Override
@@ -401,7 +422,10 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 Objects.equals(getMaxItems(), that.getMaxItems()) &&
                 Objects.equals(getMinItems(), that.getMinItems()) &&
                 Objects.equals(contentType, that.contentType) &&
-                Objects.equals(multipleOf, that.multipleOf);
+                Objects.equals(multipleOf, that.multipleOf) &&
+                Objects.equals(formParams, that.formParams) &&
+                Objects.equals(schemaVariants, that.schemaVariants) &&
+                Objects.equals(variantType, that.variantType);
     }
 
     /**
@@ -515,6 +539,9 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         sb.append(", requiredVarsMap=").append(requiredVarsMap);
         sb.append(", ref=").append(ref);
         sb.append(", schemaIsFromAdditionalProperties=").append(schemaIsFromAdditionalProperties);
+        sb.append(", schemaVariants=").append(schemaVariants);
+        sb.append(", variantType=").append(variantType);
+        sb.append(", formParams=").append(formParams);
         sb.append('}');
         return sb.toString();
     }

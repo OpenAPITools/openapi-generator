@@ -50,9 +50,6 @@
         // Consumes basic body
     {{#bodyParam}}
         // Body parameter
-      {{^required}}
-        if let Some(param_{{{paramName}}}) = param_{{{paramName}}} {
-      {{/required}}
       {{#vendorExtensions}}
         {{#x-consumes-plain-text}}
           {{#isByteArray}}
@@ -70,9 +67,6 @@
         {{/x-consumes-json}}
       {{/vendorExtensions}}
         *request.body_mut() = Body::from(body);
-      {{^required}}
-        }
-      {{/required}}
 
         let header = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}application/json{{/consumes}}";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {

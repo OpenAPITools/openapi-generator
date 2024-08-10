@@ -377,8 +377,8 @@ public class ElixirClientCodegen extends DefaultCodegen {
     }
 
     @Override
-    public CodegenResponse fromResponse(String responseCode, ApiResponse resp) {
-        return new ExtendedCodegenResponse(super.fromResponse(responseCode, resp));
+    public CodegenResponse fromResponse(String opId, String responseCode, ApiResponse resp) {
+        return new ExtendedCodegenResponse(super.fromResponse(opId, responseCode, resp));
     }
 
     // We should use String.join if we can use Java8

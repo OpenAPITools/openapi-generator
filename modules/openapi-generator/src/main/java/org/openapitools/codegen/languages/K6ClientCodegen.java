@@ -568,7 +568,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                     }
                 }
 
-                if (hasBodyParameter(operation) || hasFormParameter(operation)) {
+                if (hasFirstBodyParameter(operation) || hasFormParameter(operation)) {
                     String defaultContentType = hasFormParameter(operation) ? "application/x-www-form-urlencoded" : "application/json";
                     List<String> consumes = new ArrayList<>(getConsumesInfo(openAPI, operation));
                     String contentTypeValue = consumes.isEmpty() ? defaultContentType : consumes.get(0);
@@ -586,7 +586,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                     }
 
                     for (Map.Entry<String, ApiResponse> responseEntry : operation.getResponses().entrySet()) {
-                        CodegenResponse r = fromResponse(responseEntry.getKey(), responseEntry.getValue());
+                        CodegenResponse r = fromResponse(operationId, responseEntry.getKey(), responseEntry.getValue());
                         if (r.baseType != null &&
                                 !defaultIncludes.contains(r.baseType) &&
                                 !languageSpecificPrimitives.contains(r.baseType)) {
@@ -596,7 +596,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
                     // if we have at least one request body example, we do not need to construct these dummies
                     if (!hasRequestBodyExample) {
-                        List<CodegenParameter> formParameters = fromRequestBodyToFormParameters(requestBody, imports);
+                        List<CodegenParameter> formParameters = fromFirstRequestBodyToFormParameters(requestBody, imports);
                         for (CodegenParameter parameter : formParameters) {
                             String reference = "";
                             if (parameter.isModel) {
