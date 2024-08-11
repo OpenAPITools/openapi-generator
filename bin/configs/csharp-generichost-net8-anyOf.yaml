@@ -11,3 +11,5 @@ additionalProperties:
   nullableReferenceTypes: true
   equatable: true
   targetFramework: net8.0
+  modelPropertySorting: alphabetical
+  operationParameterSorting: alphabetical
