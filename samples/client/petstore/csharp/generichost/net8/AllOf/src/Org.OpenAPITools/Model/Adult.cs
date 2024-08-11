@@ -34,17 +34,24 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Adult" /> class.
         /// </summary>
-        /// <param name="children">children</param>
-        /// <param name="firstName">firstName</param>
         /// <param name="lastName">lastName</param>
+        /// <param name="firstName">firstName</param>
+        /// <param name="children">children</param>
         [JsonConstructor]
-        public Adult(Option<List<Child>?> children = default, Option<string?> firstName = default, Option<string?> lastName = default) : base(firstName, lastName)
+        public Adult(Option<string?> lastName = default, Option<string?> firstName = default, Option<List<Child>?> children = default) : base(lastName, firstName)
         {
             ChildrenOption = children;
             OnCreated();
         }
 
         partial void OnCreated();
+
+        /// <summary>
+        /// The discriminator
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public new string Type { get; } = "Adult";
 
         /// <summary>
         /// Used to track the state of Children
@@ -58,13 +65,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("children")]
         public List<Child>? Children { get { return this.ChildrenOption; } set { this.ChildrenOption = new(value); } }
-
-        /// <summary>
-        /// The discriminator
-        /// </summary>
-        [JsonIgnore]
-        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public new string Type { get; } = "Adult";
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -103,10 +103,10 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<List<Child>?> children = default;
-            Option<string?> firstName = default;
-            Option<string?> lastName = default;
             Option<string?> type = default;
+            Option<string?> lastName = default;
+            Option<string?> firstName = default;
+            Option<List<Child>?> children = default;
 
             while (utf8JsonReader.Read())
             {
@@ -123,18 +123,18 @@ namespace Org.OpenAPITools.Model
 
                     switch (localVarJsonPropertyName)
                     {
-                        case "children":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                children = new Option<List<Child>?>(JsonSerializer.Deserialize<List<Child>>(ref utf8JsonReader, jsonSerializerOptions)!);
-                            break;
-                        case "firstName":
-                            firstName = new Option<string?>(utf8JsonReader.GetString()!);
+                        case "$_type":
+                            type = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "lastName":
                             lastName = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
-                        case "$_type":
-                            type = new Option<string?>(utf8JsonReader.GetString()!);
+                        case "firstName":
+                            firstName = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
+                        case "children":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                children = new Option<List<Child>?>(JsonSerializer.Deserialize<List<Child>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;
@@ -142,19 +142,19 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (children.IsSet && children.Value == null)
-                throw new ArgumentNullException(nameof(children), "Property is not nullable for class Adult.");
-
-            if (firstName.IsSet && firstName.Value == null)
-                throw new ArgumentNullException(nameof(firstName), "Property is not nullable for class Adult.");
+            if (type.IsSet && type.Value == null)
+                throw new ArgumentNullException(nameof(type), "Property is not nullable for class Adult.");
 
             if (lastName.IsSet && lastName.Value == null)
                 throw new ArgumentNullException(nameof(lastName), "Property is not nullable for class Adult.");
 
-            if (type.IsSet && type.Value == null)
-                throw new ArgumentNullException(nameof(type), "Property is not nullable for class Adult.");
+            if (firstName.IsSet && firstName.Value == null)
+                throw new ArgumentNullException(nameof(firstName), "Property is not nullable for class Adult.");
 
-            return new Adult(children, firstName, lastName);
+            if (children.IsSet && children.Value == null)
+                throw new ArgumentNullException(nameof(children), "Property is not nullable for class Adult.");
+
+            return new Adult(lastName, firstName, children);
         }
 
         /// <summary>
@@ -181,27 +181,28 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Adult adult, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (adult.ChildrenOption.IsSet && adult.Children == null)
-                throw new ArgumentNullException(nameof(adult.Children), "Property is required for class Adult.");
+            if (adult.LastNameOption.IsSet && adult.LastName == null)
+                throw new ArgumentNullException(nameof(adult.LastName), "Property is required for class Adult.");
 
             if (adult.FirstNameOption.IsSet && adult.FirstName == null)
                 throw new ArgumentNullException(nameof(adult.FirstName), "Property is required for class Adult.");
 
-            if (adult.LastNameOption.IsSet && adult.LastName == null)
-                throw new ArgumentNullException(nameof(adult.LastName), "Property is required for class Adult.");
+            if (adult.ChildrenOption.IsSet && adult.Children == null)
+                throw new ArgumentNullException(nameof(adult.Children), "Property is required for class Adult.");
+
+            writer.WriteString("$_type", adult.Type);
+
+            if (adult.LastNameOption.IsSet)
+                writer.WriteString("lastName", adult.LastName);
+
+            if (adult.FirstNameOption.IsSet)
+                writer.WriteString("firstName", adult.FirstName);
 
             if (adult.ChildrenOption.IsSet)
             {
                 writer.WritePropertyName("children");
                 JsonSerializer.Serialize(writer, adult.Children, jsonSerializerOptions);
             }
-            if (adult.FirstNameOption.IsSet)
-                writer.WriteString("firstName", adult.FirstName);
-
-            if (adult.LastNameOption.IsSet)
-                writer.WriteString("lastName", adult.LastName);
-
-            writer.WriteString("$_type", adult.Type);
         }
     }
 }
