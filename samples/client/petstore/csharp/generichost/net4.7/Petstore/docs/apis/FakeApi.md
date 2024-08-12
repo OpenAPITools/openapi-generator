@@ -1067,7 +1067,7 @@ No authorization required
 
 <a id="testendpointparameters"></a>
 # **TestEndpointParameters**
-> void TestEndpointParameters (decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int integer = null, int int32 = null, long int64 = null, float varFloat = null, string varString = null, System.IO.Stream binary = null, DateTime date = null, DateTime dateTime = null, string password = null, string callback = null)
+> void TestEndpointParameters (decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, System.IO.Stream binary = null, string callback = null, DateTime date = null, DateTime dateTime = null, int int32 = null, long int64 = null, int integer = null, string password = null, float varFloat = null, string varString = null)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -1095,24 +1095,24 @@ namespace Example
 
             var apiInstance = new FakeApi(config);
             var number = 8.14D;  // decimal | None
-            var varDouble = 1.2D;  // double | None
             var patternWithoutDelimiter = "patternWithoutDelimiter_example";  // string | None
             var varByte = System.Text.Encoding.ASCII.GetBytes("BYTE_ARRAY_DATA_HERE");  // byte[] | None
-            var integer = 56;  // int | None (optional) 
-            var int32 = 56;  // int | None (optional) 
-            var int64 = 789L;  // long | None (optional) 
-            var varFloat = 3.4F;  // float | None (optional) 
-            var varString = "varString_example";  // string | None (optional) 
+            var varDouble = 1.2D;  // double | None
             var binary = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | None (optional) 
+            var callback = "callback_example";  // string | None (optional) 
             var date = DateTime.Parse("2013-10-20");  // DateTime | None (optional) 
             var dateTime = DateTime.Parse(""2010-02-01T10:20:10.111110+01:00"");  // DateTime | None (optional)  (default to "2010-02-01T10:20:10.111110+01:00")
+            var int32 = 56;  // int | None (optional) 
+            var int64 = 789L;  // long | None (optional) 
+            var integer = 56;  // int | None (optional) 
             var password = "password_example";  // string | None (optional) 
-            var callback = "callback_example";  // string | None (optional) 
+            var varFloat = 3.4F;  // float | None (optional) 
+            var varString = "varString_example";  // string | None (optional) 
 
             try
             {
                 // Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-                apiInstance.TestEndpointParameters(number, varDouble, patternWithoutDelimiter, varByte, integer, int32, int64, varFloat, varString, binary, date, dateTime, password, callback);
+                apiInstance.TestEndpointParameters(number, patternWithoutDelimiter, varByte, varDouble, binary, callback, date, dateTime, int32, int64, integer, password, varFloat, varString);
             }
             catch (ApiException  e)
             {
@@ -1132,7 +1132,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    apiInstance.TestEndpointParametersWithHttpInfo(number, varDouble, patternWithoutDelimiter, varByte, integer, int32, int64, varFloat, varString, binary, date, dateTime, password, callback);
+    apiInstance.TestEndpointParametersWithHttpInfo(number, patternWithoutDelimiter, varByte, varDouble, binary, callback, date, dateTime, int32, int64, integer, password, varFloat, varString);
 }
 catch (ApiException e)
 {
@@ -1147,19 +1147,19 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **number** | **decimal** | None |  |
-| **varDouble** | **double** | None |  |
 | **patternWithoutDelimiter** | **string** | None |  |
 | **varByte** | **byte[]** | None |  |
-| **integer** | **int** | None | [optional]  |
-| **int32** | **int** | None | [optional]  |
-| **int64** | **long** | None | [optional]  |
-| **varFloat** | **float** | None | [optional]  |
-| **varString** | **string** | None | [optional]  |
+| **varDouble** | **double** | None |  |
 | **binary** | **System.IO.Stream****System.IO.Stream** | None | [optional]  |
+| **callback** | **string** | None | [optional]  |
 | **date** | **DateTime** | None | [optional]  |
 | **dateTime** | **DateTime** | None | [optional] [default to &quot;2010-02-01T10:20:10.111110+01:00&quot;] |
+| **int32** | **int** | None | [optional]  |
+| **int64** | **long** | None | [optional]  |
+| **integer** | **int** | None | [optional]  |
 | **password** | **string** | None | [optional]  |
-| **callback** | **string** | None | [optional]  |
+| **varFloat** | **float** | None | [optional]  |
+| **varString** | **string** | None | [optional]  |
 
 ### Return type
 
@@ -1185,7 +1185,7 @@ void (empty response body)
 
 <a id="testenumparameters"></a>
 # **TestEnumParameters**
-> void TestEnumParameters (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int enumQueryInteger = null, double enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null)
+> void TestEnumParameters (string enumFormString = null, List<string> enumFormStringArray = null, string enumHeaderString = null, List<string> enumHeaderStringArray = null, double enumQueryDouble = null, int enumQueryInteger = null, string enumQueryString = null, List<string> enumQueryStringArray = null)
 
 To test enum parameters
 
@@ -1208,19 +1208,19 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(config);
-            var enumHeaderStringArray = new List<string>(); // List<string> | Header parameter enum test (string array) (optional) 
-            var enumHeaderString = "_abc";  // string | Header parameter enum test (string) (optional)  (default to -efg)
-            var enumQueryStringArray = new List<string>(); // List<string> | Query parameter enum test (string array) (optional) 
-            var enumQueryString = "_abc";  // string | Query parameter enum test (string) (optional)  (default to -efg)
-            var enumQueryInteger = 1;  // int | Query parameter enum test (double) (optional) 
-            var enumQueryDouble = 1.1D;  // double | Query parameter enum test (double) (optional) 
-            var enumFormStringArray = new List<string>(); // List<string> | Form parameter enum test (string array) (optional)  (default to $)
             var enumFormString = "_abc";  // string | Form parameter enum test (string) (optional)  (default to -efg)
+            var enumFormStringArray = new List<string>(); // List<string> | Form parameter enum test (string array) (optional)  (default to $)
+            var enumHeaderString = "_abc";  // string | Header parameter enum test (string) (optional)  (default to -efg)
+            var enumHeaderStringArray = new List<string>(); // List<string> | Header parameter enum test (string array) (optional) 
+            var enumQueryDouble = 1.1D;  // double | Query parameter enum test (double) (optional) 
+            var enumQueryInteger = 1;  // int | Query parameter enum test (double) (optional) 
+            var enumQueryString = "_abc";  // string | Query parameter enum test (string) (optional)  (default to -efg)
+            var enumQueryStringArray = new List<string>(); // List<string> | Query parameter enum test (string array) (optional) 
 
             try
             {
                 // To test enum parameters
-                apiInstance.TestEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+                apiInstance.TestEnumParameters(enumFormString, enumFormStringArray, enumHeaderString, enumHeaderStringArray, enumQueryDouble, enumQueryInteger, enumQueryString, enumQueryStringArray);
             }
             catch (ApiException  e)
             {
@@ -1240,7 +1240,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // To test enum parameters
-    apiInstance.TestEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+    apiInstance.TestEnumParametersWithHttpInfo(enumFormString, enumFormStringArray, enumHeaderString, enumHeaderStringArray, enumQueryDouble, enumQueryInteger, enumQueryString, enumQueryStringArray);
 }
 catch (ApiException e)
 {
@@ -1254,14 +1254,14 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **enumHeaderStringArray** | [**List&lt;string&gt;**](string.md) | Header parameter enum test (string array) | [optional]  |
-| **enumHeaderString** | **string** | Header parameter enum test (string) | [optional] [default to -efg] |
-| **enumQueryStringArray** | [**List&lt;string&gt;**](string.md) | Query parameter enum test (string array) | [optional]  |
-| **enumQueryString** | **string** | Query parameter enum test (string) | [optional] [default to -efg] |
-| **enumQueryInteger** | **int** | Query parameter enum test (double) | [optional]  |
-| **enumQueryDouble** | **double** | Query parameter enum test (double) | [optional]  |
-| **enumFormStringArray** | [**List&lt;string&gt;**](string.md) | Form parameter enum test (string array) | [optional] [default to $] |
 | **enumFormString** | **string** | Form parameter enum test (string) | [optional] [default to -efg] |
+| **enumFormStringArray** | [**List&lt;string&gt;**](string.md) | Form parameter enum test (string array) | [optional] [default to $] |
+| **enumHeaderString** | **string** | Header parameter enum test (string) | [optional] [default to -efg] |
+| **enumHeaderStringArray** | [**List&lt;string&gt;**](string.md) | Header parameter enum test (string array) | [optional]  |
+| **enumQueryDouble** | **double** | Query parameter enum test (double) | [optional]  |
+| **enumQueryInteger** | **int** | Query parameter enum test (double) | [optional]  |
+| **enumQueryString** | **string** | Query parameter enum test (string) | [optional] [default to -efg] |
+| **enumQueryStringArray** | [**List&lt;string&gt;**](string.md) | Query parameter enum test (string array) | [optional]  |
 
 ### Return type
 
@@ -1287,7 +1287,7 @@ No authorization required
 
 <a id="testgroupparameters"></a>
 # **TestGroupParameters**
-> void TestGroupParameters (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int stringGroup = null, bool booleanGroup = null, long int64Group = null)
+> void TestGroupParameters (bool requiredBooleanGroup, long requiredInt64Group, int requiredStringGroup, bool booleanGroup = null, long int64Group = null, int stringGroup = null)
 
 Fake endpoint to test group parameters (optional)
 
@@ -1313,17 +1313,17 @@ namespace Example
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
             var apiInstance = new FakeApi(config);
-            var requiredStringGroup = 56;  // int | Required String in group parameters
             var requiredBooleanGroup = true;  // bool | Required Boolean in group parameters
             var requiredInt64Group = 789L;  // long | Required Integer in group parameters
-            var stringGroup = 56;  // int | String in group parameters (optional) 
+            var requiredStringGroup = 56;  // int | Required String in group parameters
             var booleanGroup = true;  // bool | Boolean in group parameters (optional) 
             var int64Group = 789L;  // long | Integer in group parameters (optional) 
+            var stringGroup = 56;  // int | String in group parameters (optional) 
 
             try
             {
                 // Fake endpoint to test group parameters (optional)
-                apiInstance.TestGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+                apiInstance.TestGroupParameters(requiredBooleanGroup, requiredInt64Group, requiredStringGroup, booleanGroup, int64Group, stringGroup);
             }
             catch (ApiException  e)
             {
@@ -1343,7 +1343,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Fake endpoint to test group parameters (optional)
-    apiInstance.TestGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+    apiInstance.TestGroupParametersWithHttpInfo(requiredBooleanGroup, requiredInt64Group, requiredStringGroup, booleanGroup, int64Group, stringGroup);
 }
 catch (ApiException e)
 {
@@ -1357,12 +1357,12 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **requiredStringGroup** | **int** | Required String in group parameters |  |
 | **requiredBooleanGroup** | **bool** | Required Boolean in group parameters |  |
 | **requiredInt64Group** | **long** | Required Integer in group parameters |  |
-| **stringGroup** | **int** | String in group parameters | [optional]  |
+| **requiredStringGroup** | **int** | Required String in group parameters |  |
 | **booleanGroup** | **bool** | Boolean in group parameters | [optional]  |
 | **int64Group** | **long** | Integer in group parameters | [optional]  |
+| **stringGroup** | **int** | String in group parameters | [optional]  |
 
 ### Return type
 
@@ -1644,7 +1644,7 @@ No authorization required
 
 <a id="testqueryparametercollectionformat"></a>
 # **TestQueryParameterCollectionFormat**
-> void TestQueryParameterCollectionFormat (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string requiredNullable, string notRequiredNotNullable = null, string notRequiredNullable = null)
+> void TestQueryParameterCollectionFormat (List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, List<string> url, string notRequiredNotNullable = null, string notRequiredNullable = null, string requiredNullable)
 
 
 
@@ -1667,19 +1667,19 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(config);
-            var pipe = new List<string>(); // List<string> | 
-            var ioutil = new List<string>(); // List<string> | 
-            var http = new List<string>(); // List<string> | 
-            var url = new List<string>(); // List<string> | 
             var context = new List<string>(); // List<string> | 
+            var http = new List<string>(); // List<string> | 
+            var ioutil = new List<string>(); // List<string> | 
+            var pipe = new List<string>(); // List<string> | 
             var requiredNotNullable = "requiredNotNullable_example";  // string | 
-            var requiredNullable = "requiredNullable_example";  // string | 
+            var url = new List<string>(); // List<string> | 
             var notRequiredNotNullable = "notRequiredNotNullable_example";  // string |  (optional) 
             var notRequiredNullable = "notRequiredNullable_example";  // string |  (optional) 
+            var requiredNullable = "requiredNullable_example";  // string | 
 
             try
             {
-                apiInstance.TestQueryParameterCollectionFormat(pipe, ioutil, http, url, context, requiredNotNullable, requiredNullable, notRequiredNotNullable, notRequiredNullable);
+                apiInstance.TestQueryParameterCollectionFormat(context, http, ioutil, pipe, requiredNotNullable, url, notRequiredNotNullable, notRequiredNullable, requiredNullable);
             }
             catch (ApiException  e)
             {
@@ -1698,7 +1698,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    apiInstance.TestQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, requiredNotNullable, requiredNullable, notRequiredNotNullable, notRequiredNullable);
+    apiInstance.TestQueryParameterCollectionFormatWithHttpInfo(context, http, ioutil, pipe, requiredNotNullable, url, notRequiredNotNullable, notRequiredNullable, requiredNullable);
 }
 catch (ApiException e)
 {
@@ -1712,15 +1712,15 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **pipe** | [**List&lt;string&gt;**](string.md) |  |  |
-| **ioutil** | [**List&lt;string&gt;**](string.md) |  |  |
-| **http** | [**List&lt;string&gt;**](string.md) |  |  |
-| **url** | [**List&lt;string&gt;**](string.md) |  |  |
 | **context** | [**List&lt;string&gt;**](string.md) |  |  |
+| **http** | [**List&lt;string&gt;**](string.md) |  |  |
+| **ioutil** | [**List&lt;string&gt;**](string.md) |  |  |
+| **pipe** | [**List&lt;string&gt;**](string.md) |  |  |
 | **requiredNotNullable** | **string** |  |  |
-| **requiredNullable** | **string** |  |  |
+| **url** | [**List&lt;string&gt;**](string.md) |  |  |
 | **notRequiredNotNullable** | **string** |  | [optional]  |
 | **notRequiredNullable** | **string** |  | [optional]  |
+| **requiredNullable** | **string** |  |  |
 
 ### Return type
 

@@ -155,11 +155,11 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
+        /// <param name="username">The user name for login</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ILoginUserApiResponse"/>&gt;</returns>
-        Task<ILoginUserApiResponse> LoginUserAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default);
+        Task<ILoginUserApiResponse> LoginUserAsync(string password, string username, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Logs user into the system
@@ -167,11 +167,11 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// 
         /// </remarks>
-        /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
+        /// <param name="username">The user name for login</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ILoginUserApiResponse"/>&gt;</returns>
-        Task<ILoginUserApiResponse> LoginUserOrDefaultAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default);
+        Task<ILoginUserApiResponse> LoginUserOrDefaultAsync(string password, string username, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Logs out current logged in user session
@@ -201,11 +201,11 @@ namespace Org.OpenAPITools.Api
         /// This can only be done by the logged in user.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">name that need to be deleted</param>
         /// <param name="user">Updated user object</param>
+        /// <param name="username">name that need to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IUpdateUserApiResponse"/>&gt;</returns>
-        Task<IUpdateUserApiResponse> UpdateUserAsync(string username, User user, System.Threading.CancellationToken cancellationToken = default);
+        Task<IUpdateUserApiResponse> UpdateUserAsync(User user, string username, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Updated user
@@ -213,11 +213,11 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// This can only be done by the logged in user.
         /// </remarks>
-        /// <param name="username">name that need to be deleted</param>
         /// <param name="user">Updated user object</param>
+        /// <param name="username">name that need to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IUpdateUserApiResponse"/>&gt;</returns>
-        Task<IUpdateUserApiResponse> UpdateUserOrDefaultAsync(string username, User user, System.Threading.CancellationToken cancellationToken = default);
+        Task<IUpdateUserApiResponse> UpdateUserOrDefaultAsync(User user, string username, System.Threading.CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -1622,33 +1622,33 @@ namespace Org.OpenAPITools.Api
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatLoginUser(ref string username, ref string password);
+        partial void FormatLoginUser(ref string password, ref string username);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        /// <param name="username"></param>
         /// <param name="password"></param>
+        /// <param name="username"></param>
         /// <returns></returns>
-        private void ValidateLoginUser(string username, string password)
+        private void ValidateLoginUser(string password, string username)
         {
-            if (username == null)
-                throw new ArgumentNullException(nameof(username));
-
             if (password == null)
                 throw new ArgumentNullException(nameof(password));
+
+            if (username == null)
+                throw new ArgumentNullException(nameof(username));
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="username"></param>
         /// <param name="password"></param>
-        private void AfterLoginUserDefaultImplementation(ILoginUserApiResponse apiResponseLocalVar, string username, string password)
+        /// <param name="username"></param>
+        private void AfterLoginUserDefaultImplementation(ILoginUserApiResponse apiResponseLocalVar, string password, string username)
         {
             bool suppressDefaultLog = false;
-            AfterLoginUser(ref suppressDefaultLog, apiResponseLocalVar, username, password);
+            AfterLoginUser(ref suppressDefaultLog, apiResponseLocalVar, password, username);
             if (!suppressDefaultLog)
                 Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
@@ -1658,9 +1658,9 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="username"></param>
         /// <param name="password"></param>
-        partial void AfterLoginUser(ref bool suppressDefaultLog, ILoginUserApiResponse apiResponseLocalVar, string username, string password);
+        /// <param name="username"></param>
+        partial void AfterLoginUser(ref bool suppressDefaultLog, ILoginUserApiResponse apiResponseLocalVar, string password, string username);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1668,12 +1668,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        /// <param name="username"></param>
         /// <param name="password"></param>
-        private void OnErrorLoginUserDefaultImplementation(Exception exception, string pathFormat, string path, string username, string password)
+        /// <param name="username"></param>
+        private void OnErrorLoginUserDefaultImplementation(Exception exception, string pathFormat, string path, string password, string username)
         {
             bool suppressDefaultLog = false;
-            OnErrorLoginUser(ref suppressDefaultLog, exception, pathFormat, path, username, password);
+            OnErrorLoginUser(ref suppressDefaultLog, exception, pathFormat, path, password, username);
             if (!suppressDefaultLog)
                 Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
@@ -1685,22 +1685,22 @@ namespace Org.OpenAPITools.Api
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        /// <param name="username"></param>
         /// <param name="password"></param>
-        partial void OnErrorLoginUser(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, string username, string password);
+        /// <param name="username"></param>
+        partial void OnErrorLoginUser(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, string password, string username);
 
         /// <summary>
         /// Logs user into the system 
         /// </summary>
-        /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
+        /// <param name="username">The user name for login</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ILoginUserApiResponse"/>&gt;</returns>
-        public async Task<ILoginUserApiResponse> LoginUserOrDefaultAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ILoginUserApiResponse> LoginUserOrDefaultAsync(string password, string username, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await LoginUserAsync(username, password, cancellationToken).ConfigureAwait(false);
+                return await LoginUserAsync(password, username, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -1712,19 +1712,19 @@ namespace Org.OpenAPITools.Api
         /// Logs user into the system 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
+        /// <param name="username">The user name for login</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ILoginUserApiResponse"/>&gt;</returns>
-        public async Task<ILoginUserApiResponse> LoginUserAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ILoginUserApiResponse> LoginUserAsync(string password, string username, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                ValidateLoginUser(username, password);
+                ValidateLoginUser(password, username);
 
-                FormatLoginUser(ref username, ref password);
+                FormatLoginUser(ref password, ref username);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1735,8 +1735,8 @@ namespace Org.OpenAPITools.Api
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryStringLocalVar["username"] = ClientUtils.ParameterToString(username);
                     parseQueryStringLocalVar["password"] = ClientUtils.ParameterToString(password);
+                    parseQueryStringLocalVar["username"] = ClientUtils.ParameterToString(username);
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
@@ -1763,7 +1763,7 @@ namespace Org.OpenAPITools.Api
 
                         LoginUserApiResponse apiResponseLocalVar = new LoginUserApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/login", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterLoginUserDefaultImplementation(apiResponseLocalVar, username, password);
+                        AfterLoginUserDefaultImplementation(apiResponseLocalVar, password, username);
 
                         Events.ExecuteOnLoginUser(apiResponseLocalVar);
 
@@ -1773,7 +1773,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorLoginUserDefaultImplementation(e, "/user/login", uriBuilderLocalVar.Path, username, password);
+                OnErrorLoginUserDefaultImplementation(e, "/user/login", uriBuilderLocalVar.Path, password, username);
                 Events.ExecuteOnErrorLoginUser(e);
                 throw;
             }
@@ -2014,33 +2014,33 @@ namespace Org.OpenAPITools.Api
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatUpdateUser(ref string username, User user);
+        partial void FormatUpdateUser(User user, ref string username);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        /// <param name="username"></param>
         /// <param name="user"></param>
+        /// <param name="username"></param>
         /// <returns></returns>
-        private void ValidateUpdateUser(string username, User user)
+        private void ValidateUpdateUser(User user, string username)
         {
-            if (username == null)
-                throw new ArgumentNullException(nameof(username));
-
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
+
+            if (username == null)
+                throw new ArgumentNullException(nameof(username));
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="username"></param>
         /// <param name="user"></param>
-        private void AfterUpdateUserDefaultImplementation(IUpdateUserApiResponse apiResponseLocalVar, string username, User user)
+        /// <param name="username"></param>
+        private void AfterUpdateUserDefaultImplementation(IUpdateUserApiResponse apiResponseLocalVar, User user, string username)
         {
             bool suppressDefaultLog = false;
-            AfterUpdateUser(ref suppressDefaultLog, apiResponseLocalVar, username, user);
+            AfterUpdateUser(ref suppressDefaultLog, apiResponseLocalVar, user, username);
             if (!suppressDefaultLog)
                 Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
@@ -2050,9 +2050,9 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="username"></param>
         /// <param name="user"></param>
-        partial void AfterUpdateUser(ref bool suppressDefaultLog, IUpdateUserApiResponse apiResponseLocalVar, string username, User user);
+        /// <param name="username"></param>
+        partial void AfterUpdateUser(ref bool suppressDefaultLog, IUpdateUserApiResponse apiResponseLocalVar, User user, string username);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2060,12 +2060,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        /// <param name="username"></param>
         /// <param name="user"></param>
-        private void OnErrorUpdateUserDefaultImplementation(Exception exception, string pathFormat, string path, string username, User user)
+        /// <param name="username"></param>
+        private void OnErrorUpdateUserDefaultImplementation(Exception exception, string pathFormat, string path, User user, string username)
         {
             bool suppressDefaultLog = false;
-            OnErrorUpdateUser(ref suppressDefaultLog, exception, pathFormat, path, username, user);
+            OnErrorUpdateUser(ref suppressDefaultLog, exception, pathFormat, path, user, username);
             if (!suppressDefaultLog)
                 Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
@@ -2077,22 +2077,22 @@ namespace Org.OpenAPITools.Api
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        /// <param name="username"></param>
         /// <param name="user"></param>
-        partial void OnErrorUpdateUser(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, string username, User user);
+        /// <param name="username"></param>
+        partial void OnErrorUpdateUser(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, User user, string username);
 
         /// <summary>
         /// Updated user This can only be done by the logged in user.
         /// </summary>
-        /// <param name="username">name that need to be deleted</param>
         /// <param name="user">Updated user object</param>
+        /// <param name="username">name that need to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IUpdateUserApiResponse"/>&gt;</returns>
-        public async Task<IUpdateUserApiResponse> UpdateUserOrDefaultAsync(string username, User user, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<IUpdateUserApiResponse> UpdateUserOrDefaultAsync(User user, string username, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await UpdateUserAsync(username, user, cancellationToken).ConfigureAwait(false);
+                return await UpdateUserAsync(user, username, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -2104,19 +2104,19 @@ namespace Org.OpenAPITools.Api
         /// Updated user This can only be done by the logged in user.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">name that need to be deleted</param>
         /// <param name="user">Updated user object</param>
+        /// <param name="username">name that need to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IUpdateUserApiResponse"/>&gt;</returns>
-        public async Task<IUpdateUserApiResponse> UpdateUserAsync(string username, User user, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<IUpdateUserApiResponse> UpdateUserAsync(User user, string username, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                ValidateUpdateUser(username, user);
+                ValidateUpdateUser(user, username);
 
-                FormatUpdateUser(ref username, user);
+                FormatUpdateUser(user, ref username);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -2153,7 +2153,7 @@ namespace Org.OpenAPITools.Api
 
                         UpdateUserApiResponse apiResponseLocalVar = new UpdateUserApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterUpdateUserDefaultImplementation(apiResponseLocalVar, username, user);
+                        AfterUpdateUserDefaultImplementation(apiResponseLocalVar, user, username);
 
                         Events.ExecuteOnUpdateUser(apiResponseLocalVar);
 
@@ -2163,7 +2163,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorUpdateUserDefaultImplementation(e, "/user/{username}", uriBuilderLocalVar.Path, username, user);
+                OnErrorUpdateUserDefaultImplementation(e, "/user/{username}", uriBuilderLocalVar.Path, user, username);
                 Events.ExecuteOnErrorUpdateUser(e);
                 throw;
             }
