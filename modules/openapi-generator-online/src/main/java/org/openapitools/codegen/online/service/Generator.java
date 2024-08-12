@@ -118,11 +118,6 @@ public class Generator {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The OpenAPI specification supplied was not valid");
         }
 
-//        if(opts.getOpenapiNormalizer() != null && !opts.getOpenapiNormalizer().isEmpty()){
-//            for(String ruleString: opts.getOpenapiNormalizer()) {
-//
-//            }
-//        }
 
         // do not use opts.getOptions().get("outputFolder") as the input can contain ../../
         // to access other folders in the server
@@ -137,7 +132,6 @@ public class Generator {
         CodegenConfig codegenConfig;
         try {
             codegenConfig = CodegenConfigLoader.forName(language);
-
         } catch (RuntimeException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unsupported target " + language + " supplied");
         }
@@ -149,7 +143,6 @@ public class Generator {
 
         if(opts.getOpenapiNormalizer() != null && !opts.getOpenapiNormalizer().isEmpty()){
             for(String rule: opts.getOpenapiNormalizer()){
-
                 String[] ruleOperands = rule.split("=");
                 if(ruleOperands.length != 2) {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "In rule: " + rule + "the operands were not provided in the form of <Rule>=<Value>");
