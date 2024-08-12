@@ -1,29 +1,19 @@
                                 // Get multipart chunks.
 
-                                // Extract the top-level content type header.
-                                let content_type_mime = headers
-                                    .get(CONTENT_TYPE)
-                                    .ok_or_else(|| "Missing content-type header".to_string())
-                                    .and_then(|v| v.to_str().map_err(|e| format!("Couldn't read content-type header value for {{operationId}}: {}", e)))
-                                    .and_then(|v| v.parse::<Mime2>().map_err(|_e| "Couldn't parse content-type header value for {{operationId}}".to_string()));
-
-                                // Insert top-level content type header into a Headers object.
-                                let mut multi_part_headers = Headers::new();
-                                match content_type_mime {
-                                    Ok(content_type_mime) => {
-                                        multi_part_headers.set(ContentType(content_type_mime));
-                                    },
+                                // Create headers from top-level content type header.
+                                let multipart_headers = match swagger::multipart::related::create_multipart_headers(headers.get(CONTENT_TYPE)) {
+                                    Ok(headers) => headers,
                                     Err(e) => {
                                         return Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
                                                 .body(Body::from(e))
                                                 .expect("Unable to create Bad Request response due to unable to read content-type header for {{operationId}}"));
                                     }
-                                }
+                                };
 
                                 // &*body expresses the body as a byteslice, &mut provides a
                                 // mutable reference to that byteslice.
-                                let nodes = match read_multipart_body(&mut&*body, &multi_part_headers, false) {
+                                let nodes = match read_multipart_body(&mut&*body, &multipart_headers, false) {
                                     Ok(nodes) => nodes,
                                     Err(e) => {
                                         return Ok(Response::builder()

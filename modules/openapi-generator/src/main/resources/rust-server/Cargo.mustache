@@ -41,7 +41,7 @@ client = [
     "multipart", "multipart/client", "swagger/multipart_form",
 {{/apiUsesMultipartFormData}}
 {{#apiUsesMultipartRelated}}
-    "hyper_0_10", "mime_multipart",
+    "hyper_0_10", "mime_multipart", "swagger/multipart_related",
 {{/apiUsesMultipartRelated}}
 {{#usesUrlEncodedForm}}
     "serde_urlencoded",
@@ -60,7 +60,7 @@ server = [
     "multipart", "multipart/server", "swagger/multipart_form",
 {{/apiUsesMultipartFormData}}
 {{#apiUsesMultipartRelated}}
-    "hyper_0_10", "mime_multipart",
+    "hyper_0_10", "mime_multipart", "swagger/multipart_related",
 {{/apiUsesMultipartRelated}}
 {{#hasCallbacks}}
     "native-tls", "hyper-openssl", "hyper-tls", "openssl",
