@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 README.md
 pom.xml
 src/main/java/org/openapitools/server/JavaTimeFormatter.java
@@ -12,4 +11,3 @@ src/main/resources/META-INF/beans.xml
 src/main/resources/META-INF/microprofile-config.properties
 src/main/resources/META-INF/openapi.yml
 src/main/resources/logging.properties
-src/test/java/org/openapitools/server/model/FormatTestTest.java
