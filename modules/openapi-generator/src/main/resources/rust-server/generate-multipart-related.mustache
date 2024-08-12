@@ -1,0 +1,45 @@
+{{#-first}}
+        // Construct the Body for a multipart/related request. The mime 0.2.6 library
+        // does not parse quoted-string parameters correctly. The boundary doesn't
+        // need to be a quoted string if it does not contain a '/', hence ensure
+        // no such boundary is used.
+        let mut boundary = generate_boundary();
+        for b in boundary.iter_mut() {
+            if b == &(b'/') {
+                *b = b'=';
+            }
+        }
+        let mut body_parts = vec![];
+
+{{/-first}}
+{{#required}}
+        {
+{{/required}}
+{{^required}}
+        if let Some({{{paramName}}}) = param_{{{paramName}}} {
+{{/required}}
+            let part = Node::Part(Part {
+                headers: {
+                    let mut h = Headers::new();
+                    h.set(ContentType("{{{contentType}}}".parse().unwrap()));
+                    h.set_raw("Content-ID", vec![b"{{{baseName}}}".to_vec()]);
+                    h
+                },
+                {{#isBinary}}
+                body: {{#required}}param_{{/required}}{{{paramName}}}.0,
+                {{/isBinary}}
+                {{^isBinary}}
+                body: serde_json::to_string(&{{{paramName}}})
+                    .expect("Impossible to fail to serialize")
+                    .into_bytes(),
+                {{/isBinary}}
+            });
+            body_parts.push(part);
+        }
+{{#-last}}
+
+        // Write the body into a vec.
+        let mut body: Vec<u8> = vec![];
+        write_multipart(&mut body, &boundary, &body_parts)
+            .expect("Failed to write multipart body");
+{{/-last}}
