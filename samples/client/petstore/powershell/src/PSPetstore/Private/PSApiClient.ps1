@@ -239,6 +239,7 @@ function DeserializeResponse {
         [Parameter(Mandatory)]
         [Object]$Response,
         [Parameter(Mandatory)]
+        [AllowNull()]
         [AllowEmptyCollection()]
         [string[]]$ContentTypes
     )
