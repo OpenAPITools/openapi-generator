@@ -3092,16 +3092,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (sortModelPropertiesByRequiredFlag) {
-            Comparator<CodegenProperty> comparator = new Comparator<CodegenProperty>() {
-                @Override
-                public int compare(CodegenProperty one, CodegenProperty another) {
-                    if (one.required == another.required) return 0;
-                    else if (one.required) return -1;
-                    else return 1;
-                }
-            };
-            Collections.sort(m.vars, comparator);
-            Collections.sort(m.allVars, comparator);
+            SortModelPropertiesByRequiredFlag(m);
         }
 
         // post process model properties
@@ -3118,6 +3109,19 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return m;
+    }
+
+    protected void SortModelPropertiesByRequiredFlag(CodegenModel model) {
+        Comparator<CodegenProperty> comparator = new Comparator<CodegenProperty>() {
+            @Override
+            public int compare(CodegenProperty one, CodegenProperty another) {
+                if (one.required == another.required) return 0;
+                else if (one.required) return -1;
+                else return 1;
+            }
+        };
+        Collections.sort(model.vars, comparator);
+        Collections.sort(model.allVars, comparator);
     }
 
     protected void setAddProps(Schema schema, IJsonSchemaValidationProperties property) {
@@ -4729,17 +4733,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         // move "required" parameters in front of "optional" parameters
         if (sortParamsByRequiredFlag) {
-            Collections.sort(allParams, new Comparator<CodegenParameter>() {
-                @Override
-                public int compare(CodegenParameter one, CodegenParameter another) {
-                    if (one.required == another.required)
-                        return 0;
-                    else if (one.required)
-                        return -1;
-                    else
-                        return 1;
-                }
-            });
+            SortParametersByRequiredFlag(allParams);
         }
 
         op.allParams = allParams;
@@ -4771,6 +4765,20 @@ public class DefaultCodegen implements CodegenConfig {
         op.isRestful = op.isRestful();
 
         return op;
+    }
+
+    public void SortParametersByRequiredFlag(List<CodegenParameter> parameters) {
+        Collections.sort(parameters, new Comparator<CodegenParameter>() {
+            @Override
+            public int compare(CodegenParameter one, CodegenParameter another) {
+                if (one.required == another.required)
+                    return 0;
+                else if (one.required)
+                    return -1;
+                else
+                    return 1;
+            }
+        });
     }
 
     public boolean isParameterNameUnique(CodegenParameter p, List<CodegenParameter> parameters) {

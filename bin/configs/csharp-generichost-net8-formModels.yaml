@@ -13,5 +13,6 @@ additionalProperties:
   targetFramework: net8.0
   skipFormModel: false
   modelPropertySorting: alphabetical
+  operationParameterSorting: alphabetical
 inlineSchemaOptions:
   RESOLVE_INLINE_ENUMS: true

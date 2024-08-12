@@ -89,8 +89,8 @@ class RESTClientObject:
                 client_session=self.pool_manager,
                 retry_options=aiohttp_retry.ExponentialRetry(
                     attempts=retries,
-                    factor=0.0,
-                    start_timeout=0.0,
+                    factor=2.0,
+                    start_timeout=0.1,
                     max_timeout=120.0
                 )
             )

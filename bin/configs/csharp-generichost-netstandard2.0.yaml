@@ -11,3 +11,4 @@ additionalProperties:
   targetFramework: netstandard2.0
   equatable: true
   modelPropertySorting: alphabetical
+  operationParameterSorting: alphabetical
