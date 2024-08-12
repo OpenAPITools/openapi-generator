@@ -221,4 +221,26 @@ public interface PetApi {
          @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
     );
 
+
+    /**
+     * POST /fake/{petId}/uploadImageWithOptionalBody : uploads an image (required)
+     * 
+     *
+     * @param petId ID of pet to update (required)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param optionalFile file to upload (optional)
+     * @return successful operation (status code 200)
+     */
+    @HttpExchange(
+        method = "POST",
+        value = "/fake/{petId}/uploadImageWithOptionalBody",
+        accept = { "application/json" },
+        contentType = "multipart/form-data"
+    )
+    ResponseEntity<ApiResponseDto> uploadImageWithOptionalBody(
+         @PathVariable("petId") Long petId,
+         @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
+         @RequestPart(value = "optionalFile", required = false) MultipartFile optionalFile
+    );
+
 }
