@@ -451,10 +451,10 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // Consumes basic body
         // Body parameter
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-
-                *request.body_mut() = Body::from(body);
+        *request.body_mut() = Body::from(body);
 
         let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
@@ -477,11 +477,13 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = body
                         .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<models::Client>(body).map_err(|e| {
-                    ApiError(format!("Response body did not match the schema: {}", e))
-                })?;
+                let body = serde_json::from_str::<models::Client>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;
+
+
                 Ok(TestSpecialTagsResponse::SuccessfulOperation
                     (body)
                 )
@@ -608,11 +610,11 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let body = param_body.map(|ref body| {
-            serde_json::to_string(body).expect("impossible to fail to serialize")
-        });
-        if let Some(body) = body {
-                *request.body_mut() = Body::from(body);
+        // Consumes basic body
+        // Body parameter
+        if let Some(param_body) = param_body {
+        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
+        *request.body_mut() = Body::from(body);
         }
 
         let header = "application/json";
@@ -620,6 +622,7 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -635,11 +638,13 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = body
                         .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<bool>(body).map_err(|e| {
-                    ApiError(format!("Response body did not match the schema: {}", e))
-                })?;
+                let body = serde_json::from_str::<bool>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;
+
+
                 Ok(FakeOuterBooleanSerializeResponse::OutputBoolean
                     (body)
                 )
@@ -698,11 +703,11 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let body = param_body.map(|ref body| {
-            serde_json::to_string(body).expect("impossible to fail to serialize")
-        });
-        if let Some(body) = body {
-                *request.body_mut() = Body::from(body);
+        // Consumes basic body
+        // Body parameter
+        if let Some(param_body) = param_body {
+        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
+        *request.body_mut() = Body::from(body);
         }
 
         let header = "application/json";
@@ -710,6 +715,7 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -725,11 +731,13 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = body
                         .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<models::OuterComposite>(body).map_err(|e| {
-                    ApiError(format!("Response body did not match the schema: {}", e))
-                })?;
+                let body = serde_json::from_str::<models::OuterComposite>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;
+
+
                 Ok(FakeOuterCompositeSerializeResponse::OutputComposite
                     (body)
                 )
@@ -788,11 +796,11 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let body = param_body.map(|ref body| {
-            serde_json::to_string(body).expect("impossible to fail to serialize")
-        });
-        if let Some(body) = body {
-                *request.body_mut() = Body::from(body);
+        // Consumes basic body
+        // Body parameter
+        if let Some(param_body) = param_body {
+        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
+        *request.body_mut() = Body::from(body);
         }
 
         let header = "application/json";
@@ -800,6 +808,7 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -815,11 +824,13 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = body
                         .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<f64>(body).map_err(|e| {
-                    ApiError(format!("Response body did not match the schema: {}", e))
-                })?;
+                let body = serde_json::from_str::<f64>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;
+
+
                 Ok(FakeOuterNumberSerializeResponse::OutputNumber
                     (body)
                 )
@@ -878,11 +889,11 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let body = param_body.map(|ref body| {
-            serde_json::to_string(body).expect("impossible to fail to serialize")
-        });
-        if let Some(body) = body {
-                *request.body_mut() = Body::from(body);
+        // Consumes basic body
+        // Body parameter
+        if let Some(param_body) = param_body {
+        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
+        *request.body_mut() = Body::from(body);
         }
 
         let header = "application/json";
@@ -890,6 +901,7 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -905,11 +917,13 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = body
                         .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<String>(body).map_err(|e| {
-                    ApiError(format!("Response body did not match the schema: {}", e))
-                })?;
+                let body = serde_json::from_str::<String>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;
+
+
                 Ok(FakeOuterStringSerializeResponse::OutputString
                     (body)
                 )
@@ -1109,14 +1123,17 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // Consumes basic body
+        // Body parameter
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-                *request.body_mut() = Body::from(body);
+        *request.body_mut() = Body::from(body);
 
         let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1186,14 +1203,17 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // Consumes basic body
+        // Body parameter
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-                *request.body_mut() = Body::from(body);
+        *request.body_mut() = Body::from(body);
 
         let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1209,11 +1229,13 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = body
                         .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<models::Client>(body).map_err(|e| {
-                    ApiError(format!("Response body did not match the schema: {}", e))
-                })?;
+                let body = serde_json::from_str::<models::Client>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;
+
+
                 Ok(TestClientModelResponse::SuccessfulOperation
                     (body)
                 )
@@ -1285,6 +1307,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // Consumes form body
         let params = &[
             ("integer", param_integer.map(|param| format!("{:?}", param))),
             ("int32", param_int32.map(|param| format!("{:?}", param))),
@@ -1303,12 +1326,14 @@ impl<S, C> Api<C> for Client<S, C> where
         ];
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
+        *request.body_mut() = Body::from(body.into_bytes());
+
         let header = "application/x-www-form-urlencoded";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        *request.body_mut() = Body::from(body.into_bytes());
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1424,17 +1449,20 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // Consumes form body
         let params = &[
             ("enum_form_string", param_enum_form_string),
         ];
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
+
+        *request.body_mut() = Body::from(body.into_bytes());
 
         let header = "application/x-www-form-urlencoded";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        *request.body_mut() = Body::from(body.into_bytes());
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1544,14 +1572,17 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // Consumes basic body
+        // Body parameter
         let body = serde_json::to_string(&param_param).expect("impossible to fail to serialize");
-                *request.body_mut() = Body::from(body);
+        *request.body_mut() = Body::from(body);
 
         let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1622,18 +1653,21 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // Consumes form body
         let params = &[
             ("param", Some(param_param)),
             ("param2", Some(param_param2)),
         ];
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
+        *request.body_mut() = Body::from(body.into_bytes());
+
         let header = "application/x-www-form-urlencoded";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        *request.body_mut() = Body::from(body.into_bytes());
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1706,10 +1740,10 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // Consumes basic body
         // Body parameter
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-
-                *request.body_mut() = Body::from(body);
+        *request.body_mut() = Body::from(body);
 
         let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
@@ -1741,11 +1775,13 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = body
                         .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<models::Client>(body).map_err(|e| {
-                    ApiError(format!("Response body did not match the schema: {}", e))
-                })?;
+                let body = serde_json::from_str::<models::Client>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;
+
+
                 Ok(TestClassnameResponse::SuccessfulOperation
                     (body)
                 )
@@ -1804,15 +1840,17 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // Consumes basic body
         // Body parameter
         let body = param_body.as_xml();
-                *request.body_mut() = Body::from(body);
+        *request.body_mut() = Body::from(body);
 
         let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2045,12 +2083,15 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = body
                         .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
                 // ToDo: this will move to swagger-rs and become a standard From conversion trait
                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                 let body = serde_xml_rs::from_str::<Vec<models::Pet>>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;
+
+
                 Ok(FindPetsByStatusResponse::SuccessfulOperation
                     (body)
                 )
@@ -2150,12 +2191,15 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = body
                         .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
                 // ToDo: this will move to swagger-rs and become a standard From conversion trait
                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                 let body = serde_xml_rs::from_str::<Vec<models::Pet>>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;
+
+
                 Ok(FindPetsByTagsResponse::SuccessfulOperation
                     (body)
                 )
@@ -2244,12 +2288,15 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = body
                         .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
                 // ToDo: this will move to swagger-rs and become a standard From conversion trait
                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                 let body = serde_xml_rs::from_str::<models::Pet>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;
+
+
                 Ok(GetPetByIdResponse::SuccessfulOperation
                     (body)
                 )
@@ -2318,14 +2365,17 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // Consumes basic body
+        // Body parameter
         let body = param_body.as_xml();
-                *request.body_mut() = Body::from(body);
+        *request.body_mut() = Body::from(body);
 
         let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2427,18 +2477,21 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // Consumes form body
         let params = &[
             ("name", param_name),
             ("status", param_status),
         ];
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
+        *request.body_mut() = Body::from(body.into_bytes());
+
         let header = "application/x-www-form-urlencoded";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        *request.body_mut() = Body::from(body.into_bytes());
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2530,6 +2583,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // Consumes multipart/form body
         let (body_string, multipart_header) = {
             let mut multipart = Multipart::new();
 
@@ -2585,6 +2639,7 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", multipart_header, e)))
         });
 
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2619,11 +2674,13 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = body
                         .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<models::ApiResponse>(body).map_err(|e| {
-                    ApiError(format!("Response body did not match the schema: {}", e))
-                })?;
+                let body = serde_json::from_str::<models::ApiResponse>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;
+
+
                 Ok(UploadFileResponse::SuccessfulOperation
                     (body)
                 )
@@ -2780,11 +2837,13 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = body
                         .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<std::collections::HashMap<String, i32>>(body).map_err(|e| {
-                    ApiError(format!("Response body did not match the schema: {}", e))
-                })?;
+                let body = serde_json::from_str::<std::collections::HashMap<String, i32>>(body)
+                    .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;
+
+
                 Ok(GetInventoryResponse::SuccessfulOperation
                     (body)
                 )
@@ -2859,12 +2918,15 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = body
                         .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
                 // ToDo: this will move to swagger-rs and become a standard From conversion trait
                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                 let body = serde_xml_rs::from_str::<models::Order>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;
+
+
                 Ok(GetOrderByIdResponse::SuccessfulOperation
                     (body)
                 )
@@ -2933,9 +2995,10 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // Consumes basic body
+        // Body parameter
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-
-                *request.body_mut() = Body::from(body);
+        *request.body_mut() = Body::from(body);
 
         let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
@@ -2958,12 +3021,15 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = body
                         .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
                 // ToDo: this will move to swagger-rs and become a standard From conversion trait
                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                 let body = serde_xml_rs::from_str::<models::Order>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;
+
+
                 Ok(PlaceOrderResponse::SuccessfulOperation
                     (body)
                 )
@@ -3027,15 +3093,17 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // Consumes basic body
         // Body parameter
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-                *request.body_mut() = Body::from(body);
+        *request.body_mut() = Body::from(body);
 
         let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -3105,14 +3173,17 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // Consumes basic body
+        // Body parameter
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-                *request.body_mut() = Body::from(body);
+        *request.body_mut() = Body::from(body);
 
         let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -3182,14 +3253,17 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // Consumes basic body
+        // Body parameter
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-                *request.body_mut() = Body::from(body);
+        *request.body_mut() = Body::from(body);
 
         let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -3350,12 +3424,15 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = body
                         .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
                 // ToDo: this will move to swagger-rs and become a standard From conversion trait
                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                 let body = serde_xml_rs::from_str::<models::User>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;
+
+
                 Ok(GetUserByNameResponse::SuccessfulOperation
                     (body)
                 )
@@ -3472,12 +3549,15 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = body
                         .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
                 // ToDo: this will move to swagger-rs and become a standard From conversion trait
                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                 let body = serde_xml_rs::from_str::<String>(body)
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;
+
+
                 Ok(LoginUserResponse::SuccessfulOperation
                     {
                         body,
@@ -3615,9 +3695,10 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // Consumes basic body
+        // Body parameter
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-
-                *request.body_mut() = Body::from(body);
+        *request.body_mut() = Body::from(body);
 
         let header = "application/json";
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {

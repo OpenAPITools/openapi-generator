@@ -423,6 +423,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // Consumes multipart/related body
         // Construct the Body for a multipart/related request. The mime 0.2.6 library
         // does not parse quoted-string parameters correctly. The boundary doesn't
         // need to be a quoted string if it does not contain a '/', hence ensure
@@ -433,7 +434,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 *b = b'=';
             }
         }
-
         let mut body_parts = vec![];
 
         if let Some(object_field) = param_object_field {
@@ -482,8 +482,6 @@ impl<S, C> Api<C> for Client<S, C> where
         write_multipart(&mut body, &boundary, &body_parts)
             .expect("Failed to write multipart body");
 
-        // Add the message body to the request object.
-        *request.body_mut() = Body::from(body);
 
         let header = "multipart/related";
         request.headers_mut().insert(CONTENT_TYPE,
@@ -493,6 +491,9 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
+
+        // Add the message body to the request object.
+        *request.body_mut() = Body::from(body);
 
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
@@ -566,6 +567,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // Consumes multipart/form body
         let (body_string, multipart_header) = {
             let mut multipart = Multipart::new();
 
@@ -646,6 +648,7 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", multipart_header, e)))
         });
 
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -716,6 +719,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // Consumes multipart/related body
         // Construct the Body for a multipart/related request. The mime 0.2.6 library
         // does not parse quoted-string parameters correctly. The boundary doesn't
         // need to be a quoted string if it does not contain a '/', hence ensure
@@ -726,7 +730,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 *b = b'=';
             }
         }
-
         let mut body_parts = vec![];
 
         if let Some(binary1) = param_binary1 {
@@ -760,8 +763,6 @@ impl<S, C> Api<C> for Client<S, C> where
         write_multipart(&mut body, &boundary, &body_parts)
             .expect("Failed to write multipart body");
 
-        // Add the message body to the request object.
-        *request.body_mut() = Body::from(body);
 
         let header = "multipart/related";
         request.headers_mut().insert(CONTENT_TYPE,
@@ -771,6 +772,9 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
+
+        // Add the message body to the request object.
+        *request.body_mut() = Body::from(body);
 
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {

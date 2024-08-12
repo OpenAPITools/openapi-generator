@@ -144,15 +144,15 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
             // OpGet - GET /op
             hyper::Method::GET if path.matched(paths::ID_OP) => {
-                // Body parameters (note that non-required body parameters will ignore garbage
+                // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 let result = body.into_raw().await;
                 match result {
-                            Ok(body) => {
-                                let mut unused_elements = Vec::new();
+                     Ok(body) => {
+                                let mut unused_elements : Vec<String> = vec![];
                                 let param_op_get_request: Option<models::OpGetRequest> = if !body.is_empty() {
-                                    let deserializer = &mut serde_json::Deserializer::from_slice(&body);
+                                    let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
@@ -174,6 +174,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         .expect("Unable to create Bad Request response for missing body parameter OpGetRequest")),
                                 };
 
+
                                 let result = api_impl.op_get(
                                             param_op_get_request,
                                         &context
@@ -190,12 +191,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
-
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 OpGetResponse::OK
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
                                                 },
                                             },
                                             Err(_) => {
@@ -210,8 +211,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Couldn't read body parameter OpGetRequest: {}", e)))
-                                                .expect("Unable to create Bad Request response due to unable to read body parameter OpGetRequest")),
+                                                .body(Body::from(format!("Unable to read body: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body")),
                         }
             },
 
