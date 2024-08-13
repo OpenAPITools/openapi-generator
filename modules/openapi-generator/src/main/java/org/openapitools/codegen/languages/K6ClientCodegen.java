@@ -362,6 +362,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_DESCRIPTION = "projectDescription";
     public static final String PROJECT_VERSION = "projectVersion";
     public static final String BASE_URL = "baseURL";
+    public static final String TOKEN = "authToken";
     public static final String PRESERVE_LEADING_PARAM_CHAR = "preserveLeadingParamChar";
     static final Collection<String> INVOKER_PKG_SUPPORTING_FILES = Arrays.asList("script.mustache", "README.mustache");
     static final String[][] JAVASCRIPT_SUPPORTING_FILES = {
@@ -675,6 +676,13 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                     if (globalAuthMethod.isKeyInCookie) {
                         cookieParams.add(new Parameter(globalAuthMethod.keyParamName, getTemplateString(toVarName(globalAuthMethod.keyParamName))));
                         extraParameters.add(new Parameter(toVarName(globalAuthMethod.keyParamName), globalAuthMethod.keyParamName.toUpperCase(Locale.ROOT)));
+                    }
+                    if ("bearerAuth".equalsIgnoreCase(globalAuthMethod.name)) {
+                        httpParams.add(new Parameter("Authorization", "`Bearer ${TOKEN}`"));
+                        additionalProperties.put(TOKEN, true);
+                    } else if ("basicAuth".equalsIgnoreCase(globalAuthMethod.name)) {
+                        httpParams.add(new Parameter("Authorization", "`Basic ${TOKEN}`"));
+                        additionalProperties.put(TOKEN, true);
                     }
                 }
 
