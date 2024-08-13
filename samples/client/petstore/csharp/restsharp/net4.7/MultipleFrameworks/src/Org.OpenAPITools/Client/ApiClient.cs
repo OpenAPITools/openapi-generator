@@ -29,6 +29,7 @@ using RestSharp;
 using RestSharp.Serializers;
 using RestSharpMethod = RestSharp.Method;
 using FileIO = System.IO.File;
+using Path = global::System.IO.Path;
 using Polly;
 using Org.OpenAPITools.Client.Auth;
 using Org.OpenAPITools.Model;
