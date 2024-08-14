@@ -576,7 +576,7 @@ Please refer to [online.md](docs/online.md) on how to run and use the `openapi-g
 
 ### [3.4 - License information on Generated Code](#table-of-contents)
 
-The OpenAPI Generator project is intended as a benefit for users of the Open API Specification.  The project itself has the [License](#license) as specified. In addition, please understand the following points:
+The OpenAPI Generator project is intended as a benefit for users of the Open API Specification.  The project itself has the [License](#7---license) as specified. In addition, please understand the following points:
 
 * The templates included with this project are subject to the [License](#7---license).
 * Generated code is intentionally _not_ subject to the parent project license
