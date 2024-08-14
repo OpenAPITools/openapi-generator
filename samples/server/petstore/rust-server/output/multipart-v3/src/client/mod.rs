@@ -478,7 +478,10 @@ impl<S, C> Api<C> for Client<S, C> where
         }
 
         // Write the body into a vec.
-        let mut body: Vec<u8> = vec![];
+        // RFC 13341 Section 7.2.1 suggests that the body should begin with a
+        // CRLF prior to the first boundary. The mime_multipart library doesn't
+        // do this, so we do it instead.
+        let mut body: Vec<u8> = vec![b'\r', b'\n'];
         write_multipart(&mut body, &boundary, &body_parts)
             .expect("Failed to write multipart body");
 
@@ -759,7 +762,10 @@ impl<S, C> Api<C> for Client<S, C> where
         }
 
         // Write the body into a vec.
-        let mut body: Vec<u8> = vec![];
+        // RFC 13341 Section 7.2.1 suggests that the body should begin with a
+        // CRLF prior to the first boundary. The mime_multipart library doesn't
+        // do this, so we do it instead.
+        let mut body: Vec<u8> = vec![b'\r', b'\n'];
         write_multipart(&mut body, &boundary, &body_parts)
             .expect("Failed to write multipart body");
 
