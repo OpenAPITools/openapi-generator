@@ -1,0 +1,24 @@
+{{#vendorExtensions}}
+  {{#formParams}}
+    {{#-first}}
+                                // Form parameters
+    {{/-first}}
+                                let param_{{{paramName}}} =
+      {{^isContainer}}
+        {{#vendorExtensions}}
+                                    {{{x-example}}};
+        {{/vendorExtensions}}
+      {{/isContainer}}
+      {{#isArray}}
+        {{#required}}
+                                    Vec::new();
+        {{/required}}
+        {{^required}}
+                                    None;
+        {{/required}}
+      {{/isArray}}
+      {{#isMap}}
+                                    None;
+      {{/isMap}}
+  {{/formParams}}
+{{/vendorExtensions}}
