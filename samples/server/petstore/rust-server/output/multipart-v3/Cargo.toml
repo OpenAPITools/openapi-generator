@@ -12,13 +12,13 @@ default = ["client", "server"]
 client = [
     "mime_0_2",
     "multipart", "multipart/client", "swagger/multipart_form",
-    "hyper_0_10", "mime_multipart",
+    "hyper_0_10", "mime_multipart", "swagger/multipart_related",
     "hyper", "hyper-openssl", "hyper-tls", "native-tls", "openssl", "url"
 ]
 server = [
     "mime_0_2",
     "multipart", "multipart/server", "swagger/multipart_form",
-    "hyper_0_10", "mime_multipart",
+    "hyper_0_10", "mime_multipart", "swagger/multipart_related",
    "serde_ignored", "hyper", "regex", "percent-encoding", "url", "lazy_static"
 ]
 conversion = ["frunk", "frunk_derives", "frunk_core", "frunk-enum-core", "frunk-enum-derive"]

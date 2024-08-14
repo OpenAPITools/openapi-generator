@@ -23,7 +23,7 @@ use mime::Mime;
 use std::io::Cursor;
 use multipart::client::lazy::Multipart;
 use hyper_0_10::header::{Headers, ContentType};
-use mime_multipart::{Node, Part, generate_boundary, write_multipart};
+use mime_multipart::{Node, Part, write_multipart};
 
 use crate::models;
 use crate::header;
@@ -424,16 +424,7 @@ impl<S, C> Api<C> for Client<S, C> where
         };
 
         // Consumes multipart/related body
-        // Construct the Body for a multipart/related request. The mime 0.2.6 library
-        // does not parse quoted-string parameters correctly. The boundary doesn't
-        // need to be a quoted string if it does not contain a '/', hence ensure
-        // no such boundary is used.
-        let mut boundary = generate_boundary();
-        for b in boundary.iter_mut() {
-            if b == &(b'/') {
-                *b = b'=';
-            }
-        }
+        let boundary = swagger::multipart::related::generate_boundary();
         let mut body_parts = vec![];
 
         if let Some(object_field) = param_object_field {
@@ -720,16 +711,7 @@ impl<S, C> Api<C> for Client<S, C> where
         };
 
         // Consumes multipart/related body
-        // Construct the Body for a multipart/related request. The mime 0.2.6 library
-        // does not parse quoted-string parameters correctly. The boundary doesn't
-        // need to be a quoted string if it does not contain a '/', hence ensure
-        // no such boundary is used.
-        let mut boundary = generate_boundary();
-        for b in boundary.iter_mut() {
-            if b == &(b'/') {
-                *b = b'=';
-            }
-        }
+        let boundary = swagger::multipart::related::generate_boundary();
         let mut body_parts = vec![];
 
         if let Some(binary1) = param_binary1 {
