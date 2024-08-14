@@ -258,7 +258,7 @@ paths:
         callback:
           '{$request.query.url}/callback':
             post:
-              operationId: callback_CallbackPost
+              operationId: CallbackCallbackPost
               responses:
                 "204":
                   description: OK
@@ -281,7 +281,7 @@ paths:
         callback:
           '{$request.query.url}/callback-with-header':
             post:
-              operationId: callback_CallbackWithHeaderPost
+              operationId: CallbackCallbackWithHeaderPost
               parameters:
               - explode: false
                 in: header
