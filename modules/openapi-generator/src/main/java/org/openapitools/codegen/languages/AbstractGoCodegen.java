@@ -814,9 +814,15 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     goDataTag += " " + cp.vendorExtensions.get("x-go-custom-tag");
                 }
 
-                goDataTag = " `" + goDataTag + "`";
+                // if it contains backtick, wrap with " instead
+                if (goDataTag.contains("`")) {
+                    goDataTag = " \"" + goDataTag.replace("\"", "\\\"") + "\"";
+                } else {
+                    goDataTag = " `" + goDataTag + "`";
+                }
                 cp.vendorExtensions.put("x-go-datatag", goDataTag);
             }
+
             if (this instanceof GoClientCodegen && model.isEnum) {
                 imports.add(createMapping("import", "fmt"));
             }
