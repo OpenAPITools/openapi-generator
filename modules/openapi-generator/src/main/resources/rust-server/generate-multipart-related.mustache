@@ -1,14 +1,5 @@
 {{#-first}}
-        // Construct the Body for a multipart/related request. The mime 0.2.6 library
-        // does not parse quoted-string parameters correctly. The boundary doesn't
-        // need to be a quoted string if it does not contain a '/', hence ensure
-        // no such boundary is used.
-        let mut boundary = generate_boundary();
-        for b in boundary.iter_mut() {
-            if b == &(b'/') {
-                *b = b'=';
-            }
-        }
+        let boundary = swagger::multipart::related::generate_boundary();
         let mut body_parts = vec![];
 
 {{/-first}}
