@@ -3,6 +3,7 @@
 Cargo.toml
 README.md
 api/openapi.yaml
+bin/cli.rs
 docs/AdditionalPropertiesWithList.md
 docs/AnotherXmlArray.md
 docs/AnotherXmlInner.md
