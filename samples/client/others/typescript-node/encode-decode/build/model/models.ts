@@ -39,6 +39,16 @@ let typeMap: {[index: string]: any} = {
     "CompositeObject": CompositeObject,
 }
 
+// Check if a string starts with another string without using es6 features
+function startsWith(str: string, match: string): boolean {
+    return str.lastIndexOf(match, 0) === 0;
+}
+
+// Check if a string ends with another string without using es6 features
+function endsWith(str: string, match: string): boolean {
+    return str.length > match.length && str.substring(str.length - match.length) === match;
+}
+
 export class ObjectSerializer {
     public static findCorrectType(data: any, expectedType: string) {
         if (data == undefined) {
@@ -75,18 +85,43 @@ export class ObjectSerializer {
         }
     }
 
-    public static serialize(data: any, type: string) {
+    public static serialize(data: any, type: string): any {
         if (data == undefined) {
             return data;
         } else if (primitives.indexOf(type.toLowerCase()) !== -1) {
             return data;
-        } else if (type.lastIndexOf("Array<", 0) === 0) { // string.startsWith pre es6
+        } else if (endsWith(type, " | null")) {
+            if (data === null) {
+                return data
+            } else {
+                let subType: string = type.substring(0, type.length - 7); // Type | null => Type
+                return ObjectSerializer.serialize(data, subType);
+            }
+        } else if (endsWith(type, " | undefined")) {
+            if (data === undefined) {
+                return data
+            } else {
+                let subType: string = type.substring(0, type.length - 12); // Type | undefined => Type
+                return ObjectSerializer.serialize(data, subType);
+            }
+        } else if (startsWith(type, "Array<")) {
             let subType: string = type.replace("Array<", ""); // Array<Type> => Type>
             subType = subType.substring(0, subType.length - 1); // Type> => Type
             let transformedData: any[] = [];
             for (let index = 0; index < data.length; index++) {
                 let datum = data[index];
                 transformedData.push(ObjectSerializer.serialize(datum, subType));
+            }
+            return transformedData;
+        } else if (startsWith(type, '{ [key: string]: ')) {
+            let subType: string = type.replace('{ [key: string]: ', ''); // { [key: string]: Type; } => Type; }
+            subType = subType.substring(0, subType.length - 3); // Type; } => Type
+            let transformedData: { [key: string]: any } = {};
+            for (let key in data) {
+                transformedData[key] = ObjectSerializer.serialize(
+                    data[key],
+                    subType,
+                );
             }
             return transformedData;
         } else if (type === "Date") {
@@ -113,20 +148,45 @@ export class ObjectSerializer {
         }
     }
 
-    public static deserialize(data: any, type: string) {
+    public static deserialize(data: any, type: string): any {
         // polymorphism may change the actual type.
         type = ObjectSerializer.findCorrectType(data, type);
         if (data == undefined) {
             return data;
         } else if (primitives.indexOf(type.toLowerCase()) !== -1) {
             return data;
-        } else if (type.lastIndexOf("Array<", 0) === 0) { // string.startsWith pre es6
+        } else if (endsWith(type, " | null")) {
+            if (data === null) {
+                return data
+            } else {
+                let subType: string = type.substring(0, type.length - 7); // Type | null => Type
+                return ObjectSerializer.deserialize(data, subType);
+            }
+        } else if (endsWith(type, " | undefined")) {
+            if (data === undefined) {
+                return data
+            } else {
+                let subType: string = type.substring(0, type.length - 12); // Type | undefined => Type
+                return ObjectSerializer.deserialize(data, subType);
+            }
+        } else if (startsWith(type, "Array<")) {
             let subType: string = type.replace("Array<", ""); // Array<Type> => Type>
             subType = subType.substring(0, subType.length - 1); // Type> => Type
             let transformedData: any[] = [];
             for (let index = 0; index < data.length; index++) {
                 let datum = data[index];
                 transformedData.push(ObjectSerializer.deserialize(datum, subType));
+            }
+            return transformedData;
+        } else if (startsWith(type, '{ [key: string]: ')) {
+            let subType: string = type.replace('{ [key: string]: ', ''); // { [key: string]: Type; } => Type; }
+            subType = subType.substring(0, subType.length - 3); // Type; } => Type
+            let transformedData: { [key: string]: any } = {};
+            for (let key in data) {
+                transformedData[key] = ObjectSerializer.deserialize(
+                    data[key],
+                    subType,
+                );
             }
             return transformedData;
         } else if (type === "Date") {

@@ -137,17 +137,43 @@ export class ObjectSerializer {
         }
     }
 
-    public static serialize(data: any, type: string, format: string) {
+    public static serialize(data: any, type: string, format: string): any {
         if (data == undefined) {
             return data;
         } else if (primitives.indexOf(type.toLowerCase()) !== -1) {
             return data;
-        } else if (type.lastIndexOf("Array<", 0) === 0) { // string.startsWith pre es6
+        } else if (type.endsWith(" | null")) {
+            if (data === null) {
+                return data;
+            } else {
+                let subType: string = type.substring(0, type.length - 7); // Type | null => Type
+                return ObjectSerializer.serialize(data, subType, format);
+            }
+        } else if (type.endsWith(" | undefined")) {
+            if (data === undefined) {
+                return data;
+            } else {
+                let subType: string = type.substring(0, type.length - 12); // Type | undefined => Type
+                return ObjectSerializer.serialize(data, subType, format);
+            }
+        } else if (type.startsWith("Array<")) {
             let subType: string = type.replace("Array<", ""); // Array<Type> => Type>
             subType = subType.substring(0, subType.length - 1); // Type> => Type
             let transformedData: any[] = [];
             for (let date of data) {
                 transformedData.push(ObjectSerializer.serialize(date, subType, format));
+            }
+            return transformedData;
+        } else if (type.startsWith('{ [key: string]: ')) {
+            let subType: string = type.replace('{ [key: string]: ', ''); // { [key: string]: Type; } => Type; }
+            subType = subType.substring(0, subType.length - 3); // Type; } => Type
+            let transformedData: { [key: string]: any } = {};
+            for (let key in data) {
+                transformedData[key] = ObjectSerializer.serialize(
+                    data[key],
+                    subType,
+                    format,
+                );
             }
             return transformedData;
         } else if (type === "Date") {
@@ -182,19 +208,45 @@ export class ObjectSerializer {
         }
     }
 
-    public static deserialize(data: any, type: string, format: string) {
+    public static deserialize(data: any, type: string, format: string): any {
         // polymorphism may change the actual type.
         type = ObjectSerializer.findCorrectType(data, type);
         if (data == undefined) {
             return data;
         } else if (primitives.indexOf(type.toLowerCase()) !== -1) {
             return data;
-        } else if (type.lastIndexOf("Array<", 0) === 0) { // string.startsWith pre es6
+        } else if (type.endsWith(" | null")) {
+            if (data === null) {
+                return data;
+            } else {
+                let subType: string = type.substring(0, type.length - 7); // Type | null => Type
+                return ObjectSerializer.deserialize(data, subType, format);
+            }
+        } else if (type.endsWith(" | undefined")) {
+            if (data === undefined) {
+                return data;
+            } else {
+                let subType: string = type.substring(0, type.length - 12); // Type | undefined => Type
+                return ObjectSerializer.deserialize(data, subType, format);
+            }
+        } else if (type.startsWith("Array<")) {
             let subType: string = type.replace("Array<", ""); // Array<Type> => Type>
             subType = subType.substring(0, subType.length - 1); // Type> => Type
             let transformedData: any[] = [];
             for (let date of data) {
                 transformedData.push(ObjectSerializer.deserialize(date, subType, format));
+            }
+            return transformedData;
+        } else if (type.startsWith('{ [key: string]: ')) {
+            let subType: string = type.replace('{ [key: string]: ', ''); // { [key: string]: Type; } => Type; }
+            subType = subType.substring(0, subType.length - 3); // Type; } => Type
+            let transformedData: { [key: string]: any } = {};
+            for (let key in data) {
+                transformedData[key] = ObjectSerializer.deserialize(
+                    data[key],
+                    subType,
+                    format,
+                );
             }
             return transformedData;
         } else if (type === "Date") {
