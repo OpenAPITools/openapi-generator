@@ -1729,6 +1729,9 @@ components:
           description: A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
           type: string
           pattern: '/^image_\d{1,3}$/i'
+        pattern_with_backtick:
+          type: string
+          pattern: "^$|^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
     EnumClass:
       type: string
       default: '-efg'

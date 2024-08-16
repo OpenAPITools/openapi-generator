@@ -1683,6 +1683,10 @@ components:
             to three digits following i.e. Image_01.
           pattern: "/^image_\\d{1,3}$/i"
           type: string
+        pattern_with_backtick:
+          pattern: "^$|^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\\
+            .[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+          type: string
       required:
       - byte
       - date
