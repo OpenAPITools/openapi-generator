@@ -804,14 +804,15 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             postProcessOperationWithModels(op, allModels);
         }
 
-	operationList.sort((one, another) -> {
-		int params_compare = ObjectUtils.compare(one.pathParams.size(), another.pathParams.size());
-	        if (params_compare == 0) {
-		    return ObjectUtils.compare(one.operationId, another.operationId);
-		} else {
-		    return params_compare;
-		}
-	});
+        operationList.sort((one, another) -> {
+            int params_compare = ObjectUtils.compare(one.pathParams.size(), another.pathParams.size());
+                if (params_compare == 0) {
+                return ObjectUtils.compare(one.operationId, another.operationId);
+            } else {
+                return params_compare;
+            }
+        });
+
         return objs;
     }
 
