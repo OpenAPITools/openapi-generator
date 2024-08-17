@@ -34,7 +34,7 @@ It also contains an example server and client which make use of `ops-v3`:
     arguments on the command line.
 
 You can use the example server and client as a basis for your own code.
-See below for [more detail on implementing a server](#writing-a-server).
+See below for [more detail on the examples](#using-the-generated-library).
 
 ## Examples
 
