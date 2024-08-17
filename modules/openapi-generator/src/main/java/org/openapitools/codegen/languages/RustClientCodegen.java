@@ -55,6 +55,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     @Setter private boolean avoidBoxedModels = false;
 
     public static final String PACKAGE_NAME = "packageName";
+    public static final String EXTERN_CRATE_NAME = "externCrateName";
     public static final String PACKAGE_VERSION = "packageVersion";
     public static final String HYPER_LIBRARY = "hyper";
     public static final String HYPER0X_LIBRARY = "hyper0x";
@@ -367,6 +368,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
+        additionalProperties.put(EXTERN_CRATE_NAME, getExternCrateName());
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -421,6 +423,11 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             }
         });
 
+    }
+
+    private String getExternCrateName() {
+        // The external name used when importing a crate has all '-' replaced with '_'.
+        return packageName.replace('-', '_');
     }
 
     private boolean getSupportAsync() {
