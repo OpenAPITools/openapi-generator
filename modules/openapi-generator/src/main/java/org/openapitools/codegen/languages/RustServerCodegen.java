@@ -26,6 +26,7 @@ import io.swagger.v3.oas.models.media.XML;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import joptsimple.internal.Strings;
 import lombok.Setter;
@@ -820,12 +821,15 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                     } else if (isMimetypePlain(mediaType)) {
                         consumesPlainText = true;
                     } else if (isMimetypeWwwFormUrlEncoded(mediaType)) {
+                        op.vendorExtensions.put("x-consumes-form", true);
                         additionalProperties.put("usesUrlEncodedForm", true);
                     } else if (isMimetypeMultipartFormData(mediaType)) {
                         op.vendorExtensions.put("x-consumes-multipart", true);
+                        op.vendorExtensions.put("x-consumes-multipart-form", true);
                         additionalProperties.put("apiUsesMultipartFormData", true);
                         additionalProperties.put("apiUsesMultipart", true);
                     } else if (isMimetypeMultipartRelated(mediaType)) {
+                        op.vendorExtensions.put("x-consumes-multipart", true);
                         op.vendorExtensions.put("x-consumes-multipart-related", true);
                         additionalProperties.put("apiUsesMultipartRelated", true);
                         additionalProperties.put("apiUsesMultipart", true);
@@ -834,15 +838,23 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             }
         }
 
+        if (op.bodyParams.size() > 0 || op.formParams.size() > 0){
+            op.vendorExtensions.put("x-has-request-body", true);
+        }
+
         String underscoredOperationId = underscore(op.operationId).toUpperCase(Locale.ROOT);
+
         if (op.bodyParam != null) {
             // Default to consuming json
             op.bodyParam.vendorExtensions.put("x-uppercase-operation-id", underscoredOperationId);
             if (consumesXml) {
+                op.vendorExtensions.put("x-consumes-basic", true);
                 op.bodyParam.vendorExtensions.put("x-consumes-xml", true);
             } else if (consumesPlainText) {
+                op.vendorExtensions.put("x-consumes-basic", true);
                 op.bodyParam.vendorExtensions.put("x-consumes-plain-text", true);
             } else {
+                op.vendorExtensions.put("x-consumes-basic", true);
                 op.bodyParam.vendorExtensions.put("x-consumes-json", true);
             }
         }
@@ -854,10 +866,13 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
             // Default to producing json if nothing else is specified
             if (consumesXml) {
+                op.vendorExtensions.put("x-consumes-basic", true);
                 param.vendorExtensions.put("x-consumes-xml", true);
             } else if (consumesPlainText) {
+                op.vendorExtensions.put("x-consumes-basic", true);
                 param.vendorExtensions.put("x-consumes-plain-text", true);
             } else {
+                op.vendorExtensions.put("x-consumes-basic", true);
                 param.vendorExtensions.put("x-consumes-json", true);
             }
         }
@@ -1107,6 +1122,20 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             addPathSetMapToBundle(callbacksPathSetMap, callbackData);
             bundle.put("callbacks", callbackData);
         }
+
+        // Flag whether we have any OAuth scopes
+        Map<String, SecurityScheme> securitySchemeMap = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+        List<CodegenSecurity> authMethods = fromSecurity(securitySchemeMap);
+        boolean hasAuthScopes = false;
+        if (authMethods != null && !authMethods.isEmpty()) {
+            for (CodegenSecurity authMethod : authMethods) {
+                if (authMethod.hasScopes != null && authMethod.hasScopes) {
+                    hasAuthScopes = true;
+                    break;
+                }
+            }
+        }
+        bundle.put("hasAuthScopes", hasAuthScopes);
 
         return super.postProcessSupportingFileData(bundle);
     }
