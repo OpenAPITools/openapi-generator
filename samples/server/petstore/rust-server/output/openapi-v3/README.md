@@ -122,7 +122,6 @@ Method | HTTP request | Description
 [****](docs/default_api.md#) | **GET** /any-of | 
 [****](docs/default_api.md#) | **POST** /callback-with-header | 
 [****](docs/default_api.md#) | **GET** /complex-query-param | 
-[****](docs/default_api.md#) | **GET** /enum_in_path/{path_param} | 
 [****](docs/default_api.md#) | **GET** /json-complex-query-param | 
 [****](docs/default_api.md#) | **GET** /mandatory-request-header | 
 [****](docs/default_api.md#) | **GET** /merge-patch-json | 
@@ -143,6 +142,7 @@ Method | HTTP request | Description
 [****](docs/default_api.md#) | **PUT** /xml_other | 
 [****](docs/default_api.md#) | **POST** /xml | Post an array
 [****](docs/default_api.md#) | **PUT** /xml | 
+[****](docs/default_api.md#) | **GET** /enum_in_path/{path_param} | 
 [**CreateRepo**](docs/repo_api.md#CreateRepo) | **POST** /repos | 
 [**GetRepoInfo**](docs/repo_api.md#GetRepoInfo) | **GET** /repos/{repoId} | 
 

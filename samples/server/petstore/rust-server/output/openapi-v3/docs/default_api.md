@@ -7,7 +7,6 @@ Method | HTTP request | Description
 ****](default_api.md#) | **GET** /any-of | 
 ****](default_api.md#) | **POST** /callback-with-header | 
 ****](default_api.md#) | **GET** /complex-query-param | 
-****](default_api.md#) | **GET** /enum_in_path/{path_param} | 
 ****](default_api.md#) | **GET** /json-complex-query-param | 
 ****](default_api.md#) | **GET** /mandatory-request-header | 
 ****](default_api.md#) | **GET** /merge-patch-json | 
@@ -28,6 +27,7 @@ Method | HTTP request | Description
 ****](default_api.md#) | **PUT** /xml_other | 
 ****](default_api.md#) | **POST** /xml | Post an array
 ****](default_api.md#) | **PUT** /xml | 
+****](default_api.md#) | **GET** /enum_in_path/{path_param} | 
 
 
 # ****
@@ -103,31 +103,6 @@ Optional parameters are passed through a map[string]interface{}.
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **list_of_strings** | [**String**](String.md)|  | 
-
-### Return type
-
- (empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: Not defined
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# ****
-> (path_param)
-
-
-### Required Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-  **path_param** | [****](.md)|  | 
 
 ### Return type
 
@@ -673,6 +648,31 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/xml
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# ****
+> (path_param)
+
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+  **path_param** | [****](.md)|  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

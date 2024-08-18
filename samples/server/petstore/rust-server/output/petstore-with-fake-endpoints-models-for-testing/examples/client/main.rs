@@ -12,33 +12,33 @@ use petstore_with_fake_endpoints_models_for_testing::{Api, ApiNoContext, Claims,
                       FakeOuterNumberSerializeResponse,
                       FakeOuterStringSerializeResponse,
                       FakeResponseWithNumericalDescriptionResponse,
-                      HyphenParamResponse,
                       TestBodyWithQueryParamsResponse,
                       TestClientModelResponse,
                       TestEndpointParametersResponse,
                       TestEnumParametersResponse,
                       TestInlineAdditionalPropertiesResponse,
                       TestJsonFormDataResponse,
+                      HyphenParamResponse,
                       TestClassnameResponse,
                       AddPetResponse,
-                      DeletePetResponse,
                       FindPetsByStatusResponse,
                       FindPetsByTagsResponse,
-                      GetPetByIdResponse,
                       UpdatePetResponse,
+                      DeletePetResponse,
+                      GetPetByIdResponse,
                       UpdatePetWithFormResponse,
                       UploadFileResponse,
-                      DeleteOrderResponse,
                       GetInventoryResponse,
-                      GetOrderByIdResponse,
                       PlaceOrderResponse,
+                      DeleteOrderResponse,
+                      GetOrderByIdResponse,
                       CreateUserResponse,
                       CreateUsersWithArrayInputResponse,
                       CreateUsersWithListInputResponse,
-                      DeleteUserResponse,
-                      GetUserByNameResponse,
                       LoginUserResponse,
                       LogoutUserResponse,
+                      DeleteUserResponse,
+                      GetUserByNameResponse,
                       UpdateUserResponse,
                      };
 use clap::{App, Arg};
@@ -74,25 +74,25 @@ fn main() {
                 "FakeOuterNumberSerialize",
                 "FakeOuterStringSerialize",
                 "FakeResponseWithNumericalDescription",
-                "HyphenParam",
                 "TestEndpointParameters",
                 "TestEnumParameters",
                 "TestJsonFormData",
-                "DeletePet",
+                "HyphenParam",
                 "FindPetsByStatus",
                 "FindPetsByTags",
+                "DeletePet",
                 "GetPetById",
                 "UpdatePetWithForm",
                 "UploadFile",
-                "DeleteOrder",
                 "GetInventory",
+                "DeleteOrder",
                 "GetOrderById",
                 "CreateUsersWithArrayInput",
                 "CreateUsersWithListInput",
-                "DeleteUser",
-                "GetUserByName",
                 "LoginUser",
                 "LogoutUser",
+                "DeleteUser",
+                "GetUserByName",
             ])
             .required(true)
             .index(1))
@@ -206,12 +206,6 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        Some("HyphenParam") => {
-            let result = rt.block_on(client.hyphen_param(
-                  "hyphen_param_example".to_string()
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
         /* Disabled because there's no example.
         Some("TestBodyWithQueryParams") => {
             let result = rt.block_on(client.test_body_with_query_params(
@@ -275,6 +269,12 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        Some("HyphenParam") => {
+            let result = rt.block_on(client.hyphen_param(
+                  "hyphen_param_example".to_string()
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
         /* Disabled because there's no example.
         Some("TestClassname") => {
             let result = rt.block_on(client.test_classname(
@@ -291,13 +291,6 @@ fn main() {
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
-        Some("DeletePet") => {
-            let result = rt.block_on(client.delete_pet(
-                  789,
-                  Some("api_key_example".to_string())
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
         Some("FindPetsByStatus") => {
             let result = rt.block_on(client.find_pets_by_status(
                   &Vec::new()
@@ -310,12 +303,6 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        Some("GetPetById") => {
-            let result = rt.block_on(client.get_pet_by_id(
-                  789
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
         /* Disabled because there's no example.
         Some("UpdatePet") => {
             let result = rt.block_on(client.update_pet(
@@ -324,6 +311,19 @@ fn main() {
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
+        Some("DeletePet") => {
+            let result = rt.block_on(client.delete_pet(
+                  789,
+                  Some("api_key_example".to_string())
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("GetPetById") => {
+            let result = rt.block_on(client.get_pet_by_id(
+                  789
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
         Some("UpdatePetWithForm") => {
             let result = rt.block_on(client.update_pet_with_form(
                   789,
@@ -340,20 +340,8 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        Some("DeleteOrder") => {
-            let result = rt.block_on(client.delete_order(
-                  "order_id_example".to_string()
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
         Some("GetInventory") => {
             let result = rt.block_on(client.get_inventory(
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        Some("GetOrderById") => {
-            let result = rt.block_on(client.get_order_by_id(
-                  789
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
@@ -365,6 +353,18 @@ fn main() {
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
+        Some("DeleteOrder") => {
+            let result = rt.block_on(client.delete_order(
+                  "order_id_example".to_string()
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("GetOrderById") => {
+            let result = rt.block_on(client.get_order_by_id(
+                  789
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
         /* Disabled because there's no example.
         Some("CreateUser") => {
             let result = rt.block_on(client.create_user(
@@ -385,18 +385,6 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        Some("DeleteUser") => {
-            let result = rt.block_on(client.delete_user(
-                  "username_example".to_string()
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        Some("GetUserByName") => {
-            let result = rt.block_on(client.get_user_by_name(
-                  "username_example".to_string()
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
         Some("LoginUser") => {
             let result = rt.block_on(client.login_user(
                   "username_example".to_string(),
@@ -406,6 +394,18 @@ fn main() {
         },
         Some("LogoutUser") => {
             let result = rt.block_on(client.logout_user(
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("DeleteUser") => {
+            let result = rt.block_on(client.delete_user(
+                  "username_example".to_string()
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("GetUserByName") => {
+            let result = rt.block_on(client.get_user_by_name(
+                  "username_example".to_string()
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },

@@ -49,12 +49,6 @@ pub enum ComplexQueryParamGetResponse {
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
-pub enum EnumInPathPathParamGetResponse {
-    /// Success
-    Success
-}
-
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum JsonComplexQueryParamGetResponse {
     /// Success
     Success
@@ -266,6 +260,12 @@ pub enum XmlPutResponse {
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub enum EnumInPathPathParamGetResponse {
+    /// Success
+    Success
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum CreateRepoResponse {
     /// Success
     Success
@@ -300,11 +300,6 @@ pub trait Api<C: Send + Sync> {
         &self,
         list_of_strings: Option<&Vec<models::StringObject>>,
         context: &C) -> Result<ComplexQueryParamGetResponse, ApiError>;
-
-    async fn enum_in_path_path_param_get(
-        &self,
-        path_param: models::StringEnum,
-        context: &C) -> Result<EnumInPathPathParamGetResponse, ApiError>;
 
     async fn json_complex_query_param_get(
         &self,
@@ -402,6 +397,11 @@ pub trait Api<C: Send + Sync> {
         xml_object: Option<models::XmlObject>,
         context: &C) -> Result<XmlPutResponse, ApiError>;
 
+    async fn enum_in_path_path_param_get(
+        &self,
+        path_param: models::StringEnum,
+        context: &C) -> Result<EnumInPathPathParamGetResponse, ApiError>;
+
     async fn create_repo(
         &self,
         object_param: models::ObjectParam,
@@ -437,11 +437,6 @@ pub trait ApiNoContext<C: Send + Sync> {
         &self,
         list_of_strings: Option<&Vec<models::StringObject>>,
         ) -> Result<ComplexQueryParamGetResponse, ApiError>;
-
-    async fn enum_in_path_path_param_get(
-        &self,
-        path_param: models::StringEnum,
-        ) -> Result<EnumInPathPathParamGetResponse, ApiError>;
 
     async fn json_complex_query_param_get(
         &self,
@@ -539,6 +534,11 @@ pub trait ApiNoContext<C: Send + Sync> {
         xml_object: Option<models::XmlObject>,
         ) -> Result<XmlPutResponse, ApiError>;
 
+    async fn enum_in_path_path_param_get(
+        &self,
+        path_param: models::StringEnum,
+        ) -> Result<EnumInPathPathParamGetResponse, ApiError>;
+
     async fn create_repo(
         &self,
         object_param: models::ObjectParam,
@@ -599,15 +599,6 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     {
         let context = self.context().clone();
         self.api().complex_query_param_get(list_of_strings, &context).await
-    }
-
-    async fn enum_in_path_path_param_get(
-        &self,
-        path_param: models::StringEnum,
-        ) -> Result<EnumInPathPathParamGetResponse, ApiError>
-    {
-        let context = self.context().clone();
-        self.api().enum_in_path_path_param_get(path_param, &context).await
     }
 
     async fn json_complex_query_param_get(
@@ -784,6 +775,15 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     {
         let context = self.context().clone();
         self.api().xml_put(xml_object, &context).await
+    }
+
+    async fn enum_in_path_path_param_get(
+        &self,
+        path_param: models::StringEnum,
+        ) -> Result<EnumInPathPathParamGetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().enum_in_path_path_param_get(path_param, &context).await
     }
 
     async fn create_repo(

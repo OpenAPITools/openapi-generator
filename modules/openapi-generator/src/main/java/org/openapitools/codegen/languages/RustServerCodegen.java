@@ -31,6 +31,7 @@ import io.swagger.v3.oas.models.servers.Server;
 import joptsimple.internal.Strings;
 import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -802,6 +803,15 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         for (CodegenOperation op : operationList) {
             postProcessOperationWithModels(op, allModels);
         }
+
+        operationList.sort((one, another) -> {
+            int params_compare = ObjectUtils.compare(one.pathParams.size(), another.pathParams.size());
+                if (params_compare == 0) {
+                return ObjectUtils.compare(one.operationId, another.operationId);
+            } else {
+                return params_compare;
+            }
+        });
 
         return objs;
     }

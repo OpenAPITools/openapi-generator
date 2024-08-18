@@ -7,10 +7,10 @@ Method | HTTP request | Description
 **createUser**](user_api.md#createUser) | **POST** /user | Create user
 **createUsersWithArrayInput**](user_api.md#createUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
 **createUsersWithListInput**](user_api.md#createUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
-**deleteUser**](user_api.md#deleteUser) | **DELETE** /user/{username} | Delete user
-**getUserByName**](user_api.md#getUserByName) | **GET** /user/{username} | Get user by user name
 **loginUser**](user_api.md#loginUser) | **GET** /user/login | Logs user into the system
 **logoutUser**](user_api.md#logoutUser) | **GET** /user/logout | Logs out current logged in user session
+**deleteUser**](user_api.md#deleteUser) | **DELETE** /user/{username} | Delete user
+**getUserByName**](user_api.md#getUserByName) | **GET** /user/{username} | Get user by user name
 **updateUser**](user_api.md#updateUser) | **PUT** /user/{username} | Updated user
 
 
@@ -91,6 +91,54 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **loginUser**
+> String loginUser(username, password)
+Logs user into the system
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+  **username** | **String**| The user name for login | 
+  **password** | **String**| The password for login in clear text | 
+
+### Return type
+
+[**String**](string.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/xml
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **logoutUser**
+> logoutUser()
+Logs out current logged in user session
+
+### Required Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **deleteUser**
 > deleteUser(username)
 Delete user
@@ -140,54 +188,6 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, application/xml
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **loginUser**
-> String loginUser(username, password)
-Logs user into the system
-
-### Required Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-  **username** | **String**| The user name for login | 
-  **password** | **String**| The password for login in clear text | 
-
-### Return type
-
-[**String**](string.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **logoutUser**
-> logoutUser()
-Logs out current logged in user session
-
-### Required Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
- (empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -30,33 +30,33 @@ use crate::{Api,
      FakeOuterNumberSerializeResponse,
      FakeOuterStringSerializeResponse,
      FakeResponseWithNumericalDescriptionResponse,
-     HyphenParamResponse,
      TestBodyWithQueryParamsResponse,
      TestClientModelResponse,
      TestEndpointParametersResponse,
      TestEnumParametersResponse,
      TestInlineAdditionalPropertiesResponse,
      TestJsonFormDataResponse,
+     HyphenParamResponse,
      TestClassnameResponse,
      AddPetResponse,
-     DeletePetResponse,
      FindPetsByStatusResponse,
      FindPetsByTagsResponse,
-     GetPetByIdResponse,
      UpdatePetResponse,
+     DeletePetResponse,
+     GetPetByIdResponse,
      UpdatePetWithFormResponse,
      UploadFileResponse,
-     DeleteOrderResponse,
      GetInventoryResponse,
-     GetOrderByIdResponse,
      PlaceOrderResponse,
+     DeleteOrderResponse,
+     GetOrderByIdResponse,
      CreateUserResponse,
      CreateUsersWithArrayInputResponse,
      CreateUsersWithListInputResponse,
-     DeleteUserResponse,
-     GetUserByNameResponse,
      LoginUserResponse,
      LogoutUserResponse,
+     DeleteUserResponse,
+     GetUserByNameResponse,
      UpdateUserResponse
 };
 
@@ -720,60 +720,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         Ok(response)
             },
 
-            // HyphenParam - GET /fake/hyphenParam/{hyphen-param}
-            hyper::Method::GET if path.matched(paths::ID_FAKE_HYPHENPARAM_HYPHEN_PARAM) => {
-                // Path parameters
-                let path: &str = uri.path();
-                let path_params =
-                    paths::REGEX_FAKE_HYPHENPARAM_HYPHEN_PARAM
-                    .captures(path)
-                    .unwrap_or_else(||
-                        panic!("Path {} matched RE FAKE_HYPHENPARAM_HYPHEN_PARAM in set but failed match against \"{}\"", path, paths::REGEX_FAKE_HYPHENPARAM_HYPHEN_PARAM.as_str())
-                    );
-
-                let param_hyphen_param = match percent_encoding::percent_decode(path_params["hyphen-param"].as_bytes()).decode_utf8() {
-                    Ok(param_hyphen_param) => match param_hyphen_param.parse::<String>() {
-                        Ok(param_hyphen_param) => param_hyphen_param,
-                        Err(e) => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse path parameter hyphen-param: {}", e)))
-                                        .expect("Unable to create Bad Request response for invalid path parameter")),
-                    },
-                    Err(_) => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["hyphen-param"])))
-                                        .expect("Unable to create Bad Request response for invalid percent decode"))
-                };
-
-                                let result = api_impl.hyphen_param(
-                                            param_hyphen_param,
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(Body::empty());
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                HyphenParamResponse::Success
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = Body::from("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
-            },
-
             // TestBodyWithQueryParams - PUT /fake/body-with-query-params
             hyper::Method::PUT if path.matched(paths::ID_FAKE_BODY_WITH_QUERY_PARAMS) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
@@ -1344,6 +1290,60 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                         }
             },
 
+            // HyphenParam - GET /fake/hyphenParam/{hyphen-param}
+            hyper::Method::GET if path.matched(paths::ID_FAKE_HYPHENPARAM_HYPHEN_PARAM) => {
+                // Path parameters
+                let path: &str = uri.path();
+                let path_params =
+                    paths::REGEX_FAKE_HYPHENPARAM_HYPHEN_PARAM
+                    .captures(path)
+                    .unwrap_or_else(||
+                        panic!("Path {} matched RE FAKE_HYPHENPARAM_HYPHEN_PARAM in set but failed match against \"{}\"", path, paths::REGEX_FAKE_HYPHENPARAM_HYPHEN_PARAM.as_str())
+                    );
+
+                let param_hyphen_param = match percent_encoding::percent_decode(path_params["hyphen-param"].as_bytes()).decode_utf8() {
+                    Ok(param_hyphen_param) => match param_hyphen_param.parse::<String>() {
+                        Ok(param_hyphen_param) => param_hyphen_param,
+                        Err(e) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse path parameter hyphen-param: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid path parameter")),
+                    },
+                    Err(_) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["hyphen-param"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode"))
+                };
+
+                                let result = api_impl.hyphen_param(
+                                            param_hyphen_param,
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                HyphenParamResponse::Success
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+            },
+
             // TestClassname - PATCH /fake_classname_test
             hyper::Method::PATCH if path.matched(paths::ID_FAKE_CLASSNAME_TEST) => {
                 {
@@ -1540,111 +1540,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                         }
             },
 
-            // DeletePet - DELETE /pet/{petId}
-            hyper::Method::DELETE if path.matched(paths::ID_PET_PETID) => {
-                {
-                    let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
-                        Some(ref authorization) => authorization,
-                        None => return Ok(Response::builder()
-                                                .status(StatusCode::FORBIDDEN)
-                                                .body(Body::from("Unauthenticated"))
-                                                .expect("Unable to create Authentication Forbidden response")),
-                    };
-
-                    // Authorization
-                    if let Scopes::Some(ref scopes) = authorization.scopes {
-                        let required_scopes: std::collections::BTreeSet<String> = vec![
-                            "write:pets".to_string(), // modify pets in your account
-                            "read:pets".to_string(), // read your pets
-                        ].into_iter().collect();
-
-                        if !required_scopes.is_subset(scopes) {
-                            let missing_scopes = required_scopes.difference(scopes);
-                            return Ok(Response::builder()
-                                .status(StatusCode::FORBIDDEN)
-                                .body(Body::from(missing_scopes.fold(
-                                    "Insufficient authorization, missing scopes".to_string(),
-                                    |s, scope| format!("{} {}", s, scope))
-                                ))
-                                .expect("Unable to create Authentication Insufficient response")
-                            );
-                        }
-                    }
-                }
-
-                // Path parameters
-                let path: &str = uri.path();
-                let path_params =
-                    paths::REGEX_PET_PETID
-                    .captures(path)
-                    .unwrap_or_else(||
-                        panic!("Path {} matched RE PET_PETID in set but failed match against \"{}\"", path, paths::REGEX_PET_PETID.as_str())
-                    );
-
-                let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
-                    Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
-                        Ok(param_pet_id) => param_pet_id,
-                        Err(e) => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse path parameter petId: {}", e)))
-                                        .expect("Unable to create Bad Request response for invalid path parameter")),
-                    },
-                    Err(_) => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"])))
-                                        .expect("Unable to create Bad Request response for invalid percent decode"))
-                };
-
-                // Header parameters
-                let param_api_key = headers.get(HeaderName::from_static("api_key"));
-
-                let param_api_key = match param_api_key {
-                    Some(v) => match header::IntoHeaderValue::<String>::try_from((*v).clone()) {
-                        Ok(result) =>
-                            Some(result.0),
-                        Err(err) => {
-                            return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Invalid header api_key - {}", err)))
-                                        .expect("Unable to create Bad Request response for invalid header api_key"));
-
-                        },
-                    },
-                    None => {
-                        None
-                    }
-                };
-
-                                let result = api_impl.delete_pet(
-                                            param_pet_id,
-                                            param_api_key,
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(Body::empty());
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                DeletePetResponse::InvalidPetValue
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = Body::from("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
-            },
-
             // FindPetsByStatus - GET /pet/findByStatus
             hyper::Method::GET if path.matched(paths::ID_PET_FINDBYSTATUS) => {
                 {
@@ -1805,88 +1700,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         Ok(response)
             },
 
-            // GetPetById - GET /pet/{petId}
-            hyper::Method::GET if path.matched(paths::ID_PET_PETID) => {
-                {
-                    let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
-                        Some(ref authorization) => authorization,
-                        None => return Ok(Response::builder()
-                                                .status(StatusCode::FORBIDDEN)
-                                                .body(Body::from("Unauthenticated"))
-                                                .expect("Unable to create Authentication Forbidden response")),
-                    };
-                }
-
-                // Path parameters
-                let path: &str = uri.path();
-                let path_params =
-                    paths::REGEX_PET_PETID
-                    .captures(path)
-                    .unwrap_or_else(||
-                        panic!("Path {} matched RE PET_PETID in set but failed match against \"{}\"", path, paths::REGEX_PET_PETID.as_str())
-                    );
-
-                let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
-                    Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
-                        Ok(param_pet_id) => param_pet_id,
-                        Err(e) => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse path parameter petId: {}", e)))
-                                        .expect("Unable to create Bad Request response for invalid path parameter")),
-                    },
-                    Err(_) => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"])))
-                                        .expect("Unable to create Bad Request response for invalid percent decode"))
-                };
-
-                                let result = api_impl.get_pet_by_id(
-                                            param_pet_id,
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(Body::empty());
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                GetPetByIdResponse::SuccessfulOperation
-                                                    (body)
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-                                                    response.headers_mut().insert(
-                                                        CONTENT_TYPE,
-                                                        HeaderValue::from_str("application/xml")
-                                                            .expect("Unable to create Content-Type header for application/xml"));
-                                                    // XML Body
-                                                    let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
-                                                    *response.body_mut() = Body::from(body);
-
-                                                },
-                                                GetPetByIdResponse::InvalidIDSupplied
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
-                                                },
-                                                GetPetByIdResponse::PetNotFound
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = Body::from("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
-            },
-
             // UpdatePet - PUT /pet
             hyper::Method::PUT if path.matched(paths::ID_PET) => {
                 {
@@ -1999,6 +1812,193 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .body(Body::from(format!("Unable to read body: {}", e)))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
+            },
+
+            // DeletePet - DELETE /pet/{petId}
+            hyper::Method::DELETE if path.matched(paths::ID_PET_PETID) => {
+                {
+                    let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
+                        Some(ref authorization) => authorization,
+                        None => return Ok(Response::builder()
+                                                .status(StatusCode::FORBIDDEN)
+                                                .body(Body::from("Unauthenticated"))
+                                                .expect("Unable to create Authentication Forbidden response")),
+                    };
+
+                    // Authorization
+                    if let Scopes::Some(ref scopes) = authorization.scopes {
+                        let required_scopes: std::collections::BTreeSet<String> = vec![
+                            "write:pets".to_string(), // modify pets in your account
+                            "read:pets".to_string(), // read your pets
+                        ].into_iter().collect();
+
+                        if !required_scopes.is_subset(scopes) {
+                            let missing_scopes = required_scopes.difference(scopes);
+                            return Ok(Response::builder()
+                                .status(StatusCode::FORBIDDEN)
+                                .body(Body::from(missing_scopes.fold(
+                                    "Insufficient authorization, missing scopes".to_string(),
+                                    |s, scope| format!("{} {}", s, scope))
+                                ))
+                                .expect("Unable to create Authentication Insufficient response")
+                            );
+                        }
+                    }
+                }
+
+                // Path parameters
+                let path: &str = uri.path();
+                let path_params =
+                    paths::REGEX_PET_PETID
+                    .captures(path)
+                    .unwrap_or_else(||
+                        panic!("Path {} matched RE PET_PETID in set but failed match against \"{}\"", path, paths::REGEX_PET_PETID.as_str())
+                    );
+
+                let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
+                    Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
+                        Ok(param_pet_id) => param_pet_id,
+                        Err(e) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse path parameter petId: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid path parameter")),
+                    },
+                    Err(_) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode"))
+                };
+
+                // Header parameters
+                let param_api_key = headers.get(HeaderName::from_static("api_key"));
+
+                let param_api_key = match param_api_key {
+                    Some(v) => match header::IntoHeaderValue::<String>::try_from((*v).clone()) {
+                        Ok(result) =>
+                            Some(result.0),
+                        Err(err) => {
+                            return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Invalid header api_key - {}", err)))
+                                        .expect("Unable to create Bad Request response for invalid header api_key"));
+
+                        },
+                    },
+                    None => {
+                        None
+                    }
+                };
+
+                                let result = api_impl.delete_pet(
+                                            param_pet_id,
+                                            param_api_key,
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                DeletePetResponse::InvalidPetValue
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+            },
+
+            // GetPetById - GET /pet/{petId}
+            hyper::Method::GET if path.matched(paths::ID_PET_PETID) => {
+                {
+                    let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
+                        Some(ref authorization) => authorization,
+                        None => return Ok(Response::builder()
+                                                .status(StatusCode::FORBIDDEN)
+                                                .body(Body::from("Unauthenticated"))
+                                                .expect("Unable to create Authentication Forbidden response")),
+                    };
+                }
+
+                // Path parameters
+                let path: &str = uri.path();
+                let path_params =
+                    paths::REGEX_PET_PETID
+                    .captures(path)
+                    .unwrap_or_else(||
+                        panic!("Path {} matched RE PET_PETID in set but failed match against \"{}\"", path, paths::REGEX_PET_PETID.as_str())
+                    );
+
+                let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
+                    Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
+                        Ok(param_pet_id) => param_pet_id,
+                        Err(e) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse path parameter petId: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid path parameter")),
+                    },
+                    Err(_) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode"))
+                };
+
+                                let result = api_impl.get_pet_by_id(
+                                            param_pet_id,
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                GetPetByIdResponse::SuccessfulOperation
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/xml")
+                                                            .expect("Unable to create Content-Type header for application/xml"));
+                                                    // XML Body
+                                                    let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+
+                                                },
+                                                GetPetByIdResponse::InvalidIDSupplied
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
+
+                                                },
+                                                GetPetByIdResponse::PetNotFound
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
             },
 
             // UpdatePetWithForm - POST /pet/{petId}
@@ -2312,65 +2312,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                         }
             },
 
-            // DeleteOrder - DELETE /store/order/{order_id}
-            hyper::Method::DELETE if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => {
-                // Path parameters
-                let path: &str = uri.path();
-                let path_params =
-                    paths::REGEX_STORE_ORDER_ORDER_ID
-                    .captures(path)
-                    .unwrap_or_else(||
-                        panic!("Path {} matched RE STORE_ORDER_ORDER_ID in set but failed match against \"{}\"", path, paths::REGEX_STORE_ORDER_ORDER_ID.as_str())
-                    );
-
-                let param_order_id = match percent_encoding::percent_decode(path_params["order_id"].as_bytes()).decode_utf8() {
-                    Ok(param_order_id) => match param_order_id.parse::<String>() {
-                        Ok(param_order_id) => param_order_id,
-                        Err(e) => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse path parameter order_id: {}", e)))
-                                        .expect("Unable to create Bad Request response for invalid path parameter")),
-                    },
-                    Err(_) => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["order_id"])))
-                                        .expect("Unable to create Bad Request response for invalid percent decode"))
-                };
-
-                                let result = api_impl.delete_order(
-                                            param_order_id,
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(Body::empty());
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                DeleteOrderResponse::InvalidIDSupplied
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
-                                                },
-                                                DeleteOrderResponse::OrderNotFound
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = Body::from("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
-            },
-
             // GetInventory - GET /store/inventory
             hyper::Method::GET if path.matched(paths::ID_STORE_INVENTORY) => {
                 {
@@ -2405,78 +2346,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     // JSON Body
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = Body::from("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
-            },
-
-            // GetOrderById - GET /store/order/{order_id}
-            hyper::Method::GET if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => {
-                // Path parameters
-                let path: &str = uri.path();
-                let path_params =
-                    paths::REGEX_STORE_ORDER_ORDER_ID
-                    .captures(path)
-                    .unwrap_or_else(||
-                        panic!("Path {} matched RE STORE_ORDER_ORDER_ID in set but failed match against \"{}\"", path, paths::REGEX_STORE_ORDER_ORDER_ID.as_str())
-                    );
-
-                let param_order_id = match percent_encoding::percent_decode(path_params["order_id"].as_bytes()).decode_utf8() {
-                    Ok(param_order_id) => match param_order_id.parse::<i64>() {
-                        Ok(param_order_id) => param_order_id,
-                        Err(e) => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse path parameter order_id: {}", e)))
-                                        .expect("Unable to create Bad Request response for invalid path parameter")),
-                    },
-                    Err(_) => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["order_id"])))
-                                        .expect("Unable to create Bad Request response for invalid percent decode"))
-                };
-
-                                let result = api_impl.get_order_by_id(
-                                            param_order_id,
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(Body::empty());
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                GetOrderByIdResponse::SuccessfulOperation
-                                                    (body)
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-                                                    response.headers_mut().insert(
-                                                        CONTENT_TYPE,
-                                                        HeaderValue::from_str("application/xml")
-                                                            .expect("Unable to create Content-Type header for application/xml"));
-                                                    // XML Body
-                                                    let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
-                                                    *response.body_mut() = Body::from(body);
-
-                                                },
-                                                GetOrderByIdResponse::InvalidIDSupplied
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
-                                                },
-                                                GetOrderByIdResponse::OrderNotFound
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
 
                                                 },
                                             },
@@ -2576,6 +2445,137 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 .body(Body::from(format!("Unable to read body: {}", e)))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
+            },
+
+            // DeleteOrder - DELETE /store/order/{order_id}
+            hyper::Method::DELETE if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => {
+                // Path parameters
+                let path: &str = uri.path();
+                let path_params =
+                    paths::REGEX_STORE_ORDER_ORDER_ID
+                    .captures(path)
+                    .unwrap_or_else(||
+                        panic!("Path {} matched RE STORE_ORDER_ORDER_ID in set but failed match against \"{}\"", path, paths::REGEX_STORE_ORDER_ORDER_ID.as_str())
+                    );
+
+                let param_order_id = match percent_encoding::percent_decode(path_params["order_id"].as_bytes()).decode_utf8() {
+                    Ok(param_order_id) => match param_order_id.parse::<String>() {
+                        Ok(param_order_id) => param_order_id,
+                        Err(e) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse path parameter order_id: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid path parameter")),
+                    },
+                    Err(_) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["order_id"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode"))
+                };
+
+                                let result = api_impl.delete_order(
+                                            param_order_id,
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                DeleteOrderResponse::InvalidIDSupplied
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
+
+                                                },
+                                                DeleteOrderResponse::OrderNotFound
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+            },
+
+            // GetOrderById - GET /store/order/{order_id}
+            hyper::Method::GET if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => {
+                // Path parameters
+                let path: &str = uri.path();
+                let path_params =
+                    paths::REGEX_STORE_ORDER_ORDER_ID
+                    .captures(path)
+                    .unwrap_or_else(||
+                        panic!("Path {} matched RE STORE_ORDER_ORDER_ID in set but failed match against \"{}\"", path, paths::REGEX_STORE_ORDER_ORDER_ID.as_str())
+                    );
+
+                let param_order_id = match percent_encoding::percent_decode(path_params["order_id"].as_bytes()).decode_utf8() {
+                    Ok(param_order_id) => match param_order_id.parse::<i64>() {
+                        Ok(param_order_id) => param_order_id,
+                        Err(e) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse path parameter order_id: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid path parameter")),
+                    },
+                    Err(_) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["order_id"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode"))
+                };
+
+                                let result = api_impl.get_order_by_id(
+                                            param_order_id,
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                GetOrderByIdResponse::SuccessfulOperation
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/xml")
+                                                            .expect("Unable to create Content-Type header for application/xml"));
+                                                    // XML Body
+                                                    let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+
+                                                },
+                                                GetOrderByIdResponse::InvalidIDSupplied
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
+
+                                                },
+                                                GetOrderByIdResponse::OrderNotFound
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
             },
 
             // CreateUser - POST /user
@@ -2800,137 +2800,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                         }
             },
 
-            // DeleteUser - DELETE /user/{username}
-            hyper::Method::DELETE if path.matched(paths::ID_USER_USERNAME) => {
-                // Path parameters
-                let path: &str = uri.path();
-                let path_params =
-                    paths::REGEX_USER_USERNAME
-                    .captures(path)
-                    .unwrap_or_else(||
-                        panic!("Path {} matched RE USER_USERNAME in set but failed match against \"{}\"", path, paths::REGEX_USER_USERNAME.as_str())
-                    );
-
-                let param_username = match percent_encoding::percent_decode(path_params["username"].as_bytes()).decode_utf8() {
-                    Ok(param_username) => match param_username.parse::<String>() {
-                        Ok(param_username) => param_username,
-                        Err(e) => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse path parameter username: {}", e)))
-                                        .expect("Unable to create Bad Request response for invalid path parameter")),
-                    },
-                    Err(_) => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["username"])))
-                                        .expect("Unable to create Bad Request response for invalid percent decode"))
-                };
-
-                                let result = api_impl.delete_user(
-                                            param_username,
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(Body::empty());
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                DeleteUserResponse::InvalidUsernameSupplied
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
-                                                },
-                                                DeleteUserResponse::UserNotFound
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = Body::from("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
-            },
-
-            // GetUserByName - GET /user/{username}
-            hyper::Method::GET if path.matched(paths::ID_USER_USERNAME) => {
-                // Path parameters
-                let path: &str = uri.path();
-                let path_params =
-                    paths::REGEX_USER_USERNAME
-                    .captures(path)
-                    .unwrap_or_else(||
-                        panic!("Path {} matched RE USER_USERNAME in set but failed match against \"{}\"", path, paths::REGEX_USER_USERNAME.as_str())
-                    );
-
-                let param_username = match percent_encoding::percent_decode(path_params["username"].as_bytes()).decode_utf8() {
-                    Ok(param_username) => match param_username.parse::<String>() {
-                        Ok(param_username) => param_username,
-                        Err(e) => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse path parameter username: {}", e)))
-                                        .expect("Unable to create Bad Request response for invalid path parameter")),
-                    },
-                    Err(_) => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["username"])))
-                                        .expect("Unable to create Bad Request response for invalid percent decode"))
-                };
-
-                                let result = api_impl.get_user_by_name(
-                                            param_username,
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(Body::empty());
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                GetUserByNameResponse::SuccessfulOperation
-                                                    (body)
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-                                                    response.headers_mut().insert(
-                                                        CONTENT_TYPE,
-                                                        HeaderValue::from_str("application/xml")
-                                                            .expect("Unable to create Content-Type header for application/xml"));
-                                                    // XML Body
-                                                    let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
-                                                    *response.body_mut() = Body::from(body);
-
-                                                },
-                                                GetUserByNameResponse::InvalidUsernameSupplied
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
-
-                                                },
-                                                GetUserByNameResponse::UserNotFound
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = Body::from("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
-            },
-
             // LoginUser - GET /user/login
             hyper::Method::GET if path.matched(paths::ID_USER_LOGIN) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
@@ -3081,6 +2950,137 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                 LogoutUserResponse::SuccessfulOperation
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(0).expect("Unable to turn 0 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+            },
+
+            // DeleteUser - DELETE /user/{username}
+            hyper::Method::DELETE if path.matched(paths::ID_USER_USERNAME) => {
+                // Path parameters
+                let path: &str = uri.path();
+                let path_params =
+                    paths::REGEX_USER_USERNAME
+                    .captures(path)
+                    .unwrap_or_else(||
+                        panic!("Path {} matched RE USER_USERNAME in set but failed match against \"{}\"", path, paths::REGEX_USER_USERNAME.as_str())
+                    );
+
+                let param_username = match percent_encoding::percent_decode(path_params["username"].as_bytes()).decode_utf8() {
+                    Ok(param_username) => match param_username.parse::<String>() {
+                        Ok(param_username) => param_username,
+                        Err(e) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse path parameter username: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid path parameter")),
+                    },
+                    Err(_) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["username"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode"))
+                };
+
+                                let result = api_impl.delete_user(
+                                            param_username,
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                DeleteUserResponse::InvalidUsernameSupplied
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
+
+                                                },
+                                                DeleteUserResponse::UserNotFound
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+            },
+
+            // GetUserByName - GET /user/{username}
+            hyper::Method::GET if path.matched(paths::ID_USER_USERNAME) => {
+                // Path parameters
+                let path: &str = uri.path();
+                let path_params =
+                    paths::REGEX_USER_USERNAME
+                    .captures(path)
+                    .unwrap_or_else(||
+                        panic!("Path {} matched RE USER_USERNAME in set but failed match against \"{}\"", path, paths::REGEX_USER_USERNAME.as_str())
+                    );
+
+                let param_username = match percent_encoding::percent_decode(path_params["username"].as_bytes()).decode_utf8() {
+                    Ok(param_username) => match param_username.parse::<String>() {
+                        Ok(param_username) => param_username,
+                        Err(e) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse path parameter username: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid path parameter")),
+                    },
+                    Err(_) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["username"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode"))
+                };
+
+                                let result = api_impl.get_user_by_name(
+                                            param_username,
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                GetUserByNameResponse::SuccessfulOperation
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/xml")
+                                                            .expect("Unable to create Content-Type header for application/xml"));
+                                                    // XML Body
+                                                    let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+
+                                                },
+                                                GetUserByNameResponse::InvalidUsernameSupplied
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
+
+                                                },
+                                                GetUserByNameResponse::UserNotFound
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
 
                                                 },
                                             },
@@ -3258,8 +3258,6 @@ impl<T> RequestParser<T> for ApiRequestParser {
             hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_STRING) => Some("FakeOuterStringSerialize"),
             // FakeResponseWithNumericalDescription - GET /fake/response-with-numerical-description
             hyper::Method::GET if path.matched(paths::ID_FAKE_RESPONSE_WITH_NUMERICAL_DESCRIPTION) => Some("FakeResponseWithNumericalDescription"),
-            // HyphenParam - GET /fake/hyphenParam/{hyphen-param}
-            hyper::Method::GET if path.matched(paths::ID_FAKE_HYPHENPARAM_HYPHEN_PARAM) => Some("HyphenParam"),
             // TestBodyWithQueryParams - PUT /fake/body-with-query-params
             hyper::Method::PUT if path.matched(paths::ID_FAKE_BODY_WITH_QUERY_PARAMS) => Some("TestBodyWithQueryParams"),
             // TestClientModel - PATCH /fake
@@ -3272,46 +3270,48 @@ impl<T> RequestParser<T> for ApiRequestParser {
             hyper::Method::POST if path.matched(paths::ID_FAKE_INLINE_ADDITIONALPROPERTIES) => Some("TestInlineAdditionalProperties"),
             // TestJsonFormData - GET /fake/jsonFormData
             hyper::Method::GET if path.matched(paths::ID_FAKE_JSONFORMDATA) => Some("TestJsonFormData"),
+            // HyphenParam - GET /fake/hyphenParam/{hyphen-param}
+            hyper::Method::GET if path.matched(paths::ID_FAKE_HYPHENPARAM_HYPHEN_PARAM) => Some("HyphenParam"),
             // TestClassname - PATCH /fake_classname_test
             hyper::Method::PATCH if path.matched(paths::ID_FAKE_CLASSNAME_TEST) => Some("TestClassname"),
             // AddPet - POST /pet
             hyper::Method::POST if path.matched(paths::ID_PET) => Some("AddPet"),
-            // DeletePet - DELETE /pet/{petId}
-            hyper::Method::DELETE if path.matched(paths::ID_PET_PETID) => Some("DeletePet"),
             // FindPetsByStatus - GET /pet/findByStatus
             hyper::Method::GET if path.matched(paths::ID_PET_FINDBYSTATUS) => Some("FindPetsByStatus"),
             // FindPetsByTags - GET /pet/findByTags
             hyper::Method::GET if path.matched(paths::ID_PET_FINDBYTAGS) => Some("FindPetsByTags"),
-            // GetPetById - GET /pet/{petId}
-            hyper::Method::GET if path.matched(paths::ID_PET_PETID) => Some("GetPetById"),
             // UpdatePet - PUT /pet
             hyper::Method::PUT if path.matched(paths::ID_PET) => Some("UpdatePet"),
+            // DeletePet - DELETE /pet/{petId}
+            hyper::Method::DELETE if path.matched(paths::ID_PET_PETID) => Some("DeletePet"),
+            // GetPetById - GET /pet/{petId}
+            hyper::Method::GET if path.matched(paths::ID_PET_PETID) => Some("GetPetById"),
             // UpdatePetWithForm - POST /pet/{petId}
             hyper::Method::POST if path.matched(paths::ID_PET_PETID) => Some("UpdatePetWithForm"),
             // UploadFile - POST /pet/{petId}/uploadImage
             hyper::Method::POST if path.matched(paths::ID_PET_PETID_UPLOADIMAGE) => Some("UploadFile"),
-            // DeleteOrder - DELETE /store/order/{order_id}
-            hyper::Method::DELETE if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => Some("DeleteOrder"),
             // GetInventory - GET /store/inventory
             hyper::Method::GET if path.matched(paths::ID_STORE_INVENTORY) => Some("GetInventory"),
-            // GetOrderById - GET /store/order/{order_id}
-            hyper::Method::GET if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => Some("GetOrderById"),
             // PlaceOrder - POST /store/order
             hyper::Method::POST if path.matched(paths::ID_STORE_ORDER) => Some("PlaceOrder"),
+            // DeleteOrder - DELETE /store/order/{order_id}
+            hyper::Method::DELETE if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => Some("DeleteOrder"),
+            // GetOrderById - GET /store/order/{order_id}
+            hyper::Method::GET if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => Some("GetOrderById"),
             // CreateUser - POST /user
             hyper::Method::POST if path.matched(paths::ID_USER) => Some("CreateUser"),
             // CreateUsersWithArrayInput - POST /user/createWithArray
             hyper::Method::POST if path.matched(paths::ID_USER_CREATEWITHARRAY) => Some("CreateUsersWithArrayInput"),
             // CreateUsersWithListInput - POST /user/createWithList
             hyper::Method::POST if path.matched(paths::ID_USER_CREATEWITHLIST) => Some("CreateUsersWithListInput"),
-            // DeleteUser - DELETE /user/{username}
-            hyper::Method::DELETE if path.matched(paths::ID_USER_USERNAME) => Some("DeleteUser"),
-            // GetUserByName - GET /user/{username}
-            hyper::Method::GET if path.matched(paths::ID_USER_USERNAME) => Some("GetUserByName"),
             // LoginUser - GET /user/login
             hyper::Method::GET if path.matched(paths::ID_USER_LOGIN) => Some("LoginUser"),
             // LogoutUser - GET /user/logout
             hyper::Method::GET if path.matched(paths::ID_USER_LOGOUT) => Some("LogoutUser"),
+            // DeleteUser - DELETE /user/{username}
+            hyper::Method::DELETE if path.matched(paths::ID_USER_USERNAME) => Some("DeleteUser"),
+            // GetUserByName - GET /user/{username}
+            hyper::Method::GET if path.matched(paths::ID_USER_USERNAME) => Some("GetUserByName"),
             // UpdateUser - PUT /user/{username}
             hyper::Method::PUT if path.matched(paths::ID_USER_USERNAME) => Some("UpdateUser"),
             _ => None,
