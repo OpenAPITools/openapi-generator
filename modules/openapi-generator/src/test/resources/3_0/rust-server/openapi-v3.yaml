@@ -465,6 +465,20 @@ paths:
       responses:
         '200':
           description: Success
+  /get-with-bool:
+    get:
+      operationId: GetWithBooleanParameter
+      description: Get with a boolean parameter
+      parameters:
+        - name: iambool
+          description: Let's check apostrophes get encoded properly!
+          in: query
+          required: true
+          schema:
+            type: boolean
+      responses:
+        200:
+          description: 'OK'
 
 components:
   securitySchemes:
