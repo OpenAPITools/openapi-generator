@@ -24,7 +24,6 @@ use crate::{Api,
      AnyOfGetResponse,
      CallbackWithHeaderPostResponse,
      ComplexQueryParamGetResponse,
-     EnumInPathPathParamGetResponse,
      JsonComplexQueryParamGetResponse,
      MandatoryRequestHeaderGetResponse,
      MergePatchJsonGetResponse,
@@ -45,6 +44,7 @@ use crate::{Api,
      XmlOtherPutResponse,
      XmlPostResponse,
      XmlPutResponse,
+     EnumInPathPathParamGetResponse,
      CreateRepoResponse,
      GetRepoInfoResponse
 };
@@ -390,60 +390,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 ComplexQueryParamGetResponse::Success
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = Body::from("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
-            },
-
-            // EnumInPathPathParamGet - GET /enum_in_path/{path_param}
-            hyper::Method::GET if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => {
-                // Path parameters
-                let path: &str = uri.path();
-                let path_params =
-                    paths::REGEX_ENUM_IN_PATH_PATH_PARAM
-                    .captures(path)
-                    .unwrap_or_else(||
-                        panic!("Path {} matched RE ENUM_IN_PATH_PATH_PARAM in set but failed match against \"{}\"", path, paths::REGEX_ENUM_IN_PATH_PATH_PARAM.as_str())
-                    );
-
-                let param_path_param = match percent_encoding::percent_decode(path_params["path_param"].as_bytes()).decode_utf8() {
-                    Ok(param_path_param) => match param_path_param.parse::<models::StringEnum>() {
-                        Ok(param_path_param) => param_path_param,
-                        Err(e) => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse path parameter path_param: {}", e)))
-                                        .expect("Unable to create Bad Request response for invalid path parameter")),
-                    },
-                    Err(_) => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["path_param"])))
-                                        .expect("Unable to create Bad Request response for invalid percent decode"))
-                };
-
-                                let result = api_impl.enum_in_path_path_param_get(
-                                            param_path_param,
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(Body::empty());
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                EnumInPathPathParamGetResponse::Success
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
@@ -1774,6 +1720,60 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                         }
             },
 
+            // EnumInPathPathParamGet - GET /enum_in_path/{path_param}
+            hyper::Method::GET if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => {
+                // Path parameters
+                let path: &str = uri.path();
+                let path_params =
+                    paths::REGEX_ENUM_IN_PATH_PATH_PARAM
+                    .captures(path)
+                    .unwrap_or_else(||
+                        panic!("Path {} matched RE ENUM_IN_PATH_PATH_PARAM in set but failed match against \"{}\"", path, paths::REGEX_ENUM_IN_PATH_PATH_PARAM.as_str())
+                    );
+
+                let param_path_param = match percent_encoding::percent_decode(path_params["path_param"].as_bytes()).decode_utf8() {
+                    Ok(param_path_param) => match param_path_param.parse::<models::StringEnum>() {
+                        Ok(param_path_param) => param_path_param,
+                        Err(e) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse path parameter path_param: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid path parameter")),
+                    },
+                    Err(_) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["path_param"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode"))
+                };
+
+                                let result = api_impl.enum_in_path_path_param_get(
+                                            param_path_param,
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                EnumInPathPathParamGetResponse::Success
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+            },
+
             // CreateRepo - POST /repos
             hyper::Method::POST if path.matched(paths::ID_REPOS) => {
                 // Handle body parameters (note that non-required body parameters will ignore garbage
@@ -1958,8 +1958,6 @@ impl<T> RequestParser<T> for ApiRequestParser {
             hyper::Method::POST if path.matched(paths::ID_CALLBACK_WITH_HEADER) => Some("CallbackWithHeaderPost"),
             // ComplexQueryParamGet - GET /complex-query-param
             hyper::Method::GET if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => Some("ComplexQueryParamGet"),
-            // EnumInPathPathParamGet - GET /enum_in_path/{path_param}
-            hyper::Method::GET if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => Some("EnumInPathPathParamGet"),
             // JsonComplexQueryParamGet - GET /json-complex-query-param
             hyper::Method::GET if path.matched(paths::ID_JSON_COMPLEX_QUERY_PARAM) => Some("JsonComplexQueryParamGet"),
             // MandatoryRequestHeaderGet - GET /mandatory-request-header
@@ -2000,6 +1998,8 @@ impl<T> RequestParser<T> for ApiRequestParser {
             hyper::Method::POST if path.matched(paths::ID_XML) => Some("XmlPost"),
             // XmlPut - PUT /xml
             hyper::Method::PUT if path.matched(paths::ID_XML) => Some("XmlPut"),
+            // EnumInPathPathParamGet - GET /enum_in_path/{path_param}
+            hyper::Method::GET if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => Some("EnumInPathPathParamGet"),
             // CreateRepo - POST /repos
             hyper::Method::POST if path.matched(paths::ID_REPOS) => Some("CreateRepo"),
             // GetRepoInfo - GET /repos/{repoId}

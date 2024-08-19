@@ -109,33 +109,33 @@ use petstore_with_fake_endpoints_models_for_testing::{
     FakeOuterNumberSerializeResponse,
     FakeOuterStringSerializeResponse,
     FakeResponseWithNumericalDescriptionResponse,
-    HyphenParamResponse,
     TestBodyWithQueryParamsResponse,
     TestClientModelResponse,
     TestEndpointParametersResponse,
     TestEnumParametersResponse,
     TestInlineAdditionalPropertiesResponse,
     TestJsonFormDataResponse,
+    HyphenParamResponse,
     TestClassnameResponse,
     AddPetResponse,
-    DeletePetResponse,
     FindPetsByStatusResponse,
     FindPetsByTagsResponse,
-    GetPetByIdResponse,
     UpdatePetResponse,
+    DeletePetResponse,
+    GetPetByIdResponse,
     UpdatePetWithFormResponse,
     UploadFileResponse,
-    DeleteOrderResponse,
     GetInventoryResponse,
-    GetOrderByIdResponse,
     PlaceOrderResponse,
+    DeleteOrderResponse,
+    GetOrderByIdResponse,
     CreateUserResponse,
     CreateUsersWithArrayInputResponse,
     CreateUsersWithListInputResponse,
-    DeleteUserResponse,
-    GetUserByNameResponse,
     LoginUserResponse,
     LogoutUserResponse,
+    DeleteUserResponse,
+    GetUserByNameResponse,
     UpdateUserResponse,
 };
 use petstore_with_fake_endpoints_models_for_testing::server::MakeService;
@@ -204,15 +204,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<FakeResponseWithNumericalDescriptionResponse, ApiError>
     {
         info!("fake_response_with_numerical_description() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
-    }
-
-    async fn hyphen_param(
-        &self,
-        hyphen_param: String,
-        context: &C) -> Result<HyphenParamResponse, ApiError>
-    {
-        info!("hyphen_param(\"{}\") - X-Span-ID: {:?}", hyphen_param, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
@@ -296,6 +287,15 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
+    async fn hyphen_param(
+        &self,
+        hyphen_param: String,
+        context: &C) -> Result<HyphenParamResponse, ApiError>
+    {
+        info!("hyphen_param(\"{}\") - X-Span-ID: {:?}", hyphen_param, context.get().0.clone());
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
+    }
+
     /// To test class name in snake case
     async fn test_classname(
         &self,
@@ -313,17 +313,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<AddPetResponse, ApiError>
     {
         info!("add_pet({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
-    }
-
-    /// Deletes a pet
-    async fn delete_pet(
-        &self,
-        pet_id: i64,
-        api_key: Option<String>,
-        context: &C) -> Result<DeletePetResponse, ApiError>
-    {
-        info!("delete_pet({}, {:?}) - X-Span-ID: {:?}", pet_id, api_key, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
@@ -347,16 +336,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
-    /// Find pet by ID
-    async fn get_pet_by_id(
-        &self,
-        pet_id: i64,
-        context: &C) -> Result<GetPetByIdResponse, ApiError>
-    {
-        info!("get_pet_by_id({}) - X-Span-ID: {:?}", pet_id, context.get().0.clone());
-        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
-    }
-
     /// Update an existing pet
     async fn update_pet(
         &self,
@@ -364,6 +343,27 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<UpdatePetResponse, ApiError>
     {
         info!("update_pet({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
+    }
+
+    /// Deletes a pet
+    async fn delete_pet(
+        &self,
+        pet_id: i64,
+        api_key: Option<String>,
+        context: &C) -> Result<DeletePetResponse, ApiError>
+    {
+        info!("delete_pet({}, {:?}) - X-Span-ID: {:?}", pet_id, api_key, context.get().0.clone());
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
+    }
+
+    /// Find pet by ID
+    async fn get_pet_by_id(
+        &self,
+        pet_id: i64,
+        context: &C) -> Result<GetPetByIdResponse, ApiError>
+    {
+        info!("get_pet_by_id({}) - X-Span-ID: {:?}", pet_id, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
@@ -391,32 +391,12 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
-    /// Delete purchase order by ID
-    async fn delete_order(
-        &self,
-        order_id: String,
-        context: &C) -> Result<DeleteOrderResponse, ApiError>
-    {
-        info!("delete_order(\"{}\") - X-Span-ID: {:?}", order_id, context.get().0.clone());
-        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
-    }
-
     /// Returns pet inventories by status
     async fn get_inventory(
         &self,
         context: &C) -> Result<GetInventoryResponse, ApiError>
     {
         info!("get_inventory() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
-    }
-
-    /// Find purchase order by ID
-    async fn get_order_by_id(
-        &self,
-        order_id: i64,
-        context: &C) -> Result<GetOrderByIdResponse, ApiError>
-    {
-        info!("get_order_by_id({}) - X-Span-ID: {:?}", order_id, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
@@ -427,6 +407,26 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<PlaceOrderResponse, ApiError>
     {
         info!("place_order({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
+    }
+
+    /// Delete purchase order by ID
+    async fn delete_order(
+        &self,
+        order_id: String,
+        context: &C) -> Result<DeleteOrderResponse, ApiError>
+    {
+        info!("delete_order(\"{}\") - X-Span-ID: {:?}", order_id, context.get().0.clone());
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
+    }
+
+    /// Find purchase order by ID
+    async fn get_order_by_id(
+        &self,
+        order_id: i64,
+        context: &C) -> Result<GetOrderByIdResponse, ApiError>
+    {
+        info!("get_order_by_id({}) - X-Span-ID: {:?}", order_id, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
@@ -460,26 +460,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
-    /// Delete user
-    async fn delete_user(
-        &self,
-        username: String,
-        context: &C) -> Result<DeleteUserResponse, ApiError>
-    {
-        info!("delete_user(\"{}\") - X-Span-ID: {:?}", username, context.get().0.clone());
-        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
-    }
-
-    /// Get user by user name
-    async fn get_user_by_name(
-        &self,
-        username: String,
-        context: &C) -> Result<GetUserByNameResponse, ApiError>
-    {
-        info!("get_user_by_name(\"{}\") - X-Span-ID: {:?}", username, context.get().0.clone());
-        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
-    }
-
     /// Logs user into the system
     async fn login_user(
         &self,
@@ -497,6 +477,26 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<LogoutUserResponse, ApiError>
     {
         info!("logout_user() - X-Span-ID: {:?}", context.get().0.clone());
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
+    }
+
+    /// Delete user
+    async fn delete_user(
+        &self,
+        username: String,
+        context: &C) -> Result<DeleteUserResponse, ApiError>
+    {
+        info!("delete_user(\"{}\") - X-Span-ID: {:?}", username, context.get().0.clone());
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
+    }
+
+    /// Get user by user name
+    async fn get_user_by_name(
+        &self,
+        username: String,
+        context: &C) -> Result<GetUserByNameResponse, ApiError>
+    {
+        info!("get_user_by_name(\"{}\") - X-Span-ID: {:?}", username, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
