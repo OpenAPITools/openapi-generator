@@ -1022,7 +1022,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        LOGGER.info("Getting type declaration for schema");
+        LOGGER.trace("Getting type declaration for schema");
 
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -1042,15 +1042,14 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
                 if (dataType != null) {
                     dataType = "models::" + dataType;
-                    LOGGER.info("Returning " + dataType + " from ref");
+                    LOGGER.debug("Returning " + dataType + " from ref");
                 }
             } catch (Exception e) {
-                LOGGER.warn("Error obtaining the datatype from schema (model):" + p + ". Datatype default to Object");
-                dataType = "Object";
-                LOGGER.error(e.getMessage(), e);
+                dataType = null;
+                LOGGER.error("Error obtaining the datatype from schema (model): " + p + ". Error was: " + e.getMessage(), e);
             }
 
-            LOGGER.info("Returning " + dataType);
+            LOGGER.debug("Returning " + dataType);
 
             return dataType;
         } else if (p instanceof FileSchema) {
