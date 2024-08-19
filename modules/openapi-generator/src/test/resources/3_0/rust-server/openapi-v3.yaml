@@ -22,7 +22,7 @@ info:
 paths:
   /xml:
     post:
-      summary: Post an array
+      summary: Post an array.  It's important we test apostrophes, so include one here.
       description: ''
       requestBody:
         content:
