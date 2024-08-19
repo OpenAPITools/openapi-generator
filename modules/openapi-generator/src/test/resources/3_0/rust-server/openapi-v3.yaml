@@ -479,6 +479,22 @@ paths:
       responses:
         200:
           description: 'OK'
+  /operation-two-first-letter-headers:
+    post:
+      operationId: TwoFirstLetterHeaders
+      description: Check we don't barf if two boolean parameters have the same first letter
+      parameters:
+        - name: x-header-one
+          in: header
+          schema:
+            type: boolean
+        - name: x-header-two
+          in: header
+          schema:
+            type: boolean
+      responses:
+        200:
+          description: OK
 
 components:
   securitySchemes:
