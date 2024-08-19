@@ -26,6 +26,29 @@ paths:
                   type: string
       security:
         - basicAuth: []
+  /public:
+    get:
+      summary: Returns public information.
+      description: This endpoint does not require authentication.
+      responses:
+        "200":
+          description: A JSON object with public information
+          content:
+            application/json:
+              schema:
+                type: object
+      security: []
+  /private:
+    get:
+      summary: Returns private information.
+      description: This endpoint requires global security settings.
+      responses:
+        "200":
+          description: A JSON object with private information
+          content:
+            application/json:
+              schema:
+                type: object
 components:
   securitySchemes:
     basicAuth:

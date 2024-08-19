@@ -667,7 +667,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
                 pathVariables.put(groupName, variables);
 
-                // put auth medthods in header or cookie
+                // put auth methods in header or cookie
                 for (CodegenSecurity globalAuthMethod : globalAuthMethods) {
                     if (globalAuthMethod.isKeyInHeader) {
                         httpParams.add(new Parameter(globalAuthMethod.keyParamName, getTemplateString(toVarName(globalAuthMethod.keyParamName))));
@@ -677,12 +677,24 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                         cookieParams.add(new Parameter(globalAuthMethod.keyParamName, getTemplateString(toVarName(globalAuthMethod.keyParamName))));
                         extraParameters.add(new Parameter(toVarName(globalAuthMethod.keyParamName), globalAuthMethod.keyParamName.toUpperCase(Locale.ROOT)));
                     }
+
+                    // when security is specifically given empty for an end point, it should not be included
+                    if (operation.getSecurity() != null && operation.getSecurity().isEmpty()) {
+                        continue;
+                    }
                     if ("bearerAuth".equalsIgnoreCase(globalAuthMethod.name)) {
-                        httpParams.add(new Parameter("Authorization", "`Bearer ${TOKEN}`"));
-                        additionalProperties.put(TOKEN, true);
-                    } else if ("basicAuth".equalsIgnoreCase(globalAuthMethod.name)) {
-                        httpParams.add(new Parameter("Authorization", "`Basic ${TOKEN}`"));
-                        additionalProperties.put(TOKEN, true);
+                        if (operation.getSecurity() == null ||
+                                operation.getSecurity().stream().anyMatch(securityRequirement -> securityRequirement.containsKey("bearerAuth"))) {
+                            httpParams.add(new Parameter("Authorization", "`Bearer ${TOKEN}`"));
+                            additionalProperties.put(TOKEN, true);
+                        }
+                    }
+                    if ("basicAuth".equalsIgnoreCase(globalAuthMethod.name)) {
+                        if (operation.getSecurity() == null ||
+                                operation.getSecurity().stream().anyMatch(securityRequirement -> securityRequirement.containsKey("basicAuth"))) {
+                            httpParams.add(new Parameter("Authorization", "`Basic ${TOKEN}`"));
+                            additionalProperties.put(TOKEN, true);
+                        }
                     }
                 }
 

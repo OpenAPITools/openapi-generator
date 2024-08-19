@@ -40,4 +40,35 @@ export default function() {
         }
     });
 
+    group("/public", () => {
+
+        // Request No. 1: 
+        {
+            let url = BASE_URL + `/public`;
+            let request = http.get(url);
+
+            check(request, {
+                "A JSON object with public information": (r) => r.status === 200
+            });
+        }
+    });
+
+    group("/private", () => {
+
+        // Request No. 1: 
+        {
+            let url = BASE_URL + `/private`;
+            let params = {
+                headers: {
+                    "Authorization": `Basic ${TOKEN}`, "Accept": "application/json"
+                }
+            };
+            let request = http.get(url, params);
+
+            check(request, {
+                "A JSON object with private information": (r) => r.status === 200
+            });
+        }
+    });
+
 }
