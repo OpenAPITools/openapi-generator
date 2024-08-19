@@ -244,6 +244,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         supportingFiles.add(new SupportingFile("example-ca.pem", "examples", "ca.pem"));
         supportingFiles.add(new SupportingFile("example-server-chain.pem", "examples", "server-chain.pem"));
         supportingFiles.add(new SupportingFile("example-server-key.pem", "examples", "server-key.pem"));
+        supportingFiles.add(new SupportingFile("bin-cli.mustache", "bin", "cli.rs"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
                 .doNotOverwrite());
     }
@@ -580,6 +581,13 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         String vendorExtensionHttpMethod = op.httpMethod.toUpperCase(Locale.ROOT);
         op.vendorExtensions.put("x-http-method", vendorExtensionHttpMethod);
 
+        boolean isDelete = op.httpMethod.toUpperCase(Locale.ROOT).equals("DELETE");
+        op.vendorExtensions.put("x-is-delete", isDelete);
+
+        if (isDelete) {
+          additionalProperties.put("apiHasDeleteMethods", true);
+        }
+
         if (!op.vendorExtensions.containsKey("x-must-use-response")) {
             // If there's more than one response, than by default the user must explicitly handle them
             op.vendorExtensions.put("x-must-use-response", op.responses.size() > 1);
@@ -850,6 +858,27 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
         if (op.bodyParams.size() > 0 || op.formParams.size() > 0){
             op.vendorExtensions.put("x-has-request-body", true);
+        }
+
+        // The CLI generates a structopt structure for each operation. This can only have a single
+        // use of a short option, which comes from the parameter name, so we need to police
+        // against duplicates
+        HashMap<Character, CodegenParameter> availableOptions = new HashMap();
+
+        for (CodegenParameter p : op.allParams) {
+            if (p.isBoolean && p.isPrimitiveType) {
+                char shortOption = p.paramName.charAt(0);
+                if (shortOption == 'a' || shortOption == 'o' || shortOption == 'f') {
+                    // These are used by serverAddress, output, and force
+                    p.vendorExtensions.put("x-provide-cli-short-opt", false);
+                } else if (availableOptions.containsKey(shortOption)) {
+                    availableOptions.get(shortOption).vendorExtensions.put("x-provide-cli-short-opt", false);
+                    p.vendorExtensions.put("x-provide-cli-short-opt", false);
+                } else {
+                    availableOptions.put(shortOption, p);
+                    p.vendorExtensions.put("x-provide-cli-short-opt", true);
+                }
+            }
         }
 
         String underscoredOperationId = underscore(op.operationId).toUpperCase(Locale.ROOT);

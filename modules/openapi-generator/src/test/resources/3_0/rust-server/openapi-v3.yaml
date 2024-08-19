@@ -461,6 +461,15 @@ components:
           scopes:
             test.read: Allowed to read state.
             test.write: Allowed to change state.
+    additionalAuthScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'http://example.org'
+          tokenUrl: 'http://example.org'
+          scopes:
+            additional.test.read: Allowed to read state.
+            additional.test.write: Allowed to change state.
   schemas:
     AnyOfProperty:
       description: Test containing an anyOf object
