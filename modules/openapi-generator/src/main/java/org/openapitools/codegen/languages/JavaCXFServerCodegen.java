@@ -227,6 +227,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         super.postProcessModelProperty(model, property);
         model.imports.remove("ApiModelProperty");
         model.imports.remove("ApiModel");
+        model.imports.remove("JsonFormat");
 
         //Add imports for Jackson when model has inner enum
         if (isJackson()) {

@@ -568,7 +568,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         this.sanitizeConfig();
 
         // optional jackson mappings for BigDecimal support
-        if (serializeBigDecimalAsString && jackson) {
+        if (serializeBigDecimalAsString) {
             importMapping.put("JsonFormat", "com.fasterxml.jackson.annotation.JsonFormat");
         }
 
