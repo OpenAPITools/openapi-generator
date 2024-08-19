@@ -449,6 +449,22 @@ paths:
       responses:
         '200':
           description: Success
+  /multiple-path-params-with-very-long-path-to-test-formatting/{path_param_a}/{path_param_b}:
+    get:
+      parameters:
+        - name: path_param_a
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/StringObject'
+        - name: path_param_b
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/StringObject'
+      responses:
+        '200':
+          description: Success
 
 components:
   securitySchemes:
