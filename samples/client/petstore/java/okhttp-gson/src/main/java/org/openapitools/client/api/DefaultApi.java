@@ -188,6 +188,130 @@ public class DefaultApi {
         return localVarCall;
     }
     /**
+     * Build call for fakeFreeFormQueryParametersGet
+     * @param fixed  (optional)
+     * @param freeForm  (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call fakeFreeFormQueryParametersGetCall(String fixed, Object freeForm, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/fake/free-form-query-parameters";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (fixed != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("fixed", fixed));
+        }
+
+        if (freeForm != null) {
+            localVarQueryParams.addAll(localVarApiClient.freeFormParameterToPairs(freeForm));
+        }
+
+        final String[] localVarAccepts = {
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call fakeFreeFormQueryParametersGetValidateBeforeCall(String fixed, Object freeForm, final ApiCallback _callback) throws ApiException {
+        return fakeFreeFormQueryParametersGetCall(fixed, freeForm, _callback);
+
+    }
+
+    /**
+     * 
+     * 
+     * @param fixed  (optional)
+     * @param freeForm  (optional)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+     </table>
+     */
+    public void fakeFreeFormQueryParametersGet(String fixed, Object freeForm) throws ApiException {
+        fakeFreeFormQueryParametersGetWithHttpInfo(fixed, freeForm);
+    }
+
+    /**
+     * 
+     * 
+     * @param fixed  (optional)
+     * @param freeForm  (optional)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<Void> fakeFreeFormQueryParametersGetWithHttpInfo(String fixed, Object freeForm) throws ApiException {
+        okhttp3.Call localVarCall = fakeFreeFormQueryParametersGetValidateBeforeCall(fixed, freeForm, null);
+        return localVarApiClient.execute(localVarCall);
+    }
+
+    /**
+     *  (asynchronously)
+     * 
+     * @param fixed  (optional)
+     * @param freeForm  (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call fakeFreeFormQueryParametersGetAsync(String fixed, Object freeForm, final ApiCallback<Void> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = fakeFreeFormQueryParametersGetValidateBeforeCall(fixed, freeForm, _callback);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
+    }
+    /**
      * Build call for fakeOneOfWIthSameErasureGet
      * @param _callback Callback for upload/download progress
      * @return Call to execute

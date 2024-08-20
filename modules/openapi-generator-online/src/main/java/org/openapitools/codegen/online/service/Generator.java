@@ -118,6 +118,7 @@ public class Generator {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The OpenAPI specification supplied was not valid");
         }
 
+
         // do not use opts.getOptions().get("outputFolder") as the input can contain ../../
         // to access other folders in the server
         String destPath = language + "-" + type.getTypeName();
@@ -138,6 +139,16 @@ public class Generator {
         if (opts.getOptions() != null) {
             codegenConfig.additionalProperties().putAll(opts.getOptions());
             codegenConfig.additionalProperties().put("openAPI", openapi);
+        }
+
+        if(opts.getOpenapiNormalizer() != null && !opts.getOpenapiNormalizer().isEmpty()){
+            for(String rule: opts.getOpenapiNormalizer()){
+                String[] ruleOperands = rule.split("=");
+                if(ruleOperands.length != 2) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "In rule: " + rule + "the operands were not provided in the form of <Rule>=<Value>");
+                }
+                codegenConfig.openapiNormalizer().put(ruleOperands[0],ruleOperands[1]);
+            }
         }
 
         codegenConfig.setOutputDir(outputFolder);

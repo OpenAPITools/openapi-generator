@@ -14,7 +14,7 @@ To see how to make this your own, look here:
 [README]((https://openapi-generator.tech))
 
 - API version: 1.0.7
-- Generator version: 7.8.0-SNAPSHOT
+- Generator version: 7.9.0-SNAPSHOT
 
 
 
@@ -34,7 +34,7 @@ It also contains an example server and client which make use of `openapi-v3`:
     arguments on the command line.
 
 You can use the example server and client as a basis for your own code.
-See below for [more detail on implementing a server](#writing-a-server).
+See below for [more detail on the examples](#using-the-generated-library).
 
 ## Examples
 
@@ -122,7 +122,6 @@ Method | HTTP request | Description
 [****](docs/default_api.md#) | **GET** /any-of | 
 [****](docs/default_api.md#) | **POST** /callback-with-header | 
 [****](docs/default_api.md#) | **GET** /complex-query-param | 
-[****](docs/default_api.md#) | **GET** /enum_in_path/{path_param} | 
 [****](docs/default_api.md#) | **GET** /json-complex-query-param | 
 [****](docs/default_api.md#) | **GET** /mandatory-request-header | 
 [****](docs/default_api.md#) | **GET** /merge-patch-json | 
@@ -143,6 +142,7 @@ Method | HTTP request | Description
 [****](docs/default_api.md#) | **PUT** /xml_other | 
 [****](docs/default_api.md#) | **POST** /xml | Post an array
 [****](docs/default_api.md#) | **PUT** /xml | 
+[****](docs/default_api.md#) | **GET** /enum_in_path/{path_param} | 
 [**CreateRepo**](docs/repo_api.md#CreateRepo) | **POST** /repos | 
 [**GetRepoInfo**](docs/repo_api.md#GetRepoInfo) | **GET** /repos/{repoId} | 
 

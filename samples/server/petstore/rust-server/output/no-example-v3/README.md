@@ -14,7 +14,7 @@ To see how to make this your own, look here:
 [README]((https://openapi-generator.tech))
 
 - API version: 0.0.1
-- Generator version: 7.8.0-SNAPSHOT
+- Generator version: 7.9.0-SNAPSHOT
 
 
 
@@ -34,7 +34,7 @@ It also contains an example server and client which make use of `no-example-v3`:
     arguments on the command line.
 
 You can use the example server and client as a basis for your own code.
-See below for [more detail on implementing a server](#writing-a-server).
+See below for [more detail on the examples](#using-the-generated-library).
 
 ## Examples
 

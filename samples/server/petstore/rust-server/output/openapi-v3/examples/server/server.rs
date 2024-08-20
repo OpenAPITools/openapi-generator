@@ -30,9 +30,7 @@ pub async fn create(addr: &str, https: bool) {
 
     let service = MakeService::new(server);
 
-    // This pushes a fourth layer of the middleware-stack even though Swagger assumes only three levels.
-    // This fourth layer creates an accept-all policy, hower the example-code already acchieves the same via a Bearer-token with full permissions, so next line is not needed (anymore).  
-    // let service = MakeAllowAllAuthenticator::new(service, "cosmo");
+    let service = MakeAllowAllAuthenticator::new(service, "cosmo");
 
     #[allow(unused_mut)]
     let mut service =
@@ -107,7 +105,6 @@ use openapi_v3::{
     AnyOfGetResponse,
     CallbackWithHeaderPostResponse,
     ComplexQueryParamGetResponse,
-    EnumInPathPathParamGetResponse,
     JsonComplexQueryParamGetResponse,
     MandatoryRequestHeaderGetResponse,
     MergePatchJsonGetResponse,
@@ -128,6 +125,7 @@ use openapi_v3::{
     XmlOtherPutResponse,
     XmlPostResponse,
     XmlPutResponse,
+    EnumInPathPathParamGetResponse,
     CreateRepoResponse,
     GetRepoInfoResponse,
 };
@@ -162,15 +160,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<ComplexQueryParamGetResponse, ApiError>
     {
         info!("complex_query_param_get({:?}) - X-Span-ID: {:?}", list_of_strings, context.get().0.clone());
-        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
-    }
-
-    async fn enum_in_path_path_param_get(
-        &self,
-        path_param: models::StringEnum,
-        context: &C) -> Result<EnumInPathPathParamGetResponse, ApiError>
-    {
-        info!("enum_in_path_path_param_get({:?}) - X-Span-ID: {:?}", path_param, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
@@ -347,6 +336,15 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<XmlPutResponse, ApiError>
     {
         info!("xml_put({:?}) - X-Span-ID: {:?}", xml_object, context.get().0.clone());
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
+    }
+
+    async fn enum_in_path_path_param_get(
+        &self,
+        path_param: models::StringEnum,
+        context: &C) -> Result<EnumInPathPathParamGetResponse, ApiError>
+    {
+        info!("enum_in_path_path_param_get({:?}) - X-Span-ID: {:?}", path_param, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 

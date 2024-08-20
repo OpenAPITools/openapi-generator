@@ -15,12 +15,11 @@ codegen="${cli}/target/openapi-generator-cli.jar"
 commands="config-help,generate,batch,help,list,meta,validate,version"
 
 if [ $# == 0 ]; then
-	echo "No command specified. Available commands:"
-	for i in $(echo $commands | sed "s/,/ /g")
-	do
-		echo "  $i"
-	done
-	exit
+    echo "No command specified. Available commands:"
+    for i in $(echo $commands | sed "s/,/ /g"); do
+        echo "  $i"
+    done
+    exit
 fi
 
 # if CLI jar exists, check $1 against completions available in the CLI
