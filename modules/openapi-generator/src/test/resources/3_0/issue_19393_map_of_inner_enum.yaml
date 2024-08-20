@@ -1,0 +1,51 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: OpenAPI Test API
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /employees/{employeeId}:
+    put:
+      operationId: updateEmployee
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+        required: true
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    Employee:
+      type: object
+      properties:
+        projectRole:
+          type: object
+          additionalProperties:
+            type: string
+            enum:
+              - DEVELOPER
+              - TESTER
+              - OWNER
+        projectRoles:
+          type: object
+          additionalProperties:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+              enum:
+                - DEVELOPER
+                - TESTER
+                - OWNER
