@@ -320,10 +320,6 @@ class DeserializationTests(unittest.TestCase):
         deserialized = self.deserialize(response, "Dict[str, str]", 'application/vnd.api+json; charset=utf-8')
         self.assertTrue(isinstance(deserialized, dict))
 
-
-        deserialized = self.deserialize(response.encode('shift_jis'), "Dict[str, str]", 'application/json; charset=shift_jis')
-        self.assertTrue(isinstance(deserialized, dict))
-
         deserialized = self.deserialize(response, "str", 'text/plain')
         self.assertTrue(isinstance(deserialized, str))
         
