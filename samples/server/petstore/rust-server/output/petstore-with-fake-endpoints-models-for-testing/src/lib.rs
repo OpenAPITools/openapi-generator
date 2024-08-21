@@ -397,13 +397,13 @@ pub trait Api<C: Send + Sync> {
     /// To test enum parameters
     async fn test_enum_parameters(
         &self,
-        enum_header_string_array: Option<&Vec<String>>,
-        enum_header_string: Option<String>,
-        enum_query_string_array: Option<&Vec<String>>,
-        enum_query_string: Option<String>,
-        enum_query_integer: Option<i32>,
-        enum_query_double: Option<f64>,
-        enum_form_string: Option<String>,
+        enum_header_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
+        enum_query_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
+        enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
+        enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
+        enum_form_string: Option<models::TestEnumParametersRequestEnumFormString>,
         context: &C) -> Result<TestEnumParametersResponse, ApiError>;
 
     /// test inline additionalProperties
@@ -439,7 +439,7 @@ pub trait Api<C: Send + Sync> {
     /// Finds Pets by status
     async fn find_pets_by_status(
         &self,
-        status: &Vec<String>,
+        status: &Vec<models::FindPetsByStatusStatusParameterInner>,
         context: &C) -> Result<FindPetsByStatusResponse, ApiError>;
 
     /// Finds Pets by tags
@@ -634,13 +634,13 @@ pub trait ApiNoContext<C: Send + Sync> {
     /// To test enum parameters
     async fn test_enum_parameters(
         &self,
-        enum_header_string_array: Option<&Vec<String>>,
-        enum_header_string: Option<String>,
-        enum_query_string_array: Option<&Vec<String>>,
-        enum_query_string: Option<String>,
-        enum_query_integer: Option<i32>,
-        enum_query_double: Option<f64>,
-        enum_form_string: Option<String>,
+        enum_header_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
+        enum_query_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
+        enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
+        enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
+        enum_form_string: Option<models::TestEnumParametersRequestEnumFormString>,
         ) -> Result<TestEnumParametersResponse, ApiError>;
 
     /// test inline additionalProperties
@@ -676,7 +676,7 @@ pub trait ApiNoContext<C: Send + Sync> {
     /// Finds Pets by status
     async fn find_pets_by_status(
         &self,
-        status: &Vec<String>,
+        status: &Vec<models::FindPetsByStatusStatusParameterInner>,
         ) -> Result<FindPetsByStatusResponse, ApiError>;
 
     /// Finds Pets by tags
@@ -925,13 +925,13 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     /// To test enum parameters
     async fn test_enum_parameters(
         &self,
-        enum_header_string_array: Option<&Vec<String>>,
-        enum_header_string: Option<String>,
-        enum_query_string_array: Option<&Vec<String>>,
-        enum_query_string: Option<String>,
-        enum_query_integer: Option<i32>,
-        enum_query_double: Option<f64>,
-        enum_form_string: Option<String>,
+        enum_header_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
+        enum_query_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
+        enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
+        enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
+        enum_form_string: Option<models::TestEnumParametersRequestEnumFormString>,
         ) -> Result<TestEnumParametersResponse, ApiError>
     {
         let context = self.context().clone();
@@ -991,7 +991,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     /// Finds Pets by status
     async fn find_pets_by_status(
         &self,
-        status: &Vec<String>,
+        status: &Vec<models::FindPetsByStatusStatusParameterInner>,
         ) -> Result<FindPetsByStatusResponse, ApiError>
     {
         let context = self.context().clone();
