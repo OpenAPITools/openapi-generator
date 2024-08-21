@@ -60,7 +60,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
             .replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.{{httpMethod}});
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, {{#stringEnums}}HttpMethod.{{/stringEnums}}{{^stringEnums}}"{{/stringEnums}}{{httpMethod}}{{^stringEnums}}"{{/stringEnums}});
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
         {{#queryParams}}
 
@@ -161,7 +161,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
         {{/authMethods}}
-        
+
         {{^useInversify}}
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {

@@ -1,3 +1,4 @@
+{{#stringEnums}}
 /**
  * {{{description}}}
  * @export
@@ -10,6 +11,22 @@ export enum {{classname}} {
 {{/enumVars}}
 {{/allowableValues}}
 }
+{{/stringEnums}}
+{{^stringEnums}}
+/**
+ * {{{description}}}
+ * @export
+ */
+export type {{classname}} = {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}} | {{/-last}}{{/enumVars}}{{/allowableValues}};
+
+export const {{classname}} = {
+{{#allowableValues}}
+{{#enumVars}}
+    {{name}}: {{{value}}} as {{classname}}{{^-last}},{{/-last}}
+{{/enumVars}}
+{{/allowableValues}}
+};
+{{/stringEnums}}
 
 export function {{classname}}FromJSON(json: any): {{classname}} {
     return json as {{classname}};

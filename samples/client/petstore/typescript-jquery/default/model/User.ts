@@ -36,3 +36,4 @@ export interface User {
     userStatus?: number;
 
 }
+

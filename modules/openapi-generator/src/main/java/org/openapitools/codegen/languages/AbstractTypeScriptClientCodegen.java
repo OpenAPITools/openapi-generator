@@ -236,6 +236,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public static final String NULL_SAFE_ADDITIONAL_PROPS = "nullSafeAdditionalProps";
     public static final String NULL_SAFE_ADDITIONAL_PROPS_DESC = "Set to make additional properties types declare that their indexer may return undefined";
 
+    public static final String STRING_ENUMS = "stringEnums";
+    public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
+
     // NOTE: SimpleDateFormat is not thread-safe and may not be static unless it is thread-local
     @SuppressWarnings("squid:S5164")
     protected static final ThreadLocal<SimpleDateFormat> SNAPSHOT_SUFFIX_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT));
@@ -248,6 +251,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     protected Boolean supportsES6 = false;
     @Getter @Setter
     protected Boolean nullSafeAdditionalProps = false;
+    @Getter @Setter protected Boolean stringEnums = false;
     protected HashSet<String> languageGenericTypes;
     @Getter @Setter
     protected String npmName = null;
@@ -369,6 +373,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 "When setting this property to true, the version will be suffixed with -SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.get().toPattern(),
                 false));
         this.cliOptions.add(new CliOption(NULL_SAFE_ADDITIONAL_PROPS, NULL_SAFE_ADDITIONAL_PROPS_DESC).defaultValue(String.valueOf(this.getNullSafeAdditionalProps())));
+        this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.getStringEnums())));
         this.cliOptions.add(CliOption.newBoolean(ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR, ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR_DESC, false));
     }
 
@@ -411,6 +416,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         if (additionalProperties.containsKey(NULL_SAFE_ADDITIONAL_PROPS)) {
             setNullSafeAdditionalProps(Boolean.valueOf(additionalProperties.get(NULL_SAFE_ADDITIONAL_PROPS).toString()));
+        }
+
+        if (additionalProperties.containsKey(STRING_ENUMS)) {
+            setStringEnums(convertPropertyToBoolean(STRING_ENUMS));
+            additionalProperties.put("stringEnums", getStringEnums());
         }
 
         if (additionalProperties.containsKey(NPM_NAME)) {

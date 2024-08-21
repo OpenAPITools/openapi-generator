@@ -56,6 +56,7 @@ export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 export namespace {{classname}} {
 {{#vars}}
 {{#isEnum}}
+{{#stringEnums}}
     export enum {{enumName}} {
         {{#allowableValues}}
         {{#enumVars}}
@@ -63,12 +64,25 @@ export namespace {{classname}} {
         {{/enumVars}}
         {{/allowableValues}}
     }
+{{/stringEnums}}
+{{^stringEnums}}
+    export type {{enumName}} = {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}} | {{/-last}}{{/enumVars}}{{/allowableValues}};
+
+    export const {{enumName}} = {
+    {{#allowableValues}}
+    {{#enumVars}}
+        {{name}}: {{{value}}} as {{enumName}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+    {{/allowableValues}}
+    };
+{{/stringEnums}}
 {{/isEnum}}
 {{/vars}}
 }
 {{/hasEnums}}
 {{/isEnum}}
 {{#isEnum}}
+{{#stringEnums}}
 export enum {{classname}} {
     {{#allowableValues}}
     {{#enumVars}}
@@ -76,6 +90,18 @@ export enum {{classname}} {
     {{/enumVars}}
     {{/allowableValues}}
 }
+{{/stringEnums}}
+{{^stringEnums}}
+export type {{classname}} = {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}} | {{/-last}}{{/enumVars}}{{/allowableValues}};
+
+export const {{classname}} = {
+{{#allowableValues}}
+{{#enumVars}}
+    {{name}}: {{{value}}} as {{classname}}{{^-last}},{{/-last}}
+{{/enumVars}}
+{{/allowableValues}}
+};
+{{/stringEnums}}
 {{/isEnum}}
 {{/model}}
 {{/models}}

@@ -16,6 +16,7 @@ export interface {{classname}} {{#parent}}extends models.{{{.}}} {{/parent}}{
 export namespace {{classname}} {
 {{#vars}}
     {{#isEnum}}
+    {{#stringEnums}}
     export enum {{enumName}} {
     {{#allowableValues}}
         {{#enumVars}}
@@ -23,6 +24,18 @@ export namespace {{classname}} {
         {{/enumVars}}
     {{/allowableValues}}
     }
+    {{/stringEnums}}
+    {{^stringEnums}}
+    export type {{enumName}} = {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}} | {{/-last}}{{/enumVars}}{{/allowableValues}};
+
+    export const {{enumName}} = {
+    {{#allowableValues}}
+    {{#enumVars}}
+        {{name}}: {{{value}}} as {{enumName}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+    {{/allowableValues}}
+    };
+    {{/stringEnums}}
     {{/isEnum}}
 {{/vars}}
 }{{/hasEnums}}

@@ -34,11 +34,11 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, "DELETE");
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
-        
+
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -58,7 +58,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/store/inventory';
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, "GET");
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
@@ -68,7 +68,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-        
+
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -96,11 +96,11 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, "GET");
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
-        
+
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -127,7 +127,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/store/order';
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, "POST");
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
@@ -142,7 +142,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 
-        
+
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);

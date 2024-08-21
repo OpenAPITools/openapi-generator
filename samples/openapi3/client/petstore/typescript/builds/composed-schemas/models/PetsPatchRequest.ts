@@ -58,10 +58,12 @@ export class PetsPatchRequest {
 }
 
 
-export enum PetsPatchRequestBreedEnum {
-    Dingo = 'Dingo',
-    Husky = 'Husky',
-    Retriever = 'Retriever',
-    Shepherd = 'Shepherd'
-}
+export type PetsPatchRequestBreedEnum = 'Dingo' | 'Husky' | 'Retriever' | 'Shepherd';
+
+export const PetsPatchRequestBreedEnum = {
+    Dingo: 'Dingo' as PetsPatchRequestBreedEnum,
+    Husky: 'Husky' as PetsPatchRequestBreedEnum,
+    Retriever: 'Retriever' as PetsPatchRequestBreedEnum,
+    Shepherd: 'Shepherd' as PetsPatchRequestBreedEnum
+};
 

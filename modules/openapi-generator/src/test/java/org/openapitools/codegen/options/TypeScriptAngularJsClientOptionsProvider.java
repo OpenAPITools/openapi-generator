@@ -27,6 +27,7 @@ public class TypeScriptAngularJsClientOptionsProvider implements OptionsProvider
     public static final String SUPPORTS_ES6_VALUE = "false";
     public static final String NULL_SAFE_ADDITIONAL_PROPS_VALUE = "false";
     public static final String ENUM_NAME_SUFFIX = "Enum";
+    public static final String STRING_ENUMS_VALUE = "false";
     public static final String SORT_PARAMS_VALUE = "false";
     public static final String SORT_MODEL_PROPERTIES_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
@@ -50,6 +51,7 @@ public class TypeScriptAngularJsClientOptionsProvider implements OptionsProvider
                 .put(CodegenConstants.SUPPORTS_ES6, SUPPORTS_ES6_VALUE)
                 .put(AbstractTypeScriptClientCodegen.NULL_SAFE_ADDITIONAL_PROPS, NULL_SAFE_ADDITIONAL_PROPS_VALUE)
                 .put(CodegenConstants.ENUM_NAME_SUFFIX, ENUM_NAME_SUFFIX)
+                .put(AbstractTypeScriptClientCodegen.STRING_ENUMS, STRING_ENUMS_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.ENUM_PROPERTY_NAMING, ENUM_PROPERTY_NAMING_VALUE)
                 .put(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING_VALUE)
