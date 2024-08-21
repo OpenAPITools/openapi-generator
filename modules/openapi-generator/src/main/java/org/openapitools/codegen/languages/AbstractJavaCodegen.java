@@ -2000,6 +2000,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             case original:
                 // NOTE: This is provided as a last-case allowance, but will still result in reserved words being escaped.
                 modified = value;
+                if (modified.matches("^[$A-Za-z_][$A-Za-z0-9_]*$") && !reservedWords.contains(modified)) {
+                    // if it's valid already, skip toVarName
+                    return modified;
+                }
                 break;
             case camelCase:
                 // NOTE: Removes hyphens and underscores
@@ -2007,12 +2011,28 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 break;
             case PascalCase:
                 // NOTE: Removes hyphens and underscores
-                modified = camelize(modified);
-                break;
+                modified = camelize(modified, UPPERCASE_FIRST_CHAR);
+                modified = escapeReservedWord(modified);
+                modified = toVarName(modified);
+                // recamelize if first char is not underscore because toVarName will turn PascalCase into camelCase
+                if (modified.charAt(0) != '_') {
+                    modified = camelize(modified, UPPERCASE_FIRST_CHAR);
+                }
+                return modified;
             case snake_case:
                 // NOTE: Removes hyphens
                 modified = underscore(modified);
-                break;
+                if (modified.matches("^[$a-z_][$a-z0-9_]*$") && !reservedWords.contains(modified)) {
+                    // if it's valid already, skip toVarName
+                    return modified;
+                }
+                else {
+                    modified = escapeReservedWord(modified);
+                    modified = toVarName(modified);
+                    // underscore again, because toVarName camelizes
+                    modified = underscore(modified);
+                    return modified;
+                }
             case UPPERCASE:
                 modified = modified.replaceAll("\\W+", "_");
                 modified = underscore(modified).toUpperCase(Locale.ROOT);
@@ -2021,6 +2041,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (reservedWords.contains(modified)) {
             modified = escapeReservedWord(modified);
+        }
+
+        if ("".equals(modified)) {
+            modified = "_";
         }
 
         return toVarName(modified);
