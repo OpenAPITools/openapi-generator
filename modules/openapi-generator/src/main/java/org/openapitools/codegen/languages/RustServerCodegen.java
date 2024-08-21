@@ -22,6 +22,9 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.FileSchema;
 import io.swagger.v3.oas.models.media.XML;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -119,6 +122,9 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                 )
         );
 
+        // We need inline enums to be resolved to a separate model so that
+        // anyOf/oneOf that contain them work correctly.
+        inlineSchemaOption.put("RESOLVE_INLINE_ENUMS", "true");
 
         // Show the generation timestamp by default
         hideGenerationTimestamp = Boolean.FALSE;
@@ -1004,6 +1010,66 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
+    public String getTypeDeclaration(String name) {
+        return "models::" + name;
+    }
+
+    private String modelFromSchema(Schema schema) {
+        String ref = null;
+
+        if (schema != null) {
+            ref = schema.get$ref();
+        }
+
+        if (ref != null && ref.indexOf("#/components/schemas/") == 0) {
+            ref = toModelName(ref.substring("#/components/schemas/".length()));
+        } else {
+            ref = null;
+        }
+
+        return ref;
+    }
+
+    @Override
+    public String getTypeDeclaration(Schema p) {
+        LOGGER.trace("Getting type declaration for schema");
+
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
+            String innerType = getTypeDeclaration(inner);
+            return typeMapping.get("array") + "<" + innerType + ">";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = ModelUtils.getAdditionalProperties(p);
+            String innerType = getTypeDeclaration(inner);
+            StringBuilder typeDeclaration = new StringBuilder(typeMapping.get("map")).append("<").append(typeMapping.get("string")).append(", ");
+            typeDeclaration.append(innerType).append(">");
+            return typeDeclaration.toString();
+        } else if (!StringUtils.isEmpty(p.get$ref())) {
+            String dataType;
+            try {
+                dataType = modelFromSchema(p);
+
+                if (dataType != null) {
+                    dataType = "models::" + dataType;
+                    LOGGER.debug("Returning " + dataType + " from ref");
+                }
+            } catch (Exception e) {
+                dataType = null;
+                LOGGER.error("Error obtaining the datatype from schema (model): " + p + ". Error was: " + e.getMessage(), e);
+            }
+
+            LOGGER.debug("Returning " + dataType);
+
+            return dataType;
+        } else if (p instanceof FileSchema) {
+            return typeMapping.get("File").toString();
+        }
+
+        return super.getTypeDeclaration(p);
+    }
+
+    @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             Schema inner = ModelUtils.getSchemaItems(p);
@@ -1022,6 +1088,17 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         CodegenModel mdl = super.fromModel(name, model);
+
+        LOGGER.debug("fromModel (base end): " + mdl);
+
+        if (!StringUtils.isEmpty(model.get$ref())) {
+            String ref = ModelUtils.getSimpleRef(model.get$ref());
+            String dataType = toModelName(ref);
+            mdl.dataType = dataType;
+            mdl.isAlias = false;
+            LOGGER.debug("Schema for: " + name + " is wrapper for: " + dataType);
+        }
+
 
         if (ModelUtils.isArraySchema(model)) {
             Schema inner = ModelUtils.getSchemaItems(model);
@@ -1060,49 +1137,84 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             additionalProperties.put("usesXmlNamespaces", true);
         }
 
-        LOGGER.trace("Created model: {}", mdl);
+        Schema modelAdditionalProperties = ModelUtils.getAdditionalProperties(model);
 
-        return mdl;
-    }
-
-    @Override
-    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
-        Map<String, ModelsMap> newObjs = super.postProcessAllModels(objs);
-
-        //Index all CodegenModels by model name.
-        HashMap<String, CodegenModel> allModels = new HashMap<>();
-        for (Entry<String, ModelsMap> entry : objs.entrySet()) {
-            String modelName = toModelName(entry.getKey());
-            List<ModelMap> models = entry.getValue().getModels();
-            for (ModelMap mo : models) {
-                allModels.put(modelName, mo.getModel());
-            }
+        if (modelAdditionalProperties != null) {
+            mdl.additionalPropertiesType = getTypeDeclaration(modelAdditionalProperties);
         }
 
-        for (Entry<String, CodegenModel> entry : allModels.entrySet()) {
-            CodegenModel model = entry.getValue();
+        // Does this support partial ordering?
+        boolean partialOrdSupport = true;
 
-            if (uuidType.equals(model.dataType)) {
+        if (mdl.dataType != null && mdl.dataType.equals("object")) {
+            // Object isn't a sensible default. Instead, we set it to
+            // 'null'. This ensures that we treat this model as a struct
+            // with multiple parameters.
+            mdl.dataType = null;
+        } else if ("map".equals(mdl.dataType)) {
+            if (!mdl.allVars.isEmpty() || mdl.additionalPropertiesType == null) {
+                // We don't yet support `additionalProperties` that also have
+                // properties. If we see variables, we ignore the
+                // `additionalProperties` type ('map') and warn the user. This
+                // will produce code that compiles, but won't feature the
+                // `additionalProperties` - but that's likely more useful to
+                // the user than the alternative.
+                LOGGER.warn("Ignoring additionalProperties (see https://github.com/OpenAPITools/openapi-generator/issues/318) alongside defined properties");
+                mdl.dataType = null;
+            } else {
+                mdl.dataType = "std::collections::HashMap<String, " + mdl.additionalPropertiesType + ">";
+                partialOrdSupport = false;
+            }
+        } else if (mdl.dataType != null && mdl.isAlias) {
+            // We need to hack about with single-parameter models to
+            // get them recognised correctly.
+            mdl.isAlias = false;
+            mdl.dataType = typeMapping.get(mdl.dataType);
+        }
+
+        if (uuidType.equals(mdl.dataType)) {
+            additionalProperties.put("apiUsesUuid", true);
+        }
+
+        for (CodegenProperty prop : mdl.vars) {
+            if (uuidType.equals(prop.dataType)) {
                 additionalProperties.put("apiUsesUuid", true);
             }
 
-            for (CodegenProperty prop : model.vars) {
-                if (uuidType.equals(prop.dataType)) {
-                    additionalProperties.put("apiUsesUuid", true);
-                }
+            String xmlName = modelXmlNames.get(prop.dataType);
+            if (xmlName != null) {
+                prop.vendorExtensions.put("x-item-xml-name", xmlName);
+            }
+        }
 
-                String xmlName = modelXmlNames.get(prop.dataType);
-                if (xmlName != null) {
-                    prop.vendorExtensions.put("x-item-xml-name", xmlName);
-                }
+        // Do we suppport doing ToString/FromStr conversions for query parameters?
+        boolean toStringSupport = true;
+        boolean isString = "String".equals(mdl.dataType);
 
-                if (uuidType.equals(prop.dataType)) {
-                    additionalProperties.put("apiUsesUuid", true);
+        if (isString) {
+            toStringSupport = true;
+        } else if (mdl.dataType != null
+                && (mdl.dataType.startsWith("swagger::OneOf") || mdl.dataType.startsWith("swagger::AnyOf"))) {
+            toStringSupport = false;
+            partialOrdSupport = false;
+        } else if (mdl.getAdditionalPropertiesType() != null) {
+            toStringSupport = false;
+        } else if (model instanceof ComposedSchema) {
+            for (Schema schema : ModelUtils.getInterfaces((ComposedSchema) model)) {
+                if (additionalProperties != null) {
+                    toStringSupport = false;
                 }
             }
         }
 
-        return newObjs;
+        mdl.vendorExtensions.put("x-upper-case-name", name.toUpperCase(Locale.ROOT));
+        mdl.vendorExtensions.put("x-is-string", isString);
+        mdl.vendorExtensions.put("x-to-string-support", toStringSupport);
+        mdl.vendorExtensions.put("x-partial-ord", partialOrdSupport);
+
+        LOGGER.trace("Created model: " + name + ": " + mdl + " from schema: " + model);
+
+        return mdl;
     }
 
     @Override
@@ -1231,6 +1343,14 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
     @Override
     public String toOneOfName(List<String> names, Schema composedSchema) {
+        Map<String, Object> exts = null;
+        if (composedSchema != null) {
+            exts = composedSchema.getExtensions();
+        }
+        if (exts != null && exts.containsKey("x-one-of-name")) {
+            return (String) exts.get("x-one-of-name");
+        }
+
         List<Schema> schemas = ModelUtils.getInterfaces(composedSchema);
 
         List<String> types = new ArrayList<>();
@@ -1249,6 +1369,12 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             types.add(getTypeDeclaration(s));
         }
         return "swagger::AnyOf" + types.size() + "<" + String.join(",", types) + ">";
+    }
+
+    @Override
+    public String toAllOfName(List<String> names, Schema composedSchema) {
+        // Handle all of objects as freeform
+        return null;
     }
 
     @Override
@@ -1327,47 +1453,10 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
-        for (ModelMap mo : objs.getModels()) {
-            CodegenModel cm = mo.getModel();
-
-            LOGGER.trace("Post processing model: {}", cm);
-
-            if ("object".equals(cm.dataType)) {
-                // Object isn't a sensible default. Instead, we set it to
-                // 'null'. This ensures that we treat this model as a struct
-                // with multiple parameters.
-                cm.dataType = null;
-            } else if ("map".equals(cm.dataType)) {
-                if (!cm.allVars.isEmpty() || cm.additionalPropertiesType == null) {
-                    // We don't yet support `additionalProperties` that also have
-                    // properties. If we see variables, we ignore the
-                    // `additionalProperties` type ('map') and warn the user. This
-                    // will produce code that compiles, but won't feature the
-                    // `additionalProperties` - but that's likely more useful to
-                    // the user than the alternative.
-                    LOGGER.warn("Ignoring additionalProperties (see https://github.com/OpenAPITools/openapi-generator/issues/318) alongside defined properties");
-                    cm.dataType = null;
-                } else {
-                    cm.dataType = "std::collections::HashMap<String, " + cm.additionalPropertiesType + ">";
-                }
-            } else if (cm.dataType != null) {
-                // We need to hack about with single-parameter models to
-                // get them recognised correctly.
-                cm.isAlias = false;
-                cm.dataType = typeMapping.get(cm.dataType);
-
-                if (uuidType.equals(cm.dataType)) {
-                    additionalProperties.put("apiUsesUuid", true);
-                }
-            }
-
-            cm.vendorExtensions.put("x-is-string", "String".equals(cm.dataType));
-        }
         return super.postProcessModelsEnum(objs);
     }
 
     private void processParam(CodegenParameter param, CodegenOperation op) {
-
         String example = null;
 
         // If a parameter uses UUIDs, we need to import the UUID package.

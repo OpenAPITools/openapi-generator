@@ -1325,13 +1325,13 @@ impl<S, C> Api<C> for Client<S, C> where
 
     async fn test_enum_parameters(
         &self,
-        param_enum_header_string_array: Option<&Vec<String>>,
-        param_enum_header_string: Option<String>,
-        param_enum_query_string_array: Option<&Vec<String>>,
-        param_enum_query_string: Option<String>,
-        param_enum_query_integer: Option<i32>,
-        param_enum_query_double: Option<f64>,
-        param_enum_form_string: Option<String>,
+        param_enum_header_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        param_enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
+        param_enum_query_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        param_enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
+        param_enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
+        param_enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
+        param_enum_form_string: Option<models::TestEnumParametersRequestEnumFormString>,
         context: &C) -> Result<TestEnumParametersResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
@@ -1349,7 +1349,7 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             if let Some(param_enum_query_string) = param_enum_query_string {
                 query_string.append_pair("enum_query_string",
-                    &param_enum_query_string);
+                    &param_enum_query_string.to_string());
             }
             if let Some(param_enum_query_integer) = param_enum_query_integer {
                 query_string.append_pair("enum_query_integer",
@@ -1381,7 +1381,7 @@ impl<S, C> Api<C> for Client<S, C> where
 
         // Consumes form body
         let params = &[
-            ("enum_form_string", param_enum_form_string),
+            ("enum_form_string", param_enum_form_string.map(|param| format!("{:?}", param))),
         ];
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
@@ -1907,7 +1907,7 @@ impl<S, C> Api<C> for Client<S, C> where
 
     async fn find_pets_by_status(
         &self,
-        param_status: &Vec<String>,
+        param_status: &Vec<models::FindPetsByStatusStatusParameterInner>,
         context: &C) -> Result<FindPetsByStatusResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();

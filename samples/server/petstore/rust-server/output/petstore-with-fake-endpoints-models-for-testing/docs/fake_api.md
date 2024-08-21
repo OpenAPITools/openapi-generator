@@ -321,13 +321,13 @@ Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enum_header_string_array** | [**String**](String.md)| Header parameter enum test (string array) | 
- **enum_header_string** | **String**| Header parameter enum test (string) | [default to "-efg".to_string()]
- **enum_query_string_array** | [**String**](String.md)| Query parameter enum test (string array) | 
- **enum_query_string** | **String**| Query parameter enum test (string) | [default to "-efg".to_string()]
- **enum_query_integer** | **i32**| Query parameter enum test (double) | 
- **enum_query_double** | **f64**| Query parameter enum test (double) | 
- **enum_form_string** | **String**| Form parameter enum test (string) | [default to "-efg".to_string()]
+ **enum_header_string_array** | [**models::TestEnumParametersEnumHeaderStringArrayParameterInner**](models::TestEnumParametersEnumHeaderStringArrayParameterInner.md)| Header parameter enum test (string array) | 
+ **enum_header_string** | [****](.md)| Header parameter enum test (string) | 
+ **enum_query_string_array** | [**models::TestEnumParametersEnumHeaderStringArrayParameterInner**](models::TestEnumParametersEnumHeaderStringArrayParameterInner.md)| Query parameter enum test (string array) | 
+ **enum_query_string** | [****](.md)| Query parameter enum test (string) | 
+ **enum_query_integer** | [****](.md)| Query parameter enum test (double) | 
+ **enum_query_double** | [****](.md)| Query parameter enum test (double) | 
+ **enum_form_string** | [**testEnumParameters_request_enum_form_string**](testEnumParameters_request_enum_form_string.md)|  | 
 
 ### Return type
 

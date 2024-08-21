@@ -480,6 +480,12 @@ components:
         - BAR
       - type: string
         description: Alternate option
+    AnyOfHashMapObject:
+      description: Test a model containing an anyOf of a hash map
+      anyOf:
+      - type: string
+      - additionalProperties:
+          type: string
     12345AnyOfObject:
       description: Test a model containing an anyOf that starts with a number
       anyOf:

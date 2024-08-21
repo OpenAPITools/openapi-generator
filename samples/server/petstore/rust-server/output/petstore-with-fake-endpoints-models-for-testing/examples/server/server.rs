@@ -253,13 +253,13 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     /// To test enum parameters
     async fn test_enum_parameters(
         &self,
-        enum_header_string_array: Option<&Vec<String>>,
-        enum_header_string: Option<String>,
-        enum_query_string_array: Option<&Vec<String>>,
-        enum_query_string: Option<String>,
-        enum_query_integer: Option<i32>,
-        enum_query_double: Option<f64>,
-        enum_form_string: Option<String>,
+        enum_header_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
+        enum_query_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
+        enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
+        enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
+        enum_form_string: Option<models::TestEnumParametersRequestEnumFormString>,
         context: &C) -> Result<TestEnumParametersResponse, ApiError>
     {
         info!("test_enum_parameters({:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}) - X-Span-ID: {:?}", enum_header_string_array, enum_header_string, enum_query_string_array, enum_query_string, enum_query_integer, enum_query_double, enum_form_string, context.get().0.clone());
@@ -319,7 +319,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     /// Finds Pets by status
     async fn find_pets_by_status(
         &self,
-        status: &Vec<String>,
+        status: &Vec<models::FindPetsByStatusStatusParameterInner>,
         context: &C) -> Result<FindPetsByStatusResponse, ApiError>
     {
         info!("find_pets_by_status({:?}) - X-Span-ID: {:?}", status, context.get().0.clone());
