@@ -264,6 +264,9 @@ impl<S, C> CallbackApi<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // No schema variants
+
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -293,6 +296,7 @@ impl<S, C> CallbackApi<C> for Client<S, C> where
 
         match response.status().as_u16() {
             204 => {
+                let (header, body) = response.into_parts();
                 Ok(
                     CallbackCallbackWithHeaderPostResponse::OK
                 )
@@ -351,6 +355,9 @@ impl<S, C> CallbackApi<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // No schema variants
+
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -362,6 +369,7 @@ impl<S, C> CallbackApi<C> for Client<S, C> where
 
         match response.status().as_u16() {
             204 => {
+                let (header, body) = response.into_parts();
                 Ok(
                     CallbackCallbackPostResponse::OK
                 )

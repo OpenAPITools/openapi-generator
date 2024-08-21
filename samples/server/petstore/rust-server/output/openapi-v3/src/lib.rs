@@ -205,7 +205,7 @@ pub enum UntypedPropertyGetResponse {
 pub enum UuidGetResponse {
     /// Duplicate Response long text. One.
     DuplicateResponseLongText
-    (uuid::Uuid)
+    (models::UuidObject)
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -275,7 +275,7 @@ pub enum CreateRepoResponse {
 pub enum GetRepoInfoResponse {
     /// OK
     OK
-    (String)
+    (models::StringObject)
 }
 
 /// API

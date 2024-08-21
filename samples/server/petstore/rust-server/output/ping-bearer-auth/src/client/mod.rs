@@ -413,6 +413,9 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
+        // No schema variants
+
+
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -443,6 +446,7 @@ impl<S, C> Api<C> for Client<S, C> where
 
         match response.status().as_u16() {
             201 => {
+                let (header, body) = response.into_parts();
                 Ok(
                     PingGetResponse::OK
                 )

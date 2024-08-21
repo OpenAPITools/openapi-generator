@@ -309,7 +309,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     /// Add a new pet to the store
     async fn add_pet(
         &self,
-        body: models::Pet,
+        body: swagger::OneOf2<models::AddPetApplicationSlashJsonRequest,models::AddPetApplicationSlashXmlRequest>,
         context: &C) -> Result<AddPetResponse, ApiError>
     {
         info!("add_pet({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
@@ -339,7 +339,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     /// Update an existing pet
     async fn update_pet(
         &self,
-        body: models::Pet,
+        body: swagger::OneOf2<models::UpdatePetApplicationSlashJsonRequest,models::UpdatePetApplicationSlashXmlRequest>,
         context: &C) -> Result<UpdatePetResponse, ApiError>
     {
         info!("update_pet({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());

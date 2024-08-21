@@ -6,6 +6,296 @@ use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
 
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct AddPetApplicationSlashJsonRequest(Pet);
+
+impl std::convert::From<Pet> for AddPetApplicationSlashJsonRequest {
+    fn from(x: Pet) -> Self {
+        AddPetApplicationSlashJsonRequest(x)
+    }
+}
+
+impl std::convert::From<AddPetApplicationSlashJsonRequest> for Pet {
+    fn from(x: AddPetApplicationSlashJsonRequest) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for AddPetApplicationSlashJsonRequest {
+    type Target = Pet;
+    fn deref(&self) -> &Pet {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for AddPetApplicationSlashJsonRequest {
+    fn deref_mut(&mut self) -> &mut Pet {
+        &mut self.0
+    }
+}
+
+/// Converts the AddPetApplicationSlashJsonRequest value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for AddPetApplicationSlashJsonRequest {
+    fn to_string(&self) -> String {
+        self.0.to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a AddPetApplicationSlashJsonRequest value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for AddPetApplicationSlashJsonRequest {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        match std::str::FromStr::from_str(s) {
+             std::result::Result::Ok(r) => std::result::Result::Ok(AddPetApplicationSlashJsonRequest(r)),
+             std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {} to AddPetApplicationSlashJsonRequest: {:?}", s, e)),
+        }
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<AddPetApplicationSlashJsonRequest> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<AddPetApplicationSlashJsonRequest>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<AddPetApplicationSlashJsonRequest>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for AddPetApplicationSlashJsonRequest - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<AddPetApplicationSlashJsonRequest> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <AddPetApplicationSlashJsonRequest as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into AddPetApplicationSlashJsonRequest - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AddPetApplicationSlashJsonRequest>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<AddPetApplicationSlashJsonRequest>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
+               hdr_values, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AddPetApplicationSlashJsonRequest>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<AddPetApplicationSlashJsonRequest> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <AddPetApplicationSlashJsonRequest as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{}' into AddPetApplicationSlashJsonRequest - {}",
+                                    hdr_value, err))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
+                hdr_values, e)),
+        }
+    }
+}
+
+impl AddPetApplicationSlashJsonRequest {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn as_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct AddPetApplicationSlashXmlRequest(Pet);
+
+impl std::convert::From<Pet> for AddPetApplicationSlashXmlRequest {
+    fn from(x: Pet) -> Self {
+        AddPetApplicationSlashXmlRequest(x)
+    }
+}
+
+impl std::convert::From<AddPetApplicationSlashXmlRequest> for Pet {
+    fn from(x: AddPetApplicationSlashXmlRequest) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for AddPetApplicationSlashXmlRequest {
+    type Target = Pet;
+    fn deref(&self) -> &Pet {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for AddPetApplicationSlashXmlRequest {
+    fn deref_mut(&mut self) -> &mut Pet {
+        &mut self.0
+    }
+}
+
+/// Converts the AddPetApplicationSlashXmlRequest value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for AddPetApplicationSlashXmlRequest {
+    fn to_string(&self) -> String {
+        self.0.to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a AddPetApplicationSlashXmlRequest value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for AddPetApplicationSlashXmlRequest {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        match std::str::FromStr::from_str(s) {
+             std::result::Result::Ok(r) => std::result::Result::Ok(AddPetApplicationSlashXmlRequest(r)),
+             std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {} to AddPetApplicationSlashXmlRequest: {:?}", s, e)),
+        }
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<AddPetApplicationSlashXmlRequest> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<AddPetApplicationSlashXmlRequest>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<AddPetApplicationSlashXmlRequest>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for AddPetApplicationSlashXmlRequest - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<AddPetApplicationSlashXmlRequest> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <AddPetApplicationSlashXmlRequest as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into AddPetApplicationSlashXmlRequest - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AddPetApplicationSlashXmlRequest>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<AddPetApplicationSlashXmlRequest>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
+               hdr_values, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AddPetApplicationSlashXmlRequest>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<AddPetApplicationSlashXmlRequest> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <AddPetApplicationSlashXmlRequest as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{}' into AddPetApplicationSlashXmlRequest - {}",
+                                    hdr_value, err))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
+                hdr_values, e)),
+        }
+    }
+}
+
+impl AddPetApplicationSlashXmlRequest {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn as_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AdditionalPropertiesClass {
@@ -3921,6 +4211,372 @@ impl EnumTestEnumString {
     }
 }
 
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct FindPetsByStatus200ApplicationSlashJsonResponse(
+    Vec<Pet>
+);
+
+impl std::convert::From<Vec<Pet>> for FindPetsByStatus200ApplicationSlashJsonResponse {
+    fn from(x: Vec<Pet>) -> Self {
+        FindPetsByStatus200ApplicationSlashJsonResponse(x)
+    }
+}
+
+impl std::convert::From<FindPetsByStatus200ApplicationSlashJsonResponse> for Vec<Pet> {
+    fn from(x: FindPetsByStatus200ApplicationSlashJsonResponse) -> Self {
+        x.0
+    }
+}
+
+impl std::iter::FromIterator<Pet> for FindPetsByStatus200ApplicationSlashJsonResponse {
+    fn from_iter<U: IntoIterator<Item=Pet>>(u: U) -> Self {
+        FindPetsByStatus200ApplicationSlashJsonResponse(Vec::<Pet>::from_iter(u))
+    }
+}
+
+impl std::iter::IntoIterator for FindPetsByStatus200ApplicationSlashJsonResponse {
+    type Item = Pet;
+    type IntoIter = std::vec::IntoIter<Pet>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.into_iter()
+    }
+}
+
+impl<'a> std::iter::IntoIterator for &'a FindPetsByStatus200ApplicationSlashJsonResponse {
+    type Item = &'a Pet;
+    type IntoIter = std::slice::Iter<'a, Pet>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.iter()
+    }
+}
+
+impl<'a> std::iter::IntoIterator for &'a mut FindPetsByStatus200ApplicationSlashJsonResponse {
+    type Item = &'a mut Pet;
+    type IntoIter = std::slice::IterMut<'a, Pet>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.iter_mut()
+    }
+}
+
+impl std::ops::Deref for FindPetsByStatus200ApplicationSlashJsonResponse {
+    type Target = Vec<Pet>;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for FindPetsByStatus200ApplicationSlashJsonResponse {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+/// Converts the FindPetsByStatus200ApplicationSlashJsonResponse value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for FindPetsByStatus200ApplicationSlashJsonResponse {
+    fn to_string(&self) -> String {
+        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a FindPetsByStatus200ApplicationSlashJsonResponse value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for FindPetsByStatus200ApplicationSlashJsonResponse {
+    type Err = <Pet as std::str::FromStr>::Err;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        let mut items = vec![];
+        for item in s.split(',')
+        {
+            items.push(item.parse()?);
+        }
+        std::result::Result::Ok(FindPetsByStatus200ApplicationSlashJsonResponse(items))
+    }
+}
+
+
+// Methods for converting between header::IntoHeaderValue<FindPetsByStatus200ApplicationSlashJsonResponse> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<FindPetsByStatus200ApplicationSlashJsonResponse>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<FindPetsByStatus200ApplicationSlashJsonResponse>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for FindPetsByStatus200ApplicationSlashJsonResponse - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<FindPetsByStatus200ApplicationSlashJsonResponse> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <FindPetsByStatus200ApplicationSlashJsonResponse as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into FindPetsByStatus200ApplicationSlashJsonResponse - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<FindPetsByStatus200ApplicationSlashJsonResponse>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<FindPetsByStatus200ApplicationSlashJsonResponse>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
+               hdr_values, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<FindPetsByStatus200ApplicationSlashJsonResponse>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<FindPetsByStatus200ApplicationSlashJsonResponse> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <FindPetsByStatus200ApplicationSlashJsonResponse as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{}' into FindPetsByStatus200ApplicationSlashJsonResponse - {}",
+                                    hdr_value, err))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
+                hdr_values, e)),
+        }
+    }
+}
+
+impl FindPetsByStatus200ApplicationSlashJsonResponse {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn as_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct FindPetsByStatus200ApplicationSlashXmlResponse(
+    Vec<Pet>
+);
+
+impl std::convert::From<Vec<Pet>> for FindPetsByStatus200ApplicationSlashXmlResponse {
+    fn from(x: Vec<Pet>) -> Self {
+        FindPetsByStatus200ApplicationSlashXmlResponse(x)
+    }
+}
+
+impl std::convert::From<FindPetsByStatus200ApplicationSlashXmlResponse> for Vec<Pet> {
+    fn from(x: FindPetsByStatus200ApplicationSlashXmlResponse) -> Self {
+        x.0
+    }
+}
+
+impl std::iter::FromIterator<Pet> for FindPetsByStatus200ApplicationSlashXmlResponse {
+    fn from_iter<U: IntoIterator<Item=Pet>>(u: U) -> Self {
+        FindPetsByStatus200ApplicationSlashXmlResponse(Vec::<Pet>::from_iter(u))
+    }
+}
+
+impl std::iter::IntoIterator for FindPetsByStatus200ApplicationSlashXmlResponse {
+    type Item = Pet;
+    type IntoIter = std::vec::IntoIter<Pet>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.into_iter()
+    }
+}
+
+impl<'a> std::iter::IntoIterator for &'a FindPetsByStatus200ApplicationSlashXmlResponse {
+    type Item = &'a Pet;
+    type IntoIter = std::slice::Iter<'a, Pet>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.iter()
+    }
+}
+
+impl<'a> std::iter::IntoIterator for &'a mut FindPetsByStatus200ApplicationSlashXmlResponse {
+    type Item = &'a mut Pet;
+    type IntoIter = std::slice::IterMut<'a, Pet>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.iter_mut()
+    }
+}
+
+impl std::ops::Deref for FindPetsByStatus200ApplicationSlashXmlResponse {
+    type Target = Vec<Pet>;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for FindPetsByStatus200ApplicationSlashXmlResponse {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+/// Converts the FindPetsByStatus200ApplicationSlashXmlResponse value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for FindPetsByStatus200ApplicationSlashXmlResponse {
+    fn to_string(&self) -> String {
+        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a FindPetsByStatus200ApplicationSlashXmlResponse value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for FindPetsByStatus200ApplicationSlashXmlResponse {
+    type Err = <Pet as std::str::FromStr>::Err;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        let mut items = vec![];
+        for item in s.split(',')
+        {
+            items.push(item.parse()?);
+        }
+        std::result::Result::Ok(FindPetsByStatus200ApplicationSlashXmlResponse(items))
+    }
+}
+
+
+// Methods for converting between header::IntoHeaderValue<FindPetsByStatus200ApplicationSlashXmlResponse> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<FindPetsByStatus200ApplicationSlashXmlResponse>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<FindPetsByStatus200ApplicationSlashXmlResponse>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for FindPetsByStatus200ApplicationSlashXmlResponse - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<FindPetsByStatus200ApplicationSlashXmlResponse> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <FindPetsByStatus200ApplicationSlashXmlResponse as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into FindPetsByStatus200ApplicationSlashXmlResponse - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<FindPetsByStatus200ApplicationSlashXmlResponse>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<FindPetsByStatus200ApplicationSlashXmlResponse>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
+               hdr_values, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<FindPetsByStatus200ApplicationSlashXmlResponse>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<FindPetsByStatus200ApplicationSlashXmlResponse> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <FindPetsByStatus200ApplicationSlashXmlResponse as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{}' into FindPetsByStatus200ApplicationSlashXmlResponse - {}",
+                                    hdr_value, err))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
+                hdr_values, e)),
+        }
+    }
+}
+
+impl FindPetsByStatus200ApplicationSlashXmlResponse {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn as_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 /// Enumeration of values.
 /// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
@@ -4045,6 +4701,372 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 impl FindPetsByStatusStatusParameterInner {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn as_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct FindPetsByTags200ApplicationSlashJsonResponse(
+    Vec<Pet>
+);
+
+impl std::convert::From<Vec<Pet>> for FindPetsByTags200ApplicationSlashJsonResponse {
+    fn from(x: Vec<Pet>) -> Self {
+        FindPetsByTags200ApplicationSlashJsonResponse(x)
+    }
+}
+
+impl std::convert::From<FindPetsByTags200ApplicationSlashJsonResponse> for Vec<Pet> {
+    fn from(x: FindPetsByTags200ApplicationSlashJsonResponse) -> Self {
+        x.0
+    }
+}
+
+impl std::iter::FromIterator<Pet> for FindPetsByTags200ApplicationSlashJsonResponse {
+    fn from_iter<U: IntoIterator<Item=Pet>>(u: U) -> Self {
+        FindPetsByTags200ApplicationSlashJsonResponse(Vec::<Pet>::from_iter(u))
+    }
+}
+
+impl std::iter::IntoIterator for FindPetsByTags200ApplicationSlashJsonResponse {
+    type Item = Pet;
+    type IntoIter = std::vec::IntoIter<Pet>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.into_iter()
+    }
+}
+
+impl<'a> std::iter::IntoIterator for &'a FindPetsByTags200ApplicationSlashJsonResponse {
+    type Item = &'a Pet;
+    type IntoIter = std::slice::Iter<'a, Pet>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.iter()
+    }
+}
+
+impl<'a> std::iter::IntoIterator for &'a mut FindPetsByTags200ApplicationSlashJsonResponse {
+    type Item = &'a mut Pet;
+    type IntoIter = std::slice::IterMut<'a, Pet>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.iter_mut()
+    }
+}
+
+impl std::ops::Deref for FindPetsByTags200ApplicationSlashJsonResponse {
+    type Target = Vec<Pet>;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for FindPetsByTags200ApplicationSlashJsonResponse {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+/// Converts the FindPetsByTags200ApplicationSlashJsonResponse value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for FindPetsByTags200ApplicationSlashJsonResponse {
+    fn to_string(&self) -> String {
+        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a FindPetsByTags200ApplicationSlashJsonResponse value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for FindPetsByTags200ApplicationSlashJsonResponse {
+    type Err = <Pet as std::str::FromStr>::Err;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        let mut items = vec![];
+        for item in s.split(',')
+        {
+            items.push(item.parse()?);
+        }
+        std::result::Result::Ok(FindPetsByTags200ApplicationSlashJsonResponse(items))
+    }
+}
+
+
+// Methods for converting between header::IntoHeaderValue<FindPetsByTags200ApplicationSlashJsonResponse> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<FindPetsByTags200ApplicationSlashJsonResponse>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<FindPetsByTags200ApplicationSlashJsonResponse>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for FindPetsByTags200ApplicationSlashJsonResponse - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<FindPetsByTags200ApplicationSlashJsonResponse> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <FindPetsByTags200ApplicationSlashJsonResponse as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into FindPetsByTags200ApplicationSlashJsonResponse - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<FindPetsByTags200ApplicationSlashJsonResponse>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<FindPetsByTags200ApplicationSlashJsonResponse>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
+               hdr_values, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<FindPetsByTags200ApplicationSlashJsonResponse>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<FindPetsByTags200ApplicationSlashJsonResponse> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <FindPetsByTags200ApplicationSlashJsonResponse as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{}' into FindPetsByTags200ApplicationSlashJsonResponse - {}",
+                                    hdr_value, err))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
+                hdr_values, e)),
+        }
+    }
+}
+
+impl FindPetsByTags200ApplicationSlashJsonResponse {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn as_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct FindPetsByTags200ApplicationSlashXmlResponse(
+    Vec<Pet>
+);
+
+impl std::convert::From<Vec<Pet>> for FindPetsByTags200ApplicationSlashXmlResponse {
+    fn from(x: Vec<Pet>) -> Self {
+        FindPetsByTags200ApplicationSlashXmlResponse(x)
+    }
+}
+
+impl std::convert::From<FindPetsByTags200ApplicationSlashXmlResponse> for Vec<Pet> {
+    fn from(x: FindPetsByTags200ApplicationSlashXmlResponse) -> Self {
+        x.0
+    }
+}
+
+impl std::iter::FromIterator<Pet> for FindPetsByTags200ApplicationSlashXmlResponse {
+    fn from_iter<U: IntoIterator<Item=Pet>>(u: U) -> Self {
+        FindPetsByTags200ApplicationSlashXmlResponse(Vec::<Pet>::from_iter(u))
+    }
+}
+
+impl std::iter::IntoIterator for FindPetsByTags200ApplicationSlashXmlResponse {
+    type Item = Pet;
+    type IntoIter = std::vec::IntoIter<Pet>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.into_iter()
+    }
+}
+
+impl<'a> std::iter::IntoIterator for &'a FindPetsByTags200ApplicationSlashXmlResponse {
+    type Item = &'a Pet;
+    type IntoIter = std::slice::Iter<'a, Pet>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.iter()
+    }
+}
+
+impl<'a> std::iter::IntoIterator for &'a mut FindPetsByTags200ApplicationSlashXmlResponse {
+    type Item = &'a mut Pet;
+    type IntoIter = std::slice::IterMut<'a, Pet>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.iter_mut()
+    }
+}
+
+impl std::ops::Deref for FindPetsByTags200ApplicationSlashXmlResponse {
+    type Target = Vec<Pet>;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for FindPetsByTags200ApplicationSlashXmlResponse {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+/// Converts the FindPetsByTags200ApplicationSlashXmlResponse value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for FindPetsByTags200ApplicationSlashXmlResponse {
+    fn to_string(&self) -> String {
+        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a FindPetsByTags200ApplicationSlashXmlResponse value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for FindPetsByTags200ApplicationSlashXmlResponse {
+    type Err = <Pet as std::str::FromStr>::Err;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        let mut items = vec![];
+        for item in s.split(',')
+        {
+            items.push(item.parse()?);
+        }
+        std::result::Result::Ok(FindPetsByTags200ApplicationSlashXmlResponse(items))
+    }
+}
+
+
+// Methods for converting between header::IntoHeaderValue<FindPetsByTags200ApplicationSlashXmlResponse> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<FindPetsByTags200ApplicationSlashXmlResponse>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<FindPetsByTags200ApplicationSlashXmlResponse>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for FindPetsByTags200ApplicationSlashXmlResponse - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<FindPetsByTags200ApplicationSlashXmlResponse> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <FindPetsByTags200ApplicationSlashXmlResponse as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into FindPetsByTags200ApplicationSlashXmlResponse - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<FindPetsByTags200ApplicationSlashXmlResponse>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<FindPetsByTags200ApplicationSlashXmlResponse>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
+               hdr_values, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<FindPetsByTags200ApplicationSlashXmlResponse>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<FindPetsByTags200ApplicationSlashXmlResponse> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <FindPetsByTags200ApplicationSlashXmlResponse as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{}' into FindPetsByTags200ApplicationSlashXmlResponse - {}",
+                                    hdr_value, err))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
+                hdr_values, e)),
+        }
+    }
+}
+
+impl FindPetsByTags200ApplicationSlashXmlResponse {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
@@ -4431,6 +5453,876 @@ impl FormatTest {
     }
 }
 
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct GetOrderById200ApplicationSlashJsonResponse(Order);
+
+impl std::convert::From<Order> for GetOrderById200ApplicationSlashJsonResponse {
+    fn from(x: Order) -> Self {
+        GetOrderById200ApplicationSlashJsonResponse(x)
+    }
+}
+
+impl std::convert::From<GetOrderById200ApplicationSlashJsonResponse> for Order {
+    fn from(x: GetOrderById200ApplicationSlashJsonResponse) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for GetOrderById200ApplicationSlashJsonResponse {
+    type Target = Order;
+    fn deref(&self) -> &Order {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for GetOrderById200ApplicationSlashJsonResponse {
+    fn deref_mut(&mut self) -> &mut Order {
+        &mut self.0
+    }
+}
+
+/// Converts the GetOrderById200ApplicationSlashJsonResponse value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for GetOrderById200ApplicationSlashJsonResponse {
+    fn to_string(&self) -> String {
+        self.0.to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a GetOrderById200ApplicationSlashJsonResponse value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for GetOrderById200ApplicationSlashJsonResponse {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        match std::str::FromStr::from_str(s) {
+             std::result::Result::Ok(r) => std::result::Result::Ok(GetOrderById200ApplicationSlashJsonResponse(r)),
+             std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {} to GetOrderById200ApplicationSlashJsonResponse: {:?}", s, e)),
+        }
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<GetOrderById200ApplicationSlashJsonResponse> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<GetOrderById200ApplicationSlashJsonResponse>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<GetOrderById200ApplicationSlashJsonResponse>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for GetOrderById200ApplicationSlashJsonResponse - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<GetOrderById200ApplicationSlashJsonResponse> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <GetOrderById200ApplicationSlashJsonResponse as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into GetOrderById200ApplicationSlashJsonResponse - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<GetOrderById200ApplicationSlashJsonResponse>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<GetOrderById200ApplicationSlashJsonResponse>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
+               hdr_values, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<GetOrderById200ApplicationSlashJsonResponse>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<GetOrderById200ApplicationSlashJsonResponse> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <GetOrderById200ApplicationSlashJsonResponse as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{}' into GetOrderById200ApplicationSlashJsonResponse - {}",
+                                    hdr_value, err))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
+                hdr_values, e)),
+        }
+    }
+}
+
+impl GetOrderById200ApplicationSlashJsonResponse {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn as_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct GetOrderById200ApplicationSlashXmlResponse(Order);
+
+impl std::convert::From<Order> for GetOrderById200ApplicationSlashXmlResponse {
+    fn from(x: Order) -> Self {
+        GetOrderById200ApplicationSlashXmlResponse(x)
+    }
+}
+
+impl std::convert::From<GetOrderById200ApplicationSlashXmlResponse> for Order {
+    fn from(x: GetOrderById200ApplicationSlashXmlResponse) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for GetOrderById200ApplicationSlashXmlResponse {
+    type Target = Order;
+    fn deref(&self) -> &Order {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for GetOrderById200ApplicationSlashXmlResponse {
+    fn deref_mut(&mut self) -> &mut Order {
+        &mut self.0
+    }
+}
+
+/// Converts the GetOrderById200ApplicationSlashXmlResponse value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for GetOrderById200ApplicationSlashXmlResponse {
+    fn to_string(&self) -> String {
+        self.0.to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a GetOrderById200ApplicationSlashXmlResponse value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for GetOrderById200ApplicationSlashXmlResponse {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        match std::str::FromStr::from_str(s) {
+             std::result::Result::Ok(r) => std::result::Result::Ok(GetOrderById200ApplicationSlashXmlResponse(r)),
+             std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {} to GetOrderById200ApplicationSlashXmlResponse: {:?}", s, e)),
+        }
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<GetOrderById200ApplicationSlashXmlResponse> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<GetOrderById200ApplicationSlashXmlResponse>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<GetOrderById200ApplicationSlashXmlResponse>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for GetOrderById200ApplicationSlashXmlResponse - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<GetOrderById200ApplicationSlashXmlResponse> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <GetOrderById200ApplicationSlashXmlResponse as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into GetOrderById200ApplicationSlashXmlResponse - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<GetOrderById200ApplicationSlashXmlResponse>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<GetOrderById200ApplicationSlashXmlResponse>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
+               hdr_values, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<GetOrderById200ApplicationSlashXmlResponse>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<GetOrderById200ApplicationSlashXmlResponse> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <GetOrderById200ApplicationSlashXmlResponse as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{}' into GetOrderById200ApplicationSlashXmlResponse - {}",
+                                    hdr_value, err))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
+                hdr_values, e)),
+        }
+    }
+}
+
+impl GetOrderById200ApplicationSlashXmlResponse {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn as_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct GetPetById200ApplicationSlashJsonResponse(Pet);
+
+impl std::convert::From<Pet> for GetPetById200ApplicationSlashJsonResponse {
+    fn from(x: Pet) -> Self {
+        GetPetById200ApplicationSlashJsonResponse(x)
+    }
+}
+
+impl std::convert::From<GetPetById200ApplicationSlashJsonResponse> for Pet {
+    fn from(x: GetPetById200ApplicationSlashJsonResponse) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for GetPetById200ApplicationSlashJsonResponse {
+    type Target = Pet;
+    fn deref(&self) -> &Pet {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for GetPetById200ApplicationSlashJsonResponse {
+    fn deref_mut(&mut self) -> &mut Pet {
+        &mut self.0
+    }
+}
+
+/// Converts the GetPetById200ApplicationSlashJsonResponse value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for GetPetById200ApplicationSlashJsonResponse {
+    fn to_string(&self) -> String {
+        self.0.to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a GetPetById200ApplicationSlashJsonResponse value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for GetPetById200ApplicationSlashJsonResponse {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        match std::str::FromStr::from_str(s) {
+             std::result::Result::Ok(r) => std::result::Result::Ok(GetPetById200ApplicationSlashJsonResponse(r)),
+             std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {} to GetPetById200ApplicationSlashJsonResponse: {:?}", s, e)),
+        }
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<GetPetById200ApplicationSlashJsonResponse> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<GetPetById200ApplicationSlashJsonResponse>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<GetPetById200ApplicationSlashJsonResponse>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for GetPetById200ApplicationSlashJsonResponse - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<GetPetById200ApplicationSlashJsonResponse> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <GetPetById200ApplicationSlashJsonResponse as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into GetPetById200ApplicationSlashJsonResponse - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<GetPetById200ApplicationSlashJsonResponse>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<GetPetById200ApplicationSlashJsonResponse>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
+               hdr_values, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<GetPetById200ApplicationSlashJsonResponse>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<GetPetById200ApplicationSlashJsonResponse> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <GetPetById200ApplicationSlashJsonResponse as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{}' into GetPetById200ApplicationSlashJsonResponse - {}",
+                                    hdr_value, err))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
+                hdr_values, e)),
+        }
+    }
+}
+
+impl GetPetById200ApplicationSlashJsonResponse {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn as_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct GetPetById200ApplicationSlashXmlResponse(Pet);
+
+impl std::convert::From<Pet> for GetPetById200ApplicationSlashXmlResponse {
+    fn from(x: Pet) -> Self {
+        GetPetById200ApplicationSlashXmlResponse(x)
+    }
+}
+
+impl std::convert::From<GetPetById200ApplicationSlashXmlResponse> for Pet {
+    fn from(x: GetPetById200ApplicationSlashXmlResponse) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for GetPetById200ApplicationSlashXmlResponse {
+    type Target = Pet;
+    fn deref(&self) -> &Pet {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for GetPetById200ApplicationSlashXmlResponse {
+    fn deref_mut(&mut self) -> &mut Pet {
+        &mut self.0
+    }
+}
+
+/// Converts the GetPetById200ApplicationSlashXmlResponse value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for GetPetById200ApplicationSlashXmlResponse {
+    fn to_string(&self) -> String {
+        self.0.to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a GetPetById200ApplicationSlashXmlResponse value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for GetPetById200ApplicationSlashXmlResponse {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        match std::str::FromStr::from_str(s) {
+             std::result::Result::Ok(r) => std::result::Result::Ok(GetPetById200ApplicationSlashXmlResponse(r)),
+             std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {} to GetPetById200ApplicationSlashXmlResponse: {:?}", s, e)),
+        }
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<GetPetById200ApplicationSlashXmlResponse> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<GetPetById200ApplicationSlashXmlResponse>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<GetPetById200ApplicationSlashXmlResponse>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for GetPetById200ApplicationSlashXmlResponse - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<GetPetById200ApplicationSlashXmlResponse> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <GetPetById200ApplicationSlashXmlResponse as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into GetPetById200ApplicationSlashXmlResponse - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<GetPetById200ApplicationSlashXmlResponse>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<GetPetById200ApplicationSlashXmlResponse>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
+               hdr_values, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<GetPetById200ApplicationSlashXmlResponse>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<GetPetById200ApplicationSlashXmlResponse> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <GetPetById200ApplicationSlashXmlResponse as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{}' into GetPetById200ApplicationSlashXmlResponse - {}",
+                                    hdr_value, err))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
+                hdr_values, e)),
+        }
+    }
+}
+
+impl GetPetById200ApplicationSlashXmlResponse {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn as_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct GetUserByName200ApplicationSlashJsonResponse(User);
+
+impl std::convert::From<User> for GetUserByName200ApplicationSlashJsonResponse {
+    fn from(x: User) -> Self {
+        GetUserByName200ApplicationSlashJsonResponse(x)
+    }
+}
+
+impl std::convert::From<GetUserByName200ApplicationSlashJsonResponse> for User {
+    fn from(x: GetUserByName200ApplicationSlashJsonResponse) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for GetUserByName200ApplicationSlashJsonResponse {
+    type Target = User;
+    fn deref(&self) -> &User {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for GetUserByName200ApplicationSlashJsonResponse {
+    fn deref_mut(&mut self) -> &mut User {
+        &mut self.0
+    }
+}
+
+/// Converts the GetUserByName200ApplicationSlashJsonResponse value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for GetUserByName200ApplicationSlashJsonResponse {
+    fn to_string(&self) -> String {
+        self.0.to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a GetUserByName200ApplicationSlashJsonResponse value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for GetUserByName200ApplicationSlashJsonResponse {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        match std::str::FromStr::from_str(s) {
+             std::result::Result::Ok(r) => std::result::Result::Ok(GetUserByName200ApplicationSlashJsonResponse(r)),
+             std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {} to GetUserByName200ApplicationSlashJsonResponse: {:?}", s, e)),
+        }
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<GetUserByName200ApplicationSlashJsonResponse> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<GetUserByName200ApplicationSlashJsonResponse>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<GetUserByName200ApplicationSlashJsonResponse>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for GetUserByName200ApplicationSlashJsonResponse - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<GetUserByName200ApplicationSlashJsonResponse> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <GetUserByName200ApplicationSlashJsonResponse as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into GetUserByName200ApplicationSlashJsonResponse - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<GetUserByName200ApplicationSlashJsonResponse>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<GetUserByName200ApplicationSlashJsonResponse>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
+               hdr_values, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<GetUserByName200ApplicationSlashJsonResponse>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<GetUserByName200ApplicationSlashJsonResponse> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <GetUserByName200ApplicationSlashJsonResponse as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{}' into GetUserByName200ApplicationSlashJsonResponse - {}",
+                                    hdr_value, err))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
+                hdr_values, e)),
+        }
+    }
+}
+
+impl GetUserByName200ApplicationSlashJsonResponse {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn as_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct GetUserByName200ApplicationSlashXmlResponse(User);
+
+impl std::convert::From<User> for GetUserByName200ApplicationSlashXmlResponse {
+    fn from(x: User) -> Self {
+        GetUserByName200ApplicationSlashXmlResponse(x)
+    }
+}
+
+impl std::convert::From<GetUserByName200ApplicationSlashXmlResponse> for User {
+    fn from(x: GetUserByName200ApplicationSlashXmlResponse) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for GetUserByName200ApplicationSlashXmlResponse {
+    type Target = User;
+    fn deref(&self) -> &User {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for GetUserByName200ApplicationSlashXmlResponse {
+    fn deref_mut(&mut self) -> &mut User {
+        &mut self.0
+    }
+}
+
+/// Converts the GetUserByName200ApplicationSlashXmlResponse value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for GetUserByName200ApplicationSlashXmlResponse {
+    fn to_string(&self) -> String {
+        self.0.to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a GetUserByName200ApplicationSlashXmlResponse value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for GetUserByName200ApplicationSlashXmlResponse {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        match std::str::FromStr::from_str(s) {
+             std::result::Result::Ok(r) => std::result::Result::Ok(GetUserByName200ApplicationSlashXmlResponse(r)),
+             std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {} to GetUserByName200ApplicationSlashXmlResponse: {:?}", s, e)),
+        }
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<GetUserByName200ApplicationSlashXmlResponse> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<GetUserByName200ApplicationSlashXmlResponse>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<GetUserByName200ApplicationSlashXmlResponse>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for GetUserByName200ApplicationSlashXmlResponse - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<GetUserByName200ApplicationSlashXmlResponse> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <GetUserByName200ApplicationSlashXmlResponse as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into GetUserByName200ApplicationSlashXmlResponse - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<GetUserByName200ApplicationSlashXmlResponse>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<GetUserByName200ApplicationSlashXmlResponse>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
+               hdr_values, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<GetUserByName200ApplicationSlashXmlResponse>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<GetUserByName200ApplicationSlashXmlResponse> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <GetUserByName200ApplicationSlashXmlResponse as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{}' into GetUserByName200ApplicationSlashXmlResponse - {}",
+                                    hdr_value, err))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
+                hdr_values, e)),
+        }
+    }
+}
+
+impl GetUserByName200ApplicationSlashXmlResponse {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn as_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct HasOnlyReadOnly {
@@ -4796,6 +6688,276 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 impl List {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn as_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct LoginUser200ApplicationSlashJsonResponse(String);
+
+impl std::convert::From<String> for LoginUser200ApplicationSlashJsonResponse {
+    fn from(x: String) -> Self {
+        LoginUser200ApplicationSlashJsonResponse(x)
+    }
+}
+
+impl std::convert::From<LoginUser200ApplicationSlashJsonResponse> for String {
+    fn from(x: LoginUser200ApplicationSlashJsonResponse) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for LoginUser200ApplicationSlashJsonResponse {
+    type Target = String;
+    fn deref(&self) -> &String {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for LoginUser200ApplicationSlashJsonResponse {
+    fn deref_mut(&mut self) -> &mut String {
+        &mut self.0
+    }
+}
+
+impl std::string::ToString for LoginUser200ApplicationSlashJsonResponse {
+    fn to_string(&self) -> String {
+       self.0.clone()
+    }
+}
+
+impl std::str::FromStr for LoginUser200ApplicationSlashJsonResponse {
+    type Err = ::std::convert::Infallible;
+    fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Ok(LoginUser200ApplicationSlashJsonResponse(x.to_owned()))
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<LoginUser200ApplicationSlashJsonResponse> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<LoginUser200ApplicationSlashJsonResponse>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<LoginUser200ApplicationSlashJsonResponse>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for LoginUser200ApplicationSlashJsonResponse - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<LoginUser200ApplicationSlashJsonResponse> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <LoginUser200ApplicationSlashJsonResponse as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into LoginUser200ApplicationSlashJsonResponse - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<LoginUser200ApplicationSlashJsonResponse>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<LoginUser200ApplicationSlashJsonResponse>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
+               hdr_values, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<LoginUser200ApplicationSlashJsonResponse>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<LoginUser200ApplicationSlashJsonResponse> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <LoginUser200ApplicationSlashJsonResponse as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{}' into LoginUser200ApplicationSlashJsonResponse - {}",
+                                    hdr_value, err))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
+                hdr_values, e)),
+        }
+    }
+}
+
+impl LoginUser200ApplicationSlashJsonResponse {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn as_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct LoginUser200ApplicationSlashXmlResponse(String);
+
+impl std::convert::From<String> for LoginUser200ApplicationSlashXmlResponse {
+    fn from(x: String) -> Self {
+        LoginUser200ApplicationSlashXmlResponse(x)
+    }
+}
+
+impl std::convert::From<LoginUser200ApplicationSlashXmlResponse> for String {
+    fn from(x: LoginUser200ApplicationSlashXmlResponse) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for LoginUser200ApplicationSlashXmlResponse {
+    type Target = String;
+    fn deref(&self) -> &String {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for LoginUser200ApplicationSlashXmlResponse {
+    fn deref_mut(&mut self) -> &mut String {
+        &mut self.0
+    }
+}
+
+impl std::string::ToString for LoginUser200ApplicationSlashXmlResponse {
+    fn to_string(&self) -> String {
+       self.0.clone()
+    }
+}
+
+impl std::str::FromStr for LoginUser200ApplicationSlashXmlResponse {
+    type Err = ::std::convert::Infallible;
+    fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Ok(LoginUser200ApplicationSlashXmlResponse(x.to_owned()))
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<LoginUser200ApplicationSlashXmlResponse> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<LoginUser200ApplicationSlashXmlResponse>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<LoginUser200ApplicationSlashXmlResponse>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for LoginUser200ApplicationSlashXmlResponse - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<LoginUser200ApplicationSlashXmlResponse> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <LoginUser200ApplicationSlashXmlResponse as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into LoginUser200ApplicationSlashXmlResponse - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<LoginUser200ApplicationSlashXmlResponse>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<LoginUser200ApplicationSlashXmlResponse>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
+               hdr_values, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<LoginUser200ApplicationSlashXmlResponse>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<LoginUser200ApplicationSlashXmlResponse> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <LoginUser200ApplicationSlashXmlResponse as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{}' into LoginUser200ApplicationSlashXmlResponse - {}",
+                                    hdr_value, err))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
+                hdr_values, e)),
+        }
+    }
+}
+
+impl LoginUser200ApplicationSlashXmlResponse {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
@@ -6621,7 +8783,7 @@ impl OrderStatus {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OuterBoolean(bool);
 
@@ -7110,7 +9272,7 @@ impl OuterEnum {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OuterNumber(f64);
 
@@ -7255,7 +9417,7 @@ impl OuterNumber {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OuterString(String);
 
@@ -7749,6 +9911,296 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 impl PetStatus {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn as_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct PlaceOrder200ApplicationSlashJsonResponse(Order);
+
+impl std::convert::From<Order> for PlaceOrder200ApplicationSlashJsonResponse {
+    fn from(x: Order) -> Self {
+        PlaceOrder200ApplicationSlashJsonResponse(x)
+    }
+}
+
+impl std::convert::From<PlaceOrder200ApplicationSlashJsonResponse> for Order {
+    fn from(x: PlaceOrder200ApplicationSlashJsonResponse) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for PlaceOrder200ApplicationSlashJsonResponse {
+    type Target = Order;
+    fn deref(&self) -> &Order {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for PlaceOrder200ApplicationSlashJsonResponse {
+    fn deref_mut(&mut self) -> &mut Order {
+        &mut self.0
+    }
+}
+
+/// Converts the PlaceOrder200ApplicationSlashJsonResponse value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for PlaceOrder200ApplicationSlashJsonResponse {
+    fn to_string(&self) -> String {
+        self.0.to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a PlaceOrder200ApplicationSlashJsonResponse value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for PlaceOrder200ApplicationSlashJsonResponse {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        match std::str::FromStr::from_str(s) {
+             std::result::Result::Ok(r) => std::result::Result::Ok(PlaceOrder200ApplicationSlashJsonResponse(r)),
+             std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {} to PlaceOrder200ApplicationSlashJsonResponse: {:?}", s, e)),
+        }
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<PlaceOrder200ApplicationSlashJsonResponse> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<PlaceOrder200ApplicationSlashJsonResponse>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<PlaceOrder200ApplicationSlashJsonResponse>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for PlaceOrder200ApplicationSlashJsonResponse - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<PlaceOrder200ApplicationSlashJsonResponse> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <PlaceOrder200ApplicationSlashJsonResponse as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into PlaceOrder200ApplicationSlashJsonResponse - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<PlaceOrder200ApplicationSlashJsonResponse>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<PlaceOrder200ApplicationSlashJsonResponse>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
+               hdr_values, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<PlaceOrder200ApplicationSlashJsonResponse>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<PlaceOrder200ApplicationSlashJsonResponse> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <PlaceOrder200ApplicationSlashJsonResponse as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{}' into PlaceOrder200ApplicationSlashJsonResponse - {}",
+                                    hdr_value, err))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
+                hdr_values, e)),
+        }
+    }
+}
+
+impl PlaceOrder200ApplicationSlashJsonResponse {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn as_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct PlaceOrder200ApplicationSlashXmlResponse(Order);
+
+impl std::convert::From<Order> for PlaceOrder200ApplicationSlashXmlResponse {
+    fn from(x: Order) -> Self {
+        PlaceOrder200ApplicationSlashXmlResponse(x)
+    }
+}
+
+impl std::convert::From<PlaceOrder200ApplicationSlashXmlResponse> for Order {
+    fn from(x: PlaceOrder200ApplicationSlashXmlResponse) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for PlaceOrder200ApplicationSlashXmlResponse {
+    type Target = Order;
+    fn deref(&self) -> &Order {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for PlaceOrder200ApplicationSlashXmlResponse {
+    fn deref_mut(&mut self) -> &mut Order {
+        &mut self.0
+    }
+}
+
+/// Converts the PlaceOrder200ApplicationSlashXmlResponse value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for PlaceOrder200ApplicationSlashXmlResponse {
+    fn to_string(&self) -> String {
+        self.0.to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a PlaceOrder200ApplicationSlashXmlResponse value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for PlaceOrder200ApplicationSlashXmlResponse {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        match std::str::FromStr::from_str(s) {
+             std::result::Result::Ok(r) => std::result::Result::Ok(PlaceOrder200ApplicationSlashXmlResponse(r)),
+             std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {} to PlaceOrder200ApplicationSlashXmlResponse: {:?}", s, e)),
+        }
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<PlaceOrder200ApplicationSlashXmlResponse> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<PlaceOrder200ApplicationSlashXmlResponse>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<PlaceOrder200ApplicationSlashXmlResponse>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for PlaceOrder200ApplicationSlashXmlResponse - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<PlaceOrder200ApplicationSlashXmlResponse> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <PlaceOrder200ApplicationSlashXmlResponse as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into PlaceOrder200ApplicationSlashXmlResponse - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<PlaceOrder200ApplicationSlashXmlResponse>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<PlaceOrder200ApplicationSlashXmlResponse>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
+               hdr_values, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<PlaceOrder200ApplicationSlashXmlResponse>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<PlaceOrder200ApplicationSlashXmlResponse> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <PlaceOrder200ApplicationSlashXmlResponse as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{}' into PlaceOrder200ApplicationSlashXmlResponse - {}",
+                                    hdr_value, err))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
+                hdr_values, e)),
+        }
+    }
+}
+
+impl PlaceOrder200ApplicationSlashXmlResponse {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
@@ -8969,6 +11421,296 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 impl TestEnumParametersRequestEnumFormString {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn as_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct UpdatePetApplicationSlashJsonRequest(Pet);
+
+impl std::convert::From<Pet> for UpdatePetApplicationSlashJsonRequest {
+    fn from(x: Pet) -> Self {
+        UpdatePetApplicationSlashJsonRequest(x)
+    }
+}
+
+impl std::convert::From<UpdatePetApplicationSlashJsonRequest> for Pet {
+    fn from(x: UpdatePetApplicationSlashJsonRequest) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for UpdatePetApplicationSlashJsonRequest {
+    type Target = Pet;
+    fn deref(&self) -> &Pet {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for UpdatePetApplicationSlashJsonRequest {
+    fn deref_mut(&mut self) -> &mut Pet {
+        &mut self.0
+    }
+}
+
+/// Converts the UpdatePetApplicationSlashJsonRequest value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for UpdatePetApplicationSlashJsonRequest {
+    fn to_string(&self) -> String {
+        self.0.to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a UpdatePetApplicationSlashJsonRequest value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for UpdatePetApplicationSlashJsonRequest {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        match std::str::FromStr::from_str(s) {
+             std::result::Result::Ok(r) => std::result::Result::Ok(UpdatePetApplicationSlashJsonRequest(r)),
+             std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {} to UpdatePetApplicationSlashJsonRequest: {:?}", s, e)),
+        }
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<UpdatePetApplicationSlashJsonRequest> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<UpdatePetApplicationSlashJsonRequest>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<UpdatePetApplicationSlashJsonRequest>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for UpdatePetApplicationSlashJsonRequest - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<UpdatePetApplicationSlashJsonRequest> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <UpdatePetApplicationSlashJsonRequest as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into UpdatePetApplicationSlashJsonRequest - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<UpdatePetApplicationSlashJsonRequest>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<UpdatePetApplicationSlashJsonRequest>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
+               hdr_values, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<UpdatePetApplicationSlashJsonRequest>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<UpdatePetApplicationSlashJsonRequest> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <UpdatePetApplicationSlashJsonRequest as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{}' into UpdatePetApplicationSlashJsonRequest - {}",
+                                    hdr_value, err))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
+                hdr_values, e)),
+        }
+    }
+}
+
+impl UpdatePetApplicationSlashJsonRequest {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn as_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct UpdatePetApplicationSlashXmlRequest(Pet);
+
+impl std::convert::From<Pet> for UpdatePetApplicationSlashXmlRequest {
+    fn from(x: Pet) -> Self {
+        UpdatePetApplicationSlashXmlRequest(x)
+    }
+}
+
+impl std::convert::From<UpdatePetApplicationSlashXmlRequest> for Pet {
+    fn from(x: UpdatePetApplicationSlashXmlRequest) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for UpdatePetApplicationSlashXmlRequest {
+    type Target = Pet;
+    fn deref(&self) -> &Pet {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for UpdatePetApplicationSlashXmlRequest {
+    fn deref_mut(&mut self) -> &mut Pet {
+        &mut self.0
+    }
+}
+
+/// Converts the UpdatePetApplicationSlashXmlRequest value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for UpdatePetApplicationSlashXmlRequest {
+    fn to_string(&self) -> String {
+        self.0.to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a UpdatePetApplicationSlashXmlRequest value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for UpdatePetApplicationSlashXmlRequest {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        match std::str::FromStr::from_str(s) {
+             std::result::Result::Ok(r) => std::result::Result::Ok(UpdatePetApplicationSlashXmlRequest(r)),
+             std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {} to UpdatePetApplicationSlashXmlRequest: {:?}", s, e)),
+        }
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<UpdatePetApplicationSlashXmlRequest> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<UpdatePetApplicationSlashXmlRequest>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<UpdatePetApplicationSlashXmlRequest>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for UpdatePetApplicationSlashXmlRequest - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<UpdatePetApplicationSlashXmlRequest> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <UpdatePetApplicationSlashXmlRequest as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into UpdatePetApplicationSlashXmlRequest - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<UpdatePetApplicationSlashXmlRequest>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<UpdatePetApplicationSlashXmlRequest>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
+               hdr_values, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<UpdatePetApplicationSlashXmlRequest>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<UpdatePetApplicationSlashXmlRequest> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <UpdatePetApplicationSlashXmlRequest as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{}' into UpdatePetApplicationSlashXmlRequest - {}",
+                                    hdr_value, err))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
+                hdr_values, e)),
+        }
+    }
+}
+
+impl UpdatePetApplicationSlashXmlRequest {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
