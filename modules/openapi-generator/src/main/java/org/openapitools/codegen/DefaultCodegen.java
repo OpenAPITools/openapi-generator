@@ -7871,7 +7871,6 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.vendorExtensions.putAll(body.getExtensions());
         }
 
-        String name = null;
         LOGGER.debug("Request body = {}", body);
 
         Map<String, Schema> schemas = ModelUtils.getSchemasFromRequestBody(body);
@@ -7903,7 +7902,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         for (Map.Entry<String, Schema> entry : schemas.entrySet()) {
-
             if (schemas.size() > 1 && supportsMultipleRequestTypes) {
                 codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
                 codegenParameter.required = true;
@@ -7917,6 +7915,12 @@ public class DefaultCodegen implements CodegenConfig {
 
             codegenParameter.contentType = entry.getKey();
             Schema schema = entry.getValue();
+            String name = null;
+
+            if (schema == null) {
+                LOGGER.error("Schema cannot be null in the request body: {}", body);
+                return null;
+            }
 
             Schema original = null;
             // check if it's allOf (only 1 sub schema) with or without default/nullable/etc set in the top level
