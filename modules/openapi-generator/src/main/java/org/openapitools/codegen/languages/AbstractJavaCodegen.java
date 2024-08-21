@@ -647,7 +647,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             writer.write(content);
         });
 
-
         this.containerDefaultEvaluator = new ContainerDefaultEvaluator(this.containerDefaultToNull);
     }
 
@@ -1285,7 +1284,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
 
             return String.format(Locale.ROOT, "new %s<>()",
-                    instantiationTypes.getOrDefault("map", "HashMap"));
+                    instantiationTypes().getOrDefault("map", "HashMap"));
         } else if (ModelUtils.isIntegerSchema(schema)) {
             if (schema.getDefault() != null) {
                 if (SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat())) {
@@ -2351,16 +2350,5 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public boolean isTypeErasedGenerics() {
         return true;
-    }
-
-    public void setContainerDefaultToNull(String value) {
-        this.containerDefaultToNull=value;
-    }
-
-    /**
-     * for legacy (before 7.8.0) a boolean can be set
-     */
-    public void setContainerDefaultToNull(boolean value) {
-        this.containerDefaultToNull=Boolean.toString(value);
     }
 }

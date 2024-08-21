@@ -1,0 +1,57 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: initialization demo
+paths:
+  /:
+    get:
+      responses:
+        '200':
+          description: dummy
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - r1n0
+                  - r1n1
+                  - r1
+                properties:
+                  r0n0:
+                    type: array
+                    items:
+                      type: string
+                    nullable: false
+                  r0n1:
+                    type: array
+                    items:
+                      type: string
+                    nullable: true
+                  r1n0:
+                    type: array
+                    items:
+                      type: string
+                    nullable: false
+                  r1n1:
+                    type: array
+                    items:
+                      type: string
+                    nullable: true
+                  r0:
+                    type: array
+                    items:
+                      type: string
+                  r1:
+                    type: array
+                    items:
+                      type: string
+                  mySet:
+                    uniqueItems: true
+                    type: array
+                    items:
+                      type: string
+                    nullable: true
+                  myMap:
+                    type: object
+                    additionalProperties: true
+                    nullable: true

@@ -4882,7 +4882,7 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.API_NAME_SUFFIX, "Controller");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
         codegen.additionalProperties().put(CodegenConstants.MODEL_NAME_SUFFIX, "Dto");
-        codegen.setContainerDefaultToNull(true);
+        codegen.setContainerDefaultToNull("true");
 
 
         ClientOptInput input = new ClientOptInput()
