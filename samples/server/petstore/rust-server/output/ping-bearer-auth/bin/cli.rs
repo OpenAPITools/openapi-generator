@@ -71,16 +71,16 @@ fn create_client(args: &Cli, context: ClientContext) -> Result<Box<dyn ApiNoCont
         debug!("Using mutual TLS");
         let client = Client::try_new_https_mutual(
             &args.server_address,
-            args.server_certificate.unwrap(),
-            args.client_key.unwrap(),
-            args.client_certificate.unwrap(),
+            args.server_certificate.clone().unwrap(),
+            args.client_key.clone().unwrap(),
+            args.client_certificate.clone().unwrap(),
         )
         .context("Failed to create HTTPS client")?;
         Ok(Box::new(client.with_context(context)))
     } else if args.server_certificate.is_some() {
         debug!("Using TLS with pinned server certificate");
         let client =
-            Client::try_new_https_pinned(&args.server_address, args.server_certificate.unwrap())
+            Client::try_new_https_pinned(&args.server_address, args.server_certificate.clone().unwrap())
                 .context("Failed to create HTTPS client")?;
         Ok(Box::new(client.with_context(context)))
     } else {
