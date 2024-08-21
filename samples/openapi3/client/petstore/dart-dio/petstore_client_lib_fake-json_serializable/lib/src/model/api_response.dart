@@ -29,7 +29,8 @@ class ApiResponse {
     
     name: r'code',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -41,7 +42,8 @@ class ApiResponse {
     
     name: r'type',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -53,7 +55,8 @@ class ApiResponse {
     
     name: r'message',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 

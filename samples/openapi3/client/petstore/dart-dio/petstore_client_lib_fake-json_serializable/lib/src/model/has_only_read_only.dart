@@ -27,7 +27,8 @@ class HasOnlyReadOnly {
     
     name: r'bar',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -39,7 +40,8 @@ class HasOnlyReadOnly {
     
     name: r'foo',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 

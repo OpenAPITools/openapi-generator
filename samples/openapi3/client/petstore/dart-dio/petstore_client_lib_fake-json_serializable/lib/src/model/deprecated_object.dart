@@ -26,7 +26,8 @@ class DeprecatedObject {
     
     name: r'name',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 

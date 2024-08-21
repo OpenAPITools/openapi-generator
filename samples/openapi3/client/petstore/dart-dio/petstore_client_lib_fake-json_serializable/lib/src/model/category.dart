@@ -27,7 +27,8 @@ class Category {
     
     name: r'id',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -39,7 +40,8 @@ class Category {
     defaultValue: 'default-name',
     name: r'name',
     required: true,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 

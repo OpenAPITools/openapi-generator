@@ -39,7 +39,8 @@ class User {
     
     name: r'id',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -51,7 +52,8 @@ class User {
     
     name: r'username',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -63,7 +65,8 @@ class User {
     
     name: r'firstName',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -75,7 +78,8 @@ class User {
     
     name: r'lastName',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -87,7 +91,8 @@ class User {
     
     name: r'email',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -99,7 +104,8 @@ class User {
     
     name: r'password',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -111,7 +117,8 @@ class User {
     
     name: r'phone',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -124,7 +131,8 @@ class User {
     
     name: r'userStatus',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 

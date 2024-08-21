@@ -27,7 +27,8 @@ class ReadOnlyFirst {
     
     name: r'bar',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -39,7 +40,8 @@ class ReadOnlyFirst {
     
     name: r'baz',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 

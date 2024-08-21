@@ -47,7 +47,8 @@ class NullableClass {
     
     name: r'integer_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -59,7 +60,8 @@ class NullableClass {
     
     name: r'number_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -71,7 +73,8 @@ class NullableClass {
     
     name: r'boolean_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -83,7 +86,8 @@ class NullableClass {
     
     name: r'string_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -95,7 +99,8 @@ class NullableClass {
     
     name: r'date_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -107,7 +112,8 @@ class NullableClass {
     
     name: r'datetime_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -119,7 +125,8 @@ class NullableClass {
     
     name: r'array_nullable_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -131,7 +138,8 @@ class NullableClass {
     
     name: r'array_and_items_nullable_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -143,7 +151,8 @@ class NullableClass {
     
     name: r'array_items_nullable',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -155,7 +164,8 @@ class NullableClass {
     
     name: r'object_nullable_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -167,7 +177,8 @@ class NullableClass {
     
     name: r'object_and_items_nullable_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -179,7 +190,8 @@ class NullableClass {
     
     name: r'object_items_nullable',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 

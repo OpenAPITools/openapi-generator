@@ -30,7 +30,8 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     
     name: r'uuid',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -42,7 +43,8 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     
     name: r'dateTime',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -54,7 +56,8 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     
     name: r'map',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 

@@ -27,7 +27,8 @@ class Animal {
     
     name: r'className',
     required: true,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
@@ -39,7 +40,8 @@ class Animal {
     defaultValue: 'red',
     name: r'color',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+    
   )
 
 
