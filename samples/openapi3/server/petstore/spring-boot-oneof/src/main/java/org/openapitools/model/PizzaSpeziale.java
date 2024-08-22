@@ -143,7 +143,7 @@ public class PizzaSpeziale extends Pizza {
     }
 
     protected Builder copyOf(PizzaSpeziale value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setToppings(value.toppings);
       return this;
     }

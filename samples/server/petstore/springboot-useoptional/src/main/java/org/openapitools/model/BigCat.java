@@ -168,7 +168,7 @@ public class BigCat extends Cat {
     }
 
     protected Builder copyOf(BigCat value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setKind(value.kind);
       return this;
     }

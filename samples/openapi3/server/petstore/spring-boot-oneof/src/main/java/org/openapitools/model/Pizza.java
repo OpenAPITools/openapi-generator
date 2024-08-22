@@ -146,7 +146,7 @@ public class Pizza extends Entity {
     }
 
     protected Builder copyOf(Pizza value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setPizzaSize(value.pizzaSize);
       return this;
     }

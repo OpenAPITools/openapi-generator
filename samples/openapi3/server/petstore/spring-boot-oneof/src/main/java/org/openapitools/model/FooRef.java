@@ -147,7 +147,7 @@ public class FooRef extends EntityRef implements FooRefOrValue {
     }
 
     protected Builder copyOf(FooRef value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setFoorefPropA(value.foorefPropA);
       return this;
     }

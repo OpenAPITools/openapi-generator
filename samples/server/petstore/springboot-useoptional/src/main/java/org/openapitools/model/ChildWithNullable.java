@@ -126,7 +126,7 @@ public class ChildWithNullable extends ParentWithNullable {
     }
 
     protected Builder copyOf(ChildWithNullable value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setOtherProperty(value.otherProperty);
       return this;
     }

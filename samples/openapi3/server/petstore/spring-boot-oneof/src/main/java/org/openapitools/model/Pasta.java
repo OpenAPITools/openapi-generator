@@ -137,7 +137,7 @@ public class Pasta extends Entity {
     }
 
     protected Builder copyOf(Pasta value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setVendor(value.vendor);
       return this;
     }

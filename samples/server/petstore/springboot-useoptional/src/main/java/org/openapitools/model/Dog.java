@@ -123,7 +123,7 @@ public class Dog extends Animal {
     }
 
     protected Builder copyOf(Dog value) { 
-      super.copyOf(instance);
+      super.copyOf(value);
       this.instance.setBreed(value.breed);
       return this;
     }
