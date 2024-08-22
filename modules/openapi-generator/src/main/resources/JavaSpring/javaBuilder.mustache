@@ -15,7 +15,7 @@
     }
 
     protected Builder copyOf({{classname}} value) { {{#parentModel}}
-      super.copyOf(instance);{{/parentModel}}{{#vars}}
+      super.copyOf(value);{{/parentModel}}{{#vars}}
       this.instance.{{setter}}(value.{{name}});{{/vars}}
       return this;
     }
