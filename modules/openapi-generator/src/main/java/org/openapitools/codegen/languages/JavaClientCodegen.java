@@ -937,8 +937,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (MICROPROFILE.equals(getLibrary())) {
             model.imports.remove("ApiModelProperty");
             model.imports.remove("ApiModel");
-            model.imports.remove("JsonSerialize");
-            model.imports.remove("ToStringSerializer");
         }
 
         if (!BooleanUtils.toBoolean(model.isEnum)) {

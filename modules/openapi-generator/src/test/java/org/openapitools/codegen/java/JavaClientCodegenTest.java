@@ -2626,7 +2626,7 @@ public class JavaClientCodegenTest {
     /**
      * Regression test for <a href="https://github.com/OpenAPITools/openapi-generator/issues/6496">#6496</a>
      */
-    @Test void doesNotGenerateJacksonToStringSerializerAnnotation_whenLibraryIsGson_andSerializeBigDecimalAsStringIsTrue() {
+    @Test void doesNotGenerateJacksonJsonFormatAnnotation_whenLibraryIsGson_andSerializeBigDecimalAsStringIsTrue() {
         final CodegenConfigurator configurator = new CodegenConfigurator()
             .setGeneratorName("java")
             .setLibrary(JavaClientCodegen.OKHTTP_GSON)
@@ -2643,10 +2643,8 @@ public class JavaClientCodegenTest {
         assertThat(files).hasSize(1).first(FILE).content()
             .doesNotContain(
                 "@JsonDeserialize(as = LinkedHashSet.class)",
-                "@JsonSerialize(using = ToStringSerializer.class)",
-                "com.fasterxml.jackson.databind.ser.std.ToStringSerializer",
-                "com.fasterxml.jackson.databind.annotation.JsonDeserialize",
-                "com.fasterxml.jackson.databind.annotation.JsonSerialize"
+                "@JsonFormat(shape = JsonFormat.Shape.STRING)",
+                "com.fasterxml.jackson.databind.annotation.JsonDeserialize"
             );
     }
     
@@ -2654,7 +2652,7 @@ public class JavaClientCodegenTest {
      * Test that fix for <a href="https://github.com/OpenAPITools/openapi-generator/issues/6496">#6496</a> has
      * no unwanted side effects on the existing feature (Jackson + bigDecimalAsString)
      */
-    @Test void generatesJacksonToStringSerializerAnnotation_whenLibraryIsJackson_andSerializeBigDecimalAsStringIsTrue() {
+    @Test void generatesJacksonJsonFormatAnnotation_whenLibraryIsJackson_andSerializeBigDecimalAsStringIsTrue() {
         final CodegenConfigurator configurator = new CodegenConfigurator()
             .setGeneratorName("java")
             .setLibrary(JavaClientCodegen.NATIVE)
