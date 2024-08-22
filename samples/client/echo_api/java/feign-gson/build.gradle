@@ -127,6 +127,6 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-params:$junit_version"
     testImplementation "com.github.tomakehurst:wiremock-jre8:2.35.1"
     testImplementation "org.hamcrest:hamcrest:2.2"
-    testImplementation "commons-io:commons-io:2.8.0"
+    testImplementation "commons-io:commons-io:2.16.1"
     testImplementation "ch.qos.logback:logback-classic:1.2.3"
 }

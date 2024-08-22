@@ -22,7 +22,7 @@ lazy val root = (project in file(".")).
       "org.junit.jupiter" % "junit-jupiter-params" % "5.7.0" % "test",
       "com.github.tomakehurst" % "wiremock-jre8" % "2.35.1" % "test",
       "org.hamcrest" % "hamcrest" % "2.2" % "test",
-      "commons-io" % "commons-io" % "2.8.0" % "test",
+      "commons-io" % "commons-io" % "2.16.1" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"
     )
   )
