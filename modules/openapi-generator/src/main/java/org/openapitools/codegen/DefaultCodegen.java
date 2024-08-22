@@ -4691,7 +4691,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             boolean simpleForm = false;
 
-            if (bodySchemas != null && bodySchemas.size() == 1) {
+            if (bodySchemas != null && (bodySchemas.size() == 1 || !supportsMultipleRequestTypes)) {
                 LOGGER.debug("Op: " + op.operationId + " has request body with single schema");
 
                 Map.Entry<String, Schema> entry = bodySchemas.entrySet().iterator().next();
@@ -4971,13 +4971,6 @@ public class DefaultCodegen implements CodegenConfig {
                 r.contentType = entry.getKey();
 
                 Schema responseSchema = entry.getValue();
-
-                if (isForm(r.contentType)) {
-                    Schema formSchema = ModelUtils.getReferencedSchema(this.openAPI, responseSchema);
-                    r.formParams = fromSchemaToFormParameters(formSchema,
-                        response.getContent().get(r.contentType), new TreeSet<String>());
-                    LOGGER.info("Created form parameters for " + opId + "-" + responseCode + " :: " + r.formParams);
-                }
 
                 if (this.openAPI != null &&
                     this.openAPI.getComponents() != null &&

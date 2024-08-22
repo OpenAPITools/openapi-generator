@@ -936,12 +936,6 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
         }
 
-        for (CodegenResponse rsp : op.responses) {
-            for (CodegenParameter param : rsp.formParams) {
-                processParam(param, op);
-            }
-        }
-
         if (op.authMethods != null) {
             boolean headerAuthMethods = false;
 

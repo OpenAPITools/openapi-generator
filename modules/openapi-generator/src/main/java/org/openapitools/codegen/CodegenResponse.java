@@ -124,13 +124,6 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
      */
     public String variantType;
 
-    /**
-     * This is required if the response is some form of complex body type.
-     *
-     * e.g. multipart/related or form parameters
-     */
-    public List<CodegenParameter> formParams = new ArrayList<CodegenParameter>();
-
     @Override
     public int hashCode() {
         return Objects.hash(headers, code, message, examples, dataType, baseType, containerType, containerTypeMapped, hasHeaders,
