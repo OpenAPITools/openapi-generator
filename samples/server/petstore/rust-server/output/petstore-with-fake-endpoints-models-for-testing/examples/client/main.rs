@@ -245,12 +245,12 @@ fn main() {
         Some("TestEnumParameters") => {
             let result = rt.block_on(client.test_enum_parameters(
                   Some(&Vec::new()),
-                  Some("enum_header_string_example".to_string()),
+                  None,
                   Some(&Vec::new()),
-                  Some("enum_query_string_example".to_string()),
-                  Some(56),
-                  Some(1.2),
-                  Some("enum_form_string_example".to_string())
+                  None,
+                  None,
+                  None,
+                  None
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },

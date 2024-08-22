@@ -1012,7 +1012,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 let param_enum_header_string_array = headers.get(HeaderName::from_static("enum_header_string_array"));
 
                 let param_enum_header_string_array = match param_enum_header_string_array {
-                    Some(v) => match header::IntoHeaderValue::<Vec<String>>::try_from((*v).clone()) {
+                    Some(v) => match header::IntoHeaderValue::<Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>::try_from((*v).clone()) {
                         Ok(result) =>
                             Some(result.0),
                         Err(err) => {
@@ -1030,7 +1030,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 let param_enum_header_string = headers.get(HeaderName::from_static("enum_header_string"));
 
                 let param_enum_header_string = match param_enum_header_string {
-                    Some(v) => match header::IntoHeaderValue::<String>::try_from((*v).clone()) {
+                    Some(v) => match header::IntoHeaderValue::<models::TestEnumParametersEnumHeaderStringParameter>::try_from((*v).clone()) {
                         Ok(result) =>
                             Some(result.0),
                         Err(err) => {
@@ -1061,7 +1061,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 let param_enum_query_string = match param_enum_query_string {
                     Some(param_enum_query_string) => {
                         let param_enum_query_string =
-                            <String as std::str::FromStr>::from_str
+                            <models::TestEnumParametersEnumHeaderStringParameter as std::str::FromStr>::from_str
                                 (&param_enum_query_string);
                         match param_enum_query_string {
                             Ok(param_enum_query_string) => Some(param_enum_query_string),
@@ -1078,7 +1078,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 let param_enum_query_integer = match param_enum_query_integer {
                     Some(param_enum_query_integer) => {
                         let param_enum_query_integer =
-                            <i32 as std::str::FromStr>::from_str
+                            <models::TestEnumParametersEnumQueryIntegerParameter as std::str::FromStr>::from_str
                                 (&param_enum_query_integer);
                         match param_enum_query_integer {
                             Ok(param_enum_query_integer) => Some(param_enum_query_integer),
@@ -1095,7 +1095,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 let param_enum_query_double = match param_enum_query_double {
                     Some(param_enum_query_double) => {
                         let param_enum_query_double =
-                            <f64 as std::str::FromStr>::from_str
+                            <models::TestEnumParametersEnumQueryDoubleParameter as std::str::FromStr>::from_str
                                 (&param_enum_query_double);
                         match param_enum_query_double {
                             Ok(param_enum_query_double) => Some(param_enum_query_double),
@@ -1116,7 +1116,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                      Ok(body) => {
                                 // Form parameters
                                 let param_enum_form_string =
-                                    Some("enum_form_string_example".to_string());
+                                    None;
 
 
                                 let result = api_impl.test_enum_parameters(

@@ -51,7 +51,7 @@ Multiple status values can be provided with comma separated strings
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context containing the authentication | nil if no authentication
-  **status** | [**String**](String.md)| Status values that need to be considered for filter | 
+  **status** | [**models::FindPetsByStatusStatusParameterInner**](models::FindPetsByStatusStatusParameterInner.md)| Status values that need to be considered for filter | 
 
 ### Return type
 
