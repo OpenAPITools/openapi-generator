@@ -179,20 +179,24 @@ enum Operation {
     TestEnumParameters {
         /// Header parameter enum test (string array)
         #[structopt(parse(try_from_str = parse_json), long)]
-        enum_header_string_array: Option<Vec<String>>,
+        enum_header_string_array: Option<Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         /// Header parameter enum test (string)
-        enum_header_string: Option<String>,
+        #[structopt(parse(try_from_str = parse_json))]
+        enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
         /// Query parameter enum test (string array)
         #[structopt(parse(try_from_str = parse_json), long)]
-        enum_query_string_array: Option<Vec<String>>,
+        enum_query_string_array: Option<Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         /// Query parameter enum test (string)
-        enum_query_string: Option<String>,
+        #[structopt(parse(try_from_str = parse_json))]
+        enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
         /// Query parameter enum test (double)
-        enum_query_integer: Option<i32>,
+        #[structopt(parse(try_from_str = parse_json))]
+        enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
         /// Query parameter enum test (double)
-        enum_query_double: Option<f64>,
-        /// Form parameter enum test (string)
-        enum_form_string: Option<String>,
+        #[structopt(parse(try_from_str = parse_json))]
+        enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
+        #[structopt(parse(try_from_str = parse_json))]
+        enum_form_string: Option<models::TestEnumParametersRequestEnumFormString>,
     },
     /// test inline additionalProperties
     TestInlineAdditionalProperties {
@@ -227,7 +231,7 @@ enum Operation {
     FindPetsByStatus {
         /// Status values that need to be considered for filter
         #[structopt(parse(try_from_str = parse_json), long)]
-        status: Vec<String>,
+        status: Vec<models::FindPetsByStatusStatusParameterInner>,
     },
     /// Finds Pets by tags
     FindPetsByTags {
