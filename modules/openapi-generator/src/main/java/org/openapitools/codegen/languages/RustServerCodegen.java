@@ -1507,12 +1507,6 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             }
         }
 
-        if (param.formParams != null) {
-            for (CodegenParameter p : param.formParams) {
-                processParam(p, op);
-            }
-        }
-
         String example = null;
 
         // If a parameter uses UUIDs, we need to import the UUID package.

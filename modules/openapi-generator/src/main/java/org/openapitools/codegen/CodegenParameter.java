@@ -134,10 +134,6 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
      * If this is a schema variant, this gives the schema variant type
      */
     public String variantType;
-    /**
-     * If this is a body schema, representing a simple form, these are the form parameters
-     */
-    public List<CodegenParameter> formParams;
     private Integer maxProperties;
     private Integer minProperties;
     public boolean isNull;
@@ -257,9 +253,6 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         if (this.schemaVariants != null) {
             output.schemaVariants = new ArrayList(this.schemaVariants);
         }
-        if (this.formParams != null) {
-            output.formParams = new ArrayList(this.formParams);
-        }
         output.hasValidation = this.hasValidation;
         output.isNullable = this.isNullable;
         output.isDeprecated = this.isDeprecated;
@@ -316,7 +309,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, schema, content,
                 requiredVarsMap, ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties,
                 nameInPascalCase, nameInCamelCase, nameInLowerCase, nameInSnakeCase,
-                schemaVariants, variantType, formParams);
+                schemaVariants, variantType);
     }
 
     @Override
@@ -423,7 +416,6 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 Objects.equals(getMinItems(), that.getMinItems()) &&
                 Objects.equals(contentType, that.contentType) &&
                 Objects.equals(multipleOf, that.multipleOf) &&
-                Objects.equals(formParams, that.formParams) &&
                 Objects.equals(schemaVariants, that.schemaVariants) &&
                 Objects.equals(variantType, that.variantType);
     }
@@ -541,7 +533,6 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         sb.append(", schemaIsFromAdditionalProperties=").append(schemaIsFromAdditionalProperties);
         sb.append(", schemaVariants=").append(schemaVariants);
         sb.append(", variantType=").append(variantType);
-        sb.append(", formParams=").append(formParams);
         sb.append('}');
         return sb.toString();
     }

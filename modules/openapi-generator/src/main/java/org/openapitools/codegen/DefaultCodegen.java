@@ -7945,106 +7945,100 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.setTypeProperties(unaliasedSchema);
             codegenParameter.setComposedSchemas(getComposedSchemas(unaliasedSchema));
 
-            if (isForm(entry.getKey())) {
-                addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
-                codegenParameter.formParams = fromSchemaToFormParameters(schema, body.getContent().get(entry.getKey()), imports);
-                LOGGER.info("Schema variant has dataType: " + codegenParameter.dataType);
-            } else {
-                // TODO in the future switch all the below schema usages to unaliasedSchema
-                // because it keeps models as refs and will not get their referenced schemas
-                if (ModelUtils.isArraySchema(schema)) {
-                    updateRequestBodyForArray(codegenParameter, schema, name, imports, bodyParameterName);
-                } else if (ModelUtils.isTypeObjectSchema(schema)) {
-                    updateRequestBodyForObject(codegenParameter, schema, name, imports, bodyParameterName);
-                } else if (ModelUtils.isIntegerSchema(schema)) { // integer type
-                    updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
-                    codegenParameter.isNumeric = Boolean.TRUE;
-                    if (ModelUtils.isLongSchema(schema)) { // int64/long format
-                        codegenParameter.isLong = Boolean.TRUE;
-                    } else {
-                        codegenParameter.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
-                        if (ModelUtils.isShortSchema(schema)) { // int32
-                            codegenParameter.setIsShort(Boolean.TRUE);
-                        }
-                    }
-                } else if (ModelUtils.isBooleanSchema(schema)) { // boolean type
-                    updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
-                } else if (ModelUtils.isFileSchema(schema) && !ModelUtils.isStringSchema(schema)) {
-                    // swagger v2 only, type file
-                    codegenParameter.isFile = true;
-                } else if (ModelUtils.isStringSchema(schema)) {
-                    updateRequestBodyForString(codegenParameter, schema, imports, bodyParameterName);
-                } else if (ModelUtils.isNumberSchema(schema)) {
-                    updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
-                    codegenParameter.isNumeric = Boolean.TRUE;
-                    if (ModelUtils.isFloatSchema(schema)) { // float
-                        codegenParameter.isFloat = Boolean.TRUE;
-                    } else if (ModelUtils.isDoubleSchema(schema)) { // double
-                        codegenParameter.isDouble = Boolean.TRUE;
-                    }
-                } else if (ModelUtils.isNullType(schema)) {
-                    updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
-                } else if (ModelUtils.isAnyType(schema)) {
-                    if (ModelUtils.isMapSchema(schema)) {
-                        // Schema with additionalproperties: true (including composed schemas with additionalproperties: true)
-                        updateRequestBodyForMap(codegenParameter, schema, name, imports, bodyParameterName);
-                    } else if (ModelUtils.isComposedSchema(schema)) {
-                        this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
-                    } else if (ModelUtils.isObjectSchema(schema)) {
-                        // object type schema OR (AnyType schema with properties defined)
-                        this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
-                    } else {
-                        updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
-                    }
-                    addVarsRequiredVarsAdditionalProps(schema, codegenParameter);
+            // TODO in the future switch all the below schema usages to unaliasedSchema
+            // because it keeps models as refs and will not get their referenced schemas
+            if (ModelUtils.isArraySchema(schema)) {
+                updateRequestBodyForArray(codegenParameter, schema, name, imports, bodyParameterName);
+            } else if (ModelUtils.isTypeObjectSchema(schema)) {
+                updateRequestBodyForObject(codegenParameter, schema, name, imports, bodyParameterName);
+            } else if (ModelUtils.isIntegerSchema(schema)) { // integer type
+                updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+                codegenParameter.isNumeric = Boolean.TRUE;
+                if (ModelUtils.isLongSchema(schema)) { // int64/long format
+                    codegenParameter.isLong = Boolean.TRUE;
                 } else {
-                    // referenced schemas
+                    codegenParameter.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
+                    if (ModelUtils.isShortSchema(schema)) { // int32
+                        codegenParameter.setIsShort(Boolean.TRUE);
+                    }
+                }
+            } else if (ModelUtils.isBooleanSchema(schema)) { // boolean type
+                updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+            } else if (ModelUtils.isFileSchema(schema) && !ModelUtils.isStringSchema(schema)) {
+                // swagger v2 only, type file
+                codegenParameter.isFile = true;
+            } else if (ModelUtils.isStringSchema(schema)) {
+                updateRequestBodyForString(codegenParameter, schema, imports, bodyParameterName);
+            } else if (ModelUtils.isNumberSchema(schema)) {
+                updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+                codegenParameter.isNumeric = Boolean.TRUE;
+                if (ModelUtils.isFloatSchema(schema)) { // float
+                    codegenParameter.isFloat = Boolean.TRUE;
+                } else if (ModelUtils.isDoubleSchema(schema)) { // double
+                    codegenParameter.isDouble = Boolean.TRUE;
+                }
+            } else if (ModelUtils.isNullType(schema)) {
+                updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+            } else if (ModelUtils.isAnyType(schema)) {
+                if (ModelUtils.isMapSchema(schema)) {
+                    // Schema with additionalproperties: true (including composed schemas with additionalproperties: true)
+                    updateRequestBodyForMap(codegenParameter, schema, name, imports, bodyParameterName);
+                } else if (ModelUtils.isComposedSchema(schema)) {
+                    this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
+                } else if (ModelUtils.isObjectSchema(schema)) {
+                    // object type schema OR (AnyType schema with properties defined)
+                    this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
+                } else {
                     updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
                 }
+                addVarsRequiredVarsAdditionalProps(schema, codegenParameter);
+            } else {
+                // referenced schemas
+                updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+            }
 
-                // restore original schema with description, extensions etc
-                if (original != null) {
-                    // evaluate common attributes such as description if defined in the top level
-                    if (original.getNullable() != null) {
-                        codegenParameter.isNullable = original.getNullable();
-                    } else if (original.getExtensions() != null && original.getExtensions().containsKey("x-nullable")) {
-                        codegenParameter.isNullable = (Boolean) original.getExtensions().get("x-nullable");
-                    }
-
-                    if (original.getExtensions() != null) {
-                        codegenParameter.vendorExtensions.putAll(original.getExtensions());
-                    }
-                    if (original.getDeprecated() != null) {
-                        codegenParameter.isDeprecated = original.getDeprecated();
-                    }
-                    if (original.getDescription() != null) {
-                        codegenParameter.description = escapeText(original.getDescription());
-                        codegenParameter.unescapedDescription = original.getDescription();
-                    }
-                    if (original.getMaxLength() != null) {
-                        codegenParameter.setMaxLength(original.getMaxLength());
-                    }
-                    if (original.getMinLength() != null) {
-                        codegenParameter.setMinLength(original.getMinLength());
-                    }
-                    if (original.getMaxItems() != null) {
-                        codegenParameter.setMaxItems(original.getMaxItems());
-                    }
-                    if (original.getMinItems() != null) {
-                        codegenParameter.setMinItems(original.getMinItems());
-                    }
-                    if (original.getMaximum() != null) {
-                        codegenParameter.setMaximum(String.valueOf(original.getMaximum().doubleValue()));
-                    }
-                    if (original.getMinimum() != null) {
-                        codegenParameter.setMinimum(String.valueOf(original.getMinimum().doubleValue()));
-                    }
-                    /* comment out below as we don't store `title` in the codegen parametera the moment
-                    if (original.getTitle() != null) {
-                        codegenParameter.setTitle(original.getTitle());
-                    }
-                    */
+            // restore original schema with description, extensions etc
+            if (original != null) {
+                // evaluate common attributes such as description if defined in the top level
+                if (original.getNullable() != null) {
+                    codegenParameter.isNullable = original.getNullable();
+                } else if (original.getExtensions() != null && original.getExtensions().containsKey("x-nullable")) {
+                    codegenParameter.isNullable = (Boolean) original.getExtensions().get("x-nullable");
                 }
+
+                if (original.getExtensions() != null) {
+                    codegenParameter.vendorExtensions.putAll(original.getExtensions());
+                }
+                if (original.getDeprecated() != null) {
+                    codegenParameter.isDeprecated = original.getDeprecated();
+                }
+                if (original.getDescription() != null) {
+                    codegenParameter.description = escapeText(original.getDescription());
+                    codegenParameter.unescapedDescription = original.getDescription();
+                }
+                if (original.getMaxLength() != null) {
+                    codegenParameter.setMaxLength(original.getMaxLength());
+                }
+                if (original.getMinLength() != null) {
+                    codegenParameter.setMinLength(original.getMinLength());
+                }
+                if (original.getMaxItems() != null) {
+                    codegenParameter.setMaxItems(original.getMaxItems());
+                }
+                if (original.getMinItems() != null) {
+                    codegenParameter.setMinItems(original.getMinItems());
+                }
+                if (original.getMaximum() != null) {
+                    codegenParameter.setMaximum(String.valueOf(original.getMaximum().doubleValue()));
+                }
+                if (original.getMinimum() != null) {
+                    codegenParameter.setMinimum(String.valueOf(original.getMinimum().doubleValue()));
+                }
+                /* comment out below as we don't store `title` in the codegen parametera the moment
+                if (original.getTitle() != null) {
+                    codegenParameter.setTitle(original.getTitle());
+                }
+                */
             }
 
             if (!supportsMultipleRequestTypes) {
