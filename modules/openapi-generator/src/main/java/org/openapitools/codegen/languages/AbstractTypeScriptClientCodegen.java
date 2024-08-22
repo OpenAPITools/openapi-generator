@@ -882,6 +882,53 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     @Override
+    public String toEnumNameNavan(String name, String datatype) {
+        if (enumNameMapping.containsKey(name)) {
+            return enumNameMapping.get(name);
+        }
+
+        if (name.length() == 0) {
+            return getNameUsingEnumPropertyNaming("empty");
+        }
+
+        // for symbol, e.g. $, #
+        if (getSymbolName(name) != null) {
+            return getNameUsingEnumPropertyNaming(getSymbolName(name));
+        }
+
+        String varName = name;
+
+        // number
+        if ("number".equals(datatype)) {
+            varName = "NUMBER_" + varName;
+
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            return varName;
+        }
+
+        // string
+        if (isEnumPropertyNamingReplaceSpecialChar()) {
+            varName = varName.replaceAll("-", "_minus_");
+            varName = varName.replaceAll("\\+", "_plus_");
+            varName = varName.replaceAll("_+", "_");
+        }
+        varName = sanitizeName(varName);
+        varName = varName.replaceFirst("^_", "");
+        varName = varName.replaceFirst("_$", "");
+
+        //name all variables with uppercase and underscore
+        varName = underscore(name).toUpperCase(Locale.ROOT);;
+
+        if (varName.matches("\\d.*")) { // starts with number
+            return "_" + varName;
+        } else {
+            return varName;
+        }
+    }
+
+    @Override
     public String toEnumDefaultValue(String value, String datatype) {
         return datatype + "_" + value;
     }
@@ -1003,19 +1050,6 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             CodegenModel cm = mo.getModel();
             cm.imports = new TreeSet<>(cm.imports);
             // name enum with model name, e.g. StatusEnum => Pet.StatusEnum
-            for (CodegenProperty var : cm.vars) {
-                if (Boolean.TRUE.equals(var.isEnum)) {
-                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + classEnumSeparator + var.enumName);
-                }
-            }
-            if (cm.parent != null) {
-                for (CodegenProperty var : cm.allVars) {
-                    if (Boolean.TRUE.equals(var.isEnum)) {
-                        var.datatypeWithEnum = var.datatypeWithEnum
-                                .replace(var.enumName, cm.classname + classEnumSeparator + var.enumName);
-                    }
-                }
-            }
         }
 
         return objs;
