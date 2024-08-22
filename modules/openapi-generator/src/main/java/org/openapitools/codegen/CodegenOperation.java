@@ -31,7 +31,8 @@ public class CodegenOperation {
             isResponseBinary = false, isResponseFile = false, isResponseOptional = false, hasReference = false, defaultReturnType = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
             isRestful, isDeprecated, isCallbackRequest, uniqueItems, hasDefaultResponse = false, hasConstantParams = false,
-            hasErrorResponseObject; // if 4xx, 5xx responses have at least one error object defined
+            hasErrorResponseObject, // if 4xx, 5xx responses have at least one error object defined
+            hasSingleParam = false; // if the operation has only one parameter;
     public CodegenProperty returnProperty;
     public String path, operationId, returnType, returnFormat, httpMethod, returnBaseType,
             returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse;
@@ -351,6 +352,7 @@ public class CodegenOperation {
         sb.append(", hasReference=").append(hasReference);
         sb.append(", hasDefaultResponse=").append(hasDefaultResponse);
         sb.append(", hasErrorResponseObject=").append(hasErrorResponseObject);
+        sb.append(", hasSingleParam=").append(hasSingleParam);
         sb.append(", isRestfulIndex=").append(isRestfulIndex);
         sb.append(", isRestfulShow=").append(isRestfulShow);
         sb.append(", isRestfulCreate=").append(isRestfulCreate);
@@ -431,6 +433,7 @@ public class CodegenOperation {
                 hasReference == that.hasReference &&
                 hasDefaultResponse == that.hasDefaultResponse &&
                 hasErrorResponseObject == that.hasErrorResponseObject &&
+                hasSingleParam == that.hasSingleParam &&
                 isRestfulIndex == that.isRestfulIndex &&
                 isRestfulShow == that.isRestfulShow &&
                 isRestfulCreate == that.isRestfulCreate &&
@@ -500,6 +503,6 @@ public class CodegenOperation {
                 pathParams, queryParams, headerParams, formParams, cookieParams, requiredParams, returnProperty, optionalParams,
                 authMethods, tags, responses, callbacks, imports, examples, requestBodyExamples, externalDocs,
                 vendorExtensions, nickname, operationIdOriginal, operationIdLowerCase, operationIdCamelCase,
-                operationIdSnakeCase, hasErrorResponseObject, requiredAndNotNullableParams, notNullableParams, constantParams);
+                operationIdSnakeCase, hasErrorResponseObject, hasSingleParam, requiredAndNotNullableParams, notNullableParams, constantParams);
     }
 }
