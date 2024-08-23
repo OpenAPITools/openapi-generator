@@ -120,7 +120,13 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                 }
                 {{/isPrimitiveType}}
                 if (attemptParsing) {
+                    {{#isMap}}
+                    final TypeReference<{{{dataType}}}> ref = new TypeReference<{{{dataType}}}>(){};
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(ref);
+                    {{/isMap}}
+                    {{^isMap}}
                     deserialized = tree.traverse(jp.getCodec()).readValueAs({{{dataType}}}.class);
+                    {{/isMap}}
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -274,14 +280,21 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
      * @throws ClassCastException if the instance is not `{{{dataType}}}`
      */
     {{^isArray}}
+    {{^isMap}}
     public {{{dataType}}} get{{{dataType}}}() throws ClassCastException {
         return ({{{dataType}}})super.getActualInstance();
     }
+    {{/isMap}}
+    {{#isMap}}
+    public {{{dataType}}} get{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}() throws ClassCastException {
+        return ({{{dataType}}})super.getActualInstance();
+    }
+    {{/isMap}}
     {{/isArray}}
     {{#isArray}}
-        public {{{dataType}}} get{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}() throws ClassCastException {
+    public {{{dataType}}} get{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}() throws ClassCastException {
         return ({{{dataType}}})super.getActualInstance();
-        }
+    }
     {{/isArray}}
 
     {{/oneOf}}
