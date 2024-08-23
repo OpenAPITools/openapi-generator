@@ -26,7 +26,7 @@ use multipart::client::lazy::Multipart;
 {{/apiUsesMultipartFormData}}
 {{#apiUsesMultipartRelated}}
 use hyper_0_10::header::{Headers, ContentType};
-use mime_multipart::{Node, Part, generate_boundary, write_multipart};
+use mime_multipart::{Node, Part, write_multipart};
 {{/apiUsesMultipartRelated}}
 
 use crate::models;

@@ -60,7 +60,7 @@ import com.squareup.moshi.adapter
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
+{{#nonPublicApi}}internal {{/nonPublicApi}}open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClient) {
     {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
         protected const val ContentType = "Content-Type"
         protected const val Accept = "Accept"

@@ -31,7 +31,7 @@ import com.squareup.moshi.adapter
 
 internal val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 
-internal open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
+internal open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClient) {
     internal companion object {
         protected const val ContentType = "Content-Type"
         protected const val Accept = "Accept"

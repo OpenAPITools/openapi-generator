@@ -9,7 +9,6 @@ use openapi_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       AnyOfGetResponse,
                       CallbackWithHeaderPostResponse,
                       ComplexQueryParamGetResponse,
-                      EnumInPathPathParamGetResponse,
                       JsonComplexQueryParamGetResponse,
                       MandatoryRequestHeaderGetResponse,
                       MergePatchJsonGetResponse,
@@ -30,6 +29,7 @@ use openapi_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       XmlOtherPutResponse,
                       XmlPostResponse,
                       XmlPutResponse,
+                      EnumInPathPathParamGetResponse,
                       CreateRepoResponse,
                       GetRepoInfoResponse,
                      };
@@ -60,31 +60,31 @@ fn main() {
         .arg(Arg::with_name("operation")
             .help("Sets the operation to run")
             .possible_values(&[
-                "AnyOfGet", 
-                "CallbackWithHeaderPost", 
-                "ComplexQueryParamGet", 
-                "JsonComplexQueryParamGet", 
-                "MandatoryRequestHeaderGet", 
-                "MergePatchJsonGet", 
-                "MultigetGet", 
-                "MultipleAuthSchemeGet", 
-                "OneOfGet", 
-                "OverrideServerGet", 
-                "ParamgetGet", 
-                "ReadonlyAuthSchemeGet", 
-                "RegisterCallbackPost", 
-                "RequiredOctetStreamPut", 
-                "ResponsesWithHeadersGet", 
-                "Rfc7807Get", 
-                "UntypedPropertyGet", 
-                "UuidGet", 
-                "XmlExtraPost", 
-                "XmlOtherPost", 
-                "XmlOtherPut", 
-                "XmlPost", 
-                "XmlPut", 
-                "CreateRepo", 
-                "GetRepoInfo", 
+                "AnyOfGet",
+                "CallbackWithHeaderPost",
+                "ComplexQueryParamGet",
+                "JsonComplexQueryParamGet",
+                "MandatoryRequestHeaderGet",
+                "MergePatchJsonGet",
+                "MultigetGet",
+                "MultipleAuthSchemeGet",
+                "OneOfGet",
+                "OverrideServerGet",
+                "ParamgetGet",
+                "ReadonlyAuthSchemeGet",
+                "RegisterCallbackPost",
+                "RequiredOctetStreamPut",
+                "ResponsesWithHeadersGet",
+                "Rfc7807Get",
+                "UntypedPropertyGet",
+                "UuidGet",
+                "XmlExtraPost",
+                "XmlOtherPost",
+                "XmlOtherPut",
+                "XmlPost",
+                "XmlPut",
+                "CreateRepo",
+                "GetRepoInfo",
             ])
             .required(true)
             .index(1))
@@ -107,21 +107,21 @@ fn main() {
     // In a real (production) system this Bearer token should be obtained via an external Identity/Authentication-server
     // Ensure that you set the correct algorithm and encodingkey that matches what is used on the server side.
     // See https://github.com/Keats/jsonwebtoken for more information
-
     let auth_token = build_token(
             Claims {
-                sub: "tester@acme.com".to_owned(), 
+                sub: "tester@acme.com".to_owned(),
                 company: "ACME".to_owned(),
                 iss: "my_identity_provider".to_owned(),
                 // added a very long expiry time
                 aud: "org.acme.Resource_Server".to_string(),
                 exp: 10000000000,
                 // In this example code all available Scopes are added, so the current Bearer Token gets fully authorization.
-                scopes: [
+                scopes:
+                  [
                             "test.read",
                             "test.write",
-                ].join(", ")
-            }, 
+                  ].join::<&str>(", ")
+            },
             b"secret").unwrap();
 
     let auth_data = if !auth_token.is_empty() {
@@ -177,14 +177,6 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        /* Disabled because there's no example.
-        Some("EnumInPathPathParamGet") => {
-            let result = rt.block_on(client.enum_in_path_path_param_get(
-                  ???
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        */
         Some("JsonComplexQueryParamGet") => {
             let result = rt.block_on(client.json_complex_query_param_get(
                   Some(&Vec::new())
@@ -298,6 +290,14 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        /* Disabled because there's no example.
+        Some("EnumInPathPathParamGet") => {
+            let result = rt.block_on(client.enum_in_path_path_param_get(
+                  ???
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        */
         Some("CreateRepo") => {
             let result = rt.block_on(client.create_repo(
                   serde_json::from_str::<models::ObjectParam>(r#"{"requiredParam":true}"#).expect("Failed to parse JSON example")

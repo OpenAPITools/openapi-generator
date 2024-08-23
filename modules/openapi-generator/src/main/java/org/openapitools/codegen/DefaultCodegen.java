@@ -3092,16 +3092,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (sortModelPropertiesByRequiredFlag) {
-            Comparator<CodegenProperty> comparator = new Comparator<CodegenProperty>() {
-                @Override
-                public int compare(CodegenProperty one, CodegenProperty another) {
-                    if (one.required == another.required) return 0;
-                    else if (one.required) return -1;
-                    else return 1;
-                }
-            };
-            Collections.sort(m.vars, comparator);
-            Collections.sort(m.allVars, comparator);
+            SortModelPropertiesByRequiredFlag(m);
         }
 
         // post process model properties
@@ -3118,6 +3109,19 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return m;
+    }
+
+    protected void SortModelPropertiesByRequiredFlag(CodegenModel model) {
+        Comparator<CodegenProperty> comparator = new Comparator<CodegenProperty>() {
+            @Override
+            public int compare(CodegenProperty one, CodegenProperty another) {
+                if (one.required == another.required) return 0;
+                else if (one.required) return -1;
+                else return 1;
+            }
+        };
+        Collections.sort(model.vars, comparator);
+        Collections.sort(model.allVars, comparator);
     }
 
     protected void setAddProps(Schema schema, IJsonSchemaValidationProperties property) {
@@ -4441,21 +4445,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         // store the original operationId for plug-in
         op.operationIdOriginal = operation.getOperationId();
-
-        String operationId = getOrGenerateOperationId(operation, path, httpMethod);
-        // remove prefix in operationId
-        if (removeOperationIdPrefix) {
-            // The prefix is everything before the removeOperationIdPrefixCount occurrence of removeOperationIdPrefixDelimiter
-            String[] components = operationId.split("[" + removeOperationIdPrefixDelimiter + "]");
-            if (components.length > 1) {
-                // If removeOperationIdPrefixCount is -1 or bigger that the number of occurrences, uses the last one
-                int component_number = removeOperationIdPrefixCount == -1 ? components.length - 1 : removeOperationIdPrefixCount;
-                component_number = Math.min(component_number, components.length - 1);
-                // Reconstruct the operationId from its split elements and the delimiter
-                operationId = String.join(removeOperationIdPrefixDelimiter, Arrays.copyOfRange(components, component_number, components.length));
-            }
-        }
-        operationId = removeNonNameElementToCamelCase(operationId);
+        op.operationId = getOrGenerateOperationId(operation, path, httpMethod);
 
         if (isStrictSpecBehavior() && !path.startsWith("/")) {
             // modifies an operation.path to strictly conform to OpenAPI Spec
@@ -4464,11 +4454,6 @@ public class DefaultCodegen implements CodegenConfig {
             op.path = path;
         }
 
-        if (operationIdNameMapping.containsKey(operationId)) {
-            op.operationId = operationIdNameMapping.get(operationId);
-        } else {
-            op.operationId = toOperationId(operationId);
-        }
         op.summary = escapeText(operation.getSummary());
         op.unescapedNotes = operation.getDescription();
         op.notes = escapeText(operation.getDescription());
@@ -4729,17 +4714,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         // move "required" parameters in front of "optional" parameters
         if (sortParamsByRequiredFlag) {
-            Collections.sort(allParams, new Comparator<CodegenParameter>() {
-                @Override
-                public int compare(CodegenParameter one, CodegenParameter another) {
-                    if (one.required == another.required)
-                        return 0;
-                    else if (one.required)
-                        return -1;
-                    else
-                        return 1;
-                }
-            });
+            SortParametersByRequiredFlag(allParams);
         }
 
         op.allParams = allParams;
@@ -4771,6 +4746,20 @@ public class DefaultCodegen implements CodegenConfig {
         op.isRestful = op.isRestful();
 
         return op;
+    }
+
+    public void SortParametersByRequiredFlag(List<CodegenParameter> parameters) {
+        Collections.sort(parameters, new Comparator<CodegenParameter>() {
+            @Override
+            public int compare(CodegenParameter one, CodegenParameter another) {
+                if (one.required == another.required)
+                    return 0;
+                else if (one.required)
+                    return -1;
+                else
+                    return 1;
+            }
+        });
     }
 
     public boolean isParameterNameUnique(CodegenParameter p, List<CodegenParameter> parameters) {
@@ -5591,7 +5580,26 @@ public class DefaultCodegen implements CodegenConfig {
             operationId = sanitizeName(builder.toString());
             LOGGER.warn("Empty operationId found for path: {} {}. Renamed to auto-generated operationId: {}", httpMethod, path, operationId);
         }
-        return operationId;
+
+        // remove prefix in operationId
+        if (removeOperationIdPrefix) {
+            // The prefix is everything before the removeOperationIdPrefixCount occurrence of removeOperationIdPrefixDelimiter
+            String[] components = operationId.split("[" + removeOperationIdPrefixDelimiter + "]");
+            if (components.length > 1) {
+                // If removeOperationIdPrefixCount is -1 or bigger that the number of occurrences, uses the last one
+                int component_number = removeOperationIdPrefixCount == -1 ? components.length - 1 : removeOperationIdPrefixCount;
+                component_number = Math.min(component_number, components.length - 1);
+                // Reconstruct the operationId from its split elements and the delimiter
+                operationId = String.join(removeOperationIdPrefixDelimiter, Arrays.copyOfRange(components, component_number, components.length));
+            }
+        }
+        operationId = removeNonNameElementToCamelCase(operationId);
+
+        if (operationIdNameMapping.containsKey(operationId)) {
+            return operationIdNameMapping.get(operationId);
+        } else {
+            return toOperationId(operationId);
+        }
     }
 
     /**

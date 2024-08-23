@@ -1,7 +1,7 @@
 use swagger::{
     ApiError,
     auth::{Basic, Bearer},
-    Has, 
+    Has,
     XSpanIdString};
 use no_example_v3::{AuthenticationApi, Claims};
 use crate::server::Server;
@@ -15,24 +15,24 @@ use log::{error, debug};
 
 /// Get a dummy claim with full permissions (all scopes) for testing purposes
 fn full_permission_claim() -> Claims {
-        Claims {
-            sub: "tester@acme.com".to_owned(), 
-            company: "ACME".to_owned(),
-            iss: "mini-bank-IDP".to_owned(),
-            aud: "org.acme.Resource_Server".to_string(),
-            // added a very long expiry time
-            exp: 10000000000,
-            // In this example code all available Scopes are added, so the current Bearer Token gets fully authorization.
-            scopes: [
-            ].join(", ")
-        }
+    // In this example code all available Scopes are added, so the current Bearer Token gets fully authorization.
+    Claims {
+        sub: "tester@acme.com".to_owned(),
+        company: "ACME".to_owned(),
+        iss: "mini-bank-IDP".to_owned(),
+        aud: "org.acme.Resource_Server".to_string(),
+        // added a very long expiry time
+        exp: 10000000000,
+        scopes:
+          "".to_owned()
+    }
 }
 
 
 
-/// Extract the data from a Bearer token using the provided Key (secret) and using the HS512-algorithm in this example. 
+/// Extract the data from a Bearer token using the provided Key (secret) and using the HS512-algorithm in this example.
 fn extract_token_data(token: &str, key: &[u8]) -> Result<TokenData<Claims>, JwtError::Error> {
-    
+
     // Ensure that you set the correct algorithm and correct key.
     // See https://github.com/Keats/jsonwebtoken for more information.
     let header = decode_header(token)?;
@@ -63,8 +63,8 @@ fn build_authorization(claims: Claims) -> Authorization {
     let scopes = swagger::auth::Scopes::Some(scopes);
 
     Authorization{
-        subject: claims.sub, 
-        scopes, 
+        subject: claims.sub,
+        scopes,
         issuer: Some(claims.iss)}
 }
 
@@ -105,23 +105,23 @@ impl<C> AuthenticationApi for Server<C> where C: Has<XSpanIdString> + Send + Syn
     fn apikey_authorization(&self, api_key: &str) -> Result<Authorization, ApiError> {
         debug!("\tAuthorizationApi: Received api-key, {api_key:#?}");
 
-        // TODO: insert the logic to map received apikey to the set of claims 
+        // TODO: insert the logic to map received apikey to the set of claims
         let claims = full_permission_claim();
 
         // and build an authorization out of it
         Ok(build_authorization(claims))
     }
-    
+
     /// Implementation of the method to map a basic authentication (username and password) to an Authorization
     fn basic_authorization(&self, basic: &Basic) -> Result<Authorization, ApiError> {
         debug!("\tAuthorizationApi: Received Basic-token, {basic:#?}");
 
-        // TODO: insert the logic to map received apikey to the set of claims 
+        // TODO: insert the logic to map received apikey to the set of claims
         let claims = full_permission_claim();
 
         // and build an authorization out of it
         Ok(build_authorization(claims))
     }
 
-} 
+}
 
