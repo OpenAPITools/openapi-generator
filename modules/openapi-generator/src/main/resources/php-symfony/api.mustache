@@ -58,7 +58,12 @@ interface {{classname}}
      *
     {{/description}}
     {{#allParams}}
+    {{#isEnumRef}}
+     * @param  \{{modelPackage}}\{{dataType}}{{^required}}{{^defaultValue}}|null{{/defaultValue}}{{/required}} ${{paramName}}  {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
+    {{/isEnumRef}}
+    {{^isEnumRef}}
      * @param  {{vendorExtensions.x-parameter-type}}{{^required}}{{^defaultValue}}|null{{/defaultValue}}{{/required}} ${{paramName}}  {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
+    {{/isEnumRef}}
     {{/allParams}}
      * @param  int     &$responseCode    The HTTP Response Code
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
@@ -68,8 +73,18 @@ interface {{classname}}
      * @deprecated
     {{/isDeprecated}}
      */
-    public function {{operationId}}({{#allParams}}{{^required}}{{^defaultValue}}?{{/defaultValue}}{{/required}}{{#vendorExtensions.x-parameter-type}}{{vendorExtensions.x-parameter-type}} {{/vendorExtensions.x-parameter-type}}${{paramName}}, {{/allParams}}int &$responseCode, array &$responseHeaders): {{{vendorExtensions.x-return-type}}};
-
+    public function {{operationId}}(
+        {{#allParams}}
+        {{#isEnumRef}}
+        {{^required}}{{^defaultValue}}?{{/defaultValue}}{{/required}}\{{modelPackage}}\{{dataType}} ${{paramName}},
+        {{/isEnumRef}}
+        {{^isEnumRef}}
+        {{^required}}{{^defaultValue}}?{{/defaultValue}}{{/required}}{{#vendorExtensions.x-parameter-type}}{{vendorExtensions.x-parameter-type}} {{/vendorExtensions.x-parameter-type}}${{paramName}},
+        {{/isEnumRef}}
+        {{/allParams}}
+        int &$responseCode,
+        array &$responseHeaders
+    ): {{{vendorExtensions.x-return-type}}};
 {{/operation}}
 }
 {{/operations}}

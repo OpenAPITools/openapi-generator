@@ -48,25 +48,10 @@ Declare the class with extends and implements
         {{/isEnum}}
     public static final String JSON_PROPERTY_{{nameInSnakeCase}} = "{{baseName}}";
         {{#withXml}}
-            {{#isXmlAttribute}}
-    @XmlAttribute(name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"
-            {{/isXmlAttribute}}
-            {{^isXmlAttribute}}
-                {{^isContainer}}
-    @XmlElement({{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-                {{/isContainer}}
-                {{#isContainer}}
-    // Is a container wrapped={{isXmlWrapped}}
-                    {{#items}}
-    // items.name={{name}} items.baseName={{baseName}} items.xmlName={{xmlName}} items.xmlNamespace={{xmlNamespace}}
-    // items.example={{example}} items.type={{dataType}}
-    @XmlElement({{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-                    {{/items}}
-                    {{#isXmlWrapped}}
-    @XmlElementWrapper({{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-                    {{/isXmlWrapped}}
-                {{/isContainer}}
-            {{/isXmlAttribute}}
+    @Xml{{#isXmlAttribute}}Attribute{{/isXmlAttribute}}{{^isXmlAttribute}}Element{{/isXmlAttribute}}(name = "{{items.xmlName}}{{^items.xmlName}}{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}{{/items.xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+          {{#isXmlWrapped}}
+    @XmlElementWrapper(name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+          {{/isXmlWrapped}}
         {{/withXml}}
         {{#vendorExtensions.x-field-extra-annotation}}
         {{{vendorExtensions.x-field-extra-annotation}}}
@@ -120,7 +105,7 @@ Declare the class with extends and implements
     }
 
             {{#isArray}}
-    public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+    public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
                 {{#vendorExtensions.x-is-jackson-optional-nullable}}
         if (this.{{name}} == null || !this.{{name}}.isPresent()) {
             this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}});
@@ -145,7 +130,7 @@ Declare the class with extends and implements
 
             {{/isArray}}
             {{#isMap}}
-    public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+    public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
                 {{#vendorExtensions.x-is-jackson-optional-nullable}}
         if (this.{{name}} == null || !this.{{name}}.isPresent()) {
             this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}});
@@ -184,7 +169,7 @@ Declare the class with extends and implements
      * maximum: {{maximum}}
         {{/maximum}}
      * @return {{name}}
-     **/
+     */
 {{>common/model/beanValidation}}{{!
         }}{{#generateSwagger1Annotations}}
     @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
@@ -293,7 +278,7 @@ Declare the class with extends and implements
         sb.append("    ").append(toIndentedString(super.toString())).append("\n");
         {{/parent}}
         {{#vars}}
-        sb.append("    {{name}}: ").append(toIndentedString({{name}})).append("\n");
+        sb.append("    {{name}}: ").append({{#isPassword}}"*"{{/isPassword}}{{^isPassword}}toIndentedString({{name}}){{/isPassword}}).append("\n");
         {{/vars}}
         sb.append("}");
         return sb.toString();

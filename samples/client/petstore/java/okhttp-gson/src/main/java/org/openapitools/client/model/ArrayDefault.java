@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -39,12 +39,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -52,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * ArrayDefault
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class ArrayDefault {
   public static final String SERIALIZED_NAME_WITH_DEFAULT_EMPTY_BRACKET = "WithDefaultEmptyBracket";
   @SerializedName(SERIALIZED_NAME_WITH_DEFAULT_EMPTY_BRACKET)
@@ -60,13 +58,12 @@ public class ArrayDefault {
 
   public static final String SERIALIZED_NAME_WITHOUT_DEFAULT = "WithoutDefault";
   @SerializedName(SERIALIZED_NAME_WITHOUT_DEFAULT)
-  private List<String> withoutDefault;
+  private List<String> withoutDefault = new ArrayList<>();
 
   public ArrayDefault() {
   }
 
   public ArrayDefault withDefaultEmptyBracket(List<String> withDefaultEmptyBracket) {
-    
     this.withDefaultEmptyBracket = withDefaultEmptyBracket;
     return this;
   }
@@ -79,15 +76,14 @@ public class ArrayDefault {
     return this;
   }
 
-   /**
+  /**
    * Get withDefaultEmptyBracket
    * @return withDefaultEmptyBracket
-  **/
+   */
   @javax.annotation.Nullable
   public List<String> getWithDefaultEmptyBracket() {
     return withDefaultEmptyBracket;
   }
-
 
   public void setWithDefaultEmptyBracket(List<String> withDefaultEmptyBracket) {
     this.withDefaultEmptyBracket = withDefaultEmptyBracket;
@@ -95,7 +91,6 @@ public class ArrayDefault {
 
 
   public ArrayDefault withoutDefault(List<String> withoutDefault) {
-    
     this.withoutDefault = withoutDefault;
     return this;
   }
@@ -108,15 +103,14 @@ public class ArrayDefault {
     return this;
   }
 
-   /**
+  /**
    * Get withoutDefault
    * @return withoutDefault
-  **/
+   */
   @javax.annotation.Nullable
   public List<String> getWithoutDefault() {
     return withoutDefault;
   }
-
 
   public void setWithoutDefault(List<String> withoutDefault) {
     this.withoutDefault = withoutDefault;
@@ -223,12 +217,12 @@ public class ArrayDefault {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to ArrayDefault
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to ArrayDefault
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!ArrayDefault.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -237,11 +231,11 @@ public class ArrayDefault {
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       // ensure the optional json data is an array if present
-      if (jsonObj.get("WithDefaultEmptyBracket") != null && !jsonObj.get("WithDefaultEmptyBracket").isJsonArray()) {
+      if (jsonObj.get("WithDefaultEmptyBracket") != null && !jsonObj.get("WithDefaultEmptyBracket").isJsonNull() && !jsonObj.get("WithDefaultEmptyBracket").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `WithDefaultEmptyBracket` to be an array in the JSON string but got `%s`", jsonObj.get("WithDefaultEmptyBracket").toString()));
       }
       // ensure the optional json data is an array if present
-      if (jsonObj.get("WithoutDefault") != null && !jsonObj.get("WithoutDefault").isJsonArray()) {
+      if (jsonObj.get("WithoutDefault") != null && !jsonObj.get("WithoutDefault").isJsonNull() && !jsonObj.get("WithoutDefault").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `WithoutDefault` to be an array in the JSON string but got `%s`", jsonObj.get("WithoutDefault").toString()));
       }
   }
@@ -274,7 +268,12 @@ public class ArrayDefault {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -313,22 +312,22 @@ public class ArrayDefault {
     }
   }
 
- /**
-  * Create an instance of ArrayDefault given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of ArrayDefault
-  * @throws IOException if the JSON string is invalid with respect to ArrayDefault
-  */
+  /**
+   * Create an instance of ArrayDefault given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of ArrayDefault
+   * @throws IOException if the JSON string is invalid with respect to ArrayDefault
+   */
   public static ArrayDefault fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ArrayDefault.class);
   }
 
- /**
-  * Convert an instance of ArrayDefault to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of ArrayDefault to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

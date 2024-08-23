@@ -36,7 +36,7 @@ import javax.validation.Valid;
   EnumTest.JSON_PROPERTY_ENUM_NUMBER,
   EnumTest.JSON_PROPERTY_OUTER_ENUM
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class EnumTest  implements Serializable {
   /**
    * Gets or Sets enumString
@@ -277,7 +277,7 @@ public class EnumTest  implements Serializable {
    **/
   @JsonProperty(value = "outerEnum")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }
@@ -296,11 +296,11 @@ public class EnumTest  implements Serializable {
       return false;
     }
     EnumTest enumTest = (EnumTest) o;
-    return Objects.equals(enumString, enumTest.enumString) &&
-        Objects.equals(enumStringRequired, enumTest.enumStringRequired) &&
-        Objects.equals(enumInteger, enumTest.enumInteger) &&
-        Objects.equals(enumNumber, enumTest.enumNumber) &&
-        Objects.equals(outerEnum, enumTest.outerEnum);
+    return Objects.equals(this.enumString, enumTest.enumString) &&
+        Objects.equals(this.enumStringRequired, enumTest.enumStringRequired) &&
+        Objects.equals(this.enumInteger, enumTest.enumInteger) &&
+        Objects.equals(this.enumNumber, enumTest.enumNumber) &&
+        Objects.equals(this.outerEnum, enumTest.outerEnum);
   }
 
   @Override

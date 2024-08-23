@@ -1,39 +1,72 @@
 ## PetApi
 
 ### Add a new pet to the store
-# @name addPet
+## Add a new pet to the store
 POST http://petstore.swagger.io/v2/pet
 Content-Type: application/json
 Content-Type: application/xml
+Accept: application/xml
+Accept: application/json
+
+{
+ "id": "<number>",
+ "category": "<string>",
+ "name": "<string>",
+ "photoUrls": "<string>",
+ "tags": "<string>",
+ "status": "<string>"
+}
+
 
 ### Deletes a pet
-# @name deletePet
+## Deletes a pet
 DELETE http://petstore.swagger.io/v2/pet/{{petId}}
+api_key: {{apiKey}}
 
 ### Finds Pets by status
-# @name findPetsByStatus
-GET http://petstore.swagger.io/v2/pet/findByStatus
+## Finds Pets by status
+GET http://petstore.swagger.io/v2/pet/findByStatus?status={{status}}
+Accept: application/xml
+Accept: application/json
 
 ### Finds Pets by tags
-# @name findPetsByTags
-GET http://petstore.swagger.io/v2/pet/findByTags
+## Finds Pets by tags
+GET http://petstore.swagger.io/v2/pet/findByTags?tags={{tags}}
+Accept: application/xml
+Accept: application/json
 
 ### Find pet by ID
-# @name getPetById
+## Find pet by ID
 GET http://petstore.swagger.io/v2/pet/{{petId}}
+Accept: application/xml
+Accept: application/json
+api_key: {{apiKey}}
 
 ### Update an existing pet
-# @name updatePet
+## Update an existing pet
 PUT http://petstore.swagger.io/v2/pet
 Content-Type: application/json
 Content-Type: application/xml
+Accept: application/xml
+Accept: application/json
+
+{
+ "id": "<number>",
+ "category": "<string>",
+ "name": "<string>",
+ "photoUrls": "<string>",
+ "tags": "<string>",
+ "status": "<string>"
+}
+
 
 ### Updates a pet in the store with form data
-# @name updatePetWithForm
+## Updates a pet in the store with form data
 POST http://petstore.swagger.io/v2/pet/{{petId}}
 Content-Type: application/x-www-form-urlencoded
 
 ### uploads an image
-# @name uploadFile
+## uploads an image
 POST http://petstore.swagger.io/v2/pet/{{petId}}/uploadImage
 Content-Type: multipart/form-data
+Accept: application/json

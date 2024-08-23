@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class CodegenSecurity {
     public String name;
@@ -42,6 +43,8 @@ public class CodegenSecurity {
     // Oauth specific
     public String flow, authorizationUrl, tokenUrl, refreshUrl;
     public List<Map<String, Object>> scopes;
+    public Boolean hasScopes;
+
     public Boolean isCode, isPassword, isApplication, isImplicit;
     // OpenId specific
     public String openIdConnectUrl;
@@ -88,6 +91,20 @@ public class CodegenSecurity {
     // Return a copy of the security object, filtering out any scopes from the passed-in list.
     public CodegenSecurity filterByScopeNames(List<String> filterScopes) {
         CodegenSecurity filteredSecurity = new CodegenSecurity(this);
+
+        // Since OAS 3.1.0, security scheme types other than "oauth2" and "openIdConnect" may have a list of role names
+        // which are required for the execution, but are not otherwise defined or exchanged in-band.
+        // In such cases, no filtering is performed.
+        if (!(Boolean.TRUE.equals(isOAuth) || Boolean.TRUE.equals(isOpenId))) {
+            filteredSecurity.scopes = filterScopes.stream()
+                .map(s -> new HashMap<String, Object>(Map.of("scope", s)))
+                .collect(Collectors.toList());
+            return filteredSecurity;
+        }
+
+        if (scopes == null) {
+            return filteredSecurity;
+        }
 
         List<Map<String, Object>> returnedScopes = new ArrayList<Map<String, Object>>();
         Map<String, Object> lastScope = null;

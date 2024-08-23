@@ -14,13 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import android.os.Parcelable;
 import android.os.Parcel;
 
@@ -39,12 +39,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -52,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * Capitalization
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Capitalization implements Parcelable {
   public static final String SERIALIZED_NAME_SMALL_CAMEL = "smallCamel";
   @SerializedName(SERIALIZED_NAME_SMALL_CAMEL)
@@ -82,20 +80,18 @@ public class Capitalization implements Parcelable {
   }
 
   public Capitalization smallCamel(String smallCamel) {
-    
     this.smallCamel = smallCamel;
     return this;
   }
 
-   /**
+  /**
    * Get smallCamel
    * @return smallCamel
-  **/
+   */
   @javax.annotation.Nullable
   public String getSmallCamel() {
     return smallCamel;
   }
-
 
   public void setSmallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
@@ -103,20 +99,18 @@ public class Capitalization implements Parcelable {
 
 
   public Capitalization capitalCamel(String capitalCamel) {
-    
     this.capitalCamel = capitalCamel;
     return this;
   }
 
-   /**
+  /**
    * Get capitalCamel
    * @return capitalCamel
-  **/
+   */
   @javax.annotation.Nullable
   public String getCapitalCamel() {
     return capitalCamel;
   }
-
 
   public void setCapitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
@@ -124,20 +118,18 @@ public class Capitalization implements Parcelable {
 
 
   public Capitalization smallSnake(String smallSnake) {
-    
     this.smallSnake = smallSnake;
     return this;
   }
 
-   /**
+  /**
    * Get smallSnake
    * @return smallSnake
-  **/
+   */
   @javax.annotation.Nullable
   public String getSmallSnake() {
     return smallSnake;
   }
-
 
   public void setSmallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
@@ -145,20 +137,18 @@ public class Capitalization implements Parcelable {
 
 
   public Capitalization capitalSnake(String capitalSnake) {
-    
     this.capitalSnake = capitalSnake;
     return this;
   }
 
-   /**
+  /**
    * Get capitalSnake
    * @return capitalSnake
-  **/
+   */
   @javax.annotation.Nullable
   public String getCapitalSnake() {
     return capitalSnake;
   }
-
 
   public void setCapitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
@@ -166,20 +156,18 @@ public class Capitalization implements Parcelable {
 
 
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
-    
     this.scAETHFlowPoints = scAETHFlowPoints;
     return this;
   }
 
-   /**
+  /**
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
-  **/
+   */
   @javax.annotation.Nullable
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
   }
-
 
   public void setScAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
@@ -187,20 +175,18 @@ public class Capitalization implements Parcelable {
 
 
   public Capitalization ATT_NAME(String ATT_NAME) {
-    
     this.ATT_NAME = ATT_NAME;
     return this;
   }
 
-   /**
+  /**
    * Name of the pet 
    * @return ATT_NAME
-  **/
+   */
   @javax.annotation.Nullable
   public String getATTNAME() {
     return ATT_NAME;
   }
-
 
   public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
@@ -304,12 +290,12 @@ public class Capitalization implements Parcelable {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Capitalization
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to Capitalization
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Capitalization.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -317,9 +303,9 @@ public class Capitalization implements Parcelable {
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!Capitalization.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `Capitalization` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
@@ -374,22 +360,22 @@ public class Capitalization implements Parcelable {
     }
   }
 
- /**
-  * Create an instance of Capitalization given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Capitalization
-  * @throws IOException if the JSON string is invalid with respect to Capitalization
-  */
+  /**
+   * Create an instance of Capitalization given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of Capitalization
+   * @throws IOException if the JSON string is invalid with respect to Capitalization
+   */
   public static Capitalization fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Capitalization.class);
   }
 
- /**
-  * Convert an instance of Capitalization to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of Capitalization to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

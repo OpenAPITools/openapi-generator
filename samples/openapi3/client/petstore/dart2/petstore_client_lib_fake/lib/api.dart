@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
+// @dart=2.18
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -46,6 +46,7 @@ part 'model/array_test.dart';
 part 'model/capitalization.dart';
 part 'model/cat.dart';
 part 'model/category.dart';
+part 'model/child_with_nullable.dart';
 part 'model/class_model.dart';
 part 'model/deprecated_object.dart';
 part 'model/dog.dart';
@@ -77,11 +78,13 @@ part 'model/outer_enum_default_value.dart';
 part 'model/outer_enum_integer.dart';
 part 'model/outer_enum_integer_default_value.dart';
 part 'model/outer_object_with_enum_property.dart';
+part 'model/parent_with_nullable.dart';
 part 'model/pet.dart';
 part 'model/read_only_first.dart';
 part 'model/single_ref_type.dart';
 part 'model/special_model_name.dart';
 part 'model/tag.dart';
+part 'model/test_inline_freeform_additional_properties_request.dart';
 part 'model/user.dart';
 
 

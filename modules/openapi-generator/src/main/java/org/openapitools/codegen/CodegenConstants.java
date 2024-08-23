@@ -25,13 +25,14 @@ public class CodegenConstants {
     // NOTE: We may want to move these to a separate class to avoid confusion or modification.
     public static final String APIS = "apis";
     public static final String MODELS = "models";
+    public static final String GENERATE_RECURSIVE_DEPENDENT_MODELS = "generateRecursiveDependentModels";
     public static final String SUPPORTING_FILES = "supportingFiles";
     public static final String MODEL_TESTS = "modelTests";
     public static final String MODEL_DOCS = "modelDocs";
+    public static final String WEBHOOKS = "webhooks";
     public static final String API_TESTS = "apiTests";
     public static final String API_DOCS = "apiDocs";
 
-    public static final String WITH_XML = "withXml";
     public static final String SKIP_FORM_MODEL = "skipFormModel";
     /* /end System Properties */
 
@@ -42,6 +43,8 @@ public class CodegenConstants {
 
     public static final String API_SUFFIX = "apiSuffix";
     public static final String API_SUFFIX_DESC = "suffix for api classes";
+
+    public static final String AUTOSET_CONSTANTS = "autosetConstants";
 
     public static final String MODEL_PACKAGE = "modelPackage";
     public static final String MODEL_PACKAGE_DESC = "package for generated models";
@@ -88,7 +91,7 @@ public class CodegenConstants {
     public static final String ARTIFACT_ID_DESC = "artifactId in generated pom.xml. This also becomes part of the generated library's filename";
 
     public static final String ARTIFACT_VERSION = "artifactVersion";
-    public static final String ARTIFACT_VERSION_DESC = "artifact version in generated pom.xml. This also becomes part of the generated library's filename";
+    public static final String ARTIFACT_VERSION_DESC = "artifact version in generated pom.xml. This also becomes part of the generated library's filename. If not provided, uses the version from the OpenAPI specification file. If that's also not present, uses the default value of the artifactVersion option.";
 
     public static final String ARTIFACT_URL = "artifactUrl";
     public static final String ARTIFACT_URL_DESC = "artifact URL in generated pom.xml";
@@ -152,6 +155,9 @@ public class CodegenConstants {
 
     public static final String USE_DATETIME_OFFSET = "useDateTimeOffset";
     public static final String USE_DATETIME_OFFSET_DESC = "Use DateTimeOffset to model date-time properties";
+
+    public static final String USE_DATETIME_FOR_DATE = "useDateTimeForDate";
+    public static final String USE_DATETIME_FOR_DATE_DESC = "Use DateTime to model date properties even if DateOnly supported. (.net 6.0+ only)";
 
     public static final String ENSURE_UNIQUE_PARAMS = "ensureUniqueParams";
     public static final String ENSURE_UNIQUE_PARAMS_DESC = "Whether to ensure parameter names are unique in an operation (rename parameters that are not).";
@@ -226,6 +232,8 @@ public class CodegenConstants {
     public static final String TEMPLATING_ENGINE = "templatingEngine";
     public static final String TEMPLATING_ENGINE_DESC = "The templating engine plugin to use: \"mustache\" (default) or \"handlebars\" (beta)";
 
+    public static final String MUSTACHE_PARENT_CONTEXT = "MUSTACHE_PARENT_CONTEXT";
+
     public static enum PARAM_NAMING_TYPE {camelCase, PascalCase, snake_case, original}
 
     public static enum MODEL_PROPERTY_NAMING_TYPE {camelCase, PascalCase, snake_case, original}
@@ -294,6 +302,7 @@ public class CodegenConstants {
 
     public static final String GENERATE_APIS = "generateApis";
     public static final String GENERATE_API_DOCS = "generateApiDocs";
+    public static final String GENERATE_WEBHOOKS = "generateWebhooks";
 
     public static final String GENERATE_API_TESTS = "generateApiTests";
     public static final String GENERATE_API_TESTS_DESC = "Specifies that api tests are to be generated.";
@@ -429,4 +438,19 @@ public class CodegenConstants {
                     "<li>setting additionalProperties: false in your schemas</li></ul>";
 
     public static final String FASTAPI_IMPLEMENTATION_PACKAGE = "fastapiImplementationPackage";
+
+    public static final String WITH_XML = "withXml";
+    
+    public static final String WITH_GO_MOD = "withGoMod";
+
+    public static final String GENERATE_MARSHAL_JSON = "generateMarshalJSON";
+    public static final String GENERATE_MARSHAL_JSON_DESC = "Generate MarshalJSON method";
+
+    public static final String GENERATE_UNMARSHAL_JSON = "generateUnmarshalJSON";
+    public static final String GENERATE_UNMARSHAL_JSON_DESC = "Generate UnmarshalJSON method";
+    public static final String MAX_ATTEMPTS_FOR_RETRY = "maxAttemptsForRetry";
+
+    public static final String WAIT_TIME_OF_THREAD = "waitTimeMillis";
+
+    public static final String USE_DEFAULT_VALUES_FOR_REQUIRED_VARS = "useDefaultValuesForRequiredVars";
 }

@@ -838,6 +838,7 @@ components:
         - string
         - boolean
         - uuid
+        - bytes
       properties:
         int32:
           type: integer
@@ -858,6 +859,9 @@ components:
         uuid:
           type: string
           format: uuid
+        bytes:
+          type: string
+          format: byte
     Return:
       description: Test using keywords
       type: object
@@ -898,6 +902,22 @@ components:
           items:
             type: string
             enum: ["A", "B", "C"]
+    UniqueItemArrayTesting:
+      description: Test handling of enum array with unique items
+      type: object
+      required:
+        - unique_item_array
+      properties:
+        unique_item_array:
+          type: array
+          description: Helper object for the unique item array test
+          uniqueItems: true
+          items:
+            type: string
+            enum: 
+              - unique_item_1
+              - unique_item_2
+              - unique_item_3
     ArrayRefItem:
       description: Helper object for the array item ref test
       type: array
@@ -922,3 +942,34 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ObjectRefItem'
+    NullableArray:
+      type: object
+      properties:
+        array_nullable:
+          type: array
+          nullable: true
+          items:
+            type: string
+        just_array:
+          type: array
+          items:
+            type: string
+        nullable_string:
+          type: string
+          nullable: true
+        just_string:
+          type: string
+    NumericEnumTesting:
+      description: testing that numeric enums are converted correctly
+      enum:
+        - 0
+        - 1
+        - 2
+        - 3
+      type: integer
+    ref:
+      description: using reserved word as model name
+      type: object
+      properties:
+        dummy:
+          type: string

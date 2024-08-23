@@ -131,16 +131,20 @@ func (o FileSchemaTestClass) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *FileSchemaTestClass) UnmarshalJSON(bytes []byte) (err error) {
+func (o *FileSchemaTestClass) UnmarshalJSON(data []byte) (err error) {
 	varFileSchemaTestClass := _FileSchemaTestClass{}
 
-	if err = json.Unmarshal(bytes, &varFileSchemaTestClass); err == nil {
-		*o = FileSchemaTestClass(varFileSchemaTestClass)
+	err = json.Unmarshal(data, &varFileSchemaTestClass)
+
+	if err != nil {
+		return err
 	}
+
+	*o = FileSchemaTestClass(varFileSchemaTestClass)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "file")
 		delete(additionalProperties, "files")
 		o.AdditionalProperties = additionalProperties

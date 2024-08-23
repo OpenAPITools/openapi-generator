@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import android.os.Parcelable;
 import android.os.Parcel;
@@ -41,12 +41,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -54,7 +52,7 @@ import org.openapitools.client.JSON;
 /**
  * EnumArrays
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class EnumArrays implements Parcelable {
   /**
    * Gets or Sets justSymbol
@@ -100,6 +98,11 @@ public class EnumArrays implements Parcelable {
         String value =  jsonReader.nextString();
         return JustSymbolEnum.fromValue(value);
       }
+    }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      JustSymbolEnum.fromValue(value);
     }
   }
 
@@ -152,30 +155,33 @@ public class EnumArrays implements Parcelable {
         return ArrayEnumEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      ArrayEnumEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_ARRAY_ENUM = "array_enum";
   @SerializedName(SERIALIZED_NAME_ARRAY_ENUM)
-  private List<ArrayEnumEnum> arrayEnum;
+  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays() {
   }
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
-    
     this.justSymbol = justSymbol;
     return this;
   }
 
-   /**
+  /**
    * Get justSymbol
    * @return justSymbol
-  **/
+   */
   @javax.annotation.Nullable
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
-
 
   public void setJustSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
@@ -183,7 +189,6 @@ public class EnumArrays implements Parcelable {
 
 
   public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
-    
     this.arrayEnum = arrayEnum;
     return this;
   }
@@ -196,15 +201,14 @@ public class EnumArrays implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get arrayEnum
    * @return arrayEnum
-  **/
+   */
   @javax.annotation.Nullable
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }
-
 
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
@@ -288,12 +292,12 @@ public class EnumArrays implements Parcelable {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to EnumArrays
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to EnumArrays
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!EnumArrays.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -301,9 +305,9 @@ public class EnumArrays implements Parcelable {
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!EnumArrays.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `EnumArrays` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
@@ -312,8 +316,12 @@ public class EnumArrays implements Parcelable {
       if ((jsonObj.get("just_symbol") != null && !jsonObj.get("just_symbol").isJsonNull()) && !jsonObj.get("just_symbol").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `just_symbol` to be a primitive type in the JSON string but got `%s`", jsonObj.get("just_symbol").toString()));
       }
+      // validate the optional field `just_symbol`
+      if (jsonObj.get("just_symbol") != null && !jsonObj.get("just_symbol").isJsonNull()) {
+        JustSymbolEnum.validateJsonElement(jsonObj.get("just_symbol"));
+      }
       // ensure the optional json data is an array if present
-      if (jsonObj.get("array_enum") != null && !jsonObj.get("array_enum").isJsonArray()) {
+      if (jsonObj.get("array_enum") != null && !jsonObj.get("array_enum").isJsonNull() && !jsonObj.get("array_enum").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_enum` to be an array in the JSON string but got `%s`", jsonObj.get("array_enum").toString()));
       }
   }
@@ -347,22 +355,22 @@ public class EnumArrays implements Parcelable {
     }
   }
 
- /**
-  * Create an instance of EnumArrays given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of EnumArrays
-  * @throws IOException if the JSON string is invalid with respect to EnumArrays
-  */
+  /**
+   * Create an instance of EnumArrays given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of EnumArrays
+   * @throws IOException if the JSON string is invalid with respect to EnumArrays
+   */
   public static EnumArrays fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, EnumArrays.class);
   }
 
- /**
-  * Convert an instance of EnumArrays to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of EnumArrays to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

@@ -3,28 +3,41 @@ import pprint
 import re  # noqa: F401
 import json
 
-{{#vendorExtensions.x-py-datetime-imports}}{{#-first}}from datetime import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-datetime-imports}}
-{{#vendorExtensions.x-py-typing-imports}}{{#-first}}from typing import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-typing-imports}}
-{{#vendorExtensions.x-py-pydantic-imports}}{{#-first}}from pydantic import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-pydantic-imports}}
+{{#vendorExtensions.x-py-other-imports}}
+{{{.}}}
+{{/vendorExtensions.x-py-other-imports}}
 {{#vendorExtensions.x-py-model-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
+from typing import Optional, Set
+from typing_extensions import Self
 
+{{#hasChildren}}
+{{#discriminator}}
+{{! If this model is a super class, importlib is used. So import the necessary modules for the type here. }}
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+{{#mappedModels}}
+    from {{packageName}}.models.{{model.classVarName}} import {{modelName}}
+{{/mappedModels}}
+
+{{/discriminator}}
+{{/hasChildren}}
 class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}):
     """
-    {{{description}}}{{^description}}{{{classname}}}{{/description}}
-    """
+    {{#description}}{{{description}}}{{/description}}{{^description}}{{{classname}}}{{/description}}
+    """ # noqa: E501
 {{#vars}}
     {{name}}: {{{vendorExtensions.x-py-typing}}}
 {{/vars}}
 {{#isAdditionalPropertiesTrue}}
     additional_properties: Dict[str, Any] = {}
 {{/isAdditionalPropertiesTrue}}
-    __properties = [{{#allVars}}"{{baseName}}"{{^-last}}, {{/-last}}{{/allVars}}]
+    __properties: ClassVar[List[str]] = [{{#allVars}}"{{baseName}}"{{^-last}}, {{/-last}}{{/allVars}}]
 {{#vars}}
     {{#vendorExtensions.x-regex}}
 
-    @validator('{{{name}}}')
+    @field_validator('{{{name}}}')
     def {{{name}}}_validate_regular_expression(cls, value):
         """Validates the regular expression"""
         {{^required}}
@@ -45,7 +58,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     {{/vendorExtensions.x-regex}}
     {{#isEnum}}
 
-    @validator('{{{name}}}')
+    @field_validator('{{{name}}}')
     def {{{name}}}_validate_enum(cls, value):
         """Validates the enum"""
         {{^required}}
@@ -62,74 +75,89 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{/required}}
         {{#isArray}}
         for i in value:
-            if i not in ({{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}):
+            if i not in set([{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]):
                 raise ValueError("each list item must be one of ({{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}})")
         {{/isArray}}
         {{^isArray}}
-        if value not in ({{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}):
+        if value not in set([{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]):
             raise ValueError("must be one of enum values ({{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}})")
         {{/isArray}}
         return value
     {{/isEnum}}
 {{/vars}}
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
+
 
 {{#hasChildren}}
 {{#discriminator}}
     # JSON field name that stores the object type
-    __discriminator_property_name = '{{discriminator.propertyBaseName}}'
+    __discriminator_property_name: ClassVar[str] = '{{discriminator.propertyBaseName}}'
 
-    {{#mappedModels}}
-    {{#-first}}
     # discriminator mappings
-    __discriminator_value_class_map = {
-    {{/-first}}
-        '{{{mappingName}}}': '{{{modelName}}}'{{^-last}},{{/-last}}
-    {{#-last}}
+    __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
+        {{#mappedModels}}'{{{mappingName}}}': '{{{modelName}}}'{{^-last}},{{/-last}}{{/mappedModels}}
     }
 
     @classmethod
-    def get_discriminator_value(cls, obj: dict) -> str:
+    def get_discriminator_value(cls, obj: Dict[str, Any]) -> Optional[str]:
         """Returns the discriminator value (object type) of the data"""
         discriminator_value = obj[cls.__discriminator_property_name]
         if discriminator_value:
             return cls.__discriminator_value_class_map.get(discriminator_value)
         else:
             return None
-    {{/-last}}
-    {{/mappedModels}}
 
 {{/discriminator}}
 {{/hasChildren}}
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> {{^hasChildren}}{{{classname}}}{{/hasChildren}}{{#hasChildren}}{{#discriminator}}Union({{#children}}{{{classname}}}{{^-last}}, {{/-last}}{{/children}}){{/discriminator}}{{^discriminator}}{{{classname}}}{{/discriminator}}{{/hasChildren}}:
+    def from_json(cls, json_str: str) -> Optional[{{^hasChildren}}Self{{/hasChildren}}{{#hasChildren}}{{#discriminator}}Union[{{#mappedModels}}{{{modelName}}}{{^-last}}, {{/-last}}{{/mappedModels}}]{{/discriminator}}{{^discriminator}}Self{{/discriminator}}{{/hasChildren}}]:
         """Create an instance of {{{classname}}} from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self):
-        """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
-                          exclude={
-                            {{#vendorExtensions.x-py-readonly}}
-                            "{{{.}}}",
-                            {{/vendorExtensions.x-py-readonly}}
-                            {{#isAdditionalPropertiesTrue}}
-                            "additional_properties"
-                            {{/isAdditionalPropertiesTrue}}
-                          },
-                          exclude_none=True)
+    def to_dict(self) -> Dict[str, Any]:
+        """Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
+        {{#vendorExtensions.x-py-readonly}}
+        * OpenAPI `readOnly` fields are excluded.
+        {{/vendorExtensions.x-py-readonly}}
+        {{#isAdditionalPropertiesTrue}}
+        * Fields in `self.additional_properties` are added to the output dict.
+        {{/isAdditionalPropertiesTrue}}
+        """
+        excluded_fields: Set[str] = set([
+            {{#vendorExtensions.x-py-readonly}}
+            "{{{.}}}",
+            {{/vendorExtensions.x-py-readonly}}
+            {{#isAdditionalPropertiesTrue}}
+            "additional_properties",
+            {{/isAdditionalPropertiesTrue}}
+        ])
+
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude=excluded_fields,
+            exclude_none=True,
+        )
         {{#allVars}}
         {{#isContainer}}
         {{#isArray}}
@@ -138,10 +166,10 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         # override the default output from pydantic by calling `to_dict()` of each item in {{{name}}} (list of list)
         _items = []
         if self.{{{name}}}:
-            for _item in self.{{{name}}}:
-                if _item:
+            for _item_{{{name}}} in self.{{{name}}}:
+                if _item_{{{name}}}:
                     _items.append(
-                         [_inner_item.to_dict() for _inner_item in _item if _inner_item is not None]
+                         [_inner_item.to_dict() for _inner_item in _item_{{{name}}} if _inner_item is not None]
                     )
             _dict['{{{baseName}}}'] = _items
         {{/items.items.isPrimitiveType}}
@@ -152,9 +180,9 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         # override the default output from pydantic by calling `to_dict()` of each item in {{{name}}} (list)
         _items = []
         if self.{{{name}}}:
-            for _item in self.{{{name}}}:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_{{{name}}} in self.{{{name}}}:
+                if _item_{{{name}}}:
+                    _items.append(_item_{{{name}}}.to_dict())
             _dict['{{{baseName}}}'] = _items
         {{/items.isEnumOrRef}}
         {{/items.isPrimitiveType}}
@@ -162,15 +190,17 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{/isArray}}
         {{#isMap}}
         {{#items.isArray}}
+        {{^items.items.isPrimitiveType}}
         # override the default output from pydantic by calling `to_dict()` of each value in {{{name}}} (dict of array)
         _field_dict_of_array = {}
         if self.{{{name}}}:
-            for _key in self.{{{name}}}:
-                if self.{{{name}}}[_key]:
-                    _field_dict_of_array[_key] = [
-                        _item.to_dict() for _item in self.{{{name}}}[_key]
+            for _key_{{{name}}} in self.{{{name}}}:
+                if self.{{{name}}}[_key_{{{name}}}] is not None:
+                    _field_dict_of_array[_key_{{{name}}}] = [
+                        _item.to_dict() for _item in self.{{{name}}}[_key_{{{name}}}]
                     ]
             _dict['{{{baseName}}}'] = _field_dict_of_array
+        {{/items.items.isPrimitiveType}}
         {{/items.isArray}}
         {{^items.isArray}}
         {{^items.isPrimitiveType}}
@@ -178,9 +208,9 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         # override the default output from pydantic by calling `to_dict()` of each value in {{{name}}} (dict)
         _field_dict = {}
         if self.{{{name}}}:
-            for _key in self.{{{name}}}:
-                if self.{{{name}}}[_key]:
-                    _field_dict[_key] = self.{{{name}}}[_key].to_dict()
+            for _key_{{{name}}} in self.{{{name}}}:
+                if self.{{{name}}}[_key_{{{name}}}]:
+                    _field_dict[_key_{{{name}}}] = self.{{{name}}}[_key_{{{name}}}].to_dict()
             _dict['{{{baseName}}}'] = _field_dict
         {{/items.isEnumOrRef}}
         {{/items.isPrimitiveType}}
@@ -207,72 +237,76 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{#allVars}}
         {{#isNullable}}
         # set to None if {{{name}}} (nullable) is None
-        # and __fields_set__ contains the field
-        if self.{{name}} is None and "{{{name}}}" in self.__fields_set__:
+        # and model_fields_set contains the field
+        if self.{{name}} is None and "{{{name}}}" in self.model_fields_set:
             _dict['{{{baseName}}}'] = None
 
         {{/isNullable}}
         {{/allVars}}
         return _dict
 
+    {{#hasChildren}}
     @classmethod
-    def from_dict(cls, obj: dict) -> {{^hasChildren}}{{{classname}}}{{/hasChildren}}{{#hasChildren}}{{#discriminator}}Union({{#children}}{{{classname}}}{{^-last}}, {{/-last}}{{/children}}){{/discriminator}}{{^discriminator}}{{{classname}}}{{/discriminator}}{{/hasChildren}}:
+    def from_dict(cls, obj: Dict[str, Any]) -> Optional[{{#discriminator}}Union[{{#mappedModels}}{{{modelName}}}{{^-last}}, {{/-last}}{{/mappedModels}}]{{/discriminator}}{{^discriminator}}Self{{/discriminator}}]:
         """Create an instance of {{{classname}}} from a dict"""
-        {{#hasChildren}}
         {{#discriminator}}
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
-        if object_type:
-            klass = globals()[object_type]
-            return klass.from_dict(obj)
-        else:
-            raise ValueError("{{{classname}}} failed to lookup discriminator value from " +
-                             json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
-                             ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
+        {{#mappedModels}}
+        if object_type ==  '{{{modelName}}}':
+            return import_module("{{packageName}}.models.{{model.classVarName}}").{{modelName}}.from_dict(obj)
+        {{/mappedModels}}
+
+        raise ValueError("{{{classname}}} failed to lookup discriminator value from " +
+                            json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
+                            ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
         {{/discriminator}}
-        {{/hasChildren}}
-        {{^hasChildren}}
+    {{/hasChildren}}
+    {{^hasChildren}}
+    @classmethod
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+        """Create an instance of {{{classname}}} from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return {{{classname}}}.parse_obj(obj)
+            return cls.model_validate(obj)
 
         {{#disallowAdditionalPropertiesIfNotPresent}}
         {{^isAdditionalPropertiesTrue}}
         # raise errors for additional fields in the input
         for _key in obj.keys():
             if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in {{classname}}) in the input: " + obj)
+                raise ValueError("Error due to additional fields (not defined in {{classname}}) in the input: " + _key)
 
         {{/isAdditionalPropertiesTrue}}
         {{/disallowAdditionalPropertiesIfNotPresent}}
-        _obj = {{{classname}}}.parse_obj({
+        _obj = cls.model_validate({
             {{#allVars}}
             {{#isContainer}}
             {{#isArray}}
             {{#items.isArray}}
             {{#items.items.isPrimitiveType}}
-            "{{{name}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
+            "{{{baseName}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
             {{/items.items.isPrimitiveType}}
             {{^items.items.isPrimitiveType}}
-            "{{{name}}}": [
+            "{{{baseName}}}": [
                     [{{{items.items.dataType}}}.from_dict(_inner_item) for _inner_item in _item]
-                    for _item in obj.get("{{{baseName}}}")
+                    for _item in obj["{{{baseName}}}"]
                 ] if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
             {{/items.items.isPrimitiveType}}
             {{/items.isArray}}
             {{^items.isArray}}
             {{^items.isPrimitiveType}}
             {{#items.isEnumOrRef}}
-            "{{{name}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
+            "{{{baseName}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
             {{/items.isEnumOrRef}}
             {{^items.isEnumOrRef}}
-            "{{{name}}}": [{{{items.dataType}}}.from_dict(_item) for _item in obj.get("{{{baseName}}}")] if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
+            "{{{baseName}}}": [{{{items.dataType}}}.from_dict(_item) for _item in obj["{{{baseName}}}"]] if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
             {{/items.isEnumOrRef}}
             {{/items.isPrimitiveType}}
             {{#items.isPrimitiveType}}
-            "{{{name}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
+            "{{{baseName}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
             {{/items.isPrimitiveType}}
             {{/items.isArray}}
             {{/isArray}}
@@ -281,7 +315,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{^items.isEnumOrRef}}
             {{#items.isContainer}}
             {{#items.isMap}}
-            "{{{name}}}": dict(
+            "{{{baseName}}}": dict(
                 (_k, dict(
                     (_ik, {{{items.items.dataType}}}.from_dict(_iv))
                         for _ik, _iv in _v.items()
@@ -295,49 +329,49 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             else None{{^-last}},{{/-last}}
             {{/items.isMap}}
             {{#items.isArray}}
-            "{{{name}}}": dict(
+            "{{{baseName}}}": dict(
                 (_k,
                         [{{{items.items.dataType}}}.from_dict(_item) for _item in _v]
                         if _v is not None
                         else None
                 )
-                for _k, _v in obj.get("{{{baseName}}}").items()
+                for _k, _v in obj.get("{{{baseName}}}", {}).items()
             ){{^-last}},{{/-last}}
             {{/items.isArray}}
             {{/items.isContainer}}
             {{^items.isContainer}}
-            "{{{name}}}": dict(
+            "{{{baseName}}}": dict(
                 (_k, {{{items.dataType}}}.from_dict(_v))
-                for _k, _v in obj.get("{{{baseName}}}").items()
+                for _k, _v in obj["{{{baseName}}}"].items()
             )
             if obj.get("{{{baseName}}}") is not None
             else None{{^-last}},{{/-last}}
             {{/items.isContainer}}
             {{/items.isEnumOrRef}}
             {{#items.isEnumOrRef}}
-            "{{{name}}}": dict((_k, _v) for _k, _v in obj.get("{{{baseName}}}").items()){{^-last}},{{/-last}}
+            "{{{baseName}}}": dict((_k, _v) for _k, _v in obj.get("{{{baseName}}}").items()){{^-last}},{{/-last}}
             {{/items.isEnumOrRef}}
             {{/items.isPrimitiveType}}
             {{#items.isPrimitiveType}}
-            "{{{name}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
+            "{{{baseName}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
             {{/items.isPrimitiveType}}
             {{/isMap}}
             {{/isContainer}}
             {{^isContainer}}
             {{^isPrimitiveType}}
             {{^isEnumOrRef}}
-            "{{{name}}}": {{{dataType}}}.from_dict(obj.get("{{{baseName}}}")) if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
+            "{{{baseName}}}": {{{dataType}}}.from_dict(obj["{{{baseName}}}"]) if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
             {{/isEnumOrRef}}
             {{#isEnumOrRef}}
-            "{{{name}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
+            "{{{baseName}}}": obj.get("{{{baseName}}}"){{#defaultValue}} if obj.get("{{baseName}}") is not None else {{defaultValue}}{{/defaultValue}}{{^-last}},{{/-last}}
             {{/isEnumOrRef}}
             {{/isPrimitiveType}}
             {{#isPrimitiveType}}
             {{#defaultValue}}
-            "{{{name}}}": obj.get("{{{baseName}}}") if obj.get("{{{baseName}}}") is not None else {{{defaultValue}}}{{^-last}},{{/-last}}
+            "{{{baseName}}}": obj.get("{{{baseName}}}") if obj.get("{{{baseName}}}") is not None else {{{defaultValue}}}{{^-last}},{{/-last}}
             {{/defaultValue}}
             {{^defaultValue}}
-            "{{{name}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
+            "{{{baseName}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
             {{/defaultValue}}
             {{/isPrimitiveType}}
             {{/isContainer}}
@@ -351,11 +385,12 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
         {{/isAdditionalPropertiesTrue}}
         return _obj
-        {{/hasChildren}}
+    {{/hasChildren}}
 
 {{#vendorExtensions.x-py-postponed-model-imports.size}}
 {{#vendorExtensions.x-py-postponed-model-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-postponed-model-imports}}
-{{classname}}.update_forward_refs()
+# TODO: Rewrite to not use raise_errors
+{{classname}}.model_rebuild(raise_errors=False)
 {{/vendorExtensions.x-py-postponed-model-imports.size}}

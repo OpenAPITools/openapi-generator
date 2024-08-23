@@ -47,20 +47,17 @@ class JmsSerializer implements SerializerInterface
 
     private function convertFormat(string $format): ?string
     {
-        switch ($format) {
-            case 'application/json':
-                return 'json';
-            case 'application/xml':
-                return 'xml';
-        }
-
-        return null;
+        return match($format) {
+            'application/json' => 'json',
+            'application/xml' => 'xml',
+            default => null,
+        };
     }
 
     private function deserializeString($data, string $type)
     {
         // Figure out if we have an array format
-        if (1 === preg_match('/array<(csv|ssv|tsv|pipes),(int|string)>/i', $type, $matches)) {
+        if (1 === preg_match('/array<(csv|ssv|tsv|pipes),(.*)>/i', $type, $matches)) {
             return $this->deserializeArrayString($matches[1], $matches[2], $data);
         }
 
@@ -73,6 +70,13 @@ class JmsSerializer implements SerializerInterface
 
                 if (is_numeric($data)) {
                     return $data + 0;
+                }
+
+                break;
+            case 'double':
+            case 'float':
+                if (is_float($data) || is_numeric($data)) {
+                    return (float) $data;
                 }
 
                 break;
@@ -97,7 +101,25 @@ class JmsSerializer implements SerializerInterface
             case '\DateTime':
                 return is_null($data) ? null :new DateTime($data);
             default:
-                throw new RuntimeException(sprintf("Type %s is unsupported", $type));
+                if (is_null($data)) {
+                    return null;
+                }
+
+                if (!class_exists($type)) {
+                    throw new RuntimeException(sprintf("Type %s is unsupported", $type));
+                }
+
+                $reflectionClass = new \ReflectionClass($type);
+                if (!$reflectionClass->implementsInterface('\BackedEnum')) {
+                    throw new RuntimeException(sprintf("Type %s is unsupported", $type));
+                }
+
+                $enum = $type::tryFrom($data);
+                if (!$enum) {
+                    throw new RuntimeException(sprintf("Unknown %s value in %s enum", $data, $type));
+                }
+
+                return $enum;
         }
 
         // If we end up here, just return data
@@ -111,22 +133,13 @@ class JmsSerializer implements SerializerInterface
         }
 
         // Parse the string using the correct separator
-        switch ($format) {
-            case 'csv':
-                $data = explode(',', $data);
-                break;
-            case 'ssv':
-                $data = explode(' ', $data);
-                break;
-            case 'tsv':
-                $data = explode("\t", $data);
-                break;
-            case 'pipes':
-                $data = explode('|', $data);
-                break;
-            default;
-                $data = [];
-        }
+        $data = match($format) {
+            'csv' => explode(',', $data),
+            'ssv' => explode(' ', $data),
+            'tsv' => explode("\t", $data),
+            'pipes' => explode('|', $data),
+            default => [],
+        };
 
         // Deserialize each of the array elements
         foreach ($data as $key => $item) {

@@ -15,7 +15,7 @@
     {{#enumVars}}@XmlEnumValue({{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}}{{{value}}}{{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}}) {{name}}({{dataType}}.valueOf({{{value}}})){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
     {{/withXml}}
     {{^withXml}}
-    {{#enumVars}}{{name}}({{dataType}}.valueOf({{{value}}})){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
+    {{#enumVars}}{{name}}({{^isUri}}{{dataType}}.valueOf({{/isUri}}{{{value}}}{{^isUri}}){{/isUri}}){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
     {{/withXml}}
     {{/allowableValues}}
 
@@ -65,7 +65,7 @@
     public static final class Serializer implements JsonbSerializer<{{datatypeWithEnum}}> {
         @Override
         public void serialize({{datatypeWithEnum}} obj, JsonGenerator generator, SerializationContext ctx) {
-            generator.write(obj.value);
+            generator.write(obj.value{{#isUri}}.toASCIIString(){{/isUri}});
         }
     }
     {{/jsonb}}

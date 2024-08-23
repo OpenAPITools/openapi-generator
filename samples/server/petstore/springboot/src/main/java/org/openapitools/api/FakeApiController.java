@@ -2,6 +2,7 @@ package org.openapitools.api;
 
 import org.openapitools.model.ApiResponseDto;
 import java.math.BigDecimal;
+import org.openapitools.model.ChildWithNullableDto;
 import org.openapitools.model.ClientDto;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.model.FileSchemaTestClassDto;

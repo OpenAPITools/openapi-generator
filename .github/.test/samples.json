@@ -320,12 +320,6 @@
       ]
     },
     {
-      "input": "java-petstore-jersey1.sh",
-      "matches": [
-        "Client: Java"
-      ]
-    },
-    {
       "input": "java-petstore-jersey2-java6.sh",
       "matches": [
         "Client: Java"
@@ -585,18 +579,6 @@
       ]
     },
     {
-      "input": "jaxrs-jersey1-petstore-server.sh",
-      "matches": [
-        "Server: Java"
-      ]
-    },
-    {
-      "input": "jaxrs-jersey1-usetags-petstore-server.sh",
-      "matches": [
-        "Server: Java"
-      ]
-    },
-    {
       "input": "jaxrs-petstore-server-datelib-j8.sh",
       "matches": [
         "Server: Java"
@@ -798,12 +780,6 @@
       "input": "python-asyncio-petstore.sh",
       "matches": [
         "Client: Python"
-      ]
-    },
-    {
-      "input": "python-server-flask-petstore-python2.sh",
-      "matches": [
-        "Server: Python"
       ]
     },
     {

@@ -26,7 +26,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |artifactDescription|artifact description in generated pom.xml| |OpenAPI Java|
 |artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |openapi-jaxrs-server|
 |artifactUrl|artifact URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
-|artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename| |1.0.0|
+|artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename. If not provided, uses the version from the OpenAPI specification file. If that's also not present, uses the default value of the artifactVersion option.| |1.0.0|
 |bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
 |camelCaseDollarSign|Fix camelCase when starting with $ sign. when true : $Value when false : $value| |false|
@@ -41,6 +41,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |discriminatorCaseSensitive|Whether the discriminator value lookup should be case-sensitive or not. This option only works for Java API client| |true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
+|generateBuilders|Whether to generate builders for models| |false|
+|generateConstructorWithAllArgs|whether to generate a constructor for all arguments| |false|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
 |ignoreAnyOfInEnum|Ignore anyOf keyword in enum| |false|
@@ -49,7 +51,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |implicitHeadersRegex|Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true| |null|
 |invokerPackage|root package for generated code| |org.openapitools.api|
 |legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
-|library|library template (sub-template)|<dl><dt>**jersey1**</dt><dd>Jersey core 1.x</dd><dt>**jersey2**</dt><dd>Jersey core 2.x</dd></dl>|jersey2|
+|library|library template (sub-template)|<dl><dt>**jersey2**</dt><dd>Jersey core 2.x</dd><dt>**jersey3**</dt><dd>Jersey core 3.x</dd></dl>|jersey2|
 |licenseName|The name of the license| |Unlicense|
 |licenseUrl|The URL of the license| |http://unlicense.org|
 |modelPackage|package for generated models| |org.openapitools.model|
@@ -67,7 +69,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src/gen/java|
-|supportJava6|Whether to support Java6 with the Jersey1/2 library.| |false|
 |testOutput|Set output folder for models and APIs tests| |${project.build.directory}/generated-test-sources/openapi|
 |title|a title describing the application| |OpenAPI Server|
 |useBeanValidation|Use BeanValidation API annotations| |true|
@@ -87,7 +88,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-accepts|Specify custom value for 'Accept' header for operation|OPERATION|null
 |x-content-type|Specify custom value for 'Content-Type' header for operation|OPERATION|null
 |x-class-extra-annotation|List of custom annotations to be added to model|MODEL|null
-|x-field-extra-annotation|List of custom annotations to be added to property|FIELD|null
+|x-field-extra-annotation|List of custom annotations to be added to property|FIELD, OPERATION_PARAMETER|null
 
 
 ## IMPORT MAPPING
@@ -139,6 +140,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## RESERVED WORDS
 
 <ul class="column-ul">
+<li>_</li>
 <li>abstract</li>
 <li>apiclient</li>
 <li>apiexception</li>
@@ -173,7 +175,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>int</li>
 <li>interface</li>
 <li>list</li>
+<li>localdate</li>
 <li>localreturntype</li>
+<li>localtime</li>
 <li>localvaraccept</li>
 <li>localvaraccepts</li>
 <li>localvarauthnames</li>
@@ -191,6 +195,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>new</li>
 <li>null</li>
 <li>object</li>
+<li>offsetdatetime</li>
 <li>package</li>
 <li>private</li>
 <li>protected</li>
@@ -322,6 +327,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
 |SignatureAuth|✗|OAS3
+|AWSV4Signature|✗|ToolingExtension
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

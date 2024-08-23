@@ -3,7 +3,7 @@
 from __future__ import absolute_import
 
 from flask import json
-from six import BytesIO
+from io import BytesIO
 
 from app.openapi_server.models.api_response import ApiResponse  # noqa: E501
 from app.openapi_server.models.pet import Pet  # noqa: E501

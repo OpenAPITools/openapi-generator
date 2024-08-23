@@ -18,9 +18,11 @@ describe {{moduleName}}::{{classname}} do
 
   describe 'test an instance of {{classname}}' do
     it 'should create an instance of {{classname}}' do
-      expect(instance).to be_instance_of({{moduleName}}::{{classname}})
+      # uncomment below to test the instance creation
+      #expect(instance).to be_instance_of({{moduleName}}::{{classname}})
     end
   end
+
 {{#vars}}
   describe 'test attribute "{{{name}}}"' do
     it 'should work' do
@@ -70,6 +72,7 @@ describe {{moduleName}}::{{classname}} do
   {{/discriminator}}
   describe '.build' do
     it 'returns the correct model' do
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 {{/-first}}

@@ -291,4 +291,109 @@ public class GoClientCodegenTest {
                 "httpRes, err := apiClient.PetAPI.PetDelete(context.Background()).Execute()");
     }
 
+    @Test
+    public void verifyApiWithAllOfMultipleRefAndDiscriminator() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setGitUserId("OpenAPITools")
+                .setGitRepoId("openapi-generator")
+                .setInputSpec("src/test/resources/3_0/go/allof_multiple_ref_and_discriminator.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileExists(Paths.get(output + "/model_final_item.go"));
+        TestUtils.assertFileContains(Paths.get(output + "/model_final_item.go"),
+                "BaseItem");
+    }
+
+    @Test
+    public void testVendorExtensionGenerateUnmarshalJson() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setGitUserId("OpenAPITools")
+                .setGitRepoId("openapi-generator")
+                .setInputSpec("src/test/resources/3_0/go/allof_with_unmarshal_json.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileExists(Paths.get(output + "/model_base_item.go"));
+        TestUtils.assertFileContains(Paths.get(output + "/model_base_item.go"),
+                "func (o *BaseItem) UnmarshalJSON(data []byte) (err error) {");
+    }
+
+    @Test
+    public void testVendorExtensionSkipGenerateUnmarshalJson() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setGitUserId("OpenAPITools")
+                .setGitRepoId("openapi-generator")
+                .setInputSpec("src/test/resources/3_0/go/allof_skip_unmarshal_json.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileExists(Paths.get(output + "/model_base_item.go"));
+        TestUtils.assertFileNotContains(Paths.get(output + "/model_base_item.go"),
+                "func (o *BaseItem) UnmarshalJSON(data []byte) (err error) {");
+    }
+
+    @Test
+    public void testAdditionalPropertiesWithGoMod() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/petstore_oas3_test.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        System.out.println(files);
+        files.forEach(File::deleteOnExit);
+
+        Path goModFile = Paths.get(output + "/go.mod");
+        TestUtils.assertFileExists(goModFile);
+        Path goSumFile = Paths.get(output + "/go.sum");
+        TestUtils.assertFileExists(goSumFile);
+    }
+
+    @Test
+    public void testAdditionalPropertiesWithoutGoMod() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/petstore_oas3_test.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(GoClientCodegen.WITH_GO_MOD, false);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        System.out.println(files);
+        files.forEach(File::deleteOnExit);
+
+        Path goModFile = Paths.get(output + "/go.mod");
+        TestUtils.assertFileNotExists(goModFile);
+        Path goSumFile = Paths.get(output + "/go.sum");
+        TestUtils.assertFileNotExists(goSumFile);
+    }
 }

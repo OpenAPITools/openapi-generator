@@ -354,7 +354,7 @@ public class InlineModelResolverTest {
 
     @Test
     public void resolveRequestBodyInvalidRef() {
-        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/invalid_ref_request_body.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         RequestBody requestBodyReference = openAPI
@@ -807,7 +807,7 @@ public class InlineModelResolverTest {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
-        assertTrue(openAPI.getComponents().getSchemas().get("ComposedObjectModelInline") instanceof ComposedSchema);
+        assertTrue(ModelUtils.isComposedSchema(openAPI.getComponents().getSchemas().get("ComposedObjectModelInline")));
 
         ComposedSchema schema = (ComposedSchema) openAPI.getComponents().getSchemas().get("ComposedObjectModelInline");
 
@@ -830,19 +830,19 @@ public class InlineModelResolverTest {
         assertTrue(openAPI.getComponents().getSchemas().get("CustomerType") instanceof StringSchema);
         assertTrue(openAPI.getComponents().getSchemas().get("Entity") instanceof ObjectSchema);
 
-        assertTrue(openAPI.getComponents().getSchemas().get("Party") instanceof ComposedSchema);
-        assertTrue(openAPI.getComponents().getSchemas().get("Contact") instanceof ComposedSchema);
-        assertTrue(openAPI.getComponents().getSchemas().get("Customer") instanceof ComposedSchema);
-        assertTrue(openAPI.getComponents().getSchemas().get("Person") instanceof ComposedSchema);
-        assertTrue(openAPI.getComponents().getSchemas().get("Organization") instanceof ComposedSchema);
+        assertTrue(ModelUtils.isComposedSchema(openAPI.getComponents().getSchemas().get("Party")));
+        assertTrue(ModelUtils.isComposedSchema(openAPI.getComponents().getSchemas().get("Contact")));
+        assertTrue(ModelUtils.isComposedSchema(openAPI.getComponents().getSchemas().get("Customer")));
+        assertTrue(ModelUtils.isComposedSchema(openAPI.getComponents().getSchemas().get("Person")));
+        assertTrue(ModelUtils.isComposedSchema(openAPI.getComponents().getSchemas().get("Organization")));
 
         assertTrue(openAPI.getComponents().getSchemas().get("ApiError") instanceof ObjectSchema);
 
-        assertFalse(openAPI.getComponents().getSchemas().get("Party_allOf") instanceof ComposedSchema);
-        assertFalse(openAPI.getComponents().getSchemas().get("Contact_allOf") instanceof ComposedSchema);
-        assertFalse(openAPI.getComponents().getSchemas().get("Customer_allOf") instanceof ComposedSchema);
-        assertFalse(openAPI.getComponents().getSchemas().get("Person_allOf") instanceof ComposedSchema);
-        assertFalse(openAPI.getComponents().getSchemas().get("Organization_allOf") instanceof ComposedSchema);
+        assertFalse(ModelUtils.isComposedSchema(openAPI.getComponents().getSchemas().get("Party_allOf")));
+        assertFalse(ModelUtils.isComposedSchema(openAPI.getComponents().getSchemas().get("Contact_allOf")));
+        assertFalse(ModelUtils.isComposedSchema(openAPI.getComponents().getSchemas().get("Customer_allOf")));
+        assertFalse(ModelUtils.isComposedSchema(openAPI.getComponents().getSchemas().get("Person_allOf")));
+        assertFalse(ModelUtils.isComposedSchema(openAPI.getComponents().getSchemas().get("Organization_allOf")));
 
         // Party
         ComposedSchema party = (ComposedSchema) openAPI.getComponents().getSchemas().get("Party");
@@ -1170,5 +1170,31 @@ public class InlineModelResolverTest {
         assertEquals("#/components/schemas/resolve_parameter_inline_enum_form_parameters_request_enum_form_string",
                 ((Schema) inlineFormParaemter.getProperties().get("enum_form_string")).get$ref());
 
+    }
+
+    @Test
+    public void doNotWrapSingleAllOfRefs() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue_15077.yaml");
+        new InlineModelResolver().flatten(openAPI);
+
+        // None of these cases should be wrapped in an inline schema and should reference the original schema "NumberRange"
+        Schema limitsModel = (Schema) openAPI.getComponents().getSchemas().get("Limits");
+        final String numberRangeRef = "#/components/schemas/NumberRange";
+
+        Schema allOfRef = (Schema) limitsModel.getProperties().get("allOfRef");
+        assertNotNull(allOfRef.getAllOf());
+        assertEquals(numberRangeRef, ((Schema) allOfRef.getAllOf().get(0)).get$ref());
+
+        Schema allOfRefWithDescription = (Schema) limitsModel.getProperties().get("allOfRefWithDescription");
+        assertNotNull(allOfRefWithDescription.getAllOf());
+        assertEquals(numberRangeRef, ((Schema) allOfRefWithDescription.getAllOf().get(0)).get$ref());
+
+        Schema allOfRefWithReadonly = (Schema) limitsModel.getProperties().get("allOfRefWithReadonly");
+        assertNotNull(allOfRefWithReadonly.getAllOf());
+        assertEquals(numberRangeRef, ((Schema) allOfRefWithReadonly.getAllOf().get(0)).get$ref());
+
+        Schema allOfRefWithDescriptionAndReadonly = (Schema) limitsModel.getProperties().get("allOfRefWithDescriptionAndReadonly");
+        assertNotNull(allOfRefWithDescriptionAndReadonly.getAllOf());
+        assertEquals(numberRangeRef, ((Schema) allOfRefWithDescriptionAndReadonly.getAllOf().get(0)).get$ref());
     }
 }

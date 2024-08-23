@@ -1,4 +1,4 @@
-name: Samples C# .Net 6
+name: Samples C# .Net 6 Client Echo API
 
 on:
   push:
@@ -18,8 +18,8 @@ jobs:
           # clients
           - samples/client/echo_api/csharp-restsharp/
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-dotnet@v3.2.0
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4.0.1
         with:
           dotnet-version: '6.0.x'
       - name: Run echo server
@@ -28,4 +28,6 @@ jobs:
           (cd http-echo-server && npm install && npm start &)
       - name: Build
         working-directory: ${{ matrix.sample }}
-        run: dotnet build Org.OpenAPITools.sln
+        run: |
+          dotnet build Org.OpenAPITools.sln
+          dotnet test Org.OpenAPITools.sln

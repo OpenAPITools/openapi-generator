@@ -1,9 +1,9 @@
-/**
 {{#description
-}} * {{description}}
+}}/**
+ * {{description}}
+ */
 {{/description
-}} */
-class {{classname}}
+}}class {{classname}}
 {
 {{#vars
 }}    /**
@@ -16,9 +16,8 @@ class {{classname}}
 }}{{^internal.fromParameters}}{{>model_normal_var}}{{/internal.fromParameters
 }}{{/vendorExtensions
 }}{{^vendorExtensions}}{{>model_normal_var}}{{/vendorExtensions
-}}     * @var {{dataType}}|null
-     */
-    public ${{name}};
+}}     */
+    public ?{{dataType}} ${{name}} = null;
 
 {{/vars
 }}}

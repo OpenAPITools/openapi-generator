@@ -1,35 +1,46 @@
 package org.openapitools.codegen.templating.mustache;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Map;
 
 import org.testng.annotations.Test;
 
+import com.samskivert.mustache.Mustache;
+
 public class IndentedLambdaTest extends LambdaTest {
 
-    String lineSeparator = System.lineSeparator();
+    String lineSeparator = "\n";
 
     @Test
     public void defaultIndentTest() {
         // Given
         Map<String, Object> ctx = context("indented", new IndentedLambda());
-        String lineSeparator = System.lineSeparator();
 
         // When & Then
         // IndentedLambda applies indentation from second line on of a template.
         test("first line" + lineSeparator + "    second line",
-                "{{#indented}}first line" + lineSeparator +"second line{{/indented}}", ctx);
+                "{{#indented}}first line" + lineSeparator + "second line{{/indented}}", ctx);
     }
 
     @Test
     public void indentedCountTest() {
         // Given
-        Map<String, Object> ctx = context("indented", new IndentedLambda(8, " "));
+        Map<String, Object> ctx = context("indented", new IndentedLambda(8, " ", false, false));
 
         // When & Then
         // IndentedLambda applies indentation from second line on of a template.
         test("first line" + lineSeparator + "        second line",
-                "{{#indented}}first line" + lineSeparator +"second line{{/indented}}", ctx);
+                "{{#indented}}first line" + lineSeparator + "second line{{/indented}}", ctx);
     }
 
+    @Test
+    public void lineBreaksPreservedTest() {
+        Map<String, Object> ctx = context("indented", new IndentedLambda(4, " ", true, true));
 
+        String actual = execute(Mustache.compiler(), "{{#indented}}first line\nsecond line\n\nthird line\n\n\nfourth line\n\n{{/indented}}", ctx);
+        String expected = "    first line\n    second line\n\n    third line\n\n\n    fourth line\n\n";
+
+        assertEquals(expected, actual);
+    }
 }

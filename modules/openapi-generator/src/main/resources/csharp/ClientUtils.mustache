@@ -31,7 +31,11 @@ namespace {{packageName}}.Client
         /// </summary>
         static ClientUtils()
         {
-            compareLogic = new CompareLogic();
+            {{#equatable}}
+            ComparisonConfig comparisonConfig = new{{^net70OrLater}} ComparisonConfig{{/net70OrLater}}();
+            comparisonConfig.UseHashCodeIdentifier = true;
+            {{/equatable}}
+            compareLogic = new{{^net70OrLater}} CompareLogic{{/net70OrLater}}({{#equatable}}comparisonConfig{{/equatable}});
         }
 
         {{/useCompareNetObjects}}
@@ -141,7 +145,7 @@ namespace {{packageName}}.Client
         /// <returns>Encoded string.</returns>
         public static string Base64Encode(string text)
         {
-            return Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(text));
+            return Convert.ToBase64String(global::System.Text.Encoding.UTF8.GetBytes(text));
         }
 
         /// <summary>

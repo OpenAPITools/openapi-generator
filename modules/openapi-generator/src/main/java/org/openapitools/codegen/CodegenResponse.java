@@ -17,10 +17,14 @@
 
 package org.openapitools.codegen;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.*;
 
 public class CodegenResponse implements IJsonSchemaValidationProperties {
     public final List<CodegenProperty> headers = new ArrayList<CodegenProperty>();
+    @Getter @Setter
     private List<CodegenParameter> responseHeaders = new ArrayList<CodegenParameter>();
     public String code;
     public boolean is1xx;
@@ -59,6 +63,8 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean simpleType;
     public boolean primitiveType;
     public boolean isMap;
+    /** datatype is the generic inner parameter of a std::optional for C++, or Optional (Java) */
+    public boolean isOptional;
     public boolean isArray;
     public boolean isBinary = false;
     public boolean isFile = false;
@@ -92,9 +98,11 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     private boolean hasDiscriminatorWithNonEmptyMapping;
     private CodegenComposedSchemas composedSchemas;
     private boolean hasMultipleTypes = false;
+    @Getter @Setter
     private LinkedHashMap<String, CodegenMediaType> content;
     private Map<String, CodegenProperty> requiredVarsMap;
     private String ref;
+    public CodegenProperty returnProperty;
     private boolean schemaIsFromAdditionalProperties;
 
     @Override
@@ -102,7 +110,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         return Objects.hash(headers, code, message, examples, dataType, baseType, containerType, containerTypeMapped, hasHeaders,
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBoolean, isDate,
                 isDateTime, isUuid, isEmail, isPassword, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
-                isMap, isArray, isBinary, isFile, schema, jsonSchema, vendorExtensions, items, additionalProperties,
+                isMap, isOptional, isArray, isBinary, isFile, schema, jsonSchema, vendorExtensions, items, additionalProperties,
                 vars, requiredVars, isNull, isVoid, hasValidation, isShort, isUnboundedInteger,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
                 getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern(),
@@ -141,6 +149,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 simpleType == that.simpleType &&
                 primitiveType == that.primitiveType &&
                 isMap == that.isMap &&
+                isOptional == that.isOptional &&
                 isArray == that.isArray &&
                 isBinary == that.isBinary &&
                 isFile == that.isFile &&
@@ -244,22 +253,6 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     // use content.mediaType.schema.setFormat instead of this
     @Override
     public void setFormat(String format) {}
-
-    public LinkedHashMap<String, CodegenMediaType> getContent() {
-        return content;
-    }
-
-    public void setContent(LinkedHashMap<String, CodegenMediaType> content) {
-        this.content = content;
-    }
-
-    public List<CodegenParameter> getResponseHeaders() {
-        return responseHeaders;
-    }
-
-    public void setResponseHeaders(List<CodegenParameter> responseHeaders) {
-        this.responseHeaders = responseHeaders;
-    }
 
     @Override
     public String getPattern() {
@@ -503,6 +496,16 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public boolean getIsOptional() {
+        return isOptional;
+    }
+
+    @Override
+    public void setIsOptional(boolean isOptional) {
+        this.isOptional = isOptional;
+    }
+
+    @Override
     public CodegenProperty getAdditionalProperties() {
         return additionalProperties;
     }
@@ -540,6 +543,16 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     @Override
     public void setHasRequired(boolean hasRequired) {
         this.hasRequired = hasRequired;
+    }
+
+    @Override
+    public boolean getIsUuid() {
+        return isUuid;
+    }
+
+    @Override
+    public void setIsUuid(boolean isUuid) {
+        this.isUuid = isUuid;
     }
 
     @Override
@@ -583,6 +596,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", simpleType=").append(simpleType);
         sb.append(", primitiveType=").append(primitiveType);
         sb.append(", isMap=").append(isMap);
+        sb.append(", isOptional=").append(isOptional);
         sb.append(", isArray=").append(isArray);
         sb.append(", isBinary=").append(isBinary);
         sb.append(", isFile=").append(isFile);
@@ -697,8 +711,6 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         return hasDiscriminatorWithNonEmptyMapping;
     }
 
-    ;
-
     @Override
     public void setHasDiscriminatorWithNonEmptyMapping(boolean hasDiscriminatorWithNonEmptyMapping) {
         this.hasDiscriminatorWithNonEmptyMapping = hasDiscriminatorWithNonEmptyMapping;
@@ -790,4 +802,92 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public void setSchemaIsFromAdditionalProperties(boolean schemaIsFromAdditionalProperties) {
         this.schemaIsFromAdditionalProperties = schemaIsFromAdditionalProperties;
     }
+
+    @Override
+    public String getDataType() {
+        return dataType;
+    }
+
+    @Override
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
+
+    @Override
+    public boolean getIsFloat() {
+        return isFloat;
+    }
+
+    @Override
+    public void setIsFloat(boolean isFloat) {
+        this.isFloat = isFloat;
+    }
+
+    @Override
+    public boolean getIsDouble() {
+        return isDouble;
+    }
+
+    @Override
+    public void setIsDouble(boolean isDouble) {
+        this.isDouble = isDouble;
+    }
+
+    @Override
+    public boolean getIsInteger() {
+        return isInteger;
+    }
+
+    @Override
+    public void setIsInteger(boolean isInteger) {
+        this.isInteger = isInteger;
+    }
+
+    @Override
+    public boolean getIsLong() {
+        return isLong;
+    }
+
+    @Override
+    public void setIsLong(boolean isLong) {
+        this.isLong = isLong;
+    }
+
+    @Override
+    public boolean getIsBinary() {
+        return isBinary;
+    }
+
+    @Override
+    public void setIsBinary(boolean isBinary) {
+        this.isBinary = isBinary;
+    }
+
+    @Override
+    public boolean getIsByteArray() {
+        return isByteArray;
+    }
+
+    @Override
+    public void setIsByteArray(boolean isByteArray) {
+        this.isByteArray = isByteArray;
+    }
+
+    @Override
+    public boolean getIsDecimal() {
+        return isDecimal;
+    }
+
+    @Override
+    public void setIsDecimal(boolean isDecimal) {
+        this.isDecimal = isDecimal;
+    }
+
+    @Override
+    public boolean getIsEnum() {
+        return false;
+    }
+
+    @Override
+    public void setIsEnum(boolean isEnum) {}
 }

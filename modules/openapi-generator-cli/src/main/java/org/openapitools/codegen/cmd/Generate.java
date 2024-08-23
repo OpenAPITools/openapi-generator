@@ -161,6 +161,13 @@ public class Generate extends OpenApiGeneratorCommand {
     private List<String> languageSpecificPrimitives = new ArrayList<>();
 
     @Option(
+            name = {"--openapi-generator-ignore-list"},
+            title = ".openapi-generaotr-ignore list",
+            description = "specifies entries in the .openapi-generator-ignore file relative/path/to/file1,relative/path/to/file2. For example: README.md,pom.xml"
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> openapiGeneratorIgnoreList = new ArrayList<>();
+
+    @Option(
             name = {"--import-mappings"},
             title = "import mappings",
             description = "specifies mappings between a given class and the import that should be used for that class in the format of type=import,type=import."
@@ -208,6 +215,20 @@ public class Generate extends OpenApiGeneratorCommand {
             description = "specifies mappings between the model name and the new name in the format of model_name=AnotherName,model_name2=OtherName2."
                     + " You can also have multiple occurrences of this option.")
     private List<String> modelNameMappings = new ArrayList<>();
+
+    @Option(
+            name = {"--enum-name-mappings"},
+            title = "enum name mappings",
+            description = "specifies mappings between the enum name and the new name in the format of enum_name=AnotherName,enum_name2=OtherName2."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> enumNameMappings = new ArrayList<>();
+
+    @Option(
+            name = {"--operation-id-name-mappings"},
+            title = "operation id name mappings",
+            description = "specifies mappings between the operation id name and the new name in the format of operation_id_name=AnotherName,operation_id_name2=OtherName2."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> operationIdNameMappings = new ArrayList<>();
 
     @Option(
             name = {"--openapi-normalizer"},
@@ -492,10 +513,13 @@ public class Generate extends OpenApiGeneratorCommand {
         applyNameMappingsKvpList(nameMappings, configurator);
         applyParameterNameMappingsKvpList(parameterNameMappings, configurator);
         applyModelNameMappingsKvpList(modelNameMappings, configurator);
-        applyOpenAPINormalizerKvpList(openapiNormalizer, configurator);
+        applyEnumNameMappingsKvpList(enumNameMappings, configurator);
+        applyOperationIdNameMappingsKvpList(operationIdNameMappings, configurator);
+        applyOpenapiNormalizerKvpList(openapiNormalizer, configurator);
         applyTypeMappingsKvpList(typeMappings, configurator);
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);
         applyLanguageSpecificPrimitivesCsvList(languageSpecificPrimitives, configurator);
+        applyOpenapiGeneratorIgnoreListCsvList(openapiGeneratorIgnoreList, configurator);
         applyReservedWordsMappingsKvpList(reservedWordsMappings, configurator);
         applyServerVariablesKvpList(serverVariableOverrides, configurator);
 

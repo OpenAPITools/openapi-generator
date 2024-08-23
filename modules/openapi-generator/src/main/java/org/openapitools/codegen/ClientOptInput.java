@@ -20,19 +20,28 @@ package org.openapitools.codegen;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
 
+import lombok.Getter;
 import org.openapitools.codegen.api.TemplateDefinition;
 import org.openapitools.codegen.auth.AuthParser;
+import org.openapitools.codegen.config.GeneratorSettings;
 
 import java.util.List;
 
 public class ClientOptInput {
     private CodegenConfig config;
+    private GeneratorSettings generatorSettings;
     private OpenAPI openAPI;
     private List<AuthorizationValue> auths;
-    private List<TemplateDefinition> userDefinedTemplates;
+    // not deprecated as this is added to match other functionality, we need to move to Context<?> instead of ClientOptInput.
+    @Getter private List<TemplateDefinition> userDefinedTemplates;
 
     public ClientOptInput openAPI(OpenAPI openAPI) {
         this.setOpenAPI(openAPI);
+        return this;
+    }
+
+    public ClientOptInput generatorSettings(GeneratorSettings generatorSettings) {
+        this.setGeneratorSettings(generatorSettings);
         return this;
     }
 
@@ -72,11 +81,6 @@ public class ClientOptInput {
         return config;
     }
 
-    public List<TemplateDefinition> getUserDefinedTemplates() {
-        // not deprecated as this is added to match other functionality, we need to move to Context<?> instead of ClientOptInput.
-        return userDefinedTemplates;
-    }
-
     /**
      * Sets the generator/config instance
      *
@@ -86,6 +90,20 @@ public class ClientOptInput {
     @Deprecated
     public void setConfig(CodegenConfig config) {
         this.config = config;
+        // TODO: ClientOptInputs needs to be retired
+        if (this.openAPI != null) {
+            this.config.setOpenAPI(this.openAPI);
+        }
+    }
+
+    @Deprecated
+    public GeneratorSettings getGeneratorSettings() {
+        return generatorSettings;
+    }
+
+    @Deprecated
+    private void setGeneratorSettings(GeneratorSettings generatorSettings) {
+        this.generatorSettings = generatorSettings;
         // TODO: ClientOptInputs needs to be retired
         if (this.openAPI != null) {
             this.config.setOpenAPI(this.openAPI);

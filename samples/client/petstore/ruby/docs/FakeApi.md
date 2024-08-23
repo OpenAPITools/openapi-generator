@@ -13,6 +13,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**fake_outer_string_serialize**](FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string |  |
 | [**fake_property_enum_integer_serialize**](FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int |  |
 | [**get_parameter_name_mapping**](FakeApi.md#get_parameter_name_mapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test |
+| [**test_additional_properties_reference**](FakeApi.md#test_additional_properties_reference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties |
 | [**test_body_with_binary**](FakeApi.md#test_body_with_binary) | **PUT** /fake/body-with-binary |  |
 | [**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema |  |
 | [**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params |  |
@@ -21,8 +22,10 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**test_enum_parameters**](FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters |
 | [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional) |
 | [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties |
+| [**test_inline_freeform_additional_properties**](FakeApi.md#test_inline_freeform_additional_properties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties |
 | [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data |
 | [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters |  |
+| [**test_string_map_reference**](FakeApi.md#test_string_map_reference) | **POST** /fake/stringMap-reference | test referenced string map |
 
 
 ## fake_big_decimal_map
@@ -610,6 +613,69 @@ No authorization required
 - **Accept**: Not defined
 
 
+## test_additional_properties_reference
+
+> test_additional_properties_reference(request_body)
+
+test referenced additionalProperties
+
+
+
+### Examples
+
+```ruby
+require 'time'
+require 'petstore'
+
+api_instance = Petstore::FakeApi.new
+request_body = { key: 3.56} # Hash<String, Object> | request body
+
+begin
+  # test referenced additionalProperties
+  api_instance.test_additional_properties_reference(request_body)
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_additional_properties_reference: #{e}"
+end
+```
+
+#### Using the test_additional_properties_reference_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> test_additional_properties_reference_with_http_info(request_body)
+
+```ruby
+begin
+  # test referenced additionalProperties
+  data, status_code, headers = api_instance.test_additional_properties_reference_with_http_info(request_body)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_additional_properties_reference_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **request_body** | [**Hash&lt;String, Object&gt;**](Object.md) | request body |  |
+
+### Return type
+
+nil (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: Not defined
+
+
 ## test_body_with_binary
 
 > test_body_with_binary(body)
@@ -1184,6 +1250,69 @@ No authorization required
 - **Accept**: Not defined
 
 
+## test_inline_freeform_additional_properties
+
+> test_inline_freeform_additional_properties(test_inline_freeform_additional_properties_request)
+
+test inline free-form additionalProperties
+
+
+
+### Examples
+
+```ruby
+require 'time'
+require 'petstore'
+
+api_instance = Petstore::FakeApi.new
+test_inline_freeform_additional_properties_request = Petstore::TestInlineFreeformAdditionalPropertiesRequest.new # TestInlineFreeformAdditionalPropertiesRequest | request body
+
+begin
+  # test inline free-form additionalProperties
+  api_instance.test_inline_freeform_additional_properties(test_inline_freeform_additional_properties_request)
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_inline_freeform_additional_properties: #{e}"
+end
+```
+
+#### Using the test_inline_freeform_additional_properties_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> test_inline_freeform_additional_properties_with_http_info(test_inline_freeform_additional_properties_request)
+
+```ruby
+begin
+  # test inline free-form additionalProperties
+  data, status_code, headers = api_instance.test_inline_freeform_additional_properties_with_http_info(test_inline_freeform_additional_properties_request)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_inline_freeform_additional_properties_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **test_inline_freeform_additional_properties_request** | [**TestInlineFreeformAdditionalPropertiesRequest**](TestInlineFreeformAdditionalPropertiesRequest.md) | request body |  |
+
+### Return type
+
+nil (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: Not defined
+
+
 ## test_json_form_data
 
 > test_json_form_data(param, param2)
@@ -1323,5 +1452,68 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: Not defined
+
+
+## test_string_map_reference
+
+> test_string_map_reference(request_body)
+
+test referenced string map
+
+
+
+### Examples
+
+```ruby
+require 'time'
+require 'petstore'
+
+api_instance = Petstore::FakeApi.new
+request_body = { key: 'inner_example'} # Hash<String, String> | request body
+
+begin
+  # test referenced string map
+  api_instance.test_string_map_reference(request_body)
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_string_map_reference: #{e}"
+end
+```
+
+#### Using the test_string_map_reference_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> test_string_map_reference_with_http_info(request_body)
+
+```ruby
+begin
+  # test referenced string map
+  data, status_code, headers = api_instance.test_string_map_reference_with_http_info(request_body)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_string_map_reference_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **request_body** | [**Hash&lt;String, String&gt;**](String.md) | request body |  |
+
+### Return type
+
+nil (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: Not defined
 

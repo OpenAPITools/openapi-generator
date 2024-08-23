@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -21,11 +22,11 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("ArrayOfNumberOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class ArrayOfNumberOnlyDto {
 
   
-  private List<BigDecimal> arrayNumber;
+  private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnlyDto arrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
@@ -43,7 +44,7 @@ public class ArrayOfNumberOnlyDto {
   /**
    * Get arrayNumber
    * @return arrayNumber
-  */
+   */
   
   @JsonProperty("ArrayNumber")
   public List<BigDecimal> getArrayNumber() {

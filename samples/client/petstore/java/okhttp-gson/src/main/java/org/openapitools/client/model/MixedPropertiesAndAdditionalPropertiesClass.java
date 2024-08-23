@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.time.OffsetDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -42,12 +42,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -55,7 +53,7 @@ import org.openapitools.client.JSON;
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_UUID = "uuid";
   @SerializedName(SERIALIZED_NAME_UUID)
@@ -73,20 +71,18 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
-    
     this.uuid = uuid;
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
+   */
   @javax.annotation.Nullable
   public UUID getUuid() {
     return uuid;
   }
-
 
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
@@ -94,20 +90,18 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
 
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
-    
     this.dateTime = dateTime;
     return this;
   }
 
-   /**
+  /**
    * Get dateTime
    * @return dateTime
-  **/
+   */
   @javax.annotation.Nullable
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
-
 
   public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
@@ -115,7 +109,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
 
   public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
-    
     this.map = map;
     return this;
   }
@@ -128,15 +121,14 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get map
    * @return map
-  **/
+   */
   @javax.annotation.Nullable
   public Map<String, Animal> getMap() {
     return map;
   }
-
 
   public void setMap(Map<String, Animal> map) {
     this.map = map;
@@ -246,12 +238,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to MixedPropertiesAndAdditionalPropertiesClass
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to MixedPropertiesAndAdditionalPropertiesClass
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!MixedPropertiesAndAdditionalPropertiesClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -292,7 +284,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -331,22 +328,22 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     }
   }
 
- /**
-  * Create an instance of MixedPropertiesAndAdditionalPropertiesClass given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of MixedPropertiesAndAdditionalPropertiesClass
-  * @throws IOException if the JSON string is invalid with respect to MixedPropertiesAndAdditionalPropertiesClass
-  */
+  /**
+   * Create an instance of MixedPropertiesAndAdditionalPropertiesClass given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of MixedPropertiesAndAdditionalPropertiesClass
+   * @throws IOException if the JSON string is invalid with respect to MixedPropertiesAndAdditionalPropertiesClass
+   */
   public static MixedPropertiesAndAdditionalPropertiesClass fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, MixedPropertiesAndAdditionalPropertiesClass.class);
   }
 
- /**
-  * Convert an instance of MixedPropertiesAndAdditionalPropertiesClass to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of MixedPropertiesAndAdditionalPropertiesClass to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

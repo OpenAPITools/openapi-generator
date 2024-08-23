@@ -65,7 +65,7 @@ class {{classname}}Test extends TestCase
             class_exists($namespacedClassname),
             sprintf('Assertion failed that "%s" class exists', $namespacedClassname)
         );
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "{{classname}}" model has not been implemented yet.'
         );
     }
@@ -74,9 +74,9 @@ class {{classname}}Test extends TestCase
     /**
      * Test attribute "{{name}}"
      */
-    public function testProperty{{nameInCamelCase}}()
+    public function testProperty{{nameInPascalCase}}()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "{{name}}" property in "{{classname}}" model has not been implemented yet.'
         );
     }

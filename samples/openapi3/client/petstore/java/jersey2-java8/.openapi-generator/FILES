@@ -46,6 +46,7 @@ docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
 docs/IsoscelesTriangle.md
 docs/Mammal.md
+docs/MammalAnyof.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
@@ -79,6 +80,7 @@ docs/SimpleQuadrilateral.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/Tag.md
+docs/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/Triangle.md
 docs/TriangleInterface.md
 docs/User.md
@@ -157,6 +159,7 @@ src/main/java/org/openapitools/client/model/HasOnlyReadOnly.java
 src/main/java/org/openapitools/client/model/HealthCheckResult.java
 src/main/java/org/openapitools/client/model/IsoscelesTriangle.java
 src/main/java/org/openapitools/client/model/Mammal.java
+src/main/java/org/openapitools/client/model/MammalAnyof.java
 src/main/java/org/openapitools/client/model/MapTest.java
 src/main/java/org/openapitools/client/model/MixedPropertiesAndAdditionalPropertiesClass.java
 src/main/java/org/openapitools/client/model/Model200Response.java
@@ -188,6 +191,7 @@ src/main/java/org/openapitools/client/model/ShapeOrNull.java
 src/main/java/org/openapitools/client/model/SimpleQuadrilateral.java
 src/main/java/org/openapitools/client/model/SpecialModelName.java
 src/main/java/org/openapitools/client/model/Tag.java
+src/main/java/org/openapitools/client/model/TestInlineFreeformAdditionalPropertiesRequest.java
 src/main/java/org/openapitools/client/model/Triangle.java
 src/main/java/org/openapitools/client/model/TriangleInterface.java
 src/main/java/org/openapitools/client/model/User.java

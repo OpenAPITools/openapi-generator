@@ -1,6 +1,7 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE DeriveDataTypeable         #-}
 {-# LANGUAGE DeriveGeneric              #-}
+{-# LANGUAGE DuplicateRecordFields      #-}
 {-# OPTIONS_GHC -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
 module OpenAPIPetstore.Types (
@@ -8,6 +9,8 @@ module OpenAPIPetstore.Types (
   Category (..),
   Order (..),
   Pet (..),
+  PetFilter (..),
+  SpecialCharacters (..),
   Tag (..),
   User (..),
   ) where
@@ -156,6 +159,62 @@ optionsPet =
       , ("petPhotoUrls", "photoUrls")
       , ("petTags", "tags")
       , ("petStatus", "status")
+      ]
+
+
+-- | 
+data PetFilter = PetFilter
+  { petFilterTags :: Maybe [Text] -- ^ 
+  , petFilterStatus :: Maybe [Text] -- ^ 
+  } deriving (Show, Eq, Generic, Data)
+
+instance FromJSON PetFilter where
+  parseJSON = genericParseJSON optionsPetFilter
+instance ToJSON PetFilter where
+  toJSON = genericToJSON optionsPetFilter
+instance ToSchema PetFilter where
+  declareNamedSchema = Swagger.genericDeclareNamedSchema
+    $ Swagger.fromAesonOptions
+    $ optionsPetFilter
+
+optionsPetFilter :: Options
+optionsPetFilter =
+  defaultOptions
+    { omitNothingFields  = True
+    , fieldLabelModifier = \s -> fromMaybe ("did not find JSON field name for " ++ show s) $ lookup s table
+    }
+  where
+    table =
+      [ ("petFilterTags", "tags")
+      , ("petFilterStatus", "status")
+      ]
+
+
+-- | description
+data SpecialCharacters = SpecialCharacters
+  { specialCharactersDoubleQuote :: Text -- ^ double quote
+  , specialCharactersBackSlash :: Text -- ^ backslash
+  } deriving (Show, Eq, Generic, Data)
+
+instance FromJSON SpecialCharacters where
+  parseJSON = genericParseJSON optionsSpecialCharacters
+instance ToJSON SpecialCharacters where
+  toJSON = genericToJSON optionsSpecialCharacters
+instance ToSchema SpecialCharacters where
+  declareNamedSchema = Swagger.genericDeclareNamedSchema
+    $ Swagger.fromAesonOptions
+    $ optionsSpecialCharacters
+
+optionsSpecialCharacters :: Options
+optionsSpecialCharacters =
+  defaultOptions
+    { omitNothingFields  = True
+    , fieldLabelModifier = \s -> fromMaybe ("did not find JSON field name for " ++ show s) $ lookup s table
+    }
+  where
+    table =
+      [ ("specialCharactersDoubleQuote", "\"")
+      , ("specialCharactersBackSlash", "\\")
       ]
 
 

@@ -82,7 +82,7 @@ namespace {{packageName}}.Client
         /// <param name="path">Path</param>
         /// <param name="requestOptions">Request options</param>
         /// <returns>Http signed headers</returns>
-        internal Dictionary<string, string> GetHttpSignedHeader(string basePath,string method, string path, RequestOptions requestOptions)
+        public Dictionary<string, string> GetHttpSignedHeader(string basePath,string method, string path, RequestOptions requestOptions)
         {
             const string HEADER_REQUEST_TARGET = "(request-target)";
             //The time when the HTTP signature expires. The API server should reject HTTP requests
@@ -102,14 +102,13 @@ namespace {{packageName}}.Client
             const string HEADER_AUTHORIZATION = "Authorization";
 
             //Read the api key from the file
-            if(string.IsNullOrEmpty(this.KeyString))
+            if(File.Exists(KeyFilePath))
             {
                 this.KeyString = ReadApiKeyFromFile(KeyFilePath);
             }
-
-            if(string.IsNullOrEmpty(KeyString))
+            else if(string.IsNullOrEmpty(KeyString))
             {
-                throw new Exception("No API key has been provided.");
+                throw new Exception("No API key has been provided. Supply it using either KeyFilePath or KeyString");
             }
 
             //Hash table to store singed headers
@@ -317,6 +316,10 @@ namespace {{packageName}}.Client
 
         private string GetRSASignature(byte[] stringToSign)
         {
+            if (string.IsNullOrEmpty(KeyString))
+            {
+                throw new Exception("No API key has been provided.");
+            }
             RSA rsa = GetRSAProviderFromPemFile(KeyString, KeyPassPhrase);
             if (SigningAlgorithm == "RSASSA-PSS")
             {
@@ -342,8 +345,10 @@ namespace {{packageName}}.Client
         private string GetECDSASignature(byte[] dataToSign)
         {
             {{#net60OrLater}}
-            if (!File.Exists(KeyFilePath))
-                throw new Exception("key file path does not exist.");
+            if (!File.Exists(KeyFilePath) && string.IsNullOrEmpty(KeyString))
+            {
+                throw new Exception("No API key has been provided.");
+            }
 
             var keyStr = KeyString;
             const string ecKeyHeader = "-----BEGIN EC PRIVATE KEY-----";
@@ -373,8 +378,7 @@ namespace {{packageName}}.Client
             else
                 ecdsa.ImportPkcs8PrivateKey(keyBytes, out byteCount);
 
-            var signedBytes = ecdsa.SignHash(dataToSign);
-            var derBytes = ConvertToECDSAANS1Format(signedBytes);
+            var derBytes = ecdsa.SignHash(dataToSign, DSASignatureFormat.Rfc3279DerSequence);
             var signedString = System.Convert.ToBase64String(derBytes);
 
             return signedString;
@@ -384,6 +388,11 @@ namespace {{packageName}}.Client
             {{/net60OrLater}}
         }
 
+        /// <summary>
+        /// Convert ANS1 format to DER format. Not recommended to use because it generate inavlid signature occationally.
+        /// </summary>
+        /// <param name="signedBytes"></param>
+        /// <returns></returns>
         private byte[] ConvertToECDSAANS1Format(byte[] signedBytes)
         {
             var derBytes = new List<byte>();
@@ -439,6 +448,11 @@ namespace {{packageName}}.Client
 
         private  RSACryptoServiceProvider GetRSAProviderFromPemFile(string keyString, SecureString keyPassPhrase = null)
         {
+            if (string.IsNullOrEmpty(KeyString))
+            {
+                throw new Exception("No API key has been provided.");
+            }
+
             const string pempubheader = "-----BEGIN PUBLIC KEY-----";
             const string pempubfooter = "-----END PUBLIC KEY-----";
             bool isPrivateKeyFile = true;
@@ -484,7 +498,7 @@ namespace {{packageName}}.Client
                 binkey = Convert.FromBase64String(pvkstr);
                 return binkey;
             }
-            catch (System.FormatException)
+            catch (global::System.FormatException)
             {
                 StringReader str = new StringReader(pvkstr);
 
@@ -514,7 +528,7 @@ namespace {{packageName}}.Client
                 {   //should have b64 encrypted RSA key now
                     binkey = Convert.FromBase64String(encryptedstr);
                 }
-                catch (System.FormatException)
+                catch (global::System.FormatException)
                 {   //data is not in base64 format
                     return null;
                 }

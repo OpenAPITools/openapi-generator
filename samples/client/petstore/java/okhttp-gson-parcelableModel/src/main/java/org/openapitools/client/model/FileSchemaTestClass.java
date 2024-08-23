@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.ModelFile;
 import android.os.Parcelable;
@@ -42,12 +42,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -55,7 +53,7 @@ import org.openapitools.client.JSON;
 /**
  * FileSchemaTestClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class FileSchemaTestClass implements Parcelable {
   public static final String SERIALIZED_NAME_FILE = "file";
   @SerializedName(SERIALIZED_NAME_FILE)
@@ -63,26 +61,24 @@ public class FileSchemaTestClass implements Parcelable {
 
   public static final String SERIALIZED_NAME_FILES = "files";
   @SerializedName(SERIALIZED_NAME_FILES)
-  private List<ModelFile> files;
+  private List<ModelFile> files = new ArrayList<>();
 
   public FileSchemaTestClass() {
   }
 
   public FileSchemaTestClass _file(ModelFile _file) {
-    
     this._file = _file;
     return this;
   }
 
-   /**
+  /**
    * Get _file
    * @return _file
-  **/
+   */
   @javax.annotation.Nullable
   public ModelFile getFile() {
     return _file;
   }
-
 
   public void setFile(ModelFile _file) {
     this._file = _file;
@@ -90,7 +86,6 @@ public class FileSchemaTestClass implements Parcelable {
 
 
   public FileSchemaTestClass files(List<ModelFile> files) {
-    
     this.files = files;
     return this;
   }
@@ -103,15 +98,14 @@ public class FileSchemaTestClass implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get files
    * @return files
-  **/
+   */
   @javax.annotation.Nullable
   public List<ModelFile> getFiles() {
     return files;
   }
-
 
   public void setFiles(List<ModelFile> files) {
     this.files = files;
@@ -195,12 +189,12 @@ public class FileSchemaTestClass implements Parcelable {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to FileSchemaTestClass
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to FileSchemaTestClass
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!FileSchemaTestClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -208,9 +202,9 @@ public class FileSchemaTestClass implements Parcelable {
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!FileSchemaTestClass.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `FileSchemaTestClass` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
@@ -265,22 +259,22 @@ public class FileSchemaTestClass implements Parcelable {
     }
   }
 
- /**
-  * Create an instance of FileSchemaTestClass given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of FileSchemaTestClass
-  * @throws IOException if the JSON string is invalid with respect to FileSchemaTestClass
-  */
+  /**
+   * Create an instance of FileSchemaTestClass given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of FileSchemaTestClass
+   * @throws IOException if the JSON string is invalid with respect to FileSchemaTestClass
+   */
   public static FileSchemaTestClass fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, FileSchemaTestClass.class);
   }
 
- /**
-  * Convert an instance of FileSchemaTestClass to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of FileSchemaTestClass to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

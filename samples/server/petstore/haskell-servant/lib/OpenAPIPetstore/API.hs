@@ -42,7 +42,9 @@ import           Control.Monad.Except               (ExceptT, runExceptT)
 import           Control.Monad.IO.Class
 import           Control.Monad.Trans.Reader         (ReaderT (..))
 import           Data.Aeson                         (Value)
+import qualified Data.Aeson                         as Aeson
 import           Data.ByteString                    (ByteString)
+import qualified Data.ByteString.Lazy               as BSL
 import           Data.Coerce                        (coerce)
 import           Data.Data                          (Data)
 import           Data.Function                      ((&))
@@ -52,6 +54,7 @@ import           Data.Proxy                         (Proxy (..))
 import           Data.Set                           (Set)
 import           Data.Text                          (Text)
 import qualified Data.Text                          as T
+import qualified Data.Text.Encoding                 as T
 import           Data.Time
 import           Data.UUID                          (UUID)
 import           GHC.Exts                           (IsString (..))
@@ -143,29 +146,40 @@ instance ToHttpApiData a => ToHttpApiData (QueryList 'MultiParamArray a) where
 formatSeparatedQueryList :: ToHttpApiData a => Char ->  QueryList p a -> Text
 formatSeparatedQueryList char = T.intercalate (T.singleton char) . map toQueryParam . fromQueryList
 
+newtype JSONQueryParam a = JSONQueryParam
+  { fromJsonQueryParam :: a
+  } deriving (Functor, Foldable, Traversable)
+
+instance Aeson.ToJSON a => ToHttpApiData (JSONQueryParam a) where
+  toQueryParam = T.decodeUtf8 . BSL.toStrict . Aeson.encode . fromJsonQueryParam
+
+instance Aeson.FromJSON a => FromHttpApiData (JSONQueryParam a) where
+  parseQueryParam = either (Left . T.pack) (Right . JSONQueryParam) . Aeson.eitherDecodeStrict . T.encodeUtf8
+
 
 -- | Servant type-level API, generated from the OpenAPI spec for OpenAPIPetstore.
 type OpenAPIPetstoreAPI
-    =    Protected :> "pet" :> ReqBody '[JSON] Pet :> Verb 'POST 200 '[JSON] NoContent -- 'addPet' route
+    =    Protected :> "pet" :> ReqBody '[JSON] Pet :> Verb 'POST 200 '[JSON] Pet -- 'addPet' route
     :<|> Protected :> "pet" :> Capture "petId" Integer :> Header "api_key" Text :> Verb 'DELETE 200 '[JSON] NoContent -- 'deletePet' route
+    :<|> Protected :> "pet" :> "find" :> QueryParam "filter" (JSONQueryParam PetFilter) :> Verb 'GET 200 '[JSON] [Pet] -- 'findPets' route
     :<|> Protected :> "pet" :> "findByStatus" :> QueryParam "status" (QueryList 'CommaSeparated (Text)) :> Verb 'GET 200 '[JSON] [Pet] -- 'findPetsByStatus' route
     :<|> Protected :> "pet" :> "findByTags" :> QueryParam "tags" (QueryList 'CommaSeparated (Text)) :> Verb 'GET 200 '[JSON] [Pet] -- 'findPetsByTags' route
     :<|> Protected :> "pet" :> Capture "petId" Integer :> Verb 'GET 200 '[JSON] Pet -- 'getPetById' route
-    :<|> Protected :> "pet" :> ReqBody '[JSON] Pet :> Verb 'PUT 200 '[JSON] NoContent -- 'updatePet' route
+    :<|> Protected :> "pet" :> ReqBody '[JSON] Pet :> Verb 'PUT 200 '[JSON] Pet -- 'updatePet' route
     :<|> Protected :> "pet" :> Capture "petId" Integer :> ReqBody '[FormUrlEncoded] FormUpdatePetWithForm :> Verb 'POST 200 '[JSON] NoContent -- 'updatePetWithForm' route
     :<|> Protected :> "pet" :> Capture "petId" Integer :> "uploadImage" :> ReqBody '[FormUrlEncoded] FormUploadFile :> Verb 'POST 200 '[JSON] ApiResponse -- 'uploadFile' route
     :<|> "store" :> "order" :> Capture "orderId" Text :> Verb 'DELETE 200 '[JSON] NoContent -- 'deleteOrder' route
     :<|> Protected :> "store" :> "inventory" :> Verb 'GET 200 '[JSON] ((Map.Map String Int)) -- 'getInventory' route
     :<|> "store" :> "order" :> Capture "orderId" Integer :> Verb 'GET 200 '[JSON] Order -- 'getOrderById' route
     :<|> "store" :> "order" :> ReqBody '[JSON] Order :> Verb 'POST 200 '[JSON] Order -- 'placeOrder' route
-    :<|> "user" :> ReqBody '[JSON] User :> Verb 'POST 200 '[JSON] NoContent -- 'createUser' route
-    :<|> "user" :> "createWithArray" :> ReqBody '[JSON] [User] :> Verb 'POST 200 '[JSON] NoContent -- 'createUsersWithArrayInput' route
-    :<|> "user" :> "createWithList" :> ReqBody '[JSON] [User] :> Verb 'POST 200 '[JSON] NoContent -- 'createUsersWithListInput' route
-    :<|> "user" :> Capture "username" Text :> Verb 'DELETE 200 '[JSON] NoContent -- 'deleteUser' route
+    :<|> Protected :> "user" :> ReqBody '[JSON] User :> Verb 'POST 200 '[JSON] NoContent -- 'createUser' route
+    :<|> Protected :> "user" :> "createWithArray" :> ReqBody '[JSON] [User] :> Verb 'POST 200 '[JSON] NoContent -- 'createUsersWithArrayInput' route
+    :<|> Protected :> "user" :> "createWithList" :> ReqBody '[JSON] [User] :> Verb 'POST 200 '[JSON] NoContent -- 'createUsersWithListInput' route
+    :<|> Protected :> "user" :> Capture "username" Text :> Verb 'DELETE 200 '[JSON] NoContent -- 'deleteUser' route
     :<|> "user" :> Capture "username" Text :> Verb 'GET 200 '[JSON] User -- 'getUserByName' route
-    :<|> "user" :> "login" :> QueryParam "username" Text :> QueryParam "password" Text :> Verb 'GET 200 '[JSON] (Headers '[Header "X-Rate-Limit" Int, Header "X-Expires-After" UTCTime] Text) -- 'loginUser' route
-    :<|> "user" :> "logout" :> Verb 'GET 200 '[JSON] NoContent -- 'logoutUser' route
-    :<|> "user" :> Capture "username" Text :> ReqBody '[JSON] User :> Verb 'PUT 200 '[JSON] NoContent -- 'updateUser' route
+    :<|> "user" :> "login" :> QueryParam "username" Text :> QueryParam "password" Text :> Verb 'GET 200 '[JSON] (Headers '[Header "Set-Cookie" Text, Header "X-Rate-Limit" Int, Header "X-Expires-After" UTCTime] Text) -- 'loginUser' route
+    :<|> Protected :> "user" :> "logout" :> Verb 'GET 200 '[JSON] NoContent -- 'logoutUser' route
+    :<|> Protected :> "user" :> Capture "username" Text :> ReqBody '[JSON] User :> Verb 'PUT 200 '[JSON] NoContent -- 'updateUser' route
     :<|> Raw
 
 
@@ -186,26 +200,27 @@ newtype OpenAPIPetstoreClientError = OpenAPIPetstoreClientError ClientError
 -- is a backend that executes actions by sending HTTP requests (see @createOpenAPIPetstoreClient@). Alternatively, provided
 -- a backend, the API can be served using @runOpenAPIPetstoreMiddlewareServer@.
 data OpenAPIPetstoreBackend a m = OpenAPIPetstoreBackend
-  { addPet :: a -> Pet -> m NoContent{- ^  -}
+  { addPet :: a -> Pet -> m Pet{- ^  -}
   , deletePet :: a -> Integer -> Maybe Text -> m NoContent{- ^  -}
+  , findPets :: a -> Maybe PetFilter -> m [Pet]{- ^  -}
   , findPetsByStatus :: a -> Maybe [Text] -> m [Pet]{- ^ Multiple status values can be provided with comma separated strings -}
   , findPetsByTags :: a -> Maybe [Text] -> m [Pet]{- ^ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing. -}
   , getPetById :: a -> Integer -> m Pet{- ^ Returns a single pet -}
-  , updatePet :: a -> Pet -> m NoContent{- ^  -}
+  , updatePet :: a -> Pet -> m Pet{- ^  -}
   , updatePetWithForm :: a -> Integer -> FormUpdatePetWithForm -> m NoContent{- ^  -}
   , uploadFile :: a -> Integer -> FormUploadFile -> m ApiResponse{- ^  -}
   , deleteOrder :: Text -> m NoContent{- ^ For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors -}
   , getInventory :: a -> m ((Map.Map String Int)){- ^ Returns a map of status codes to quantities -}
   , getOrderById :: Integer -> m Order{- ^ For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions -}
   , placeOrder :: Order -> m Order{- ^  -}
-  , createUser :: User -> m NoContent{- ^ This can only be done by the logged in user. -}
-  , createUsersWithArrayInput :: [User] -> m NoContent{- ^  -}
-  , createUsersWithListInput :: [User] -> m NoContent{- ^  -}
-  , deleteUser :: Text -> m NoContent{- ^ This can only be done by the logged in user. -}
+  , createUser :: a -> User -> m NoContent{- ^ This can only be done by the logged in user. -}
+  , createUsersWithArrayInput :: a -> [User] -> m NoContent{- ^  -}
+  , createUsersWithListInput :: a -> [User] -> m NoContent{- ^  -}
+  , deleteUser :: a -> Text -> m NoContent{- ^ This can only be done by the logged in user. -}
   , getUserByName :: Text -> m User{- ^  -}
-  , loginUser :: Maybe Text -> Maybe Text -> m (Headers '[Header "X-Rate-Limit" Int, Header "X-Expires-After" UTCTime] Text){- ^  -}
-  , logoutUser :: m NoContent{- ^  -}
-  , updateUser :: Text -> User -> m NoContent{- ^ This can only be done by the logged in user. -}
+  , loginUser :: Maybe Text -> Maybe Text -> m (Headers '[Header "Set-Cookie" Text, Header "X-Rate-Limit" Int, Header "X-Expires-After" UTCTime] Text){- ^  -}
+  , logoutUser :: a -> m NoContent{- ^  -}
+  , updateUser :: a -> Text -> User -> m NoContent{- ^ This can only be done by the logged in user. -}
   }
 
 -- | Authentication settings for OpenAPIPetstore.
@@ -240,6 +255,7 @@ createOpenAPIPetstoreClient = OpenAPIPetstoreBackend{..}
   where
     ((coerce -> addPet) :<|>
      (coerce -> deletePet) :<|>
+     (coerce -> findPets) :<|>
      (coerce -> findPetsByStatus) :<|>
      (coerce -> findPetsByTags) :<|>
      (coerce -> getPetById) :<|>
@@ -314,6 +330,7 @@ serverWaiApplicationOpenAPIPetstore auth backend = serveWithContextT (Proxy :: P
     serverFromBackend OpenAPIPetstoreBackend{..} =
       (coerce addPet :<|>
        coerce deletePet :<|>
+       coerce findPets :<|>
        coerce findPetsByStatus :<|>
        coerce findPetsByTags :<|>
        coerce getPetById :<|>

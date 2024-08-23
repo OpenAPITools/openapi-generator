@@ -14,13 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -37,12 +37,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -50,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * Foo
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Foo {
   public static final String SERIALIZED_NAME_BAR = "bar";
   @SerializedName(SERIALIZED_NAME_BAR)
@@ -60,20 +58,18 @@ public class Foo {
   }
 
   public Foo bar(String bar) {
-    
     this.bar = bar;
     return this;
   }
 
-   /**
+  /**
    * Get bar
    * @return bar
-  **/
+   */
   @javax.annotation.Nullable
   public String getBar() {
     return bar;
   }
-
 
   public void setBar(String bar) {
     this.bar = bar;
@@ -177,12 +173,12 @@ public class Foo {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Foo
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to Foo
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Foo.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -223,7 +219,12 @@ public class Foo {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -262,22 +263,22 @@ public class Foo {
     }
   }
 
- /**
-  * Create an instance of Foo given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Foo
-  * @throws IOException if the JSON string is invalid with respect to Foo
-  */
+  /**
+   * Create an instance of Foo given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of Foo
+   * @throws IOException if the JSON string is invalid with respect to Foo
+   */
   public static Foo fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Foo.class);
   }
 
- /**
-  * Convert an instance of Foo to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of Foo to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

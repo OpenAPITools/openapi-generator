@@ -25,6 +25,17 @@ export const NumberEnum = {
 export type NumberEnum = typeof NumberEnum[keyof typeof NumberEnum];
 
 
+export function instanceOfNumberEnum(value: any): boolean {
+    for (const key in NumberEnum) {
+        if (Object.prototype.hasOwnProperty.call(NumberEnum, key)) {
+            if (NumberEnum[key as keyof typeof NumberEnum] === value) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 export function NumberEnumFromJSON(json: any): NumberEnum {
     return NumberEnumFromJSONTyped(json, false);
 }

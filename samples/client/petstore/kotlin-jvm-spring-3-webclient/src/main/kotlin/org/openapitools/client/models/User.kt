@@ -16,6 +16,7 @@
 package org.openapitools.client.models
 
 
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
@@ -34,30 +35,33 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class User (
 
-    @field:JsonProperty("id")
+    @get:JsonProperty("id")
     val id: kotlin.Long? = null,
 
-    @field:JsonProperty("username")
+    @get:JsonProperty("username")
     val username: kotlin.String? = null,
 
-    @field:JsonProperty("firstName")
+    @get:JsonProperty("firstName")
     val firstName: kotlin.String? = null,
 
-    @field:JsonProperty("lastName")
+    @get:JsonProperty("lastName")
     val lastName: kotlin.String? = null,
 
-    @field:JsonProperty("email")
+    @get:JsonProperty("email")
     val email: kotlin.String? = null,
 
-    @field:JsonProperty("password")
+    @get:JsonProperty("password")
     val password: kotlin.String? = null,
 
-    @field:JsonProperty("phone")
+    @get:JsonProperty("phone")
     val phone: kotlin.String? = null,
 
     /* User Status */
-    @field:JsonProperty("userStatus")
+    @get:JsonProperty("userStatus")
     val userStatus: kotlin.Int? = null
 
-)
+) {
+
+
+}
 

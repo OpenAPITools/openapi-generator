@@ -12,7 +12,7 @@ Add to your `build->plugins` section (default phase is `generate-sources` phase)
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator-maven-plugin</artifactId>
     <!-- RELEASE_VERSION -->
-    <version>6.3.0</version>
+    <version>7.8.0</version>
     <!-- /RELEASE_VERSION -->
     <executions>
         <execution>
@@ -54,6 +54,8 @@ mvn clean compile
 | `gitHost` | `openapi.generator.maven.plugin.gitHost` | The git host, e.g. gitlab.com
 | `gitUserId` |  `openapi.generator.maven.plugin.gitUserId` | sets git information of the project
 | `gitRepoId` | `openapi.generator.maven.plugin.gitRepoId` | sets the repo ID (e.g. openapi-generator)
+| `collapsedSpec` | `openapi.generator.maven.plugin.collapsedSpec` | sets the path to the collapsed single-file representation of the OpenAPI spec
+| `includeCollapsedSpecInArtifacts` | `openapi.generator.maven.plugin.publishCollapsedSpec` | includes the collapsed spec in the Maven artifacts (`false` by default)
 | `templateDirectory` |  `openapi.generator.maven.plugin.templateDirectory` | directory with mustache templates
 | `templateResourcePath` |  `openapi.generator.maven.plugin.templateResourcePath` | directory with mustache templates via resource path. This option will overwrite any option defined in `templateDirectory`.
 | `engine` | `openapi.generator.maven.plugin.engine` | The name of templating engine to use, "mustache" (default) or "handlebars" (beta)
@@ -86,6 +88,9 @@ mvn clean compile
 | `importMappings` |  `openapi.generator.maven.plugin.importMappings` | specifies mappings between a given class and the import that should be used for that class in the format of type=import,type=import. You can also have multiple occurrences of this option
 | `typeMappings` |  `openapi.generator.maven.plugin.typeMappings` | sets mappings between OpenAPI spec types and generated code types in the format of OpenAPIType=generatedType,OpenAPIType=generatedType. For example: `array=List,map=Map,string=String`. You can also have multiple occurrences of this option. To map a specified format, use type+format, e.g. string+password=EncryptedString will map `type: string, format: password` to `EncryptedString`.
 | `schemaMappings` |  `openapi.generator.maven.plugin.schemaMappings` | specifies mappings between the schema and the new name in the format of schema_a=Cat,schema_b=Bird. https://openapi-generator.tech/docs/customization/#schema-mapping
+| `nameMappings` |  `openapi.generator.maven.plugin.nameMappings` | specifies mappings between the property name and the new name in the format of property_a=firstProperty,property_b=secondProperty. https://openapi-generator.tech/docs/customization/#name-mapping
+| `modelNameMappings` |  `openapi.generator.maven.plugin.modelNameMappings` | specifies mappings between the model name and the new name in the format of model_a=FirstModel,model_b=SecondModel. https://openapi-generator.tech/docs/customization/#name-mapping
+| `parameterNameMappings` |  `openapi.generator.maven.plugin.parameterNameMappings` | specifies mappings between the parameter name and the new name in the format of param_a=first_parameter,param_b=second_parameter. https://openapi-generator.tech/docs/customization/#name-mapping
 | `inlineSchemaNameMappings` |  `openapi.generator.maven.plugin.inlineSchemaNameMappings` | specifies mappings between the inline schema name and the new name in the format of inline_object_2=Cat,inline_object_5=Bird.
 | `inlineSchemaOptions` |  `openapi.generator.maven.plugin.inlineSchemaOptions` | specifies the options used when naming inline schema in inline model resolver
 | `languageSpecificPrimitives` |  `openapi.generator.maven.plugin.languageSpecificPrimitives` | specifies additional language specific primitive types in the format of type1,type2,type3,type3. For example: `String,boolean,Boolean,Double`. You can also have multiple occurrences of this option
@@ -102,7 +107,6 @@ mvn clean compile
 | `generateModelDocumentation` |  `openapi.generator.maven.plugin.generateModelDocumentation` | generate the model documentation (`true` by default. Only available if `generateModels` is `true`)
 | `generateApiTests` |  `openapi.generator.maven.plugin.generateApiTests` | generate the api tests (`true` by default. Only available if `generateApis` is `true`)
 | `generateApiDocumentation` |  `openapi.generator.maven.plugin.generateApiDocumentation` | generate the api documentation (`true` by default. Only available if `generateApis` is `true`)
-| `withXml` |  `openapi.generator.maven.plugin.withXml` | enable XML annotations inside the generated models and API (only works with Java `language` and libraries that provide support for JSON and XML)
 | `skip` |  `codegen.skip` | skip code generation (`false` by default. Can also be set globally through the `codegen.skip` property)
 | `skipIfSpecIsUnchanged` |  `codegen.skipIfSpecIsUnchanged` | Skip the execution if the source file is older than the output folder (`false` by default. Can also be set globally through the `codegen.skipIfSpecIsUnchanged` property)
 | `addCompileSourceRoot` |  `openapi.generator.maven.plugin.addCompileSourceRoot` | Add the output directory to the project as a source root, so that the generated java types are compiled and included in the project artifact (`true` by default). Mutually exclusive with `addTestCompileSourceRoot`.

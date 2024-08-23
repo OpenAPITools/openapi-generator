@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -23,6 +22,7 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import android.os.Parcelable;
 import android.os.Parcel;
@@ -42,12 +42,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -55,17 +53,16 @@ import org.openapitools.client.JSON;
 /**
  * ArrayOfNumberOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class ArrayOfNumberOnly implements Parcelable {
   public static final String SERIALIZED_NAME_ARRAY_NUMBER = "ArrayNumber";
   @SerializedName(SERIALIZED_NAME_ARRAY_NUMBER)
-  private List<BigDecimal> arrayNumber;
+  private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnly() {
   }
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
-    
     this.arrayNumber = arrayNumber;
     return this;
   }
@@ -78,15 +75,14 @@ public class ArrayOfNumberOnly implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get arrayNumber
    * @return arrayNumber
-  **/
+   */
   @javax.annotation.Nullable
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
   }
-
 
   public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
@@ -165,12 +161,12 @@ public class ArrayOfNumberOnly implements Parcelable {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to ArrayOfNumberOnly
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to ArrayOfNumberOnly
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!ArrayOfNumberOnly.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -178,16 +174,16 @@ public class ArrayOfNumberOnly implements Parcelable {
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!ArrayOfNumberOnly.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `ArrayOfNumberOnly` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       // ensure the optional json data is an array if present
-      if (jsonObj.get("ArrayNumber") != null && !jsonObj.get("ArrayNumber").isJsonArray()) {
+      if (jsonObj.get("ArrayNumber") != null && !jsonObj.get("ArrayNumber").isJsonNull() && !jsonObj.get("ArrayNumber").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `ArrayNumber` to be an array in the JSON string but got `%s`", jsonObj.get("ArrayNumber").toString()));
       }
   }
@@ -221,22 +217,22 @@ public class ArrayOfNumberOnly implements Parcelable {
     }
   }
 
- /**
-  * Create an instance of ArrayOfNumberOnly given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of ArrayOfNumberOnly
-  * @throws IOException if the JSON string is invalid with respect to ArrayOfNumberOnly
-  */
+  /**
+   * Create an instance of ArrayOfNumberOnly given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of ArrayOfNumberOnly
+   * @throws IOException if the JSON string is invalid with respect to ArrayOfNumberOnly
+   */
   public static ArrayOfNumberOnly fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ArrayOfNumberOnly.class);
   }
 
- /**
-  * Convert an instance of ArrayOfNumberOnly to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of ArrayOfNumberOnly to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

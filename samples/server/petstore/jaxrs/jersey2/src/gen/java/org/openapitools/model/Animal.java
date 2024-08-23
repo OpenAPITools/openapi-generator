@@ -32,7 +32,7 @@ import javax.validation.Valid;
   Animal.JSON_PROPERTY_CLASS_NAME,
   Animal.JSON_PROPERTY_COLOR
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
   @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
@@ -98,8 +98,8 @@ public class Animal   {
       return false;
     }
     Animal animal = (Animal) o;
-    return Objects.equals(className, animal.className) &&
-        Objects.equals(color, animal.color);
+    return Objects.equals(this.className, animal.className) &&
+        Objects.equals(this.color, animal.color);
   }
 
   @Override

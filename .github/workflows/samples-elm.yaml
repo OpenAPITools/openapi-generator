@@ -21,8 +21,8 @@ jobs:
           - samples/client/petstore/elm
           - samples/openapi3/client/elm
     steps:
-      - uses: actions/checkout@v3
-      - uses: jorelali/setup-elm@v5
+      - uses: actions/checkout@v4
+      - uses: jorelali/setup-elm@v6
         with:
           elm-version: 0.19.1
       - name: Build

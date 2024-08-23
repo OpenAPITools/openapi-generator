@@ -30,7 +30,6 @@ import java.util.Map;
 
 public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
-    protected static final String LIBRARY_JERSEY1 = "jersey1";
     protected static final String LIBRARY_JERSEY2 = "jersey2";
 
 
@@ -50,7 +49,6 @@ public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
         apiDocTemplateFiles.remove("api_doc.mustache");
         embeddedTemplateDir = templateDir = "java-msf4j-server";
         CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC);
-        supportedLibraries.put(LIBRARY_JERSEY1, "Jersey core 1.x");
         supportedLibraries.put(LIBRARY_JERSEY2, "Jersey core 2.x");
         library.setEnum(supportedLibraries);
         library.setDefault(DEFAULT_MSF4J_LIBRARY);
@@ -94,9 +92,7 @@ public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
             setLibrary(DEFAULT_MSF4J_LIBRARY);
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
-            implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
-        }
+        convertPropertyToStringAndWriteBack(CodegenConstants.IMPL_FOLDER, value -> implFolder = value);
 
         if ("joda".equals(dateLibrary)) {
             supportingFiles.add(new SupportingFile("JodaDateTimeProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaDateTimeProvider.java"));

@@ -107,10 +107,7 @@ package body {{package}}.Skeletons is
          {{#returnType}}
 {{#responses}}
          if Context.Get_Status = {{code}} then{{#message}}
-            Context.Set_Description ("{{message}}");{{/message}}
-{{#schema}}
-{{#vendorExtensions.x-produces-plain-text}}
-{{#isFile}}
+            Context.Set_Description ("{{message}}");{{/message}}{{#-first}}{{#schema}}{{#vendorExtensions.x-produces-plain-text}}{{#isFile}}
             {{openApiPackageName}}.Streams.Write (Stream, Result);
 {{/isFile}}{{^isFile}}
             Stream.Write ({{openApiPackageName}}.To_String (Result));
@@ -119,15 +116,22 @@ package body {{package}}.Skeletons is
 {{#isFile}}
             {{openApiPackageName}}.Streams.Write (Stream, Result);
 {{/isFile}}{{^isFile}}
-            Stream.Start_Document;{{#vendorExtensions.x-codegen-response.isString}}
-            {{openApiPackageName}}.Streams.Serialize (Stream, "", Result);{{/vendorExtensions.x-codegen-response.isString}}{{^vendorExtensions.x-codegen-response.isString}}{{#returnTypeIsPrimitive}}
-            {{openApiPackageName}}.Streams.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}
-            {{package}}.Models.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{/vendorExtensions.x-codegen-response.isString}}
-            Stream.End_Document;
-{{/isFile}}{{/vendorExtensions.x-produces-plain-text}}
-        {{/schema}}
+            Stream.Start_Document;{{#vendorExtensions.x-is-stream-type}}{{^isLong}}{{#vendorExtensions.x-is-required}}
+            Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);{{/vendorExtensions.x-is-required}}{{^vendorExtensions.x-is-required}}{{#vendorExtensions.x-is-nullable}}
+            Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);{{/vendorExtensions.x-is-nullable}}{{^vendorExtensions.x-is-nullable}}
+            if not {{#isFreeFormObject}}{{openApiPackageName}}.Is_Null (Result){{/isFreeFormObject}}{{^isFreeFormObject}}Value.{{name}}.Is_Null{{/isFreeFormObject}} then
+               Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);
+            end if;{{/vendorExtensions.x-is-nullable}}{{/vendorExtensions.x-is-required}}{{/isLong}}{{#isLong}}{{#vendorExtensions.x-is-required}}
+            Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);{{/vendorExtensions.x-is-required}}{{^vendorExtensions.x-is-required}}{{#vendorExtensions.x-is-nullable}}
+            Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);{{/vendorExtensions.x-is-nullable}}{{^vendorExtensions.x-is-nullable}}
+            if not Result.Is_Null then
+               Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);
+            end if;{{/vendorExtensions.x-is-nullable}}{{/vendorExtensions.x-is-required}}{{/isLong}}{{/vendorExtensions.x-is-stream-type}}{{^vendorExtensions.x-is-stream-type}}
+            Serialize (Stream, "", Result);{{/vendorExtensions.x-is-stream-type}}
+            Stream.End_Document;{{/isFile}}{{/vendorExtensions.x-produces-plain-text}}{{/schema}}{{/-first}}
             return;
-         end if;{{/responses}}{{/returnType}}
+         end if;
+{{/responses}}{{/returnType}}
       end {{operationId}};
 {{/operation}}
 {{/operations}}
@@ -224,10 +228,7 @@ package body {{package}}.Skeletons is
          {{#returnType}}
 {{#responses}}
          if Context.Get_Status = {{code}} then{{#message}}
-            Context.Set_Description ("{{message}}");{{/message}}
-{{#schema}}
-{{#vendorExtensions.x-produces-plain-text}}
-{{#isFile}}
+            Context.Set_Description ("{{message}}");{{/message}}{{#-first}}{{#schema}}{{#vendorExtensions.x-produces-plain-text}}{{#isFile}}
             {{openApiPackageName}}.Streams.Write (Stream, Result);
 {{/isFile}}{{^isFile}}
             Stream.Write ({{openApiPackageName}}.To_String (Result));
@@ -236,15 +237,22 @@ package body {{package}}.Skeletons is
 {{#isFile}}
             {{openApiPackageName}}.Streams.Write (Stream, Result);
 {{/isFile}}{{^isFile}}
-            Stream.Start_Document;{{#vendorExtensions.x-codegen-response.isString}}
-            {{openApiPackageName}}.Streams.Serialize (Stream, "", Result);{{/vendorExtensions.x-codegen-response.isString}}{{^vendorExtensions.x-codegen-response.isString}}{{#returnTypeIsPrimitive}}
-            {{openApiPackageName}}.Streams.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}
-            {{package}}.Models.Serialize (Stream, "", Result);{{/returnTypeIsPrimitive}}{{/vendorExtensions.x-codegen-response.isString}}
-            Stream.End_Document;
-{{/isFile}}{{/vendorExtensions.x-produces-plain-text}}
-        {{/schema}}
+            Stream.Start_Document;{{#vendorExtensions.x-is-stream-type}}{{^isLong}}{{#vendorExtensions.x-is-required}}
+            Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);{{/vendorExtensions.x-is-required}}{{^vendorExtensions.x-is-required}}{{#vendorExtensions.x-is-nullable}}
+            Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);{{/vendorExtensions.x-is-nullable}}{{^vendorExtensions.x-is-nullable}}
+            if not {{#isFreeFormObject}}{{openApiPackageName}}.Is_Null (Result){{/isFreeFormObject}}{{^isFreeFormObject}}Value.{{name}}.Is_Null{{/isFreeFormObject}} then
+               Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);
+            end if;{{/vendorExtensions.x-is-nullable}}{{/vendorExtensions.x-is-required}}{{/isLong}}{{#isLong}}{{#vendorExtensions.x-is-required}}
+            Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);{{/vendorExtensions.x-is-required}}{{^vendorExtensions.x-is-required}}{{#vendorExtensions.x-is-nullable}}
+            Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);{{/vendorExtensions.x-is-nullable}}{{^vendorExtensions.x-is-nullable}}
+            if not Result.Is_Null then
+               Stream.{{vendorExtensions.x-ada-serialize-op}} ("", Result);
+            end if;{{/vendorExtensions.x-is-nullable}}{{/vendorExtensions.x-is-required}}{{/isLong}}{{/vendorExtensions.x-is-stream-type}}{{^vendorExtensions.x-is-stream-type}}
+            Serialize (Stream, "", Result);{{/vendorExtensions.x-is-stream-type}}
+            Stream.End_Document;{{/isFile}}{{/vendorExtensions.x-produces-plain-text}}{{/schema}}{{/-first}}
             return;
-         end if;{{/responses}}{{/returnType}}
+         end if;
+{{/responses}}{{/returnType}}
       end {{operationId}};
 
       package API_{{operationId}} is

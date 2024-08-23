@@ -10,8 +10,8 @@
 
 
 use reqwest;
-
-use crate::apis::ResponseContent;
+use serde::{Deserialize, Serialize};
+use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
 
@@ -27,7 +27,7 @@ pub enum TestsFileResponseGetSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum TestsTypeTestingGetSuccess {
-    Status200(crate::models::TypeTesting),
+    Status200(models::TypeTesting),
     UnknownValue(serde_json::Value),
 }
 

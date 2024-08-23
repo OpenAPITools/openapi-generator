@@ -9,6 +9,7 @@ Model/ArrayTest.sql
 Model/Capitalization.sql
 Model/Cat.sql
 Model/Category.sql
+Model/ChildWithNullable.sql
 Model/ClassModel.sql
 Model/Client.sql
 Model/DeprecatedObject.sql
@@ -38,12 +39,14 @@ Model/OuterEnumDefaultValue.sql
 Model/OuterEnumInteger.sql
 Model/OuterEnumIntegerDefaultValue.sql
 Model/OuterObjectWithEnumProperty.sql
+Model/ParentWithNullable.sql
 Model/Pet.sql
 Model/ReadOnlyFirst.sql
 Model/Return.sql
 Model/SingleRefType.sql
 Model/SpecialModelName.sql
 Model/Tag.sql
+Model/TestInlineFreeformAdditionalPropertiesRequest.sql
 Model/User.sql
 README.md
 mysql_schema.sql

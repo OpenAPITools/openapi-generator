@@ -37,6 +37,8 @@ model/Cat.cpp
 model/Cat.h
 model/Category.cpp
 model/Category.h
+model/ChildWithNullable.cpp
+model/ChildWithNullable.h
 model/ClassModel.cpp
 model/ClassModel.h
 model/Client.cpp
@@ -93,6 +95,8 @@ model/OuterEnumIntegerDefaultValue.cpp
 model/OuterEnumIntegerDefaultValue.h
 model/OuterObjectWithEnumProperty.cpp
 model/OuterObjectWithEnumProperty.h
+model/ParentWithNullable.cpp
+model/ParentWithNullable.h
 model/Pet.cpp
 model/Pet.h
 model/ReadOnlyFirst.cpp
@@ -103,6 +107,8 @@ model/SingleRefType.cpp
 model/SingleRefType.h
 model/Tag.cpp
 model/Tag.h
+model/TestInlineFreeformAdditionalProperties_request.cpp
+model/TestInlineFreeformAdditionalProperties_request.h
 model/User.cpp
 model/User.h
 model/_foo_get_default_response.cpp

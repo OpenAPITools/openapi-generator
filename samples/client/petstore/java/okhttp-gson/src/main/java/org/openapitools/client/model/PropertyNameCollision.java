@@ -14,13 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -37,12 +37,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -50,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * PropertyNameCollision
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class PropertyNameCollision {
   public static final String SERIALIZED_NAME_UNDERSCORE_TYPE = "_type";
   @SerializedName(SERIALIZED_NAME_UNDERSCORE_TYPE)
@@ -68,20 +66,18 @@ public class PropertyNameCollision {
   }
 
   public PropertyNameCollision underscoreType(String underscoreType) {
-    
     this.underscoreType = underscoreType;
     return this;
   }
 
-   /**
+  /**
    * Get underscoreType
    * @return underscoreType
-  **/
+   */
   @javax.annotation.Nullable
   public String getUnderscoreType() {
     return underscoreType;
   }
-
 
   public void setUnderscoreType(String underscoreType) {
     this.underscoreType = underscoreType;
@@ -89,20 +85,18 @@ public class PropertyNameCollision {
 
 
   public PropertyNameCollision type(String type) {
-    
     this.type = type;
     return this;
   }
 
-   /**
+  /**
    * Get type
    * @return type
-  **/
+   */
   @javax.annotation.Nullable
   public String getType() {
     return type;
   }
-
 
   public void setType(String type) {
     this.type = type;
@@ -110,20 +104,18 @@ public class PropertyNameCollision {
 
 
   public PropertyNameCollision typeWithUnderscore(String typeWithUnderscore) {
-    
     this.typeWithUnderscore = typeWithUnderscore;
     return this;
   }
 
-   /**
+  /**
    * Get typeWithUnderscore
    * @return typeWithUnderscore
-  **/
+   */
   @javax.annotation.Nullable
   public String getTypeWithUnderscore() {
     return typeWithUnderscore;
   }
-
 
   public void setTypeWithUnderscore(String typeWithUnderscore) {
     this.typeWithUnderscore = typeWithUnderscore;
@@ -233,12 +225,12 @@ public class PropertyNameCollision {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to PropertyNameCollision
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to PropertyNameCollision
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!PropertyNameCollision.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -285,7 +277,12 @@ public class PropertyNameCollision {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -324,22 +321,22 @@ public class PropertyNameCollision {
     }
   }
 
- /**
-  * Create an instance of PropertyNameCollision given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of PropertyNameCollision
-  * @throws IOException if the JSON string is invalid with respect to PropertyNameCollision
-  */
+  /**
+   * Create an instance of PropertyNameCollision given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of PropertyNameCollision
+   * @throws IOException if the JSON string is invalid with respect to PropertyNameCollision
+   */
   public static PropertyNameCollision fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, PropertyNameCollision.class);
   }
 
- /**
-  * Convert an instance of PropertyNameCollision to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of PropertyNameCollision to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -23,6 +22,7 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import android.os.Parcelable;
 import android.os.Parcel;
@@ -42,12 +42,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -55,7 +53,7 @@ import org.openapitools.client.JSON;
 /**
  * TypeHolderExample
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class TypeHolderExample implements Parcelable {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)
@@ -85,20 +83,18 @@ public class TypeHolderExample implements Parcelable {
   }
 
   public TypeHolderExample stringItem(String stringItem) {
-    
     this.stringItem = stringItem;
     return this;
   }
 
-   /**
+  /**
    * Get stringItem
    * @return stringItem
-  **/
+   */
   @javax.annotation.Nonnull
   public String getStringItem() {
     return stringItem;
   }
-
 
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
@@ -106,20 +102,18 @@ public class TypeHolderExample implements Parcelable {
 
 
   public TypeHolderExample numberItem(BigDecimal numberItem) {
-    
     this.numberItem = numberItem;
     return this;
   }
 
-   /**
+  /**
    * Get numberItem
    * @return numberItem
-  **/
+   */
   @javax.annotation.Nonnull
   public BigDecimal getNumberItem() {
     return numberItem;
   }
-
 
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
@@ -127,20 +121,18 @@ public class TypeHolderExample implements Parcelable {
 
 
   public TypeHolderExample floatItem(Float floatItem) {
-    
     this.floatItem = floatItem;
     return this;
   }
 
-   /**
+  /**
    * Get floatItem
    * @return floatItem
-  **/
+   */
   @javax.annotation.Nonnull
   public Float getFloatItem() {
     return floatItem;
   }
-
 
   public void setFloatItem(Float floatItem) {
     this.floatItem = floatItem;
@@ -148,20 +140,18 @@ public class TypeHolderExample implements Parcelable {
 
 
   public TypeHolderExample integerItem(Integer integerItem) {
-    
     this.integerItem = integerItem;
     return this;
   }
 
-   /**
+  /**
    * Get integerItem
    * @return integerItem
-  **/
+   */
   @javax.annotation.Nonnull
   public Integer getIntegerItem() {
     return integerItem;
   }
-
 
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
@@ -169,20 +159,18 @@ public class TypeHolderExample implements Parcelable {
 
 
   public TypeHolderExample boolItem(Boolean boolItem) {
-    
     this.boolItem = boolItem;
     return this;
   }
 
-   /**
+  /**
    * Get boolItem
    * @return boolItem
-  **/
+   */
   @javax.annotation.Nonnull
   public Boolean getBoolItem() {
     return boolItem;
   }
-
 
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
@@ -190,7 +178,6 @@ public class TypeHolderExample implements Parcelable {
 
 
   public TypeHolderExample arrayItem(List<Integer> arrayItem) {
-    
     this.arrayItem = arrayItem;
     return this;
   }
@@ -203,15 +190,14 @@ public class TypeHolderExample implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get arrayItem
    * @return arrayItem
-  **/
+   */
   @javax.annotation.Nonnull
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
-
 
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
@@ -321,12 +307,12 @@ public class TypeHolderExample implements Parcelable {
     openapiRequiredFields.add("array_item");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to TypeHolderExample
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to TypeHolderExample
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!TypeHolderExample.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -334,9 +320,9 @@ public class TypeHolderExample implements Parcelable {
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!TypeHolderExample.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `TypeHolderExample` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
@@ -389,22 +375,22 @@ public class TypeHolderExample implements Parcelable {
     }
   }
 
- /**
-  * Create an instance of TypeHolderExample given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of TypeHolderExample
-  * @throws IOException if the JSON string is invalid with respect to TypeHolderExample
-  */
+  /**
+   * Create an instance of TypeHolderExample given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of TypeHolderExample
+   * @throws IOException if the JSON string is invalid with respect to TypeHolderExample
+   */
   public static TypeHolderExample fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, TypeHolderExample.class);
   }
 
- /**
-  * Convert an instance of TypeHolderExample to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of TypeHolderExample to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

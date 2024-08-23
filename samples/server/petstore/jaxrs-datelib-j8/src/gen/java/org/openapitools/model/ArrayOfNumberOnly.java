@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
@@ -32,11 +33,11 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class ArrayOfNumberOnly  implements Serializable {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
   @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
-  private List<BigDecimal> arrayNumber;
+  private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
@@ -76,7 +77,7 @@ public class ArrayOfNumberOnly  implements Serializable {
       return false;
     }
     ArrayOfNumberOnly arrayOfNumberOnly = (ArrayOfNumberOnly) o;
-    return Objects.equals(arrayNumber, arrayOfNumberOnly.arrayNumber);
+    return Objects.equals(this.arrayNumber, arrayOfNumberOnly.arrayNumber);
   }
 
   @Override

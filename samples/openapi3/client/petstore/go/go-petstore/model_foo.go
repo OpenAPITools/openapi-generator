@@ -12,6 +12,8 @@ package petstore
 
 import (
 	"encoding/json"
+	"time"
+	"fmt"
 )
 
 // checks if the Foo type satisfies the MappedNullable interface at compile time
@@ -19,7 +21,8 @@ var _ MappedNullable = &Foo{}
 
 // Foo struct for Foo
 type Foo struct {
-	Bar *string `json:"bar,omitempty"`
+	Bar string `json:"bar"`
+	Map *map[string][]time.Time `json:"map,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -29,10 +32,9 @@ type _Foo Foo
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewFoo() *Foo {
+func NewFoo(bar string) *Foo {
 	this := Foo{}
-	var bar string = "bar"
-	this.Bar = &bar
+	this.Bar = bar
 	return &this
 }
 
@@ -42,40 +44,69 @@ func NewFoo() *Foo {
 func NewFooWithDefaults() *Foo {
 	this := Foo{}
 	var bar string = "bar"
-	this.Bar = &bar
+	this.Bar = bar
 	return &this
 }
 
-// GetBar returns the Bar field value if set, zero value otherwise.
+// GetBar returns the Bar field value
 func (o *Foo) GetBar() string {
-	if o == nil || IsNil(o.Bar) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Bar
+
+	return o.Bar
 }
 
-// GetBarOk returns a tuple with the Bar field value if set, nil otherwise
+// GetBarOk returns a tuple with the Bar field value
 // and a boolean to check if the value has been set.
 func (o *Foo) GetBarOk() (*string, bool) {
-	if o == nil || IsNil(o.Bar) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Bar, true
+	return &o.Bar, true
 }
 
-// HasBar returns a boolean if a field has been set.
-func (o *Foo) HasBar() bool {
-	if o != nil && !IsNil(o.Bar) {
+// SetBar sets field value
+func (o *Foo) SetBar(v string) {
+	o.Bar = v
+}
+
+// GetDefaultBar returns the default value "bar" of the Bar field.
+func (o *Foo) GetDefaultBar() interface{}  {
+	return "bar"
+}
+
+// GetMap returns the Map field value if set, zero value otherwise.
+func (o *Foo) GetMap() map[string][]time.Time {
+	if o == nil || IsNil(o.Map) {
+		var ret map[string][]time.Time
+		return ret
+	}
+	return *o.Map
+}
+
+// GetMapOk returns a tuple with the Map field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Foo) GetMapOk() (*map[string][]time.Time, bool) {
+	if o == nil || IsNil(o.Map) {
+		return nil, false
+	}
+	return o.Map, true
+}
+
+// HasMap returns a boolean if a field has been set.
+func (o *Foo) HasMap() bool {
+	if o != nil && !IsNil(o.Map) {
 		return true
 	}
 
 	return false
 }
 
-// SetBar gets a reference to the given string and assigns it to the Bar field.
-func (o *Foo) SetBar(v string) {
-	o.Bar = &v
+// SetMap gets a reference to the given map[string][]time.Time and assigns it to the Map field.
+func (o *Foo) SetMap(v map[string][]time.Time) {
+	o.Map = &v
 }
 
 func (o Foo) MarshalJSON() ([]byte, error) {
@@ -88,8 +119,12 @@ func (o Foo) MarshalJSON() ([]byte, error) {
 
 func (o Foo) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Bar) {
-		toSerialize["bar"] = o.Bar
+	if _, exists := toSerialize["bar"]; !exists {
+		toSerialize["bar"] = o.GetDefaultBar()
+	}
+	toSerialize["bar"] = o.Bar
+	if !IsNil(o.Map) {
+		toSerialize["map"] = o.Map
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -99,17 +134,61 @@ func (o Foo) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *Foo) UnmarshalJSON(bytes []byte) (err error) {
+func (o *Foo) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"bar",
+	}
+
+	// defaultValueFuncMap captures the default values for required properties.
+	// These values are used when required properties are missing from the payload.
+	defaultValueFuncMap := map[string]func() interface{} {
+		"bar": o.GetDefaultBar,
+	}
+	var defaultValueApplied bool
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if value, exists := allProperties[requiredProperty]; !exists || value == "" {
+			if _, ok := defaultValueFuncMap[requiredProperty]; ok {
+				allProperties[requiredProperty] = defaultValueFuncMap[requiredProperty]()
+				defaultValueApplied = true
+			}
+		}
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	if defaultValueApplied {
+		data, err = json.Marshal(allProperties)
+		if err != nil{
+			return err
+		}
+	}
 	varFoo := _Foo{}
 
-	if err = json.Unmarshal(bytes, &varFoo); err == nil {
-		*o = Foo(varFoo)
+	err = json.Unmarshal(data, &varFoo)
+
+	if err != nil {
+		return err
 	}
+
+	*o = Foo(varFoo)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "bar")
+		delete(additionalProperties, "map")
 		o.AdditionalProperties = additionalProperties
 	}
 

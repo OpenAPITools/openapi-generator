@@ -58,6 +58,7 @@ docs/SpecialModelName.md
 docs/StoreApi.md
 docs/StringOrBoolean.md
 docs/Tag.md
+docs/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/User.md
 docs/UserApi.md
 git_push.sh
@@ -122,4 +123,5 @@ src/model/Return.js
 src/model/SpecialModelName.js
 src/model/StringOrBoolean.js
 src/model/Tag.js
+src/model/TestInlineFreeformAdditionalPropertiesRequest.js
 src/model/User.js

@@ -25,6 +25,17 @@ export const StringEnum = {
 export type StringEnum = typeof StringEnum[keyof typeof StringEnum];
 
 
+export function instanceOfStringEnum(value: any): boolean {
+    for (const key in StringEnum) {
+        if (Object.prototype.hasOwnProperty.call(StringEnum, key)) {
+            if (StringEnum[key as keyof typeof StringEnum] === value) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 export function StringEnumFromJSON(json: any): StringEnum {
     return StringEnumFromJSONTyped(json, false);
 }

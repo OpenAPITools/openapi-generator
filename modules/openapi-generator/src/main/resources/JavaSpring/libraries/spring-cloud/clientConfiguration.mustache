@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 {{/authMethods}}
 {{#hasAuthMethods}}
 import org.springframework.context.annotation.Bean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 {{#hasApiKeyMethods}}
 import org.springframework.beans.factory.annotation.Value;
 {{/hasApiKeyMethods}}
@@ -25,7 +26,6 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.http.HttpHeaders;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
@@ -35,7 +35,6 @@ import feign.RequestTemplate;
 import org.springframework.context.annotation.Configuration;
 
 
-@Configuration
 public class ClientConfiguration {
 
 {{#authMethods}}

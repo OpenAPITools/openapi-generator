@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
   s.source_files = '{{swiftPackagePath}}{{^swiftPackagePath}}{{#useSPMFileStructure}}Sources/{{projectName}}{{/useSPMFileStructure}}{{^useSPMFileStructure}}{{projectName}}/Classes{{/useSPMFileStructure}}{{/swiftPackagePath}}/**/*.swift'
   s.dependency 'AnyCodable-FlightSchool', '~> 0.6'
   {{#useAlamofire}}
-  s.dependency 'Alamofire', '~> 5.4'
+  s.dependency 'Alamofire', '~> 5.7'
   {{/useAlamofire}}
   {{#usePromiseKit}}
   s.dependency 'PromiseKit/CorePromise', '~> 6.15'

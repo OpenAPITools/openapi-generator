@@ -906,6 +906,40 @@ paths:
       summary: test json serialization of form data
       tags:
       - fake
+  /fake/additionalProperties-reference:
+    post:
+      description: ""
+      operationId: testAdditionalPropertiesReference
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test referenced additionalProperties
+      tags:
+      - fake
+  /fake/stringMap-reference:
+    post:
+      description: ""
+      operationId: testStringMapReference
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test referenced string map
+      tags:
+      - fake
   /fake/inline-additionalProperties:
     post:
       description: ""
@@ -923,6 +957,23 @@ paths:
         "200":
           description: successful operation
       summary: test inline additionalProperties
+      tags:
+      - fake
+  /fake/inline-freeform-additionalProperties:
+    post:
+      description: ""
+      operationId: testInlineFreeformAdditionalProperties
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/testInlineFreeformAdditionalProperties_request'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test inline free-form additionalProperties
       tags:
       - fake
   /fake/body-with-query-params:
@@ -1139,6 +1190,22 @@ paths:
           description: OK
       tags:
       - fake
+  /fake/deep_object_anyof_test:
+    get:
+      operationId: test_query_deep_object_anyof
+      parameters:
+      - explode: false
+        in: query
+        name: filter
+        required: false
+        schema:
+          $ref: '#/components/schemas/FilterAny'
+        style: deepObject
+      responses:
+        "200":
+          description: OK
+      tags:
+      - fake
   /fake/parameter-name-mapping:
     get:
       operationId: getParameterNameMapping
@@ -1182,6 +1249,22 @@ paths:
       summary: parameter name mapping test
       tags:
       - fake
+  /fake/wrapped-integer-ref:
+    post:
+      operationId: someOpsRequiringRefInt
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/someOpsRequiringRefInt_request'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+          description: success
 components:
   requestBodies:
     UserArray:
@@ -1211,13 +1294,68 @@ components:
       description: Pet object that needs to be added to the store
       required: true
   schemas:
+    FilterTypeRegex:
+      properties:
+        type:
+          enum:
+          - set
+          - range
+          type: string
+        regex:
+          type: string
+      required:
+      - type
+      type: object
+    FilterTypeRange:
+      properties:
+        type:
+          enum:
+          - set
+          - range
+          type: string
+        data:
+          items:
+            type: string
+          type: array
+      required:
+      - type
+      type: object
+    FilterAny:
+      anyOf:
+      - $ref: '#/components/schemas/FilterTypeRegex'
+      - $ref: '#/components/schemas/FilterTypeRange'
+      discriminator:
+        mapping:
+          set: '#/components/schemas/FilterTypeRegex'
+          range: '#/components/schemas/FilterTypeRange'
+        propertyName: type
+    MapWithDateTime:
+      additionalProperties:
+        items:
+          format: date-time
+          type: string
+        type: array
+      type: object
     Foo:
       example:
         bar: bar
+        map:
+          key:
+          - 2000-01-23T04:56:07.000+00:00
+          - 2000-01-23T04:56:07.000+00:00
       properties:
         bar:
           default: bar
           type: string
+        map:
+          additionalProperties:
+            items:
+              format: date-time
+              type: string
+            type: array
+          type: object
+      required:
+      - bar
       type: object
     Bar:
       default: bar
@@ -1545,6 +1683,10 @@ components:
             to three digits following i.e. Image_01.
           pattern: "/^image_\\d{1,3}$/i"
           type: string
+        pattern_with_backtick:
+          pattern: "^$|^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\\
+            .[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+          type: string
       required:
       - byte
       - date
@@ -1746,6 +1888,15 @@ components:
             - crab
             type: string
           type: array
+      type: object
+    FreeFormObject:
+      additionalProperties: true
+      description: A schema consisting only of additional properties
+      type: object
+    MapOfString:
+      additionalProperties:
+        type: string
+      description: A schema consisting only of additional properties of type string
       type: object
     OuterEnum:
       enum:
@@ -2033,6 +2184,12 @@ components:
       items:
         type: string
       type: array
+    AnyOfPrimitiveType:
+      anyOf:
+      - $ref: '#/components/schemas/OneOfPrimitiveTypeChild'
+      - format: int32
+        type: integer
+      - $ref: '#/components/schemas/OneOfArrayOfString'
     DuplicatedPropChild:
       allOf:
       - $ref: '#/components/schemas/DuplicatedPropParent'
@@ -2084,10 +2241,32 @@ components:
           type: string
         type_:
           type: string
+    IncidentData:
+      nullable: true
+      oneOf:
+      - items:
+          type: object
+        type: array
+      - type: object
+    IDsWrapper:
+      properties:
+        id:
+          type: integer
+      type: object
+    OneOfWithComplexType:
+      oneOf:
+      - type: string
+      - items:
+          type: string
+        type: array
     _foo_get_default_response:
       example:
         string:
           bar: bar
+          map:
+            key:
+            - 2000-01-23T04:56:07.000+00:00
+            - 2000-01-23T04:56:07.000+00:00
       properties:
         string:
           $ref: '#/components/schemas/Foo'
@@ -2215,6 +2394,12 @@ components:
       - param
       - param2
       type: object
+    testInlineFreeformAdditionalProperties_request:
+      additionalProperties: true
+      properties:
+        someProperty:
+          type: string
+      type: object
     uploadFileWithRequiredFile_request:
       properties:
         additionalMetadata:
@@ -2226,6 +2411,15 @@ components:
           type: string
       required:
       - requiredFile
+      type: object
+    someOpsRequiringRefInt_request:
+      properties:
+        MyIDs:
+          items:
+            $ref: '#/components/schemas/IDsWrapper/properties/id'
+          type: array
+      required:
+      - ids
       type: object
   securitySchemes:
     petstore_auth:

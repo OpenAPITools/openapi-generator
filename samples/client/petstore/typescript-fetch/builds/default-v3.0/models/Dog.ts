@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { Animal } from './Animal';
 import {
     AnimalFromJSON,
@@ -37,10 +37,8 @@ export interface Dog extends Animal {
 /**
  * Check if a given object implements the Dog interface.
  */
-export function instanceOfDog(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfDog(value: object): value is Dog {
+    return true;
 }
 
 export function DogFromJSON(json: any): Dog {
@@ -48,25 +46,22 @@ export function DogFromJSON(json: any): Dog {
 }
 
 export function DogFromJSONTyped(json: any, ignoreDiscriminator: boolean): Dog {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         ...AnimalFromJSONTyped(json, ignoreDiscriminator),
-        'breed': !exists(json, 'breed') ? undefined : json['breed'],
+        'breed': json['breed'] == null ? undefined : json['breed'],
     };
 }
 
 export function DogToJSON(value?: Dog | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         ...AnimalToJSON(value),
-        'breed': value.breed,
+        'breed': value['breed'],
     };
 }
 

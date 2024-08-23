@@ -18,14 +18,14 @@ jobs:
       matrix:
         java: [11, 17]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up JDK ${{ matrix.java }}
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: ${{ matrix.java }}
           distribution: 'temurin'
       - name: Cache maven dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: cache-maven-repository
         with:
@@ -39,7 +39,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
       - name: Setup Maven
-        uses: s4u/setup-maven-action@v1.8.0
+        uses: s4u/setup-maven-action@v1.14.0
         with:
           java-version: ${{ matrix.java }}
           maven-version: 3.8.8
@@ -53,7 +53,7 @@ jobs:
           # generator names containing "-" caused problems in the past, see https://github.com/OpenAPITools/openapi-generator/issues/9528
           java -jar ./openapi-generator-cli.jar author template --verbose  -g jaxrs-spec --library quarkus
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
       - name: Gradle tests
         run: |
           gradle -b modules/openapi-generator-gradle-plugin/samples/local-spec/build.gradle buildGoSdk --stacktrace

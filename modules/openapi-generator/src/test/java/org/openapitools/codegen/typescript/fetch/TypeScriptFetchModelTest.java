@@ -35,12 +35,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /*
 import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
@@ -480,4 +475,5 @@ public class TypeScriptFetchModelTest {
         final Map<String, Schema> schemaBefore = openAPI.getComponents().getSchemas();
         Assert.assertEquals(schemaBefore.keySet(), Sets.newHashSet("club", "owner"));
     }
+
 }

@@ -131,16 +131,20 @@ func (o ReadOnlyFirst) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *ReadOnlyFirst) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ReadOnlyFirst) UnmarshalJSON(data []byte) (err error) {
 	varReadOnlyFirst := _ReadOnlyFirst{}
 
-	if err = json.Unmarshal(bytes, &varReadOnlyFirst); err == nil {
-		*o = ReadOnlyFirst(varReadOnlyFirst)
+	err = json.Unmarshal(data, &varReadOnlyFirst)
+
+	if err != nil {
+		return err
 	}
+
+	*o = ReadOnlyFirst(varReadOnlyFirst)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "bar")
 		delete(additionalProperties, "baz")
 		o.AdditionalProperties = additionalProperties

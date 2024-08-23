@@ -77,7 +77,7 @@ namespace {{modelPackage}}
         public {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{name}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
         {{/isEnum}}
         {{^isEnum}}
-        public {{{dataType}}} {{name}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
+        public {{{dataType}}}{{#nullableReferenceTypes}}{{^isContainer}}{{^required}}{{^isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableReferenceTypes}} {{name}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
         {{/isEnum}}
         {{^-last}}
 

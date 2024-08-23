@@ -5,11 +5,10 @@ mod server;
 #[allow(unused_imports)]
 use futures::{future, Stream, stream};
 #[allow(unused_imports)]
-use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt, models,
+use openapi_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       AnyOfGetResponse,
                       CallbackWithHeaderPostResponse,
                       ComplexQueryParamGetResponse,
-                      EnumInPathPathParamGetResponse,
                       JsonComplexQueryParamGetResponse,
                       MandatoryRequestHeaderGetResponse,
                       MergePatchJsonGetResponse,
@@ -30,10 +29,14 @@ use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt, models,
                       XmlOtherPutResponse,
                       XmlPostResponse,
                       XmlPutResponse,
+                      EnumInPathPathParamGetResponse,
                       CreateRepoResponse,
                       GetRepoInfoResponse,
                      };
 use clap::{App, Arg};
+
+// NOTE: Set environment variable RUST_LOG to the name of the executable (or "cargo run") to activate console logging for all loglevels.
+//     See https://docs.rs/env_logger/latest/env_logger/  for more details
 
 #[allow(unused_imports)]
 use log::info;
@@ -43,6 +46,10 @@ use log::info;
 use swagger::{AuthData, ContextBuilder, EmptyContext, Has, Push, XSpanIdString};
 
 type ClientContext = swagger::make_context_ty!(ContextBuilder, EmptyContext, Option<AuthData>, XSpanIdString);
+
+mod client_auth;
+use client_auth::build_token;
+
 
 // rt may be unused if there are no examples
 #[allow(unused_mut)]
@@ -96,14 +103,42 @@ fn main() {
             .help("Port to contact"))
         .get_matches();
 
+    // Create Bearer-token with a fixed key (secret) for test purposes.
+    // In a real (production) system this Bearer token should be obtained via an external Identity/Authentication-server
+    // Ensure that you set the correct algorithm and encodingkey that matches what is used on the server side.
+    // See https://github.com/Keats/jsonwebtoken for more information
+    let auth_token = build_token(
+            Claims {
+                sub: "tester@acme.com".to_owned(),
+                company: "ACME".to_owned(),
+                iss: "my_identity_provider".to_owned(),
+                // added a very long expiry time
+                aud: "org.acme.Resource_Server".to_string(),
+                exp: 10000000000,
+                // In this example code all available Scopes are added, so the current Bearer Token gets fully authorization.
+                scopes:
+                  [
+                            "test.read",
+                            "test.write",
+                  ].join::<&str>(", ")
+            },
+            b"secret").unwrap();
+
+    let auth_data = if !auth_token.is_empty() {
+        Some(AuthData::Bearer(swagger::auth::Bearer { token: auth_token}))
+    } else {
+        // No Bearer-token available, so return None
+        None
+    };
+
     let is_https = matches.is_present("https");
     let base_url = format!("{}://{}:{}",
-                           if is_https { "https" } else { "http" },
-                           matches.value_of("host").unwrap(),
-                           matches.value_of("port").unwrap());
+        if is_https { "https" } else { "http" },
+        matches.value_of("host").unwrap(),
+        matches.value_of("port").unwrap());
 
     let context: ClientContext =
-        swagger::make_context!(ContextBuilder, EmptyContext, None as Option<AuthData>, XSpanIdString::default());
+        swagger::make_context!(ContextBuilder, EmptyContext, auth_data, XSpanIdString::default());
 
     let mut client : Box<dyn ApiNoContext<ClientContext>> = if matches.is_present("https") {
         // Using Simple HTTPS
@@ -142,14 +177,6 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        /* Disabled because there's no example.
-        Some("EnumInPathPathParamGet") => {
-            let result = rt.block_on(client.enum_in_path_path_param_get(
-                  ???
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        */
         Some("JsonComplexQueryParamGet") => {
             let result = rt.block_on(client.json_complex_query_param_get(
                   Some(&Vec::new())
@@ -263,6 +290,14 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        /* Disabled because there's no example.
+        Some("EnumInPathPathParamGet") => {
+            let result = rt.block_on(client.enum_in_path_path_param_get(
+                  ???
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        */
         Some("CreateRepo") => {
             let result = rt.block_on(client.create_repo(
                   serde_json::from_str::<models::ObjectParam>(r#"{"requiredParam":true}"#).expect("Failed to parse JSON example")

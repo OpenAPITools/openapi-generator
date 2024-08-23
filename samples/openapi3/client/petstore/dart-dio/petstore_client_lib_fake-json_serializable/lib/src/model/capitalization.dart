@@ -104,23 +104,25 @@ class Capitalization {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is Capitalization &&
-     other.smallCamel == smallCamel &&
-     other.capitalCamel == capitalCamel &&
-     other.smallSnake == smallSnake &&
-     other.capitalSnake == capitalSnake &&
-     other.sCAETHFlowPoints == sCAETHFlowPoints &&
-     other.ATT_NAME == ATT_NAME;
 
-  @override
-  int get hashCode =>
-    smallCamel.hashCode +
-    capitalCamel.hashCode +
-    smallSnake.hashCode +
-    capitalSnake.hashCode +
-    sCAETHFlowPoints.hashCode +
-    ATT_NAME.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is Capitalization &&
+      other.smallCamel == smallCamel &&
+      other.capitalCamel == capitalCamel &&
+      other.smallSnake == smallSnake &&
+      other.capitalSnake == capitalSnake &&
+      other.sCAETHFlowPoints == sCAETHFlowPoints &&
+      other.ATT_NAME == ATT_NAME;
+
+    @override
+    int get hashCode =>
+        smallCamel.hashCode +
+        capitalCamel.hashCode +
+        smallSnake.hashCode +
+        capitalSnake.hashCode +
+        sCAETHFlowPoints.hashCode +
+        ATT_NAME.hashCode;
 
   factory Capitalization.fromJson(Map<String, dynamic> json) => _$CapitalizationFromJson(json);
 

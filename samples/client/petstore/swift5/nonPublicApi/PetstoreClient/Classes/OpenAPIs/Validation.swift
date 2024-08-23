@@ -20,12 +20,22 @@ internal struct NumericRule<T: Comparable & Numeric> {
     internal var multipleOf: T?
 }
 
+internal struct ArrayRule {
+    internal var minItems: Int?
+    internal var maxItems: Int?
+    internal var uniqueItems: Bool
+}
+
 internal enum StringValidationErrorKind: Error {
     case minLength, maxLength, pattern
 }
 
 internal enum NumericValidationErrorKind: Error {
     case minimum, maximum, multipleOf
+}
+
+internal enum ArrayValidationErrorKind: Error {
+    case minItems, maxItems, uniqueItems
 }
 
 internal struct ValidationError<T: Error & Hashable>: Error {
@@ -68,18 +78,18 @@ internal struct Validator {
     internal static func validate<T: Comparable & BinaryInteger>(_ numeric: T, against rule: NumericRule<T>) throws -> T {
         var error = ValidationError<NumericValidationErrorKind>(kinds: [])
         if let minium = rule.minimum {
-            if !rule.exclusiveMinimum, !(minium <= numeric) {
+            if !rule.exclusiveMinimum, minium > numeric {
                 error.kinds.insert(.minimum)
             }
-            if rule.exclusiveMinimum, !(minium < numeric) {
+            if rule.exclusiveMinimum, minium >= numeric {
                 error.kinds.insert(.minimum)
             }
         }
         if let maximum = rule.maximum {
-            if !rule.exclusiveMaximum, !(numeric <= maximum) {
+            if !rule.exclusiveMaximum, numeric > maximum {
                 error.kinds.insert(.maximum)
             }
-            if rule.exclusiveMaximum, !(numeric < maximum) {
+            if rule.exclusiveMaximum, numeric >= maximum {
                 error.kinds.insert(.maximum)
             }
         }
@@ -100,18 +110,18 @@ internal struct Validator {
     internal static func validate<T: Comparable & FloatingPoint>(_ numeric: T, against rule: NumericRule<T>) throws -> T {
         var error = ValidationError<NumericValidationErrorKind>(kinds: [])
         if let minium = rule.minimum {
-            if !rule.exclusiveMinimum, !(minium <= numeric) {
+            if !rule.exclusiveMinimum, minium > numeric {
                 error.kinds.insert(.minimum)
             }
-            if rule.exclusiveMinimum, !(minium < numeric) {
+            if rule.exclusiveMinimum, minium >= numeric {
                 error.kinds.insert(.minimum)
             }
         }
         if let maximum = rule.maximum {
-            if !rule.exclusiveMaximum, !(numeric <= maximum) {
+            if !rule.exclusiveMaximum, numeric > maximum {
                 error.kinds.insert(.maximum)
             }
-            if rule.exclusiveMaximum, !(numeric < maximum) {
+            if rule.exclusiveMaximum, numeric >= maximum {
                 error.kinds.insert(.maximum)
             }
         }
@@ -122,5 +132,30 @@ internal struct Validator {
             throw error
         }
         return numeric
+    }
+
+    /// Validate a array against a rule.
+    /// - Parameter array: The Array you wish to validate.
+    /// - Parameter rule: The ArrayRule you wish to use for validation.
+    /// - Returns: A validated array.
+    /// - Throws: `ValidationError<ArrayValidationErrorKind>` if the string is invalid against the rule.
+    internal static func validate(_ array: Array<AnyHashable>, against rule: ArrayRule) throws -> Array<AnyHashable> {
+        var error = ValidationError<ArrayValidationErrorKind>(kinds: [])
+        if let minItems = rule.minItems, !(minItems <= array.count) {
+            error.kinds.insert(.minItems)
+        }
+        if let maxItems = rule.maxItems, !(array.count <= maxItems) {
+            error.kinds.insert(.maxItems)
+        }
+        if rule.uniqueItems {
+            let unique = Set(array)
+            if unique.count != array.count {
+                error.kinds.insert(.uniqueItems)
+            }
+        }
+        guard error.kinds.isEmpty else {
+            throw error
+        }
+        return array
     }
 }

@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,12 +45,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -58,7 +56,7 @@ import org.openapitools.client.JSON;
 /**
  * Pet
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Pet implements Parcelable {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -78,7 +76,7 @@ public class Pet implements Parcelable {
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
-  private List<Tag> tags;
+  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -127,6 +125,11 @@ public class Pet implements Parcelable {
         return StatusEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      StatusEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_STATUS = "status";
@@ -137,20 +140,18 @@ public class Pet implements Parcelable {
   }
 
   public Pet id(Long id) {
-    
     this.id = id;
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   public Long getId() {
     return id;
   }
-
 
   public void setId(Long id) {
     this.id = id;
@@ -158,20 +159,18 @@ public class Pet implements Parcelable {
 
 
   public Pet category(Category category) {
-    
     this.category = category;
     return this;
   }
 
-   /**
+  /**
    * Get category
    * @return category
-  **/
+   */
   @javax.annotation.Nullable
   public Category getCategory() {
     return category;
   }
-
 
   public void setCategory(Category category) {
     this.category = category;
@@ -179,20 +178,18 @@ public class Pet implements Parcelable {
 
 
   public Pet name(String name) {
-    
     this.name = name;
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nonnull
   public String getName() {
     return name;
   }
-
 
   public void setName(String name) {
     this.name = name;
@@ -200,7 +197,6 @@ public class Pet implements Parcelable {
 
 
   public Pet photoUrls(Set<String> photoUrls) {
-    
     this.photoUrls = photoUrls;
     return this;
   }
@@ -213,15 +209,14 @@ public class Pet implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get photoUrls
    * @return photoUrls
-  **/
+   */
   @javax.annotation.Nonnull
   public Set<String> getPhotoUrls() {
     return photoUrls;
   }
-
 
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
@@ -229,7 +224,6 @@ public class Pet implements Parcelable {
 
 
   public Pet tags(List<Tag> tags) {
-    
     this.tags = tags;
     return this;
   }
@@ -242,15 +236,14 @@ public class Pet implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get tags
    * @return tags
-  **/
+   */
   @javax.annotation.Nullable
   public List<Tag> getTags() {
     return tags;
   }
-
 
   public void setTags(List<Tag> tags) {
     this.tags = tags;
@@ -258,20 +251,18 @@ public class Pet implements Parcelable {
 
 
   public Pet status(StatusEnum status) {
-    
     this.status = status;
     return this;
   }
 
-   /**
+  /**
    * pet status in the store
    * @return status
-  **/
+   */
   @javax.annotation.Nullable
   public StatusEnum getStatus() {
     return status;
   }
-
 
   public void setStatus(StatusEnum status) {
     this.status = status;
@@ -377,12 +368,12 @@ public class Pet implements Parcelable {
     openapiRequiredFields.add("photoUrls");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Pet
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to Pet
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Pet.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -390,9 +381,9 @@ public class Pet implements Parcelable {
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!Pet.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `Pet` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
@@ -435,6 +426,10 @@ public class Pet implements Parcelable {
       if ((jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) && !jsonObj.get("status").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
       }
+      // validate the optional field `status`
+      if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) {
+        StatusEnum.validateJsonElement(jsonObj.get("status"));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
@@ -466,22 +461,22 @@ public class Pet implements Parcelable {
     }
   }
 
- /**
-  * Create an instance of Pet given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Pet
-  * @throws IOException if the JSON string is invalid with respect to Pet
-  */
+  /**
+   * Create an instance of Pet given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of Pet
+   * @throws IOException if the JSON string is invalid with respect to Pet
+   */
   public static Pet fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Pet.class);
   }
 
- /**
-  * Convert an instance of Pet to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of Pet to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

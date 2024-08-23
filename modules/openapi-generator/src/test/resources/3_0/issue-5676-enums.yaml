@@ -218,4 +218,5 @@ components:
         allof-number-enum:
           allOf:
             - $ref: "#/components/schemas/NumberEnum"
+          deprecated: true
 

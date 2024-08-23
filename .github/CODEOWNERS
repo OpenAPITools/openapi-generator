@@ -12,24 +12,19 @@ modules/openapi-generator-core/**/* @OpenAPITools/generator-core-team
 # No need for auto-generated subdirectories (reduces noise)
 docs/ @OpenAPITools/generator-core-team
 
-## Individual interests
-.github/**/* @jimschubert
-scripts/**/* @jimschubert
-website/**/* @jimschubert
-bin/ci/**/* @jimschubert
-
 ## Build related
 CI/**/* @OpenAPITools/build
 .mvn/**/* @OpenAPITools/build
 bin/utils/**/* @OpenAPITools/build
 
-## Module-specific
-modules/openapi-generator-cli/**/* @jimschubert
-modules/openapi-generator-gradle-plugin/**/* @jimschubert
-modules/openapi-generator-maven-plugin/**/* @jimschubert
-
-# Martin Delille
-/Users/martin/dev/clone/openapi-generator/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/CppQtClientCodegen.java @martindelille
-/Users/martin/dev/clone/openapi-generator/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/CppQtAbstractCodegen.java @martindelille
-/Users/martin/dev/clone/openapi-generator/modules/openapi-generator/src/main/resources/cpp-qt-client @martindelille
-/Users/martin/dev/clone/openapi-generator/samples/client/petstore/cpp-qt @martindelille
+# cpp-qt-client technical committee
+modules/openapi-generator/src/main/resources/cpp-qt-client/**/* @ravinikam
+samples/client/petstore/cpp-qt/**/* @ravinikam
+modules/openapi-generator/src/main/resources/cpp-qt-client/**/* @stkrwork
+samples/client/petstore/cpp-qt/**/* @stkrwork
+modules/openapi-generator/src/main/resources/cpp-qt-client/**/* @etherealjoy
+samples/client/petstore/cpp-qt/**/* @etherealjoy
+modules/openapi-generator/src/main/resources/cpp-qt-client/**/* @martindelille
+samples/client/petstore/cpp-qt/**/* @martindelille
+modules/openapi-generator/src/main/resources/cpp-qt-client/**/* @muttleyxd
+samples/client/petstore/cpp-qt/**/* @muttleyxd

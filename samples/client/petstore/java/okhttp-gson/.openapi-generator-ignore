@@ -11,4 +11,5 @@ src/test/java/org/openapitools/client/model/PetTest.java
 src/test/java/org/openapitools/client/model/ArrayOfArrayOfNumberOnlyTest.java
 src/test/java/org/openapitools/client/JSONTest.java
 src/test/java/org/openapitools/client/api/PetApiTest.java
-
+# to manually include mockito-core in pom.xml
+pom.xml 

@@ -24,18 +24,33 @@ import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import org.mockito.Answers;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.languages.AbstractGoCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.withSettings;
 
 public class AbstractGoCodegenTest {
 
+    private AbstractGoCodegen codegen;
+
+    /**
+     * In TEST-NG, test class (and its fields) is only constructed once (vs. for every test in Jupiter),
+     * using @BeforeMethod to have a fresh codegen mock for each test
+     */
+    @BeforeMethod void mockAbstractCodegen() {
+        codegen = mock(
+            AbstractGoCodegen.class, withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()
+        );
+    }
+
     @Test
     public void testInitialConfigValues() throws Exception {
-        final AbstractGoCodegen codegen = new P_AbstractGoCodegen();
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
@@ -44,7 +59,6 @@ public class AbstractGoCodegenTest {
 
     @Test
     public void testSettersForConfigValues() throws Exception {
-        final AbstractGoCodegen codegen = new P_AbstractGoCodegen();
         codegen.setHideGenerationTimestamp(true);
         codegen.processOpts();
 
@@ -54,7 +68,6 @@ public class AbstractGoCodegenTest {
 
     @Test
     public void testAdditionalPropertiesPutForConfigValues() throws Exception {
-        final AbstractGoCodegen codegen = new P_AbstractGoCodegen();
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, true);
         codegen.processOpts();
 
@@ -64,7 +77,6 @@ public class AbstractGoCodegenTest {
 
     @Test
     public void getTypeDeclarationTest() {
-        final AbstractGoCodegen codegen = new P_AbstractGoCodegen();
 
         // Create an alias to an array schema
         Schema<?> nestedArraySchema = new ArraySchema().items(new IntegerSchema().format("int32"));
@@ -98,22 +110,5 @@ public class AbstractGoCodegenTest {
         ModelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "map[string]interface{}");
-    }
-
-    private static class P_AbstractGoCodegen extends AbstractGoCodegen {
-        @Override
-        public CodegenType getTag() {
-            return null;
-        }
-
-        @Override
-        public String getName() {
-            return null;
-        }
-
-        @Override
-        public String getHelp() {
-            return null;
-        }
     }
 }

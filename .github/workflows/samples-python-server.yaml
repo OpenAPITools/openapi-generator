@@ -3,10 +3,10 @@ name: Python Server
 on:
   push:
     paths:
-      - samples/server/petstore/python-aiohttp/**
+      - samples/server/petstore/python-aiohttp-srclayout/**
   pull_request:
     paths:
-      - samples/server/petstore/python-aiohttp/**
+      - samples/server/petstore/python-aiohttp-srclayout/**
 jobs:
   build:
     name: Test Python server
@@ -16,10 +16,10 @@ jobs:
       matrix:
         sample:
           # servers
-          - samples/server/petstore/python-aiohttp/
+          - samples/server/petstore/python-aiohttp-srclayout/
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.7'
       - name: Test

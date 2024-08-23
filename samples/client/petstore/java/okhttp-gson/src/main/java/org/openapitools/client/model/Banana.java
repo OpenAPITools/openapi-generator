@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -38,12 +38,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -51,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * Banana
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Banana {
   public static final String SERIALIZED_NAME_LENGTH_CM = "lengthCm";
   @SerializedName(SERIALIZED_NAME_LENGTH_CM)
@@ -61,20 +59,18 @@ public class Banana {
   }
 
   public Banana lengthCm(BigDecimal lengthCm) {
-    
     this.lengthCm = lengthCm;
     return this;
   }
 
-   /**
+  /**
    * Get lengthCm
    * @return lengthCm
-  **/
+   */
   @javax.annotation.Nullable
   public BigDecimal getLengthCm() {
     return lengthCm;
   }
-
 
   public void setLengthCm(BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
@@ -178,12 +174,12 @@ public class Banana {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Banana
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to Banana
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Banana.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -221,7 +217,12 @@ public class Banana {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -260,22 +261,22 @@ public class Banana {
     }
   }
 
- /**
-  * Create an instance of Banana given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Banana
-  * @throws IOException if the JSON string is invalid with respect to Banana
-  */
+  /**
+   * Create an instance of Banana given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of Banana
+   * @throws IOException if the JSON string is invalid with respect to Banana
+   */
   public static Banana fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Banana.class);
   }
 
- /**
-  * Convert an instance of Banana to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of Banana to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

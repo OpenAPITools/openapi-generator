@@ -13,6 +13,7 @@
 #include <sstream>
 #include <vector>
 #include <map>
+#include <set>
 
 namespace {{helpersNamespace}}
 {
@@ -79,6 +80,15 @@ namespace {{helpersNamespace}}
                 }
             }
         }
+        return true;
+    }
+
+    /// <summary>
+    /// Determine if the given set<T> only has unique elements.
+    /// </summary>
+    template <typename T>
+    bool hasOnlyUniqueItems(const std::set<T>&)
+    {
         return true;
     }
 

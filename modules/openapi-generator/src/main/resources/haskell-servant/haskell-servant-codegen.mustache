@@ -38,12 +38,9 @@ library
                      , http-types
                      , swagger2
                      , uuid
+                     , bytestring
 {{#authMethods}}
-{{#isApiKey}}
-                     , bytestring
-{{/isApiKey}}
 {{#isBasicBearer}}
-                     , bytestring
                      , wai-extra
 {{/isBasicBearer}}
 {{#isBasicBasic}}

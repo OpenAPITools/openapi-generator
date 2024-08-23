@@ -367,7 +367,7 @@ func (o *User) GetArbitraryNullableObjectOk() (map[string]interface{}, bool) {
 
 // HasArbitraryNullableObject returns a boolean if a field has been set.
 func (o *User) HasArbitraryNullableObject() bool {
-	if o != nil && IsNil(o.ArbitraryNullableObject) {
+	if o != nil && !IsNil(o.ArbitraryNullableObject) {
 		return true
 	}
 
@@ -400,7 +400,7 @@ func (o *User) GetArbitraryTypeValueOk() (*interface{}, bool) {
 
 // HasArbitraryTypeValue returns a boolean if a field has been set.
 func (o *User) HasArbitraryTypeValue() bool {
-	if o != nil && IsNil(o.ArbitraryTypeValue) {
+	if o != nil && !IsNil(o.ArbitraryTypeValue) {
 		return true
 	}
 
@@ -433,7 +433,7 @@ func (o *User) GetArbitraryNullableTypeValueOk() (*interface{}, bool) {
 
 // HasArbitraryNullableTypeValue returns a boolean if a field has been set.
 func (o *User) HasArbitraryNullableTypeValue() bool {
-	if o != nil && IsNil(o.ArbitraryNullableTypeValue) {
+	if o != nil && !IsNil(o.ArbitraryNullableTypeValue) {
 		return true
 	}
 
@@ -499,16 +499,20 @@ func (o User) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *User) UnmarshalJSON(bytes []byte) (err error) {
+func (o *User) UnmarshalJSON(data []byte) (err error) {
 	varUser := _User{}
 
-	if err = json.Unmarshal(bytes, &varUser); err == nil {
-		*o = User(varUser)
+	err = json.Unmarshal(data, &varUser)
+
+	if err != nil {
+		return err
 	}
+
+	*o = User(varUser)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "id")
 		delete(additionalProperties, "username")
 		delete(additionalProperties, "firstName")

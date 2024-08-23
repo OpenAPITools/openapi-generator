@@ -15,8 +15,7 @@ class UploadFileParameterData
      * @DTA\Data(subset="path", field="petId")
      * @DTA\Strategy(subset="path", name="QueryStringScalar", options={"type":"int"})
      * @DTA\Validator(subset="path", name="QueryStringScalar", options={"type":"int"})
-     * @var int|null
      */
-    public $pet_id;
+    public ?int $pet_id = null;
 
 }

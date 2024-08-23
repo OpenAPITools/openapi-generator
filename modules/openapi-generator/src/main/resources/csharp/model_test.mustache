@@ -40,7 +40,7 @@ namespace {{packageName}}.Test.Model
             // Cleanup when everything is done.
         }
 
-        {{#lambda.trimTrailingWhiteSpace}}
+        {{#lambda.trimTrailingWithNewLine}}
         {{#lambda.trimLineBreaks}}
         /// <summary>
         /// Test an instance of {{classname}}
@@ -80,7 +80,7 @@ namespace {{packageName}}.Test.Model
         }
         {{/vars}}
         {{/lambda.trimLineBreaks}}
-        {{/lambda.trimTrailingWhiteSpace}}
+        {{/lambda.trimTrailingWithNewLine}}
     }
 }
 {{/model}}

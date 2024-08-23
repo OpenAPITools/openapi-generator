@@ -24,12 +24,46 @@ paths:
           schema:
             type: string
             default: available
+        - name: query_default_enum
+          in: query
+          description: query default enum
+          schema:
+            type: string
+            enum:
+              - A
+              - B
+              - C
+            default: B
+        - name: query_default_int
+          in: query
+          description: query default int
+          schema:
+            type: number
+            format: int32
+            default: 3
         - name: header_default
           in: header
           description: header default
           schema:
             type: string
             default: available
+        - name: header_default_enum
+          in: header
+          description: header default enum
+          schema:
+            type: string
+            enum:
+              - A
+              - B
+              - C
+            default: B
+        - name: header_default_int
+          in: header
+          description: header default int
+          schema:
+            type: number
+            format: int32
+            default: 3
         - name: path_default
           in: path
           description: path default
@@ -42,6 +76,23 @@ paths:
           schema:
             type: string
             default: available
+        - name: cookie_default_enum
+          in: cookie
+          description: cookie default enum
+          schema:
+            type: string
+            enum:
+              - A
+              - B
+              - C
+            default: B
+        - name: cookie_default_int
+          in: cookie
+          description: cookie default int
+          schema:
+            type: number
+            format: int32
+            default: 3
         - name: query_nullable
           in: query
           description: query nullable

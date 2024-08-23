@@ -168,16 +168,20 @@ func (o MixedPropertiesAndAdditionalPropertiesClass) ToMap() (map[string]interfa
 	return toSerialize, nil
 }
 
-func (o *MixedPropertiesAndAdditionalPropertiesClass) UnmarshalJSON(bytes []byte) (err error) {
+func (o *MixedPropertiesAndAdditionalPropertiesClass) UnmarshalJSON(data []byte) (err error) {
 	varMixedPropertiesAndAdditionalPropertiesClass := _MixedPropertiesAndAdditionalPropertiesClass{}
 
-	if err = json.Unmarshal(bytes, &varMixedPropertiesAndAdditionalPropertiesClass); err == nil {
-		*o = MixedPropertiesAndAdditionalPropertiesClass(varMixedPropertiesAndAdditionalPropertiesClass)
+	err = json.Unmarshal(data, &varMixedPropertiesAndAdditionalPropertiesClass)
+
+	if err != nil {
+		return err
 	}
+
+	*o = MixedPropertiesAndAdditionalPropertiesClass(varMixedPropertiesAndAdditionalPropertiesClass)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "uuid")
 		delete(additionalProperties, "dateTime")
 		delete(additionalProperties, "map")

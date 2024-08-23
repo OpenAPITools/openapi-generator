@@ -24,3 +24,81 @@ components:
           default: VALUE
           enum:
             - VALUE
+    PropertyOfDay:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of property of day
+          example: Monday
+        description:
+          type: string
+          description: Description of the property of day
+          example: Days family discount is available
+        daysOfWeek:
+          type: object
+          description: Days of week
+          example:
+          - MONDAY
+          - TUESDAY
+          enum:
+          - MONDAY
+          - TUESDAY
+          - WEDNESDAY
+          - THURSDAY
+          - FRIDAY
+          - SATURDAY
+          - SUNDAY
+          - WEEKDAYS
+          - WEEKEND
+          - EVERYDAY
+        monthOfYear:
+          type: integer
+          description: Month of year
+          format: int32
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+        dayOfYear:
+          type: integer
+          description: Day of year
+          format: int32
+        holidayTypes:
+          type: object
+          description: Holiday types
+          example:
+          - NOT_HOLIDAY
+          - LOCAL_HOLIDAY
+          enum:
+          - NOT_HOLIDAY
+          - LOCAL_HOLIDAY
+          - NATIONAL_HOLIDAY
+          - ANY_HOLIDAY
+          - WORKING_DAY
+          - ANY_DAY
+          - NEW_YEARS_DAY
+          - PALM_SUNDAY
+          - MAUNDY_THURSDAY
+          - GOOD_FRIDAY
+          - EASTER_SUNDAY
+          - EASTER_MONDAY
+          - LABOUR_DAY
+          - CONSTITUTION_DAY
+          - ASCENSION_DAY
+          - WHIT_SUNDAY
+          - WHIT_MONDAY
+          - CHRISTMAS_DAY
+          - BOXING_DAY
+      description: The DayType describe during which the assignment applies

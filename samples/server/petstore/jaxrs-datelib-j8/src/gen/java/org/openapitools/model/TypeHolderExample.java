@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
@@ -37,7 +38,7 @@ import javax.validation.Valid;
   TypeHolderExample.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderExample.JSON_PROPERTY_ARRAY_ITEM
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class TypeHolderExample  implements Serializable {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
   @JsonProperty(JSON_PROPERTY_STRING_ITEM)
@@ -201,12 +202,12 @@ public class TypeHolderExample  implements Serializable {
       return false;
     }
     TypeHolderExample typeHolderExample = (TypeHolderExample) o;
-    return Objects.equals(stringItem, typeHolderExample.stringItem) &&
-        Objects.equals(numberItem, typeHolderExample.numberItem) &&
-        Objects.equals(floatItem, typeHolderExample.floatItem) &&
-        Objects.equals(integerItem, typeHolderExample.integerItem) &&
-        Objects.equals(boolItem, typeHolderExample.boolItem) &&
-        Objects.equals(arrayItem, typeHolderExample.arrayItem);
+    return Objects.equals(this.stringItem, typeHolderExample.stringItem) &&
+        Objects.equals(this.numberItem, typeHolderExample.numberItem) &&
+        Objects.equals(this.floatItem, typeHolderExample.floatItem) &&
+        Objects.equals(this.integerItem, typeHolderExample.integerItem) &&
+        Objects.equals(this.boolItem, typeHolderExample.boolItem) &&
+        Objects.equals(this.arrayItem, typeHolderExample.arrayItem);
   }
 
   @Override

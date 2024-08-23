@@ -22,8 +22,8 @@ public interface StoreApi {
 
     void getOrderById(Long orderId, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Order>> handler);
 
-    void placeOrder(Order body, Handler<AsyncResult<Order>> handler);
+    void placeOrder(Order order, Handler<AsyncResult<Order>> handler);
 
-    void placeOrder(Order body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Order>> handler);
+    void placeOrder(Order order, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Order>> handler);
 
 }

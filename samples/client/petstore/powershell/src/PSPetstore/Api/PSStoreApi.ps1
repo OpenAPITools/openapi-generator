@@ -118,9 +118,14 @@ function Get-PSInventory {
 
         $LocalVarUri = '/store/inventory'
 
-        if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["api_key"]) {
-            $LocalVarHeaderParameters['api_key'] = $Configuration["ApiKey"]["api_key"]
-            Write-Verbose ("Using API key 'api_key' in the header for authentication in {0}" -f $MyInvocation.MyCommand)
+        if ($Configuration["ApiKeyPrefix"] -and $Configuration["ApiKeyPrefix"]["api_key_name"]) {
+            $apiKeyPrefix = $Configuration["ApiKeyPrefix"]["api_key_name"]
+        } else {
+            $apiKeyPrefix = ""
+        }
+        if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["api_key_name"]) {
+            $LocalVarHeaderParameters['api_key_name'] = $apiKeyPrefix + $Configuration["ApiKey"]["api_key_name"]
+            Write-Verbose ("Using API key 'api_key_name' in the header for authentication in {0}" -f $MyInvocation.MyCommand)
         }
 
         $LocalVarResult = Invoke-PSApiClient -Method 'GET' `

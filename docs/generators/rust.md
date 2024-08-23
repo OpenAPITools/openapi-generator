@@ -18,10 +18,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|avoidBoxedModels|If set, `Box&lt;T&gt;` will not be used for models| |false|
 |bestFitInt|Use best fitting integer type where minimum or maximum is set| |false|
 |enumNameSuffix|Suffix that will be appended to all enum names.| ||
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
-|library|library template (sub-template) to use.|<dl><dt>**hyper**</dt><dd>HTTP client: Hyper.</dd><dt>**reqwest**</dt><dd>HTTP client: Reqwest.</dd></dl>|reqwest|
+|library|library template (sub-template) to use.|<dl><dt>**hyper**</dt><dd>HTTP client: Hyper (v1.x).</dd><dt>**hyper0x**</dt><dd>HTTP client: Hyper (v0.x).</dd><dt>**reqwest**</dt><dd>HTTP client: Reqwest.</dd></dl>|reqwest|
 |packageName|Rust package name (convention: lowercase).| |openapi|
 |packageVersion|Rust package version.| |1.0.0|
 |preferUnsignedInt|Prefer unsigned integers where minimum value is &gt;= 0| |false|
@@ -214,7 +215,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Union|✗|OAS3
 |allOf|✗|OAS2,OAS3
 |anyOf|✗|OAS3
-|oneOf|✗|OAS3
+|oneOf|✓|OAS3
 |not|✗|OAS3
 
 ### Security Feature
@@ -229,6 +230,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
 |SignatureAuth|✗|OAS3
+|AWSV4Signature|✓|ToolingExtension
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

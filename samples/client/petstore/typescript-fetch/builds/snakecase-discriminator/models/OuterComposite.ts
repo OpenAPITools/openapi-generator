@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -42,10 +42,8 @@ export interface OuterComposite {
 /**
  * Check if a given object implements the OuterComposite interface.
  */
-export function instanceOfOuterComposite(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfOuterComposite(value: object): value is OuterComposite {
+    return true;
 }
 
 export function OuterCompositeFromJSON(json: any): OuterComposite {
@@ -53,29 +51,26 @@ export function OuterCompositeFromJSON(json: any): OuterComposite {
 }
 
 export function OuterCompositeFromJSONTyped(json: any, ignoreDiscriminator: boolean): OuterComposite {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'myNumber': !exists(json, 'my_number') ? undefined : json['my_number'],
-        'myString': !exists(json, 'my_string') ? undefined : json['my_string'],
-        'myBoolean': !exists(json, 'my_boolean') ? undefined : json['my_boolean'],
+        'myNumber': json['my_number'] == null ? undefined : json['my_number'],
+        'myString': json['my_string'] == null ? undefined : json['my_string'],
+        'myBoolean': json['my_boolean'] == null ? undefined : json['my_boolean'],
     };
 }
 
 export function OuterCompositeToJSON(value?: OuterComposite | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'my_number': value.myNumber,
-        'my_string': value.myString,
-        'my_boolean': value.myBoolean,
+        'my_number': value['myNumber'],
+        'my_string': value['myString'],
+        'my_boolean': value['myBoolean'],
     };
 }
 

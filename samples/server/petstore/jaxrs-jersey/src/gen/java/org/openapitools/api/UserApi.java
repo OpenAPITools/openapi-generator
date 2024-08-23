@@ -30,7 +30,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the user API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class UserApi  {
    private final UserApiService delegate;
 
@@ -41,7 +41,7 @@ public class UserApi  {
          String implClass = servletContext.getInitParameter("UserApi.implementation");
          if (implClass != null && !"".equals(implClass.trim())) {
             try {
-               delegate = (UserApiService) Class.forName(implClass).newInstance();
+               delegate = (UserApiService) Class.forName(implClass).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                throw new RuntimeException(e);
             }
@@ -75,7 +75,7 @@ public class UserApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response createUsersWithArrayInput(@ApiParam(value = "List of user object", required = true) @NotNull @Valid  List<User> user,@Context SecurityContext securityContext)
+    public Response createUsersWithArrayInput(@ApiParam(value = "List of user object", required = true) @NotNull @Valid  List<@Valid User> user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.createUsersWithArrayInput(user, securityContext);
     }
@@ -87,7 +87,7 @@ public class UserApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response createUsersWithListInput(@ApiParam(value = "List of user object", required = true) @NotNull @Valid  List<User> user,@Context SecurityContext securityContext)
+    public Response createUsersWithListInput(@ApiParam(value = "List of user object", required = true) @NotNull @Valid  List<@Valid User> user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.createUsersWithListInput(user, securityContext);
     }

@@ -2,11 +2,7 @@ analyzer:
   language:
     strict-inference: true
     strict-raw-types: true
-  {{^useFreezed}}
-  strong-mode:
-    implicit-dynamic: false
-    implicit-casts: false
-  {{/useFreezed}}
+    strict-casts: false
   exclude:
     - test/*.dart{{#useJsonSerializable}}
     - lib/{{sourceFolder}}/model/*.g.dart{{/useJsonSerializable}}

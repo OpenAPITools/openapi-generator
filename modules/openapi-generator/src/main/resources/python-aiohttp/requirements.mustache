@@ -1,4 +1,4 @@
-connexion[aiohttp,swagger-ui] >= 2.6.0; python_version>="3.6"
+connexion[aiohttp,swagger-ui] >= 2.6.0, <3; python_version>="3.6"
 # 2.3 is the last version that supports python 3.5
 connexion[aiohttp,swagger-ui] <= 2.3.0; python_version=="3.5" or python_version=="3.4"
 # connexion requires werkzeug but connexion < 2.4.0 does not install werkzeug
@@ -10,3 +10,4 @@ aiohttp_jinja2 == 1.5.0
 {{#featureCORS}}
 aiohttp_cors >= 0.7.0
 {{/featureCORS}}
+Flask < 2.3

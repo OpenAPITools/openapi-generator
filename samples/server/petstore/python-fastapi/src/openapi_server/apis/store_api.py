@@ -14,6 +14,7 @@ from fastapi import (  # noqa: F401
     Depends,
     Form,
     Header,
+    HTTPException,
     Path,
     Query,
     Response,
@@ -43,10 +44,12 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     response_model_by_alias=True,
 )
 async def delete_order(
-    orderId: str = Path(None, description="ID of the order that needs to be deleted"),
+    orderId: str = Path(..., description="ID of the order that needs to be deleted"),
 ) -> None:
     """For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors"""
-    return BaseStoreApi.subclasses[0]().delete_order(orderId)
+    if not BaseStoreApi.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
+    return await BaseStoreApi.subclasses[0]().delete_order(orderId)
 
 
 @router.get(
@@ -64,7 +67,9 @@ async def get_inventory(
     ),
 ) -> Dict[str, int]:
     """Returns a map of status codes to quantities"""
-    return BaseStoreApi.subclasses[0]().get_inventory()
+    if not BaseStoreApi.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
+    return await BaseStoreApi.subclasses[0]().get_inventory()
 
 
 @router.get(
@@ -79,10 +84,12 @@ async def get_inventory(
     response_model_by_alias=True,
 )
 async def get_order_by_id(
-    orderId: int = Path(None, description="ID of pet that needs to be fetched", ge=1, le=5),
+    orderId: int = Path(..., description="ID of pet that needs to be fetched", ge=1, le=5),
 ) -> Order:
     """For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions"""
-    return BaseStoreApi.subclasses[0]().get_order_by_id(orderId)
+    if not BaseStoreApi.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
+    return await BaseStoreApi.subclasses[0]().get_order_by_id(orderId)
 
 
 @router.post(
@@ -99,4 +106,6 @@ async def place_order(
     order: Order = Body(None, description="order placed for purchasing the pet"),
 ) -> Order:
     """"""
-    return BaseStoreApi.subclasses[0]().place_order(order)
+    if not BaseStoreApi.subclasses:
+        raise HTTPException(status_code=500, detail="Not implemented")
+    return await BaseStoreApi.subclasses[0]().place_order(order)

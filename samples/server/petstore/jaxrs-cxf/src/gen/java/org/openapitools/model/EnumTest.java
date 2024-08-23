@@ -269,11 +269,11 @@ NUMBER_1_DOT_1(Double.valueOf(1.1)), NUMBER_MINUS_1_DOT_2(Double.valueOf(-1.2));
       return false;
     }
     EnumTest enumTest = (EnumTest) o;
-    return Objects.equals(enumString, enumTest.enumString) &&
-        Objects.equals(enumStringRequired, enumTest.enumStringRequired) &&
-        Objects.equals(enumInteger, enumTest.enumInteger) &&
-        Objects.equals(enumNumber, enumTest.enumNumber) &&
-        Objects.equals(outerEnum, enumTest.outerEnum);
+    return Objects.equals(this.enumString, enumTest.enumString) &&
+        Objects.equals(this.enumStringRequired, enumTest.enumStringRequired) &&
+        Objects.equals(this.enumInteger, enumTest.enumInteger) &&
+        Objects.equals(this.enumNumber, enumTest.enumNumber) &&
+        Objects.equals(this.outerEnum, enumTest.outerEnum);
   }
 
   @Override

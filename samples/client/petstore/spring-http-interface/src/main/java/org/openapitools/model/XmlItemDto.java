@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -21,7 +22,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("XmlItem")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class XmlItemDto {
 
   private String attributeString;
@@ -33,7 +34,7 @@ public class XmlItemDto {
   private Boolean attributeBoolean;
 
   
-  private List<Integer> wrappedArray;
+  private List<Integer> wrappedArray = new ArrayList<>();
 
   private String nameString;
 
@@ -44,10 +45,10 @@ public class XmlItemDto {
   private Boolean nameBoolean;
 
   
-  private List<Integer> nameArray;
+  private List<Integer> nameArray = new ArrayList<>();
 
   
-  private List<Integer> nameWrappedArray;
+  private List<Integer> nameWrappedArray = new ArrayList<>();
 
   private String prefixString;
 
@@ -58,10 +59,10 @@ public class XmlItemDto {
   private Boolean prefixBoolean;
 
   
-  private List<Integer> prefixArray;
+  private List<Integer> prefixArray = new ArrayList<>();
 
   
-  private List<Integer> prefixWrappedArray;
+  private List<Integer> prefixWrappedArray = new ArrayList<>();
 
   private String namespaceString;
 
@@ -72,10 +73,10 @@ public class XmlItemDto {
   private Boolean namespaceBoolean;
 
   
-  private List<Integer> namespaceArray;
+  private List<Integer> namespaceArray = new ArrayList<>();
 
   
-  private List<Integer> namespaceWrappedArray;
+  private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
   private String prefixNsString;
 
@@ -86,10 +87,10 @@ public class XmlItemDto {
   private Boolean prefixNsBoolean;
 
   
-  private List<Integer> prefixNsArray;
+  private List<Integer> prefixNsArray = new ArrayList<>();
 
   
-  private List<Integer> prefixNsWrappedArray;
+  private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItemDto attributeString(String attributeString) {
     this.attributeString = attributeString;
@@ -99,7 +100,7 @@ public class XmlItemDto {
   /**
    * Get attributeString
    * @return attributeString
-  */
+   */
   
   @JsonProperty("attribute_string")
   public String getAttributeString() {
@@ -118,7 +119,7 @@ public class XmlItemDto {
   /**
    * Get attributeNumber
    * @return attributeNumber
-  */
+   */
   
   @JsonProperty("attribute_number")
   public BigDecimal getAttributeNumber() {
@@ -137,7 +138,7 @@ public class XmlItemDto {
   /**
    * Get attributeInteger
    * @return attributeInteger
-  */
+   */
   
   @JsonProperty("attribute_integer")
   public Integer getAttributeInteger() {
@@ -156,7 +157,7 @@ public class XmlItemDto {
   /**
    * Get attributeBoolean
    * @return attributeBoolean
-  */
+   */
   
   @JsonProperty("attribute_boolean")
   public Boolean getAttributeBoolean() {
@@ -183,7 +184,7 @@ public class XmlItemDto {
   /**
    * Get wrappedArray
    * @return wrappedArray
-  */
+   */
   
   @JsonProperty("wrapped_array")
   public List<Integer> getWrappedArray() {
@@ -202,7 +203,7 @@ public class XmlItemDto {
   /**
    * Get nameString
    * @return nameString
-  */
+   */
   
   @JsonProperty("name_string")
   public String getNameString() {
@@ -221,7 +222,7 @@ public class XmlItemDto {
   /**
    * Get nameNumber
    * @return nameNumber
-  */
+   */
   
   @JsonProperty("name_number")
   public BigDecimal getNameNumber() {
@@ -240,7 +241,7 @@ public class XmlItemDto {
   /**
    * Get nameInteger
    * @return nameInteger
-  */
+   */
   
   @JsonProperty("name_integer")
   public Integer getNameInteger() {
@@ -259,7 +260,7 @@ public class XmlItemDto {
   /**
    * Get nameBoolean
    * @return nameBoolean
-  */
+   */
   
   @JsonProperty("name_boolean")
   public Boolean getNameBoolean() {
@@ -286,7 +287,7 @@ public class XmlItemDto {
   /**
    * Get nameArray
    * @return nameArray
-  */
+   */
   
   @JsonProperty("name_array")
   public List<Integer> getNameArray() {
@@ -313,7 +314,7 @@ public class XmlItemDto {
   /**
    * Get nameWrappedArray
    * @return nameWrappedArray
-  */
+   */
   
   @JsonProperty("name_wrapped_array")
   public List<Integer> getNameWrappedArray() {
@@ -332,7 +333,7 @@ public class XmlItemDto {
   /**
    * Get prefixString
    * @return prefixString
-  */
+   */
   
   @JsonProperty("prefix_string")
   public String getPrefixString() {
@@ -351,7 +352,7 @@ public class XmlItemDto {
   /**
    * Get prefixNumber
    * @return prefixNumber
-  */
+   */
   
   @JsonProperty("prefix_number")
   public BigDecimal getPrefixNumber() {
@@ -370,7 +371,7 @@ public class XmlItemDto {
   /**
    * Get prefixInteger
    * @return prefixInteger
-  */
+   */
   
   @JsonProperty("prefix_integer")
   public Integer getPrefixInteger() {
@@ -389,7 +390,7 @@ public class XmlItemDto {
   /**
    * Get prefixBoolean
    * @return prefixBoolean
-  */
+   */
   
   @JsonProperty("prefix_boolean")
   public Boolean getPrefixBoolean() {
@@ -416,7 +417,7 @@ public class XmlItemDto {
   /**
    * Get prefixArray
    * @return prefixArray
-  */
+   */
   
   @JsonProperty("prefix_array")
   public List<Integer> getPrefixArray() {
@@ -443,7 +444,7 @@ public class XmlItemDto {
   /**
    * Get prefixWrappedArray
    * @return prefixWrappedArray
-  */
+   */
   
   @JsonProperty("prefix_wrapped_array")
   public List<Integer> getPrefixWrappedArray() {
@@ -462,7 +463,7 @@ public class XmlItemDto {
   /**
    * Get namespaceString
    * @return namespaceString
-  */
+   */
   
   @JsonProperty("namespace_string")
   public String getNamespaceString() {
@@ -481,7 +482,7 @@ public class XmlItemDto {
   /**
    * Get namespaceNumber
    * @return namespaceNumber
-  */
+   */
   
   @JsonProperty("namespace_number")
   public BigDecimal getNamespaceNumber() {
@@ -500,7 +501,7 @@ public class XmlItemDto {
   /**
    * Get namespaceInteger
    * @return namespaceInteger
-  */
+   */
   
   @JsonProperty("namespace_integer")
   public Integer getNamespaceInteger() {
@@ -519,7 +520,7 @@ public class XmlItemDto {
   /**
    * Get namespaceBoolean
    * @return namespaceBoolean
-  */
+   */
   
   @JsonProperty("namespace_boolean")
   public Boolean getNamespaceBoolean() {
@@ -546,7 +547,7 @@ public class XmlItemDto {
   /**
    * Get namespaceArray
    * @return namespaceArray
-  */
+   */
   
   @JsonProperty("namespace_array")
   public List<Integer> getNamespaceArray() {
@@ -573,7 +574,7 @@ public class XmlItemDto {
   /**
    * Get namespaceWrappedArray
    * @return namespaceWrappedArray
-  */
+   */
   
   @JsonProperty("namespace_wrapped_array")
   public List<Integer> getNamespaceWrappedArray() {
@@ -592,7 +593,7 @@ public class XmlItemDto {
   /**
    * Get prefixNsString
    * @return prefixNsString
-  */
+   */
   
   @JsonProperty("prefix_ns_string")
   public String getPrefixNsString() {
@@ -611,7 +612,7 @@ public class XmlItemDto {
   /**
    * Get prefixNsNumber
    * @return prefixNsNumber
-  */
+   */
   
   @JsonProperty("prefix_ns_number")
   public BigDecimal getPrefixNsNumber() {
@@ -630,7 +631,7 @@ public class XmlItemDto {
   /**
    * Get prefixNsInteger
    * @return prefixNsInteger
-  */
+   */
   
   @JsonProperty("prefix_ns_integer")
   public Integer getPrefixNsInteger() {
@@ -649,7 +650,7 @@ public class XmlItemDto {
   /**
    * Get prefixNsBoolean
    * @return prefixNsBoolean
-  */
+   */
   
   @JsonProperty("prefix_ns_boolean")
   public Boolean getPrefixNsBoolean() {
@@ -676,7 +677,7 @@ public class XmlItemDto {
   /**
    * Get prefixNsArray
    * @return prefixNsArray
-  */
+   */
   
   @JsonProperty("prefix_ns_array")
   public List<Integer> getPrefixNsArray() {
@@ -703,7 +704,7 @@ public class XmlItemDto {
   /**
    * Get prefixNsWrappedArray
    * @return prefixNsWrappedArray
-  */
+   */
   
   @JsonProperty("prefix_ns_wrapped_array")
   public List<Integer> getPrefixNsWrappedArray() {

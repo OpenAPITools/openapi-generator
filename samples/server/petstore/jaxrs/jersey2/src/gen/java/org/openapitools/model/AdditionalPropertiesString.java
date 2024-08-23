@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   AdditionalPropertiesString.JSON_PROPERTY_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class AdditionalPropertiesString extends HashMap<String, String>  {
   public static final String JSON_PROPERTY_NAME = "name";
   @JsonProperty(JSON_PROPERTY_NAME)
@@ -66,7 +66,7 @@ public class AdditionalPropertiesString extends HashMap<String, String>  {
       return false;
     }
     AdditionalPropertiesString additionalPropertiesString = (AdditionalPropertiesString) o;
-    return super.equals(o) && Objects.equals(name, additionalPropertiesString.name);
+    return super.equals(o) && Objects.equals(this.name, additionalPropertiesString.name);
   }
 
   @Override

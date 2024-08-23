@@ -1,36 +1,31 @@
-name: Samples C# .Net 6
+name: Samples C# .Net 6 Server
 
 on:
   push:
     paths:
-      - 'samples/server/petstore/aspnetcore-6.0/**'
-      - 'samples/server/petstore/aspnetcore-6.0-pocoModels/**'
-      - 'samples/server/petstore/aspnetcore-6.0-useSwashBuckle/**'
+      - samples/server/petstore/aspnetcore-6.0/**
+      - samples/server/petstore/aspnetcore-6.0-*/**
   pull_request:
     paths:
-      - 'samples/server/petstore/aspnetcore-6.0/**'
-      - 'samples/server/petstore/aspnetcore-6.0-pocoModels/**'
-      - 'samples/server/petstore/aspnetcore-6.0-project4Models/**'
-      - 'samples/server/petstore/aspnetcore-6.0-useSwashBuckle/**'
-      - 'samples/server/petstore/aspnetcore-6.0-NewtonsoftFalse/**'
-      - 'samples/server/petstore/aspnetcore-6.0-nullableReferenceTypes/**'
+      - samples/server/petstore/aspnetcore-6.0/**
+      - samples/server/petstore/aspnetcore-6.0-*/**
 jobs:
   build:
-    name: Build .Net servers
+    name: Build .Net 6 servers
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         sample:
           - samples/server/petstore/aspnetcore-6.0
+          - samples/server/petstore/aspnetcore-6.0-NewtonsoftFalse
+          - samples/server/petstore/aspnetcore-6.0-nullableReferenceTypes
           - samples/server/petstore/aspnetcore-6.0-pocoModels
           - samples/server/petstore/aspnetcore-6.0-project4Models
           - samples/server/petstore/aspnetcore-6.0-useSwashBuckle
-          - samples/server/petstore/aspnetcore-6.0-NewtonsoftFalse
-          - samples/server/petstore/aspnetcore-6.0-nullableReferenceTypes
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-dotnet@v3.2.0
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4.0.1
         with:
           dotnet-version: '6.0.x'
       - name: Build

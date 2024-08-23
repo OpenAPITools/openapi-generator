@@ -21,6 +21,7 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -52,6 +53,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     public static final String BUILD_TARGET = "buildTarget";
     public static final String MODEL_CLASS_MODIFIER = "modelClassModifier";
     public static final String TARGET_FRAMEWORK = "targetFramework";
+    public static final String NET_60_OR_LATER = "net60OrLater";
 
     public static final String PROJECT_SDK = "projectSdk";
     public static final String SDK_WEB = "Microsoft.NET.Sdk.Web";
@@ -63,7 +65,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     public static final String USE_DEFAULT_ROUTING = "useDefaultRouting";
     public static final String NEWTONSOFT_VERSION = "newtonsoftVersion";
 
-    private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
+    @Setter private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     private String userSecretsGuid = randomUUID().toString();
 
     protected final Logger LOGGER = LoggerFactory.getLogger(AspNetServerCodegen.class);
@@ -184,7 +186,9 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         aspnetCoreVersion.addEnum("3.1", "ASP.NET Core 3.1");
         aspnetCoreVersion.addEnum("5.0", "ASP.NET Core 5.0");
         aspnetCoreVersion.addEnum("6.0", "ASP.NET Core 6.0");
-        aspnetCoreVersion.setDefault("3.1");
+        aspnetCoreVersion.addEnum("7.0", "ASP.NET Core 7.0");
+        aspnetCoreVersion.addEnum("8.0", "ASP.NET Core 8.0");
+        aspnetCoreVersion.setDefault("8.0");
         aspnetCoreVersion.setOptValue(aspnetCoreVersion.getDefault());
         cliOptions.add(aspnetCoreVersion);
 
@@ -192,7 +196,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         swashbuckleVersion.addEnum("4.0.0", "Swashbuckle 4.0.0");
         swashbuckleVersion.addEnum("5.0.0", "Swashbuckle 5.0.0");
         swashbuckleVersion.addEnum("6.4.0", "Swashbuckle 6.4.0");
-        swashbuckleVersion.setDefault("3.0.0");
+        swashbuckleVersion.setDefault("6.4.0");
         swashbuckleVersion.setOptValue(swashbuckleVersion.getDefault());
         cliOptions.add(swashbuckleVersion);
 
@@ -208,6 +212,10 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.USE_DATETIME_OFFSET,
                 CodegenConstants.USE_DATETIME_OFFSET_DESC,
                 useDateTimeOffsetFlag);
+
+        addSwitch(CodegenConstants.USE_DATETIME_FOR_DATE,
+                CodegenConstants.USE_DATETIME_FOR_DATE_DESC,
+                useDateTimeForDateFlag);
 
         addSwitch(CodegenConstants.USE_COLLECTION,
                 CodegenConstants.USE_COLLECTION_DESC,
@@ -299,32 +307,12 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     @Override
     protected Set<String> getNullableTypes() {
         return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double",
-            "DateTime", "DateTimeOffset", "Guid"));
-    }
-
-    @Override
-    protected Set<String> getValueTypes() {
-        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double"));
+            "DateTime", "DateOnly", "DateTimeOffset", "Guid"));
     }
 
     @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
-    }
-
-    @Override
-    protected void setTypeMapping() {
-        super.setTypeMapping();
-        typeMapping.put("boolean", "bool");
-        typeMapping.put("integer", "int");
-        typeMapping.put("float", "float");
-        typeMapping.put("long", "long");
-        typeMapping.put("double", "double");
-        typeMapping.put("number", "decimal");
-        typeMapping.put("DateTime", "DateTime");
-        typeMapping.put("date", "DateTime");
-        typeMapping.put("UUID", "Guid");
-        typeMapping.put("URI", "string");
     }
 
     @Override
@@ -441,7 +429,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
             supportingFiles.add(new SupportingFile("typeConverter.mustache", packageFolder + File.separator + "Converters", "CustomEnumConverter.cs"));
         }
 
-        if (aspnetCoreVersion.getOptValue().startsWith("3.") || aspnetCoreVersion.getOptValue().startsWith("5.0") || aspnetCoreVersion.getOptValue().startsWith("6.")) {
+        if (!aspnetCoreVersion.getOptValue().startsWith("2.")) {
             supportingFiles.add(new SupportingFile("OpenApi" + File.separator + "TypeExtensions.mustache", packageFolder + File.separator + "OpenApi", "TypeExtensions.cs"));
         }
 
@@ -477,8 +465,9 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         this.setTypeMapping();
     }
 
-    public void setPackageGuid(String packageGuid) {
-        this.packageGuid = packageGuid;
+    @Override
+    protected boolean useNet60OrLater() {
+        return additionalProperties.containsKey(NET_60_OR_LATER);
     }
 
     @Override
@@ -694,7 +683,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     private void setAspnetCoreVersion(String packageFolder) {
         setCliOption(aspnetCoreVersion);
 
-        if (aspnetCoreVersion.getOptValue().startsWith("3.") || aspnetCoreVersion.getOptValue().startsWith("5.0") || aspnetCoreVersion.getOptValue().startsWith("6.")) {
+        if (!aspnetCoreVersion.getOptValue().startsWith("2.")) {
             compatibilityVersion = null;
         } else if ("2.0".equals(aspnetCoreVersion.getOptValue())) {
             compatibilityVersion = null;
@@ -711,6 +700,8 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
 
     private String determineTemplateVersion(String frameworkVersion) {
         switch (frameworkVersion) {
+            case "8.0":
+            case "7.0":
             case "6.0":
             case "5.0":
             case "3.1":
@@ -790,6 +781,20 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
             useFrameworkReference = true;
             additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
             additionalProperties.put(TARGET_FRAMEWORK, "net6.0");
+        } else if (aspnetCoreVersion.getOptValue().startsWith("7.")) {
+            LOGGER.warn(
+                    "ASP.NET core version is {} so changing to use frameworkReference instead of packageReference ",
+                    aspnetCoreVersion.getOptValue());
+            useFrameworkReference = true;
+            additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
+            additionalProperties.put(TARGET_FRAMEWORK, "net7.0");
+        } else if (aspnetCoreVersion.getOptValue().startsWith("8.")) {
+            LOGGER.warn(
+                    "ASP.NET core version is {} so changing to use frameworkReference instead of packageReference ",
+                    aspnetCoreVersion.getOptValue());
+            useFrameworkReference = true;
+            additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
+            additionalProperties.put(TARGET_FRAMEWORK, "net8.0");
         } else {
             if (additionalProperties.containsKey(USE_FRAMEWORK_REFERENCE)) {
                 useFrameworkReference = convertPropertyToBooleanAndWriteBack(USE_FRAMEWORK_REFERENCE);
@@ -797,6 +802,17 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
                 additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
             }
             additionalProperties.put(TARGET_FRAMEWORK, "netcoreapp" + aspnetCoreVersion);
+        }
+
+        setAddititonalPropertyForFramework();
+    }
+
+    private void setAddititonalPropertyForFramework() {
+        String targetFramework = ((String)additionalProperties.get(TARGET_FRAMEWORK));
+        if (targetFramework.startsWith("net6.0") ||
+            targetFramework.startsWith("net7.0") || 
+            targetFramework.startsWith("net8.0")) {
+            additionalProperties.put(NET_60_OR_LATER, true);
         }
     }
 

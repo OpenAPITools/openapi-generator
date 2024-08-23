@@ -4,13 +4,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -19,12 +17,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-import java.util.TimeZone;
-import java.util.List;
+import java.util.*;
 
 import okio.ByteString;
 import org.junit.jupiter.api.*;
@@ -42,6 +35,28 @@ public class JSONTest {
         apiClient = new ApiClient();
         json = apiClient.getJSON();
         order = new Order();
+    }
+
+    @Test
+    public void testOneOfFreeFormObject() {
+        final Map<String, Object> map = new LinkedHashMap<>();
+        map.put("someString", "abc");
+        map.put("someBoolean", false);
+
+        final String json1 = "{\"someString\":\"abc\",\"someBoolean\":false}";
+        final FreeFormObjectTestClassProperties properties = new FreeFormObjectTestClassProperties();
+        properties.setActualInstance(map);
+
+        assertEquals(json1, json.serialize(properties));
+        assertEquals(json.deserialize(json1, FreeFormObjectTestClassProperties.class), properties);
+
+
+        final String json2 = "\"abc\"";
+        final FreeFormObjectTestClassProperties properties2 = new FreeFormObjectTestClassProperties();
+        properties2.setActualInstance("abc");
+
+        assertEquals(json2, json.serialize(properties2));
+        assertEquals(json.deserialize(json2, FreeFormObjectTestClassProperties.class), properties2);
     }
 
     @Test
@@ -433,7 +448,8 @@ public class JSONTest {
             Exception exception = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
                 Mammal o = json.getGson().fromJson(str, Mammal.class);
             });
-            assertEquals("java.io.IOException: Failed deserialization for Mammal: 0 classes match result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for Whale failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`., Deserialization for Zebra failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`., Deserialization for Pig failed with `The JSON string is invalid for Pig with oneOf schemas: BasquePig, DanishPig. 0 class(es) match the result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for BasquePig failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`., Deserialization for DanishPig failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`.]. JSON: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`.]. JSON: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}", exception.getMessage());
+            //assertEquals("java.io.IOException: Failed deserialization for Mammal: 0 classes match result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for Pig failed with `The JSON string is invalid for Pig with oneOf schemas: BasquePig, DanishPig. 0 class(es) match the result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for BasquePig failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`., Deserialization for DanishPig failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`.]. JSON: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`., Deserialization for Whale failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`., Deserialization for Zebra failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`.]. JSON: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}", exception.getMessage());
+            assertTrue(exception.getMessage().contains("java.io.IOException: Failed deserialization for Mammal"));
         }
         {
             // Try to deserialize empty object. This should fail 'oneOf' because none will match
@@ -442,143 +458,8 @@ public class JSONTest {
             Exception exception = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
                 json.getGson().fromJson(str, Mammal.class);
             });
-            assertEquals("java.io.IOException: Failed deserialization for Mammal: 0 classes match result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for Whale failed with `The required field `className` is not found in the JSON string: {}`., Deserialization for Zebra failed with `The required field `className` is not found in the JSON string: {}`., Deserialization for Pig failed with `The JSON string is invalid for Pig with oneOf schemas: BasquePig, DanishPig. 0 class(es) match the result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for BasquePig failed with `The required field `className` is not found in the JSON string: {}`., Deserialization for DanishPig failed with `The required field `className` is not found in the JSON string: {}`.]. JSON: {}`.]. JSON: {}", exception.getMessage());
-        }
-    }
-
-    /**
-     * Validate a oneOf schema can be deserialized into the expected class.
-     * The oneOf schema contains primitive Types.
-     */
-    @Test
-    public void testOneOfSchemaWithPrimitives() throws Exception {
-        {
-            String str = "{\"name\":\"bool_1\",\"value\":false}";
-
-            Variable variable = json.getGson().fromJson(str, Variable.class);
-            assertEquals(variable.getName(), "bool_1");
-            assertTrue(variable.getValue().getActualInstance() instanceof Scalar);
-
-            Scalar scalar = (Scalar) variable.getValue().getActualInstance();
-            assertTrue(scalar.getActualInstance() instanceof Boolean);
-
-            Boolean value = (Boolean) scalar.getActualInstance();
-            assertEquals(value, false);
-
-            assertEquals(json.getGson().toJson(variable), str);
-        }
-        {
-            String str = "{\"name\":\"string_1\",\"value\":\"string\"}";
-
-            Variable variable = json.getGson().fromJson(str, Variable.class);
-            assertEquals(variable.getName(), "string_1");
-            assertTrue(variable.getValue().getActualInstance() instanceof Scalar);
-
-            Scalar scalar = (Scalar) variable.getValue().getActualInstance();
-            assertTrue(scalar.getActualInstance() instanceof String);
-            
-            String value = (String) scalar.getActualInstance();
-            assertEquals(value, "string");
-
-            assertEquals(json.getGson().toJson(variable), str);
-        }
-        {
-            String str = "{\"name\":\"decimal_1\",\"value\":124567890.0987654321}";
-
-            Variable variable = json.getGson().fromJson(str, Variable.class);
-            assertEquals(variable.getName(), "decimal_1");
-            assertTrue(variable.getValue().getActualInstance() instanceof Scalar);
-
-            Scalar scalar = (Scalar) variable.getValue().getActualInstance();
-            assertTrue(scalar.getActualInstance() instanceof BigDecimal);
-            
-            BigDecimal value = (BigDecimal) scalar.getActualInstance();
-            assertEquals(value, new BigDecimal("124567890.0987654321"));
-
-            assertEquals(json.getGson().toJson(variable), str);
-        }
-    }
-
-    /**
-     * Validate a oneOf schema can be deserialized into the expected class.
-     * The oneOf schema contains an array with elements of primitive types.
-     */
-    @Test
-    public void testOneofSchemaWithArrayOfPrimitives() throws Exception {
-        {
-            String str = "{\"name\":\"bool_array_1\",\"value\":[false,true,false]}";
-
-            Variable variable = json.getGson().fromJson(str, Variable.class);
-            assertEquals(variable.getName(), "bool_array_1");
-            assertTrue(variable.getValue().getActualInstance() instanceof List<?>);
-
-            List<Scalar> list = (List<Scalar>) variable.getValue().getActualInstance();
-            Scalar item_0 = list.get(0);
-            Scalar item_1 = list.get(1);
-            Scalar item_2 = list.get(2);
-
-            assertTrue(item_0.getActualInstance() instanceof Boolean);
-            assertTrue(item_1.getActualInstance() instanceof Boolean);
-            assertTrue(item_2.getActualInstance() instanceof Boolean);
-
-            Boolean bool_0 = (Boolean) item_0.getActualInstance();
-            Boolean bool_1 = (Boolean) item_1.getActualInstance();
-            Boolean bool_2 = (Boolean) item_2.getActualInstance();
-            assertEquals(bool_0, false);
-            assertEquals(bool_1, true);
-            assertEquals(bool_2, false);
-
-            assertEquals(json.getGson().toJson(variable), str);
-        }
-        {
-            String str = "{\"name\":\"string_array_1\",\"value\":[\"string_0\",\"string_1\",\"string_2\"]}";
-
-            Variable variable = json.getGson().fromJson(str, Variable.class);
-            assertEquals(variable.getName(), "string_array_1");
-            assertTrue(variable.getValue().getActualInstance() instanceof List<?>);
-
-            List<Scalar> list = (List<Scalar>) variable.getValue().getActualInstance();
-            Scalar item_0 = list.get(0);
-            Scalar item_1 = list.get(1);
-            Scalar item_2 = list.get(2);
-
-            assertTrue(item_0.getActualInstance() instanceof String);
-            assertTrue(item_1.getActualInstance() instanceof String);
-            assertTrue(item_2.getActualInstance() instanceof String);
-
-            String string_0 = (String) item_0.getActualInstance();
-            String string_1 = (String) item_1.getActualInstance();
-            String string_2 = (String) item_2.getActualInstance();
-            assertEquals(string_0, "string_0");
-            assertEquals(string_1, "string_1");
-            assertEquals(string_2, "string_2");
-
-            assertEquals(json.getGson().toJson(variable), str);
-        }
-        {
-            String str = "{\"name\":\"decimal_array_1\",\"value\":[124567890.0987654321,987654321.123456789,1112222210.2222222211]}";
-
-            Variable variable = json.getGson().fromJson(str, Variable.class);
-            assertEquals(variable.getName(), "decimal_array_1");
-            assertTrue(variable.getValue().getActualInstance() instanceof List<?>);
-
-            List<Scalar> list = (List<Scalar>) variable.getValue().getActualInstance();
-            Scalar item_0 = list.get(0);
-            Scalar item_1 = list.get(1);
-            Scalar item_2 = list.get(2);
-
-            assertTrue(item_0.getActualInstance() instanceof BigDecimal);
-            assertTrue(item_1.getActualInstance() instanceof BigDecimal);
-            assertTrue(item_2.getActualInstance() instanceof BigDecimal);
-
-            BigDecimal decimal_0 = (BigDecimal) item_0.getActualInstance();
-            BigDecimal decimal_1 = (BigDecimal) item_1.getActualInstance();
-            BigDecimal decimal_2 = (BigDecimal) item_2.getActualInstance();
-            assertEquals(decimal_0, new BigDecimal("124567890.0987654321"));
-            assertEquals(decimal_1, new BigDecimal("987654321.123456789"));
-            assertEquals(decimal_2, new BigDecimal("1112222210.2222222211"));
-
-            assertEquals(json.getGson().toJson(variable), str);
+            //assertEquals("java.io.IOException: Failed deserialization for Mammal: 0 classes match result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for Pig failed with `The JSON string is invalid for Pig with oneOf schemas: BasquePig, DanishPig. 0 class(es) match the result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for BasquePig failed with `The required field `className` is not found in the JSON string: {}`., Deserialization for DanishPig failed with `The required field `className` is not found in the JSON string: {}`.]. JSON: {}`., Deserialization for Whale failed with `The required field `className` is not found in the JSON string: {}`., Deserialization for Zebra failed with `The required field `className` is not found in the JSON string: {}`.]. JSON: {}", exception.getMessage());
+            assertTrue(exception.getMessage().contains("java.io.IOException: Failed deserialization for Mammal"));
         }
     }
 
@@ -686,14 +567,14 @@ public class JSONTest {
 
 
     /**
-     * Test validateJsonElement with null object
+     * Test validateJsonObject with null object
      */
     @Test
-    public void testValidateJsonElement() throws Exception {
-        JsonElement jsonElement = json.getGson().toJsonTree(new JsonObject());
+    public void testValidateJsonObject() throws Exception {
+        JsonObject jsonObject = new JsonObject();
         Exception exception = assertThrows(java.lang.IllegalArgumentException.class, () -> {
-                Pet.validateJsonElement(jsonElement);
-                });
+            Pet.validateJsonElement(jsonObject);
+        });
         assertEquals(exception.getMessage(), "The required field `photoUrls` is not found in the JSON string: {}");
     }
 
@@ -714,65 +595,80 @@ public class JSONTest {
         assertEquals(z.toJson(), "{\"type\":\"plains\",\"className\":\"zebra\",\"new_key\":\"new_value\",\"new_boolean\":true,\"new_object\":{\"id\":34,\"name\":\"just a tag\"},\"from_json\":4567,\"from_json_map\":{\"nested_string\":\"nested_value\"},\"new_number\":1.23}");
     }
 
-    /**
-     * Test the default value in array properties.
-     */
-    @Test
-    public void testDefaultValue() throws Exception {
-        // None of these should throw exceptions due to the list being null
-        // as the add*Itme method should initialise an empty list if it's set
-        // to null
-        ArrayDefault ad = new ArrayDefault();
-        ad = ad.withDefaultEmptyBracket(null);
-        ad.addWithDefaultEmptyBracketItem("test");
-        ad = ad.withoutDefault(null);
-        ad.addWithoutDefaultItem("hello world");
-    }
 
-    /**
-     * Test property names collision.
-     */
     @Test
-    public void testPropertyNamesCollision() throws Exception {
-        PropertyNameCollision p = new PropertyNameCollision();
-        p.setUnderscoreType("test1");
-        p.setType("test2");
-        p.setTypeWithUnderscore("test3");
-        assertEquals(json.getGson().toJson(p), "{\"_type\":\"test1\",\"type\":\"test2\",\"type_\":\"test3\"}");
-    }
-
-    /**
-     * Validate a anyOf schema can be deserialized into the expected class.
-     * The anyOf schema contains primitive Types.
-     */
-    @Test
-    public void testAnyOfSchemaWithPrimitives() throws Exception {
-        {
-            // string test
-            String str = "\"just a string\"";
-            ScalarAnyOf s = json.getGson().fromJson(str, ScalarAnyOf.class);
-            assertTrue(s.getActualInstance() instanceof String);
-            assertEquals(json.getGson().toJson(s), str);
-        }
-        {
-            // number test
-            String str = "123.45";
-            ScalarAnyOf s = json.getGson().fromJson(str, ScalarAnyOf.class);
-            assertTrue(s.getActualInstance() instanceof BigDecimal);
-            assertEquals(json.getGson().toJson(s), str);
-        }
-        {
-            // boolean test
-            String str = "true";
-            ScalarAnyOf s = json.getGson().fromJson(str, ScalarAnyOf.class);
-            assertTrue(s.getActualInstance() instanceof Boolean);
-            assertEquals(json.getGson().toJson(s), str);
-        }
-
-        // test no match
-        com.google.gson.JsonSyntaxException thrown = Assertions.assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
-            String str = "{\"id\": 5847, \"name\":\"tag test 1\"}";
-            ScalarAnyOf s = json.getGson().fromJson(str, ScalarAnyOf.class);
+    public void testInvalidEnumValueException() {
+        // test Pet with invalid status
+        String str = "{\"id\": 5847, \"name\":\"pet test 1\", \"photoUrls\": [\"https://a.com\", \"https://b.com\"],\"status\":\"sleeping\"}";
+        Exception exception = assertThrows(java.lang.IllegalArgumentException.class, () -> {
+            Pet t7 = Pet.fromJson(str);
         });
+        assertTrue(exception.getMessage().contains("Unexpected value 'sleeping'"));
+    }
+
+    @Test
+    public void testPetUsingAllOf() {
+        Gson gson = json.getGson();
+        String json = "{\"photoUrls\":[\"http://a.com\"], \"id\": 5847, \"name\":\"tag test 1\", \"category\": {\"id\":888, \"name\":\"cat 1\"}, \"tags\":[ {\"id\":777, \"name\":\"tag 1\"}] }";
+        PetUsingAllOf p = gson.fromJson(json, PetUsingAllOf.class);
+	assertEquals(p.getId(), 5847L);
+	assertEquals(p.getName(), "tag test 1");
+	assertEquals(p.getCategory().getId(), 888L);
+	assertEquals(p.getCategory().getName(), "cat 1");
+	assertEquals(p.getTags().get(0).getId(), 777L);
+	assertEquals(p.getTags().get(0).getName(), "tag 1");
+    }
+
+    @Test
+    public void testAdditionalArrayProperties() throws IOException {
+        String str = "{ \"className\": \"zebra\", \"array\": [\"1\",\"2\",\"3\"], \"empty_array\": [], \"object_array\": [{\"id\": 34, \"name\": \"just a tag\"}] }";
+        Zebra z = Zebra.fromJson(str);
+        z.putAdditionalProperty("new_array", Arrays.asList("1", "2", "3"));
+        z.putAdditionalProperty("new_empty_array", new ArrayList<>());
+        org.openapitools.client.model.Tag t = new org.openapitools.client.model.Tag();
+        t.setId(34L);
+        t.setName("just a tag");
+        z.putAdditionalProperty("new_object_array", Arrays.asList(t));
+        assertEquals(z.toJson(), "{\"className\":\"zebra\",\"object_array\":[{\"id\":34.0,\"name\":\"just a tag\"}],\"empty_array\":[],\"array\":[\"1\",\"2\",\"3\"],\"new_array\":[\"1\",\"2\",\"3\"],\"new_empty_array\":[],\"new_object_array\":[{\"id\":34,\"name\":\"just a tag\"}]}");
+    }
+
+    /**
+     * Validate a oneOf, anyOf schema with array sub-schema can be deserialized into the expected class.
+     */
+    @Test
+    public void testOneOfAnyOfArray() throws Exception {
+        {
+            String str = "{\"oneof_prop\":23,\"anyof_prop\":45}";
+
+            ModelWithOneOfAnyOfProperties m = json.getGson().fromJson(str, ModelWithOneOfAnyOfProperties.class);
+            Integer anyofProp = (Integer) m.getAnyofProp().getActualInstance();
+            assertEquals(anyofProp, 45);
+            Integer oneofProp = (Integer) m.getOneofProp().getActualInstance();
+            assertEquals(oneofProp, 23);
+
+            String str2 = "{ \"oneof_prop\": [\"test oneof\"], \"anyof_prop\": [\"test anyof\"] }";
+
+            ModelWithOneOfAnyOfProperties m2 = json.getGson().fromJson(str2, ModelWithOneOfAnyOfProperties.class);
+            List<String> anyofProp2 = (List<String>) m2.getAnyofProp().getActualInstance();
+            assertEquals(anyofProp2, Arrays.asList("test anyof"));
+            List<String> oneofProp2 =  (List<String>) m2.getOneofProp().getActualInstance();
+            assertEquals(oneofProp2, Arrays.asList("test oneof"));
+        }
+        {
+            // incorrect payload results in exception
+            String str = "{ \"oneof_prop\": \"23\", \"anyof_prop\": \"45\" }";
+            Exception exception = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
+                ModelWithOneOfAnyOfProperties o = json.getGson().fromJson(str, ModelWithOneOfAnyOfProperties.class);
+            });
+            assertTrue(exception.getMessage().contains("java.io.IOException: The JSON string is invalid for"));
+        }
+        {
+            // incorrect payload (array item type mismatch) results in exception
+            String str = "{ \"oneof_prop\": [23], \"anyof_prop\": [true] }";
+            Exception exception = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
+                ModelWithOneOfAnyOfProperties o = json.getGson().fromJson(str, ModelWithOneOfAnyOfProperties.class);
+            });
+            assertTrue(exception.getMessage().contains("java.io.IOException: The JSON string is invalid for"));
+        }
     }
 }

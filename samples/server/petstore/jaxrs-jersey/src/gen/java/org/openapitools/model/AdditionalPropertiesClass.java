@@ -31,7 +31,7 @@ import javax.validation.Valid;
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_PROPERTY,
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_OF_MAP_PROPERTY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class AdditionalPropertiesClass   {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
   @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
@@ -88,7 +88,7 @@ public class AdditionalPropertiesClass   {
    **/
   @JsonProperty(value = "map_of_map_property")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public Map<String, Map<String, String>> getMapOfMapProperty() {
     return mapOfMapProperty;
   }
@@ -107,8 +107,8 @@ public class AdditionalPropertiesClass   {
       return false;
     }
     AdditionalPropertiesClass additionalPropertiesClass = (AdditionalPropertiesClass) o;
-    return Objects.equals(mapProperty, additionalPropertiesClass.mapProperty) &&
-        Objects.equals(mapOfMapProperty, additionalPropertiesClass.mapOfMapProperty);
+    return Objects.equals(this.mapProperty, additionalPropertiesClass.mapProperty) &&
+        Objects.equals(this.mapOfMapProperty, additionalPropertiesClass.mapOfMapProperty);
   }
 
   @Override

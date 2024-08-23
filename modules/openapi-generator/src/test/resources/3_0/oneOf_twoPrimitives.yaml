@@ -1,0 +1,20 @@
+openapi: 3.0.3
+info:
+  title: oneOf two primitives
+  description: oneOf with two entries of type string, see https://github.com/OpenAPITools/openapi-generator/issues/10450
+  version: 1.0.0
+paths:
+  /myExample:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - type: string
+                  format: ipv4
+                - type: string
+                  format: ipv6
+      responses:
+        200:
+          description: OK

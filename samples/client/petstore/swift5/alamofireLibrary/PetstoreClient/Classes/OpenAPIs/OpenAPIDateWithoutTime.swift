@@ -23,11 +23,21 @@ public struct OpenAPIDateWithoutTime: Codable, Hashable, Equatable {
         case wrappedDate
         case timezone
     }
+
+    public enum DecodingError: Error {
+        case notADateString
+    }
     
     /// On decoding ISO8601 timezone is assumed
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.wrappedDate = try container.decode(Date.self)
+
+        let dateString = try container.decode(String.self)
+        guard let date = OpenISO8601DateFormatter.withoutTime.date(from: dateString) else {
+            throw DecodingError.notADateString
+        }
+        self.wrappedDate = date
+
         self.timezone = OpenISO8601DateFormatter.withoutTime.timeZone
     }
 
@@ -60,10 +70,29 @@ public struct OpenAPIDateWithoutTime: Codable, Hashable, Equatable {
         return wrappedDate.addingTimeInterval(
             Double(timezone.secondsFromGMT(for: wrappedDate)))
     }
+
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        Calendar.current.compare(lhs.wrappedDate, to: rhs.wrappedDate, toGranularity: .day) == .orderedSame
+    }
 }
 
 extension OpenAPIDateWithoutTime: JSONEncodable {
     func encodeToJSON() -> Any {
         return OpenISO8601DateFormatter.withoutTime.string(from: self.normalizedWrappedDate())
+    }
+}
+
+extension OpenAPIDateWithoutTime: RawRepresentable {
+    public typealias RawValue = String
+    public init?(rawValue: String) {
+        if let date = OpenISO8601DateFormatter.withoutTime.date(from: rawValue) {
+            self.init(wrappedDate: date)
+        } else {
+            return nil
+        }
+    }
+
+    public var rawValue: String {
+        OpenISO8601DateFormatter.withoutTime.string(from: normalizedWrappedDate())
     }
 }

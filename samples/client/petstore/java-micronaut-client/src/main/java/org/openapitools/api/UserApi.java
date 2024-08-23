@@ -27,7 +27,7 @@ import java.util.Map;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 @Client("${petstore-micronaut-base-path}")
 public interface UserApi {
     /**
@@ -48,7 +48,7 @@ public interface UserApi {
      */
     @Post(uri="/user/createWithArray")
     Mono<Void> createUsersWithArrayInput(
-        @Body @NotNull List<User> _body
+        @Body @NotNull List<@Valid User> _body
     );
 
     /**
@@ -58,7 +58,7 @@ public interface UserApi {
      */
     @Post(uri="/user/createWithList")
     Mono<Void> createUsersWithListInput(
-        @Body @NotNull List<User> _body
+        @Body @NotNull List<@Valid User> _body
     );
 
     /**

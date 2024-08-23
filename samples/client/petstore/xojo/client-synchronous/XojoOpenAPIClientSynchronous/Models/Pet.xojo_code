@@ -34,13 +34,13 @@ Protected Class Pet
 	#tag EndProperty
 
 
-	#tag Enum, Name = StatusEnum, Type = Integer, Flags = &h0
-		
+    #tag Enum, Name = StatusEnum, Type = Integer, Flags = &h0
+        
         Available
         Pending
         Sold
-		
-	#tag EndEnum
+        
+    #tag EndEnum
 
 
 	#tag Method, Flags = &h0

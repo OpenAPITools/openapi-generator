@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,12 +41,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -54,7 +52,7 @@ import org.openapitools.client.JSON;
 /**
  * AdditionalPropertiesClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_MAP_STRING = "map_string";
   @SerializedName(SERIALIZED_NAME_MAP_STRING)
@@ -104,7 +102,6 @@ public class AdditionalPropertiesClass {
   }
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
-    
     this.mapString = mapString;
     return this;
   }
@@ -117,15 +114,14 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapString
    * @return mapString
-  **/
+   */
   @javax.annotation.Nullable
   public Map<String, String> getMapString() {
     return mapString;
   }
-
 
   public void setMapString(Map<String, String> mapString) {
     this.mapString = mapString;
@@ -133,7 +129,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapNumber(Map<String, BigDecimal> mapNumber) {
-    
     this.mapNumber = mapNumber;
     return this;
   }
@@ -146,15 +141,14 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapNumber
    * @return mapNumber
-  **/
+   */
   @javax.annotation.Nullable
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
   }
-
 
   public void setMapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
@@ -162,7 +156,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapInteger(Map<String, Integer> mapInteger) {
-    
     this.mapInteger = mapInteger;
     return this;
   }
@@ -175,15 +168,14 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapInteger
    * @return mapInteger
-  **/
+   */
   @javax.annotation.Nullable
   public Map<String, Integer> getMapInteger() {
     return mapInteger;
   }
-
 
   public void setMapInteger(Map<String, Integer> mapInteger) {
     this.mapInteger = mapInteger;
@@ -191,7 +183,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapBoolean(Map<String, Boolean> mapBoolean) {
-    
     this.mapBoolean = mapBoolean;
     return this;
   }
@@ -204,15 +195,14 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapBoolean
    * @return mapBoolean
-  **/
+   */
   @javax.annotation.Nullable
   public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
   }
-
 
   public void setMapBoolean(Map<String, Boolean> mapBoolean) {
     this.mapBoolean = mapBoolean;
@@ -220,7 +210,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
-    
     this.mapArrayInteger = mapArrayInteger;
     return this;
   }
@@ -233,15 +222,14 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapArrayInteger
    * @return mapArrayInteger
-  **/
+   */
   @javax.annotation.Nullable
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
   }
-
 
   public void setMapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
     this.mapArrayInteger = mapArrayInteger;
@@ -249,7 +237,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
-    
     this.mapArrayAnytype = mapArrayAnytype;
     return this;
   }
@@ -262,15 +249,14 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapArrayAnytype
    * @return mapArrayAnytype
-  **/
+   */
   @javax.annotation.Nullable
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
   }
-
 
   public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
@@ -278,7 +264,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapMapString(Map<String, Map<String, String>> mapMapString) {
-    
     this.mapMapString = mapMapString;
     return this;
   }
@@ -291,15 +276,14 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapMapString
    * @return mapMapString
-  **/
+   */
   @javax.annotation.Nullable
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
   }
-
 
   public void setMapMapString(Map<String, Map<String, String>> mapMapString) {
     this.mapMapString = mapMapString;
@@ -307,7 +291,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
-    
     this.mapMapAnytype = mapMapAnytype;
     return this;
   }
@@ -320,15 +303,14 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapMapAnytype
    * @return mapMapAnytype
-  **/
+   */
   @javax.annotation.Nullable
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
   }
-
 
   public void setMapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
     this.mapMapAnytype = mapMapAnytype;
@@ -336,20 +318,18 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass anytype1(Object anytype1) {
-    
     this.anytype1 = anytype1;
     return this;
   }
 
-   /**
+  /**
    * Get anytype1
    * @return anytype1
-  **/
+   */
   @javax.annotation.Nullable
   public Object getAnytype1() {
     return anytype1;
   }
-
 
   public void setAnytype1(Object anytype1) {
     this.anytype1 = anytype1;
@@ -357,20 +337,18 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass anytype2(Object anytype2) {
-    
     this.anytype2 = anytype2;
     return this;
   }
 
-   /**
+  /**
    * Get anytype2
    * @return anytype2
-  **/
+   */
   @javax.annotation.Nullable
   public Object getAnytype2() {
     return anytype2;
   }
-
 
   public void setAnytype2(Object anytype2) {
     this.anytype2 = anytype2;
@@ -378,20 +356,18 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass anytype3(Object anytype3) {
-    
     this.anytype3 = anytype3;
     return this;
   }
 
-   /**
+  /**
    * Get anytype3
    * @return anytype3
-  **/
+   */
   @javax.annotation.Nullable
   public Object getAnytype3() {
     return anytype3;
   }
-
 
   public void setAnytype3(Object anytype3) {
     this.anytype3 = anytype3;
@@ -479,12 +455,12 @@ public class AdditionalPropertiesClass {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to AdditionalPropertiesClass
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to AdditionalPropertiesClass
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!AdditionalPropertiesClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -492,9 +468,9 @@ public class AdditionalPropertiesClass {
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!AdditionalPropertiesClass.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `AdditionalPropertiesClass` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
@@ -531,22 +507,22 @@ public class AdditionalPropertiesClass {
     }
   }
 
- /**
-  * Create an instance of AdditionalPropertiesClass given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of AdditionalPropertiesClass
-  * @throws IOException if the JSON string is invalid with respect to AdditionalPropertiesClass
-  */
+  /**
+   * Create an instance of AdditionalPropertiesClass given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of AdditionalPropertiesClass
+   * @throws IOException if the JSON string is invalid with respect to AdditionalPropertiesClass
+   */
   public static AdditionalPropertiesClass fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, AdditionalPropertiesClass.class);
   }
 
- /**
-  * Convert an instance of AdditionalPropertiesClass to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of AdditionalPropertiesClass to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

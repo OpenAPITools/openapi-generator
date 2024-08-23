@@ -51,7 +51,7 @@ Creates list of users with given input array
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**user** | [**List&lt;User&gt;**](../../docs/models/User.md) | List of user object |
+**user** | [**List&lt;@Valid User&gt;**](../../docs/models/User.md) | List of user object |
 
 
 ### Authorization
@@ -74,7 +74,7 @@ Creates list of users with given input array
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**user** | [**List&lt;User&gt;**](../../docs/models/User.md) | List of user object |
+**user** | [**List&lt;@Valid User&gt;**](../../docs/models/User.md) | List of user object |
 
 
 ### Authorization

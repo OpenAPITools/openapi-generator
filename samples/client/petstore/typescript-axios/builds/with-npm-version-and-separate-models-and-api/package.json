@@ -18,15 +18,15 @@
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc ",
+    "build": "tsc",
     "prepare": "npm run build"
   },
   "dependencies": {
-    "axios": "^0.27.2"
+    "axios": "^1.6.1"
   },
   "devDependencies": {
-    "@types/node": "^12.11.5",
-    "typescript": "^4.0"
+    "@types/node": "12.11.5 - 12.20.42",
+    "typescript": "^4.0 || ^5.0"
   },
   "publishConfig": {
     "registry": "https://skimdb.npmjs.com/registry"

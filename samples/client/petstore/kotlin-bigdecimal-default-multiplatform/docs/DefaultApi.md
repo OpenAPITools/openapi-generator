@@ -2,9 +2,9 @@
 
 All URIs are relative to *http://localhost*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**testPost**](DefaultApi.md#testPost) | **POST** /test | 
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**testPost**](DefaultApi.md#testPost) | **POST** /test |  |
 
 
 <a id="testPost"></a>
@@ -33,10 +33,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **apa** | [**Apa**](Apa.md)|  |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **apa** | [**Apa**](Apa.md)|  | |
 
 ### Return type
 

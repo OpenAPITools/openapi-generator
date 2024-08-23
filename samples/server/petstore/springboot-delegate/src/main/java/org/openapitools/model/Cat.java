@@ -32,7 +32,7 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Cat extends Animal {
 
   private Boolean declawed;
@@ -48,6 +48,14 @@ public class Cat extends Animal {
     super(className);
   }
 
+  /**
+   * Constructor with all args parameters
+   */
+  public Cat(Boolean declawed, String className, String color) {
+      super(className, color);
+      this.declawed = declawed;
+  }
+
   public Cat declawed(Boolean declawed) {
     this.declawed = declawed;
     return this;
@@ -56,7 +64,7 @@ public class Cat extends Animal {
   /**
    * Get declawed
    * @return declawed
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("declawed")
@@ -70,12 +78,12 @@ public class Cat extends Animal {
 
 
   public Cat className(String className) {
-    super.setClassName(className);
+    super.className(className);
     return this;
   }
 
   public Cat color(String color) {
-    super.setColor(color);
+    super.color(color);
     return this;
   }
   @Override

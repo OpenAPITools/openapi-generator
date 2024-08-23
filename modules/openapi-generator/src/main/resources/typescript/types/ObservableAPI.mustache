@@ -1,4 +1,4 @@
-import { ResponseContext, RequestContext, HttpFile } from '../http/http{{importFileExtension}}';
+import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http{{importFileExtension}}';
 import { Configuration} from '../configuration{{importFileExtension}}'
 import { Observable, of, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{importFileExtension}}'{{/useRxJS}};
 import {mergeMap, map} from  {{#useRxJS}}'rxjs/operators'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{importFileExtension}}'{{/useRxJS}};
@@ -61,7 +61,7 @@ export class Observable{{classname}} {
      * @param {{paramName}} {{description}}
      {{/allParams}}
      */
-    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Observable<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
+    public {{nickname}}WithHttpInfo({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Observable<HttpInfo<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
         const requestContextPromise = this.requestFactory.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}_options);
 
         // build promise chain
@@ -76,8 +76,23 @@ export class Observable{{classname}} {
                 for (let middleware of this.configuration.middleware) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
-                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.{{nickname}}(rsp)));
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.{{nickname}}WithHttpInfo(rsp)));
             }));
+    }
+
+    /**
+     {{#notes}}
+     * {{&notes}}
+     {{/notes}}
+     {{#summary}}
+     * {{&summary}}
+     {{/summary}}
+     {{#allParams}}
+     * @param {{paramName}} {{description}}
+     {{/allParams}}
+     */
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Observable<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
+        return this.{{nickname}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}_options).pipe(map((apiResponse: HttpInfo<{{{returnType}}}{{^returnType}}void{{/returnType}}>) => apiResponse.data));
     }
 
 {{/operation}}

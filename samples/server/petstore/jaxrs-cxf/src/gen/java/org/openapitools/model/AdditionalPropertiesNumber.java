@@ -42,7 +42,7 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
       return false;
     }
     AdditionalPropertiesNumber additionalPropertiesNumber = (AdditionalPropertiesNumber) o;
-    return Objects.equals(name, additionalPropertiesNumber.name) &&
+    return Objects.equals(this.name, additionalPropertiesNumber.name) &&
         super.equals(o);
   }
 

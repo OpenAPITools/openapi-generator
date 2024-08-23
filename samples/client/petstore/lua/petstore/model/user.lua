@@ -19,7 +19,7 @@ local function cast_user(t)
 	return setmetatable(t, user_mt)
 end
 
-local function new_user(id, username, first_name, last_name, email, password, phone, user_status)
+local function new_user(id, username, first_name, last_name, email, password, mobile, user_status)
 	return cast_user({
 		["id"] = id;
 		["username"] = username;
@@ -27,7 +27,7 @@ local function new_user(id, username, first_name, last_name, email, password, ph
 		["lastName"] = last_name;
 		["email"] = email;
 		["password"] = password;
-		["phone"] = phone;
+		["phone"] = mobile;
 		["userStatus"] = user_status;
 	})
 end

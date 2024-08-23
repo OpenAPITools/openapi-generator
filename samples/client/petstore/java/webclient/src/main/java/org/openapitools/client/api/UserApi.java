@@ -26,7 +26,7 @@ import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class UserApi {
     private ApiClient apiClient;
 
@@ -439,7 +439,7 @@ public class UserApi {
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "username", username));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "password", password));
-
+        
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
         };

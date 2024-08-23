@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -32,12 +33,19 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   ArrayOfArrayOfNumberOnly.JSON_PROPERTY_ARRAY_ARRAY_NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class ArrayOfArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
   private List<List<BigDecimal>> arrayArrayNumber;
 
   public ArrayOfArrayOfNumberOnly() {
+  }
+
+  /**
+   * Constructor with all args parameters
+   */
+  public ArrayOfArrayOfNumberOnly(@JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER) List<List<BigDecimal>> arrayArrayNumber) {
+    this.arrayArrayNumber = arrayArrayNumber;
   }
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
@@ -54,10 +62,10 @@ public class ArrayOfArrayOfNumberOnly {
     return this;
   }
 
-   /**
+  /**
    * Get arrayArrayNumber
    * @return arrayArrayNumber
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -109,6 +117,60 @@ public class ArrayOfArrayOfNumberOnly {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder {
+
+    private ArrayOfArrayOfNumberOnly instance;
+
+    public Builder() {
+      this(new ArrayOfArrayOfNumberOnly());
+    }
+
+    protected Builder(ArrayOfArrayOfNumberOnly instance) {
+      this.instance = instance;
+    }
+
+    public ArrayOfArrayOfNumberOnly.Builder arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+      this.instance.arrayArrayNumber = arrayArrayNumber;
+      return this;
+    }
+
+
+    /**
+    * returns a built ArrayOfArrayOfNumberOnly instance.
+    *
+    * The builder is not reusable.
+    */
+    public ArrayOfArrayOfNumberOnly build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ArrayOfArrayOfNumberOnly.Builder builder() {
+    return new ArrayOfArrayOfNumberOnly.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ArrayOfArrayOfNumberOnly.Builder toBuilder() {
+    return new ArrayOfArrayOfNumberOnly.Builder()
+      .arrayArrayNumber(getArrayArrayNumber());
+  }
+
 
 }
 

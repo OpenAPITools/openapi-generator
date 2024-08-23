@@ -14,13 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import android.os.Parcelable;
 import android.os.Parcel;
 
@@ -39,12 +39,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -52,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * User
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class User implements Parcelable {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -90,20 +88,18 @@ public class User implements Parcelable {
   }
 
   public User id(Long id) {
-    
     this.id = id;
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   public Long getId() {
     return id;
   }
-
 
   public void setId(Long id) {
     this.id = id;
@@ -111,20 +107,18 @@ public class User implements Parcelable {
 
 
   public User username(String username) {
-    
     this.username = username;
     return this;
   }
 
-   /**
+  /**
    * Get username
    * @return username
-  **/
+   */
   @javax.annotation.Nullable
   public String getUsername() {
     return username;
   }
-
 
   public void setUsername(String username) {
     this.username = username;
@@ -132,20 +126,18 @@ public class User implements Parcelable {
 
 
   public User firstName(String firstName) {
-    
     this.firstName = firstName;
     return this;
   }
 
-   /**
+  /**
    * Get firstName
    * @return firstName
-  **/
+   */
   @javax.annotation.Nullable
   public String getFirstName() {
     return firstName;
   }
-
 
   public void setFirstName(String firstName) {
     this.firstName = firstName;
@@ -153,20 +145,18 @@ public class User implements Parcelable {
 
 
   public User lastName(String lastName) {
-    
     this.lastName = lastName;
     return this;
   }
 
-   /**
+  /**
    * Get lastName
    * @return lastName
-  **/
+   */
   @javax.annotation.Nullable
   public String getLastName() {
     return lastName;
   }
-
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
@@ -174,20 +164,18 @@ public class User implements Parcelable {
 
 
   public User email(String email) {
-    
     this.email = email;
     return this;
   }
 
-   /**
+  /**
    * Get email
    * @return email
-  **/
+   */
   @javax.annotation.Nullable
   public String getEmail() {
     return email;
   }
-
 
   public void setEmail(String email) {
     this.email = email;
@@ -195,20 +183,18 @@ public class User implements Parcelable {
 
 
   public User password(String password) {
-    
     this.password = password;
     return this;
   }
 
-   /**
+  /**
    * Get password
    * @return password
-  **/
+   */
   @javax.annotation.Nullable
   public String getPassword() {
     return password;
   }
-
 
   public void setPassword(String password) {
     this.password = password;
@@ -216,20 +202,18 @@ public class User implements Parcelable {
 
 
   public User phone(String phone) {
-    
     this.phone = phone;
     return this;
   }
 
-   /**
+  /**
    * Get phone
    * @return phone
-  **/
+   */
   @javax.annotation.Nullable
   public String getPhone() {
     return phone;
   }
-
 
   public void setPhone(String phone) {
     this.phone = phone;
@@ -237,20 +221,18 @@ public class User implements Parcelable {
 
 
   public User userStatus(Integer userStatus) {
-    
     this.userStatus = userStatus;
     return this;
   }
 
-   /**
+  /**
    * User Status
    * @return userStatus
-  **/
+   */
   @javax.annotation.Nullable
   public Integer getUserStatus() {
     return userStatus;
   }
-
 
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
@@ -364,12 +346,12 @@ public class User implements Parcelable {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to User
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to User
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!User.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -377,9 +359,9 @@ public class User implements Parcelable {
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!User.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `User` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
@@ -434,22 +416,22 @@ public class User implements Parcelable {
     }
   }
 
- /**
-  * Create an instance of User given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of User
-  * @throws IOException if the JSON string is invalid with respect to User
-  */
+  /**
+   * Create an instance of User given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of User
+   * @throws IOException if the JSON string is invalid with respect to User
+   */
   public static User fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, User.class);
   }
 
- /**
-  * Convert an instance of User to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of User to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

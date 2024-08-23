@@ -25,6 +25,17 @@ export const EnumClass = {
 export type EnumClass = typeof EnumClass[keyof typeof EnumClass];
 
 
+export function instanceOfEnumClass(value: any): boolean {
+    for (const key in EnumClass) {
+        if (Object.prototype.hasOwnProperty.call(EnumClass, key)) {
+            if (EnumClass[key as keyof typeof EnumClass] === value) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 export function EnumClassFromJSON(json: any): EnumClass {
     return EnumClassFromJSONTyped(json, false);
 }

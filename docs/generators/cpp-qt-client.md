@@ -18,6 +18,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|addDownloadProgress|Add support for Qt download progress| |false|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |contentCompression|Enable Compressed Content Encoding for requests and responses| |false|
 |cppNamespace|C++ namespace (convention: name::space::for::api).| |OpenAPI|
@@ -65,6 +66,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## RESERVED WORDS
 
 <ul class="column-ul">
+<li>NULL</li>
 <li>alignas</li>
 <li>alignof</li>
 <li>and</li>
@@ -125,9 +127,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>reinterpret_cast</li>
 <li>requires</li>
 <li>return</li>
+<li>set</li>
 <li>short</li>
+<li>signals</li>
 <li>signed</li>
 <li>sizeof</li>
+<li>slots</li>
 <li>static</li>
 <li>static_assert</li>
 <li>static_cast</li>
@@ -145,6 +150,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>union</li>
 <li>unsigned</li>
 <li>using</li>
+<li>valid</li>
 <li>virtual</li>
 <li>void</li>
 <li>volatile</li>
@@ -263,6 +269,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_ClientCredentials|✓|OAS2,OAS3
 |OAuth2_AuthorizationCode|✓|OAS2,OAS3
 |SignatureAuth|✗|OAS3
+|AWSV4Signature|✗|ToolingExtension
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

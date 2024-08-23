@@ -819,11 +819,11 @@ components:
             write:pets: modify pets in your account
             read:pets: read your pets
       type: oauth2
-      x-tokenInfoFunc: openapi_server.controllers.security_controller_.info_from_petstore_auth
-      x-scopeValidateFunc: openapi_server.controllers.security_controller_.validate_scope_petstore_auth
+      x-tokenInfoFunc: openapi_server.controllers.security_controller.info_from_petstore_auth
+      x-scopeValidateFunc: openapi_server.controllers.security_controller.validate_scope_petstore_auth
     api_key:
       in: header
       name: api_key
       type: apiKey
-      x-apikeyInfoFunc: openapi_server.controllers.security_controller_.info_from_api_key
+      x-apikeyInfoFunc: openapi_server.controllers.security_controller.info_from_api_key
 x-original-swagger-version: "2.0"

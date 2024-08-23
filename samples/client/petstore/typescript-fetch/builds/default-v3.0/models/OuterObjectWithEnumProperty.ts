@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { OuterEnumInteger } from './OuterEnumInteger';
 import {
     OuterEnumIntegerFromJSON,
@@ -34,14 +34,14 @@ export interface OuterObjectWithEnumProperty {
     value: OuterEnumInteger;
 }
 
+
+
 /**
  * Check if a given object implements the OuterObjectWithEnumProperty interface.
  */
-export function instanceOfOuterObjectWithEnumProperty(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "value" in value;
-
-    return isInstance;
+export function instanceOfOuterObjectWithEnumProperty(value: object): value is OuterObjectWithEnumProperty {
+    if (!('value' in value) || value['value'] === undefined) return false;
+    return true;
 }
 
 export function OuterObjectWithEnumPropertyFromJSON(json: any): OuterObjectWithEnumProperty {
@@ -49,7 +49,7 @@ export function OuterObjectWithEnumPropertyFromJSON(json: any): OuterObjectWithE
 }
 
 export function OuterObjectWithEnumPropertyFromJSONTyped(json: any, ignoreDiscriminator: boolean): OuterObjectWithEnumProperty {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -59,15 +59,12 @@ export function OuterObjectWithEnumPropertyFromJSONTyped(json: any, ignoreDiscri
 }
 
 export function OuterObjectWithEnumPropertyToJSON(value?: OuterObjectWithEnumProperty | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'value': OuterEnumIntegerToJSON(value.value),
+        'value': OuterEnumIntegerToJSON(value['value']),
     };
 }
 

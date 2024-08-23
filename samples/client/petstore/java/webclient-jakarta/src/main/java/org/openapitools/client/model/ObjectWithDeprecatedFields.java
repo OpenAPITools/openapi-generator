@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.DeprecatedObject;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -36,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ObjectWithDeprecatedFields.JSON_PROPERTY_DEPRECATED_REF,
   ObjectWithDeprecatedFields.JSON_PROPERTY_BARS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class ObjectWithDeprecatedFields {
   public static final String JSON_PROPERTY_UUID = "uuid";
   private String uuid;
@@ -48,7 +49,7 @@ public class ObjectWithDeprecatedFields {
   private DeprecatedObject deprecatedRef;
 
   public static final String JSON_PROPERTY_BARS = "bars";
-  private List<String> bars;
+  private List<String> bars = new ArrayList<>();
 
   public ObjectWithDeprecatedFields() {
   }
@@ -59,10 +60,10 @@ public class ObjectWithDeprecatedFields {
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -78,18 +79,17 @@ public class ObjectWithDeprecatedFields {
     this.uuid = uuid;
   }
 
-
   public ObjectWithDeprecatedFields id(BigDecimal id) {
     
     this.id = id;
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
    * @deprecated
-  **/
+   */
   @Deprecated
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ID)
@@ -106,18 +106,17 @@ public class ObjectWithDeprecatedFields {
     this.id = id;
   }
 
-
   public ObjectWithDeprecatedFields deprecatedRef(DeprecatedObject deprecatedRef) {
     
     this.deprecatedRef = deprecatedRef;
     return this;
   }
 
-   /**
+  /**
    * Get deprecatedRef
    * @return deprecatedRef
    * @deprecated
-  **/
+   */
   @Deprecated
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DEPRECATED_REF)
@@ -134,7 +133,6 @@ public class ObjectWithDeprecatedFields {
     this.deprecatedRef = deprecatedRef;
   }
 
-
   public ObjectWithDeprecatedFields bars(List<String> bars) {
     
     this.bars = bars;
@@ -149,11 +147,11 @@ public class ObjectWithDeprecatedFields {
     return this;
   }
 
-   /**
+  /**
    * Get bars
    * @return bars
    * @deprecated
-  **/
+   */
   @Deprecated
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BARS)

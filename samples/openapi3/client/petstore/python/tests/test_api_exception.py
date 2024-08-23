@@ -10,7 +10,6 @@ $ pytest
 """
 
 import os
-import six
 import sys
 import unittest
 
@@ -34,7 +33,7 @@ class ApiExceptionTests(unittest.TestCase):
         self.tag = petstore_api.Tag()
         self.tag.id = id_gen()
         self.tag.name = "blank"
-        self.pet = petstore_api.Pet(name="hello kity", photo_urls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
+        self.pet = petstore_api.Pet(name="hello kity", photoUrls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
         self.pet.id = id_gen()
         self.pet.status = "sold"
         self.pet.category = self.category
@@ -42,6 +41,7 @@ class ApiExceptionTests(unittest.TestCase):
 
     def test_404_error(self):
         self.pet_api.add_pet(self.pet)
+        assert self.pet.id is not None
         self.pet_api.delete_pet(pet_id=self.pet.id)
 
         with self.checkRaiseRegex(ApiException, "Pet not found"):
@@ -56,6 +56,7 @@ class ApiExceptionTests(unittest.TestCase):
 
     def test_500_error(self):
         self.pet_api.add_pet(self.pet)
+        assert self.pet.id is not None
 
         with self.checkRaiseRegex(ApiException, "Internal Server Error"):
             self.pet_api.upload_file(

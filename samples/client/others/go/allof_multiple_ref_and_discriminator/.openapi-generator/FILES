@@ -1,0 +1,17 @@
+.gitignore
+.travis.yml
+README.md
+api/openapi.yaml
+client.go
+configuration.go
+docs/AdditionalData.md
+docs/BaseItem.md
+docs/FinalItem.md
+git_push.sh
+go.mod
+go.sum
+model_additional_data.go
+model_base_item.go
+model_final_item.go
+response.go
+utils.go

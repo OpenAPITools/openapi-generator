@@ -20,22 +20,21 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for NumberOnly
  */
-public class NumberOnlyTest {
+class NumberOnlyTest {
     private final NumberOnly model = new NumberOnly();
 
     /**
      * Model tests for NumberOnly
      */
     @Test
-    public void testNumberOnly() {
+    void testNumberOnly() {
         // TODO: test NumberOnly
     }
 
@@ -43,7 +42,7 @@ public class NumberOnlyTest {
      * Test the property 'justNumber'
      */
     @Test
-    public void justNumberTest() {
+    void justNumberTest() {
         // TODO: test justNumber
     }
 

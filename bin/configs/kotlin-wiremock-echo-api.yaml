@@ -1,0 +1,4 @@
+generatorName: kotlin-wiremock
+outputDir: samples/server/echo_api/kotlin-wiremock
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/echo_api.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-wiremock

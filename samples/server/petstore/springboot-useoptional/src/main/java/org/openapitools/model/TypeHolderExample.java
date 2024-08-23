@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -22,7 +23,7 @@ import javax.annotation.Generated;
  * TypeHolderExample
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class TypeHolderExample {
 
   private String stringItem;
@@ -62,7 +63,7 @@ public class TypeHolderExample {
   /**
    * Get stringItem
    * @return stringItem
-  */
+   */
   @NotNull 
   @ApiModelProperty(example = "what", required = true, value = "")
   @JsonProperty("string_item")
@@ -82,7 +83,7 @@ public class TypeHolderExample {
   /**
    * Get numberItem
    * @return numberItem
-  */
+   */
   @NotNull @Valid 
   @ApiModelProperty(example = "1.234", required = true, value = "")
   @JsonProperty("number_item")
@@ -102,7 +103,7 @@ public class TypeHolderExample {
   /**
    * Get floatItem
    * @return floatItem
-  */
+   */
   @NotNull 
   @ApiModelProperty(example = "1.234", required = true, value = "")
   @JsonProperty("float_item")
@@ -122,7 +123,7 @@ public class TypeHolderExample {
   /**
    * Get integerItem
    * @return integerItem
-  */
+   */
   @NotNull 
   @ApiModelProperty(example = "-2", required = true, value = "")
   @JsonProperty("integer_item")
@@ -142,7 +143,7 @@ public class TypeHolderExample {
   /**
    * Get boolItem
    * @return boolItem
-  */
+   */
   @NotNull 
   @ApiModelProperty(example = "true", required = true, value = "")
   @JsonProperty("bool_item")
@@ -170,7 +171,7 @@ public class TypeHolderExample {
   /**
    * Get arrayItem
    * @return arrayItem
-  */
+   */
   @NotNull 
   @ApiModelProperty(example = "[0,1,2,3]", required = true, value = "")
   @JsonProperty("array_item")
@@ -228,5 +229,93 @@ public class TypeHolderExample {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private TypeHolderExample instance;
+
+    public Builder() {
+      this(new TypeHolderExample());
+    }
+
+    protected Builder(TypeHolderExample instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(TypeHolderExample value) { 
+      this.instance.setStringItem(value.stringItem);
+      this.instance.setNumberItem(value.numberItem);
+      this.instance.setFloatItem(value.floatItem);
+      this.instance.setIntegerItem(value.integerItem);
+      this.instance.setBoolItem(value.boolItem);
+      this.instance.setArrayItem(value.arrayItem);
+      return this;
+    }
+
+    public TypeHolderExample.Builder stringItem(String stringItem) {
+      this.instance.stringItem(stringItem);
+      return this;
+    }
+    
+    public TypeHolderExample.Builder numberItem(BigDecimal numberItem) {
+      this.instance.numberItem(numberItem);
+      return this;
+    }
+    
+    public TypeHolderExample.Builder floatItem(Float floatItem) {
+      this.instance.floatItem(floatItem);
+      return this;
+    }
+    
+    public TypeHolderExample.Builder integerItem(Integer integerItem) {
+      this.instance.integerItem(integerItem);
+      return this;
+    }
+    
+    public TypeHolderExample.Builder boolItem(Boolean boolItem) {
+      this.instance.boolItem(boolItem);
+      return this;
+    }
+    
+    public TypeHolderExample.Builder arrayItem(List<Integer> arrayItem) {
+      this.instance.arrayItem(arrayItem);
+      return this;
+    }
+    
+    /**
+    * returns a built TypeHolderExample instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public TypeHolderExample build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static TypeHolderExample.Builder builder() {
+    return new TypeHolderExample.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public TypeHolderExample.Builder toBuilder() {
+    TypeHolderExample.Builder builder = new TypeHolderExample.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

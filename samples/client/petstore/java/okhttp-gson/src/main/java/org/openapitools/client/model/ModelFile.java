@@ -14,13 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -37,12 +37,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -50,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * Must be named &#x60;File&#x60; for test.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class ModelFile {
   public static final String SERIALIZED_NAME_SOURCE_U_R_I = "sourceURI";
   @SerializedName(SERIALIZED_NAME_SOURCE_U_R_I)
@@ -60,20 +58,18 @@ public class ModelFile {
   }
 
   public ModelFile sourceURI(String sourceURI) {
-    
     this.sourceURI = sourceURI;
     return this;
   }
 
-   /**
+  /**
    * Test capitalization
    * @return sourceURI
-  **/
+   */
   @javax.annotation.Nullable
   public String getSourceURI() {
     return sourceURI;
   }
-
 
   public void setSourceURI(String sourceURI) {
     this.sourceURI = sourceURI;
@@ -177,12 +173,12 @@ public class ModelFile {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to ModelFile
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to ModelFile
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!ModelFile.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -223,7 +219,12 @@ public class ModelFile {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -262,22 +263,22 @@ public class ModelFile {
     }
   }
 
- /**
-  * Create an instance of ModelFile given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of ModelFile
-  * @throws IOException if the JSON string is invalid with respect to ModelFile
-  */
+  /**
+   * Create an instance of ModelFile given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of ModelFile
+   * @throws IOException if the JSON string is invalid with respect to ModelFile
+   */
   public static ModelFile fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ModelFile.class);
   }
 
- /**
-  * Convert an instance of ModelFile to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of ModelFile to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

@@ -14,13 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,12 +39,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -52,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * MapTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class MapTest {
   public static final String SERIALIZED_NAME_MAP_MAP_OF_STRING = "map_map_of_string";
   @SerializedName(SERIALIZED_NAME_MAP_MAP_OF_STRING)
@@ -103,6 +101,11 @@ public class MapTest {
         return InnerEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      InnerEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_MAP_OF_ENUM_STRING = "map_of_enum_string";
@@ -121,7 +124,6 @@ public class MapTest {
   }
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
-    
     this.mapMapOfString = mapMapOfString;
     return this;
   }
@@ -134,15 +136,14 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get mapMapOfString
    * @return mapMapOfString
-  **/
+   */
   @javax.annotation.Nullable
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
-
 
   public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
@@ -150,7 +151,6 @@ public class MapTest {
 
 
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
-    
     this.mapOfEnumString = mapOfEnumString;
     return this;
   }
@@ -163,15 +163,14 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get mapOfEnumString
    * @return mapOfEnumString
-  **/
+   */
   @javax.annotation.Nullable
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
-
 
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
@@ -179,7 +178,6 @@ public class MapTest {
 
 
   public MapTest directMap(Map<String, Boolean> directMap) {
-    
     this.directMap = directMap;
     return this;
   }
@@ -192,15 +190,14 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get directMap
    * @return directMap
-  **/
+   */
   @javax.annotation.Nullable
   public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
-
 
   public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
@@ -208,7 +205,6 @@ public class MapTest {
 
 
   public MapTest indirectMap(Map<String, Boolean> indirectMap) {
-    
     this.indirectMap = indirectMap;
     return this;
   }
@@ -221,15 +217,14 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get indirectMap
    * @return indirectMap
-  **/
+   */
   @javax.annotation.Nullable
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }
-
 
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
@@ -296,12 +291,12 @@ public class MapTest {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to MapTest
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to MapTest
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!MapTest.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -309,9 +304,9 @@ public class MapTest {
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!MapTest.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `MapTest` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
@@ -348,22 +343,22 @@ public class MapTest {
     }
   }
 
- /**
-  * Create an instance of MapTest given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of MapTest
-  * @throws IOException if the JSON string is invalid with respect to MapTest
-  */
+  /**
+   * Create an instance of MapTest given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of MapTest
+   * @throws IOException if the JSON string is invalid with respect to MapTest
+   */
   public static MapTest fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, MapTest.class);
   }
 
- /**
-  * Convert an instance of MapTest to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of MapTest to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

@@ -14,13 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import android.os.Parcelable;
 import android.os.Parcel;
 
@@ -39,12 +39,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -52,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * Model for testing reserved words
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class ModelReturn implements Parcelable {
   public static final String SERIALIZED_NAME_RETURN = "return";
   @SerializedName(SERIALIZED_NAME_RETURN)
@@ -62,20 +60,18 @@ public class ModelReturn implements Parcelable {
   }
 
   public ModelReturn _return(Integer _return) {
-    
     this._return = _return;
     return this;
   }
 
-   /**
+  /**
    * Get _return
    * @return _return
-  **/
+   */
   @javax.annotation.Nullable
   public Integer getReturn() {
     return _return;
   }
-
 
   public void setReturn(Integer _return) {
     this._return = _return;
@@ -154,12 +150,12 @@ public class ModelReturn implements Parcelable {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to ModelReturn
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to ModelReturn
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!ModelReturn.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -167,9 +163,9 @@ public class ModelReturn implements Parcelable {
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!ModelReturn.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `ModelReturn` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
@@ -206,22 +202,22 @@ public class ModelReturn implements Parcelable {
     }
   }
 
- /**
-  * Create an instance of ModelReturn given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of ModelReturn
-  * @throws IOException if the JSON string is invalid with respect to ModelReturn
-  */
+  /**
+   * Create an instance of ModelReturn given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of ModelReturn
+   * @throws IOException if the JSON string is invalid with respect to ModelReturn
+   */
   public static ModelReturn fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ModelReturn.class);
   }
 
- /**
-  * Convert an instance of ModelReturn to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of ModelReturn to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

@@ -57,6 +57,7 @@ docs/Model/ReadOnlyFirst.md
 docs/Model/SingleRefType.md
 docs/Model/SpecialModelName.md
 docs/Model/Tag.md
+docs/Model/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/Model/User.md
 git_push.sh
 lib/Api/AnotherFakeApi.php
@@ -117,6 +118,7 @@ lib/Model/ReadOnlyFirst.php
 lib/Model/SingleRefType.php
 lib/Model/SpecialModelName.php
 lib/Model/Tag.php
+lib/Model/TestInlineFreeformAdditionalPropertiesRequest.php
 lib/Model/User.php
 lib/ObjectSerializer.php
 phpunit.xml.dist

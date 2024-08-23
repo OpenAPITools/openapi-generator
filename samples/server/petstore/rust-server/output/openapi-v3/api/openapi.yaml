@@ -258,7 +258,7 @@ paths:
         callback:
           '{$request.query.url}/callback':
             post:
-              operationId: callback_CallbackPost
+              operationId: CallbackCallbackPost
               responses:
                 "204":
                   description: OK
@@ -281,7 +281,7 @@ paths:
         callback:
           '{$request.query.url}/callback-with-header':
             post:
-              operationId: callback_CallbackWithHeaderPost
+              operationId: CallbackCallbackWithHeaderPost
               parameters:
               - explode: false
                 in: header
@@ -478,20 +478,20 @@ components:
       - requiredAnyOf
     AnyOfObject:
       anyOf:
-      - enum:
-        - FOO
-        - BAR
-        type: string
+      - $ref: '#/components/schemas/AnyOfObject_anyOf'
       - description: Alternate option
         type: string
       description: Test a model containing an anyOf
+    AnyOfHashMapObject:
+      anyOf:
+      - type: string
+      - additionalProperties:
+          type: string
+        type: object
+      description: Test a model containing an anyOf of a hash map
     "12345AnyOfObject":
       anyOf:
-      - enum:
-        - FOO
-        - BAR
-        - '*'
-        type: string
+      - $ref: '#/components/schemas/_12345AnyOfObject_anyOf'
       - description: Alternate option
         type: string
       description: Test a model containing an anyOf that starts with a number
@@ -654,6 +654,22 @@ components:
             type: string
           nullable: true
           type: array
+        min_item_test:
+          items:
+            type: integer
+          minItems: 1
+          type: array
+        max_item_test:
+          items:
+            type: integer
+          maxItems: 2
+          type: array
+        min_max_item_test:
+          items:
+            type: integer
+          maxItems: 3
+          minItems: 1
+          type: array
       required:
       - nullable
       type: object
@@ -685,6 +701,17 @@ components:
       anyOf:
       - $ref: '#/components/schemas/StringObject'
       - $ref: '#/components/schemas/UuidObject'
+    AnyOfObject_anyOf:
+      enum:
+      - FOO
+      - BAR
+      type: string
+    _12345AnyOfObject_anyOf:
+      enum:
+      - FOO
+      - BAR
+      - '*'
+      type: string
   securitySchemes:
     authScheme:
       flows:

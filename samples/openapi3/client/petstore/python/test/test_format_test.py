@@ -46,7 +46,7 @@ class TestFormatTest(unittest.TestCase):
                 string = 'a', 
                 byte = bytes("someting", 'utf-8'), 
                 binary = bytes(b'blah'), 
-                date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(), 
+                var_date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(),
                 date_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                 uuid = '72f98069-206d-4f12-9f12-3d1e525a8e84', 
                 password = '0123456789', 

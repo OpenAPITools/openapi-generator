@@ -29,7 +29,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class SpecialModelName   {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
@@ -65,7 +65,7 @@ public class SpecialModelName   {
       return false;
     }
     SpecialModelName specialModelName = (SpecialModelName) o;
-    return Objects.equals($specialPropertyName, specialModelName.$specialPropertyName);
+    return Objects.equals(this.$specialPropertyName, specialModelName.$specialPropertyName);
   }
 
   @Override

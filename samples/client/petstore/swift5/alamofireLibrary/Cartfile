@@ -1,2 +1,2 @@
 github "Flight-School/AnyCodable" ~> 0.6
-github "Alamofire/Alamofire" ~> 5.4
+github "Alamofire/Alamofire" ~> 5.7

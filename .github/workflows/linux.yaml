@@ -20,22 +20,22 @@ jobs:
         os: [ubuntu-latest]
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up JDK ${{ matrix.java }}
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('pom.xml', 'modules/**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
@@ -45,7 +45,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Setup Maven
-        uses: s4u/setup-maven-action@v1.8.0
+        uses: s4u/setup-maven-action@v1.14.0
         with:
           java-version: ${{ matrix.java }}
           maven-version: 3.8.8
@@ -57,7 +57,7 @@ jobs:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
 
       - name: Upload Maven build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: matrix.java == '11' && matrix.os == 'ubuntu-latest'
         with:
           name: artifact
@@ -85,14 +85,14 @@ jobs:
         os: [ubuntu-latest]
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Maven
-        uses: s4u/setup-maven-action@v1.8.0
+        uses: s4u/setup-maven-action@v1.14.0
         with:
           java-version: 11
           maven-version: 3.8.8
       - name: Download build artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: artifact
       - name: Run Ensures Script

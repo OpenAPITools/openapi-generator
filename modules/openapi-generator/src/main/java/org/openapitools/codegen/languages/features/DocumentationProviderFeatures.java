@@ -1,5 +1,7 @@
 package org.openapitools.codegen.languages.features;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -59,7 +61,7 @@ public interface DocumentationProviderFeatures {
 
   void setAnnotationLibrary(AnnotationLibrary annotationLibrary);
 
-  enum DocumentationProvider {
+  @Getter enum DocumentationProvider {
       NONE("withoutDocumentationProvider", "Do not publish an OpenAPI specification.",
           AnnotationLibrary.NONE, AnnotationLibrary.values()),
 
@@ -78,6 +80,12 @@ public interface DocumentationProviderFeatures {
       SPRINGDOC("springDocDocumentationProvider", "Generate an OpenAPI 3 specification using SpringDoc.",
           AnnotationLibrary.SWAGGER2, AnnotationLibrary.SWAGGER2);
 
+      /**
+       * -- GETTER --
+       *  The property name should be used in the codegen model as a boolean property.
+       *
+       * @return the property name for this documentation provider
+       */
       private final String propertyName;
 
       private final String description;
@@ -100,27 +108,6 @@ public interface DocumentationProviderFeatures {
           return valueOf(optVal);
       }
 
-    /**
-     * The property name should be used in the codegen model as a boolean property.
-     *
-     * @return the property name for this documentation provider
-     */
-      public String getPropertyName() {
-          return propertyName;
-      }
-
-      public String getDescription() {
-          return description;
-      }
-
-      public AnnotationLibrary getPreferredAnnotationLibrary() {
-          return preferredAnnotationLibrary;
-      }
-
-      public AnnotationLibrary[] getSupportedAnnotationLibraries() {
-          return supportedAnnotationLibraries;
-      }
-
       public List<AnnotationLibrary> supportedAnnotationLibraries() {
           return Arrays.asList(getSupportedAnnotationLibraries());
       }
@@ -130,7 +117,7 @@ public interface DocumentationProviderFeatures {
       }
   }
 
-  enum AnnotationLibrary {
+  @Getter enum AnnotationLibrary {
       NONE("withoutAnnotationLibrary", "Do not annotate Model and Api with complementary annotations."),
 
       SWAGGER1("swagger1AnnotationLibrary", "Annotate Model and Api using the Swagger Annotations 1.x library."),
@@ -139,6 +126,12 @@ public interface DocumentationProviderFeatures {
 
       MICROPROFILE("microprofileAnnotationLibrary", "Annotate Model and Api using the Microprofile annotations.");
 
+      /**
+       * -- GETTER --
+       *  The property name is used in the codegen model as a boolean property.
+       *
+       * @return the property name for this annotation library
+       */
       private final String propertyName;
 
       private final String description;
@@ -146,19 +139,6 @@ public interface DocumentationProviderFeatures {
       public static AnnotationLibrary ofCliOption(String optVal) {
           optVal = Objects.requireNonNull(optVal).toUpperCase(Locale.ROOT);
           return valueOf(optVal);
-      }
-
-    /**
-     * The property name is used in the codegen model as a boolean property.
-     *
-     * @return the property name for this annotation library
-     */
-    public String getPropertyName() {
-          return propertyName;
-      }
-
-      public String getDescription() {
-          return description;
       }
 
       AnnotationLibrary(String propertyName, String description) {

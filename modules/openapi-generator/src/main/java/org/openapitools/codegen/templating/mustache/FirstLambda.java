@@ -45,10 +45,6 @@ public class FirstLambda implements Mustache.Lambda {
 
     @Override
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-
-        String a = fragment.execute();
-
-
         String[] parts = fragment.execute().split(this.delimiter);
 
         writer.write(Arrays.stream(parts).findFirst().orElse(""));

@@ -1,4 +1,4 @@
-import { ResponseContext, RequestContext, HttpFile } from '../http/http{{importFileExtension}}';
+import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http{{importFileExtension}}';
 import { Configuration} from '../configuration{{importFileExtension}}'
 {{#useInversify}}
 import { injectable, inject, optional } from "inversify";
@@ -40,6 +40,22 @@ export class Promise{{classname}} {
     }
 
 {{#operation}}
+    /**
+     {{#notes}}
+     * {{&notes}}
+     {{/notes}}
+     {{#summary}}
+     * {{&summary}}
+     {{/summary}}
+     {{#allParams}}
+     * @param {{paramName}} {{description}}
+     {{/allParams}}
+     */
+    public {{nickname}}WithHttpInfo({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Promise<HttpInfo<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
+        const result = this.api.{{nickname}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}_options);
+        return result.toPromise();
+    }
+
     /**
      {{#notes}}
      * {{&notes}}

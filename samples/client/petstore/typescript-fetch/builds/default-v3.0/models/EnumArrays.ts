@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -56,10 +56,8 @@ export type EnumArraysArrayEnumEnum = typeof EnumArraysArrayEnumEnum[keyof typeo
 /**
  * Check if a given object implements the EnumArrays interface.
  */
-export function instanceOfEnumArrays(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfEnumArrays(value: object): value is EnumArrays {
+    return true;
 }
 
 export function EnumArraysFromJSON(json: any): EnumArrays {
@@ -67,27 +65,24 @@ export function EnumArraysFromJSON(json: any): EnumArrays {
 }
 
 export function EnumArraysFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnumArrays {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'justSymbol': !exists(json, 'just_symbol') ? undefined : json['just_symbol'],
-        'arrayEnum': !exists(json, 'array_enum') ? undefined : json['array_enum'],
+        'justSymbol': json['just_symbol'] == null ? undefined : json['just_symbol'],
+        'arrayEnum': json['array_enum'] == null ? undefined : json['array_enum'],
     };
 }
 
 export function EnumArraysToJSON(value?: EnumArrays | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'just_symbol': value.justSymbol,
-        'array_enum': value.arrayEnum,
+        'just_symbol': value['justSymbol'],
+        'array_enum': value['arrayEnum'],
     };
 }
 

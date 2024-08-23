@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Query;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -38,7 +39,7 @@ import java.util.StringJoiner;
   DataQuery.JSON_PROPERTY_TEXT,
   DataQuery.JSON_PROPERTY_DATE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class DataQuery extends Query {
   public static final String JSON_PROPERTY_SUFFIX = "suffix";
   private String suffix;
@@ -59,10 +60,10 @@ public class DataQuery extends Query {
     return this;
   }
 
-   /**
+  /**
    * test suffix
    * @return suffix
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SUFFIX)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -78,17 +79,16 @@ public class DataQuery extends Query {
     this.suffix = suffix;
   }
 
-
   public DataQuery text(String text) {
     
     this.text = text;
     return this;
   }
 
-   /**
+  /**
    * Some text containing white spaces
    * @return text
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_TEXT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -104,17 +104,16 @@ public class DataQuery extends Query {
     this.text = text;
   }
 
-
   public DataQuery date(OffsetDateTime date) {
     
     this.date = date;
     return this;
   }
 
-   /**
+  /**
    * A date
    * @return date
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

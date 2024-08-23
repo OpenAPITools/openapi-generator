@@ -89,13 +89,14 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
         if (StringUtils.isEmpty(packageName)) {
             packageName = modelPackage;
         }
-        String srcPrefix = "src" + File.separator;
-        String modelPrefix = srcPrefix + "model" + File.separator + toFilename(modelPackage);
-        String clientPrefix = srcPrefix + "client" + File.separator + toFilename(modelPackage);
-        supportingFiles.add(new SupportingFile("model-spec.mustache", "", modelPrefix + "-models.ads"));
-        supportingFiles.add(new SupportingFile("model-body.mustache", "", modelPrefix + "-models.adb"));
-        supportingFiles.add(new SupportingFile("client-spec.mustache", "", clientPrefix + "-clients.ads"));
-        supportingFiles.add(new SupportingFile("client-body.mustache", "", clientPrefix + "-clients.adb"));
+        String srcDir = "src" + File.separator;
+        String clientDir = srcDir + "client";
+        String modelDir = srcDir + "model";
+        String modelPrefix = toFilename(modelPackage);
+        supportingFiles.add(new SupportingFile("model-spec.mustache", modelDir, modelPrefix + "-models.ads"));
+        supportingFiles.add(new SupportingFile("model-body.mustache", modelDir, modelPrefix + "-models.adb"));
+        supportingFiles.add(new SupportingFile("client-spec.mustache", clientDir, modelPrefix + "-clients.ads"));
+        supportingFiles.add(new SupportingFile("client-body.mustache", clientDir, modelPrefix + "-clients.adb"));
 
         if (additionalProperties.containsKey(CodegenConstants.PROJECT_NAME)) {
             projectName = (String) additionalProperties.get(CodegenConstants.PROJECT_NAME);
@@ -121,23 +122,23 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
         additionalProperties.put("httpClientPackageName", httpClientPackageName);
         additionalProperties.put("openApiPackageName", openApiPackageName);
         additionalProperties.put("openApiGprName", openApiPackageName.toLowerCase(Locale.ROOT));
+        additionalProperties.put("httpClientGprName", httpClientPackageName.toLowerCase(Locale.ROOT));
         additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
 
         String[] names = this.modelPackage.split("\\.");
         String pkgName = names[0];
         additionalProperties.put("packageLevel1", pkgName);
-        supportingFiles.add(new SupportingFile("package-spec-level1.mustache", "",
-                "src" + File.separator + toFilename(names[0]) + ".ads"));
+        supportingFiles.add(new SupportingFile("package-spec-level1.mustache", "src",
+                toFilename(names[0]) + ".ads"));
         if (names.length > 1) {
             String fileName = toFilename(names[0]) + "-" + toFilename(names[1]) + ".ads";
             pkgName = names[0] + "." + names[1];
             additionalProperties.put("packageLevel2", pkgName);
-            supportingFiles.add(new SupportingFile("package-spec-level2.mustache", "",
-                    "src" + File.separator + fileName));
+            supportingFiles.add(new SupportingFile("package-spec-level2.mustache", "src", fileName));
         }
         pkgName = this.modelPackage;
-        supportingFiles.add(new SupportingFile("client.mustache", "",
-                "src" + File.separator + toFilename(pkgName) + "-client.adb"));
+        supportingFiles.add(new SupportingFile("client.mustache", "src",
+                toFilename(pkgName) + "-client.adb"));
         additionalProperties.put("packageName", toFilename(pkgName));
 
         // add lambda for mustache templates

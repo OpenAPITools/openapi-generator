@@ -20,7 +20,6 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.io.FileUtils;
@@ -52,6 +51,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
      *
      * @return the CodegenType for this generator
      */
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
@@ -62,6 +62,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
      *
      * @return the friendly name for the generator
      */
+    @Override
     public String getName() {
         return "scala-gatling";
     }
@@ -72,6 +73,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
      *
      * @return A string value for the help message
      */
+    @Override
     public String getHelp() {
         return "Generates a gatling simulation library (beta).";
     }
@@ -231,6 +233,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
      * Location to write model files.  You can use the modelPackage() as defined when the class is
      * instantiated
      */
+    @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar);
     }
@@ -384,8 +387,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);

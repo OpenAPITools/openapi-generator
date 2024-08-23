@@ -35,14 +35,17 @@ public class ZapierClientCodegen extends DefaultCodegen implements CodegenConfig
 
     private final Logger LOGGER = LoggerFactory.getLogger(ZapierClientCodegen.class);
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "zapier";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a zapier client.";
     }
@@ -117,6 +120,11 @@ public class ZapierClientCodegen extends DefaultCodegen implements CodegenConfig
      */
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
         } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains(String.valueOf((char) character)))) {
@@ -127,6 +135,11 @@ public class ZapierClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toModelName(final String name) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         return name;
     }
 
@@ -183,7 +196,7 @@ public class ZapierClientCodegen extends DefaultCodegen implements CodegenConfig
         CodegenResponse r = super.fromResponse(responseCode, response);
         try {
             Map<String, Map<String, Map<String, Object>>> map = Json.mapper().readerFor(Map.class).readValue(Json.pretty(response.getContent()));
-            Map.Entry<String, Map<String, Map<String, Object>>> entry = map.entrySet().stream().findFirst().orElseThrow(()-> new IllegalStateException("no response object available"));
+            Map.Entry<String, Map<String, Map<String, Object>>> entry = map.entrySet().stream().findFirst().orElseThrow(() -> new IllegalStateException("no response object available"));
             Map<String, Map<String, Object>> example = entry.getValue();
             r.examples = toExamples(example.get("examples"));
         } catch (Exception e) {

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,7 +27,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class PetDto {
 
   private Long id;
@@ -39,7 +40,7 @@ public class PetDto {
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   
-  private List<TagDto> tags;
+  private List<TagDto> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -78,7 +79,12 @@ public class PetDto {
     }
   }
 
+  @Deprecated
   private StatusEnum status;
+
+  public PetDto() {
+    super();
+  }
 
   public PetDto id(Long id) {
     this.id = id;
@@ -88,7 +94,7 @@ public class PetDto {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @JsonProperty("id")
   public Long getId() {
@@ -107,7 +113,7 @@ public class PetDto {
   /**
    * Get category
    * @return category
-  */
+   */
   
   @JsonProperty("category")
   public CategoryDto getCategory() {
@@ -126,7 +132,7 @@ public class PetDto {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull
   @JsonProperty("name")
   public String getName() {
@@ -153,7 +159,7 @@ public class PetDto {
   /**
    * Get photoUrls
    * @return photoUrls
-  */
+   */
   @NotNull
   @JsonProperty("photoUrls")
   public Set<String> getPhotoUrls() {
@@ -181,7 +187,7 @@ public class PetDto {
   /**
    * Get tags
    * @return tags
-  */
+   */
   
   @JsonProperty("tags")
   public List<TagDto> getTags() {
@@ -200,13 +206,19 @@ public class PetDto {
   /**
    * pet status in the store
    * @return status
-  */
+   * @deprecated
+   */
   
   @JsonProperty("status")
+  @Deprecated
   public StatusEnum getStatus() {
     return status;
   }
 
+  /**
+   * @deprecated
+   */
+  @Deprecated
   public void setStatus(StatusEnum status) {
     this.status = status;
   }

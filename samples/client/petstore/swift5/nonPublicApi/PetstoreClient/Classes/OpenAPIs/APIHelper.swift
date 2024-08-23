@@ -61,6 +61,8 @@ internal struct APIHelper {
             return collection
                 .compactMap { value in convertAnyToString(value) }
                 .joined(separator: ",")
+        } else if let value = source as? any RawRepresentable {
+            return "\(value.rawValue)"
         }
         return source
     }
@@ -91,7 +93,7 @@ internal struct APIHelper {
         if destination.isEmpty {
             return nil
         }
-        return destination
+        return destination.sorted { $0.name < $1.name }
     }
 
     /// maps all values from source to query parameters
@@ -114,6 +116,6 @@ internal struct APIHelper {
         if destination.isEmpty {
             return nil
         }
-        return destination
+        return destination.sorted { $0.name < $1.name }
     }
 }

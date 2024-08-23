@@ -40,6 +40,17 @@ export const ErrorCode = {
 export type ErrorCode = typeof ErrorCode[keyof typeof ErrorCode];
 
 
+export function instanceOfErrorCode(value: any): boolean {
+    for (const key in ErrorCode) {
+        if (Object.prototype.hasOwnProperty.call(ErrorCode, key)) {
+            if (ErrorCode[key as keyof typeof ErrorCode] === value) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 export function ErrorCodeFromJSON(json: any): ErrorCode {
     return ErrorCodeFromJSONTyped(json, false);
 }

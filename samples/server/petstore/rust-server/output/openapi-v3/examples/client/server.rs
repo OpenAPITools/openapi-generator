@@ -56,6 +56,7 @@ pub async fn create(addr: &str, https: bool) {
             let tls_acceptor = ssl.build();
             let tcp_listener = TcpListener::bind(&addr).await.unwrap();
 
+            info!("Starting a server (with https)");
             loop {
                 if let Ok((tcp, _)) = tcp_listener.accept().await {
                     let ssl = Ssl::new(tls_acceptor.context()).unwrap();
@@ -75,6 +76,7 @@ pub async fn create(addr: &str, https: bool) {
             }
         }
     } else {
+        info!("Starting a server (over http, so no TLS)");
         // Using HTTP
         hyper::server::Server::bind(&addr).serve(service).await.unwrap()
     }
@@ -107,9 +109,8 @@ impl<C> CallbackApi<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         information: Option<String>,
         context: &C) -> Result<CallbackCallbackWithHeaderPostResponse, ApiError>
     {
-        let context = context.clone();
         info!("callback_callback_with_header_post({:?}) - X-Span-ID: {:?}", information, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn callback_callback_post(
@@ -117,9 +118,8 @@ impl<C> CallbackApi<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         callback_request_query_url: String,
         context: &C) -> Result<CallbackCallbackPostResponse, ApiError>
     {
-        let context = context.clone();
         info!("callback_callback_post() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
 }

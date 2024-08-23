@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
@@ -41,12 +41,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -54,7 +52,7 @@ import org.openapitools.client.JSON;
 /**
  * PetWithRequiredTags
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class PetWithRequiredTags {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -123,6 +121,11 @@ public class PetWithRequiredTags {
         return StatusEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      StatusEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_STATUS = "status";
@@ -133,20 +136,18 @@ public class PetWithRequiredTags {
   }
 
   public PetWithRequiredTags id(Long id) {
-    
     this.id = id;
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   public Long getId() {
     return id;
   }
-
 
   public void setId(Long id) {
     this.id = id;
@@ -154,20 +155,18 @@ public class PetWithRequiredTags {
 
 
   public PetWithRequiredTags category(Category category) {
-    
     this.category = category;
     return this;
   }
 
-   /**
+  /**
    * Get category
    * @return category
-  **/
+   */
   @javax.annotation.Nullable
   public Category getCategory() {
     return category;
   }
-
 
   public void setCategory(Category category) {
     this.category = category;
@@ -175,20 +174,18 @@ public class PetWithRequiredTags {
 
 
   public PetWithRequiredTags name(String name) {
-    
     this.name = name;
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nonnull
   public String getName() {
     return name;
   }
-
 
   public void setName(String name) {
     this.name = name;
@@ -196,7 +193,6 @@ public class PetWithRequiredTags {
 
 
   public PetWithRequiredTags photoUrls(List<String> photoUrls) {
-    
     this.photoUrls = photoUrls;
     return this;
   }
@@ -209,15 +205,14 @@ public class PetWithRequiredTags {
     return this;
   }
 
-   /**
+  /**
    * Get photoUrls
    * @return photoUrls
-  **/
+   */
   @javax.annotation.Nonnull
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
-
 
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
@@ -225,7 +220,6 @@ public class PetWithRequiredTags {
 
 
   public PetWithRequiredTags tags(List<Tag> tags) {
-    
     this.tags = tags;
     return this;
   }
@@ -238,15 +232,14 @@ public class PetWithRequiredTags {
     return this;
   }
 
-   /**
+  /**
    * Get tags
    * @return tags
-  **/
+   */
   @javax.annotation.Nonnull
   public List<Tag> getTags() {
     return tags;
   }
-
 
   public void setTags(List<Tag> tags) {
     this.tags = tags;
@@ -254,20 +247,18 @@ public class PetWithRequiredTags {
 
 
   public PetWithRequiredTags status(StatusEnum status) {
-    
     this.status = status;
     return this;
   }
 
-   /**
+  /**
    * pet status in the store
    * @return status
-  **/
+   */
   @javax.annotation.Nullable
   public StatusEnum getStatus() {
     return status;
   }
-
 
   public void setStatus(StatusEnum status) {
     this.status = status;
@@ -389,12 +380,12 @@ public class PetWithRequiredTags {
     openapiRequiredFields.add("tags");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to PetWithRequiredTags
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to PetWithRequiredTags
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!PetWithRequiredTags.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -435,6 +426,10 @@ public class PetWithRequiredTags {
       if ((jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) && !jsonObj.get("status").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
       }
+      // validate the optional field `status`
+      if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) {
+        StatusEnum.validateJsonElement(jsonObj.get("status"));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
@@ -465,7 +460,12 @@ public class PetWithRequiredTags {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -504,22 +504,22 @@ public class PetWithRequiredTags {
     }
   }
 
- /**
-  * Create an instance of PetWithRequiredTags given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of PetWithRequiredTags
-  * @throws IOException if the JSON string is invalid with respect to PetWithRequiredTags
-  */
+  /**
+   * Create an instance of PetWithRequiredTags given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of PetWithRequiredTags
+   * @throws IOException if the JSON string is invalid with respect to PetWithRequiredTags
+   */
   public static PetWithRequiredTags fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, PetWithRequiredTags.class);
   }
 
- /**
-  * Convert an instance of PetWithRequiredTags to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of PetWithRequiredTags to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -23,6 +22,7 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Query;
 
@@ -41,12 +41,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -54,7 +52,7 @@ import org.openapitools.client.JSON;
 /**
  * DataQuery
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class DataQuery extends Query {
   public static final String SERIALIZED_NAME_SUFFIX = "suffix";
   @SerializedName(SERIALIZED_NAME_SUFFIX)
@@ -72,20 +70,18 @@ public class DataQuery extends Query {
   }
 
   public DataQuery suffix(String suffix) {
-    
     this.suffix = suffix;
     return this;
   }
 
-   /**
+  /**
    * test suffix
    * @return suffix
-  **/
+   */
   @javax.annotation.Nullable
   public String getSuffix() {
     return suffix;
   }
-
 
   public void setSuffix(String suffix) {
     this.suffix = suffix;
@@ -93,20 +89,18 @@ public class DataQuery extends Query {
 
 
   public DataQuery text(String text) {
-    
     this.text = text;
     return this;
   }
 
-   /**
+  /**
    * Some text containing white spaces
    * @return text
-  **/
+   */
   @javax.annotation.Nullable
   public String getText() {
     return text;
   }
-
 
   public void setText(String text) {
     this.text = text;
@@ -114,20 +108,18 @@ public class DataQuery extends Query {
 
 
   public DataQuery date(OffsetDateTime date) {
-    
     this.date = date;
     return this;
   }
 
-   /**
+  /**
    * A date
    * @return date
-  **/
+   */
   @javax.annotation.Nullable
   public OffsetDateTime getDate() {
     return date;
   }
-
 
   public void setDate(OffsetDateTime date) {
     this.date = date;
@@ -195,12 +187,12 @@ public class DataQuery extends Query {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to DataQuery
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to DataQuery
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!DataQuery.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -208,9 +200,9 @@ public class DataQuery extends Query {
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!DataQuery.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `DataQuery` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
@@ -253,22 +245,22 @@ public class DataQuery extends Query {
     }
   }
 
- /**
-  * Create an instance of DataQuery given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of DataQuery
-  * @throws IOException if the JSON string is invalid with respect to DataQuery
-  */
+  /**
+   * Create an instance of DataQuery given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of DataQuery
+   * @throws IOException if the JSON string is invalid with respect to DataQuery
+   */
   public static DataQuery fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, DataQuery.class);
   }
 
- /**
-  * Convert an instance of DataQuery to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of DataQuery to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

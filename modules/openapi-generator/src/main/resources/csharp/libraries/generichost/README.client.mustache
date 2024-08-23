@@ -66,8 +66,8 @@ namespace YourProject
             {{#-first}}
             {{#operation}}
             {{#-first}}
-            ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}> response = await api.{{operationId}}Async("todo");
-            {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}} model = response.AsModel();
+            {{operationId}}ApiResponse apiResponse = await api.{{operationId}}Async("todo");
+            {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}} model = apiResponse.Ok();
             {{/-first}}
             {{/operation}}
             {{/-first}}
@@ -80,14 +80,18 @@ namespace YourProject
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
           .Configure{{apiName}}((context, options) =>
           {
-              {{#authMethods}}// the type of token here depends on the api security specifications
-              ApiKeyToken token = new("<your token>");
+              {{#authMethods}}
+              {{#-first}}
+              // the type of token here depends on the api security specifications
+              ApiKeyToken token = new("<your token>", ClientUtils.ApiKeyHeader.Authorization);
               options.AddTokens(token);
 
               // optionally choose the method the tokens will be provided with, default is RateLimitProvider
               options.UseProvider<RateLimitProvider<ApiKeyToken>, ApiKeyToken>();
 
-              {{/authMethods}}options.ConfigureJsonOptions((jsonOptions) =>
+              {{/-first}}
+              {{/authMethods}}
+              options.ConfigureJsonOptions((jsonOptions) =>
               {
                   // your custom converters if any
               });
@@ -175,8 +179,11 @@ Class | Method | HTTP request | Description
 {{/authMethods}}
 
 ## Build
-- SDK version: {{packageVersion}}{{^hideGenerationTimestamp}}
-- Build date: {{generatedDate}}{{/hideGenerationTimestamp}}
+- SDK version: {{packageVersion}}
+{{^hideGenerationTimestamp}}
+- Build date: {{generatedDate}}
+{{/hideGenerationTimestamp}}
+- Generator version: {{generatorVersion}}
 - Build package: {{generatorClass}}
 
 ## Api Information
@@ -193,7 +200,6 @@ Class | Method | HTTP request | Description
 - modelDocs: {{generateModelDocs}}
 - apiTests: {{generateApiTests}}
 - modelTests: {{generateModelTests}}
-- withXml: {{withXml}}
 
 ## [OpenApi Generator Parameters](https://openapi-generator.tech/docs/generators/csharp-netcore)
 - allowUnicodeIdentifiers: {{allowUnicodeIdentifiers}}

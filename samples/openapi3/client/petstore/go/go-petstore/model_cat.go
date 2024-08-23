@@ -12,6 +12,7 @@ package petstore
 
 import (
 	"encoding/json"
+	"fmt"
 	"reflect"
 	"strings"
 )
@@ -109,14 +110,52 @@ func (o Cat) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *Cat) UnmarshalJSON(bytes []byte) (err error) {
+func (o *Cat) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"className",
+	}
+
+	// defaultValueFuncMap captures the default values for required properties.
+	// These values are used when required properties are missing from the payload.
+	defaultValueFuncMap := map[string]func() interface{} {
+	}
+	var defaultValueApplied bool
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if value, exists := allProperties[requiredProperty]; !exists || value == "" {
+			if _, ok := defaultValueFuncMap[requiredProperty]; ok {
+				allProperties[requiredProperty] = defaultValueFuncMap[requiredProperty]()
+				defaultValueApplied = true
+			}
+		}
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	if defaultValueApplied {
+		data, err = json.Marshal(allProperties)
+		if err != nil{
+			return err
+		}
+	}
 	type CatWithoutEmbeddedStruct struct {
 		Declawed *bool `json:"declawed,omitempty"`
 	}
 
 	varCatWithoutEmbeddedStruct := CatWithoutEmbeddedStruct{}
 
-	err = json.Unmarshal(bytes, &varCatWithoutEmbeddedStruct)
+	err = json.Unmarshal(data, &varCatWithoutEmbeddedStruct)
 	if err == nil {
 		varCat := _Cat{}
 		varCat.Declawed = varCatWithoutEmbeddedStruct.Declawed
@@ -127,7 +166,7 @@ func (o *Cat) UnmarshalJSON(bytes []byte) (err error) {
 
 	varCat := _Cat{}
 
-	err = json.Unmarshal(bytes, &varCat)
+	err = json.Unmarshal(data, &varCat)
 	if err == nil {
 		o.Animal = varCat.Animal
 	} else {
@@ -136,7 +175,7 @@ func (o *Cat) UnmarshalJSON(bytes []byte) (err error) {
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "declawed")
 
 		// remove fields from embedded structs

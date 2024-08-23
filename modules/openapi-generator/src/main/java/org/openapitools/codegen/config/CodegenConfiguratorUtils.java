@@ -159,16 +159,42 @@ public final class CodegenConfiguratorUtils {
         }
     }
 
-    public static void applyOpenAPINormalizerKvpList(List<String> openapiNormalizer, CodegenConfigurator configurator) {
-        for (String propString : openapiNormalizer) {
-            applyOpenAPINormalizerKvp(propString, configurator);
+    public static void applyEnumNameMappingsKvpList(List<String> enumNameMappings, CodegenConfigurator configurator) {
+        for (String propString : enumNameMappings) {
+            applyEnumNameMappingsKvp(propString, configurator);
         }
     }
 
-    public static void applyOpenAPINormalizerKvp(String openapiNormalizer, CodegenConfigurator configurator) {
+    public static void applyEnumNameMappingsKvp(String enumNameMappings, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(enumNameMappings);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addEnumNameMapping(entry.getKey().trim(), entry.getValue().trim());
+        }
+    }
+
+    public static void applyOperationIdNameMappingsKvpList(List<String> operationIdNameMappings, CodegenConfigurator configurator) {
+        for (String propString : operationIdNameMappings) {
+            applyOperationIdNameMappingsKvp(propString, configurator);
+        }
+    }
+
+    public static void applyOperationIdNameMappingsKvp(String operationIdNameMappings, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(operationIdNameMappings);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addOperationIdNameMapping(entry.getKey().trim(), entry.getValue().trim());
+        }
+    }
+
+    public static void applyOpenapiNormalizerKvpList(List<String> openapiNormalizer, CodegenConfigurator configurator) {
+        for (String propString : openapiNormalizer) {
+            applyOpenapiNormalizerKvp(propString, configurator);
+        }
+    }
+
+    public static void applyOpenapiNormalizerKvp(String openapiNormalizer, CodegenConfigurator configurator) {
         final Map<String, String> map = createMapFromKeyValuePairs(openapiNormalizer);
         for (Map.Entry<String, String> entry : map.entrySet()) {
-            configurator.addOpenAPINormalizer(entry.getKey().trim(), entry.getValue().trim());
+            configurator.addOpenapiNormalizer(entry.getKey().trim(), entry.getValue().trim());
         }
     }
 
@@ -221,6 +247,19 @@ public final class CodegenConfiguratorUtils {
         final Set<String> set = createSetFromCsvList(languageSpecificPrimitives);
         for (String item : set) {
             configurator.addLanguageSpecificPrimitive(item);
+        }
+    }
+
+    public static void applyOpenapiGeneratorIgnoreListCsvList(List<String> openapiGeneratorIgnoreList, CodegenConfigurator configurator) {
+        for (String propString : openapiGeneratorIgnoreList) {
+            applyOpenapiGeneratorIgnoreListCsv(propString, configurator);
+        }
+    }
+
+    public static void applyOpenapiGeneratorIgnoreListCsv(String openapiGeneratorIgnoreList, CodegenConfigurator configurator) {
+        final Set<String> set = createSetFromCsvList(openapiGeneratorIgnoreList);
+        for (String item : set) {
+            configurator.addOpenapiGeneratorIgnoreList(item);
         }
     }
 

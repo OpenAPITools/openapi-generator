@@ -126,15 +126,9 @@ int PFXUserApi::addServerConfiguration(const QString &operation, const QUrl &url
     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
     */
 void PFXUserApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     for (auto keyIt = _serverIndices.keyBegin(); keyIt != _serverIndices.keyEnd(); keyIt++) {
         setServerIndex(*keyIt, addServerConfiguration(*keyIt, url, description, variables));
     }
-#else
-    for (auto &e : _serverIndices.keys()) {
-        setServerIndex(e, addServerConfiguration(e, url, description, variables));
-    }
-#endif
 }
 
 /**
@@ -160,7 +154,7 @@ void PFXUserApi::enableResponseCompression() {
 }
 
 void PFXUserApi::abortRequests() {
-    emit abortRequestsSignal();
+    Q_EMIT abortRequestsSignal();
 }
 
 QString PFXUserApi::getParamStylePrefix(const QString &style) {
@@ -240,21 +234,16 @@ void PFXUserApi::createUser(const PFXUser &pfx_user) {
         QByteArray output = pfx_user.asJson().toUtf8();
         input.request_body.append(output);
     }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -271,11 +260,37 @@ void PFXUserApi::createUserCallback(PFXHttpRequestWorker *worker) {
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit createUserSignal();
-        emit createUserSignalFull(worker);
+        Q_EMIT createUserSignal();
+        Q_EMIT createUserSignalFull(worker);
     } else {
-        emit createUserSignalE(error_type, error_str);
-        emit createUserSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+        Q_EMIT createUserSignalE(error_type, error_str);
+        Q_EMIT createUserSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        Q_EMIT createUserSignalError(error_type, error_str);
+        Q_EMIT createUserSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -292,21 +307,16 @@ void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &pfx_user) {
         QByteArray bytes = doc.toJson();
         input.request_body.append(bytes);
     }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUsersWithArrayInputCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -323,11 +333,37 @@ void PFXUserApi::createUsersWithArrayInputCallback(PFXHttpRequestWorker *worker)
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit createUsersWithArrayInputSignal();
-        emit createUsersWithArrayInputSignalFull(worker);
+        Q_EMIT createUsersWithArrayInputSignal();
+        Q_EMIT createUsersWithArrayInputSignalFull(worker);
     } else {
-        emit createUsersWithArrayInputSignalE(error_type, error_str);
-        emit createUsersWithArrayInputSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+        Q_EMIT createUsersWithArrayInputSignalE(error_type, error_str);
+        Q_EMIT createUsersWithArrayInputSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        Q_EMIT createUsersWithArrayInputSignalError(error_type, error_str);
+        Q_EMIT createUsersWithArrayInputSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -344,21 +380,16 @@ void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &pfx_user) {
         QByteArray bytes = doc.toJson();
         input.request_body.append(bytes);
     }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUsersWithListInputCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -375,11 +406,37 @@ void PFXUserApi::createUsersWithListInputCallback(PFXHttpRequestWorker *worker) 
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit createUsersWithListInputSignal();
-        emit createUsersWithListInputSignalFull(worker);
+        Q_EMIT createUsersWithListInputSignal();
+        Q_EMIT createUsersWithListInputSignalFull(worker);
     } else {
-        emit createUsersWithListInputSignalE(error_type, error_str);
-        emit createUsersWithListInputSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+        Q_EMIT createUsersWithListInputSignalE(error_type, error_str);
+        Q_EMIT createUsersWithListInputSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        Q_EMIT createUsersWithListInputSignalError(error_type, error_str);
+        Q_EMIT createUsersWithListInputSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -406,21 +463,16 @@ void PFXUserApi::deleteUser(const QString &username) {
     PFXHttpRequestInput input(fullPath, "DELETE");
 
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::deleteUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -437,11 +489,37 @@ void PFXUserApi::deleteUserCallback(PFXHttpRequestWorker *worker) {
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit deleteUserSignal();
-        emit deleteUserSignalFull(worker);
+        Q_EMIT deleteUserSignal();
+        Q_EMIT deleteUserSignalFull(worker);
     } else {
-        emit deleteUserSignalE(error_type, error_str);
-        emit deleteUserSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+        Q_EMIT deleteUserSignalE(error_type, error_str);
+        Q_EMIT deleteUserSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        Q_EMIT deleteUserSignalError(error_type, error_str);
+        Q_EMIT deleteUserSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -468,21 +546,16 @@ void PFXUserApi::getUserByName(const QString &username) {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::getUserByNameCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -500,11 +573,37 @@ void PFXUserApi::getUserByNameCallback(PFXHttpRequestWorker *worker) {
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit getUserByNameSignal(output);
-        emit getUserByNameSignalFull(worker, output);
+        Q_EMIT getUserByNameSignal(output);
+        Q_EMIT getUserByNameSignalFull(worker, output);
     } else {
-        emit getUserByNameSignalE(output, error_type, error_str);
-        emit getUserByNameSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+        Q_EMIT getUserByNameSignalE(output, error_type, error_str);
+        Q_EMIT getUserByNameSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        Q_EMIT getUserByNameSignalError(output, error_type, error_str);
+        Q_EMIT getUserByNameSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -525,7 +624,7 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
         else
             fullPath.append("?");
 
-        fullPath.append(QUrl::toPercentEncoding("username")).append(querySuffix).append(QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
+        fullPath.append(QUrl::toPercentEncoding("username")).append(querySuffix).append(QUrl::toPercentEncoding(username));
     }
     
     {
@@ -540,7 +639,7 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
         else
             fullPath.append("?");
 
-        fullPath.append(QUrl::toPercentEncoding("password")).append(querySuffix).append(QUrl::toPercentEncoding(::test_namespace::toStringValue(password)));
+        fullPath.append(QUrl::toPercentEncoding("password")).append(querySuffix).append(QUrl::toPercentEncoding(password));
     }
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
@@ -548,21 +647,16 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::loginUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -581,11 +675,37 @@ void PFXUserApi::loginUserCallback(PFXHttpRequestWorker *worker) {
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit loginUserSignal(output);
-        emit loginUserSignalFull(worker, output);
+        Q_EMIT loginUserSignal(output);
+        Q_EMIT loginUserSignalFull(worker, output);
     } else {
-        emit loginUserSignalE(output, error_type, error_str);
-        emit loginUserSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+        Q_EMIT loginUserSignalE(output, error_type, error_str);
+        Q_EMIT loginUserSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        Q_EMIT loginUserSignalError(output, error_type, error_str);
+        Q_EMIT loginUserSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -598,21 +718,16 @@ void PFXUserApi::logoutUser() {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::logoutUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -629,11 +744,37 @@ void PFXUserApi::logoutUserCallback(PFXHttpRequestWorker *worker) {
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit logoutUserSignal();
-        emit logoutUserSignalFull(worker);
+        Q_EMIT logoutUserSignal();
+        Q_EMIT logoutUserSignalFull(worker);
     } else {
-        emit logoutUserSignalE(error_type, error_str);
-        emit logoutUserSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+        Q_EMIT logoutUserSignalE(error_type, error_str);
+        Q_EMIT logoutUserSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        Q_EMIT logoutUserSignalError(error_type, error_str);
+        Q_EMIT logoutUserSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -665,21 +806,16 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &pfx_user) {
         QByteArray output = pfx_user.asJson().toUtf8();
         input.request_body.append(output);
     }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::updateUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -696,11 +832,37 @@ void PFXUserApi::updateUserCallback(PFXHttpRequestWorker *worker) {
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit updateUserSignal();
-        emit updateUserSignalFull(worker);
+        Q_EMIT updateUserSignal();
+        Q_EMIT updateUserSignalFull(worker);
     } else {
-        emit updateUserSignalE(error_type, error_str);
-        emit updateUserSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+        Q_EMIT updateUserSignalE(error_type, error_str);
+        Q_EMIT updateUserSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        Q_EMIT updateUserSignalError(error_type, error_str);
+        Q_EMIT updateUserSignalErrorFull(worker, error_type, error_str);
     }
 }
 

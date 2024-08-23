@@ -28,7 +28,7 @@ module {{classname}}Handlers =
       {{#hasBodyParam}}
       use reader = StreamReader(req.Body)
 
-      let mediaTypes = [{{#consumes}}"{{mediaType}}";{{/consumes}}] // currently unused
+      let mediaTypes = [{{#consumes}}"{{{mediaType}}}";{{/consumes}}] // currently unused
 
       {{#bodyParam}}
       let bind (contentType:string) body  =

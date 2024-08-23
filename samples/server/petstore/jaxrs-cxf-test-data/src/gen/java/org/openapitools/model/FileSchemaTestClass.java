@@ -1,6 +1,7 @@
 package org.openapitools.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.ModelFile;
 import javax.validation.constraints.*;
@@ -19,7 +20,7 @@ public class FileSchemaTestClass  {
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<ModelFile> files = null;
+  private List<ModelFile> files;
  /**
   * Get _file
   * @return _file
@@ -76,6 +77,24 @@ public class FileSchemaTestClass  {
     return this;
   }
 
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    FileSchemaTestClass fileSchemaTestClass = (FileSchemaTestClass) o;
+    return Objects.equals(_file, fileSchemaTestClass._file) &&
+        Objects.equals(files, fileSchemaTestClass.files);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(_file, files);
+  }
 
   @Override
   public String toString() {

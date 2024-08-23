@@ -22,24 +22,24 @@ To test class name in snake case
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    client := *openapiclient.NewClient() // Client | client model
+	client := *openapiclient.NewClient() // Client | client model
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.FakeClassnameTags123API.TestClassname(context.Background()).Client(client).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `FakeClassnameTags123API.TestClassname``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `TestClassname`: Client
-    fmt.Fprintf(os.Stdout, "Response from `FakeClassnameTags123API.TestClassname`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FakeClassnameTags123API.TestClassname(context.Background()).Client(client).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FakeClassnameTags123API.TestClassname``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestClassname`: Client
+	fmt.Fprintf(os.Stdout, "Response from `FakeClassnameTags123API.TestClassname`: %v\n", resp)
 }
 ```
 

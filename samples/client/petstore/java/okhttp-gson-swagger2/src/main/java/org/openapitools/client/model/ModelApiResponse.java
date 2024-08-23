@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -38,12 +38,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -52,7 +50,7 @@ import org.openapitools.client.JSON;
  * Describes the result of uploading an image resource
  */
 @Schema(description = "Describes the result of uploading an image resource")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class ModelApiResponse {
   public static final String SERIALIZED_NAME_CODE = "code";
   @SerializedName(SERIALIZED_NAME_CODE)
@@ -70,21 +68,19 @@ public class ModelApiResponse {
   }
 
   public ModelApiResponse code(Integer code) {
-    
     this.code = code;
     return this;
   }
 
-   /**
+  /**
    * Get code
    * @return code
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   public Integer getCode() {
     return code;
   }
-
 
   public void setCode(Integer code) {
     this.code = code;
@@ -92,21 +88,19 @@ public class ModelApiResponse {
 
 
   public ModelApiResponse type(String type) {
-    
     this.type = type;
     return this;
   }
 
-   /**
+  /**
    * Get type
    * @return type
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   public String getType() {
     return type;
   }
-
 
   public void setType(String type) {
     this.type = type;
@@ -114,21 +108,19 @@ public class ModelApiResponse {
 
 
   public ModelApiResponse message(String message) {
-    
     this.message = message;
     return this;
   }
 
-   /**
+  /**
    * Get message
    * @return message
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   public String getMessage() {
     return message;
   }
-
 
   public void setMessage(String message) {
     this.message = message;
@@ -238,12 +230,12 @@ public class ModelApiResponse {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to ModelApiResponse
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to ModelApiResponse
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!ModelApiResponse.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -287,7 +279,12 @@ public class ModelApiResponse {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -326,22 +323,22 @@ public class ModelApiResponse {
     }
   }
 
- /**
-  * Create an instance of ModelApiResponse given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of ModelApiResponse
-  * @throws IOException if the JSON string is invalid with respect to ModelApiResponse
-  */
+  /**
+   * Create an instance of ModelApiResponse given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of ModelApiResponse
+   * @throws IOException if the JSON string is invalid with respect to ModelApiResponse
+   */
   public static ModelApiResponse fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ModelApiResponse.class);
   }
 
- /**
-  * Convert an instance of ModelApiResponse to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of ModelApiResponse to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

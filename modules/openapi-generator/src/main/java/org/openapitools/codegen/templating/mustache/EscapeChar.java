@@ -33,8 +33,8 @@ import java.io.Writer;
  * {@code {{#lambda.escapeDollar}}{{name}}{{/lambda.escapeDollar}} }
  */
 public class EscapeChar implements Mustache.Lambda {
-    private String matchPattern;
-    private String replacement;
+    private final String matchPattern;
+    private final String replacement;
 
     /**
      * Constructs a new instance of {@link EscapeChar}, with the desired character to escape

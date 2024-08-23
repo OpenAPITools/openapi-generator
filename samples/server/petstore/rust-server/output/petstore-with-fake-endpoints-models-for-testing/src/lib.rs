@@ -1,18 +1,24 @@
-#![allow(missing_docs, trivial_casts, unused_variables, unused_mut, unused_imports, unused_extern_crates, non_camel_case_types)]
-#![allow(unused_imports, unused_attributes)]
+#![allow(missing_docs, trivial_casts, unused_variables, unused_mut, unused_imports, unused_extern_crates, unused_attributes, non_camel_case_types)]
 #![allow(clippy::derive_partial_eq_without_eq, clippy::disallowed_names)]
 
 use async_trait::async_trait;
 use futures::Stream;
 use std::error::Error;
+use std::collections::BTreeSet;
 use std::task::{Poll, Context};
 use swagger::{ApiError, ContextWrapper};
 use serde::{Serialize, Deserialize};
+use crate::server::Authorization;
+
 
 type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 
 pub const BASE_PATH: &str = "/v2";
 pub const API_VERSION: &str = "1.0.0";
+
+mod auth;
+pub use auth::{AuthenticationApi, Claims};
+
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum TestSpecialTagsResponse {
@@ -62,12 +68,6 @@ pub enum FakeResponseWithNumericalDescriptionResponse {
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
-pub enum HyphenParamResponse {
-    /// Success
-    Success
-}
-
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum TestBodyWithQueryParamsResponse {
     /// Success
     Success
@@ -113,6 +113,12 @@ pub enum TestJsonFormDataResponse {
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub enum HyphenParamResponse {
+    /// Success
+    Success
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum TestClassnameResponse {
     /// successful operation
     SuccessfulOperation
@@ -123,12 +129,6 @@ pub enum TestClassnameResponse {
 pub enum AddPetResponse {
     /// Invalid input
     InvalidInput
-}
-
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
-pub enum DeletePetResponse {
-    /// Invalid pet value
-    InvalidPetValue
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -155,6 +155,25 @@ pub enum FindPetsByTagsResponse {
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
+pub enum UpdatePetResponse {
+    /// Invalid ID supplied
+    InvalidIDSupplied
+    ,
+    /// Pet not found
+    PetNotFound
+    ,
+    /// Validation exception
+    ValidationException
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub enum DeletePetResponse {
+    /// Invalid pet value
+    InvalidPetValue
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
 pub enum GetPetByIdResponse {
     /// successful operation
     SuccessfulOperation
@@ -165,19 +184,6 @@ pub enum GetPetByIdResponse {
     ,
     /// Pet not found
     PetNotFound
-}
-
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
-#[must_use]
-pub enum UpdatePetResponse {
-    /// Invalid ID supplied
-    InvalidIDSupplied
-    ,
-    /// Pet not found
-    PetNotFound
-    ,
-    /// Validation exception
-    ValidationException
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -194,6 +200,24 @@ pub enum UploadFileResponse {
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub enum GetInventoryResponse {
+    /// successful operation
+    SuccessfulOperation
+    (std::collections::HashMap<String, i32>)
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+pub enum PlaceOrderResponse {
+    /// successful operation
+    SuccessfulOperation
+    (models::Order)
+    ,
+    /// Invalid Order
+    InvalidOrder
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum DeleteOrderResponse {
     /// Invalid ID supplied
@@ -201,13 +225,6 @@ pub enum DeleteOrderResponse {
     ,
     /// Order not found
     OrderNotFound
-}
-
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
-pub enum GetInventoryResponse {
-    /// successful operation
-    SuccessfulOperation
-    (std::collections::HashMap<String, i32>)
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -222,17 +239,6 @@ pub enum GetOrderByIdResponse {
     ,
     /// Order not found
     OrderNotFound
-}
-
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
-#[must_use]
-pub enum PlaceOrderResponse {
-    /// successful operation
-    SuccessfulOperation
-    (models::Order)
-    ,
-    /// Invalid Order
-    InvalidOrder
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -251,30 +257,6 @@ pub enum CreateUsersWithArrayInputResponse {
 pub enum CreateUsersWithListInputResponse {
     /// successful operation
     SuccessfulOperation
-}
-
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
-#[must_use]
-pub enum DeleteUserResponse {
-    /// Invalid username supplied
-    InvalidUsernameSupplied
-    ,
-    /// User not found
-    UserNotFound
-}
-
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
-#[must_use]
-pub enum GetUserByNameResponse {
-    /// successful operation
-    SuccessfulOperation
-    (models::User)
-    ,
-    /// Invalid username supplied
-    InvalidUsernameSupplied
-    ,
-    /// User not found
-    UserNotFound
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -303,6 +285,30 @@ pub enum LoginUserResponse {
 pub enum LogoutUserResponse {
     /// successful operation
     SuccessfulOperation
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+pub enum DeleteUserResponse {
+    /// Invalid username supplied
+    InvalidUsernameSupplied
+    ,
+    /// User not found
+    UserNotFound
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+pub enum GetUserByNameResponse {
+    /// successful operation
+    SuccessfulOperation
+    (models::User)
+    ,
+    /// Invalid username supplied
+    InvalidUsernameSupplied
+    ,
+    /// User not found
+    UserNotFound
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -357,11 +363,6 @@ pub trait Api<C: Send + Sync> {
         &self,
         context: &C) -> Result<FakeResponseWithNumericalDescriptionResponse, ApiError>;
 
-    async fn hyphen_param(
-        &self,
-        hyphen_param: String,
-        context: &C) -> Result<HyphenParamResponse, ApiError>;
-
     async fn test_body_with_query_params(
         &self,
         query: String,
@@ -387,7 +388,7 @@ pub trait Api<C: Send + Sync> {
         float: Option<f32>,
         string: Option<String>,
         binary: Option<swagger::ByteArray>,
-        date: Option<chrono::DateTime::<chrono::Utc>>,
+        date: Option<chrono::naive::NaiveDate>,
         date_time: Option<chrono::DateTime::<chrono::Utc>>,
         password: Option<String>,
         callback: Option<String>,
@@ -396,13 +397,13 @@ pub trait Api<C: Send + Sync> {
     /// To test enum parameters
     async fn test_enum_parameters(
         &self,
-        enum_header_string_array: Option<&Vec<String>>,
-        enum_header_string: Option<String>,
-        enum_query_string_array: Option<&Vec<String>>,
-        enum_query_string: Option<String>,
-        enum_query_integer: Option<i32>,
-        enum_query_double: Option<f64>,
-        enum_form_string: Option<String>,
+        enum_header_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
+        enum_query_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
+        enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
+        enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
+        enum_form_string: Option<models::TestEnumParametersRequestEnumFormString>,
         context: &C) -> Result<TestEnumParametersResponse, ApiError>;
 
     /// test inline additionalProperties
@@ -418,6 +419,11 @@ pub trait Api<C: Send + Sync> {
         param2: String,
         context: &C) -> Result<TestJsonFormDataResponse, ApiError>;
 
+    async fn hyphen_param(
+        &self,
+        hyphen_param: String,
+        context: &C) -> Result<HyphenParamResponse, ApiError>;
+
     /// To test class name in snake case
     async fn test_classname(
         &self,
@@ -430,17 +436,10 @@ pub trait Api<C: Send + Sync> {
         body: models::Pet,
         context: &C) -> Result<AddPetResponse, ApiError>;
 
-    /// Deletes a pet
-    async fn delete_pet(
-        &self,
-        pet_id: i64,
-        api_key: Option<String>,
-        context: &C) -> Result<DeletePetResponse, ApiError>;
-
     /// Finds Pets by status
     async fn find_pets_by_status(
         &self,
-        status: &Vec<String>,
+        status: &Vec<models::FindPetsByStatusStatusParameterInner>,
         context: &C) -> Result<FindPetsByStatusResponse, ApiError>;
 
     /// Finds Pets by tags
@@ -449,17 +448,24 @@ pub trait Api<C: Send + Sync> {
         tags: &Vec<String>,
         context: &C) -> Result<FindPetsByTagsResponse, ApiError>;
 
-    /// Find pet by ID
-    async fn get_pet_by_id(
-        &self,
-        pet_id: i64,
-        context: &C) -> Result<GetPetByIdResponse, ApiError>;
-
     /// Update an existing pet
     async fn update_pet(
         &self,
         body: models::Pet,
         context: &C) -> Result<UpdatePetResponse, ApiError>;
+
+    /// Deletes a pet
+    async fn delete_pet(
+        &self,
+        pet_id: i64,
+        api_key: Option<String>,
+        context: &C) -> Result<DeletePetResponse, ApiError>;
+
+    /// Find pet by ID
+    async fn get_pet_by_id(
+        &self,
+        pet_id: i64,
+        context: &C) -> Result<GetPetByIdResponse, ApiError>;
 
     /// Updates a pet in the store with form data
     async fn update_pet_with_form(
@@ -477,28 +483,28 @@ pub trait Api<C: Send + Sync> {
         file: Option<swagger::ByteArray>,
         context: &C) -> Result<UploadFileResponse, ApiError>;
 
-    /// Delete purchase order by ID
-    async fn delete_order(
-        &self,
-        order_id: String,
-        context: &C) -> Result<DeleteOrderResponse, ApiError>;
-
     /// Returns pet inventories by status
     async fn get_inventory(
         &self,
         context: &C) -> Result<GetInventoryResponse, ApiError>;
-
-    /// Find purchase order by ID
-    async fn get_order_by_id(
-        &self,
-        order_id: i64,
-        context: &C) -> Result<GetOrderByIdResponse, ApiError>;
 
     /// Place an order for a pet
     async fn place_order(
         &self,
         body: models::Order,
         context: &C) -> Result<PlaceOrderResponse, ApiError>;
+
+    /// Delete purchase order by ID
+    async fn delete_order(
+        &self,
+        order_id: String,
+        context: &C) -> Result<DeleteOrderResponse, ApiError>;
+
+    /// Find purchase order by ID
+    async fn get_order_by_id(
+        &self,
+        order_id: i64,
+        context: &C) -> Result<GetOrderByIdResponse, ApiError>;
 
     /// Create user
     async fn create_user(
@@ -518,18 +524,6 @@ pub trait Api<C: Send + Sync> {
         body: &Vec<models::User>,
         context: &C) -> Result<CreateUsersWithListInputResponse, ApiError>;
 
-    /// Delete user
-    async fn delete_user(
-        &self,
-        username: String,
-        context: &C) -> Result<DeleteUserResponse, ApiError>;
-
-    /// Get user by user name
-    async fn get_user_by_name(
-        &self,
-        username: String,
-        context: &C) -> Result<GetUserByNameResponse, ApiError>;
-
     /// Logs user into the system
     async fn login_user(
         &self,
@@ -541,6 +535,18 @@ pub trait Api<C: Send + Sync> {
     async fn logout_user(
         &self,
         context: &C) -> Result<LogoutUserResponse, ApiError>;
+
+    /// Delete user
+    async fn delete_user(
+        &self,
+        username: String,
+        context: &C) -> Result<DeleteUserResponse, ApiError>;
+
+    /// Get user by user name
+    async fn get_user_by_name(
+        &self,
+        username: String,
+        context: &C) -> Result<GetUserByNameResponse, ApiError>;
 
     /// Updated user
     async fn update_user(
@@ -594,11 +600,6 @@ pub trait ApiNoContext<C: Send + Sync> {
         &self,
         ) -> Result<FakeResponseWithNumericalDescriptionResponse, ApiError>;
 
-    async fn hyphen_param(
-        &self,
-        hyphen_param: String,
-        ) -> Result<HyphenParamResponse, ApiError>;
-
     async fn test_body_with_query_params(
         &self,
         query: String,
@@ -624,7 +625,7 @@ pub trait ApiNoContext<C: Send + Sync> {
         float: Option<f32>,
         string: Option<String>,
         binary: Option<swagger::ByteArray>,
-        date: Option<chrono::DateTime::<chrono::Utc>>,
+        date: Option<chrono::naive::NaiveDate>,
         date_time: Option<chrono::DateTime::<chrono::Utc>>,
         password: Option<String>,
         callback: Option<String>,
@@ -633,13 +634,13 @@ pub trait ApiNoContext<C: Send + Sync> {
     /// To test enum parameters
     async fn test_enum_parameters(
         &self,
-        enum_header_string_array: Option<&Vec<String>>,
-        enum_header_string: Option<String>,
-        enum_query_string_array: Option<&Vec<String>>,
-        enum_query_string: Option<String>,
-        enum_query_integer: Option<i32>,
-        enum_query_double: Option<f64>,
-        enum_form_string: Option<String>,
+        enum_header_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
+        enum_query_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
+        enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
+        enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
+        enum_form_string: Option<models::TestEnumParametersRequestEnumFormString>,
         ) -> Result<TestEnumParametersResponse, ApiError>;
 
     /// test inline additionalProperties
@@ -655,6 +656,11 @@ pub trait ApiNoContext<C: Send + Sync> {
         param2: String,
         ) -> Result<TestJsonFormDataResponse, ApiError>;
 
+    async fn hyphen_param(
+        &self,
+        hyphen_param: String,
+        ) -> Result<HyphenParamResponse, ApiError>;
+
     /// To test class name in snake case
     async fn test_classname(
         &self,
@@ -667,17 +673,10 @@ pub trait ApiNoContext<C: Send + Sync> {
         body: models::Pet,
         ) -> Result<AddPetResponse, ApiError>;
 
-    /// Deletes a pet
-    async fn delete_pet(
-        &self,
-        pet_id: i64,
-        api_key: Option<String>,
-        ) -> Result<DeletePetResponse, ApiError>;
-
     /// Finds Pets by status
     async fn find_pets_by_status(
         &self,
-        status: &Vec<String>,
+        status: &Vec<models::FindPetsByStatusStatusParameterInner>,
         ) -> Result<FindPetsByStatusResponse, ApiError>;
 
     /// Finds Pets by tags
@@ -686,17 +685,24 @@ pub trait ApiNoContext<C: Send + Sync> {
         tags: &Vec<String>,
         ) -> Result<FindPetsByTagsResponse, ApiError>;
 
-    /// Find pet by ID
-    async fn get_pet_by_id(
-        &self,
-        pet_id: i64,
-        ) -> Result<GetPetByIdResponse, ApiError>;
-
     /// Update an existing pet
     async fn update_pet(
         &self,
         body: models::Pet,
         ) -> Result<UpdatePetResponse, ApiError>;
+
+    /// Deletes a pet
+    async fn delete_pet(
+        &self,
+        pet_id: i64,
+        api_key: Option<String>,
+        ) -> Result<DeletePetResponse, ApiError>;
+
+    /// Find pet by ID
+    async fn get_pet_by_id(
+        &self,
+        pet_id: i64,
+        ) -> Result<GetPetByIdResponse, ApiError>;
 
     /// Updates a pet in the store with form data
     async fn update_pet_with_form(
@@ -714,28 +720,28 @@ pub trait ApiNoContext<C: Send + Sync> {
         file: Option<swagger::ByteArray>,
         ) -> Result<UploadFileResponse, ApiError>;
 
-    /// Delete purchase order by ID
-    async fn delete_order(
-        &self,
-        order_id: String,
-        ) -> Result<DeleteOrderResponse, ApiError>;
-
     /// Returns pet inventories by status
     async fn get_inventory(
         &self,
         ) -> Result<GetInventoryResponse, ApiError>;
-
-    /// Find purchase order by ID
-    async fn get_order_by_id(
-        &self,
-        order_id: i64,
-        ) -> Result<GetOrderByIdResponse, ApiError>;
 
     /// Place an order for a pet
     async fn place_order(
         &self,
         body: models::Order,
         ) -> Result<PlaceOrderResponse, ApiError>;
+
+    /// Delete purchase order by ID
+    async fn delete_order(
+        &self,
+        order_id: String,
+        ) -> Result<DeleteOrderResponse, ApiError>;
+
+    /// Find purchase order by ID
+    async fn get_order_by_id(
+        &self,
+        order_id: i64,
+        ) -> Result<GetOrderByIdResponse, ApiError>;
 
     /// Create user
     async fn create_user(
@@ -755,18 +761,6 @@ pub trait ApiNoContext<C: Send + Sync> {
         body: &Vec<models::User>,
         ) -> Result<CreateUsersWithListInputResponse, ApiError>;
 
-    /// Delete user
-    async fn delete_user(
-        &self,
-        username: String,
-        ) -> Result<DeleteUserResponse, ApiError>;
-
-    /// Get user by user name
-    async fn get_user_by_name(
-        &self,
-        username: String,
-        ) -> Result<GetUserByNameResponse, ApiError>;
-
     /// Logs user into the system
     async fn login_user(
         &self,
@@ -778,6 +772,18 @@ pub trait ApiNoContext<C: Send + Sync> {
     async fn logout_user(
         &self,
         ) -> Result<LogoutUserResponse, ApiError>;
+
+    /// Delete user
+    async fn delete_user(
+        &self,
+        username: String,
+        ) -> Result<DeleteUserResponse, ApiError>;
+
+    /// Get user by user name
+    async fn get_user_by_name(
+        &self,
+        username: String,
+        ) -> Result<GetUserByNameResponse, ApiError>;
 
     /// Updated user
     async fn update_user(
@@ -873,15 +879,6 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         self.api().fake_response_with_numerical_description(&context).await
     }
 
-    async fn hyphen_param(
-        &self,
-        hyphen_param: String,
-        ) -> Result<HyphenParamResponse, ApiError>
-    {
-        let context = self.context().clone();
-        self.api().hyphen_param(hyphen_param, &context).await
-    }
-
     async fn test_body_with_query_params(
         &self,
         query: String,
@@ -915,7 +912,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         float: Option<f32>,
         string: Option<String>,
         binary: Option<swagger::ByteArray>,
-        date: Option<chrono::DateTime::<chrono::Utc>>,
+        date: Option<chrono::naive::NaiveDate>,
         date_time: Option<chrono::DateTime::<chrono::Utc>>,
         password: Option<String>,
         callback: Option<String>,
@@ -928,13 +925,13 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     /// To test enum parameters
     async fn test_enum_parameters(
         &self,
-        enum_header_string_array: Option<&Vec<String>>,
-        enum_header_string: Option<String>,
-        enum_query_string_array: Option<&Vec<String>>,
-        enum_query_string: Option<String>,
-        enum_query_integer: Option<i32>,
-        enum_query_double: Option<f64>,
-        enum_form_string: Option<String>,
+        enum_header_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
+        enum_query_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
+        enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
+        enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
+        enum_form_string: Option<models::TestEnumParametersRequestEnumFormString>,
         ) -> Result<TestEnumParametersResponse, ApiError>
     {
         let context = self.context().clone();
@@ -962,6 +959,15 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         self.api().test_json_form_data(param, param2, &context).await
     }
 
+    async fn hyphen_param(
+        &self,
+        hyphen_param: String,
+        ) -> Result<HyphenParamResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().hyphen_param(hyphen_param, &context).await
+    }
+
     /// To test class name in snake case
     async fn test_classname(
         &self,
@@ -982,21 +988,10 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         self.api().add_pet(body, &context).await
     }
 
-    /// Deletes a pet
-    async fn delete_pet(
-        &self,
-        pet_id: i64,
-        api_key: Option<String>,
-        ) -> Result<DeletePetResponse, ApiError>
-    {
-        let context = self.context().clone();
-        self.api().delete_pet(pet_id, api_key, &context).await
-    }
-
     /// Finds Pets by status
     async fn find_pets_by_status(
         &self,
-        status: &Vec<String>,
+        status: &Vec<models::FindPetsByStatusStatusParameterInner>,
         ) -> Result<FindPetsByStatusResponse, ApiError>
     {
         let context = self.context().clone();
@@ -1013,16 +1008,6 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         self.api().find_pets_by_tags(tags, &context).await
     }
 
-    /// Find pet by ID
-    async fn get_pet_by_id(
-        &self,
-        pet_id: i64,
-        ) -> Result<GetPetByIdResponse, ApiError>
-    {
-        let context = self.context().clone();
-        self.api().get_pet_by_id(pet_id, &context).await
-    }
-
     /// Update an existing pet
     async fn update_pet(
         &self,
@@ -1031,6 +1016,27 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     {
         let context = self.context().clone();
         self.api().update_pet(body, &context).await
+    }
+
+    /// Deletes a pet
+    async fn delete_pet(
+        &self,
+        pet_id: i64,
+        api_key: Option<String>,
+        ) -> Result<DeletePetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().delete_pet(pet_id, api_key, &context).await
+    }
+
+    /// Find pet by ID
+    async fn get_pet_by_id(
+        &self,
+        pet_id: i64,
+        ) -> Result<GetPetByIdResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().get_pet_by_id(pet_id, &context).await
     }
 
     /// Updates a pet in the store with form data
@@ -1057,16 +1063,6 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         self.api().upload_file(pet_id, additional_metadata, file, &context).await
     }
 
-    /// Delete purchase order by ID
-    async fn delete_order(
-        &self,
-        order_id: String,
-        ) -> Result<DeleteOrderResponse, ApiError>
-    {
-        let context = self.context().clone();
-        self.api().delete_order(order_id, &context).await
-    }
-
     /// Returns pet inventories by status
     async fn get_inventory(
         &self,
@@ -1074,16 +1070,6 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     {
         let context = self.context().clone();
         self.api().get_inventory(&context).await
-    }
-
-    /// Find purchase order by ID
-    async fn get_order_by_id(
-        &self,
-        order_id: i64,
-        ) -> Result<GetOrderByIdResponse, ApiError>
-    {
-        let context = self.context().clone();
-        self.api().get_order_by_id(order_id, &context).await
     }
 
     /// Place an order for a pet
@@ -1094,6 +1080,26 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     {
         let context = self.context().clone();
         self.api().place_order(body, &context).await
+    }
+
+    /// Delete purchase order by ID
+    async fn delete_order(
+        &self,
+        order_id: String,
+        ) -> Result<DeleteOrderResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().delete_order(order_id, &context).await
+    }
+
+    /// Find purchase order by ID
+    async fn get_order_by_id(
+        &self,
+        order_id: i64,
+        ) -> Result<GetOrderByIdResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().get_order_by_id(order_id, &context).await
     }
 
     /// Create user
@@ -1126,26 +1132,6 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         self.api().create_users_with_list_input(body, &context).await
     }
 
-    /// Delete user
-    async fn delete_user(
-        &self,
-        username: String,
-        ) -> Result<DeleteUserResponse, ApiError>
-    {
-        let context = self.context().clone();
-        self.api().delete_user(username, &context).await
-    }
-
-    /// Get user by user name
-    async fn get_user_by_name(
-        &self,
-        username: String,
-        ) -> Result<GetUserByNameResponse, ApiError>
-    {
-        let context = self.context().clone();
-        self.api().get_user_by_name(username, &context).await
-    }
-
     /// Logs user into the system
     async fn login_user(
         &self,
@@ -1164,6 +1150,26 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     {
         let context = self.context().clone();
         self.api().logout_user(&context).await
+    }
+
+    /// Delete user
+    async fn delete_user(
+        &self,
+        username: String,
+        ) -> Result<DeleteUserResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().delete_user(username, &context).await
+    }
+
+    /// Get user by user name
+    async fn get_user_by_name(
+        &self,
+        username: String,
+        ) -> Result<GetUserByNameResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().get_user_by_name(username, &context).await
     }
 
     /// Updated user

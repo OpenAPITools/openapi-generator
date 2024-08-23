@@ -13,10 +13,10 @@
 package org.openapitools.client.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
-
 import java.lang.reflect.Type;
 import javax.json.bind.annotation.JsonbTypeDeserializer;
 import javax.json.bind.annotation.JsonbTypeSerializer;
@@ -30,7 +30,7 @@ import javax.json.bind.annotation.JsonbProperty;
 
 /**
   * A pet for sale in the pet store
- **/
+  */
 
 public class Pet  {
   
@@ -92,22 +92,22 @@ public class Pet  {
   }
 
  /**
-   * pet status in the store
-  **/
+  * pet status in the store
+  */
   @JsonbProperty("status")
   private StatusEnum status;
 
- /**
+  /**
    * Get id
    * @return id
-  **/
+   **/
   public Long getId() {
     return id;
   }
 
   /**
-    * Set id
-  **/
+   * Set id
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -117,17 +117,17 @@ public class Pet  {
     return this;
   }
 
- /**
+  /**
    * Get category
    * @return category
-  **/
+   **/
   public Category getCategory() {
     return category;
   }
 
   /**
-    * Set category
-  **/
+   * Set category
+   */
   public void setCategory(Category category) {
     this.category = category;
   }
@@ -137,17 +137,17 @@ public class Pet  {
     return this;
   }
 
- /**
+  /**
    * Get name
    * @return name
-  **/
+   **/
   public String getName() {
     return name;
   }
 
   /**
-    * Set name
-  **/
+   * Set name
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -157,17 +157,17 @@ public class Pet  {
     return this;
   }
 
- /**
+  /**
    * Get photoUrls
    * @return photoUrls
-  **/
+   **/
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
 
   /**
-    * Set photoUrls
-  **/
+   * Set photoUrls
+   */
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
@@ -178,21 +178,24 @@ public class Pet  {
   }
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new ArrayList<>();
+    }
     this.photoUrls.add(photoUrlsItem);
     return this;
   }
 
- /**
+  /**
    * Get tags
    * @return tags
-  **/
+   **/
   public List<Tag> getTags() {
     return tags;
   }
 
   /**
-    * Set tags
-  **/
+   * Set tags
+   */
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
@@ -203,21 +206,26 @@ public class Pet  {
   }
 
   public Pet addTagsItem(Tag tagsItem) {
+    if (this.tags == null) {
+      this.tags = new ArrayList<>();
+    }
     this.tags.add(tagsItem);
     return this;
   }
 
- /**
+  /**
    * pet status in the store
    * @return status
-  **/
+   * @deprecated
+   **/
+  @Deprecated
   public StatusEnum getStatus() {
     return status;
   }
 
   /**
-    * Set status
-  **/
+   * Set status
+   */
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
@@ -229,8 +237,8 @@ public class Pet  {
 
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

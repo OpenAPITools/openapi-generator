@@ -34,13 +34,15 @@ class FooGetDefaultResponse {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is FooGetDefaultResponse &&
-     other.string == string;
 
-  @override
-  int get hashCode =>
-    string.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is FooGetDefaultResponse &&
+      other.string == string;
+
+    @override
+    int get hashCode =>
+        string.hashCode;
 
   factory FooGetDefaultResponse.fromJson(Map<String, dynamic> json) => _$FooGetDefaultResponseFromJson(json);
 

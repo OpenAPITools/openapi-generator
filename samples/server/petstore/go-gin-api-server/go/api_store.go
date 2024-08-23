@@ -10,27 +10,37 @@
 package petstoreserver
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 )
 
-// DeleteOrder - Delete purchase order by ID
-func DeleteOrder(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+type StoreAPI struct {
 }
 
-// GetInventory - Returns pet inventories by status
-func GetInventory(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+// Delete /v2/store/order/:orderId
+// Delete purchase order by ID 
+func (api *StoreAPI) DeleteOrder(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
 }
 
-// GetOrderById - Find purchase order by ID
-func GetOrderById(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+// Get /v2/store/inventory
+// Returns pet inventories by status 
+func (api *StoreAPI) GetInventory(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
 }
 
-// PlaceOrder - Place an order for a pet
-func PlaceOrder(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+// Get /v2/store/order/:orderId
+// Find purchase order by ID 
+func (api *StoreAPI) GetOrderById(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
 }
+
+// Post /v2/store/order
+// Place an order for a pet 
+func (api *StoreAPI) PlaceOrder(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
+}
+

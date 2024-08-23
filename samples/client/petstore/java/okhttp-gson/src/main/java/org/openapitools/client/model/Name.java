@@ -14,13 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -37,12 +37,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -50,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * Model for testing model name same as property name
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Name {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -71,7 +69,6 @@ public class Name {
   public Name() {
   }
 
-  
   public Name(
      Integer snakeCase, 
      Integer _123number
@@ -82,30 +79,28 @@ public class Name {
   }
 
   public Name name(Integer name) {
-    
     this.name = name;
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nonnull
   public Integer getName() {
     return name;
   }
-
 
   public void setName(Integer name) {
     this.name = name;
   }
 
 
-   /**
+  /**
    * Get snakeCase
    * @return snakeCase
-  **/
+   */
   @javax.annotation.Nullable
   public Integer getSnakeCase() {
     return snakeCase;
@@ -113,37 +108,33 @@ public class Name {
 
 
 
-
   public Name property(String property) {
-    
     this.property = property;
     return this;
   }
 
-   /**
+  /**
    * Get property
    * @return property
-  **/
+   */
   @javax.annotation.Nullable
   public String getProperty() {
     return property;
   }
-
 
   public void setProperty(String property) {
     this.property = property;
   }
 
 
-   /**
+  /**
    * Get _123number
    * @return _123number
-  **/
+   */
   @javax.annotation.Nullable
   public Integer get123number() {
     return _123number;
   }
-
 
 
   /**
@@ -254,12 +245,12 @@ public class Name {
     openapiRequiredFields.add("name");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Name
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to Name
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Name.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -307,7 +298,12 @@ public class Name {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -346,22 +342,22 @@ public class Name {
     }
   }
 
- /**
-  * Create an instance of Name given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Name
-  * @throws IOException if the JSON string is invalid with respect to Name
-  */
+  /**
+   * Create an instance of Name given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of Name
+   * @throws IOException if the JSON string is invalid with respect to Name
+   */
   public static Name fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Name.class);
   }
 
- /**
-  * Convert an instance of Name to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of Name to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

@@ -26,7 +26,7 @@ jobs:
           - samples/client/petstore/erlang-client/
           - samples/client/petstore/erlang-proper/
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
         with:
           otp-version: '22.2'

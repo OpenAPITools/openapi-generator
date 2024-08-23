@@ -97,7 +97,7 @@ task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.Valid
 [source,group]
 ----
 plugins {
-  id "org.openapi.generator" version "6.6.0"
+  id "org.openapi.generator" version "7.8.0"
 }
 ----
 
@@ -113,7 +113,7 @@ buildscript {
     // url "https://plugins.gradle.org/m2/"
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:6.6.0"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:7.8.0"
   }
 }
 
@@ -173,6 +173,11 @@ apply plugin: 'org.openapi.generator'
 |String
 |None
 |The template directory holding a custom template.
+
+|templateResourcePath
+|String
+|None
+|Directory with mustache templates via resource path. This option will overwrite any option defined in `templateDir`
 
 |auth
 |String
@@ -238,6 +243,21 @@ apply plugin: 'org.openapi.generator'
 |Map(String,String)
 |None
 |specifies mappings between the schema and the new name in the format of schema_a=Cat,schema_b=Bird. https://openapi-generator.tech/docs/customization/#schema-mapping
+
+|nameMappings
+|Map(String,String)
+|None
+|specifies mappings between the property name and the new name in the format of property_a=firstProperty,property_b=secondProperty. https://openapi-generator.tech/docs/customization/#name-mapping
+
+|modelNameMappings
+|Map(String,String)
+|None
+|specifies mappings between the model name and the new name in the format of model_a=FirstModel,property_b=SecondModel. https://openapi-generator.tech/docs/customization/#name-mapping
+
+|parameterNameMappings
+|Map(String,String)
+|None
+|specifies mappings between the parameter name and the new name in the format of parameter_a=firstParameter,parameter_b=secondParameter. https://openapi-generator.tech/docs/customization/#name-mapping
 
 |inlineSchemaNameMappings
 |Map(String,String)
@@ -373,11 +393,6 @@ apply plugin: 'org.openapi.generator'
 |Boolean
 |true
 |Defines whether or not api-related _documentation_ files should be generated.
-
-|withXml
-|Boolean
-|false
-|A special-case setting which configures some generators with XML support. In some cases, this forces json OR xml, so the default here is false.
 
 |configOptions
 |Map(String,String)
@@ -530,9 +545,7 @@ openApiGenerate {
     apiPackage.set("org.openapi.example.api")
     invokerPackage.set("org.openapi.example.invoker")
     modelPackage.set("org.openapi.example.model")
-    configOptions.set([
-        dateLibrary: "java8"
-    ])
+    configOptions.put("dateLibrary", "java8")
 }
 ----
 
@@ -746,7 +759,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath('org.openapitools:openapi-generator-gradle-plugin:6.6.0') {
+        classpath('org.openapitools:openapi-generator-gradle-plugin:7.8.0') {
             exclude group: 'com.google.guava'
         }
     }

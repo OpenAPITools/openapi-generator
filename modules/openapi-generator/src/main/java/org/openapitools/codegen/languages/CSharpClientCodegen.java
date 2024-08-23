@@ -18,12 +18,11 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.servers.Server;
-import org.mozilla.javascript.optimizer.Codegen;
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -37,11 +36,7 @@ import java.io.File;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -79,6 +74,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected static final String NET_48_OR_LATER = "net48OrLater";
     protected static final String NET_60_OR_LATER = "net60OrLater";
     protected static final String NET_70_OR_LATER = "net70OrLater";
+    protected static final String NET_80_OR_LATER = "net80OrLater";
 
     @SuppressWarnings("hiding")
     private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
@@ -92,15 +88,16 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NETFRAMEWORK_4_7,
             FrameworkStrategy.NETFRAMEWORK_4_8,
             FrameworkStrategy.NET_6_0,
-            FrameworkStrategy.NET_7_0
+            FrameworkStrategy.NET_7_0,
+            FrameworkStrategy.NET_8_0
     );
     private static FrameworkStrategy latestFramework = frameworkStrategies.get(frameworkStrategies.size() - 1);
     protected final Map<String, String> frameworks;
-    protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
-    protected String clientPackage = "Client";
+    @Setter protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
+    @Setter protected String clientPackage = "Client";
     protected String authFolder = "Auth";
-    protected String apiDocPath = "docs" + File.separator;
-    protected String modelDocPath = "docs" + File.separator;
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
 
     // Defines TargetFrameworkVersion in csproj files
     protected String targetFramework = latestFramework.name;
@@ -113,17 +110,29 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean supportsAsync = Boolean.TRUE;
     protected boolean netStandard = Boolean.FALSE;
     protected boolean supportsFileParameters = Boolean.TRUE;
+    protected boolean supportsDateOnly = Boolean.FALSE;
 
-    protected boolean validatable = Boolean.TRUE;
-    protected boolean equatable = Boolean.TRUE;
+    @Setter protected boolean validatable = Boolean.TRUE;
+    @Setter protected boolean equatable = Boolean.FALSE;
     // By default, generated code is considered public
+    @Getter @Setter
     protected boolean nonPublicApi = Boolean.FALSE;
+
+    private static final String OPERATION_PARAMETER_SORTING_KEY = "operationParameterSorting";
+    private static final String MODEL_PROPERTY_SORTING_KEY = "modelPropertySorting";
+    enum SortingMethod {
+        DEFAULT,
+        ALPHABETICAL,
+        LEGACY
+    }
+    private SortingMethod operationParameterSorting = SortingMethod.DEFAULT;
+    private SortingMethod modelPropertySorting = SortingMethod.DEFAULT;
 
     protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
     protected String releaseNote = "Minor update";
-    protected String licenseId;
-    protected String packageTags;
-    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    @Setter protected String licenseId;
+    @Setter protected String packageTags;
+    @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
 
     protected boolean needsCustomHttpMethod = false;
     protected boolean needsUriBuilder = false;
@@ -219,6 +228,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 "Enumerations with string values will start from 0 when true, 1 when false. If not set, enumerations with string values will start from 0 if the first value is 'unknown', case insensitive.",
                 null);
 
+        addOption(CSharpClientCodegen.OPERATION_PARAMETER_SORTING_KEY,
+                "One of legacy, alphabetical, default.",
+                this.operationParameterSorting.toString().toLowerCase(Locale.ROOT));
+
+        addOption(CSharpClientCodegen.MODEL_PROPERTY_SORTING_KEY,
+                "One of legacy, alphabetical, default.",
+                this.modelPropertySorting.toString().toLowerCase(Locale.ROOT));
+
         CliOption framework = new CliOption(
                 CodegenConstants.DOTNET_FRAMEWORK,
                 CodegenConstants.DOTNET_FRAMEWORK_DESC
@@ -262,6 +279,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.USE_DATETIME_OFFSET,
                 CodegenConstants.USE_DATETIME_OFFSET_DESC,
                 this.useDateTimeOffsetFlag);
+
+        addSwitch(CodegenConstants.USE_DATETIME_FOR_DATE,
+                CodegenConstants.USE_DATETIME_FOR_DATE_DESC,
+                useDateTimeForDateFlag);
 
         addSwitch(CodegenConstants.USE_COLLECTION,
                 CodegenConstants.USE_COLLECTION_DESC,
@@ -323,6 +344,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.EQUATABLE_DESC,
                 this.equatable);
 
+        addSwitch("useSourceGeneration",
+                "Use source generation where available (only `generichost` library supports this option).",
+                this.getUseSourceGeneration());
+
         supportedLibraries.put(GENERICHOST, "HttpClient with Generic Host dependency injection (https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host) "
                 + "(Experimental. Subject to breaking changes without notice.)");
         supportedLibraries.put(HTTPCLIENT, "HttpClient (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) "
@@ -352,6 +377,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         return GENERICHOST.equals(getLibrary())
                 ? super.getValueTypes()
                 : new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double"));
+    }
+
+    @Override
+    protected boolean useNet60OrLater() {
+        return additionalProperties.containsKey(NET_60_OR_LATER);
     }
 
     @Override
@@ -396,7 +426,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         CodegenModel codegenModel = super.fromModel(name, model);
         if (allDefinitions != null && codegenModel != null && codegenModel.parent != null) {
-            final Schema parentModel = allDefinitions.get(toModelName(codegenModel.parent));
+            final Schema<?> parentModel = allDefinitions.get(toModelName(codegenModel.parent));
             if (parentModel != null) {
                 final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
                 if (codegenModel.hasEnums) {
@@ -414,13 +444,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                     }
                 }
 
-                CodegenProperty last = null;
                 for (final CodegenProperty property : parentCodegenModel.vars) {
                     // helper list of parentVars simplifies templating
                     if (!propertyHash.containsKey(property.name)) {
                         final CodegenProperty parentVar = property.clone();
                         parentVar.isInherited = true;
-                        last = parentVar;
                         LOGGER.debug("adding parent variable {}", property.name);
                         codegenModel.parentVars.add(parentVar);
                     }
@@ -440,25 +468,48 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             }
         }
 
-        // avoid breaking changes
-        if (GENERICHOST.equals(getLibrary())) {
+        if (codegenModel != null) {
+            if (this.modelPropertySorting == SortingMethod.ALPHABETICAL) {
+                Collections.sort(codegenModel.vars, propertyComparatorByName);
+                Collections.sort(codegenModel.allVars, propertyComparatorByName);
+                Collections.sort(codegenModel.requiredVars, propertyComparatorByName);
+                Collections.sort(codegenModel.optionalVars, propertyComparatorByName);
+                Collections.sort(codegenModel.readOnlyVars, propertyComparatorByName);
+                Collections.sort(codegenModel.readWriteVars, propertyComparatorByName);
+                Collections.sort(codegenModel.parentVars, propertyComparatorByName);
+            }
 
-            Collections.sort(codegenModel.vars, propertyComparatorByName);
-            Collections.sort(codegenModel.allVars, propertyComparatorByName);
-            Collections.sort(codegenModel.requiredVars, propertyComparatorByName);
-            Collections.sort(codegenModel.optionalVars, propertyComparatorByName);
-            Collections.sort(codegenModel.readOnlyVars, propertyComparatorByName);
-            Collections.sort(codegenModel.readWriteVars, propertyComparatorByName);
-            Collections.sort(codegenModel.parentVars, propertyComparatorByName);
+            if (GENERICHOST.equals(getLibrary())) {
 
-            Comparator<CodegenProperty> comparator = propertyComparatorByNullable.thenComparing(propertyComparatorByDefaultValue);
-            Collections.sort(codegenModel.vars, comparator);
-            Collections.sort(codegenModel.allVars, comparator);
-            Collections.sort(codegenModel.requiredVars, comparator);
-            Collections.sort(codegenModel.optionalVars, comparator);
-            Collections.sort(codegenModel.readOnlyVars, comparator);
-            Collections.sort(codegenModel.readWriteVars, comparator);
-            Collections.sort(codegenModel.parentVars, comparator);
+                if (this.modelPropertySorting == SortingMethod.LEGACY) {
+                    Collections.sort(codegenModel.vars, propertyComparatorByName);
+                    Collections.sort(codegenModel.allVars, propertyComparatorByName);
+                    Collections.sort(codegenModel.requiredVars, propertyComparatorByName);
+                    Collections.sort(codegenModel.optionalVars, propertyComparatorByName);
+                    Collections.sort(codegenModel.readOnlyVars, propertyComparatorByName);
+                    Collections.sort(codegenModel.readWriteVars, propertyComparatorByName);
+                    Collections.sort(codegenModel.parentVars, propertyComparatorByName);
+
+                    Collections.sort(codegenModel.vars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
+                    Collections.sort(codegenModel.allVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
+                    Collections.sort(codegenModel.requiredVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
+                    Collections.sort(codegenModel.optionalVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
+                    Collections.sort(codegenModel.readOnlyVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
+                    Collections.sort(codegenModel.readWriteVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
+                    Collections.sort(codegenModel.parentVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
+                }
+                else {
+                    Collections.sort(codegenModel.vars, propertyComparatorByNotNullableRequiredNoDefault);
+                    Collections.sort(codegenModel.allVars, propertyComparatorByNotNullableRequiredNoDefault);
+                    Collections.sort(codegenModel.requiredVars, propertyComparatorByNotNullableRequiredNoDefault);
+                    Collections.sort(codegenModel.optionalVars, propertyComparatorByNotNullableRequiredNoDefault);
+                    Collections.sort(codegenModel.readOnlyVars, propertyComparatorByNotNullableRequiredNoDefault);
+                    Collections.sort(codegenModel.readWriteVars, propertyComparatorByNotNullableRequiredNoDefault);
+                    Collections.sort(codegenModel.parentVars, propertyComparatorByNotNullableRequiredNoDefault);
+                }
+            }
+        } else {
+            SortModelPropertiesByRequiredFlag(codegenModel);
         }
 
         return codegenModel;
@@ -471,29 +522,20 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
     };
 
-    public static Comparator<CodegenProperty> propertyComparatorByDefaultValue = new Comparator<CodegenProperty>() {
+    public static Comparator<CodegenProperty> propertyComparatorByNotNullableRequiredNoDefaultLegacy = new Comparator<CodegenProperty>() {
         @Override
         public int compare(CodegenProperty one, CodegenProperty another) {
-            if ((one.defaultValue == null) == (another.defaultValue == null))
+            if (one.isNullable == another.isNullable && one.required == another.required && (one.defaultValue == null) == (another.defaultValue == null))
                 return 0;
-            else if (one.defaultValue == null)
+            else if (!one.isNullable && one.required && one.defaultValue == null)
                 return -1;
             else
                 return 1;
         }
     };
 
-    public static Comparator<CodegenProperty> propertyComparatorByNullable = new Comparator<CodegenProperty>() {
-        @Override
-        public int compare(CodegenProperty one, CodegenProperty another) {
-            if (one.isNullable == another.isNullable)
-                return 0;
-            else if (Boolean.FALSE.equals(one.isNullable))
-                return -1;
-            else
-                return 1;
-        }
-    };
+    public static Comparator<CodegenProperty> propertyComparatorByNotNullableRequiredNoDefault =
+            Comparator.comparing(p -> p.isNullable || !p.required || p.defaultValue != null);
 
     public static Comparator<CodegenParameter> parameterComparatorByDataType = new Comparator<CodegenParameter>() {
         @Override
@@ -501,6 +543,16 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             return one.dataType.compareTo(another.dataType);
         }
     };
+
+    public static Comparator<CodegenParameter> parameterComparatorByName = new Comparator<CodegenParameter>() {
+        @Override
+        public int compare(CodegenParameter one, CodegenParameter another) {
+            return one.paramName.compareTo(another.paramName);
+        }
+    };
+
+    public static Comparator<CodegenParameter> parameterComparatorByNotNullableRequiredNoDefault =
+            Comparator.comparing(p -> p.isNullable || !p.required || p.defaultValue != null);
 
     public static Comparator<CodegenParameter> parameterComparatorByDefaultValue = new Comparator<CodegenParameter>() {
         @Override
@@ -590,14 +642,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         return CodegenType.CLIENT;
     }
 
-    public boolean isNonPublicApi() {
-        return nonPublicApi;
-    }
-
-    public void setNonPublicApi(final boolean nonPublicApi) {
-        this.nonPublicApi = nonPublicApi;
-    }
-
     @Override
     public String modelDocFileFolder() {
         if (GENERICHOST.equals(getLibrary())) {
@@ -622,58 +666,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
-        postProcessPattern(parameter.pattern, parameter.vendorExtensions);
+        super.postProcessParameter(parameter);
         postProcessEmitDefaultValue(parameter.vendorExtensions);
 
         if (!GENERICHOST.equals(getLibrary()) && !parameter.dataType.endsWith("?") && !parameter.required && (nullReferenceTypesFlag || this.getNullableTypes().contains(parameter.dataType))) {
             parameter.dataType = parameter.dataType + "?";
-        }
-
-        super.postProcessParameter(parameter);
-    }
-
-    /*
-     * See https://msdn.microsoft.com/en-us/library/yd1hzczs(v=vs.110).aspx for .NET options.
-     */
-    public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
-        if (pattern != null) {
-            // check if the pattern has any modifiers
-            // gmiyuvsd - ecma modifiers
-            // l - legacy modifier provided by this library, provides a way to opt out of culture invariant
-            // nx - c# modifiers https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-options
-            Pattern hasModifiers = Pattern.compile(".*/[gmiyuvsdlnx]+$");
-
-            int end = hasModifiers.matcher(pattern).find()
-                ? pattern.lastIndexOf('/')
-                : pattern.length() - 1;
-
-            int start = pattern.startsWith("/")
-                ? 1
-                : 0;
-
-            Map<Character, String> optionsMap = new HashMap();
-            optionsMap.put('i', "IgnoreCase");
-            optionsMap.put('m', "Multiline");
-            optionsMap.put('s', "SingleLine");
-            optionsMap.put('n', "ExplicitCapture");
-            optionsMap.put('x', "IgnorePatternWhitespace");
-
-            List<String> modifiers = new ArrayList<String>();
-            modifiers.add("CultureInvariant");
-
-            for (char c : pattern.substring(end).toCharArray()) {
-                if (optionsMap.containsKey(c)) {
-                    modifiers.add(optionsMap.get(c));
-                } else if (c == 'l'){
-                    modifiers.remove("CultureInvariant");
-                } else {
-                    vendorExtensions.put("x-modifier-" + c, c);
-                }
-            }
-
-            String regex = pattern.substring(start, end).replace("'", "\'").replace("\"", "\"\"");
-            vendorExtensions.put("x-regex", regex);
-            vendorExtensions.put("x-modifiers", modifiers);
         }
     }
 
@@ -727,6 +724,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             setLicenseId((String) additionalProperties.get(CodegenConstants.LICENSE_ID));
         }
 
+        if (additionalProperties.containsKey(CSharpClientCodegen.OPERATION_PARAMETER_SORTING_KEY)) {
+            setOperationParameterSorting((String) additionalProperties.get(CSharpClientCodegen.OPERATION_PARAMETER_SORTING_KEY));
+        }
+
+        if (additionalProperties.containsKey(CSharpClientCodegen.MODEL_PROPERTY_SORTING_KEY)) {
+            setModelPropertySorting((String) additionalProperties.get(CSharpClientCodegen.MODEL_PROPERTY_SORTING_KEY));
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.API_NAME)) {
             setApiName((String) additionalProperties.get(CodegenConstants.API_NAME));
         } else {
@@ -743,8 +748,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         if (GENERICHOST.equals(getLibrary())) {
             setLibrary(GENERICHOST);
             additionalProperties.put("useGenericHost", true);
-            // all c# libraries should be doing this, but we only do it here to avoid breaking changes
-            this.setSortModelPropertiesByRequiredFlag(true);
         } else if (RESTSHARP.equals(getLibrary())) {
             additionalProperties.put("useRestSharp", true);
             needsCustomHttpMethod = true;
@@ -836,6 +839,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         syncBooleanProperty(additionalProperties, CodegenConstants.NON_PUBLIC_API, this::setNonPublicApi, isNonPublicApi());
         syncBooleanProperty(additionalProperties, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup, this.useOneOfDiscriminatorLookup);
         syncBooleanProperty(additionalProperties, "supportsFileParameters", this::setSupportsFileParameters, this.supportsFileParameters);
+        syncBooleanProperty(additionalProperties, "useSourceGeneration", this::setUseSourceGeneration, this.useSourceGeneration);
+        syncBooleanProperty(additionalProperties, "supportsDateOnly", this::setSupportsDateOnly, this.supportsDateOnly);
 
         final String testPackageName = testPackageName();
         String packageFolder = sourceFolder + File.separator + packageName;
@@ -897,14 +902,22 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             }
         }
 
+        if (useDateOnly()) {
+            setSupportsDateOnly(true);
+            additionalProperties.put("supportsDateOnly", true);
+        }
         // include the spec in the output
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
 
         this.setTypeMapping();
     }
 
-    public void setClientPackage(String clientPackage) {
-        this.clientPackage = clientPackage;
+    @Override
+    public void setUseSourceGeneration(final Boolean useSourceGeneration) {
+        if (useSourceGeneration && !this.additionalProperties.containsKey(NET_70_OR_LATER)) {
+            throw new RuntimeException("Source generation is only compatible with .Net 7 or later.");
+        }
+        this.useSourceGeneration = useSourceGeneration;
     }
 
     @Override
@@ -914,34 +927,62 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                                           List<Server> servers) {
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
 
-        if (!GENERICHOST.equals(getLibrary())) {
-            return op;
+        if (this.operationParameterSorting == SortingMethod.ALPHABETICAL) {
+            Collections.sort(op.allParams, parameterComparatorByName);
+            Collections.sort(op.bodyParams, parameterComparatorByName);
+            Collections.sort(op.pathParams, parameterComparatorByName);
+            Collections.sort(op.queryParams, parameterComparatorByName);
+            Collections.sort(op.headerParams, parameterComparatorByName);
+            Collections.sort(op.implicitHeadersParams, parameterComparatorByName);
+            Collections.sort(op.formParams, parameterComparatorByName);
+            Collections.sort(op.cookieParams, parameterComparatorByName);
+            Collections.sort(op.requiredParams, parameterComparatorByName);
+            Collections.sort(op.optionalParams, parameterComparatorByName);
+            Collections.sort(op.notNullableParams, parameterComparatorByName);
         }
 
-        Collections.sort(op.allParams, parameterComparatorByDataType);
-        Collections.sort(op.bodyParams, parameterComparatorByDataType);
-        Collections.sort(op.pathParams, parameterComparatorByDataType);
-        Collections.sort(op.queryParams, parameterComparatorByDataType);
-        Collections.sort(op.headerParams, parameterComparatorByDataType);
-        Collections.sort(op.implicitHeadersParams, parameterComparatorByDataType);
-        Collections.sort(op.formParams, parameterComparatorByDataType);
-        Collections.sort(op.cookieParams, parameterComparatorByDataType);
-        Collections.sort(op.requiredParams, parameterComparatorByDataType);
-        Collections.sort(op.optionalParams, parameterComparatorByDataType);
-        Collections.sort(op.notNullableParams, parameterComparatorByDataType);
+        if (GENERICHOST.equals(getLibrary())) {
+            if (this.operationParameterSorting == SortingMethod.LEGACY) {
+                Collections.sort(op.allParams, parameterComparatorByDataType);
+                Collections.sort(op.bodyParams, parameterComparatorByDataType);
+                Collections.sort(op.pathParams, parameterComparatorByDataType);
+                Collections.sort(op.queryParams, parameterComparatorByDataType);
+                Collections.sort(op.headerParams, parameterComparatorByDataType);
+                Collections.sort(op.implicitHeadersParams, parameterComparatorByDataType);
+                Collections.sort(op.formParams, parameterComparatorByDataType);
+                Collections.sort(op.cookieParams, parameterComparatorByDataType);
+                Collections.sort(op.requiredParams, parameterComparatorByDataType);
+                Collections.sort(op.optionalParams, parameterComparatorByDataType);
+                Collections.sort(op.notNullableParams, parameterComparatorByDataType);
 
-        Comparator<CodegenParameter> comparator = parameterComparatorByRequired.thenComparing(parameterComparatorByDefaultValue);
-        Collections.sort(op.allParams, comparator);
-        Collections.sort(op.bodyParams, comparator);
-        Collections.sort(op.pathParams, comparator);
-        Collections.sort(op.queryParams, comparator);
-        Collections.sort(op.headerParams, comparator);
-        Collections.sort(op.implicitHeadersParams, comparator);
-        Collections.sort(op.formParams, comparator);
-        Collections.sort(op.cookieParams, comparator);
-        Collections.sort(op.requiredParams, comparator);
-        Collections.sort(op.optionalParams, comparator);
-        Collections.sort(op.notNullableParams, comparator);
+                Comparator<CodegenParameter> comparator = parameterComparatorByRequired.thenComparing(parameterComparatorByDefaultValue);
+                Collections.sort(op.allParams, comparator);
+                Collections.sort(op.bodyParams, comparator);
+                Collections.sort(op.pathParams, comparator);
+                Collections.sort(op.queryParams, comparator);
+                Collections.sort(op.headerParams, comparator);
+                Collections.sort(op.implicitHeadersParams, comparator);
+                Collections.sort(op.formParams, comparator);
+                Collections.sort(op.cookieParams, comparator);
+                Collections.sort(op.requiredParams, comparator);
+                Collections.sort(op.optionalParams, comparator);
+                Collections.sort(op.notNullableParams, comparator);
+            } else {
+                Collections.sort(op.allParams, parameterComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(op.bodyParams, parameterComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(op.pathParams, parameterComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(op.queryParams, parameterComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(op.headerParams, parameterComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(op.implicitHeadersParams, parameterComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(op.formParams, parameterComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(op.cookieParams, parameterComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(op.requiredParams, parameterComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(op.optionalParams, parameterComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(op.notNullableParams, parameterComparatorByNotNullableRequiredNoDefault);
+            }
+        } else {
+            SortParametersByRequiredFlag(op.allParams);
+        }
 
         return op;
     }
@@ -1034,6 +1075,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ApiFactory.mustache", clientPackageDir, "ApiFactory.cs"));
         supportingFiles.add(new SupportingFile("DateTimeJsonConverter.mustache", clientPackageDir, "DateTimeJsonConverter.cs"));
         supportingFiles.add(new SupportingFile("DateTimeNullableJsonConverter.mustache", clientPackageDir, "DateTimeNullableJsonConverter.cs"));
+        if (useDateOnly()) {
+            supportingFiles.add(new SupportingFile("DateOnlyJsonConverter.mustache", clientPackageDir, "DateOnlyJsonConverter.cs"));
+            supportingFiles.add(new SupportingFile("DateOnlyNullableJsonConverter.mustache", clientPackageDir, "DateOnlyNullableJsonConverter.cs"));
+        }
         supportingFiles.add(new SupportingFile("ApiResponseEventArgs`1.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
         supportingFiles.add(new SupportingFile("ExceptionEventArgs.mustache", clientPackageDir, "ExceptionEventArgs.cs"));
         supportingFiles.add(new SupportingFile("JsonSerializerOptionsProvider.mustache", clientPackageDir, "JsonSerializerOptionsProvider.cs"));
@@ -1101,17 +1146,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public void setOptionalProjectFileFlag(boolean flag) {
         this.optionalProjectFileFlag = flag;
     }
-
-    public void setPackageGuid(String packageGuid) {
-        this.packageGuid = packageGuid;
-    }
-
-    // TODO: this does the same as super
-    @Override
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
+    
     /**
      * Sets the api name. This value must be a valid class name.
      *
@@ -1124,10 +1159,20 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         this.apiName = apiName;
     }
 
-    // TODO: this does the same as super
-    @Override
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
+    public void setOperationParameterSorting(String operationParameterSorting) {
+        if (operationParameterSorting == null) {
+            operationParameterSorting = "DEFAULT";
+        }
+
+        this.operationParameterSorting = SortingMethod.valueOf(operationParameterSorting.toUpperCase(Locale.ROOT));
+    }
+
+    public void setModelPropertySorting(String modelPropertySorting) {
+        if (modelPropertySorting == null) {
+            modelPropertySorting = "DEFAULT";
+        }
+
+        this.modelPropertySorting = SortingMethod.valueOf(modelPropertySorting.toUpperCase(Locale.ROOT));
     }
 
     public void setSupportsAsync(Boolean supportsAsync) {
@@ -1136,6 +1181,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void setSupportsFileParameters(Boolean supportsFileParameters) {
         this.supportsFileParameters = supportsFileParameters;
+    }
+
+    public void setSupportsDateOnly(Boolean supportsDateOnly) {
+        this.supportsDateOnly = supportsDateOnly;
     }
 
     public void setSupportsRetry(Boolean supportsRetry) {
@@ -1188,33 +1237,13 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 .collect(Collectors.joining(";"));
     }
 
-    public void setValidatable(boolean validatable) {
-        this.validatable = validatable;
-    }
-
-    public void setEquatable(boolean equatable) {
-        this.equatable = equatable;
-    }
-
     public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
         this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
-    }
-
-    public void setLicenseId(String licenseId) {
-        this.licenseId = licenseId;
     }
 
     @Override
     public void setReleaseNote(String releaseNote) {
         this.releaseNote = releaseNote;
-    }
-
-    public void setPackageTags(String packageTags) {
-        this.packageTags = packageTags;
-    }
-
-    public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
-        this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
     }
 
     public boolean getUseOneOfDiscriminatorLookup() {
@@ -1223,6 +1252,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String toEnumVarName(String value, String datatype) {
+        if (enumNameMapping.containsKey(value)) {
+            return enumNameMapping.get(value);
+        }
+
         if (value.length() == 0) {
             return "Empty";
         }
@@ -1354,8 +1387,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @SuppressWarnings("Duplicates")
     private static abstract class FrameworkStrategy {
 
-        private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
-
         static FrameworkStrategy NETSTANDARD_1_3 = new FrameworkStrategy("netstandard1.3", ".NET Standard 1.3", "net7.0") {
         };
         static FrameworkStrategy NETSTANDARD_1_4 = new FrameworkStrategy("netstandard1.4", ".NET Standard 1.4", "net7.0") {
@@ -1376,6 +1407,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         };
         static FrameworkStrategy NET_7_0 = new FrameworkStrategy("net7.0", ".NET 7.0", "net7.0", Boolean.FALSE) {
         };
+        static FrameworkStrategy NET_8_0 = new FrameworkStrategy("net8.0", ".NET 8.0", "net8.0", Boolean.FALSE) {
+        };
         protected String name;
         protected String description;
         protected String testTargetFramework;
@@ -1392,22 +1425,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             this.description = description;
             this.testTargetFramework = testTargetFramework;
             this.isNetStandard = isNetStandard;
-        }
-
-        protected void configureAdditionalProperties(final Map<String, Object> properties) {
-            properties.putIfAbsent(CodegenConstants.DOTNET_FRAMEWORK, this.name);
-
-            // not intended to be user-settable
-            properties.put(TARGET_FRAMEWORK_IDENTIFIER, this.getTargetFrameworkIdentifier());
-            properties.put(TARGET_FRAMEWORK_VERSION, this.getTargetFrameworkVersion());
-            properties.putIfAbsent(MCS_NET_VERSION_KEY, "4.6-api");
-
-            properties.put(NET_STANDARD, this.isNetStandard);
-            if (properties.containsKey(SUPPORTS_UWP)) {
-                LOGGER.warn(".NET {} generator does not support the UWP option. Use the csharp generator instead.",
-                        this.name);
-                properties.remove(SUPPORTS_UWP);
-            }
         }
 
         protected String getNugetFrameworkIdentifier() {
@@ -1499,8 +1516,19 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 properties.put(NET_48_OR_LATER, true);
                 properties.put(NET_60_OR_LATER, true);
                 properties.put(NET_70_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> "net8.0".equals(p.name))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+                properties.put(NET_47_OR_LATER, true);
+                properties.put(NET_48_OR_LATER, true);
+                properties.put(NET_60_OR_LATER, true);
+                properties.put(NET_70_OR_LATER, true);
+                properties.put(NET_80_OR_LATER, true);
             } else {
-                throw new RuntimeException("Unhanlded case");
+                throw new RuntimeException("Unhandled case");
             }
         }
     }
@@ -1514,15 +1542,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @Override
     public String toInstantiationType(Schema schema) {
         if (ModelUtils.isMapSchema(schema)) {
-            Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
+            Schema<?> additionalProperties = ModelUtils.getAdditionalProperties(schema);
             String inner = getSchemaType(additionalProperties);
             if (ModelUtils.isMapSchema(additionalProperties)) {
                 inner = toInstantiationType(additionalProperties);
             }
             return instantiationTypes.get("map") + "<String, " + inner + ">";
         } else if (ModelUtils.isArraySchema(schema)) {
-            ArraySchema arraySchema = (ArraySchema) schema;
-            String inner = getSchemaType(arraySchema.getItems());
+            String inner = getSchemaType(ModelUtils.getSchemaItems(schema));
             return instantiationTypes.get("array") + "<" + inner + ">";
         } else {
             return null;
@@ -1666,7 +1693,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
          * ModelUtils.isMapSchema
          * In other generators, isMap is true for all type object schemas
          */
-        if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
+        if (schema.getProperties() != null || schema.getRequired() != null && !(ModelUtils.isComposedSchema(schema))) {
             // passing null to allProperties and allRequired as there's no parent
             addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
         }

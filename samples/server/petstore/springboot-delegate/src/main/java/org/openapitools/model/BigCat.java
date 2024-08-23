@@ -25,7 +25,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class BigCat extends Cat {
 
   /**
@@ -80,6 +80,14 @@ public class BigCat extends Cat {
     super(className);
   }
 
+  /**
+   * Constructor with all args parameters
+   */
+  public BigCat(KindEnum kind, Boolean declawed, String className, String color) {
+      super(declawed, className, color);
+      this.kind = kind;
+  }
+
   public BigCat kind(KindEnum kind) {
     this.kind = kind;
     return this;
@@ -88,7 +96,7 @@ public class BigCat extends Cat {
   /**
    * Get kind
    * @return kind
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("kind")
@@ -102,17 +110,17 @@ public class BigCat extends Cat {
 
 
   public BigCat declawed(Boolean declawed) {
-    super.setDeclawed(declawed);
+    super.declawed(declawed);
     return this;
   }
 
   public BigCat className(String className) {
-    super.setClassName(className);
+    super.className(className);
     return this;
   }
 
   public BigCat color(String color) {
-    super.setColor(color);
+    super.color(color);
     return this;
   }
   @Override

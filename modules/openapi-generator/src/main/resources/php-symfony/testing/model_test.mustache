@@ -19,8 +19,9 @@
  * Please update the test case below to test the model.
  */
 
-namespace {{modelPackage}};
+namespace {{modelTestsPackage}};
 
+use {{modelPackage}}\{{classname}};
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -50,7 +51,9 @@ class {{classname}}Test extends TestCase
      */
     public function setUp(): void
     {
-         $this->object = $this->getMockBuilder({{classname}}::class)->getMockForAbstractClass();
+        {{^isEnum}}
+        $this->object = $this->getMockBuilder({{classname}}::class)->getMockForAbstractClass();
+        {{/isEnum}}
     }
 
     /**
@@ -73,8 +76,13 @@ class {{classname}}Test extends TestCase
      */
     public function testTestClassExists(): void
     {
+        {{#isEnum}}
+        $this->assertTrue(enum_exists({{classname}}::class));
+        {{/isEnum}}
+        {{^isEnum}}
         $this->assertTrue(class_exists({{classname}}::class));
         $this->assertInstanceOf({{classname}}::class, $this->object);
+        {{/isEnum}}
     }
 {{#vars}}
 
@@ -84,7 +92,7 @@ class {{classname}}Test extends TestCase
      * @group unit
      * @small
      */
-    public function testProperty{{nameInCamelCase}}(): void
+    public function testProperty{{nameInPascalCase}}(): void
     {
         $this->markTestSkipped('Test for property {{name}} not implemented');
     }

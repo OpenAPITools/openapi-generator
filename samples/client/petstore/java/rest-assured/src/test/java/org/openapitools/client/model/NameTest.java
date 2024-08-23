@@ -19,22 +19,21 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for Name
  */
-public class NameTest {
+class NameTest {
     private final Name model = new Name();
 
     /**
      * Model tests for Name
      */
     @Test
-    public void testName() {
+    void testName() {
         // TODO: test Name
     }
 
@@ -42,7 +41,7 @@ public class NameTest {
      * Test the property 'name'
      */
     @Test
-    public void nameTest() {
+    void nameTest() {
         // TODO: test name
     }
 
@@ -50,7 +49,7 @@ public class NameTest {
      * Test the property 'snakeCase'
      */
     @Test
-    public void snakeCaseTest() {
+    void snakeCaseTest() {
         // TODO: test snakeCase
     }
 
@@ -58,7 +57,7 @@ public class NameTest {
      * Test the property 'property'
      */
     @Test
-    public void propertyTest() {
+    void propertyTest() {
         // TODO: test property
     }
 
@@ -66,7 +65,7 @@ public class NameTest {
      * Test the property '_123number'
      */
     @Test
-    public void _123numberTest() {
+    void _123numberTest() {
         // TODO: test _123number
     }
 

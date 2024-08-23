@@ -3,9 +3,11 @@
     # @return [Array<(Object, Integer, Hash)>] an array of 3 elements:
     #   the data deserialized from response body (could be nil), response status code and response headers.
     def call_api(http_method, path, opts = {})
+      stream = nil
       begin
         response = connection(opts).public_send(http_method.to_sym.downcase) do |req|
-          build_request(http_method, path, req, opts)
+          request = build_request(http_method, path, req, opts)
+          stream = download_file(request) if opts[:return_type] == 'File' || opts[:return_type] == 'Binary'
         end
 
         if config.debugging
@@ -30,7 +32,9 @@
         fail ApiError.new('Connection failed')
       end
 
-      if opts[:return_type]
+      if opts[:return_type] == 'File' || opts[:return_type] == 'Binary'
+        data = deserialize_file(response, stream)
+      elsif opts[:return_type]
         data = deserialize(response, opts[:return_type])
       else
         data = nil
@@ -72,7 +76,6 @@
 
       request.url url
       request.params = query_params
-      download_file(request) if opts[:return_type] == 'File' || opts[:return_type] == 'Binary'
       request
     end
 
@@ -91,8 +94,7 @@
         form_params.each do |key, value|
           case value
           when ::File, ::Tempfile
-            # TODO hardcode to application/octet-stream, need better way to detect content type
-            data[key] = Faraday::FilePart.new(value.path, 'application/octet-stream', value.path)
+            data[key] = Faraday::FilePart.new(value.path, Marcel::MimeType.for(Pathname.new(value.path)))
           when ::Array, nil
             # let Faraday handle Array and nil parameters
             data[key] = value
@@ -109,12 +111,47 @@
     end
 
     def download_file(request)
-      @stream = []
+      stream = []
 
       # handle streaming Responses
       request.options.on_data = Proc.new do |chunk, overall_received_bytes|
-        @stream << chunk
+        stream << chunk
       end
+
+      stream
+    end
+
+    def deserialize_file(response, stream)
+      body     = response.body
+      encoding = body.encoding
+
+      # reconstruct content
+      content = stream.join
+      content = content.unpack('m').join if response.headers['Content-Transfer-Encoding'] == 'binary'
+      content = content.force_encoding(encoding)
+
+      # return byte stream
+      return content if @config.return_binary_data == true
+
+      # return file instead of binary data
+      content_disposition = response.headers['Content-Disposition']
+      if content_disposition && content_disposition =~ /filename=/i
+        filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
+        prefix = sanitize_filename(filename)
+      else
+        prefix = 'download-'
+      end
+      prefix = prefix + '-' unless prefix.end_with?('-')
+
+      tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
+      tempfile.write(content)
+      tempfile.close
+
+      config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
+                          "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
+                          "will be deleted automatically with GC. It's also recommended to delete the temp file "\
+                          "explicitly with `tempfile.delete`"
+      tempfile
     end
 
     def connection(opts)

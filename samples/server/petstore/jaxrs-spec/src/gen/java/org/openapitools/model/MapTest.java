@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("MapTest")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class MapTest  implements Serializable {
   private @Valid Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
   public enum InnerEnum {
@@ -46,7 +46,7 @@ public class MapTest  implements Serializable {
      * Convert a String into String, as specified in the
      * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
      */
-	public static InnerEnum fromString(String s) {
+    public static InnerEnum fromString(String s) {
         for (InnerEnum b : InnerEnum.values()) {
             // using Objects.toString() to be safe if value type non-object type
             // because types like 'int' etc. will be auto-boxed
@@ -55,8 +55,8 @@ public class MapTest  implements Serializable {
             }
         }
         throw new IllegalArgumentException("Unexpected string value '" + s + "'");
-	}
-	
+    }
+
     @JsonCreator
     public static InnerEnum fromValue(String value) {
         for (InnerEnum b : InnerEnum.values()) {
@@ -110,9 +110,9 @@ public class MapTest  implements Serializable {
     return this;
   }
 
-  public MapTest removeMapMapOfStringItem(Map<String, String> mapMapOfStringItem) {
-    if (mapMapOfStringItem != null && this.mapMapOfString != null) {
-      this.mapMapOfString.remove(mapMapOfStringItem);
+  public MapTest removeMapMapOfStringItem(String key) {
+    if (this.mapMapOfString != null) {
+      this.mapMapOfString.remove(key);
     }
 
     return this;
@@ -145,9 +145,9 @@ public class MapTest  implements Serializable {
     return this;
   }
 
-  public MapTest removeMapOfEnumStringItem(InnerEnum mapOfEnumStringItem) {
-    if (mapOfEnumStringItem != null && this.mapOfEnumString != null) {
-      this.mapOfEnumString.remove(mapOfEnumStringItem);
+  public MapTest removeMapOfEnumStringItem(String key) {
+    if (this.mapOfEnumString != null) {
+      this.mapOfEnumString.remove(key);
     }
 
     return this;
@@ -180,9 +180,9 @@ public class MapTest  implements Serializable {
     return this;
   }
 
-  public MapTest removeDirectMapItem(Boolean directMapItem) {
-    if (directMapItem != null && this.directMap != null) {
-      this.directMap.remove(directMapItem);
+  public MapTest removeDirectMapItem(String key) {
+    if (this.directMap != null) {
+      this.directMap.remove(key);
     }
 
     return this;
@@ -215,9 +215,9 @@ public class MapTest  implements Serializable {
     return this;
   }
 
-  public MapTest removeIndirectMapItem(Boolean indirectMapItem) {
-    if (indirectMapItem != null && this.indirectMap != null) {
-      this.indirectMap.remove(indirectMapItem);
+  public MapTest removeIndirectMapItem(String key) {
+    if (this.indirectMap != null) {
+      this.indirectMap.remove(key);
     }
 
     return this;
@@ -272,7 +272,7 @@ public class MapTest  implements Serializable {
     return new MapTestBuilderImpl();
   }
 
-  private static final class MapTestBuilderImpl extends MapTestBuilder<MapTest, MapTestBuilderImpl> {
+  private static class MapTestBuilderImpl extends MapTestBuilder<MapTest, MapTestBuilderImpl> {
 
     @Override
     protected MapTestBuilderImpl self() {

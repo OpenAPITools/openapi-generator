@@ -14,13 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import org.openapitools.client.model.GrandparentAnimal;
 
 import com.google.gson.Gson;
@@ -38,12 +38,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -51,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * ParentPet
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class ParentPet extends GrandparentAnimal {
   public ParentPet() {
     this.petType = this.getClass().getSimpleName();
@@ -153,12 +151,12 @@ public class ParentPet extends GrandparentAnimal {
     openapiRequiredFields.add("pet_type");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to ParentPet
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to ParentPet
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!ParentPet.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -202,7 +200,12 @@ public class ParentPet extends GrandparentAnimal {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -241,22 +244,22 @@ public class ParentPet extends GrandparentAnimal {
     }
   }
 
- /**
-  * Create an instance of ParentPet given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of ParentPet
-  * @throws IOException if the JSON string is invalid with respect to ParentPet
-  */
+  /**
+   * Create an instance of ParentPet given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of ParentPet
+   * @throws IOException if the JSON string is invalid with respect to ParentPet
+   */
   public static ParentPet fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ParentPet.class);
   }
 
- /**
-  * Convert an instance of ParentPet to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of ParentPet to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

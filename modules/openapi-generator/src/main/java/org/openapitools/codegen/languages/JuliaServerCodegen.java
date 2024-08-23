@@ -29,6 +29,7 @@ public class JuliaServerCodegen extends AbstractJuliaCodegen {
      * @return the CodegenType for this generator
      * @see org.openapitools.codegen.CodegenType
      */
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
@@ -39,6 +40,7 @@ public class JuliaServerCodegen extends AbstractJuliaCodegen {
      *
      * @return the name of the generator
      */
+    @Override
     public String getName() {
         return "julia-server";
     }
@@ -49,6 +51,7 @@ public class JuliaServerCodegen extends AbstractJuliaCodegen {
      *
      * @return the help message for the generator
      */
+    @Override
     public String getHelp() {
         return "Generates a julia server.";
     }

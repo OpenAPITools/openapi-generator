@@ -63,6 +63,7 @@ import Return from './model/Return';
 import SpecialModelName from './model/SpecialModelName';
 import StringOrBoolean from './model/StringOrBoolean';
 import Tag from './model/Tag';
+import TestInlineFreeformAdditionalPropertiesRequest from './model/TestInlineFreeformAdditionalPropertiesRequest';
 import User from './model/User';
 import AnotherFakeApi from './api/AnotherFakeApi';
 import DefaultApi from './api/DefaultApi';
@@ -410,6 +411,12 @@ export {
      * @property {module:model/Tag}
      */
     Tag,
+
+    /**
+     * The TestInlineFreeformAdditionalPropertiesRequest model constructor.
+     * @property {module:model/TestInlineFreeformAdditionalPropertiesRequest}
+     */
+    TestInlineFreeformAdditionalPropertiesRequest,
 
     /**
      * The User model constructor.

@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Fruit;
 import org.openapitools.client.model.NullableShape;
@@ -44,12 +44,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -57,7 +55,7 @@ import org.openapitools.client.JSON;
 /**
  * Drawing
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Drawing {
   public static final String SERIALIZED_NAME_MAIN_SHAPE = "mainShape";
   @SerializedName(SERIALIZED_NAME_MAIN_SHAPE)
@@ -73,26 +71,24 @@ public class Drawing {
 
   public static final String SERIALIZED_NAME_SHAPES = "shapes";
   @SerializedName(SERIALIZED_NAME_SHAPES)
-  private List<Shape> shapes;
+  private List<Shape> shapes = new ArrayList<>();
 
   public Drawing() {
   }
 
   public Drawing mainShape(Shape mainShape) {
-    
     this.mainShape = mainShape;
     return this;
   }
 
-   /**
+  /**
    * Get mainShape
    * @return mainShape
-  **/
+   */
   @javax.annotation.Nullable
   public Shape getMainShape() {
     return mainShape;
   }
-
 
   public void setMainShape(Shape mainShape) {
     this.mainShape = mainShape;
@@ -100,20 +96,18 @@ public class Drawing {
 
 
   public Drawing shapeOrNull(ShapeOrNull shapeOrNull) {
-    
     this.shapeOrNull = shapeOrNull;
     return this;
   }
 
-   /**
+  /**
    * Get shapeOrNull
    * @return shapeOrNull
-  **/
+   */
   @javax.annotation.Nullable
   public ShapeOrNull getShapeOrNull() {
     return shapeOrNull;
   }
-
 
   public void setShapeOrNull(ShapeOrNull shapeOrNull) {
     this.shapeOrNull = shapeOrNull;
@@ -121,20 +115,18 @@ public class Drawing {
 
 
   public Drawing nullableShape(NullableShape nullableShape) {
-    
     this.nullableShape = nullableShape;
     return this;
   }
 
-   /**
+  /**
    * Get nullableShape
    * @return nullableShape
-  **/
+   */
   @javax.annotation.Nullable
   public NullableShape getNullableShape() {
     return nullableShape;
   }
-
 
   public void setNullableShape(NullableShape nullableShape) {
     this.nullableShape = nullableShape;
@@ -142,7 +134,6 @@ public class Drawing {
 
 
   public Drawing shapes(List<Shape> shapes) {
-    
     this.shapes = shapes;
     return this;
   }
@@ -155,15 +146,14 @@ public class Drawing {
     return this;
   }
 
-   /**
+  /**
    * Get shapes
    * @return shapes
-  **/
+   */
   @javax.annotation.Nullable
   public List<Shape> getShapes() {
     return shapes;
   }
-
 
   public void setShapes(List<Shape> shapes) {
     this.shapes = shapes;
@@ -287,12 +277,12 @@ public class Drawing {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Drawing
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to Drawing
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Drawing.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -356,7 +346,12 @@ public class Drawing {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -395,22 +390,22 @@ public class Drawing {
     }
   }
 
- /**
-  * Create an instance of Drawing given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Drawing
-  * @throws IOException if the JSON string is invalid with respect to Drawing
-  */
+  /**
+   * Create an instance of Drawing given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of Drawing
+   * @throws IOException if the JSON string is invalid with respect to Drawing
+   */
   public static Drawing fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Drawing.class);
   }
 
- /**
-  * Convert an instance of Drawing to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of Drawing to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }
