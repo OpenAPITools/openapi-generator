@@ -175,7 +175,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Setter protected String implicitHeadersRegex = null;
     @Setter protected boolean camelCaseDollarSign = false;
     @Setter protected boolean useJakartaEe = false;
-    @Setter protected String containerDefaultToNull = "false";
+    protected String containerDefaultToNull = "false";
     @Getter @Setter
     protected boolean generateConstructorWithAllArgs = false;
     @Getter @Setter
@@ -2114,6 +2114,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
+    public void setContainerDefaultToNull(String value) {
+        this.containerDefaultToNull = value;
+    }
+
+    /**
+     * for legacy (before 7.8.0) a boolean can be set
+     */
+    public void setContainerDefaultToNull(boolean value) {
+        this.containerDefaultToNull = Boolean.toString(value);
     }
 
     /*
