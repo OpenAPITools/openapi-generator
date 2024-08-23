@@ -246,5 +246,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_upload_file_with_additional_properties_request_object.py
 tox.ini
