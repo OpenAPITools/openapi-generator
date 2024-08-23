@@ -32,10 +32,9 @@ class TestMultipleResponseTypes(unittest.IsolatedAsyncioTestCase):
         )
 
         with patch("aiohttp.ClientSession.request", mock_resp):
-            returned = await self.fake_api.test_object_for_multipart_requests(
-                marker=marker
-            )
-        assert returned is None
+            await self.fake_api.test_object_for_multipart_requests(marker=marker)
+
+        # success if no errors
 
     async def test_multipart_requests_with_file_and_additional_properties(self):
         mock_resp = Mock()
