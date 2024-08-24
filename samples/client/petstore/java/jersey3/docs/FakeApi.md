@@ -4,6 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
+| [**anyofArray**](FakeApi.md#anyofArray) | **POST** /anyof-array |  |
 | [**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint |
 | [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean |  |
 | [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite |  |
@@ -24,6 +25,73 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters |  |
 | [**testStringMapReference**](FakeApi.md#testStringMapReference) | **POST** /fake/stringMap-reference | test referenced string map |
 
+
+
+## anyofArray
+
+> AnyofArray200Response anyofArray(oneOfParam, anyofArrayRequest)
+
+
+
+Response with anyof containing arrays and a oneof parameter as well as a map request body
+
+### Example
+
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+        FakeApi apiInstance = new FakeApi(defaultClient);
+        AnyofArrayOneOfParamParameter oneOfParam = new AnyofArrayOneOfParamParameter(); // AnyofArrayOneOfParamParameter | 
+        AnyofArrayRequest anyofArrayRequest = new AnyofArrayRequest(); // AnyofArrayRequest | 
+        try {
+            AnyofArray200Response result = apiInstance.anyofArray(oneOfParam, anyofArrayRequest);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling FakeApi#anyofArray");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **oneOfParam** | [**AnyofArrayOneOfParamParameter**](AnyofArrayOneOfParamParameter.md)|  | |
+| **anyofArrayRequest** | [**AnyofArrayRequest**](AnyofArrayRequest.md)|  | |
+
+### Return type
+
+[**AnyofArray200Response**](AnyofArray200Response.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Response |  -  |
 
 
 ## fakeHealthGet

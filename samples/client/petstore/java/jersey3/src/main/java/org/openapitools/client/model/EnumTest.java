@@ -137,9 +137,9 @@ public class EnumTest {
    * Gets or Sets enumInteger
    */
   public enum EnumIntegerEnum {
-    NUMBER_1(1),
+    NUMBER_1(Integer.valueOf(1)),
     
-    NUMBER_MINUS_1(-1);
+    NUMBER_MINUS_1(Integer.valueOf(-1));
 
     private Integer value;
 
@@ -175,9 +175,9 @@ public class EnumTest {
    * Gets or Sets enumIntegerOnly
    */
   public enum EnumIntegerOnlyEnum {
-    NUMBER_2(2),
+    NUMBER_2(Integer.valueOf(2)),
     
-    NUMBER_MINUS_2(-2);
+    NUMBER_MINUS_2(Integer.valueOf(-2));
 
     private Integer value;
 
@@ -213,9 +213,9 @@ public class EnumTest {
    * Gets or Sets enumNumber
    */
   public enum EnumNumberEnum {
-    NUMBER_1_DOT_1(1.1),
+    NUMBER_1_DOT_1(Double.valueOf(1.1)),
     
-    NUMBER_MINUS_1_DOT_2(-1.2);
+    NUMBER_MINUS_1_DOT_2(Double.valueOf(-1.2));
 
     private Double value;
 

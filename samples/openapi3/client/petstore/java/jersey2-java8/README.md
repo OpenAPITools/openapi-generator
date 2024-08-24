@@ -142,6 +142,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call123testSpecialTags**](docs/AnotherFakeApi.md#call123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**fooGet**](docs/DefaultApi.md#fooGet) | **GET** /foo | 
+*FakeApi* | [**anyofArray**](docs/FakeApi.md#anyofArray) | **POST** /anyof-array | 
 *FakeApi* | [**fakeHealthGet**](docs/FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
@@ -189,6 +190,12 @@ Class | Method | HTTP request | Description
 
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [Animal](docs/Animal.md)
+ - [AnyOf1](docs/AnyOf1.md)
+ - [AnyOf2](docs/AnyOf2.md)
+ - [AnyofArray200Response](docs/AnyofArray200Response.md)
+ - [AnyofArrayOneOfParamParameter](docs/AnyofArrayOneOfParamParameter.md)
+ - [AnyofArrayRequest](docs/AnyofArrayRequest.md)
+ - [AnyofArrayRequestMapProp](docs/AnyofArrayRequestMapProp.md)
  - [Apple](docs/Apple.md)
  - [AppleReq](docs/AppleReq.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)

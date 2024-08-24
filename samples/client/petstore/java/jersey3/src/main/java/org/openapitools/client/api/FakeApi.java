@@ -8,6 +8,9 @@ import org.openapitools.client.Pair;
 
 import jakarta.ws.rs.core.GenericType;
 
+import org.openapitools.client.model.AnyofArray200Response;
+import org.openapitools.client.model.AnyofArrayOneOfParamParameter;
+import org.openapitools.client.model.AnyofArrayRequest;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
@@ -59,6 +62,56 @@ public class FakeApi {
     this.apiClient = apiClient;
   }
 
+  /**
+   * 
+   * Response with anyof containing arrays and a oneof parameter as well as a map request body
+   * @param oneOfParam  (required)
+   * @param anyofArrayRequest  (required)
+   * @return AnyofArray200Response
+   * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> Response </td><td>  -  </td></tr>
+     </table>
+   */
+  public AnyofArray200Response anyofArray(AnyofArrayOneOfParamParameter oneOfParam, AnyofArrayRequest anyofArrayRequest) throws ApiException {
+    return anyofArrayWithHttpInfo(oneOfParam, anyofArrayRequest).getData();
+  }
+
+  /**
+   * 
+   * Response with anyof containing arrays and a oneof parameter as well as a map request body
+   * @param oneOfParam  (required)
+   * @param anyofArrayRequest  (required)
+   * @return ApiResponse&lt;AnyofArray200Response&gt;
+   * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> Response </td><td>  -  </td></tr>
+     </table>
+   */
+  public ApiResponse<AnyofArray200Response> anyofArrayWithHttpInfo(AnyofArrayOneOfParamParameter oneOfParam, AnyofArrayRequest anyofArrayRequest) throws ApiException {
+    // Check required parameters
+    if (oneOfParam == null) {
+      throw new ApiException(400, "Missing the required parameter 'oneOfParam' when calling anyofArray");
+    }
+    if (anyofArrayRequest == null) {
+      throw new ApiException(400, "Missing the required parameter 'anyofArrayRequest' when calling anyofArray");
+    }
+
+    // Path parameters
+    String localVarPath = "/anyof-array"
+            .replaceAll("\\{oneOfParam}", apiClient.escapeString(oneOfParam.toString()));
+
+    String localVarAccept = apiClient.selectHeaderAccept("application/json");
+    String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    GenericType<AnyofArray200Response> localVarReturnType = new GenericType<AnyofArray200Response>() {};
+    return apiClient.invokeAPI("FakeApi.anyofArray", localVarPath, "POST", new ArrayList<>(), anyofArrayRequest,
+                               new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
+                               null, localVarReturnType, false);
+  }
   /**
    * Health check endpoint
    * 

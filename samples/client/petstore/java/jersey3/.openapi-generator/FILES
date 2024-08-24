@@ -8,6 +8,12 @@ build.sbt
 docs/AdditionalPropertiesClass.md
 docs/Animal.md
 docs/AnotherFakeApi.md
+docs/AnyOf1.md
+docs/AnyOf2.md
+docs/AnyofArray200Response.md
+docs/AnyofArrayOneOfParamParameter.md
+docs/AnyofArrayRequest.md
+docs/AnyofArrayRequestMapProp.md
 docs/Apple.md
 docs/AppleReq.md
 docs/ArrayOfArrayOfNumberOnly.md
@@ -124,6 +130,12 @@ src/main/java/org/openapitools/client/auth/OAuthFlow.java
 src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
 src/main/java/org/openapitools/client/model/AdditionalPropertiesClass.java
 src/main/java/org/openapitools/client/model/Animal.java
+src/main/java/org/openapitools/client/model/AnyOf1.java
+src/main/java/org/openapitools/client/model/AnyOf2.java
+src/main/java/org/openapitools/client/model/AnyofArray200Response.java
+src/main/java/org/openapitools/client/model/AnyofArrayOneOfParamParameter.java
+src/main/java/org/openapitools/client/model/AnyofArrayRequest.java
+src/main/java/org/openapitools/client/model/AnyofArrayRequestMapProp.java
 src/main/java/org/openapitools/client/model/Apple.java
 src/main/java/org/openapitools/client/model/AppleReq.java
 src/main/java/org/openapitools/client/model/ArrayOfArrayOfNumberOnly.java
@@ -197,3 +209,9 @@ src/main/java/org/openapitools/client/model/TriangleInterface.java
 src/main/java/org/openapitools/client/model/User.java
 src/main/java/org/openapitools/client/model/Whale.java
 src/main/java/org/openapitools/client/model/Zebra.java
+src/test/java/org/openapitools/client/model/AnyOf1Test.java
+src/test/java/org/openapitools/client/model/AnyOf2Test.java
+src/test/java/org/openapitools/client/model/AnyofArray200ResponseTest.java
+src/test/java/org/openapitools/client/model/AnyofArrayOneOfParamParameterTest.java
+src/test/java/org/openapitools/client/model/AnyofArrayRequestMapPropTest.java
+src/test/java/org/openapitools/client/model/AnyofArrayRequestTest.java

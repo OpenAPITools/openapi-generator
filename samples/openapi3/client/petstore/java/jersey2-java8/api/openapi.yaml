@@ -1177,6 +1177,37 @@ paths:
       - fake
       x-accepts:
       - application/json
+  /anyof-array:
+    post:
+      description: Response with anyof containing arrays and a oneof parameter as
+        well as a map request body
+      operationId: anyof-array
+      parameters:
+      - explode: false
+        in: path
+        name: oneOfParam
+        required: true
+        schema:
+          $ref: '#/components/schemas/anyof_array_oneOfParam_parameter'
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/anyof_array_request'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/anyof_array_200_response'
+          description: Response
+      tags:
+      - fake
+      x-content-type: application/json
+      x-accepts:
+      - application/json
   /fake/{petId}/uploadImageWithRequiredFile:
     post:
       description: ""
@@ -1263,6 +1294,15 @@ paths:
       x-accepts:
       - application/json
 components:
+  parameters:
+    oneOfParam:
+      explode: false
+      in: path
+      name: oneOfParam
+      required: true
+      schema:
+        $ref: '#/components/schemas/anyof_array_oneOfParam_parameter'
+      style: simple
   requestBodies:
     UserArray:
       content:
@@ -1483,6 +1523,30 @@ components:
       type: object
       xml:
         name: Pet
+    AnyOf1:
+      example:
+        code: 0
+        type: type
+        message: message
+      properties:
+        code:
+          format: int32
+          type: integer
+        type:
+          type: string
+        message:
+          type: string
+      type: object
+    AnyOf2:
+      properties:
+        code:
+          format: int32
+          type: integer
+        type:
+          type: string
+        message:
+          type: string
+      type: object
     ApiResponse:
       example:
         code: 0
@@ -2432,6 +2496,31 @@ components:
         someProperty:
           type: string
       type: object
+    anyof_array_request_mapProp:
+      oneOf:
+      - additionalProperties: true
+        type: object
+      - default: "false"
+        enum:
+        - "true"
+        - "false"
+        type: string
+    anyof_array_request:
+      properties:
+        mapProp:
+          $ref: '#/components/schemas/anyof_array_request_mapProp'
+    anyof_array_oneOfParam_parameter:
+      oneOf:
+      - type: integer
+      - type: string
+    anyof_array_200_response:
+      anyOf:
+      - items:
+          $ref: '#/components/schemas/AnyOf1'
+        type: array
+      - items:
+          $ref: '#/components/schemas/AnyOf2'
+        type: array
     uploadFileWithRequiredFile_request:
       properties:
         additionalMetadata:

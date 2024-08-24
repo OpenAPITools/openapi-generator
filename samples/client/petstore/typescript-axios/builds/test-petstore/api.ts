@@ -100,6 +100,88 @@ export interface Animal {
 /**
  * 
  * @export
+ * @interface AnyOf1
+ */
+export interface AnyOf1 {
+    /**
+     * 
+     * @type {number}
+     * @memberof AnyOf1
+     */
+    'code'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof AnyOf1
+     */
+    'type'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AnyOf1
+     */
+    'message'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface AnyOf2
+ */
+export interface AnyOf2 {
+    /**
+     * 
+     * @type {number}
+     * @memberof AnyOf2
+     */
+    'code'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof AnyOf2
+     */
+    'type'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AnyOf2
+     */
+    'message'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface AnyofArray200Response
+ */
+export interface AnyofArray200Response {
+}
+/**
+ * @type AnyofArrayOneOfParamParameter
+ * @export
+ */
+export type AnyofArrayOneOfParamParameter = number | string;
+
+/**
+ * 
+ * @export
+ * @interface AnyofArrayRequest
+ */
+export interface AnyofArrayRequest {
+    /**
+     * 
+     * @type {AnyofArrayRequestMapProp}
+     * @memberof AnyofArrayRequest
+     */
+    'mapProp'?: AnyofArrayRequestMapProp;
+}
+/**
+ * @type AnyofArrayRequestMapProp
+ * @export
+ */
+export type AnyofArrayRequestMapProp = string | { [key: string]: any; };
+
+/**
+ * 
+ * @export
  * @interface ApiResponse
  */
 export interface ApiResponse {
@@ -1950,6 +2032,45 @@ export class DefaultApi extends BaseAPI {
 export const FakeApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
+         * Response with anyof containing arrays and a oneof parameter as well as a map request body
+         * @param {AnyofArrayOneOfParamParameter} oneOfParam 
+         * @param {AnyofArrayRequest} anyofArrayRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        anyofArray: async (oneOfParam: AnyofArrayOneOfParamParameter, anyofArrayRequest: AnyofArrayRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'oneOfParam' is not null or undefined
+            assertParamExists('anyofArray', 'oneOfParam', oneOfParam)
+            // verify required parameter 'anyofArrayRequest' is not null or undefined
+            assertParamExists('anyofArray', 'anyofArrayRequest', anyofArrayRequest)
+            const localVarPath = `/anyof-array`
+                .replace(`{${"oneOfParam"}}`, encodeURIComponent(String(oneOfParam)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(anyofArrayRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 
          * @summary Health check endpoint
          * @param {*} [options] Override http request option.
@@ -2820,6 +2941,19 @@ export const FakeApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = FakeApiAxiosParamCreator(configuration)
     return {
         /**
+         * Response with anyof containing arrays and a oneof parameter as well as a map request body
+         * @param {AnyofArrayOneOfParamParameter} oneOfParam 
+         * @param {AnyofArrayRequest} anyofArrayRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async anyofArray(oneOfParam: AnyofArrayOneOfParamParameter, anyofArrayRequest: AnyofArrayRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AnyofArray200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.anyofArray(oneOfParam, anyofArrayRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['FakeApi.anyofArray']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * 
          * @summary Health check endpoint
          * @param {*} [options] Override http request option.
@@ -3099,6 +3233,16 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
     const localVarFp = FakeApiFp(configuration)
     return {
         /**
+         * Response with anyof containing arrays and a oneof parameter as well as a map request body
+         * @param {AnyofArrayOneOfParamParameter} oneOfParam 
+         * @param {AnyofArrayRequest} anyofArrayRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        anyofArray(oneOfParam: AnyofArrayOneOfParamParameter, anyofArrayRequest: AnyofArrayRequest, options?: RawAxiosRequestConfig): AxiosPromise<AnyofArray200Response> {
+            return localVarFp.anyofArray(oneOfParam, anyofArrayRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
          * 
          * @summary Health check endpoint
          * @param {*} [options] Override http request option.
@@ -3320,6 +3464,18 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
  * @extends {BaseAPI}
  */
 export class FakeApi extends BaseAPI {
+    /**
+     * Response with anyof containing arrays and a oneof parameter as well as a map request body
+     * @param {AnyofArrayOneOfParamParameter} oneOfParam 
+     * @param {AnyofArrayRequest} anyofArrayRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FakeApi
+     */
+    public anyofArray(oneOfParam: AnyofArrayOneOfParamParameter, anyofArrayRequest: AnyofArrayRequest, options?: RawAxiosRequestConfig) {
+        return FakeApiFp(this.configuration).anyofArray(oneOfParam, anyofArrayRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @summary Health check endpoint
