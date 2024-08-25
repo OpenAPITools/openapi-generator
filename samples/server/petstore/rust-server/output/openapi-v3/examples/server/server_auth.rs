@@ -27,6 +27,8 @@ fn full_permission_claim() -> Claims {
           [
                     "test.read",
                     "test.write",
+                    "additional.test.read",
+                    "additional.test.write",
           ].join::<&str>(", ")
     }
 }

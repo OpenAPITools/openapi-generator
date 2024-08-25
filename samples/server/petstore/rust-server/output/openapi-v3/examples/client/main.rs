@@ -9,6 +9,7 @@ use openapi_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       AnyOfGetResponse,
                       CallbackWithHeaderPostResponse,
                       ComplexQueryParamGetResponse,
+                      GetWithBooleanParameterResponse,
                       JsonComplexQueryParamGetResponse,
                       MandatoryRequestHeaderGetResponse,
                       MergePatchJsonGetResponse,
@@ -22,6 +23,7 @@ use openapi_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       RequiredOctetStreamPutResponse,
                       ResponsesWithHeadersGetResponse,
                       Rfc7807GetResponse,
+                      TwoFirstLetterHeadersResponse,
                       UntypedPropertyGetResponse,
                       UuidGetResponse,
                       XmlExtraPostResponse,
@@ -30,6 +32,7 @@ use openapi_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       XmlPostResponse,
                       XmlPutResponse,
                       EnumInPathPathParamGetResponse,
+                      MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse,
                       CreateRepoResponse,
                       GetRepoInfoResponse,
                      };
@@ -63,6 +66,7 @@ fn main() {
                 "AnyOfGet",
                 "CallbackWithHeaderPost",
                 "ComplexQueryParamGet",
+                "GetWithBooleanParameter",
                 "JsonComplexQueryParamGet",
                 "MandatoryRequestHeaderGet",
                 "MergePatchJsonGet",
@@ -76,6 +80,7 @@ fn main() {
                 "RequiredOctetStreamPut",
                 "ResponsesWithHeadersGet",
                 "Rfc7807Get",
+                "TwoFirstLetterHeaders",
                 "UntypedPropertyGet",
                 "UuidGet",
                 "XmlExtraPost",
@@ -83,6 +88,7 @@ fn main() {
                 "XmlOtherPut",
                 "XmlPost",
                 "XmlPut",
+                "MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet",
                 "CreateRepo",
                 "GetRepoInfo",
             ])
@@ -120,6 +126,8 @@ fn main() {
                   [
                             "test.read",
                             "test.write",
+                            "additional.test.read",
+                            "additional.test.write",
                   ].join::<&str>(", ")
             },
             b"secret").unwrap();
@@ -174,6 +182,12 @@ fn main() {
         Some("ComplexQueryParamGet") => {
             let result = rt.block_on(client.complex_query_param_get(
                   Some(&Vec::new())
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("GetWithBooleanParameter") => {
+            let result = rt.block_on(client.get_with_boolean_parameter(
+                  true
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
@@ -249,6 +263,13 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        Some("TwoFirstLetterHeaders") => {
+            let result = rt.block_on(client.two_first_letter_headers(
+                  Some(true),
+                  Some(true)
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
         Some("UntypedPropertyGet") => {
             let result = rt.block_on(client.untyped_property_get(
                   None
@@ -298,6 +319,13 @@ fn main() {
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
+        Some("MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet") => {
+            let result = rt.block_on(client.multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(
+                  "path_param_a_example".to_string(),
+                  "path_param_b_example".to_string()
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
         Some("CreateRepo") => {
             let result = rt.block_on(client.create_repo(
                   serde_json::from_str::<models::ObjectParam>(r#"{"requiredParam":true}"#).expect("Failed to parse JSON example")
