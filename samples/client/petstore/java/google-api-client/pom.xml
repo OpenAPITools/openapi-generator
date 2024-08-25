@@ -259,7 +259,7 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <google-api-client-version>2.2.0</google-api-client-version>
+        <google-api-client-version>2.6.0</google-api-client-version>
         <jersey-common-version>2.40</jersey-common-version>
         <jackson-version>2.17.1</jackson-version>
         <jackson-databind-version>2.17.1</jackson-databind-version>
