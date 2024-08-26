@@ -1783,6 +1783,18 @@ public class DefaultCodegen implements CodegenConfig {
         cliOptions.add(enumUnknownDefaultCaseOpt);
         this.setEnumUnknownDefaultCase(false);
 
+        CliOption removeEnumValuePrefixOpt = CliOption.newBoolean(
+                CodegenConstants.REMOVE_ENUM_VALUE_PREFIX,
+                CodegenConstants.REMOVE_ENUM_VALUE_PREFIX_DESC).defaultValue(Boolean.TRUE.toString());
+        Map<String, String> removeEnumValuePrefixOpts = new HashMap<>();
+        removeEnumValuePrefixOpts.put("false",
+                "No changes to the enum's are made.");
+        removeEnumValuePrefixOpts.put("true",
+                "With this option disabled, each enum will have the common prefix between them removed. This is the default option.");
+        removeEnumValuePrefixOpt.setEnum(removeEnumValuePrefixOpts);
+        cliOptions.add(removeEnumValuePrefixOpt);
+        this.setRemoveEnumValuePrefix(true);
+
         // initialize special character mapping
         initializeSpecialCharacterMapping();
 

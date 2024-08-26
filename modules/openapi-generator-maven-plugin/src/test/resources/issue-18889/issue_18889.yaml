@@ -1,0 +1,35 @@
+openapi: 3.0.0
+info:
+  title: test
+  description: >-
+    test schema
+  version: 1.0.0
+servers:
+  - url: 'http://test.com'
+    description: stage
+paths:
+  /demo:
+    get:
+      summary: placeholder summary
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        petType:
+          $ref: '#/components/schemas/PetType'
+        name:
+          type: string
+    PetType:
+      type: string
+      enum:
+        - PET_CAT
+        - PET_DOG
+        - PET_LIZARD

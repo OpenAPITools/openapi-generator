@@ -42,6 +42,7 @@ public class PhpLumenServerOptionsProvider implements OptionsProvider {
     public static final String ARTIFACTURL_VALUE = "https://anotherUrl.com";
     public static final String DEVELOPER_ORGANIZATION_VALUE = "openapi generator contributors";
     public static final String COMPOSER_PACKAGE_NAME_VALUE = "package/name";
+    public static final String REMOVE_ENUM_VALUE_PREFIX_VALUE = "true";
 
     @Override
     public String getLanguage() {
@@ -71,6 +72,7 @@ public class PhpLumenServerOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ARTIFACT_URL, ARTIFACTURL_VALUE)
                 .put(CodegenConstants.DEVELOPER_ORGANIZATION, DEVELOPER_ORGANIZATION_VALUE)
                 .put(CodegenConstants.COMPOSER_PACKAGE_NAME, COMPOSER_PACKAGE_NAME_VALUE)
+                .put(CodegenConstants.REMOVE_ENUM_VALUE_PREFIX, REMOVE_ENUM_VALUE_PREFIX_VALUE)
                 .build();
     }
 
