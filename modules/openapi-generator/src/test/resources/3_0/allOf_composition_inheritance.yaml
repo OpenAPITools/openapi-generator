@@ -1,0 +1,76 @@
+openapi: 3.0.1
+info:
+  contact:
+    name: Engagement - MoneyIn Team
+  description: Onboarding Hub
+  title: Onboardium
+  version: "1.0"
+servers:
+  - description: Generated server url
+    url: https://onboardium.service.consul
+paths:
+  /api/itesm:
+    get:
+      description: getItems
+      operationId: list
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Item"
+components:
+  schemas:
+    Item:
+      type: object
+      discriminator:
+        mapping:
+          ItemA: '#/components/schemas/ItemA'
+          ItemB: '#/components/schemas/ItemB'
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+        - type
+    ItemA:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Item'
+        - $ref: '#/components/schemas/InterfaceCommon'
+        - type: object
+          properties:
+            value:
+              type: string
+    ItemB:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Item'
+        - $ref: '#/components/schemas/InterfaceB'
+        - type: object
+          properties:
+            value:
+              type: string
+    InterfaceB:
+      type: object
+      discriminator:
+        mapping:
+          ItemA: '#/components/schemas/ItemB'
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+        - type
+    InterfaceCommon:
+      type: object
+      discriminator:
+        mapping:
+          ItemA: '#/components/schemas/ItemA'
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+        - type

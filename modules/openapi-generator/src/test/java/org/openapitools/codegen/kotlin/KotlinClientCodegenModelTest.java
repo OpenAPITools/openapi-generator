@@ -45,6 +45,8 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("static-method")
 public class KotlinClientCodegenModelTest {
@@ -404,6 +406,23 @@ public class KotlinClientCodegenModelTest {
         TestUtils.assertFileNotExists(Paths.get(path, "gradlew.bat"));
         TestUtils.assertFileNotExists(Paths.get(path, "gradle", "wrapper", "gradle-wrapper.properties"));
         TestUtils.assertFileNotExists(Paths.get(path, "gradle", "wrapper", "gradle-wrapper.jar"));
+    }
+
+    @Test
+    public void shouldGenerateAllOfWithComplexInheritance() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setInputSpec("src/test/resources/3_0/allOf_composition_inheritance.yaml");
+        DefaultGenerator generator = new DefaultGenerator();
+
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+
+        Set<File> models = files.stream().filter(it -> it.getPath().contains("models")).collect(Collectors.toSet());
+        Assert.assertNotNull(models);
+        Assert.assertEquals(models.size(), 5);
     }
 
     private static class ModelNameTest {

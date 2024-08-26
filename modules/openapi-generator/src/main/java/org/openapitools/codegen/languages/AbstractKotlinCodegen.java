@@ -851,6 +851,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 .flatMap(List::stream)
                 .filter(p -> allVarsMap.containsKey(p.baseName))
                 .forEach(p -> p.isInherited = true);
+
+        if(m.interfaces != null) {
+            m.interfaces.remove(m.parent);
+        }
+
         return m;
     }
 
