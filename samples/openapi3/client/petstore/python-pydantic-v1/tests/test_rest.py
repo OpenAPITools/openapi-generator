@@ -35,21 +35,22 @@ class TestMultipleResponseTypes(unittest.TestCase):
         mock_resp.status = 200
         mock_resp.data = b'{"code": 200, "type": "success", "message": "OK"}'
         mock_resp.headers = {"Content-Type": "application/json"}
-        with open(self.test_file_path, "rb") as f, patch(
-            "urllib3.PoolManager.urlopen", return_value=mock_resp
-        ):
+        with patch("urllib3.PoolManager.urlopen", return_value=mock_resp):
             returned = self.fake_api.upload_file_with_additional_properties(
-                file=(self.test_file_path, f.read()),
+                file=self.test_file_path,
                 count=100,
                 object=petstore_api.UploadFileWithAdditionalPropertiesRequestObject(
                     name="foo"
                 ),
             )
 
+        # response shape is actually petstore_api.models.api_response.ApiResponse,
+        # but return type is annotated petstore_api.api_response.ApiResponse, thus
+        # the type: ignores
         assert (
-            returned.code == 200
-            and returned.type == "success"
-            and returned.message == "OK"
+            returned.code == 200  # type: ignore
+            and returned.type == "success"  # type: ignore
+            and returned.message == "OK"  # type: ignore
         )
 
         # if the request is successful, both int and dict body parameters were
