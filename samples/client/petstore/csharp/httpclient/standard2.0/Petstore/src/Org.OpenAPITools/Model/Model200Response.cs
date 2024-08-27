@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name.</param>
         /// <param name="varClass">varClass.</param>
-        public Model200Response(int name = default(int), string varClass = default(string))
+        public Model200Response(int? name = default(int?), string varClass = default(string))
         {
             this.Name = name;
             this.Class = varClass;
@@ -49,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
-        public int Name { get; set; }
+        public int? Name { get; set; }
 
         /// <summary>
         /// Gets or Sets Class
@@ -116,7 +116,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                if (this.Name != null)
+                {
+                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                }
                 if (this.Class != null)
                 {
                     hashCode = (hashCode * 59) + this.Class.GetHashCode();

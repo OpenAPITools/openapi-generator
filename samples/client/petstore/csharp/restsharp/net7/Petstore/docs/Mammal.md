@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**HasBaleen** | **bool** |  | [optional] 
-**HasTeeth** | **bool** |  | [optional] 
+**HasBaleen** | **bool?** |  | [optional] 
+**HasTeeth** | **bool?** |  | [optional] 
 **ClassName** | **string** |  | 
 **Type** | **string** |  | [optional] 
 

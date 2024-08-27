@@ -103,7 +103,7 @@ No authorization required
 
 <a id="getinventory"></a>
 # **GetInventory**
-> Dictionary&lt;string, int&gt; GetInventory ()
+> Dictionary&lt;string, int?&gt; GetInventory ()
 
 Returns pet inventories by status
 
@@ -139,7 +139,7 @@ namespace Example
             try
             {
                 // Returns pet inventories by status
-                Dictionary<string, int> result = apiInstance.GetInventory();
+                Dictionary<string, int?> result = apiInstance.GetInventory();
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -160,7 +160,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Returns pet inventories by status
-    ApiResponse<Dictionary<string, int>> response = apiInstance.GetInventoryWithHttpInfo();
+    ApiResponse<Dictionary<string, int?>> response = apiInstance.GetInventoryWithHttpInfo();
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -177,7 +177,7 @@ catch (ApiException e)
 This endpoint does not need any parameter.
 ### Return type
 
-**Dictionary<string, int>**
+**Dictionary<string, int?>**
 
 ### Authorization
 
@@ -198,7 +198,7 @@ This endpoint does not need any parameter.
 
 <a id="getorderbyid"></a>
 # **GetOrderById**
-> Order GetOrderById (long orderId)
+> Order GetOrderById (long? orderId)
 
 Find purchase order by ID
 
@@ -225,7 +225,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new StoreApi(httpClient, config, httpClientHandler);
-            var orderId = 789L;  // long | ID of pet that needs to be fetched
+            var orderId = 789L;  // long? | ID of pet that needs to be fetched
 
             try
             {
@@ -268,7 +268,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **orderId** | **long** | ID of pet that needs to be fetched |  |
+| **orderId** | **long?** | ID of pet that needs to be fetched |  |
 
 ### Return type
 

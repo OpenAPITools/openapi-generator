@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="objectWithNoDeclaredPropsNullable">test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value..</param>
         /// <param name="anyTypeProp">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389.</param>
         /// <param name="anyTypePropNullable">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values..</param>
-        public User(long id = default(long), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int userStatus = default(int), Object objectWithNoDeclaredProps = default(Object), Object objectWithNoDeclaredPropsNullable = default(Object), Object anyTypeProp = default(Object), Object anyTypePropNullable = default(Object))
+        public User(long? id = default(long?), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int? userStatus = default(int?), Object objectWithNoDeclaredProps = default(Object), Object objectWithNoDeclaredPropsNullable = default(Object), Object anyTypeProp = default(Object), Object anyTypePropNullable = default(Object))
         {
             this._Id = id;
             if (this.Id != null)
@@ -116,7 +116,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long Id
+        public long? Id
         {
             get{ return _Id;}
             set
@@ -125,7 +125,7 @@ namespace Org.OpenAPITools.Model
                 _flagId = true;
             }
         }
-        private long _Id;
+        private long? _Id;
         private bool _flagId;
 
         /// <summary>
@@ -285,7 +285,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>User Status</value>
         [DataMember(Name = "userStatus", EmitDefaultValue = false)]
-        public int UserStatus
+        public int? UserStatus
         {
             get{ return _UserStatus;}
             set
@@ -294,7 +294,7 @@ namespace Org.OpenAPITools.Model
                 _flagUserStatus = true;
             }
         }
-        private int _UserStatus;
+        private int? _UserStatus;
         private bool _flagUserStatus;
 
         /// <summary>
@@ -474,7 +474,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                if (this.Id != null)
+                {
+                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                }
                 if (this.Username != null)
                 {
                     hashCode = (hashCode * 59) + this.Username.GetHashCode();
@@ -499,7 +502,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.Phone.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.UserStatus.GetHashCode();
+                if (this.UserStatus != null)
+                {
+                    hashCode = (hashCode * 59) + this.UserStatus.GetHashCode();
+                }
                 if (this.ObjectWithNoDeclaredProps != null)
                 {
                     hashCode = (hashCode * 59) + this.ObjectWithNoDeclaredProps.GetHashCode();

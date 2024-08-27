@@ -27,16 +27,16 @@ namespace Org.OpenAPITools.Functions
         }
 
         [FunctionName("StoreApi_GetInventory")]
-        public async Task<ActionResult<Dictionary<string, int>>> _GetInventory([HttpTrigger(AuthorizationLevel.Anonymous, "Get", Route = "v2store/inventory")]HttpRequest req, ExecutionContext context)
+        public async Task<ActionResult<Dictionary<string, int?>>> _GetInventory([HttpTrigger(AuthorizationLevel.Anonymous, "Get", Route = "v2store/inventory")]HttpRequest req, ExecutionContext context)
         {
             var method = this.GetType().GetMethod("GetInventory");
             return method != null
-                ? (await ((Task<Dictionary<string, int>>)method.Invoke(this, new object[] { req, context })).ConfigureAwait(false))
+                ? (await ((Task<Dictionary<string, int?>>)method.Invoke(this, new object[] { req, context })).ConfigureAwait(false))
                 : new StatusCodeResult((int)HttpStatusCode.NotImplemented);
         }
 
         [FunctionName("StoreApi_GetOrderById")]
-        public async Task<ActionResult<Order>> _GetOrderById([HttpTrigger(AuthorizationLevel.Anonymous, "Get", Route = "v2store/order/{orderId}")]HttpRequest req, ExecutionContext context, [Range(1, 5)]long orderId)
+        public async Task<ActionResult<Order>> _GetOrderById([HttpTrigger(AuthorizationLevel.Anonymous, "Get", Route = "v2store/order/{orderId}")]HttpRequest req, ExecutionContext context, [Range(1, 5)]long? orderId)
         {
             var method = this.GetType().GetMethod("GetOrderById");
             return method != null

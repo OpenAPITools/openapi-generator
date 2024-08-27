@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="declawed">declawed.</param>
         /// <param name="className">className (required) (default to &quot;Cat&quot;).</param>
         /// <param name="color">color (default to &quot;red&quot;).</param>
-        public Cat(bool declawed = default(bool), string className = @"Cat", string color = @"red") : base(className, color)
+        public Cat(bool? declawed = default(bool?), string className = @"Cat", string color = @"red") : base(className, color)
         {
             this.Declawed = declawed;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Declawed
         /// </summary>
         [DataMember(Name = "declawed", EmitDefaultValue = true)]
-        public bool Declawed { get; set; }
+        public bool? Declawed { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -119,7 +119,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-                hashCode = (hashCode * 59) + this.Declawed.GetHashCode();
+                if (this.Declawed != null)
+                {
+                    hashCode = (hashCode * 59) + this.Declawed.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

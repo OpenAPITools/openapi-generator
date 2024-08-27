@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="cultivar">cultivar (required).</param>
         /// <param name="mealy">mealy.</param>
-        public AppleReq(string cultivar = default(string), bool mealy = default(bool))
+        public AppleReq(string cultivar = default(string), bool? mealy = default(bool?))
         {
             // to ensure "cultivar" is required (not null)
             if (cultivar == null)
@@ -64,7 +64,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Mealy
         /// </summary>
         [DataMember(Name = "mealy", EmitDefaultValue = true)]
-        public bool Mealy { get; set; }
+        public bool? Mealy { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -122,7 +122,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.Cultivar.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Mealy.GetHashCode();
+                if (this.Mealy != null)
+                {
+                    hashCode = (hashCode * 59) + this.Mealy.GetHashCode();
+                }
                 return hashCode;
             }
         }

@@ -30,7 +30,7 @@ namespace Org.OpenAPITools.Models
         /// Gets or Sets Code
         /// </summary>
         [DataMember(Name="code", EmitDefaultValue=false)]
-        public int Code { get; set; }
+        public int? Code { get; set; }
 
         /// <summary>
         /// Gets or Sets Type
@@ -93,7 +93,7 @@ namespace Org.OpenAPITools.Models
             return 
                 (
                     Code == other.Code ||
-                    
+                    Code != null &&
                     Code.Equals(other.Code)
                 ) && 
                 (
@@ -118,7 +118,7 @@ namespace Org.OpenAPITools.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    
+                    if (Code != null)
                     hashCode = hashCode * 59 + Code.GetHashCode();
                     if (Type != null)
                     hashCode = hashCode * 59 + Type.GetHashCode();

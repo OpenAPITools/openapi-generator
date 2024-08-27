@@ -67,8 +67,8 @@ namespace Org.OpenAPITools.Api
         /// Hello
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>List&lt;Guid&gt;</returns>
-        List<Guid> Hello();
+        /// <returns>List&lt;Guid?&gt;</returns>
+        List<Guid?> Hello();
 
         /// <summary>
         /// Hello
@@ -77,8 +77,8 @@ namespace Org.OpenAPITools.Api
         /// Hello
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of List&lt;Guid&gt;</returns>
-        ApiResponse<List<Guid>> HelloWithHttpInfo();
+        /// <returns>ApiResponse of List&lt;Guid?&gt;</returns>
+        ApiResponse<List<Guid?>> HelloWithHttpInfo();
         /// <summary>
         /// 
         /// </summary>
@@ -172,8 +172,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of List&lt;Guid&gt;</returns>
-        System.Threading.Tasks.Task<List<Guid>> HelloAsync(System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
+        /// <returns>Task of List&lt;Guid?&gt;</returns>
+        System.Threading.Tasks.Task<List<Guid?>> HelloAsync(System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
 
         /// <summary>
         /// Hello
@@ -183,8 +183,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (List&lt;Guid&gt;)</returns>
-        System.Threading.Tasks.Task<ApiResponse<List<Guid>>> HelloWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
+        /// <returns>Task of ApiResponse (List&lt;Guid?&gt;)</returns>
+        System.Threading.Tasks.Task<ApiResponse<List<Guid?>>> HelloWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
         /// <summary>
         /// 
         /// </summary>
@@ -611,10 +611,10 @@ namespace Org.OpenAPITools.Api
         /// Hello Hello
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>List&lt;Guid&gt;</returns>
-        public List<Guid> Hello()
+        /// <returns>List&lt;Guid?&gt;</returns>
+        public List<Guid?> Hello()
         {
-            Org.OpenAPITools.Client.ApiResponse<List<Guid>> localVarResponse = HelloWithHttpInfo();
+            Org.OpenAPITools.Client.ApiResponse<List<Guid?>> localVarResponse = HelloWithHttpInfo();
             return localVarResponse.Data;
         }
 
@@ -622,8 +622,8 @@ namespace Org.OpenAPITools.Api
         /// Hello Hello
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of List&lt;Guid&gt;</returns>
-        public Org.OpenAPITools.Client.ApiResponse<List<Guid>> HelloWithHttpInfo()
+        /// <returns>ApiResponse of List&lt;Guid?&gt;</returns>
+        public Org.OpenAPITools.Client.ApiResponse<List<Guid?>> HelloWithHttpInfo()
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -644,7 +644,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<List<Guid>>("/hello", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<List<Guid?>>("/hello", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -660,14 +660,14 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of List&lt;Guid&gt;</returns>
-        public async System.Threading.Tasks.Task<List<Guid>> HelloAsync(System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        /// <returns>Task of List&lt;Guid?&gt;</returns>
+        public async System.Threading.Tasks.Task<List<Guid?>> HelloAsync(System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             var task = HelloWithHttpInfoAsync(cancellationToken);
 #if UNITY_EDITOR || !UNITY_WEBGL
-            Org.OpenAPITools.Client.ApiResponse<List<Guid>> localVarResponse = await task.ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<List<Guid?>> localVarResponse = await task.ConfigureAwait(false);
 #else
-            Org.OpenAPITools.Client.ApiResponse<List<Guid>> localVarResponse = await task;
+            Org.OpenAPITools.Client.ApiResponse<List<Guid?>> localVarResponse = await task;
 #endif
             return localVarResponse.Data;
         }
@@ -677,8 +677,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (List&lt;Guid&gt;)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<List<Guid>>> HelloWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        /// <returns>Task of ApiResponse (List&lt;Guid?&gt;)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<List<Guid?>>> HelloWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -702,7 +702,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var task = this.AsynchronousClient.GetAsync<List<Guid>>("/hello", localVarRequestOptions, this.Configuration, cancellationToken);
+            var task = this.AsynchronousClient.GetAsync<List<Guid?>>("/hello", localVarRequestOptions, this.Configuration, cancellationToken);
 
 #if UNITY_EDITOR || !UNITY_WEBGL
             var localVarResponse = await task.ConfigureAwait(false);

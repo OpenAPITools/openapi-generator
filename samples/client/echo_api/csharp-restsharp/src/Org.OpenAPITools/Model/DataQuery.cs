@@ -40,7 +40,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="date">A date.</param>
         /// <param name="id">Query.</param>
         /// <param name="outcomes">outcomes.</param>
-        public DataQuery(string suffix = default(string), string text = default(string), DateTime date = default(DateTime), long id = default(long), List<OutcomesEnum> outcomes = default(List<OutcomesEnum>)) : base(id, outcomes)
+        public DataQuery(string suffix = default(string), string text = default(string), DateTime? date = default(DateTime?), long? id = default(long?), List<OutcomesEnum> outcomes = default(List<OutcomesEnum>)) : base(id, outcomes)
         {
             this.Suffix = suffix;
             this.Text = text;
@@ -67,7 +67,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>A date</value>
         [DataMember(Name = "date", EmitDefaultValue = false)]
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

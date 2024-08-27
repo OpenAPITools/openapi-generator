@@ -49,10 +49,10 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MixedAnyOfContent" /> class
-        /// with the <see cref="bool" /> class
+        /// with the <see cref="bool?" /> class
         /// </summary>
-        /// <param name="actualInstance">An instance of bool.</param>
-        public MixedAnyOfContent(bool actualInstance)
+        /// <param name="actualInstance">An instance of bool?.</param>
+        public MixedAnyOfContent(bool? actualInstance)
         {
             IsNullable = false;
             SchemaType= "anyOf";
@@ -61,10 +61,10 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MixedAnyOfContent" /> class
-        /// with the <see cref="int" /> class
+        /// with the <see cref="int?" /> class
         /// </summary>
-        /// <param name="actualInstance">An instance of int.</param>
-        public MixedAnyOfContent(int actualInstance)
+        /// <param name="actualInstance">An instance of int?.</param>
+        public MixedAnyOfContent(int? actualInstance)
         {
             IsNullable = false;
             SchemaType= "anyOf";
@@ -73,10 +73,10 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MixedAnyOfContent" /> class
-        /// with the <see cref="decimal" /> class
+        /// with the <see cref="decimal?" /> class
         /// </summary>
-        /// <param name="actualInstance">An instance of decimal.</param>
-        public MixedAnyOfContent(decimal actualInstance)
+        /// <param name="actualInstance">An instance of decimal?.</param>
+        public MixedAnyOfContent(decimal? actualInstance)
         {
             IsNullable = false;
             SchemaType= "anyOf";
@@ -113,15 +113,15 @@ namespace Org.OpenAPITools.Model
                 {
                     _actualInstance = value;
                 }
-                else if (value.GetType() == typeof(bool))
+                else if (value.GetType() == typeof(bool?))
                 {
                     _actualInstance = value;
                 }
-                else if (value.GetType() == typeof(decimal))
+                else if (value.GetType() == typeof(decimal?))
                 {
                     _actualInstance = value;
                 }
-                else if (value.GetType() == typeof(int))
+                else if (value.GetType() == typeof(int?))
                 {
                     _actualInstance = value;
                 }
@@ -131,7 +131,7 @@ namespace Org.OpenAPITools.Model
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid instance found. Must be the following types: MixedSubId, bool, decimal, int, string");
+                    throw new ArgumentException("Invalid instance found. Must be the following types: MixedSubId, bool?, decimal?, int?, string");
                 }
             }
         }
@@ -147,33 +147,33 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `bool`. If the actual instance is not `bool`,
+        /// Get the actual instance of `bool?`. If the actual instance is not `bool?`,
         /// the InvalidClassException will be thrown
         /// </summary>
-        /// <returns>An instance of bool</returns>
-        public bool GetBool()
+        /// <returns>An instance of bool?</returns>
+        public bool? GetBool?()
         {
-            return (bool)ActualInstance;
+            return (bool?)ActualInstance;
         }
 
         /// <summary>
-        /// Get the actual instance of `int`. If the actual instance is not `int`,
+        /// Get the actual instance of `int?`. If the actual instance is not `int?`,
         /// the InvalidClassException will be thrown
         /// </summary>
-        /// <returns>An instance of int</returns>
-        public int GetInt()
+        /// <returns>An instance of int?</returns>
+        public int? GetInt?()
         {
-            return (int)ActualInstance;
+            return (int?)ActualInstance;
         }
 
         /// <summary>
-        /// Get the actual instance of `decimal`. If the actual instance is not `decimal`,
+        /// Get the actual instance of `decimal?`. If the actual instance is not `decimal?`,
         /// the InvalidClassException will be thrown
         /// </summary>
-        /// <returns>An instance of decimal</returns>
-        public decimal GetDecimal()
+        /// <returns>An instance of decimal?</returns>
+        public decimal? GetDecimal?()
         {
-            return (decimal)ActualInstance;
+            return (decimal?)ActualInstance;
         }
 
         /// <summary>
@@ -236,38 +236,38 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newMixedAnyOfContent = new MixedAnyOfContent(JsonConvert.DeserializeObject<bool>(jsonString, MixedAnyOfContent.SerializerSettings));
+                newMixedAnyOfContent = new MixedAnyOfContent(JsonConvert.DeserializeObject<bool?>(jsonString, MixedAnyOfContent.SerializerSettings));
                 // deserialization is considered successful at this point if no exception has been thrown.
                 return newMixedAnyOfContent;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into bool: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into bool?: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newMixedAnyOfContent = new MixedAnyOfContent(JsonConvert.DeserializeObject<decimal>(jsonString, MixedAnyOfContent.SerializerSettings));
+                newMixedAnyOfContent = new MixedAnyOfContent(JsonConvert.DeserializeObject<decimal?>(jsonString, MixedAnyOfContent.SerializerSettings));
                 // deserialization is considered successful at this point if no exception has been thrown.
                 return newMixedAnyOfContent;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into decimal: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into decimal?: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newMixedAnyOfContent = new MixedAnyOfContent(JsonConvert.DeserializeObject<int>(jsonString, MixedAnyOfContent.SerializerSettings));
+                newMixedAnyOfContent = new MixedAnyOfContent(JsonConvert.DeserializeObject<int?>(jsonString, MixedAnyOfContent.SerializerSettings));
                 // deserialization is considered successful at this point if no exception has been thrown.
                 return newMixedAnyOfContent;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into int: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into int?: {1}", jsonString, exception.ToString()));
             }
 
             try

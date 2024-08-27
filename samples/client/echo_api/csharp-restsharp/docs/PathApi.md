@@ -8,7 +8,7 @@ All URIs are relative to *http://localhost:3000*
 
 <a id="testspathstringpathstringintegerpathintegerenumnonrefstringpathenumrefstringpath"></a>
 # **TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**
-> string TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath (string pathString, int pathInteger, string enumNonrefStringPath, StringEnumRef enumRefStringPath)
+> string TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath (string pathString, int? pathInteger, string enumNonrefStringPath, StringEnumRef enumRefStringPath)
 
 Test path parameter(s)
 
@@ -32,7 +32,7 @@ namespace Example
             config.BasePath = "http://localhost:3000";
             var apiInstance = new PathApi(config);
             var pathString = "pathString_example";  // string | 
-            var pathInteger = 56;  // int | 
+            var pathInteger = 56;  // int? | 
             var enumNonrefStringPath = "success";  // string | 
             var enumRefStringPath = (StringEnumRef) "success";  // StringEnumRef | 
 
@@ -78,7 +78,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **pathString** | **string** |  |  |
-| **pathInteger** | **int** |  |  |
+| **pathInteger** | **int?** |  |  |
 | **enumNonrefStringPath** | **string** |  |  |
 | **enumRefStringPath** | **StringEnumRef** |  |  |
 

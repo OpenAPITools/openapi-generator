@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="productId">ProductId is only required for color mixes.</param>
         /// <param name="productName">ProductName is only required for color mixes.</param>
         /// <param name="selectedVersionIndex">selectedVersionIndex.</param>
-        public MixLog(Guid id = default(Guid), string description = default(string), DateTime mixDate = default(DateTime), Guid shopId = default(Guid), float? totalPrice = default(float?), int totalRecalculations = default(int), int totalOverPoors = default(int), int totalSkips = default(int), int totalUnderPours = default(int), DateTime formulaVersionDate = default(DateTime), string someCode = default(string), string batchNumber = default(string), string brandCode = default(string), string brandId = default(string), string brandName = default(string), string categoryCode = default(string), string color = default(string), string colorDescription = default(string), string comment = default(string), string commercialProductCode = default(string), string productLineCode = default(string), string country = default(string), string createdBy = default(string), string createdByFirstName = default(string), string createdByLastName = default(string), string deltaECalculationRepaired = default(string), string deltaECalculationSprayout = default(string), int? ownColorVariantNumber = default(int?), string primerProductId = default(string), string productId = default(string), string productName = default(string), int selectedVersionIndex = default(int))
+        public MixLog(Guid id = default(Guid), string description = default(string), DateTime mixDate = default(DateTime), Guid? shopId = default(Guid?), float? totalPrice = default(float?), int totalRecalculations = default(int), int totalOverPoors = default(int), int totalSkips = default(int), int totalUnderPours = default(int), DateTime formulaVersionDate = default(DateTime), string someCode = default(string), string batchNumber = default(string), string brandCode = default(string), string brandId = default(string), string brandName = default(string), string categoryCode = default(string), string color = default(string), string colorDescription = default(string), string comment = default(string), string commercialProductCode = default(string), string productLineCode = default(string), string country = default(string), string createdBy = default(string), string createdByFirstName = default(string), string createdByLastName = default(string), string deltaECalculationRepaired = default(string), string deltaECalculationSprayout = default(string), int? ownColorVariantNumber = default(int?), string primerProductId = default(string), string productId = default(string), string productName = default(string), int? selectedVersionIndex = default(int?))
         {
             this._Id = id;
             // to ensure "description" is required (not null)
@@ -289,7 +289,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ShopId
         /// </summary>
         [DataMember(Name = "shopId", EmitDefaultValue = false)]
-        public Guid ShopId
+        public Guid? ShopId
         {
             get{ return _ShopId;}
             set
@@ -298,7 +298,7 @@ namespace Org.OpenAPITools.Model
                 _flagShopId = true;
             }
         }
-        private Guid _ShopId;
+        private Guid? _ShopId;
         private bool _flagShopId;
 
         /// <summary>
@@ -970,7 +970,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SelectedVersionIndex
         /// </summary>
         [DataMember(Name = "selectedVersionIndex", EmitDefaultValue = false)]
-        public int SelectedVersionIndex
+        public int? SelectedVersionIndex
         {
             get{ return _SelectedVersionIndex;}
             set
@@ -979,7 +979,7 @@ namespace Org.OpenAPITools.Model
                 _flagSelectedVersionIndex = true;
             }
         }
-        private int _SelectedVersionIndex;
+        private int? _SelectedVersionIndex;
         private bool _flagSelectedVersionIndex;
 
         /// <summary>
@@ -1191,7 +1191,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.ProductName.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.SelectedVersionIndex.GetHashCode();
+                if (this.SelectedVersionIndex != null)
+                {
+                    hashCode = (hashCode * 59) + this.SelectedVersionIndex.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="NumberOnly" /> class.
         /// </summary>
         /// <param name="justNumber">justNumber.</param>
-        public NumberOnly(decimal justNumber = default(decimal))
+        public NumberOnly(decimal? justNumber = default(decimal?))
         {
             this._JustNumber = justNumber;
             if (this.JustNumber != null)
@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets JustNumber
         /// </summary>
         [DataMember(Name = "JustNumber", EmitDefaultValue = false)]
-        public decimal JustNumber
+        public decimal? JustNumber
         {
             get{ return _JustNumber;}
             set
@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
                 _flagJustNumber = true;
             }
         }
-        private decimal _JustNumber;
+        private decimal? _JustNumber;
         private bool _flagJustNumber;
 
         /// <summary>
@@ -131,7 +131,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.JustNumber.GetHashCode();
+                if (this.JustNumber != null)
+                {
+                    hashCode = (hashCode * 59) + this.JustNumber.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

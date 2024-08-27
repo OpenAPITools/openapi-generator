@@ -74,46 +74,47 @@ namespace Org.OpenAPITools.Model
         /// <param name="shipDate">shipDate.</param>
         /// <param name="status">Order Status.</param>
         /// <param name="complete">complete (default to false).</param>
-        public Order(long id = default(long), long petId = default(long), int quantity = default(int), DateTime shipDate = default(DateTime), StatusEnum? status = default(StatusEnum?), bool complete = false)
+        public Order(long? id = default(long?), long? petId = default(long?), int? quantity = default(int?), DateTime? shipDate = default(DateTime?), StatusEnum? status = default(StatusEnum?), bool? complete = false)
         {
             this.Id = id;
             this.PetId = petId;
             this.Quantity = quantity;
             this.ShipDate = shipDate;
             this.Status = status;
-            this.Complete = complete;
+            // use default value if no "complete" provided
+            this.Complete = complete ?? false;
         }
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         /// <summary>
         /// Gets or Sets PetId
         /// </summary>
         [DataMember(Name = "petId", EmitDefaultValue = false)]
-        public long PetId { get; set; }
+        public long? PetId { get; set; }
 
         /// <summary>
         /// Gets or Sets Quantity
         /// </summary>
         [DataMember(Name = "quantity", EmitDefaultValue = false)]
-        public int Quantity { get; set; }
+        public int? Quantity { get; set; }
 
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
         /// <example>2020-02-02T20:20:20.000222Z</example>
         [DataMember(Name = "shipDate", EmitDefaultValue = false)]
-        public DateTime ShipDate { get; set; }
+        public DateTime? ShipDate { get; set; }
 
         /// <summary>
         /// Gets or Sets Complete
         /// </summary>
         [DataMember(Name = "complete", EmitDefaultValue = true)]
-        public bool Complete { get; set; }
+        public bool? Complete { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -171,15 +172,27 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                hashCode = (hashCode * 59) + this.PetId.GetHashCode();
-                hashCode = (hashCode * 59) + this.Quantity.GetHashCode();
+                if (this.Id != null)
+                {
+                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                }
+                if (this.PetId != null)
+                {
+                    hashCode = (hashCode * 59) + this.PetId.GetHashCode();
+                }
+                if (this.Quantity != null)
+                {
+                    hashCode = (hashCode * 59) + this.Quantity.GetHashCode();
+                }
                 if (this.ShipDate != null)
                 {
                     hashCode = (hashCode * 59) + this.ShipDate.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.Status.GetHashCode();
-                hashCode = (hashCode * 59) + this.Complete.GetHashCode();
+                if (this.Complete != null)
+                {
+                    hashCode = (hashCode * 59) + this.Complete.GetHashCode();
+                }
                 return hashCode;
             }
         }

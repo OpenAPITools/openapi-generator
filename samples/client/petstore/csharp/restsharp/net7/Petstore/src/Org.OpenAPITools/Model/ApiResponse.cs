@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="code">code.</param>
         /// <param name="type">type.</param>
         /// <param name="message">message.</param>
-        public ApiResponse(int code = default(int), string type = default(string), string message = default(string))
+        public ApiResponse(int? code = default(int?), string type = default(string), string message = default(string))
         {
             this.Code = code;
             this.Type = type;
@@ -49,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Code
         /// </summary>
         [DataMember(Name = "code", EmitDefaultValue = false)]
-        public int Code { get; set; }
+        public int? Code { get; set; }
 
         /// <summary>
         /// Gets or Sets Type
@@ -116,7 +116,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Code.GetHashCode();
+                if (this.Code != null)
+                {
+                    hashCode = (hashCode * 59) + this.Code.GetHashCode();
+                }
                 if (this.Type != null)
                 {
                     hashCode = (hashCode * 59) + this.Type.GetHashCode();

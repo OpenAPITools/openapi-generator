@@ -27,7 +27,7 @@ namespace Org.OpenAPITools.Functions
         }
 
         [FunctionName("PetApi_DeletePet")]
-        public async Task<ActionResult<>> _DeletePet([HttpTrigger(AuthorizationLevel.Anonymous, "Delete", Route = "v2pet/{petId}")]HttpRequest req, ExecutionContext context, long petId)
+        public async Task<ActionResult<>> _DeletePet([HttpTrigger(AuthorizationLevel.Anonymous, "Delete", Route = "v2pet/{petId}")]HttpRequest req, ExecutionContext context, long? petId)
         {
             var method = this.GetType().GetMethod("DeletePet");
             return method != null
@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Functions
         }
 
         [FunctionName("PetApi_GetPetById")]
-        public async Task<ActionResult<Pet>> _GetPetById([HttpTrigger(AuthorizationLevel.Anonymous, "Get", Route = "v2pet/{petId}")]HttpRequest req, ExecutionContext context, long petId)
+        public async Task<ActionResult<Pet>> _GetPetById([HttpTrigger(AuthorizationLevel.Anonymous, "Get", Route = "v2pet/{petId}")]HttpRequest req, ExecutionContext context, long? petId)
         {
             var method = this.GetType().GetMethod("GetPetById");
             return method != null
@@ -72,7 +72,7 @@ namespace Org.OpenAPITools.Functions
         }
 
         [FunctionName("PetApi_UpdatePetWithForm")]
-        public async Task<ActionResult<>> _UpdatePetWithForm([HttpTrigger(AuthorizationLevel.Anonymous, "Post", Route = "v2pet/{petId}")]HttpRequest req, ExecutionContext context, long petId)
+        public async Task<ActionResult<>> _UpdatePetWithForm([HttpTrigger(AuthorizationLevel.Anonymous, "Post", Route = "v2pet/{petId}")]HttpRequest req, ExecutionContext context, long? petId)
         {
             var method = this.GetType().GetMethod("UpdatePetWithForm");
             return method != null
@@ -81,7 +81,7 @@ namespace Org.OpenAPITools.Functions
         }
 
         [FunctionName("PetApi_UploadFile")]
-        public async Task<ActionResult<ApiResponse>> _UploadFile([HttpTrigger(AuthorizationLevel.Anonymous, "Post", Route = "v2pet/{petId}/uploadImage")]HttpRequest req, ExecutionContext context, long petId)
+        public async Task<ActionResult<ApiResponse>> _UploadFile([HttpTrigger(AuthorizationLevel.Anonymous, "Post", Route = "v2pet/{petId}/uploadImage")]HttpRequest req, ExecutionContext context, long? petId)
         {
             var method = this.GetType().GetMethod("UploadFile");
             return method != null

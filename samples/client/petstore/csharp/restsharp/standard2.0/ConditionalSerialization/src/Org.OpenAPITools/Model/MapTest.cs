@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapOfEnumString">mapOfEnumString.</param>
         /// <param name="directMap">directMap.</param>
         /// <param name="indirectMap">indirectMap.</param>
-        public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, InnerEnum> mapOfEnumString = default(Dictionary<string, InnerEnum>), Dictionary<string, bool> directMap = default(Dictionary<string, bool>), Dictionary<string, bool> indirectMap = default(Dictionary<string, bool>))
+        public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, InnerEnum> mapOfEnumString = default(Dictionary<string, InnerEnum>), Dictionary<string, bool?> directMap = default(Dictionary<string, bool?>), Dictionary<string, bool?> indirectMap = default(Dictionary<string, bool?>))
         {
             this._MapMapOfString = mapMapOfString;
             if (this.MapMapOfString != null)
@@ -135,7 +135,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DirectMap
         /// </summary>
         [DataMember(Name = "direct_map", EmitDefaultValue = false)]
-        public Dictionary<string, bool> DirectMap
+        public Dictionary<string, bool?> DirectMap
         {
             get{ return _DirectMap;}
             set
@@ -144,7 +144,7 @@ namespace Org.OpenAPITools.Model
                 _flagDirectMap = true;
             }
         }
-        private Dictionary<string, bool> _DirectMap;
+        private Dictionary<string, bool?> _DirectMap;
         private bool _flagDirectMap;
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets IndirectMap
         /// </summary>
         [DataMember(Name = "indirect_map", EmitDefaultValue = false)]
-        public Dictionary<string, bool> IndirectMap
+        public Dictionary<string, bool?> IndirectMap
         {
             get{ return _IndirectMap;}
             set
@@ -168,7 +168,7 @@ namespace Org.OpenAPITools.Model
                 _flagIndirectMap = true;
             }
         }
-        private Dictionary<string, bool> _IndirectMap;
+        private Dictionary<string, bool?> _IndirectMap;
         private bool _flagIndirectMap;
 
         /// <summary>

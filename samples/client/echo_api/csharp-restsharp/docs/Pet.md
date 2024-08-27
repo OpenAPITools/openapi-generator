@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **long** |  | [optional] 
+**Id** | **long?** |  | [optional] 
 **Name** | **string** |  | 
 **Category** | [**Category**](Category.md) |  | [optional] 
 **PhotoUrls** | **List&lt;string&gt;** |  | 

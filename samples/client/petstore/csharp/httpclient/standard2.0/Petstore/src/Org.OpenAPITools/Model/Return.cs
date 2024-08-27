@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="varLock">varLock (required).</param>
         /// <param name="varAbstract">varAbstract (required).</param>
         /// <param name="varUnsafe">varUnsafe.</param>
-        public Return(int varReturn = default(int), string varLock = default(string), string varAbstract = default(string), string varUnsafe = default(string))
+        public Return(int? varReturn = default(int?), string varLock = default(string), string varAbstract = default(string), string varUnsafe = default(string))
         {
             // to ensure "varLock" is required (not null)
             if (varLock == null)
@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarReturn
         /// </summary>
         [DataMember(Name = "return", EmitDefaultValue = false)]
-        public int VarReturn { get; set; }
+        public int? VarReturn { get; set; }
 
         /// <summary>
         /// Gets or Sets Lock
@@ -152,7 +152,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.VarReturn.GetHashCode();
+                if (this.VarReturn != null)
+                {
+                    hashCode = (hashCode * 59) + this.VarReturn.GetHashCode();
+                }
                 if (this.Lock != null)
                 {
                     hashCode = (hashCode * 59) + this.Lock.GetHashCode();

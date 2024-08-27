@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **ArrayStringEnumRefDefault** | [**List&lt;StringEnumRef&gt;**](StringEnumRef.md) |  | [optional] 
 **ArrayStringEnumDefault** | **List&lt;DefaultValue.ArrayStringEnumDefaultEnum&gt;** |  | [optional] 
 **ArrayStringDefault** | **List&lt;string&gt;** |  | [optional] 
-**ArrayIntegerDefault** | **List&lt;int&gt;** |  | [optional] 
+**ArrayIntegerDefault** | **List&lt;int?&gt;** |  | [optional] 
 **ArrayString** | **List&lt;string&gt;** |  | [optional] 
 **ArrayStringNullable** | **List&lt;string&gt;** |  | [optional] 
 **ArrayStringExtensionNullable** | **List&lt;string&gt;** |  | [optional] 

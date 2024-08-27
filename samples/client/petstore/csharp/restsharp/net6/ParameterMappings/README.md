@@ -87,7 +87,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://localhost";
             var apiInstance = new FakeApi(config);
-            var UnderscoreType = 789L;  // long | _type
+            var UnderscoreType = 789L;  // long? | _type
             var type = "type_example";  // string | type
             var TypeWithUnderscore = "TypeWithUnderscore_example";  // string | type_
             var httpDebugOption = "httpDebugOption_example";  // string | http debug option (to test parameter naming option)

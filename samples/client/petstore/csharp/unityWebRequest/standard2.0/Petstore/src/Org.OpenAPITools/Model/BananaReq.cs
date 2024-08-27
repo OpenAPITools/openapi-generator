@@ -40,7 +40,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="lengthCm">lengthCm (required).</param>
         /// <param name="sweet">sweet.</param>
-        public BananaReq(decimal lengthCm = default(decimal), bool sweet = default(bool))
+        public BananaReq(decimal lengthCm = default(decimal), bool? sweet = default(bool?))
         {
             this.LengthCm = lengthCm;
             this.Sweet = sweet;
@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Sweet
         /// </summary>
         [DataMember(Name = "sweet", EmitDefaultValue = true)]
-        public bool Sweet { get; set; }
+        public bool? Sweet { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -109,7 +109,8 @@ namespace Org.OpenAPITools.Model
                 ) && 
                 (
                     this.Sweet == input.Sweet ||
-                    this.Sweet.Equals(input.Sweet)
+                    (this.Sweet != null &&
+                    this.Sweet.Equals(input.Sweet))
                 );
         }
 
@@ -123,7 +124,10 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.LengthCm.GetHashCode();
-                hashCode = (hashCode * 59) + this.Sweet.GetHashCode();
+                if (this.Sweet != null)
+                {
+                    hashCode = (hashCode * 59) + this.Sweet.GetHashCode();
+                }
                 return hashCode;
             }
         }

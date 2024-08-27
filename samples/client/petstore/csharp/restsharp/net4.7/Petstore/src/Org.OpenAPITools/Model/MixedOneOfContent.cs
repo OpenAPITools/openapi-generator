@@ -48,10 +48,10 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MixedOneOfContent" /> class
-        /// with the <see cref="bool" /> class
+        /// with the <see cref="bool?" /> class
         /// </summary>
-        /// <param name="actualInstance">An instance of bool.</param>
-        public MixedOneOfContent(bool actualInstance)
+        /// <param name="actualInstance">An instance of bool?.</param>
+        public MixedOneOfContent(bool? actualInstance)
         {
             this.IsNullable = false;
             this.SchemaType= "oneOf";
@@ -60,10 +60,10 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MixedOneOfContent" /> class
-        /// with the <see cref="int" /> class
+        /// with the <see cref="int?" /> class
         /// </summary>
-        /// <param name="actualInstance">An instance of int.</param>
-        public MixedOneOfContent(int actualInstance)
+        /// <param name="actualInstance">An instance of int?.</param>
+        public MixedOneOfContent(int? actualInstance)
         {
             this.IsNullable = false;
             this.SchemaType= "oneOf";
@@ -72,10 +72,10 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MixedOneOfContent" /> class
-        /// with the <see cref="decimal" /> class
+        /// with the <see cref="decimal?" /> class
         /// </summary>
-        /// <param name="actualInstance">An instance of decimal.</param>
-        public MixedOneOfContent(decimal actualInstance)
+        /// <param name="actualInstance">An instance of decimal?.</param>
+        public MixedOneOfContent(decimal? actualInstance)
         {
             this.IsNullable = false;
             this.SchemaType= "oneOf";
@@ -112,15 +112,15 @@ namespace Org.OpenAPITools.Model
                 {
                     this._actualInstance = value;
                 }
-                else if (value.GetType() == typeof(bool) || value is bool)
+                else if (value.GetType() == typeof(bool?) || value is bool?)
                 {
                     this._actualInstance = value;
                 }
-                else if (value.GetType() == typeof(decimal) || value is decimal)
+                else if (value.GetType() == typeof(decimal?) || value is decimal?)
                 {
                     this._actualInstance = value;
                 }
-                else if (value.GetType() == typeof(int) || value is int)
+                else if (value.GetType() == typeof(int?) || value is int?)
                 {
                     this._actualInstance = value;
                 }
@@ -130,7 +130,7 @@ namespace Org.OpenAPITools.Model
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid instance found. Must be the following types: MixedSubId, bool, decimal, int, string");
+                    throw new ArgumentException("Invalid instance found. Must be the following types: MixedSubId, bool?, decimal?, int?, string");
                 }
             }
         }
@@ -146,33 +146,33 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `bool`. If the actual instance is not `bool`,
+        /// Get the actual instance of `bool?`. If the actual instance is not `bool?`,
         /// the InvalidClassException will be thrown
         /// </summary>
-        /// <returns>An instance of bool</returns>
-        public bool GetBool()
+        /// <returns>An instance of bool?</returns>
+        public bool? GetBool?()
         {
-            return (bool)this.ActualInstance;
+            return (bool?)this.ActualInstance;
         }
 
         /// <summary>
-        /// Get the actual instance of `int`. If the actual instance is not `int`,
+        /// Get the actual instance of `int?`. If the actual instance is not `int?`,
         /// the InvalidClassException will be thrown
         /// </summary>
-        /// <returns>An instance of int</returns>
-        public int GetInt()
+        /// <returns>An instance of int?</returns>
+        public int? GetInt?()
         {
-            return (int)this.ActualInstance;
+            return (int?)this.ActualInstance;
         }
 
         /// <summary>
-        /// Get the actual instance of `decimal`. If the actual instance is not `decimal`,
+        /// Get the actual instance of `decimal?`. If the actual instance is not `decimal?`,
         /// the InvalidClassException will be thrown
         /// </summary>
-        /// <returns>An instance of decimal</returns>
-        public decimal GetDecimal()
+        /// <returns>An instance of decimal?</returns>
+        public decimal? GetDecimal?()
         {
-            return (decimal)this.ActualInstance;
+            return (decimal?)this.ActualInstance;
         }
 
         /// <summary>
@@ -246,61 +246,61 @@ namespace Org.OpenAPITools.Model
             try
             {
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (typeof(bool).GetProperty("AdditionalProperties") == null)
+                if (typeof(bool?).GetProperty("AdditionalProperties") == null)
                 {
-                    newMixedOneOfContent = new MixedOneOfContent(JsonConvert.DeserializeObject<bool>(jsonString, MixedOneOfContent.SerializerSettings));
+                    newMixedOneOfContent = new MixedOneOfContent(JsonConvert.DeserializeObject<bool?>(jsonString, MixedOneOfContent.SerializerSettings));
                 }
                 else
                 {
-                    newMixedOneOfContent = new MixedOneOfContent(JsonConvert.DeserializeObject<bool>(jsonString, MixedOneOfContent.AdditionalPropertiesSerializerSettings));
+                    newMixedOneOfContent = new MixedOneOfContent(JsonConvert.DeserializeObject<bool?>(jsonString, MixedOneOfContent.AdditionalPropertiesSerializerSettings));
                 }
-                matchedTypes.Add("bool");
+                matchedTypes.Add("bool?");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into bool: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into bool?: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (typeof(decimal).GetProperty("AdditionalProperties") == null)
+                if (typeof(decimal?).GetProperty("AdditionalProperties") == null)
                 {
-                    newMixedOneOfContent = new MixedOneOfContent(JsonConvert.DeserializeObject<decimal>(jsonString, MixedOneOfContent.SerializerSettings));
+                    newMixedOneOfContent = new MixedOneOfContent(JsonConvert.DeserializeObject<decimal?>(jsonString, MixedOneOfContent.SerializerSettings));
                 }
                 else
                 {
-                    newMixedOneOfContent = new MixedOneOfContent(JsonConvert.DeserializeObject<decimal>(jsonString, MixedOneOfContent.AdditionalPropertiesSerializerSettings));
+                    newMixedOneOfContent = new MixedOneOfContent(JsonConvert.DeserializeObject<decimal?>(jsonString, MixedOneOfContent.AdditionalPropertiesSerializerSettings));
                 }
-                matchedTypes.Add("decimal");
+                matchedTypes.Add("decimal?");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into decimal: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into decimal?: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (typeof(int).GetProperty("AdditionalProperties") == null)
+                if (typeof(int?).GetProperty("AdditionalProperties") == null)
                 {
-                    newMixedOneOfContent = new MixedOneOfContent(JsonConvert.DeserializeObject<int>(jsonString, MixedOneOfContent.SerializerSettings));
+                    newMixedOneOfContent = new MixedOneOfContent(JsonConvert.DeserializeObject<int?>(jsonString, MixedOneOfContent.SerializerSettings));
                 }
                 else
                 {
-                    newMixedOneOfContent = new MixedOneOfContent(JsonConvert.DeserializeObject<int>(jsonString, MixedOneOfContent.AdditionalPropertiesSerializerSettings));
+                    newMixedOneOfContent = new MixedOneOfContent(JsonConvert.DeserializeObject<int?>(jsonString, MixedOneOfContent.AdditionalPropertiesSerializerSettings));
                 }
-                matchedTypes.Add("int");
+                matchedTypes.Add("int?");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into int: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into int?: {1}", jsonString, exception.ToString()));
             }
 
             try

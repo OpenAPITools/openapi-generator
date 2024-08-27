@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="color">color.</param>
         /// <param name="id">id.</param>
         /// <param name="name">name.</param>
-        public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(string size = default(string), string color = default(string), long id = default(long), string name = default(string))
+        public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(string size = default(string), string color = default(string), long? id = default(long?), string name = default(string))
         {
             this.Size = size;
             this.Color = color;
@@ -64,7 +64,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <example>1</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
@@ -132,7 +132,8 @@ namespace Org.OpenAPITools.Model
                 ) && 
                 (
                     this.Id == input.Id ||
-                    this.Id.Equals(input.Id)
+                    (this.Id != null &&
+                    this.Id.Equals(input.Id))
                 ) && 
                 (
                     this.Name == input.Name ||
@@ -158,7 +159,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.Color.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                if (this.Id != null)
+                {
+                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                }
                 if (this.Name != null)
                 {
                     hashCode = (hashCode * 59) + this.Name.GetHashCode();

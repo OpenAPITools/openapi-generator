@@ -94,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shipDate">shipDate.</param>
         /// <param name="status">Order Status.</param>
         /// <param name="complete">complete (default to false).</param>
-        public Order(long id = default(long), long petId = default(long), int quantity = default(int), DateTime shipDate = default(DateTime), StatusEnum? status = default(StatusEnum?), bool complete = false)
+        public Order(long? id = default(long?), long? petId = default(long?), int? quantity = default(int?), DateTime? shipDate = default(DateTime?), StatusEnum? status = default(StatusEnum?), bool? complete = false)
         {
             this._Id = id;
             if (this.Id != null)
@@ -128,7 +128,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long Id
+        public long? Id
         {
             get{ return _Id;}
             set
@@ -137,7 +137,7 @@ namespace Org.OpenAPITools.Model
                 _flagId = true;
             }
         }
-        private long _Id;
+        private long? _Id;
         private bool _flagId;
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets PetId
         /// </summary>
         [DataMember(Name = "petId", EmitDefaultValue = false)]
-        public long PetId
+        public long? PetId
         {
             get{ return _PetId;}
             set
@@ -161,7 +161,7 @@ namespace Org.OpenAPITools.Model
                 _flagPetId = true;
             }
         }
-        private long _PetId;
+        private long? _PetId;
         private bool _flagPetId;
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Quantity
         /// </summary>
         [DataMember(Name = "quantity", EmitDefaultValue = false)]
-        public int Quantity
+        public int? Quantity
         {
             get{ return _Quantity;}
             set
@@ -185,7 +185,7 @@ namespace Org.OpenAPITools.Model
                 _flagQuantity = true;
             }
         }
-        private int _Quantity;
+        private int? _Quantity;
         private bool _flagQuantity;
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <example>2020-02-02T20:20:20.000222Z</example>
         [DataMember(Name = "shipDate", EmitDefaultValue = false)]
-        public DateTime ShipDate
+        public DateTime? ShipDate
         {
             get{ return _ShipDate;}
             set
@@ -210,7 +210,7 @@ namespace Org.OpenAPITools.Model
                 _flagShipDate = true;
             }
         }
-        private DateTime _ShipDate;
+        private DateTime? _ShipDate;
         private bool _flagShipDate;
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Complete
         /// </summary>
         [DataMember(Name = "complete", EmitDefaultValue = true)]
-        public bool Complete
+        public bool? Complete
         {
             get{ return _Complete;}
             set
@@ -234,7 +234,7 @@ namespace Org.OpenAPITools.Model
                 _flagComplete = true;
             }
         }
-        private bool _Complete;
+        private bool? _Complete;
         private bool _flagComplete;
 
         /// <summary>
@@ -308,15 +308,27 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                hashCode = (hashCode * 59) + this.PetId.GetHashCode();
-                hashCode = (hashCode * 59) + this.Quantity.GetHashCode();
+                if (this.Id != null)
+                {
+                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                }
+                if (this.PetId != null)
+                {
+                    hashCode = (hashCode * 59) + this.PetId.GetHashCode();
+                }
+                if (this.Quantity != null)
+                {
+                    hashCode = (hashCode * 59) + this.Quantity.GetHashCode();
+                }
                 if (this.ShipDate != null)
                 {
                     hashCode = (hashCode * 59) + this.ShipDate.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.Status.GetHashCode();
-                hashCode = (hashCode * 59) + this.Complete.GetHashCode();
+                if (this.Complete != null)
+                {
+                    hashCode = (hashCode * 59) + this.Complete.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

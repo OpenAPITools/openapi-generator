@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
         /// <param name="patternWithBackslash">None.</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), int int32Range = default(int), int int64Positive = default(int), int int64Negative = default(int), int int64PositiveExclusive = default(int), int int64NegativeExclusive = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double), decimal varDecimal = default(decimal), string varString = default(string), byte[] varByte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
+        public FormatTest(int? integer = default(int?), int? int32 = default(int?), int? int32Range = default(int?), int? int64Positive = default(int?), int? int64Negative = default(int?), int? int64PositiveExclusive = default(int?), int? int64NegativeExclusive = default(int?), uint? unsignedInteger = default(uint?), long? int64 = default(long?), ulong? unsignedLong = default(ulong?), decimal number = default(decimal), float? varFloat = default(float?), double? varDouble = default(double?), decimal? varDecimal = default(decimal?), string varString = default(string), byte[] varByte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime? dateTime = default(DateTime?), Guid? uuid = default(Guid?), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
         {
             this.Number = number;
             // to ensure "varByte" is required (not null)
@@ -104,61 +104,61 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Integer
         /// </summary>
         [DataMember(Name = "integer", EmitDefaultValue = false)]
-        public int Integer { get; set; }
+        public int? Integer { get; set; }
 
         /// <summary>
         /// Gets or Sets Int32
         /// </summary>
         [DataMember(Name = "int32", EmitDefaultValue = false)]
-        public int Int32 { get; set; }
+        public int? Int32 { get; set; }
 
         /// <summary>
         /// Gets or Sets Int32Range
         /// </summary>
         [DataMember(Name = "int32Range", EmitDefaultValue = false)]
-        public int Int32Range { get; set; }
+        public int? Int32Range { get; set; }
 
         /// <summary>
         /// Gets or Sets Int64Positive
         /// </summary>
         [DataMember(Name = "int64Positive", EmitDefaultValue = false)]
-        public long Int64Positive { get; set; }
+        public int? Int64Positive { get; set; }
 
         /// <summary>
         /// Gets or Sets Int64Negative
         /// </summary>
         [DataMember(Name = "int64Negative", EmitDefaultValue = false)]
-        public long Int64Negative { get; set; }
+        public int? Int64Negative { get; set; }
 
         /// <summary>
         /// Gets or Sets Int64PositiveExclusive
         /// </summary>
         [DataMember(Name = "int64PositiveExclusive", EmitDefaultValue = false)]
-        public long Int64PositiveExclusive { get; set; }
+        public int? Int64PositiveExclusive { get; set; }
 
         /// <summary>
         /// Gets or Sets Int64NegativeExclusive
         /// </summary>
         [DataMember(Name = "int64NegativeExclusive", EmitDefaultValue = false)]
-        public long Int64NegativeExclusive { get; set; }
+        public int? Int64NegativeExclusive { get; set; }
 
         /// <summary>
         /// Gets or Sets UnsignedInteger
         /// </summary>
         [DataMember(Name = "unsigned_integer", EmitDefaultValue = false)]
-        public uint UnsignedInteger { get; set; }
+        public uint? UnsignedInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets Int64
         /// </summary>
         [DataMember(Name = "int64", EmitDefaultValue = false)]
-        public long Int64 { get; set; }
+        public long? Int64 { get; set; }
 
         /// <summary>
         /// Gets or Sets UnsignedLong
         /// </summary>
         [DataMember(Name = "unsigned_long", EmitDefaultValue = false)]
-        public ulong UnsignedLong { get; set; }
+        public ulong? UnsignedLong { get; set; }
 
         /// <summary>
         /// Gets or Sets Number
@@ -170,19 +170,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Float
         /// </summary>
         [DataMember(Name = "float", EmitDefaultValue = false)]
-        public float Float { get; set; }
+        public float? Float { get; set; }
 
         /// <summary>
         /// Gets or Sets Double
         /// </summary>
         [DataMember(Name = "double", EmitDefaultValue = false)]
-        public double Double { get; set; }
+        public double? Double { get; set; }
 
         /// <summary>
         /// Gets or Sets Decimal
         /// </summary>
         [DataMember(Name = "decimal", EmitDefaultValue = false)]
-        public decimal Decimal { get; set; }
+        public decimal? Decimal { get; set; }
 
         /// <summary>
         /// Gets or Sets String
@@ -215,14 +215,14 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <example>2007-12-03T10:15:30+01:00</example>
         [DataMember(Name = "dateTime", EmitDefaultValue = false)]
-        public DateTime DateTime { get; set; }
+        public DateTime? DateTime { get; set; }
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
         /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
-        public Guid Uuid { get; set; }
+        public Guid? Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets Password
@@ -320,43 +320,53 @@ namespace Org.OpenAPITools.Model
             return 
                 (
                     this.Integer == input.Integer ||
-                    this.Integer.Equals(input.Integer)
+                    (this.Integer != null &&
+                    this.Integer.Equals(input.Integer))
                 ) && 
                 (
                     this.Int32 == input.Int32 ||
-                    this.Int32.Equals(input.Int32)
+                    (this.Int32 != null &&
+                    this.Int32.Equals(input.Int32))
                 ) && 
                 (
                     this.Int32Range == input.Int32Range ||
-                    this.Int32Range.Equals(input.Int32Range)
+                    (this.Int32Range != null &&
+                    this.Int32Range.Equals(input.Int32Range))
                 ) && 
                 (
                     this.Int64Positive == input.Int64Positive ||
-                    this.Int64Positive.Equals(input.Int64Positive)
+                    (this.Int64Positive != null &&
+                    this.Int64Positive.Equals(input.Int64Positive))
                 ) && 
                 (
                     this.Int64Negative == input.Int64Negative ||
-                    this.Int64Negative.Equals(input.Int64Negative)
+                    (this.Int64Negative != null &&
+                    this.Int64Negative.Equals(input.Int64Negative))
                 ) && 
                 (
                     this.Int64PositiveExclusive == input.Int64PositiveExclusive ||
-                    this.Int64PositiveExclusive.Equals(input.Int64PositiveExclusive)
+                    (this.Int64PositiveExclusive != null &&
+                    this.Int64PositiveExclusive.Equals(input.Int64PositiveExclusive))
                 ) && 
                 (
                     this.Int64NegativeExclusive == input.Int64NegativeExclusive ||
-                    this.Int64NegativeExclusive.Equals(input.Int64NegativeExclusive)
+                    (this.Int64NegativeExclusive != null &&
+                    this.Int64NegativeExclusive.Equals(input.Int64NegativeExclusive))
                 ) && 
                 (
                     this.UnsignedInteger == input.UnsignedInteger ||
-                    this.UnsignedInteger.Equals(input.UnsignedInteger)
+                    (this.UnsignedInteger != null &&
+                    this.UnsignedInteger.Equals(input.UnsignedInteger))
                 ) && 
                 (
                     this.Int64 == input.Int64 ||
-                    this.Int64.Equals(input.Int64)
+                    (this.Int64 != null &&
+                    this.Int64.Equals(input.Int64))
                 ) && 
                 (
                     this.UnsignedLong == input.UnsignedLong ||
-                    this.UnsignedLong.Equals(input.UnsignedLong)
+                    (this.UnsignedLong != null &&
+                    this.UnsignedLong.Equals(input.UnsignedLong))
                 ) && 
                 (
                     this.Number == input.Number ||
@@ -364,15 +374,18 @@ namespace Org.OpenAPITools.Model
                 ) && 
                 (
                     this.Float == input.Float ||
-                    this.Float.Equals(input.Float)
+                    (this.Float != null &&
+                    this.Float.Equals(input.Float))
                 ) && 
                 (
                     this.Double == input.Double ||
-                    this.Double.Equals(input.Double)
+                    (this.Double != null &&
+                    this.Double.Equals(input.Double))
                 ) && 
                 (
                     this.Decimal == input.Decimal ||
-                    this.Decimal.Equals(input.Decimal)
+                    (this.Decimal != null &&
+                    this.Decimal.Equals(input.Decimal))
                 ) && 
                 (
                     this.String == input.String ||
@@ -435,20 +448,59 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Integer.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int32.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int32Range.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int64Positive.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int64Negative.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int64PositiveExclusive.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int64NegativeExclusive.GetHashCode();
-                hashCode = (hashCode * 59) + this.UnsignedInteger.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int64.GetHashCode();
-                hashCode = (hashCode * 59) + this.UnsignedLong.GetHashCode();
+                if (this.Integer != null)
+                {
+                    hashCode = (hashCode * 59) + this.Integer.GetHashCode();
+                }
+                if (this.Int32 != null)
+                {
+                    hashCode = (hashCode * 59) + this.Int32.GetHashCode();
+                }
+                if (this.Int32Range != null)
+                {
+                    hashCode = (hashCode * 59) + this.Int32Range.GetHashCode();
+                }
+                if (this.Int64Positive != null)
+                {
+                    hashCode = (hashCode * 59) + this.Int64Positive.GetHashCode();
+                }
+                if (this.Int64Negative != null)
+                {
+                    hashCode = (hashCode * 59) + this.Int64Negative.GetHashCode();
+                }
+                if (this.Int64PositiveExclusive != null)
+                {
+                    hashCode = (hashCode * 59) + this.Int64PositiveExclusive.GetHashCode();
+                }
+                if (this.Int64NegativeExclusive != null)
+                {
+                    hashCode = (hashCode * 59) + this.Int64NegativeExclusive.GetHashCode();
+                }
+                if (this.UnsignedInteger != null)
+                {
+                    hashCode = (hashCode * 59) + this.UnsignedInteger.GetHashCode();
+                }
+                if (this.Int64 != null)
+                {
+                    hashCode = (hashCode * 59) + this.Int64.GetHashCode();
+                }
+                if (this.UnsignedLong != null)
+                {
+                    hashCode = (hashCode * 59) + this.UnsignedLong.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + this.Number.GetHashCode();
-                hashCode = (hashCode * 59) + this.Float.GetHashCode();
-                hashCode = (hashCode * 59) + this.Double.GetHashCode();
-                hashCode = (hashCode * 59) + this.Decimal.GetHashCode();
+                if (this.Float != null)
+                {
+                    hashCode = (hashCode * 59) + this.Float.GetHashCode();
+                }
+                if (this.Double != null)
+                {
+                    hashCode = (hashCode * 59) + this.Double.GetHashCode();
+                }
+                if (this.Decimal != null)
+                {
+                    hashCode = (hashCode * 59) + this.Decimal.GetHashCode();
+                }
                 if (this.String != null)
                 {
                     hashCode = (hashCode * 59) + this.String.GetHashCode();

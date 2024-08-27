@@ -34,10 +34,10 @@ namespace Org.OpenAPITools.Model
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class
-        /// with the <see cref="bool" /> class
+        /// with the <see cref="bool?" /> class
         /// </summary>
-        /// <param name="actualInstance">An instance of bool.</param>
-        public PolymorphicProperty(bool actualInstance)
+        /// <param name="actualInstance">An instance of bool?.</param>
+        public PolymorphicProperty(bool? actualInstance)
         {
             this.IsNullable = false;
             this.SchemaType= "oneOf";
@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
                 {
                     this._actualInstance = value;
                 }
-                else if (value.GetType() == typeof(bool) || value is bool)
+                else if (value.GetType() == typeof(bool?) || value is bool?)
                 {
                     this._actualInstance = value;
                 }
@@ -112,19 +112,19 @@ namespace Org.OpenAPITools.Model
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid instance found. Must be the following types: List<string>, Object, bool, string");
+                    throw new ArgumentException("Invalid instance found. Must be the following types: List<string>, Object, bool?, string");
                 }
             }
         }
 
         /// <summary>
-        /// Get the actual instance of `bool`. If the actual instance is not `bool`,
+        /// Get the actual instance of `bool?`. If the actual instance is not `bool?`,
         /// the InvalidClassException will be thrown
         /// </summary>
-        /// <returns>An instance of bool</returns>
-        public bool GetBool()
+        /// <returns>An instance of bool?</returns>
+        public bool? GetBool?()
         {
-            return (bool)this.ActualInstance;
+            return (bool?)this.ActualInstance;
         }
 
         /// <summary>
@@ -238,21 +238,21 @@ namespace Org.OpenAPITools.Model
             try
             {
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (typeof(bool).GetProperty("AdditionalProperties") == null)
+                if (typeof(bool?).GetProperty("AdditionalProperties") == null)
                 {
-                    newPolymorphicProperty = new PolymorphicProperty(JsonConvert.DeserializeObject<bool>(jsonString, PolymorphicProperty.SerializerSettings));
+                    newPolymorphicProperty = new PolymorphicProperty(JsonConvert.DeserializeObject<bool?>(jsonString, PolymorphicProperty.SerializerSettings));
                 }
                 else
                 {
-                    newPolymorphicProperty = new PolymorphicProperty(JsonConvert.DeserializeObject<bool>(jsonString, PolymorphicProperty.AdditionalPropertiesSerializerSettings));
+                    newPolymorphicProperty = new PolymorphicProperty(JsonConvert.DeserializeObject<bool?>(jsonString, PolymorphicProperty.AdditionalPropertiesSerializerSettings));
                 }
-                matchedTypes.Add("bool");
+                matchedTypes.Add("bool?");
                 match++;
             }
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into bool: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into bool?: {1}", jsonString, exception.ToString()));
             }
 
             try

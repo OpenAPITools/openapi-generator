@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayOfString">arrayOfString.</param>
         /// <param name="arrayArrayOfInteger">arrayArrayOfInteger.</param>
         /// <param name="arrayArrayOfModel">arrayArrayOfModel.</param>
-        public ArrayTest(List<string> arrayOfString = default(List<string>), List<List<long>> arrayArrayOfInteger = default(List<List<long>>), List<List<ReadOnlyFirst>> arrayArrayOfModel = default(List<List<ReadOnlyFirst>>))
+        public ArrayTest(List<string> arrayOfString = default(List<string>), List<List<long?>> arrayArrayOfInteger = default(List<List<long?>>), List<List<ReadOnlyFirst>> arrayArrayOfModel = default(List<List<ReadOnlyFirst>>))
         {
             this._ArrayOfString = arrayOfString;
             if (this.ArrayOfString != null)
@@ -86,7 +86,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayArrayOfInteger
         /// </summary>
         [DataMember(Name = "array_array_of_integer", EmitDefaultValue = false)]
-        public List<List<long>> ArrayArrayOfInteger
+        public List<List<long?>> ArrayArrayOfInteger
         {
             get{ return _ArrayArrayOfInteger;}
             set
@@ -95,7 +95,7 @@ namespace Org.OpenAPITools.Model
                 _flagArrayArrayOfInteger = true;
             }
         }
-        private List<List<long>> _ArrayArrayOfInteger;
+        private List<List<long?>> _ArrayArrayOfInteger;
         private bool _flagArrayArrayOfInteger;
 
         /// <summary>

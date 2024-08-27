@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="uuid">uuid.</param>
         /// <param name="dateTime">dateTime.</param>
         /// <param name="map">map.</param>
-        public MixedPropertiesAndAdditionalPropertiesClass(Guid uuidWithPattern = default(Guid), Guid uuid = default(Guid), DateTime dateTime = default(DateTime), Dictionary<string, Animal> map = default(Dictionary<string, Animal>))
+        public MixedPropertiesAndAdditionalPropertiesClass(Guid? uuidWithPattern = default(Guid?), Guid? uuid = default(Guid?), DateTime? dateTime = default(DateTime?), Dictionary<string, Animal> map = default(Dictionary<string, Animal>))
         {
             this._UuidWithPattern = uuidWithPattern;
             if (this.UuidWithPattern != null)
@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets UuidWithPattern
         /// </summary>
         [DataMember(Name = "uuid_with_pattern", EmitDefaultValue = false)]
-        public Guid UuidWithPattern
+        public Guid? UuidWithPattern
         {
             get{ return _UuidWithPattern;}
             set
@@ -77,7 +77,7 @@ namespace Org.OpenAPITools.Model
                 _flagUuidWithPattern = true;
             }
         }
-        private Guid _UuidWithPattern;
+        private Guid? _UuidWithPattern;
         private bool _flagUuidWithPattern;
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Uuid
         /// </summary>
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
-        public Guid Uuid
+        public Guid? Uuid
         {
             get{ return _Uuid;}
             set
@@ -101,7 +101,7 @@ namespace Org.OpenAPITools.Model
                 _flagUuid = true;
             }
         }
-        private Guid _Uuid;
+        private Guid? _Uuid;
         private bool _flagUuid;
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DateTime
         /// </summary>
         [DataMember(Name = "dateTime", EmitDefaultValue = false)]
-        public DateTime DateTime
+        public DateTime? DateTime
         {
             get{ return _DateTime;}
             set
@@ -125,7 +125,7 @@ namespace Org.OpenAPITools.Model
                 _flagDateTime = true;
             }
         }
-        private DateTime _DateTime;
+        private DateTime? _DateTime;
         private bool _flagDateTime;
 
         /// <summary>
@@ -253,7 +253,7 @@ namespace Org.OpenAPITools.Model
         IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             if (this.UuidWithPattern != null) {
-                // UuidWithPattern (Guid) pattern
+                // UuidWithPattern (Guid?) pattern
                 Regex regexUuidWithPattern = new Regex(@"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", RegexOptions.CultureInvariant);
                 if (!regexUuidWithPattern.Match(this.UuidWithPattern.ToString()).Success)
                 {

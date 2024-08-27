@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayStringNullable">arrayStringNullable.</param>
         /// <param name="arrayStringExtensionNullable">arrayStringExtensionNullable.</param>
         /// <param name="stringNullable">stringNullable.</param>
-        public DefaultValue(List<StringEnumRef> arrayStringEnumRefDefault = default(List<StringEnumRef>), List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault = default(List<ArrayStringEnumDefaultEnum>), List<string> arrayStringDefault = default(List<string>), List<int> arrayIntegerDefault = default(List<int>), List<string> arrayString = default(List<string>), List<string> arrayStringNullable = default(List<string>), List<string> arrayStringExtensionNullable = default(List<string>), string stringNullable = default(string))
+        public DefaultValue(List<StringEnumRef> arrayStringEnumRefDefault = default(List<StringEnumRef>), List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault = default(List<ArrayStringEnumDefaultEnum>), List<string> arrayStringDefault = default(List<string>), List<int?> arrayIntegerDefault = default(List<int?>), List<string> arrayString = default(List<string>), List<string> arrayStringNullable = default(List<string>), List<string> arrayStringExtensionNullable = default(List<string>), string stringNullable = default(string))
         {
             this.ArrayStringEnumRefDefault = arrayStringEnumRefDefault;
             this.ArrayStringEnumDefault = arrayStringEnumDefault;
@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayIntegerDefault
         /// </summary>
         [DataMember(Name = "array_integer_default", EmitDefaultValue = false)]
-        public List<int> ArrayIntegerDefault { get; set; }
+        public List<int?> ArrayIntegerDefault { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayString

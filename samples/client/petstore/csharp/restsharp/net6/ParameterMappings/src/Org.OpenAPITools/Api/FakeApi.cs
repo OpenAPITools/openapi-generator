@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="httpDebugOption">http debug option (to test parameter naming option)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>Env</returns>
-        Env GetParameterNameMapping(long UnderscoreType, string type, string TypeWithUnderscore, string httpDebugOption, int operationIndex = 0);
+        Env GetParameterNameMapping(long? UnderscoreType, string type, string TypeWithUnderscore, string httpDebugOption, int operationIndex = 0);
 
         /// <summary>
         /// parameter name mapping test
@@ -51,7 +51,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="httpDebugOption">http debug option (to test parameter naming option)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Env</returns>
-        ApiResponse<Env> GetParameterNameMappingWithHttpInfo(long UnderscoreType, string type, string TypeWithUnderscore, string httpDebugOption, int operationIndex = 0);
+        ApiResponse<Env> GetParameterNameMappingWithHttpInfo(long? UnderscoreType, string type, string TypeWithUnderscore, string httpDebugOption, int operationIndex = 0);
         #endregion Synchronous Operations
     }
 
@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of Env</returns>
-        System.Threading.Tasks.Task<Env> GetParameterNameMappingAsync(long UnderscoreType, string type, string TypeWithUnderscore, string httpDebugOption, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<Env> GetParameterNameMappingAsync(long? UnderscoreType, string type, string TypeWithUnderscore, string httpDebugOption, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
 
         /// <summary>
         /// parameter name mapping test
@@ -91,7 +91,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Env)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Env>> GetParameterNameMappingWithHttpInfoAsync(long UnderscoreType, string type, string TypeWithUnderscore, string httpDebugOption, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Env>> GetParameterNameMappingWithHttpInfoAsync(long? UnderscoreType, string type, string TypeWithUnderscore, string httpDebugOption, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -222,7 +222,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="httpDebugOption">http debug option (to test parameter naming option)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>Env</returns>
-        public Env GetParameterNameMapping(long UnderscoreType, string type, string TypeWithUnderscore, string httpDebugOption, int operationIndex = 0)
+        public Env GetParameterNameMapping(long? UnderscoreType, string type, string TypeWithUnderscore, string httpDebugOption, int operationIndex = 0)
         {
             Org.OpenAPITools.Client.ApiResponse<Env> localVarResponse = GetParameterNameMappingWithHttpInfo(UnderscoreType, type, TypeWithUnderscore, httpDebugOption);
             return localVarResponse.Data;
@@ -238,8 +238,14 @@ namespace Org.OpenAPITools.Api
         /// <param name="httpDebugOption">http debug option (to test parameter naming option)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Env</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Env> GetParameterNameMappingWithHttpInfo(long UnderscoreType, string type, string TypeWithUnderscore, string httpDebugOption, int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Env> GetParameterNameMappingWithHttpInfo(long? UnderscoreType, string type, string TypeWithUnderscore, string httpDebugOption, int operationIndex = 0)
         {
+            // verify the required parameter 'UnderscoreType' is set
+            if (UnderscoreType == null)
+            {
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'UnderscoreType' when calling FakeApi->GetParameterNameMapping");
+            }
+
             // verify the required parameter 'type' is set
             if (type == null)
             {
@@ -314,7 +320,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of Env</returns>
-        public async System.Threading.Tasks.Task<Env> GetParameterNameMappingAsync(long UnderscoreType, string type, string TypeWithUnderscore, string httpDebugOption, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Env> GetParameterNameMappingAsync(long? UnderscoreType, string type, string TypeWithUnderscore, string httpDebugOption, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<Env> localVarResponse = await GetParameterNameMappingWithHttpInfoAsync(UnderscoreType, type, TypeWithUnderscore, httpDebugOption, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -331,8 +337,14 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Env)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Env>> GetParameterNameMappingWithHttpInfoAsync(long UnderscoreType, string type, string TypeWithUnderscore, string httpDebugOption, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Env>> GetParameterNameMappingWithHttpInfoAsync(long? UnderscoreType, string type, string TypeWithUnderscore, string httpDebugOption, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
+            // verify the required parameter 'UnderscoreType' is set
+            if (UnderscoreType == null)
+            {
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'UnderscoreType' when calling FakeApi->GetParameterNameMapping");
+            }
+
             // verify the required parameter 'type' is set
             if (type == null)
             {

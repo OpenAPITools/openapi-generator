@@ -111,7 +111,7 @@ No authorization required
 
 <a id="fakeouterbooleanserialize"></a>
 # **FakeOuterBooleanSerialize**
-> bool FakeOuterBooleanSerialize (bool? body = null)
+> bool? FakeOuterBooleanSerialize (bool? body = null)
 
 
 
@@ -138,7 +138,7 @@ namespace Example
 
             try
             {
-                bool result = apiInstance.FakeOuterBooleanSerialize(body);
+                bool? result = apiInstance.FakeOuterBooleanSerialize(body);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -158,7 +158,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    ApiResponse<bool> response = apiInstance.FakeOuterBooleanSerializeWithHttpInfo(body);
+    ApiResponse<bool?> response = apiInstance.FakeOuterBooleanSerializeWithHttpInfo(body);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -179,7 +179,7 @@ catch (ApiException e)
 
 ### Return type
 
-**bool**
+**bool?**
 
 ### Authorization
 
@@ -289,7 +289,7 @@ No authorization required
 
 <a id="fakeouternumberserialize"></a>
 # **FakeOuterNumberSerialize**
-> decimal FakeOuterNumberSerialize (decimal? body = null)
+> decimal? FakeOuterNumberSerialize (decimal? body = null)
 
 
 
@@ -316,7 +316,7 @@ namespace Example
 
             try
             {
-                decimal result = apiInstance.FakeOuterNumberSerialize(body);
+                decimal? result = apiInstance.FakeOuterNumberSerialize(body);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -336,7 +336,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    ApiResponse<decimal> response = apiInstance.FakeOuterNumberSerializeWithHttpInfo(body);
+    ApiResponse<decimal?> response = apiInstance.FakeOuterNumberSerializeWithHttpInfo(body);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -357,7 +357,7 @@ catch (ApiException e)
 
 ### Return type
 
-**decimal**
+**decimal?**
 
 ### Authorization
 
@@ -378,7 +378,7 @@ No authorization required
 
 <a id="fakeouterstringserialize"></a>
 # **FakeOuterStringSerialize**
-> string FakeOuterStringSerialize (Guid requiredStringUuid, string? body = null)
+> string FakeOuterStringSerialize (Guid? requiredStringUuid, string? body = null)
 
 
 
@@ -401,7 +401,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(config);
-            var requiredStringUuid = "requiredStringUuid_example";  // Guid | Required UUID String
+            var requiredStringUuid = "requiredStringUuid_example";  // Guid? | Required UUID String
             var body = "body_example";  // string? | Input string as post body (optional) 
 
             try
@@ -443,7 +443,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **requiredStringUuid** | **Guid** | Required UUID String |  |
+| **requiredStringUuid** | **Guid?** | Required UUID String |  |
 | **body** | **string?** | Input string as post body | [optional]  |
 
 ### Return type
@@ -1067,7 +1067,7 @@ No authorization required
 
 <a id="testendpointparameters"></a>
 # **TestEndpointParameters**
-> void TestEndpointParameters (decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = null, int? int32 = null, long? int64 = null, float? varFloat = null, string? varString = null, System.IO.Stream? binary = null, DateOnly? date = null, DateTime? dateTime = null, string? password = null, string? callback = null)
+> void TestEndpointParameters (decimal? number, double? varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = null, int? int32 = null, long? int64 = null, float? varFloat = null, string? varString = null, System.IO.Stream? binary = null, DateOnly? date = null, DateTime? dateTime = null, string? password = null, string? callback = null)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -1094,8 +1094,8 @@ namespace Example
             config.Password = "YOUR_PASSWORD";
 
             var apiInstance = new FakeApi(config);
-            var number = 8.14D;  // decimal | None
-            var varDouble = 1.2D;  // double | None
+            var number = 8.14D;  // decimal? | None
+            var varDouble = 1.2D;  // double? | None
             var patternWithoutDelimiter = "patternWithoutDelimiter_example";  // string | None
             var varByte = System.Text.Encoding.ASCII.GetBytes("BYTE_ARRAY_DATA_HERE");  // byte[] | None
             var integer = 56;  // int? | None (optional) 
@@ -1146,8 +1146,8 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **number** | **decimal** | None |  |
-| **varDouble** | **double** | None |  |
+| **number** | **decimal?** | None |  |
+| **varDouble** | **double?** | None |  |
 | **patternWithoutDelimiter** | **string** | None |  |
 | **varByte** | **byte[]** | None |  |
 | **integer** | **int?** | None | [optional]  |
@@ -1287,7 +1287,7 @@ No authorization required
 
 <a id="testgroupparameters"></a>
 # **TestGroupParameters**
-> void TestGroupParameters (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+> void TestGroupParameters (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
 
 Fake endpoint to test group parameters (optional)
 
@@ -1313,9 +1313,9 @@ namespace Example
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
             var apiInstance = new FakeApi(config);
-            var requiredStringGroup = 56;  // int | Required String in group parameters
-            var requiredBooleanGroup = true;  // bool | Required Boolean in group parameters
-            var requiredInt64Group = 789L;  // long | Required Integer in group parameters
+            var requiredStringGroup = 56;  // int? | Required String in group parameters
+            var requiredBooleanGroup = true;  // bool? | Required Boolean in group parameters
+            var requiredInt64Group = 789L;  // long? | Required Integer in group parameters
             var stringGroup = 56;  // int? | String in group parameters (optional) 
             var booleanGroup = true;  // bool? | Boolean in group parameters (optional) 
             var int64Group = 789L;  // long? | Integer in group parameters (optional) 
@@ -1357,9 +1357,9 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **requiredStringGroup** | **int** | Required String in group parameters |  |
-| **requiredBooleanGroup** | **bool** | Required Boolean in group parameters |  |
-| **requiredInt64Group** | **long** | Required Integer in group parameters |  |
+| **requiredStringGroup** | **int?** | Required String in group parameters |  |
+| **requiredBooleanGroup** | **bool?** | Required Boolean in group parameters |  |
+| **requiredInt64Group** | **long?** | Required Integer in group parameters |  |
 | **stringGroup** | **int?** | String in group parameters | [optional]  |
 | **booleanGroup** | **bool?** | Boolean in group parameters | [optional]  |
 | **int64Group** | **long?** | Integer in group parameters | [optional]  |
