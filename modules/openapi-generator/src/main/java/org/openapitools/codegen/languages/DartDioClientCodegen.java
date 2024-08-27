@@ -325,7 +325,15 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         languageSpecificPrimitives.add("Object");
         imports.put("Uint8List", "dart:typed_data");
         imports.put("MultipartFile", DIO_IMPORT);
-
+        // A lambda which removes the model name prefix and suffix. Used mainly for default descrimator class name
+        // mapping in fromJson methods for unions in freezed.
+        additionalProperties.put("DelModelNamePrefixSuffix", (Mustache.Lambda) (fragment, writer) -> {
+            String content = fragment.execute();
+            content = content.trim().replaceAll("\n", "");
+            content = content.replaceAll(this.modelNamePrefix, "");
+            content = content.replaceAll(this.modelNameSuffix, "");
+            writer.write(content);
+        });
         // A lambda which transforms Types for naming factory constructors inFreezed unions.
         additionalProperties.put("PrimitiveInUnion", (Mustache.Lambda) (fragment, writer) -> {
             String content = fragment.execute();
