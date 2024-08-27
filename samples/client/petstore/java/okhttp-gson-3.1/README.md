@@ -120,6 +120,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**op2**](docs/FakeApi.md#op2) | **POST** /fake/api/changename | op2
 *FakeApi* | [**op3**](docs/FakeApi.md#op3) | **POST** /fake/api/query/enum | op3
 *FakeApi* | [**refToRefParameter**](docs/FakeApi.md#refToRefParameter) | **GET** /ref/ref_to_parameter | 
+*FakeApi* | [**refToRefParameterOneof**](docs/FakeApi.md#refToRefParameterOneof) | **GET** /ref/ref_to_parameter_oneof | 
 *FakeApi* | [**responseNoRef**](docs/FakeApi.md#responseNoRef) | **GET** /no_ref | 
 *FakeApi* | [**responseRefToNoRef**](docs/FakeApi.md#responseRefToNoRef) | **GET** /ref/no_ref | 
 *FakeApi* | [**responseRefToRef**](docs/FakeApi.md#responseRefToRef) | **GET** /ref/ref | 

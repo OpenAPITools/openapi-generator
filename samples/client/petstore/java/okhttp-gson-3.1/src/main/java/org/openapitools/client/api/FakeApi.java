@@ -28,6 +28,7 @@ import java.io.IOException;
 
 
 import org.openapitools.client.model.CodesEnum;
+import org.openapitools.client.model.OneOfstringinteger;
 import java.util.UUID;
 
 import java.lang.reflect.Type;
@@ -891,6 +892,127 @@ public class FakeApi {
         okhttp3.Call localVarCall = refToRefParameterValidateBeforeCall(refToUuid, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for refToRefParameterOneof
+     * @param refToOneof to test ref to parameter (oneof) (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Successful Response </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call refToRefParameterOneofCall(OneOfstringinteger refToOneof, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/ref/ref_to_parameter_oneof";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (refToOneof != null) {
+            localVarHeaderParams.put("ref_to_oneof", localVarApiClient.parameterToString(refToOneof));
+        }
+
+        final String[] localVarAccepts = {
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call refToRefParameterOneofValidateBeforeCall(OneOfstringinteger refToOneof, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'refToOneof' is set
+        if (refToOneof == null) {
+            throw new ApiException("Missing the required parameter 'refToOneof' when calling refToRefParameterOneof(Async)");
+        }
+
+        return refToRefParameterOneofCall(refToOneof, _callback);
+
+    }
+
+    /**
+     * 
+     * 
+     * @param refToOneof to test ref to parameter (oneof) (required)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Successful Response </td><td>  -  </td></tr>
+     </table>
+     */
+    public void refToRefParameterOneof(OneOfstringinteger refToOneof) throws ApiException {
+        refToRefParameterOneofWithHttpInfo(refToOneof);
+    }
+
+    /**
+     * 
+     * 
+     * @param refToOneof to test ref to parameter (oneof) (required)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Successful Response </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<Void> refToRefParameterOneofWithHttpInfo(OneOfstringinteger refToOneof) throws ApiException {
+        okhttp3.Call localVarCall = refToRefParameterOneofValidateBeforeCall(refToOneof, null);
+        return localVarApiClient.execute(localVarCall);
+    }
+
+    /**
+     *  (asynchronously)
+     * 
+     * @param refToOneof to test ref to parameter (oneof) (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Successful Response </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call refToRefParameterOneofAsync(OneOfstringinteger refToOneof, final ApiCallback<Void> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = refToRefParameterOneofValidateBeforeCall(refToOneof, _callback);
+        localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
     /**

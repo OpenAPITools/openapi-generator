@@ -687,6 +687,20 @@ paths:
       - text/plain
     parameters:
     - $ref: '#/components/parameters/ref_to_uuid'
+  /ref/ref_to_parameter_oneof:
+    get:
+      operationId: ref_to_ref_parameter_oneof
+      parameters:
+      - $ref: '#/components/parameters/ref_to_oneof'
+      responses:
+        "200":
+          description: Successful Response
+      tags:
+      - fake
+      x-accepts:
+      - application/json
+    parameters:
+    - $ref: '#/components/parameters/ref_to_oneof'
   /fake/api/changeowner:
     post:
       operationId: op1
@@ -804,6 +818,17 @@ components:
         example: 61864654-6e6b-4152-a62f-795fdd606bc2
         format: uuid
         type: string
+      style: simple
+    ref_to_oneof:
+      description: to test ref to parameter (oneof)
+      explode: false
+      in: header
+      name: ref_to_oneof
+      required: true
+      schema:
+        oneOf:
+        - type: string
+        - type: integer
       style: simple
   requestBodies:
     UserArray:
