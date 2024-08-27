@@ -7,8 +7,8 @@
         stdlib,
         ssl,
         inets,
-        jsx,
         jesse,
+        ranch,
         cowboy
     ]},
     {env, [

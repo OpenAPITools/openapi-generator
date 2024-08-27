@@ -14,12 +14,7 @@
 
 -export_type([init_opts/0]).
 
--spec get_paths(LogicHandler :: atom()) ->  [{'_',[{
-    Path :: string(),
-    Handler :: atom(),
-    InitOpts :: init_opts()
-}]}].
-
+-spec get_paths(LogicHandler :: atom()) -> cowboy_router:routes().
 get_paths(LogicHandler) ->
     ValidatorState = prepare_validator(),
     PreparedPaths = maps:fold(
@@ -65,13 +60,12 @@ get_operations() ->
 get_validator_state() ->
     persistent_term:get({?MODULE, validator_state}).
 
-
 prepare_validator() ->
-    R = jsx:decode(element(2, file:read_file(get_openapi_path()))),
+    {ok, FileContents} = file:read_file(get_openapi_path()),
+    R = json:decode(FileContents),
     JesseState = jesse_state:new(R, [{default_schema_ver, <<"http://json-schema.org/draft-04/schema#">>}]),
     persistent_term:put({?MODULE, validator_state}, JesseState),
     ?MODULE.
-
 
 get_openapi_path() ->
     {ok, AppName} = application:get_application(?MODULE),

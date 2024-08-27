@@ -12,49 +12,35 @@
 -export([authorize_api_key/3]).
 {{/authMethods}}
 -type context() :: #{binary() => any()}.
--type handler_response() ::{
-    Status :: cowboy:http_status(),
-    Headers :: cowboy:http_headers(),
-    Body :: jsx:json_term()}.
+-type handler_response() ::{cowboy:http_status(), cowboy:http_headers(), json:encode_value()}.
 
 -export_type([handler_response/0]).
 
 {{#authMethods}}
     {{#isApiKey}}
--callback authorize_api_key(
-    OperationID :: {{packageName}}_api:operation_id(),
-    ApiKey :: binary()
-) ->
-    Result :: boolean() | {boolean(), context()}.
+-callback authorize_api_key({{packageName}}_api:operation_id(), binary()) ->
+    boolean() | {boolean(), context()}.
     {{/isApiKey}}
 {{/authMethods}}
 
-
--callback handle_request(OperationID :: {{packageName}}_api:operation_id(), cowboy_req:req(), Context :: context()) ->
+-callback handle_request({{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
     handler_response().
 
--spec handle_request(
-    Handler :: atom(),
-    OperationID :: {{packageName}}_api:operation_id(),
-    Request :: cowboy_req:req(),
-    Context :: context()
-) ->
+-spec handle_request(module(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
     handler_response().
-
 handle_request(Handler, OperationID, Req, Context) ->
     Handler:handle_request(OperationID, Req, Context).
 
 {{#authMethods}}
     {{#isApiKey}}
--spec authorize_api_key(Handler :: atom(), OperationID :: {{packageName}}_api:operation_id(), ApiKey :: binary()) ->
+-spec authorize_api_key(module(), {{packageName}}_api:operation_id(), binary()) ->
     Result :: false | {true, context()}.
 authorize_api_key(Handler, OperationID, ApiKey) ->
     Handler:authorize_api_key(OperationID, ApiKey).
     {{/isApiKey}}
 {{/authMethods}}
 {{^authMethods}}
--spec authorize_api_key(Handler :: atom(), OperationID :: {{packageName}}_api:operation_id(), ApiKey :: binary()) ->
-    Result :: false.
+-spec authorize_api_key(module(), {{packageName}}_api:operation_id(), binary()) -> false.
 authorize_api_key(_Handler, _OperationID, _ApiKey) ->
     false.
 {{/authMethods}}

@@ -324,10 +324,10 @@ get_value(binding, Name, Req) ->
 
 prepare_body(Body) ->
     case Body of
-        <<"">> -> <<"">>;
+        <<>> -> <<>>;
         _ ->
             try
-                jsx:decode(Body, [return_maps])
+                json:decode(Body, [return_maps])
             catch
               error:_ ->
                 {error, {invalid_body, not_json, Body}}

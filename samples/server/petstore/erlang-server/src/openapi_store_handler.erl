@@ -19,9 +19,9 @@
 
 -record(state, {
     operation_id :: openapi_api:operation_id(),
-    logic_handler :: atom(),
+    logic_handler :: module(),
     validator_state :: jesse_state:state(),
-    context=#{} :: #{}
+    context = #{} :: #{}
 }).
 
 -type state() :: state().
@@ -89,29 +89,23 @@ allowed_methods(Req, State) ->
         Req :: cowboy_req:req(),
         State :: state()
     }.
-is_authorized(
-    Req0,
-    State = #state{
-        operation_id = 'GetInventory' = OperationID,
-        logic_handler = LogicHandler
-    }
-) ->
-    From = header,
+is_authorized(Req0,
+              #state{operation_id = 'GetInventory' = OperationID,
+                     logic_handler = LogicHandler} = State) ->
     Result = openapi_auth:authorize_api_key(
-        LogicHandler,
-        OperationID,
-        From,
-        "api_key",
-        Req0
-    ),
+                              LogicHandler,
+                              OperationID,
+                              header,
+                              "authorization",
+                              Req0),
     case Result of
-        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
-        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
+        {true, Context, Req} ->
+            {true, Req, State#state{context = Context}};
+        {false, AuthHeader, Req} ->
+            {{false, AuthHeader}, Req, State}
     end;
 is_authorized(Req, State) ->
-    {{false, <<"">>}, Req, State}.
-is_authorized(Req, State) ->
-    {{false, <<"">>}, Req, State}.
+    {true, Req, State}.
 
 -spec content_types_accepted(Req :: cowboy_req:req(), State :: state()) ->
     {
@@ -277,4 +271,4 @@ prepare_body(204, Body) when map_size(Body) == 0; length(Body) == 0 ->
 prepare_body(304, Body) when map_size(Body) == 0; length(Body) == 0 ->
     <<>>;
 prepare_body(_Code, Body) ->
-    jsx:encode(Body).
+    json:encode(Body).

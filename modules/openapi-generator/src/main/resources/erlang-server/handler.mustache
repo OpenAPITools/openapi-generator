@@ -19,9 +19,9 @@
 
 -record(state, {
     operation_id :: {{packageName}}_api:operation_id(),
-    logic_handler :: atom(),
+    logic_handler :: module(),
     validator_state :: jesse_state:state(),
-    context=#{} :: #{}
+    context = #{} :: #{}
 }).
 
 -type state() :: state().
@@ -67,53 +67,37 @@ allowed_methods(Req, State) ->
     }.
 {{#operations}}
 {{#operation}}
-{{#authMethods}}
-is_authorized(
-    Req0,
-    State = #state{
-        operation_id = '{{operationId}}' = OperationID,
-        logic_handler = LogicHandler
-    }
-) ->
-  {{#isApiKey}}
-    From = {{#isKeyInQuery}}qs_val{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}},
+{{#authMethods.size}}
+is_authorized(Req0,
+              #state{operation_id = '{{operationId}}' = OperationID,
+                     logic_handler = LogicHandler} = State) ->
     Result = {{packageName}}_auth:authorize_api_key(
-        LogicHandler,
-        OperationID,
-        From,
-        "{{keyParamName}}",
-        Req0
-    ),
+                              LogicHandler,
+                              OperationID,
+{{#isApiKey.isKeyInQuery}}
+                              qs_val,
+{{/isApiKey.isKeyInQuery}}
+{{^isApiKey.isKeyInQuery}}
+                              header,
+{{/isApiKey.isKeyInQuery}}
+{{#isApiKey}}
+                              "{{keyParamName}}",
+{{/isApiKey}}
+{{^isApiKey}}
+                              "authorization",
+{{/isApiKey}}
+                              Req0),
     case Result of
-        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
-        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
+        {true, Context, Req} ->
+            {true, Req, State#state{context = Context}};
+        {false, AuthHeader, Req} ->
+            {{false, AuthHeader}, Req, State}
     end;
-  {{/isApiKey}}
-  {{#isOAuth}}
-    From = header,
-    Result = {{packageName}}_auth:authorize_api_key(
-        LogicHandler,
-        OperationID,
-        From,
-        "Authorization",
-        Req0
-    ),
-    case Result of
-        {true, Context, Req} ->  {true, Req, State#state{context = Context}};
-        {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
-    end;
-  {{/isOAuth}}
-{{/authMethods}}
+{{/authMethods.size}}
 {{/operation}}
 {{/operations}}
-{{^authMethods}}
 is_authorized(Req, State) ->
     {true, Req, State}.
-{{/authMethods}}
-{{#authMethods}}
-is_authorized(Req, State) ->
-    {{false, <<"">>}, Req, State}.
-{{/authMethods}}
 
 -spec content_types_accepted(Req :: cowboy_req:req(), State :: state()) ->
     {
@@ -249,4 +233,4 @@ prepare_body(204, Body) when map_size(Body) == 0; length(Body) == 0 ->
 prepare_body(304, Body) when map_size(Body) == 0; length(Body) == 0 ->
     <<>>;
 prepare_body(_Code, Body) ->
-    jsx:encode(Body).
+    json:encode(Body).

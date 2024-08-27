@@ -5,16 +5,16 @@
 -export([handle_request/3]).
 -export([authorize_api_key/2]).
 
--spec authorize_api_key(OperationID :: openapi_api:operation_id(), ApiKey :: binary()) -> {true, #{}}.
-
-authorize_api_key(_, _) -> {true, #{}}.
+-spec authorize_api_key(OperationID :: openapi_api:operation_id(), ApiKey :: binary()) ->
+    {true, #{}}.
+authorize_api_key(_, _) ->
+    {true, #{}}.
 
 -spec handle_request(
-    OperationID :: openapi_api:operation_id(),
-    Req :: cowboy_req:req(),
-    Context :: #{}
-) ->
-    {Status :: cowboy:http_status(), Headers :: cowboy:http_headers(), Body :: jsx:json_term()}.
+        OperationID :: openapi_api:operation_id(),
+        Req :: cowboy_req:req(),
+        Context :: #{}) ->
+    {Status :: cowboy:http_status(), Headers :: cowboy:http_headers(), Body :: json:encode_value()}.
 
 handle_request(OperationID, Req, Context) ->
     error_logger:error_msg(
