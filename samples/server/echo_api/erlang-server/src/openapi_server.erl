@@ -1,0 +1,43 @@
+-module(openapi_server).
+
+-define(DEFAULT_LOGIC_HANDLER, openapi_default_logic_handler).
+
+-export([start/2]).
+
+-spec start(ID :: term(), #{
+    transport      := tcp | ssl,
+    transport_opts => ranch_tcp:opts() | ranch_ssl:opts(),
+    logic_handler  => module(),
+    net_opts       => []
+}) -> {ok, pid()} | {error, any()}.
+
+start(ID, #{transport      := Transport,
+            transport_opts := TransportOpts,
+            protocol_opts  := ProtocolOpts} = Params) ->
+    LogicHandler = maps:get(logic_handler, Params, ?DEFAULT_LOGIC_HANDLER),
+    CowboyOpts = get_cowboy_config(LogicHandler, ProtocolOpts),
+    case Transport of
+        ssl ->
+            cowboy:start_tls(ID, TransportOpts, CowboyOpts);
+        tcp ->
+            cowboy:start_clear(ID, TransportOpts, CowboyOpts)
+    end.
+
+get_cowboy_config(LogicHandler, ExtraOpts) ->
+    DefaultOpts = get_default_opts(LogicHandler),
+    maps:fold(fun get_cowboy_config/3, DefaultOpts, ExtraOpts).
+
+get_cowboy_config(env, #{dispatch := Dispatch} = Env, AccIn) ->
+    maps:put(env, Env, AccIn);
+get_cowboy_config(env, NewEnv, #{env := OldEnv} = AccIn) ->
+    Env = maps:merge(OldEnv, NewEnv),
+    maps:put(env, Env, AccIn);
+get_cowboy_config(Key, Value, AccIn) ->
+    maps:put(Key, Value, AccIn).
+
+get_default_dispatch(LogicHandler) ->
+    Paths = openapi_router:get_paths(LogicHandler),
+    #{dispatch => cowboy_router:compile(Paths)}.
+
+get_default_opts(LogicHandler) ->
+    #{env => get_default_dispatch(LogicHandler)}.
