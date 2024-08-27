@@ -1519,6 +1519,17 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     }
 
     @Override
+    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+        var property = super.fromProperty(name, p, required);
+        if (required && property.dataType.endsWith("?") && !property.isNullable) {
+            property.dataType = property.dataType.substring(0, property.dataType.length()-1);
+            property.baseType = property.baseType.substring(0, property.baseType.length()-1);
+            property.datatypeWithEnum = property.datatypeWithEnum.substring(0, property.datatypeWithEnum.length()-1);
+        }
+        return property;
+    }
+
+    @Override
     public String toModelName(String name) {
         // obtain the name from modelNameMapping directly if provided
         if (modelNameMapping.containsKey(name)) {

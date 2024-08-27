@@ -194,10 +194,10 @@ public class CSharpModelTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.dataType, "DateTime");
+        Assert.assertEquals(property3.dataType, "DateTime?");
         Assert.assertEquals(property3.name, "CreatedAt");
         Assert.assertNull(property3.defaultValue);
-        Assert.assertEquals(property3.baseType, "DateTime");
+        Assert.assertEquals(property3.baseType, "DateTime?");
         Assert.assertFalse(property3.required);
     }
 

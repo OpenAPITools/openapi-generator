@@ -501,7 +501,7 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
     @Override
     public String getNullableType(Schema p, String type) {
         if (languageSpecificPrimitives.contains(type)) {
-            if (isSupportNullable() && ModelUtils.isNullable(p) && (this.getNullableTypes().contains(type) || nullReferenceTypesFlag)) {
+            if (isSupportNullable() && (this.getNullableTypes().contains(type) || nullReferenceTypesFlag)) {
                 return type + "?";
             } else {
                 return type;

@@ -627,7 +627,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
 
         if (languageSpecificPrimitives.contains(type)) {
-            if (isSupportNullable() && ModelUtils.isNullable(p) && this.getNullableTypes().contains(type)) {
+            if (isSupportNullable() && this.getNullableTypes().contains(type)) {
                 return type + "?";
             } else {
                 return type;
