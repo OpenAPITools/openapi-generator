@@ -14,8 +14,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 {{#useBeanValidation}}
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
 
 {{/useBeanValidation}}
 {{#hasFormParamsInSpec}}
