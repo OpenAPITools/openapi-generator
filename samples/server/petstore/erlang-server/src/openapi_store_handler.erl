@@ -1,6 +1,8 @@
 %% basic handler
 -module(openapi_store_handler).
 
+-include_lib("kernel/include/logger.hrl").
+
 %% Cowboy REST callbacks
 -export([allowed_methods/2]).
 -export([init/2]).
@@ -14,8 +16,14 @@
 -export([valid_content_headers/2]).
 -export([valid_entity_length/2]).
 
-%% Handlers
--export([handle_request_json/2]).
+-type result_ok() :: {
+    ok,
+    {Status :: cowboy:http_status(), Headers :: cowboy:http_headers(), Body :: iodata()}
+}.
+
+-type result_error() :: {error, Reason :: any()}.
+
+-type processed_response() :: {stop, cowboy_req:req(), state()}.
 
 -record(state, {
     operation_id :: openapi_api:operation_id(),
@@ -28,14 +36,13 @@
 
 -spec init(Req :: cowboy_req:req(), Opts :: openapi_router:init_opts()) ->
     {cowboy_rest, Req :: cowboy_req:req(), State :: state()}.
-
 init(Req, {Operations, LogicHandler, ValidatorMod}) ->
     Method = cowboy_req:method(Req),
     OperationID = maps:get(Method, Operations, undefined),
 
     ValidatorState = ValidatorMod:get_validator_state(),
 
-    error_logger:info_msg("Attempt to process operation: ~p", [OperationID]),
+    ?LOG_INFO(#{what => "Attempt to process operation", operation_id => OperationID}),
 
     State = #state{
         operation_id = OperationID,
@@ -47,37 +54,16 @@ init(Req, {Operations, LogicHandler, ValidatorMod}) ->
 -spec allowed_methods(Req :: cowboy_req:req(), State :: state()) ->
     {Value :: [binary()], Req :: cowboy_req:req(), State :: state()}.
 
-
-allowed_methods(
-    Req,
-    State = #state{
-        operation_id = 'DeleteOrder'
-    }
-) ->
+allowed_methods(Req, State = #state{operation_id = 'DeleteOrder'}) ->
     {[<<"DELETE">>], Req, State};
 
-allowed_methods(
-    Req,
-    State = #state{
-        operation_id = 'GetInventory'
-    }
-) ->
+allowed_methods(Req, State = #state{operation_id = 'GetInventory'}) ->
     {[<<"GET">>], Req, State};
 
-allowed_methods(
-    Req,
-    State = #state{
-        operation_id = 'GetOrderById'
-    }
-) ->
+allowed_methods(Req, State = #state{operation_id = 'GetOrderById'}) ->
     {[<<"GET">>], Req, State};
 
-allowed_methods(
-    Req,
-    State = #state{
-        operation_id = 'PlaceOrder'
-    }
-) ->
+allowed_methods(Req, State = #state{operation_id = 'PlaceOrder'}) ->
     {[<<"POST">>], Req, State};
 
 allowed_methods(Req, State) ->
@@ -89,9 +75,8 @@ allowed_methods(Req, State) ->
         Req :: cowboy_req:req(),
         State :: state()
     }.
-is_authorized(Req0,
-              #state{operation_id = 'GetInventory' = OperationID,
-                     logic_handler = LogicHandler} = State) ->
+is_authorized(Req0, #state{operation_id = 'GetInventory' = OperationID,
+                           logic_handler = LogicHandler} = State) ->
     Result = openapi_auth:authorize_api_key(
                               LogicHandler,
                               OperationID,
@@ -122,42 +107,22 @@ content_types_accepted(Req, State) ->
 -spec valid_content_headers(Req :: cowboy_req:req(), State :: state()) ->
     {Value :: boolean(), Req :: cowboy_req:req(), State :: state()}.
 
-valid_content_headers(
-    Req0,
-    State = #state{
-        operation_id = 'DeleteOrder'
-    }
-) ->
+valid_content_headers(Req0, #state{operation_id = 'DeleteOrder'} = State) ->
     Headers = [],
     {Result, Req} = validate_headers(Headers, Req0),
     {Result, Req, State};
 
-valid_content_headers(
-    Req0,
-    State = #state{
-        operation_id = 'GetInventory'
-    }
-) ->
+valid_content_headers(Req0, #state{operation_id = 'GetInventory'} = State) ->
     Headers = [],
     {Result, Req} = validate_headers(Headers, Req0),
     {Result, Req, State};
 
-valid_content_headers(
-    Req0,
-    State = #state{
-        operation_id = 'GetOrderById'
-    }
-) ->
+valid_content_headers(Req0, #state{operation_id = 'GetOrderById'} = State) ->
     Headers = [],
     {Result, Req} = validate_headers(Headers, Req0),
     {Result, Req, State};
 
-valid_content_headers(
-    Req0,
-    State = #state{
-        operation_id = 'PlaceOrder'
-    }
-) ->
+valid_content_headers(Req0, #state{operation_id = 'PlaceOrder'} = State) ->
     Headers = [],
     {Result, Req} = validate_headers(Headers, Req0),
     {Result, Req, State};
@@ -179,70 +144,45 @@ content_types_provided(Req, State) ->
 
 -spec malformed_request(Req :: cowboy_req:req(), State :: state()) ->
     {Value :: false, Req :: cowboy_req:req(), State :: state()}.
-
 malformed_request(Req, State) ->
     {false, Req, State}.
 
 -spec allow_missing_post(Req :: cowboy_req:req(), State :: state()) ->
     {Value :: false, Req :: cowboy_req:req(), State :: state()}.
-
 allow_missing_post(Req, State) ->
     {false, Req, State}.
 
 -spec delete_resource(Req :: cowboy_req:req(), State :: state()) ->
     processed_response().
-
 delete_resource(Req, State) ->
     handle_request_json(Req, State).
 
 -spec known_content_type(Req :: cowboy_req:req(), State :: state()) ->
     {Value :: true, Req :: cowboy_req:req(), State :: state()}.
-
 known_content_type(Req, State) ->
     {true, Req, State}.
 
 -spec valid_entity_length(Req :: cowboy_req:req(), State :: state()) ->
     {Value :: true, Req :: cowboy_req:req(), State :: state()}.
-
 valid_entity_length(Req, State) ->
     %% @TODO check the length
     {true, Req, State}.
 
 %%%%
--type result_ok() :: {
-    ok,
-    {Status :: cowboy:http_status(), Headers :: cowboy:http_headers(), Body :: iodata()}
-}.
-
--type result_error() :: {error, Reason :: any()}.
-
--type processed_response() :: {stop, cowboy_req:req(), state()}.
-
 -spec process_response(result_ok() | result_error(), cowboy_req:req(), state()) ->
     processed_response().
-
-process_response(Response, Req0, State = #state{operation_id = OperationID}) ->
-    case Response of
-        {ok, {Code, Headers, Body}} ->
-            Req = cowboy_req:reply(Code, Headers, Body, Req0),
-            {stop, Req, State};
-        {error, Message} ->
-            error_logger:error_msg("Unable to process request for ~p: ~p", [OperationID, Message]),
-
-            Req = cowboy_req:reply(400, Req0),
-            {stop, Req, State}
-    end.
+process_response({ok, {Code, Headers, Body}}, Req0, State) ->
+    Req = cowboy_req:reply(Code, Headers, Body, Req0),
+    {stop, Req, State};
+process_response({error, Reason}, Req0, #state{operation_id = OperationID} = State) ->
+    ?LOG_ERROR(#{what => "Unable to process request", operation_id => OperationID, Reason => Reason}),
+    Req = cowboy_req:reply(400, Req0),
+    {stop, Req, State}.
 
 -spec handle_request_json(cowboy_req:req(), state()) -> processed_response().
-
-handle_request_json(
-    Req0,
-    State = #state{
-        operation_id = OperationID,
-        logic_handler = LogicHandler,
-        validator_state = ValidatorState
-    }
-) ->
+handle_request_json(Req0, #state{operation_id = OperationID,
+                                 logic_handler = LogicHandler,
+                                 validator_state = ValidatorState} = State) ->
     case openapi_api:populate_request(OperationID, Req0, ValidatorState) of
         {ok, Populated, Req1} ->
             {Code, Headers, Body} = openapi_logic_handler:handle_request(

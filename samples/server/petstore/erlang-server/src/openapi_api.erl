@@ -1,5 +1,7 @@
 -module(openapi_api).
 
+-include_lib("kernel/include/logger.hrl").
+
 -export([request_params/1]).
 -export([request_param_info/2]).
 -export([populate_request/3]).
@@ -385,20 +387,17 @@ request_param_info(OperationID, Name) ->
     error({unknown_param, OperationID, Name}).
 
 -spec populate_request(
-    OperationID :: operation_id(),
-    Req :: cowboy_req:req(),
-    ValidatorState :: jesse_state:state()
-) ->
+        OperationID :: operation_id(),
+        Req :: cowboy_req:req(),
+        ValidatorState :: jesse_state:state()) ->
     {ok, Model :: #{}, Req :: cowboy_req:req()} |
     {error, Reason :: any(), Req :: cowboy_req:req()}.
-
 populate_request(OperationID, Req, ValidatorState) ->
     Params = request_params(OperationID),
     populate_request_params(OperationID, Params, Req, ValidatorState, #{}).
 
 populate_request_params(_, [], Req, _, Model) ->
     {ok, Model, Req};
-
 populate_request_params(OperationID, [FieldParams | T], Req0, ValidatorState, Model) ->
     case populate_request_param(OperationID, FieldParams, Req0, ValidatorState) of
         {ok, K, V, Req} ->
@@ -424,8 +423,7 @@ populate_request_param(OperationID, Name, Req0, ValidatorState) ->
     OperationID :: operation_id(),
     Code :: 200..599,
     Body :: jesse:json_term(),
-    ValidatorState :: jesse_state:state()
-) -> ok | no_return().
+    ValidatorState :: jesse_state:state()) -> ok | no_return().
 
 
 validate_response('AddPet', 200, Body, ValidatorState) ->
@@ -542,13 +540,10 @@ validate(Rule = required, Name, Value, _ValidatorState) ->
         undefined -> validation_error(Rule, Name);
         _ -> ok
     end;
-
 validate(not_required, _Name, _Value, _ValidatorState) ->
     ok;
-
 validate(_, _Name, undefined, _ValidatorState) ->
     ok;
-
 validate(Rule = {type, 'integer'}, Name, Value, _ValidatorState) ->
     try
         {ok, openapi_utils:to_int(Value)}
@@ -556,7 +551,6 @@ validate(Rule = {type, 'integer'}, Name, Value, _ValidatorState) ->
         error:badarg ->
             validation_error(Rule, Name)
     end;
-
 validate(Rule = {type, 'float'}, Name, Value, _ValidatorState) ->
     try
         {ok, openapi_utils:to_float(Value)}
@@ -564,16 +558,13 @@ validate(Rule = {type, 'float'}, Name, Value, _ValidatorState) ->
         error:badarg ->
             validation_error(Rule, Name)
     end;
-
 validate(Rule = {type, 'binary'}, Name, Value, _ValidatorState) ->
     case is_binary(Value) of
         true -> ok;
         false -> validation_error(Rule, Name)
     end;
-
 validate(_Rule = {type, 'boolean'}, _Name, Value, _ValidatorState) when is_boolean(Value) ->
     {ok, Value};
-
 validate(Rule = {type, 'boolean'}, Name, Value, _ValidatorState) ->
     V = binary_to_lower(Value),
     try
@@ -585,19 +576,16 @@ validate(Rule = {type, 'boolean'}, Name, Value, _ValidatorState) ->
         error:badarg ->
             validation_error(Rule, Name)
     end;
-
 validate(Rule = {type, 'date'}, Name, Value, _ValidatorState) ->
     case is_binary(Value) of
         true -> ok;
         false -> validation_error(Rule, Name)
     end;
-
 validate(Rule = {type, 'datetime'}, Name, Value, _ValidatorState) ->
     case is_binary(Value) of
         true -> ok;
         false -> validation_error(Rule, Name)
     end;
-
 validate(Rule = {enum, Values}, Name, Value, _ValidatorState) ->
     try
         FormattedValue = erlang:binary_to_existing_atom(Value, utf8),
@@ -609,50 +597,42 @@ validate(Rule = {enum, Values}, Name, Value, _ValidatorState) ->
         error:badarg ->
             validation_error(Rule, Name)
     end;
-
 validate(Rule = {max, Max}, Name, Value, _ValidatorState) ->
     case Value =< Max of
         true -> ok;
         false -> validation_error(Rule, Name)
     end;
-
 validate(Rule = {exclusive_max, ExclusiveMax}, Name, Value, _ValidatorState) ->
     case Value > ExclusiveMax of
         true -> ok;
         false -> validation_error(Rule, Name)
     end;
-
 validate(Rule = {min, Min}, Name, Value, _ValidatorState) ->
     case Value >= Min of
         true -> ok;
         false -> validation_error(Rule, Name)
     end;
-
 validate(Rule = {exclusive_min, ExclusiveMin}, Name, Value, _ValidatorState) ->
     case Value =< ExclusiveMin of
         true -> ok;
         false -> validation_error(Rule, Name)
     end;
-
 validate(Rule = {max_length, MaxLength}, Name, Value, _ValidatorState) ->
     case size(Value) =< MaxLength of
         true -> ok;
         false -> validation_error(Rule, Name)
     end;
-
 validate(Rule = {min_length, MinLength}, Name, Value, _ValidatorState) ->
     case size(Value) >= MinLength of
         true -> ok;
         false -> validation_error(Rule, Name)
     end;
-
 validate(Rule = {pattern, Pattern}, Name, Value, _ValidatorState) ->
     {ok, MP} = re:compile(Pattern),
     case re:run(Value, MP) of
         {match, _} -> ok;
         _ -> validation_error(Rule, Name)
     end;
-
 validate(Rule = schema, Name, Value, ValidatorState) ->
     Definition =  list_to_binary("#/components/schemas/" ++ openapi_utils:to_list(Name)),
     try
@@ -674,9 +654,8 @@ validate(Rule = schema, Name, Value, ValidatorState) ->
             },
             validation_error(Rule, Name, Info)
     end;
-
 validate(Rule, Name, _Value, _ValidatorState) ->
-    error_logger:info_msg("Can't validate ~p with ~p", [Name, Rule]),
+    ?LOG_INFO(#{what => "Cannot validate rule", name => Name, rule => Rule}),
     error({unknown_validation_rule, Rule}).
 
 -spec validation_error(Rule :: any(), Name :: any()) -> no_return().
@@ -700,17 +679,14 @@ get_value(body, _Name, Req0) ->
         Value ->
             {Value, Req}
     end;
-
 get_value(qs_val, Name, Req) ->
     QS = cowboy_req:parse_qs(Req),
     Value = openapi_utils:get_opt(openapi_utils:to_qs(Name), QS),
     {Value, Req};
-
 get_value(header, Name, Req) ->
     Headers = cowboy_req:headers(Req),
     Value =  maps:get(openapi_utils:to_header(Name), Headers, undefined),
     {Value, Req};
-
 get_value(binding, Name, Req) ->
     Value = cowboy_req:binding(openapi_utils:to_binding(Name), Req),
     {Value, Req}.
