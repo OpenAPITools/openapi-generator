@@ -2,7 +2,6 @@ import os
 import unittest
 from unittest.mock import AsyncMock, Mock, patch
 
-
 import petstore_api
 
 
@@ -17,8 +16,6 @@ class TestMultipleResponseTypes(unittest.IsolatedAsyncioTestCase):
         self.test_file_path = os.path.join(self.test_file_dir, "foo.png")
 
     def setUp(self):
-        self.api_client = petstore_api.ApiClient()
-        self.fake_api = petstore_api.FakeApi(self.api_client)
         self.setUpFiles()
 
     async def test_multipart_requests(self):
@@ -32,7 +29,9 @@ class TestMultipleResponseTypes(unittest.IsolatedAsyncioTestCase):
         )
 
         with patch("aiohttp.ClientSession.request", mock_resp):
-            await self.fake_api.test_object_for_multipart_requests(marker=marker)
+            async with petstore_api.ApiClient() as api_client:
+                fake_api = petstore_api.FakeApi(api_client)
+                await fake_api.test_object_for_multipart_requests(marker=marker)
 
         # success if no errors
 
@@ -48,13 +47,15 @@ class TestMultipleResponseTypes(unittest.IsolatedAsyncioTestCase):
         with open(self.test_file_path, "rb") as f, patch(
             "aiohttp.ClientSession.request", mock_request
         ):
-            returned = await self.fake_api.upload_file_with_additional_properties(
-                file=(self.test_file_path, f.read()),
-                count=100,
-                object=petstore_api.UploadFileWithAdditionalPropertiesRequestObject(
-                    name="foo"
-                ),
-            )
+            async with petstore_api.ApiClient() as api_client:
+                fake_api = petstore_api.FakeApi(api_client)
+                returned = await fake_api.upload_file_with_additional_properties(
+                    file=(self.test_file_path, f.read()),
+                    count=100,
+                    object=petstore_api.UploadFileWithAdditionalPropertiesRequestObject(
+                        name="foo"
+                    ),
+                )
 
         assert (
             returned.code == 200
