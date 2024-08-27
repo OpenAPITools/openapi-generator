@@ -1,5 +1,7 @@
 -module({{packageName}}_api).
 
+-include_lib("kernel/include/logger.hrl").
+
 -export([request_params/1]).
 -export([request_param_info/2]).
 -export([populate_request/3]).
@@ -283,7 +285,7 @@ validate(Rule = schema, Name, Value, ValidatorState) ->
     end;
 
 validate(Rule, Name, _Value, _ValidatorState) ->
-    error_logger:info_msg("Can't validate ~p with ~p", [Name, Rule]),
+    ?LOG_INFO(#{what => "Cannot validate rule", name => Name, rule => Rule}),
     error({unknown_validation_rule, Rule}).
 
 -spec validation_error(Rule :: any(), Name :: any()) -> no_return().

@@ -2,6 +2,8 @@
 
 -behaviour({{packageName}}_logic_handler).
 
+-include_lib("kernel/include/logger.hrl").
+
 -export([handle_request/3]).
 {{#authMethods}}
     {{#isApiKey}}
@@ -25,8 +27,6 @@ authorize_api_key(_, _) ->
     {Status :: cowboy:http_status(), Headers :: cowboy:http_headers(), Body :: json:encode_value()}.
 
 handle_request(OperationID, Req, Context) ->
-    error_logger:error_msg(
-        "Got not implemented request to process: ~p~n",
-        [{OperationID, Req, Context}]
-    ),
+    ?LOG_ERROR(#{what => "Got not implemented request to process",
+                 operation_id => OperationID, request => Req, context => Context}),
     {501, #{}, #{}}.
