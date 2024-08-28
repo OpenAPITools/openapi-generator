@@ -23,6 +23,9 @@ import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,17 +38,19 @@ import java.util.Map;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig {
+public class ErlangServerDeprecatedCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(ErlangServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ErlangServerDeprecatedCodegen.class);
 
     protected String apiVersion = "1.0.0";
     protected String apiPath = "src";
     @Setter protected String packageName = "openapi";
     @Setter protected String openApiSpecName = "openapi";
 
-    public ErlangServerCodegen() {
+    public ErlangServerDeprecatedCodegen() {
         super();
+
+	generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.DEPRECATED).build();
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
@@ -92,7 +97,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
          * Template Location.  This is the location which templates will be read from.  The generator
          * will use the resource stream to attempt to read the templates.
          */
-        embeddedTemplateDir = templateDir = "erlang-server";
+        embeddedTemplateDir = templateDir = "erlang-server-deprecated";
 
         /**
          * Reserved words.  Override this with reserved words specific to your language
@@ -205,7 +210,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
      */
     @Override
     public String getName() {
-        return "erlang-server";
+        return "erlang-server-deprecated";
     }
 
     /**
@@ -216,7 +221,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
      */
     @Override
     public String getHelp() {
-        return "Generates an Erlang server library (beta) using OpenAPI Generator (https://openapi-generator.tech). By default, " +
+        return "Generates an Erlang server library (deprecated) using OpenAPI Generator (https://openapi-generator.tech). By default, " +
                 "it will also generate service classes, which can be disabled with the `-Dnoservice` environment variable.";
     }
 
