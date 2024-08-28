@@ -102,6 +102,14 @@ class DefaultApi
      * @var StreamFactoryInterface
      */
     protected $streamFactory;
+    
+    /**
+     * @var string[]
+     */
+    public const JSON_FORMATS = [
+        'application/merge-patch+json', 
+        'application/json',
+    ]; 
 
     public function __construct(
         ClientInterface $httpClient = null,
@@ -371,7 +379,7 @@ class DefaultApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -463,5 +471,15 @@ class DefaultApi
         }
 
         return $uri;
+    }
+
+    private function bodyShouldBeEncoded(string $contentType): bool 
+    {        
+        foreach(self::JSON_FORMATS as $format) {
+            if(stripos($contentType, $format) !== false) {
+               return true;
+            }
+        }
+        return false;
     }
 }

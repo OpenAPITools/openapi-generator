@@ -102,6 +102,14 @@ class FakeApi
      * @var StreamFactoryInterface
      */
     protected $streamFactory;
+    
+    /**
+     * @var string[]
+     */
+    public const JSON_FORMATS = [
+        'application/merge-patch+json', 
+        'application/json',
+    ]; 
 
     public function __construct(
         ClientInterface $httpClient = null,
@@ -371,7 +379,7 @@ class FakeApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -606,7 +614,7 @@ class FakeApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -818,7 +826,7 @@ class FakeApi
 
         // for model (json/xml)
         if (isset($pet)) {
-            if ($headers['Content-Type'] === 'application/json') {
+            if ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($pet));
             } else {
                 $httpBody = $pet;
@@ -838,7 +846,7 @@ class FakeApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -1056,7 +1064,7 @@ class FakeApi
 
         // for model (json/xml)
         if (isset($body)) {
-            if ($headers['Content-Type'] === 'application/json') {
+            if ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($body));
             } else {
                 $httpBody = $body;
@@ -1076,7 +1084,7 @@ class FakeApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -1294,7 +1302,7 @@ class FakeApi
 
         // for model (json/xml)
         if (isset($outer_composite)) {
-            if ($headers['Content-Type'] === 'application/json') {
+            if ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($outer_composite));
             } else {
                 $httpBody = $outer_composite;
@@ -1314,7 +1322,7 @@ class FakeApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -1532,7 +1540,7 @@ class FakeApi
 
         // for model (json/xml)
         if (isset($body)) {
-            if ($headers['Content-Type'] === 'application/json') {
+            if ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($body));
             } else {
                 $httpBody = $body;
@@ -1552,7 +1560,7 @@ class FakeApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -1770,7 +1778,7 @@ class FakeApi
 
         // for model (json/xml)
         if (isset($body)) {
-            if ($headers['Content-Type'] === 'application/json') {
+            if ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($body));
             } else {
                 $httpBody = $body;
@@ -1790,7 +1798,7 @@ class FakeApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -2014,7 +2022,7 @@ class FakeApi
 
         // for model (json/xml)
         if (isset($outer_object_with_enum_property)) {
-            if ($headers['Content-Type'] === 'application/json') {
+            if ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($outer_object_with_enum_property));
             } else {
                 $httpBody = $outer_object_with_enum_property;
@@ -2034,7 +2042,7 @@ class FakeApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -2313,7 +2321,7 @@ class FakeApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -2500,7 +2508,7 @@ class FakeApi
 
         // for model (json/xml)
         if (isset($request_body)) {
-            if ($headers['Content-Type'] === 'application/json') {
+            if ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($request_body));
             } else {
                 $httpBody = $request_body;
@@ -2520,7 +2528,7 @@ class FakeApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -2699,7 +2707,7 @@ class FakeApi
 
         // for model (json/xml)
         if (isset($body)) {
-            if ($headers['Content-Type'] === 'application/json') {
+            if ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($body));
             } else {
                 $httpBody = $body;
@@ -2719,7 +2727,7 @@ class FakeApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -2898,7 +2906,7 @@ class FakeApi
 
         // for model (json/xml)
         if (isset($file_schema_test_class)) {
-            if ($headers['Content-Type'] === 'application/json') {
+            if ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($file_schema_test_class));
             } else {
                 $httpBody = $file_schema_test_class;
@@ -2918,7 +2926,7 @@ class FakeApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -3119,7 +3127,7 @@ class FakeApi
 
         // for model (json/xml)
         if (isset($user)) {
-            if ($headers['Content-Type'] === 'application/json') {
+            if ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($user));
             } else {
                 $httpBody = $user;
@@ -3139,7 +3147,7 @@ class FakeApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -3371,7 +3379,7 @@ class FakeApi
 
         // for model (json/xml)
         if (isset($client)) {
-            if ($headers['Content-Type'] === 'application/json') {
+            if ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($client));
             } else {
                 $httpBody = $client;
@@ -3391,7 +3399,7 @@ class FakeApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -3786,7 +3794,7 @@ class FakeApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -4099,7 +4107,7 @@ class FakeApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -4407,7 +4415,7 @@ class FakeApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -4598,7 +4606,7 @@ class FakeApi
 
         // for model (json/xml)
         if (isset($request_body)) {
-            if ($headers['Content-Type'] === 'application/json') {
+            if ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($request_body));
             } else {
                 $httpBody = $request_body;
@@ -4618,7 +4626,7 @@ class FakeApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -4805,7 +4813,7 @@ class FakeApi
 
         // for model (json/xml)
         if (isset($test_inline_freeform_additional_properties_request)) {
-            if ($headers['Content-Type'] === 'application/json') {
+            if ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($test_inline_freeform_additional_properties_request));
             } else {
                 $httpBody = $test_inline_freeform_additional_properties_request;
@@ -4825,7 +4833,7 @@ class FakeApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -5045,7 +5053,7 @@ class FakeApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -5359,7 +5367,7 @@ class FakeApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -5546,7 +5554,7 @@ class FakeApi
 
         // for model (json/xml)
         if (isset($request_body)) {
-            if ($headers['Content-Type'] === 'application/json') {
+            if ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($request_body));
             } else {
                 $httpBody = $request_body;
@@ -5566,7 +5574,7 @@ class FakeApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -5658,5 +5666,15 @@ class FakeApi
         }
 
         return $uri;
+    }
+
+    private function bodyShouldBeEncoded(string $contentType): bool 
+    {        
+        foreach(self::JSON_FORMATS as $format) {
+            if(stripos($contentType, $format) !== false) {
+               return true;
+            }
+        }
+        return false;
     }
 }
