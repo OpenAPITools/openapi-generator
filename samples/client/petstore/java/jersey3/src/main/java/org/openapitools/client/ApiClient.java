@@ -990,24 +990,10 @@ public class ApiClient extends JavaTimeFormatter {
     if (contentType.startsWith("multipart/form-data")) {
       MultiPart multiPart = new MultiPart();
       for (Entry<String, Object> param: formParams.entrySet()) {
-        if (param.getValue() instanceof File) {
-          File file = (File) param.getValue();
-          FormDataContentDisposition contentDisp = FormDataContentDisposition.name(param.getKey())
-              .fileName(file.getName()).size(file.length()).build();
-
-          // Attempt to probe the content type for the file so that the form part is more correctly
-          // and precisely identified, but fall back to application/octet-stream if that fails.
-          MediaType type;
-          try {
-            type = MediaType.valueOf(Files.probeContentType(file.toPath()));
-          } catch (IOException | IllegalArgumentException e) {
-            type = MediaType.APPLICATION_OCTET_STREAM_TYPE;
-          }
-
-          multiPart.bodyPart(new FormDataBodyPart(contentDisp, file, type));
+        if (param.getValue() instanceof Iterable) {
+          Stream.of(param.getValue).forEach(v -> addParamToMultipart(v, param.getKey, multiPart));
         } else {
-          FormDataContentDisposition contentDisp = FormDataContentDisposition.name(param.getKey()).build();
-          multiPart.bodyPart(new FormDataBodyPart(contentDisp, parameterToString(param.getValue())));
+          addParamToMultipart(param.getValue(), param.getKey(), multiPart);
         }
       }
       entity = Entity.entity(multiPart, MediaType.MULTIPART_FORM_DATA_TYPE);
@@ -1035,6 +1021,28 @@ public class ApiClient extends JavaTimeFormatter {
     }
     return entity;
   }
+
+  private void addParamToMultipart(Object value, String key, Multipart multiPart) {
+    if (value instanceof File) {
+      File file = (File) value;
+      FormDataContentDisposition contentDisp = FormDataContentDisposition.name(key)
+          .fileName(file.getName()).size(file.length()).build();
+
+      // Attempt to probe the content type for the file so that the form part is more correctly
+      // and precisely identified, but fall back to application/octet-stream if that fails.
+      MediaType type;
+      try {
+        type = MediaType.valueOf(Files.probeContentType(file.toPath()));
+      } catch (IOException | IllegalArgumentException e) {
+        type = MediaType.APPLICATION_OCTET_STREAM_TYPE;
+      }
+
+      multiPart.bodyPart(new FormDataBodyPart(contentDisp, file, type));
+    } else {
+      FormDataContentDisposition contentDisp = FormDataContentDisposition.name(key).build();
+      multiPart.bodyPart(new FormDataBodyPart(contentDisp, parameterToString(value)));
+    }
+  } 
 
   /**
    * Serialize the given Java object into string according the given
