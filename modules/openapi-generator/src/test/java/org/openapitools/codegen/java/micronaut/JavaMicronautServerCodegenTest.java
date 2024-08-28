@@ -11,7 +11,6 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.JavaMicronautServerCodegen;
 import org.openapitools.codegen.testutils.ConfigAssert;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -486,5 +485,47 @@ public class JavaMicronautServerCodegenTest extends AbstractMicronautCodegenTest
             .assertMethod("getActivities")
             .hasAnnotation("JacksonXmlProperty", Map.of("localName", "\"item\""))
             .hasAnnotation("JacksonXmlElementWrapper", Map.of("localName", "\"activities-array\""));
+    }
+
+    @Test
+    public void testMultipleContentTypesToPath() {
+
+        var codegen = new JavaMicronautServerCodegen();
+        String outputPath = generateFiles(codegen, "src/test/resources/3_0/java/multiple-content-types.yaml", CodegenConstants.APIS, CodegenConstants.MODELS);
+
+        // Micronaut declarative http client should use the provided path separator
+        assertFileContains(outputPath + "/src/main/java/org/openapitools/controller/DefaultController.java",
+            "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Produces(value = {})\n" +
+                "    @Consumes(value = {\"application/json\", \"application/xml\"})\n" +
+                "    @Secured({SecurityRule.IS_ANONYMOUS})\n" +
+                "    public Mono<Void> myOp(\n" +
+                "        @Body @Nullable @Valid Coordinates coordinates\n" +
+                "    ) {\n" +
+                "        // TODO implement myOp();\n" +
+                "        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));\n" +
+                "    }",
+            "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Produces(value = {})\n" +
+                "    @Consumes(value = {\"multipart/form-data\"})\n" +
+                "    @Secured({SecurityRule.IS_ANONYMOUS})\n" +
+                "    public Mono<Void> myOp_1(\n" +
+                "        @Nullable @Valid Coordinates coordinates, \n" +
+                "        @Nullable CompletedFileUpload _file\n" +
+                "    ) {\n" +
+                "        // TODO implement myOp_1();\n" +
+                "        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));\n" +
+                "    }",
+            "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Produces(value = {})\n" +
+                "    @Consumes(value = {\"application/yaml\", \"text/json\"})\n" +
+                "    @Secured({SecurityRule.IS_ANONYMOUS})\n" +
+                "    public Mono<Void> myOp_2(\n" +
+                "        @Body @Nullable @Valid MySchema mySchema\n" +
+                "    ) {\n" +
+                "        // TODO implement myOp_2();\n" +
+                "        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));\n" +
+                "    }"
+        );
     }
 }
