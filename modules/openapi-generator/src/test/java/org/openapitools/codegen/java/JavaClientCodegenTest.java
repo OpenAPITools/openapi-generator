@@ -2212,10 +2212,11 @@ public class JavaClientCodegenTest {
         Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
                 .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("Employee.java"))
+        JavaFileAssert.assertThat(files.get("EmployeeWithMapOfEnum.java"))
                 .assertProperty("projectRole")
-                .withType("Map<String, InnerEnum>")
-                .toType()
+                .withType("Map<String, InnerEnum>");
+
+        JavaFileAssert.assertThat(files.get("EmployeeWithMultiMapOfEnum.java"))
                 .assertProperty("projectRoles")
                 .withType("Map<String, Set<InnerEnum>>");
     }

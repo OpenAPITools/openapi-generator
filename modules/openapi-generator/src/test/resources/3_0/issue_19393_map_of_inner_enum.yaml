@@ -6,28 +6,14 @@ info:
     name: Apache-2.0
     url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
 paths:
-  /employees/{employeeId}:
-    put:
-      operationId: updateEmployee
-      parameters:
-        - name: employeeId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Employee'
-        required: true
+  /status:
+    get:
       responses:
         '200':
-          description: OK
+          description: desc
 components:
   schemas:
-    Employee:
+    EmployeeWithMapOfEnum:
       type: object
       properties:
         projectRole:
@@ -38,6 +24,9 @@ components:
               - DEVELOPER
               - TESTER
               - OWNER
+    EmployeeWithMultiMapOfEnum:
+      type: object
+      properties:
         projectRoles:
           type: object
           additionalProperties:
