@@ -991,7 +991,7 @@ public class ApiClient extends JavaTimeFormatter {
       MultiPart multiPart = new MultiPart();
       for (Entry<String, Object> param: formParams.entrySet()) {
         if (param.getValue() instanceof Iterable) {
-          Stream.of(param.getValue).forEach(v -> addParamToMultipart(v, param.getKey, multiPart));
+          Stream.of(param.getValue()).forEach(v -> addParamToMultipart(v, param.getKey(), multiPart));
         } else {
           addParamToMultipart(param.getValue(), param.getKey(), multiPart);
         }
