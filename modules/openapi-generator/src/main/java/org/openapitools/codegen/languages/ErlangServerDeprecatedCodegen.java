@@ -50,7 +50,7 @@ public class ErlangServerDeprecatedCodegen extends DefaultCodegen implements Cod
     public ErlangServerDeprecatedCodegen() {
         super();
 
-	generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.DEPRECATED).build();
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.DEPRECATED).build();
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
