@@ -1022,7 +1022,7 @@ public class ApiClient extends JavaTimeFormatter {
     return entity;
   }
 
-  private void addParamToMultipart(Object value, String key, Multipart multiPart) {
+  private void addParamToMultipart(Object value, String key, MultiPart multiPart) {
     if (value instanceof File) {
       File file = (File) value;
       FormDataContentDisposition contentDisp = FormDataContentDisposition.name(key)
