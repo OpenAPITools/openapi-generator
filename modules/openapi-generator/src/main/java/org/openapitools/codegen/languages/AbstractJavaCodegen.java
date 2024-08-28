@@ -704,7 +704,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                             propertyHash.put(property.name, property);
                             final CodegenProperty parentVar = property.clone();
                             parentVar.isInherited = true;
-                            LOGGER.info("adding parent variable {} to {}", property.name, codegenModel.name);
+                            LOGGER.debug("adding parent variable {} to {}", property.name, codegenModel.name);
                             codegenModel.parentVars.add(parentVar);
                             Set<String> imports = parentVar.getImports(true, this.importBaseType, generatorMetadata.getFeatureSet()).stream().filter(Objects::nonNull).collect(Collectors.toSet());
                             for (String imp : imports) {
