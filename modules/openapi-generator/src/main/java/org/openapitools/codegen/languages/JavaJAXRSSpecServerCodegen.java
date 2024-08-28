@@ -250,8 +250,6 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             codegenModel.imports.remove("ApiModel");
         }
         if (!jackson) {
-            codegenModel.imports.remove("JsonSerialize");
-            codegenModel.imports.remove("ToStringSerializer");
             codegenModel.imports.remove("JsonValue");
             codegenModel.imports.remove("JsonProperty");
         }

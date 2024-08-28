@@ -435,10 +435,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             typeMapping.put("map", "kotlin.collections.MutableMap");
         }
 
-        // optional jackson mappings for BigDecimal support
-        importMapping.put("ToStringSerializer", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer");
-        importMapping.put("JsonSerialize", "com.fasterxml.jackson.databind.annotation.JsonSerialize");
-
         // Swagger import mappings
         importMapping.put("ApiModel", "io.swagger.annotations.ApiModel");
         importMapping.put("ApiModelProperty", "io.swagger.annotations.ApiModelProperty");

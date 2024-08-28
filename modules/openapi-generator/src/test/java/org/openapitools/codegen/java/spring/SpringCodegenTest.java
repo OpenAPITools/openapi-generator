@@ -2478,11 +2478,11 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_14252.yaml");
 
         JavaFileAssert.assertThat(files.get("MyResponse.java"))
-            .hasImports("com.fasterxml.jackson.databind.annotation.JsonSerialize", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer")
+            .hasImports("com.fasterxml.jackson.annotation.JsonFormat")
             .assertMethod("getMyPropTypeNumber")
             .assertMethodAnnotations()
-            .containsWithNameAndAttributes("JsonSerialize", ImmutableMap.of(
-                "using", "ToStringSerializer.class"
+            .containsWithNameAndAttributes("JsonFormat", ImmutableMap.of(
+                "shape", "JsonFormat.Shape.STRING"
             ));
     }
 
