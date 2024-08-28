@@ -1,0 +1,67 @@
+openapi: 3.0.3
+info:
+  version: "1"
+  title: Multiple Content Types for same request
+paths:
+  /multiplecontentpath:
+    post:
+      operationId: myOp
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/coordinates'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/coordinates'
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                coordinates:
+                  $ref: '#/components/schemas/coordinates'
+                file:
+                  type: string
+                  format: binary
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/MySchema'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/MySchema'
+      responses:
+        201:
+          description: Successfully created
+          headers:
+            Location:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coordinates'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/coordinates'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/MySchema'
+components:
+  schemas:
+    coordinates:
+      type: object
+      required:
+        - lat
+        - long
+      properties:
+        lat:
+          type: number
+        long:
+          type: number
+    MySchema:
+      type: object
+      required:
+        - lat
+      properties:
+        lat:
+          type: number

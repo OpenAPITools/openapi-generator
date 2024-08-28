@@ -487,4 +487,5 @@ public class JavaMicronautServerCodegenTest extends AbstractMicronautCodegenTest
                 .hasAnnotation("JacksonXmlProperty", Map.of("localName", "\"item\""))
                 .hasAnnotation("JacksonXmlElementWrapper", Map.of("localName", "\"activities-array\""));
     }
+
 }

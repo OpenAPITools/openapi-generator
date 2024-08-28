@@ -69,6 +69,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
+|groupByResponseContentType| Group server or client methods by response content types. For example, when openapi operation produces one of "application/json" and "application/xml" content types will be generated only one method for both content types. Otherwise for each content type will be generated different method. **Available only for generatos with supportsDividingOperationsByContentType** | |true|
+|groupByRequestAndResponseContentType| Group server or client methods by request body and response content types. For example, when openapi operation consumes "application/json" and "application/xml" content type and also api response has content with the same content types, 2 different methods will be generated. The content of the request and response types will match. Otherwise, will be generated 4 methods - for each combination of request body content type and response content type. **Available only for generatos with supportsDividingOperationsByContentType** | |true|
 
 ## SUPPORTED VENDOR EXTENSIONS
 

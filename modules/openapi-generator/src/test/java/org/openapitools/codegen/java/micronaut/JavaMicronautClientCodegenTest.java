@@ -20,7 +20,6 @@ import static java.util.stream.Collectors.groupingBy;
 import static org.openapitools.codegen.TestUtils.newTempFolder;
 import static org.testng.Assert.assertEquals;
 
-
 public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest {
     @Test
     public void clientOptsUnicity() {
@@ -326,13 +325,13 @@ public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest
     public void shouldGenerateCorrectXmlAnnotations() {
         // Arrange
         final CodegenConfigurator config = new CodegenConfigurator()
-                .addAdditionalProperty(CodegenConstants.WITH_XML, true)
-                .addGlobalProperty(CodegenConstants.MODELS, "Pet")
-                .addGlobalProperty(CodegenConstants.MODEL_DOCS, null)
-                .addGlobalProperty(CodegenConstants.MODEL_TESTS, null)
-                .setGeneratorName(JavaMicronautClientCodegen.NAME)
-                .setInputSpec("src/test/resources/3_0/java/xml-annotations-test.yaml")
-                .setOutputDir(newTempFolder().toString());
+            .addAdditionalProperty(CodegenConstants.WITH_XML, true)
+            .addGlobalProperty(CodegenConstants.MODELS, "Pet")
+            .addGlobalProperty(CodegenConstants.MODEL_DOCS, null)
+            .addGlobalProperty(CodegenConstants.MODEL_TESTS, null)
+            .setGeneratorName(JavaMicronautClientCodegen.NAME)
+            .setInputSpec("src/test/resources/3_0/java/xml-annotations-test.yaml")
+            .setOutputDir(newTempFolder().toString());
 
         // Act
         final List<File> files = new DefaultGenerator().opts(config.toClientOptInput()).generate();
@@ -456,5 +455,308 @@ public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest
                 .assertMethod("getActivities")
                 .hasAnnotation("JacksonXmlProperty", Map.of("localName", "\"item\""))
                 .hasAnnotation("JacksonXmlElementWrapper", Map.of("localName", "\"activities-array\""));
+    }
+
+    @Test
+    public void testMultipleContentTypesToPathTrueTrue() {
+
+        var codegen = new JavaMicronautClientCodegen();
+        codegen.setGroupByRequestAndResponseContentType(true);
+        codegen.setGroupByResponseContentType(true);
+        String outputPath = generateFiles(codegen, "src/test/resources/3_0/java/multiple-content-types.yaml", CodegenConstants.APIS, CodegenConstants.MODELS);
+
+        assertFileContains(outputPath + "/src/main/java/org/openapitools/api/DefaultApi.java",
+            "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/json\"})\n" +
+                "    @Produces({\"application/json\"})\n" +
+                "    Mono<Coordinates> myOp(\n" +
+                "        @Body @Nullable @Valid Coordinates coordinates\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/xml\"})\n" +
+                "    @Produces({\"application/xml\"})\n" +
+                "    Mono<Coordinates> myOp_1(\n" +
+                "        @Body @Nullable @Valid Coordinates coordinates\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/json\", \"application/xml\", \"text/json\"})\n" +
+                "    @Produces({\"multipart/form-data\"})\n" +
+                "    Mono<Coordinates> myOp_2(\n" +
+                "        @Nullable @Valid Coordinates coordinates, \n" +
+                "        @Nullable File _file\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"text/json\"})\n" +
+                "    @Produces({\"application/yaml\", \"text/json\"})\n" +
+                "    Mono<MySchema> myOp_3(\n" +
+                "        @Body @Nullable @Valid MySchema mySchema\n" +
+                "    );"
+        );
+    }
+
+    @Test
+    public void testMultipleContentTypesToPathTrueFalse() {
+
+        var codegen = new JavaMicronautClientCodegen();
+        codegen.setGroupByRequestAndResponseContentType(true);
+        codegen.setGroupByResponseContentType(false);
+        String outputPath = generateFiles(codegen, "src/test/resources/3_0/java/multiple-content-types.yaml", CodegenConstants.APIS, CodegenConstants.MODELS);
+
+        assertFileContains(outputPath + "/src/main/java/org/openapitools/api/DefaultApi.java",
+            "    @Consumes({\"application/json\"})\n" +
+                "    @Produces({\"application/json\"})\n" +
+                "    Mono<Coordinates> myOp(\n" +
+                "        @Body @Nullable @Valid Coordinates coordinates\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/xml\"})\n" +
+                "    @Produces({\"application/xml\"})\n" +
+                "    Mono<Coordinates> myOp_1(\n" +
+                "        @Body @Nullable @Valid Coordinates coordinates\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/json\", \"application/xml\", \"text/json\"})\n" +
+                "    @Produces({\"multipart/form-data\"})\n" +
+                "    Mono<Coordinates> myOp_2(\n" +
+                "        @Nullable @Valid Coordinates coordinates, \n" +
+                "        @Nullable File _file\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/json\", \"application/xml\", \"text/json\"})\n" +
+                "    @Produces({\"application/yaml\"})\n" +
+                "    Mono<Coordinates> myOp_3(\n" +
+                "        @Body @Nullable @Valid MySchema mySchema\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"text/json\"})\n" +
+                "    @Produces({\"text/json\"})\n" +
+                "    Mono<MySchema> myOp_4(\n" +
+                "        @Body @Nullable @Valid MySchema mySchema\n" +
+                "    );"
+        );
+    }
+
+    @Test
+    public void testMultipleContentTypesToPathFalseTrue() {
+
+        var codegen = new JavaMicronautClientCodegen();
+        codegen.setGroupByRequestAndResponseContentType(false);
+        codegen.setGroupByResponseContentType(true);
+        String outputPath = generateFiles(codegen, "src/test/resources/3_0/java/multiple-content-types.yaml", CodegenConstants.APIS, CodegenConstants.MODELS);
+
+        assertFileContains(outputPath + "/src/main/java/org/openapitools/api/DefaultApi.java",
+            "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/xml\"})\n" +
+                "    @Produces({\"application/json\"})\n" +
+                "    Mono<Coordinates> myOp(\n" +
+                "        @Body @Nullable @Valid Coordinates coordinates\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/json\"})\n" +
+                "    @Produces({\"application/json\"})\n" +
+                "    Mono<Coordinates> myOp_1(\n" +
+                "        @Body @Nullable @Valid Coordinates coordinates\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"text/json\"})\n" +
+                "    @Produces({\"application/json\"})\n" +
+                "    Mono<MySchema> myOp_2(\n" +
+                "        @Body @Nullable @Valid Coordinates coordinates\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"text/json\"})\n" +
+                "    @Produces({\"application/yaml\", \"text/json\"})\n" +
+                "    Mono<MySchema> myOp_3(\n" +
+                "        @Body @Nullable @Valid MySchema mySchema\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/xml\"})\n" +
+                "    @Produces({\"application/xml\"})\n" +
+                "    Mono<Coordinates> myOp_4(\n" +
+                "        @Body @Nullable @Valid Coordinates coordinates\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/json\"})\n" +
+                "    @Produces({\"application/xml\"})\n" +
+                "    Mono<Coordinates> myOp_5(\n" +
+                "        @Body @Nullable @Valid Coordinates coordinates\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"text/json\"})\n" +
+                "    @Produces({\"application/xml\"})\n" +
+                "    Mono<MySchema> myOp_6(\n" +
+                "        @Body @Nullable @Valid Coordinates coordinates\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/xml\"})\n" +
+                "    @Produces({\"multipart/form-data\"})\n" +
+                "    Mono<Coordinates> myOp_7(\n" +
+                "        @Nullable @Valid Coordinates coordinates, \n" +
+                "        @Nullable File _file\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/json\"})\n" +
+                "    @Produces({\"multipart/form-data\"})\n" +
+                "    Mono<Coordinates> myOp_8(\n" +
+                "        @Nullable @Valid Coordinates coordinates, \n" +
+                "        @Nullable File _file\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"text/json\"})\n" +
+                "    @Produces({\"multipart/form-data\"})\n" +
+                "    Mono<MySchema> myOp_9(\n" +
+                "        @Nullable @Valid Coordinates coordinates, \n" +
+                "        @Nullable File _file\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/xml\"})\n" +
+                "    @Produces({\"application/yaml\", \"text/json\"})\n" +
+                "    Mono<Coordinates> myOp_10(\n" +
+                "        @Body @Nullable @Valid MySchema mySchema\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/json\"})\n" +
+                "    @Produces({\"application/yaml\", \"text/json\"})\n" +
+                "    Mono<Coordinates> myOp_11(\n" +
+                "        @Body @Nullable @Valid MySchema mySchema\n" +
+                "    );"
+        );
+    }
+
+    @Test
+    public void testMultipleContentTypesToPathFalseFalse() {
+
+        var codegen = new JavaMicronautClientCodegen();
+        codegen.setGroupByRequestAndResponseContentType(false);
+        codegen.setGroupByResponseContentType(false);
+        String outputPath = generateFiles(codegen, "src/test/resources/3_0/java/multiple-content-types.yaml", CodegenConstants.APIS, CodegenConstants.MODELS);
+
+        assertFileContains(outputPath + "/src/main/java/org/openapitools/api/DefaultApi.java",
+            "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/xml\"})\n" +
+                "    @Produces({\"application/json\"})\n" +
+                "    Mono<Coordinates> myOp(\n" +
+                "        @Body @Nullable @Valid Coordinates coordinates\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/json\"})\n" +
+                "    @Produces({\"application/json\"})\n" +
+                "    Mono<Coordinates> myOp_1(\n" +
+                "        @Body @Nullable @Valid Coordinates coordinates\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"text/json\"})\n" +
+                "    @Produces({\"application/json\"})\n" +
+                "    Mono<MySchema> myOp_2(\n" +
+                "        @Body @Nullable @Valid Coordinates coordinates\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"text/json\"})\n" +
+                "    @Produces({\"application/yaml\"})\n" +
+                "    Mono<MySchema> myOp_3(\n" +
+                "        @Body @Nullable @Valid MySchema mySchema\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/xml\"})\n" +
+                "    @Produces({\"text/json\"})\n" +
+                "    Mono<Coordinates> myOp_4(\n" +
+                "        @Body @Nullable @Valid MySchema mySchema\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/json\"})\n" +
+                "    @Produces({\"text/json\"})\n" +
+                "    Mono<Coordinates> myOp_5(\n" +
+                "        @Body @Nullable @Valid MySchema mySchema\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"text/json\"})\n" +
+                "    @Produces({\"text/json\"})\n" +
+                "    Mono<MySchema> myOp_6(\n" +
+                "        @Body @Nullable @Valid MySchema mySchema\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/xml\"})\n" +
+                "    @Produces({\"application/xml\"})\n" +
+                "    Mono<Coordinates> myOp_7(\n" +
+                "        @Body @Nullable @Valid Coordinates coordinates\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/json\"})\n" +
+                "    @Produces({\"application/xml\"})\n" +
+                "    Mono<Coordinates> myOp_8(\n" +
+                "        @Body @Nullable @Valid Coordinates coordinates\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"text/json\"})\n" +
+                "    @Produces({\"application/xml\"})\n" +
+                "    Mono<MySchema> myOp_9(\n" +
+                "        @Body @Nullable @Valid Coordinates coordinates\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/xml\"})\n" +
+                "    @Produces({\"multipart/form-data\"})\n" +
+                "    Mono<Coordinates> myOp_10(\n" +
+                "        @Nullable @Valid Coordinates coordinates, \n" +
+                "        @Nullable File _file\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/json\"})\n" +
+                "    @Produces({\"multipart/form-data\"})\n" +
+                "    Mono<Coordinates> myOp_11(\n" +
+                "        @Nullable @Valid Coordinates coordinates, \n" +
+                "        @Nullable File _file\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"text/json\"})\n" +
+                "    @Produces({\"multipart/form-data\"})\n" +
+                "    Mono<MySchema> myOp_12(\n" +
+                "        @Nullable @Valid Coordinates coordinates, \n" +
+                "        @Nullable File _file\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/xml\"})\n" +
+                "    @Produces({\"application/yaml\"})\n" +
+                "    Mono<Coordinates> myOp_13(\n" +
+                "        @Body @Nullable @Valid MySchema mySchema\n" +
+                "    );",
+
+                "    @Post(uri=\"/multiplecontentpath\")\n" +
+                "    @Consumes({\"application/json\"})\n" +
+                "    @Produces({\"application/yaml\"})\n" +
+                "    Mono<Coordinates> myOp_14(\n" +
+                "        @Body @Nullable @Valid MySchema mySchema\n" +
+                "    );"
+        );
     }
 }

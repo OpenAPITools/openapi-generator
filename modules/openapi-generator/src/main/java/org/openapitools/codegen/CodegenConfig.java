@@ -366,4 +366,5 @@ public interface CodegenConfig {
 
     Set<String> getOpenapiGeneratorIgnoreList();
 
+    boolean supportsDividingOperationsByContentType();
 }
