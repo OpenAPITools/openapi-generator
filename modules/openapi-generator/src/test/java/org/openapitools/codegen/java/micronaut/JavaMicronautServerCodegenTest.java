@@ -11,7 +11,6 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.JavaMicronautServerCodegen;
 import org.openapitools.codegen.testutils.ConfigAssert;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -487,4 +486,5 @@ public class JavaMicronautServerCodegenTest extends AbstractMicronautCodegenTest
             .hasAnnotation("JacksonXmlProperty", Map.of("localName", "\"item\""))
             .hasAnnotation("JacksonXmlElementWrapper", Map.of("localName", "\"activities-array\""));
     }
+
 }
