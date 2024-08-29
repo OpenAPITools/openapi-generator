@@ -92,7 +92,7 @@ handle_type_accepted(Req, #state{operation_id = OperationID,
     Handler(header, OperationID, Req, State#state.context).
 
 -spec handle_type_provided(cowboy_req:req(), state()) ->
-    cowboy_req:resp_body().
+    {cowboy_req:resp_body(), cowboy_req:req(), openapi_logic_handler:context()}.
 handle_type_provided(Req, #state{operation_id = OperationID,
                                  provide_callback = Handler} = State) ->
     Handler(header, OperationID, Req, State#state.context).
