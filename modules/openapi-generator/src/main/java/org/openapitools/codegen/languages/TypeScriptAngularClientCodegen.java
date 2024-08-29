@@ -72,8 +72,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String MODEL_SUFFIX = "modelSuffix";
     public static final String MODEL_FILE_SUFFIX = "modelFileSuffix";
     public static final String FILE_NAMING = "fileNaming";
-    public static final String STRING_ENUMS = "stringEnums";
-    public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
     public static final String QUERY_PARAM_OBJECT_FORMAT = "queryParamObjectFormat";
     public static final String USE_SQUARE_BRACKETS_IN_ARRAY_NAMES = "useSquareBracketsInArrayNames";
 
@@ -86,7 +84,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     protected String modelSuffix = "";
     protected String modelFileSuffix = "";
     protected String fileNaming = "camelCase";
-    @Getter protected Boolean stringEnums = false;
     protected QUERY_PARAM_OBJECT_FORMAT_TYPE queryParamObjectFormat = QUERY_PARAM_OBJECT_FORMAT_TYPE.dot;
     protected PROVIDED_IN_LEVEL providedIn = PROVIDED_IN_LEVEL.root;
 
@@ -141,7 +138,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model."));
         this.cliOptions.add(new CliOption(MODEL_FILE_SUFFIX, "The suffix of the file of the generated model (model<suffix>.ts)."));
         this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
-        this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.stringEnums)));
         this.cliOptions.add(new CliOption(QUERY_PARAM_OBJECT_FORMAT, "The format for query param objects: 'dot', 'json', 'key'.").defaultValue(this.queryParamObjectFormat.name()));
         this.cliOptions.add(CliOption.newBoolean(USE_SQUARE_BRACKETS_IN_ARRAY_NAMES, "Setting this property to true will add brackets to array attribute names, e.g. my_values[].", false));
     }
@@ -197,12 +193,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             addNpmPackageGeneration(ngVersion);
         }
 
-        if (additionalProperties.containsKey(STRING_ENUMS)) {
-            setStringEnums(Boolean.parseBoolean(additionalProperties.get(STRING_ENUMS).toString()));
-            additionalProperties.put("stringEnums", getStringEnums());
-            if (getStringEnums()) {
-                classEnumSeparator = "";
-            }
+        if (additionalProperties.containsKey(STRING_ENUMS) && getStringEnums()) {
+            classEnumSeparator = "";
         }
 
         if (additionalProperties.containsKey(WITH_INTERFACES)) {
@@ -413,10 +405,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     private String getIndexDirectory() {
         String indexPackage = modelPackage.substring(0, Math.max(0, modelPackage.lastIndexOf('.')));
         return indexPackage.replace('.', File.separatorChar);
-    }
-
-    public void setStringEnums(boolean value) {
-        stringEnums = value;
     }
 
     public boolean getQueryParamObjectFormatDot() {

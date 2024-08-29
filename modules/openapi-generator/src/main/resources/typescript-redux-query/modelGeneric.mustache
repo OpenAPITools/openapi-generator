@@ -124,6 +124,7 @@ export function {{classname}}ToJSON(value?: {{classname}}): any {
 {{#hasEnums}}
 {{#vars}}
 {{#isEnum}}
+{{#stringEnums}}
 /**
 * @export
 * @enum {string}
@@ -135,6 +136,21 @@ export enum {{classname}}{{enumName}} {
     {{/enumVars}}
 {{/allowableValues}}
 }
+{{/stringEnums}}
+{{^stringEnums}}
+/**
+ * @export
+ */
+export type {{classname}}{{enumName}} = {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}} | {{/-last}}{{/enumVars}}{{/allowableValues}};
+
+export const {{classname}}{{enumName}} = {
+{{#allowableValues}}
+{{#enumVars}}
+    {{name}}: {{{value}}} as {{classname}}{{enumName}}{{^-last}},{{/-last}}
+{{/enumVars}}
+{{/allowableValues}}
+};
+{{/stringEnums}}
 {{/isEnum}}
 {{/vars}}
 

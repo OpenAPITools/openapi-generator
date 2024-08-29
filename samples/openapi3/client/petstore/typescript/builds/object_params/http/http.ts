@@ -10,16 +10,18 @@ export * from './isomorphic-fetch';
 /**
  * Represents an HTTP method.
  */
-export enum HttpMethod {
-    GET = "GET",
-    HEAD = "HEAD",
-    POST = "POST",
-    PUT = "PUT",
-    DELETE = "DELETE",
-    CONNECT = "CONNECT",
-    OPTIONS = "OPTIONS",
-    TRACE = "TRACE",
-    PATCH = "PATCH"
+export type HttpMethod = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH";
+
+export const HttpMethod = {
+    GET: "GET" as HttpMethod,
+    HEAD: "HEAD" as HttpMethod,
+    POST: "POST" as HttpMethod,
+    PUT: "PUT" as HttpMethod,
+    DELETE: "DELETE" as HttpMethod,
+    CONNECT: "CONNECT" as HttpMethod,
+    OPTIONS: "OPTIONS" as HttpMethod,
+    TRACE: "TRACE" as HttpMethod,
+    PATCH: "PATCH" as HttpMethod
 }
 
 /**
@@ -128,7 +130,7 @@ export class RequestContext {
     public setHeaderParam(key: string, value: string): void  {
         this.headers[key] = value;
     }
-    
+
     public setAgent(agent: http.Agent | https.Agent) {
         this.agent = agent;
     }

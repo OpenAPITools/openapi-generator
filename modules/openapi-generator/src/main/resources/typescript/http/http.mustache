@@ -22,6 +22,7 @@ export * from './jquery{{importFileExtension}}';
 {{/deno}}
 {{/platforms}}
 
+{{#stringEnums}}
 /**
  * Represents an HTTP method.
  */
@@ -36,6 +37,25 @@ export enum HttpMethod {
     TRACE = "TRACE",
     PATCH = "PATCH"
 }
+{{/stringEnums}}
+{{^stringEnums}}
+/**
+ * Represents an HTTP method.
+ */
+export type HttpMethod = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH";
+
+export const HttpMethod = {
+    GET: "GET" as HttpMethod,
+    HEAD: "HEAD" as HttpMethod,
+    POST: "POST" as HttpMethod,
+    PUT: "PUT" as HttpMethod,
+    DELETE: "DELETE" as HttpMethod,
+    CONNECT: "CONNECT" as HttpMethod,
+    OPTIONS: "OPTIONS" as HttpMethod,
+    TRACE: "TRACE" as HttpMethod,
+    PATCH: "PATCH" as HttpMethod
+}
+{{/stringEnums}}
 
 /**
  * Represents an HTTP file which will be transferred from or to a server.
@@ -163,7 +183,7 @@ export class RequestContext {
     }
     {{#platforms}}
     {{#node}}
-    
+
     public setAgent(agent: http.Agent | https.Agent) {
         this.agent = agent;
     }

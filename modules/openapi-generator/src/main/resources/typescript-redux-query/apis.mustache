@@ -241,6 +241,7 @@ export function {{nickname}}<T>({{#allParams.0}}requestParameters: {{operationId
 {{#operation}}
 {{#allParams}}
 {{#isEnum}}
+{{#stringEnums}}
 /**
     * @export
     * @enum {string}
@@ -252,6 +253,21 @@ export enum {{operationIdCamelCase}}{{enumName}} {
     {{/enumVars}}
 {{/allowableValues}}
 }
+{{/stringEnums}}
+{{^stringEnums}}
+/**
+ * @export
+ */
+export type {{operationIdCamelCase}}{{enumName}} = {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}} | {{/-last}}{{/enumVars}}{{/allowableValues}};
+
+export const {{operationIdCamelCase}}{{enumName}} = {
+{{#allowableValues}}
+{{#enumVars}}
+    {{name}}: {{{value}}} as {{operationIdCamelCase}}{{enumName}}{{^-last}},{{/-last}}
+{{/enumVars}}
+{{/allowableValues}}
+};
+{{/stringEnums}}
 {{/isEnum}}
 {{/allParams}}
 {{/operation}}

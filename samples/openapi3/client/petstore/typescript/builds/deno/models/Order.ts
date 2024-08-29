@@ -75,9 +75,11 @@ export class Order {
 }
 
 
-export enum OrderStatusEnum {
-    Placed = 'placed',
-    Approved = 'approved',
-    Delivered = 'delivered'
-}
+export type OrderStatusEnum = 'placed' | 'approved' | 'delivered';
+
+export const OrderStatusEnum = {
+    Placed: 'placed' as OrderStatusEnum,
+    Approved: 'approved' as OrderStatusEnum,
+    Delivered: 'delivered' as OrderStatusEnum
+};
 

@@ -31,6 +31,7 @@ public class TypeScriptAureliaClientOptionsProvider implements OptionsProvider {
     public static final Boolean SUPPORTS_ES6_VALUE = false;
     public static final Boolean NULL_SAFE_ADDITIONAL_PROPS_VALUE = false;
     public static final String ENUM_NAME_SUFFIX = "Enum";
+    public static final String STRING_ENUMS_VALUE = "false";
     public static final String ENUM_PROPERTY_NAMING_VALUE = "PascalCase";
     public static final String MODEL_PROPERTY_NAMING_VALUE = "camelCase";
     public static final String PARAM_NAMING_VALUE = "camelCase";
@@ -59,6 +60,7 @@ public class TypeScriptAureliaClientOptionsProvider implements OptionsProvider {
                 .put(AbstractTypeScriptClientCodegen.NULL_SAFE_ADDITIONAL_PROPS, String.valueOf(NULL_SAFE_ADDITIONAL_PROPS_VALUE))
                 .put(AbstractTypeScriptClientCodegen.ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR, ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR_VALUE)
                 .put(CodegenConstants.ENUM_NAME_SUFFIX, ENUM_NAME_SUFFIX)
+                .put(AbstractTypeScriptClientCodegen.STRING_ENUMS, STRING_ENUMS_VALUE)
                 .put(TypeScriptAureliaClientCodegen.NPM_NAME, NPM_NAME)
                 .put(TypeScriptAureliaClientCodegen.NPM_VERSION, NPM_VERSION)
                 .put(TypeScriptAureliaClientCodegen.SNAPSHOT, Boolean.FALSE.toString())

@@ -28,7 +28,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/file';
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, "POST");
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
@@ -43,7 +43,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 
-        
+
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -63,7 +63,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/pets-filtered';
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PATCH);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, "PATCH");
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
@@ -78,7 +78,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 
-        
+
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
@@ -98,7 +98,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/pets';
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PATCH);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, "PATCH");
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
@@ -113,7 +113,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 
-        
+
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);

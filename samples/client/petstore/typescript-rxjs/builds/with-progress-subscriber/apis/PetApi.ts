@@ -304,10 +304,11 @@ export class PetApi extends BaseAPI {
 
 /**
  * @export
- * @enum {string}
  */
-export enum FindPetsByStatusStatusEnum {
-    Available = 'available',
-    Pending = 'pending',
-    Sold = 'sold'
-}
+export type FindPetsByStatusStatusEnum = 'available' | 'pending' | 'sold';
+
+export const FindPetsByStatusStatusEnum = {
+    Available: 'available' as FindPetsByStatusStatusEnum,
+    Pending: 'pending' as FindPetsByStatusStatusEnum,
+    Sold: 'sold' as FindPetsByStatusStatusEnum
+};

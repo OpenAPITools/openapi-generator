@@ -82,13 +82,14 @@ export function OrderToJSON(value?: Order): any {
 }
 
 /**
-* @export
-* @enum {string}
-*/
-export enum OrderStatusEnum {
-    Placed = 'placed',
-    Approved = 'approved',
-    Delivered = 'delivered'
-}
+ * @export
+ */
+export type OrderStatusEnum = 'placed' | 'approved' | 'delivered';
+
+export const OrderStatusEnum = {
+    Placed: 'placed' as OrderStatusEnum,
+    Approved: 'approved' as OrderStatusEnum,
+    Delivered: 'delivered' as OrderStatusEnum
+};
 
 

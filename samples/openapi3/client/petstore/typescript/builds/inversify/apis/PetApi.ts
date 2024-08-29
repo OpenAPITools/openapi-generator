@@ -38,7 +38,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/pet';
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, "POST");
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
@@ -61,7 +61,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-        
+
 
         return requestContext;
     }
@@ -87,7 +87,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, "DELETE");
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Header Params
@@ -100,7 +100,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-        
+
 
         return requestContext;
     }
@@ -123,7 +123,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/pet/findByStatus';
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, "GET");
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
@@ -138,7 +138,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-        
+
 
         return requestContext;
     }
@@ -161,7 +161,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/pet/findByTags';
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, "GET");
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
@@ -176,7 +176,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-        
+
 
         return requestContext;
     }
@@ -200,7 +200,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, "GET");
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
@@ -210,7 +210,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-        
+
 
         return requestContext;
     }
@@ -233,7 +233,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/pet';
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, "PUT");
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
@@ -256,7 +256,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-        
+
 
         return requestContext;
     }
@@ -284,7 +284,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, "POST");
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Form Params
@@ -323,7 +323,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-        
+
 
         return requestContext;
     }
@@ -351,7 +351,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, "POST");
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Form Params
@@ -392,7 +392,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         if (authMethod?.applySecurityAuthentication) {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
-        
+
 
         return requestContext;
     }

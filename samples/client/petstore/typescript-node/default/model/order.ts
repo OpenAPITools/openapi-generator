@@ -66,9 +66,11 @@ export class Order {
 }
 
 export namespace Order {
-    export enum StatusEnum {
-        Placed = <any> 'placed',
-        Approved = <any> 'approved',
-        Delivered = <any> 'delivered'
-    }
+    export type StatusEnum = 'placed' | 'approved' | 'delivered';
+
+    export const StatusEnum = {
+        Placed: 'placed' as StatusEnum,
+        Approved: 'approved' as StatusEnum,
+        Delivered: 'delivered' as StatusEnum
+    };
 }

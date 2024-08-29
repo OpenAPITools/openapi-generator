@@ -68,7 +68,7 @@ public class TypeScriptNestjsClientOptionsProvider implements OptionsProvider {
                 .put(AbstractTypeScriptClientCodegen.NULL_SAFE_ADDITIONAL_PROPS, NULL_SAFE_ADDITIONAL_PROPS_VALUE)
                 .put(AbstractTypeScriptClientCodegen.ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR, ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR_VALUE)
                 .put(CodegenConstants.ENUM_NAME_SUFFIX, ENUM_NAME_SUFFIX)
-                .put(TypeScriptNestjsClientCodegen.STRING_ENUMS, STRING_ENUMS_VALUE)
+                .put(AbstractTypeScriptClientCodegen.STRING_ENUMS, STRING_ENUMS_VALUE)
                 .put(TypeScriptNestjsClientCodegen.NPM_NAME, NMP_NAME)
                 .put(TypeScriptNestjsClientCodegen.NPM_VERSION, NMP_VERSION)
                 .put(TypeScriptNestjsClientCodegen.SNAPSHOT, Boolean.FALSE.toString())

@@ -24,11 +24,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/unique-items';
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, "GET");
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
-        
+
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
