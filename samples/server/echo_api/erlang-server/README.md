@@ -24,10 +24,13 @@ Use erlang-server with rebar3
 
 	4, Start in the http_server project:
 		1, Introduce the following line in the http_server_app:start(_Type, _Args) function
-			openapi_server:start(http_server, #{ip => {127,0,0,1}, port => 8080, net_opts => []})
-		2, Compilation http_server project
+			openapi_server:start(http_server, #{ip => {127,0,0,1}, port => 8080})
+		2, Compile your http_server project
 			$ rebar3 compile
 		3, Start erlang virtual machine
 			$ rebar3 shell
 		4, Start project
 			application:ensure_all_started(http_server).
+
+To implement your own business logic, create a module called `http_server_logic` that implements the
+behaviour `openapi_logic_handler`. Refer to `openapi_logic_handler` documentation for details.
