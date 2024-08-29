@@ -991,7 +991,7 @@ public class ApiClient extends JavaTimeFormatter {
       MultiPart multiPart = new MultiPart();
       for (Entry<String, Object> param: formParams.entrySet()) {
         if (param.getValue() instanceof Iterable) {
-          Stream.of(param.getValue()).forEach(v -> addParamToMultipart(v, param.getKey(), multiPart));
+          ((Iterable)param.getValue()).forEach(v -> addParamToMultipart(v, param.getKey(), multiPart));
         } else {
           addParamToMultipart(param.getValue(), param.getKey(), multiPart);
         }
@@ -1022,6 +1022,14 @@ public class ApiClient extends JavaTimeFormatter {
     return entity;
   }
 
+  /**
+   * Adds the object with the provided key to the MultiPart.
+   * Based on the object type sets Content-Disposition and Content-Type.
+   *
+   * @param obj Object
+   * @param key Key of the object
+   * @param multiPart MultiPart to add the form param to
+   */
   private void addParamToMultipart(Object value, String key, MultiPart multiPart) {
     if (value instanceof File) {
       File file = (File) value;
