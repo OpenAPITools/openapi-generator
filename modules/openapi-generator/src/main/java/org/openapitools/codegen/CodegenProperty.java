@@ -243,6 +243,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     private boolean hasDiscriminatorWithNonEmptyMapping;
     private CodegenComposedSchemas composedSchemas = null;
     private boolean hasMultipleTypes = false;
+    /** true if the property's baseName != name, e.g. baseName = '_prop.value', name = 'propValue' after sanitization */
     private boolean hasSanitizedName = false;
     private Map<String, CodegenProperty> requiredVarsMap;
     private String ref;
