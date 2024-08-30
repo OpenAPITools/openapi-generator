@@ -118,6 +118,18 @@ public class JSON {
                                 getDiscriminatorValue(readElement, "className"));
                     }
           })
+                .registerTypeSelector(org.openapitools.client.model.MammalAnyof.class, new TypeSelector<org.openapitools.client.model.MammalAnyof>() {
+                    @Override
+                    public Class<? extends org.openapitools.client.model.MammalAnyof> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("Pig", org.openapitools.client.model.Pig.class);
+                        classByDiscriminatorValue.put("whale", org.openapitools.client.model.Whale.class);
+                        classByDiscriminatorValue.put("zebra", org.openapitools.client.model.Zebra.class);
+                        classByDiscriminatorValue.put("mammal_anyof", org.openapitools.client.model.MammalAnyof.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "className"));
+                    }
+          })
                 .registerTypeSelector(org.openapitools.client.model.NullableShape.class, new TypeSelector<org.openapitools.client.model.NullableShape>() {
                     @Override
                     public Class<? extends org.openapitools.client.model.NullableShape> getClassForElement(JsonElement readElement) {
@@ -264,6 +276,7 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.EquilateralTriangle.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.FakeAnyOfWIthSameErasureGet200Response.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.FakeOneOfWIthSameErasureGet200Response.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.FakeRefParameterPetIdParameter.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.FileSchemaTestClass.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.Foo.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.FooGetDefaultResponse.CustomTypeAdapterFactory());
@@ -277,6 +290,7 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.HealthCheckResult.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.IsoscelesTriangle.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.Mammal.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.MammalAnyof.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.MapTest.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.MixedPropertiesAndAdditionalPropertiesClass.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.Model200Response.CustomTypeAdapterFactory());

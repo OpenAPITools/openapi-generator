@@ -126,15 +126,9 @@ int PFXUserApi::addServerConfiguration(const QString &operation, const QUrl &url
     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
     */
 void PFXUserApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     for (auto keyIt = _serverIndices.keyBegin(); keyIt != _serverIndices.keyEnd(); keyIt++) {
         setServerIndex(*keyIt, addServerConfiguration(*keyIt, url, description, variables));
     }
-#else
-    for (auto &e : _serverIndices.keys()) {
-        setServerIndex(e, addServerConfiguration(e, url, description, variables));
-    }
-#endif
 }
 
 /**
@@ -240,15 +234,10 @@ void PFXUserApi::createUser(const PFXUser &pfx_user) {
         QByteArray output = pfx_user.asJson().toUtf8();
         input.request_body.append(output);
     }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
@@ -318,15 +307,10 @@ void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &pfx_user) {
         QByteArray bytes = doc.toJson();
         input.request_body.append(bytes);
     }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUsersWithArrayInputCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
@@ -396,15 +380,10 @@ void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &pfx_user) {
         QByteArray bytes = doc.toJson();
         input.request_body.append(bytes);
     }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUsersWithListInputCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
@@ -484,15 +463,10 @@ void PFXUserApi::deleteUser(const QString &username) {
     PFXHttpRequestInput input(fullPath, "DELETE");
 
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::deleteUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
@@ -572,15 +546,10 @@ void PFXUserApi::getUserByName(const QString &username) {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::getUserByNameCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
@@ -678,15 +647,10 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::loginUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
@@ -754,15 +718,10 @@ void PFXUserApi::logoutUser() {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::logoutUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
@@ -847,15 +806,10 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &pfx_user) {
         QByteArray output = pfx_user.asJson().toUtf8();
         input.request_body.append(output);
     }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::updateUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);

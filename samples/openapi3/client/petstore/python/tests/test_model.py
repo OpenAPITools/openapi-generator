@@ -408,7 +408,7 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(a.pattern_with_digits_and_delimiter, "image_123")
 
         # test sanitize for serialization with different data types
-        self.assertEquals(petstore_api.ApiClient().sanitize_for_serialization(a), {'byte': b'string', 'date': '2013-09-17', 'number': 123.45, 'password': 'testing09876', 'pattern_with_digits_and_delimiter': 'image_123'})
+        self.assertEqual(petstore_api.ApiClient().sanitize_for_serialization(a), {'byte': b'string', 'date': '2013-09-17', 'number': 123.45, 'password': 'testing09876', 'pattern_with_digits_and_delimiter': 'image_123'})
 
         # test sanitize for serialization with SecretStr (format: password)
         class LoginTest(BaseModel):

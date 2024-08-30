@@ -70,7 +70,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of AnyTypeProp
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Object?> AnyTypePropOption { get; private set; }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of AnyTypePropNullable
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Object?> AnyTypePropNullableOption { get; private set; }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Email
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> EmailOption { get; private set; }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of FirstName
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> FirstNameOption { get; private set; }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Id
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<long?> IdOption { get; private set; }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of LastName
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> LastNameOption { get; private set; }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ObjectWithNoDeclaredProps
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Object?> ObjectWithNoDeclaredPropsOption { get; private set; }
 
         /// <summary>
@@ -164,7 +164,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ObjectWithNoDeclaredPropsNullable
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Object?> ObjectWithNoDeclaredPropsNullableOption { get; private set; }
 
         /// <summary>
@@ -178,7 +178,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Password
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> PasswordOption { get; private set; }
 
         /// <summary>
@@ -191,7 +191,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Phone
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> PhoneOption { get; private set; }
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of UserStatus
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> UserStatusOption { get; private set; }
 
         /// <summary>
@@ -218,7 +218,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Username
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> UsernameOption { get; private set; }
 
         /// <summary>

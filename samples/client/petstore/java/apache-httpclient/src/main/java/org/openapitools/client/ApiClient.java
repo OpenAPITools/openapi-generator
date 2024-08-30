@@ -56,6 +56,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.function.Supplier;
 import java.util.TimeZone;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -82,7 +83,7 @@ import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private Map<String, String> defaultCookieMap = new HashMap<String, String>();
@@ -148,8 +149,8 @@ public class ApiClient extends JavaTimeFormatter {
 
   private Map<String, Authentication> authentications;
 
-  private int statusCode;
-  private Map<String, List<String>> responseHeaders;
+  private Map<Long, Integer> lastStatusCodeByThread = new ConcurrentHashMap<>();
+  private Map<Long, Map<String, List<String>>> lastResponseHeadersByThread = new ConcurrentHashMap<>();
 
   private DateFormat dateFormat;
 
@@ -298,16 +299,18 @@ public class ApiClient extends JavaTimeFormatter {
    *
    * @return Status code
    */
+  @Deprecated
   public int getStatusCode() {
-    return statusCode;
+    return lastStatusCodeByThread.get(Thread.currentThread().getId());
   }
 
   /**
    * Gets the response headers of the previous request
    * @return Response headers
    */
+  @Deprecated
   public Map<String, List<String>> getResponseHeaders() {
-    return responseHeaders;
+    return lastResponseHeadersByThread.get(Thread.currentThread().getId());
   }
 
   /**
@@ -874,6 +877,7 @@ public class ApiClient extends JavaTimeFormatter {
       // convert input stream to string
       return (T) EntityUtils.toString(entity);
     } else {
+      Map<String, List<String>> responseHeaders = transformResponseHeaders(response.getHeaders());
       throw new ApiException(
           "Deserialization for content type '" + mimeType + "' not supported for type '" + valueType + "'",
           response.getCode(),
@@ -1019,12 +1023,15 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   protected <T> T processResponse(CloseableHttpResponse response, TypeReference<T> returnType) throws ApiException, IOException, ParseException {
-    statusCode = response.getCode();
+    int statusCode = response.getCode();
+    lastStatusCodeByThread.put(Thread.currentThread().getId(), statusCode);
     if (statusCode == HttpStatus.SC_NO_CONTENT) {
       return null;
     }
 
-    responseHeaders = transformResponseHeaders(response.getHeaders());
+    Map<String, List<String>> responseHeaders = transformResponseHeaders(response.getHeaders());
+    lastResponseHeadersByThread.put(Thread.currentThread().getId(), responseHeaders);
+
     if (isSuccessfulStatus(statusCode)) {
       return this.deserialize(response, returnType);
     } else {

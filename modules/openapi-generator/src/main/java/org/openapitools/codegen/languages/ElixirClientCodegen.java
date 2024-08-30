@@ -50,7 +50,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
     private final Pattern simpleAtomPattern = Pattern.compile("\\A(?:(?:[_@\\p{Alpha}][_@\\p{Alnum}]*[?!]?)|-)\\z");
 
-    protected String apiVersion = "1.0.0";
+    @Setter protected String packageVersion = "1.0.0";
     @Setter protected String moduleName;
     protected static final String defaultModuleName = "OpenAPI.Client";
 
@@ -146,12 +146,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
                         "__DIR__",
                         "__ENV__",
                         "__CALLER__"));
-
-        /**
-         * Additional Properties. These values can be passed to the templates and
-         * are available in models, apis, and supporting files
-         */
-        additionalProperties.put("apiVersion", apiVersion);
 
         /**
          * Supporting Files. You can write single files for the generator with the
@@ -301,6 +295,10 @@ public class ElixirClientCodegen extends DefaultCodegen {
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             setModuleName((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
         }
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
+            setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
+        }
+        additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
     }
 
     @Override

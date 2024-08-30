@@ -38,8 +38,6 @@ ext {
     httpmime_version = "4.5.14"
     volley_version = "1.2.1"
     junit_version = "4.13.2"
-    robolectric_version = "4.5.1"
-    concurrent_unit_version = "0.4.6"
 }
 
 dependencies {
@@ -53,8 +51,6 @@ dependencies {
     }
     implementation "com.android.volley:volley:${volley_version}"
     testImplementation "junit:junit:$junit_version"
-    testImplementation "org.robolectric:robolectric:${robolectric_version}"
-    testImplementation "net.jodah:concurrentunit:${concurrent_unit_version}"
 }
 
 publishing {

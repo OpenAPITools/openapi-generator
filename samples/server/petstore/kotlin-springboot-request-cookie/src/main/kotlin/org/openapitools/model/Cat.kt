@@ -28,7 +28,7 @@ data class Cat(
 
     @Schema(example = "null", description = "")
     @get:JsonProperty("color") override val color: kotlin.String? = "red"
-) : Animal{
+    ) : Animal{
 
 }
 

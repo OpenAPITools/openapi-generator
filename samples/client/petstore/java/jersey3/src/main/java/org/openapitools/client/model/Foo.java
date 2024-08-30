@@ -34,7 +34,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   Foo.JSON_PROPERTY_BAR
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Foo {
   public static final String JSON_PROPERTY_BAR = "bar";
   private String bar = "bar";

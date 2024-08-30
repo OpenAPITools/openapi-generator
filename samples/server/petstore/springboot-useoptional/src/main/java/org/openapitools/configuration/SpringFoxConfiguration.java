@@ -19,7 +19,7 @@ import java.util.Optional;
 import javax.annotation.Generated;
 import javax.servlet.ServletContext;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 @Configuration
 @EnableSwagger2
 public class SpringFoxConfiguration {

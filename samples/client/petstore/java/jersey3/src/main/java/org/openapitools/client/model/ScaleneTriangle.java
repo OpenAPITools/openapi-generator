@@ -39,7 +39,7 @@ import org.openapitools.client.JSON;
   ScaleneTriangle.JSON_PROPERTY_SHAPE_TYPE,
   ScaleneTriangle.JSON_PROPERTY_TRIANGLE_TYPE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class ScaleneTriangle {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
   private String shapeType;

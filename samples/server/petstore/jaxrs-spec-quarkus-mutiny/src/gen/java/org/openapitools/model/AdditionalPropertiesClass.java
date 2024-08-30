@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("AdditionalPropertiesClass")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class AdditionalPropertiesClass  implements Serializable {
   private @Valid Map<String, String> mapProperty = new HashMap<>();
   private @Valid Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();

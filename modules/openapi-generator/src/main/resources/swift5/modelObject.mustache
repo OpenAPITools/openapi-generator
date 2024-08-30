@@ -16,6 +16,9 @@
 {{#isNumeric}}
     static let {{{name}}}Rule = NumericRule<{{{dataType}}}>(minimum: {{#minimum}}{{{.}}}{{/minimum}}{{^minimum}}nil{{/minimum}}, exclusiveMinimum: {{#exclusiveMinimum}}true{{/exclusiveMinimum}}{{^exclusiveMinimum}}false{{/exclusiveMinimum}}, maximum: {{#maximum}}{{{.}}}{{/maximum}}{{^maximum}}nil{{/maximum}}, exclusiveMaximum: {{#exclusiveMaximum}}true{{/exclusiveMaximum}}{{^exclusiveMaximum}}false{{/exclusiveMaximum}}, multipleOf: {{#multipleOf}}{{{.}}}{{/multipleOf}}{{^multipleOf}}nil{{/multipleOf}})
 {{/isNumeric}}
+{{#isArray}}
+    static let {{{name}}}Rule = ArrayRule(minItems: {{#minItems}}{{{.}}}{{/minItems}}{{^minItems}}nil{{/minItems}}, maxItems: {{#maxItems}}{{{.}}}{{/maxItems}}{{^maxItems}}nil{{/maxItems}}, uniqueItems: {{#uniqueItems}}true{{/uniqueItems}}{{^uniqueItems}}false{{/uniqueItems}})
+{{/isArray}}
 {{/hasValidation}}
 {{/validatable}}
 {{/allVars}}

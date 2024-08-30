@@ -16,7 +16,7 @@ import jakarta.annotation.Generated;
  * Model for testing model with \&quot;_class\&quot; property
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class ClassModel {
 
   private String propertyClass;

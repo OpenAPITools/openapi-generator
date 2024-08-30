@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  * An order for a pets from the pet store
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Order {
 
   private Optional<Long> id = Optional.empty();

@@ -52,7 +52,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ColorCode
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> ColorCodeOption { get; private set; }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Cultivar
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> CultivarOption { get; private set; }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Origin
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> OriginOption { get; private set; }
 
         /// <summary>

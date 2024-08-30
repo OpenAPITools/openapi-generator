@@ -27,7 +27,7 @@ import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
 @Path("")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public interface PetService {
 
     @POST

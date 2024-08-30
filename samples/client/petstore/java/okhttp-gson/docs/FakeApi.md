@@ -9,7 +9,8 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite |  |
 | [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number |  |
 | [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string |  |
-| [**fakeUploadRefRequestBodies**](FakeApi.md#fakeUploadRefRequestBodies) | **POST** /fake/pet/{petId}/uploadImage | fake uploads an image with ref request bodies |
+| [**fakeRefParameter**](FakeApi.md#fakeRefParameter) | **POST** /fake/pet/{petId}/reference/parameter | fake reference parameter |
+| [**fakeUploadRefRequestBodies**](FakeApi.md#fakeUploadRefRequestBodies) | **POST** /fake/pet/{petId}/uploadImage | fake reference parameter |
 | [**getFakeArrayofenums**](FakeApi.md#getFakeArrayofenums) | **GET** /fake/array-of-enums | Array of Enums |
 | [**getFakeHealth**](FakeApi.md#getFakeHealth) | **GET** /fake/health | Health check endpoint |
 | [**getParameterNameMapping**](FakeApi.md#getParameterNameMapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test |
@@ -333,11 +334,72 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | Output string |  -  |
 
+<a id="fakeRefParameter"></a>
+# **fakeRefParameter**
+> fakeRefParameter(petId)
+
+fake reference parameter
+
+
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+    FakeApi apiInstance = new FakeApi(defaultClient);
+    FakeRefParameterPetIdParameter petId = new FakeRefParameterPetIdParameter(); // FakeRefParameterPetIdParameter | to test oneOf in parameter $ref
+    try {
+      apiInstance.fakeRefParameter(petId);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling FakeApi#fakeRefParameter");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | [**FakeRefParameterPetIdParameter**](.md)| to test oneOf in parameter $ref | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+
 <a id="fakeUploadRefRequestBodies"></a>
 # **fakeUploadRefRequestBodies**
 > ModelApiResponse fakeUploadRefRequestBodies(petId, additionalMetadata, _file)
 
-fake uploads an image with ref request bodies
+fake reference parameter
 
 
 

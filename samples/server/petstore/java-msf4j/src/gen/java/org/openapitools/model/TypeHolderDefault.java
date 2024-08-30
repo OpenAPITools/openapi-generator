@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * TypeHolderDefault
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class TypeHolderDefault   {
   @JsonProperty("string_item")
   private String stringItem = "what";

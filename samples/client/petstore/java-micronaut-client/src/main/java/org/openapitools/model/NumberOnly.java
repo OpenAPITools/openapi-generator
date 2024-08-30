@@ -29,7 +29,7 @@ import javax.annotation.Generated;
   NumberOnly.JSON_PROPERTY_JUST_NUMBER
 })
 @JsonTypeName("NumberOnly")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 @Introspected
 public class NumberOnly {
     public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";

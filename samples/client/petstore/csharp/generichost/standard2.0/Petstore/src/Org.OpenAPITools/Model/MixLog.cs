@@ -156,7 +156,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of BatchNumber
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> BatchNumberOption { get; private set; }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of BrandCode
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> BrandCodeOption { get; private set; }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of BrandId
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> BrandIdOption { get; private set; }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of BrandName
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> BrandNameOption { get; private set; }
 
         /// <summary>
@@ -211,7 +211,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of CategoryCode
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> CategoryCodeOption { get; private set; }
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Color
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> ColorOption { get; private set; }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ColorDescription
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> ColorDescriptionOption { get; private set; }
 
         /// <summary>
@@ -252,7 +252,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Comment
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> CommentOption { get; private set; }
 
         /// <summary>
@@ -265,7 +265,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of CommercialProductCode
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> CommercialProductCodeOption { get; private set; }
 
         /// <summary>
@@ -278,7 +278,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Country
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> CountryOption { get; private set; }
 
         /// <summary>
@@ -291,7 +291,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of CreatedBy
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> CreatedByOption { get; private set; }
 
         /// <summary>
@@ -304,7 +304,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of CreatedByFirstName
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> CreatedByFirstNameOption { get; private set; }
 
         /// <summary>
@@ -317,7 +317,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of CreatedByLastName
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> CreatedByLastNameOption { get; private set; }
 
         /// <summary>
@@ -330,7 +330,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of DeltaECalculationRepaired
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> DeltaECalculationRepairedOption { get; private set; }
 
         /// <summary>
@@ -343,7 +343,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of DeltaECalculationSprayout
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> DeltaECalculationSprayoutOption { get; private set; }
 
         /// <summary>
@@ -356,7 +356,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of OwnColorVariantNumber
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> OwnColorVariantNumberOption { get; private set; }
 
         /// <summary>
@@ -369,7 +369,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of PrimerProductId
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> PrimerProductIdOption { get; private set; }
 
         /// <summary>
@@ -382,7 +382,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ProductId
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> ProductIdOption { get; private set; }
 
         /// <summary>
@@ -396,7 +396,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ProductLineCode
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> ProductLineCodeOption { get; private set; }
 
         /// <summary>
@@ -410,7 +410,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ProductName
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> ProductNameOption { get; private set; }
 
         /// <summary>
@@ -424,7 +424,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of SelectedVersionIndex
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> SelectedVersionIndexOption { get; private set; }
 
         /// <summary>
@@ -437,7 +437,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ShopId
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Guid?> ShopIdOption { get; private set; }
 
         /// <summary>
@@ -450,7 +450,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of SomeCode
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string> SomeCodeOption { get; private set; }
 
         /// <summary>
@@ -464,7 +464,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of TotalPrice
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<float?> TotalPriceOption { get; private set; }
 
         /// <summary>

@@ -78,17 +78,17 @@
             {{/minLength}}
             {{#maximum}}
             // {{{name}}} ({{{dataType}}}) maximum
-            if ({{#useGenericHost}}{{^required}}this.{{{name}}}Option.IsSet && {{/required}}{{/useGenericHost}}this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} > ({{{dataType}}}){{maximum}})
+            if ({{#useGenericHost}}{{^required}}this.{{{name}}}Option.IsSet && {{/required}}{{/useGenericHost}}this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} {{#exclusiveMaximum}}<={{/exclusiveMaximum}}{{^exclusiveMaximum}}>{{/exclusiveMaximum}} ({{{dataType}}}){{maximum}})
             {
-                yield return new ValidationResult("Invalid value for {{{name}}}, must be a value less than or equal to {{maximum}}.", new [] { "{{{name}}}" });
+                yield return new ValidationResult("Invalid value for {{{name}}}, must be a value less than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.", new [] { "{{{name}}}" });
             }
 
             {{/maximum}}
             {{#minimum}}
             // {{{name}}} ({{{dataType}}}) minimum
-            if ({{#useGenericHost}}{{^required}}this.{{{name}}}Option.IsSet && {{/required}}{{/useGenericHost}}this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} < ({{{dataType}}}){{minimum}})
+            if ({{#useGenericHost}}{{^required}}this.{{{name}}}Option.IsSet && {{/required}}{{/useGenericHost}}this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} {{#exclusiveMaximum}}>={{/exclusiveMaximum}}{{^exclusiveMaximum}}<{{/exclusiveMaximum}} ({{{dataType}}}){{minimum}})
             {
-                yield return new ValidationResult("Invalid value for {{{name}}}, must be a value greater than or equal to {{minimum}}.", new [] { "{{{name}}}" });
+                yield return new ValidationResult("Invalid value for {{{name}}}, must be a value greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}.", new [] { "{{{name}}}" });
             }
 
             {{/minimum}}

@@ -347,6 +347,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         return toModelName(type);
     }
 
+    private String getItemsTypeDeclaration(Schema items) {
+        String itemsTypeDeclaration = getTypeDeclaration(items);
+        String nullable = items.getNullable() != null && items.getNullable() && !itemsTypeDeclaration.endsWith("?") ? "?" : "";
+        return itemsTypeDeclaration + nullable;
+    }
+
     /**
      * Output the type declaration of the property
      *
@@ -359,7 +365,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = ModelUtils.getSchemaItems( schema);
-            return getSchemaType(target) + "<" + getTypeDeclaration(items) + ">";
+            return getSchemaType(target) + "<" + getItemsTypeDeclaration(items) + ">";
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true

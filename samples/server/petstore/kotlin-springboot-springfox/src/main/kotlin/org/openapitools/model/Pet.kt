@@ -1,10 +1,12 @@
 package org.openapitools.model
 
 import java.util.Objects
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonValue
 import org.openapitools.model.Category
 import org.openapitools.model.Tag
+import java.io.Serializable
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Email
@@ -46,18 +48,29 @@ data class Pet(
 
     @ApiModelProperty(example = "null", value = "pet status in the store")
     @get:JsonProperty("status") val status: Pet.Status? = null
-) {
+    ) : Serializable{
 
     /**
     * pet status in the store
     * Values: available,pending,sold
     */
-    enum class Status(val value: kotlin.String) {
+    enum class Status(@get:JsonValue val value: kotlin.String) {
 
-        @JsonProperty("available") available("available"),
-        @JsonProperty("pending") pending("pending"),
-        @JsonProperty("sold") sold("sold")
+        available("available"),
+        pending("pending"),
+        sold("sold");
+
+        companion object {
+            @JvmStatic
+            @JsonCreator
+            fun forValue(value: kotlin.String): Status {
+                return values().first{it -> it.value == value}
+            }
+        }
     }
 
+    companion object {
+        private const val serialVersionUID: kotlin.Long = 1
+    }
 }
 

@@ -14,7 +14,7 @@ import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class StoreApiControllerImp extends StoreApiControllerImpInterface {
     @Override
     public void deleteOrder(Http.Request request, String orderId) throws Exception {

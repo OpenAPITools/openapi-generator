@@ -55,6 +55,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlin.collections.List
 import kotlin.collections.Map
 
+@RestController
 {{#useBeanValidation}}
 @Validated
 {{/useBeanValidation}}
@@ -70,7 +71,7 @@ import kotlin.collections.Map
 interface {{classname}} {
 {{#isDelegate}}
 
-    fun getDelegate(): {{classname}}Delegate = object: {{classname}}Delegate {}
+    fun getDelegate(): {{classname}}Delegate{{^skipDefaultDelegateInterface}} = object: {{classname}}Delegate {}{{/skipDefaultDelegateInterface}}
 {{/isDelegate}}
 {{#operation}}
 
@@ -102,14 +103,14 @@ interface {{classname}} {
             produces = [{{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}]{{/hasProduces}}{{#hasConsumes}},
             consumes = [{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}]{{/hasConsumes}}{{/singleContentTypes}}
     )
-    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{>requesObject}}{{^-last}},{{/-last}}{{/allParams}}): ResponseEntity<{{>returnTypes}}>{{^skipDefaultInterface}} {
+    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{>requesObject}}{{^-last}},{{/-last}}{{/allParams}}): ResponseEntity<{{>returnTypes}}>{{^skipDefaultApiInterface}} {
         {{^isDelegate}}
         return {{>returnValue}}
         {{/isDelegate}}
         {{#isDelegate}}
         return getDelegate().{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
         {{/isDelegate}}
-    }{{/skipDefaultInterface}}
+    }{{/skipDefaultApiInterface}}
 {{/operation}}
 }
 {{/operations}}

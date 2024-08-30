@@ -20,7 +20,7 @@ type {{classname}} struct {
 {{#deprecated}}
 	// Deprecated
 {{/deprecated}}
-	{{name}} {{^required}}{{^isNullable}}{{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{/isNullable}}{{/required}}{{{dataType}}} `json:"{{{baseName}}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{{baseName}}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#withValidate}} validate:"{{validate}}"{{/withValidate}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+	{{name}} {{^required}}{{^isNullable}}{{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{/isNullable}}{{/required}}{{{dataType}}}{{{vendorExtensions.x-go-datatag}}}
 {{/vars}}
 {{#isAdditionalPropertiesTrue}}
 	AdditionalProperties map[string]interface{}
@@ -168,6 +168,17 @@ func (o *{{classname}}) Set{{name}}(v {{vendorExtensions.x-go-base-type}}) {
 {{/isNullable}}
 }
 
+{{#useDefaultValuesForRequiredVars}}
+{{^isReadOnly}}
+{{#defaultValue}}
+// GetDefault{{{nameInPascalCase}}} returns the default value {{{defaultValue}}} of the {{{name}}} field.
+func (o *{{classname}}) GetDefault{{nameInPascalCase}}() interface{}  {
+	return {{{defaultValue}}}
+}
+{{/defaultValue}}
+{{/isReadOnly}}
+
+{{/useDefaultValuesForRequiredVars}}
 {{/required}}
 {{^required}}
 // Get{{name}} returns the {{name}} field value if set, zero value otherwise{{#isNullable}} (both if not set or set to explicit null){{/isNullable}}.
@@ -318,6 +329,15 @@ func (o {{classname}}) ToMap() (map[string]interface{}, error) {
 	{{! if argument is not nullable, don't set it if it is nil}}
 	{{^isNullable}}
 	{{#required}}
+	{{#useDefaultValuesForRequiredVars}}
+	{{^isReadOnly}}
+	{{#defaultValue}}
+	if _, exists := toSerialize["{{{baseName}}}"]; !exists {
+		toSerialize["{{{baseName}}}"] = o.GetDefault{{nameInPascalCase}}()
+	}
+	{{/defaultValue}}
+	{{/isReadOnly}}
+	{{/useDefaultValuesForRequiredVars}}
 	toSerialize["{{{baseName}}}"] = o.{{name}}
 	{{/required}}
 	{{^required}}
@@ -356,6 +376,20 @@ func (o *{{{classname}}}) UnmarshalJSON(data []byte) (err error) {
 {{/requiredVars}}
 	}
 
+{{#useDefaultValuesForRequiredVars}}
+	// defaultValueFuncMap captures the default values for required properties.
+	// These values are used when required properties are missing from the payload.
+	defaultValueFuncMap := map[string]func() interface{} {
+{{#requiredVars}}
+{{#defaultValue}}
+{{^isReadOnly}}
+		"{{baseName}}": o.GetDefault{{nameInPascalCase}},
+{{/isReadOnly}}
+{{/defaultValue}}
+{{/requiredVars}}
+	}
+	var defaultValueApplied bool
+{{/useDefaultValuesForRequiredVars}}
 	allProperties := make(map[string]interface{})
 
 	err = json.Unmarshal(data, &allProperties)
@@ -365,11 +399,30 @@ func (o *{{{classname}}}) UnmarshalJSON(data []byte) (err error) {
 	}
 
 	for _, requiredProperty := range(requiredProperties) {
+		{{#useDefaultValuesForRequiredVars}}
+		if value, exists := allProperties[requiredProperty]; !exists || value == "" {
+			if _, ok := defaultValueFuncMap[requiredProperty]; ok {
+				allProperties[requiredProperty] = defaultValueFuncMap[requiredProperty]()
+				defaultValueApplied = true
+			}
+		}
+		if value, exists := allProperties[requiredProperty]; !exists || value == ""{
+		{{/useDefaultValuesForRequiredVars}}
+		{{^useDefaultValuesForRequiredVars}}
 		if _, exists := allProperties[requiredProperty]; !exists {
+		{{/useDefaultValuesForRequiredVars}}
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
 	}
 
+	{{#useDefaultValuesForRequiredVars}}
+	if defaultValueApplied {
+		data, err = json.Marshal(allProperties)
+		if err != nil{
+			return err
+		}
+	}
+	{{/useDefaultValuesForRequiredVars}}
 {{/hasRequired}}
 {{#isAdditionalPropertiesTrue}}
 {{#parent}}
@@ -384,7 +437,7 @@ func (o *{{{classname}}}) UnmarshalJSON(data []byte) (err error) {
 	{{#deprecated}}
 		// Deprecated
 	{{/deprecated}}
-		{{name}} {{^required}}{{^isNullable}}{{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{/isNullable}}{{/required}}{{{dataType}}} `json:"{{{baseName}}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{{baseName}}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+		{{name}} {{^required}}{{^isNullable}}{{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{/isNullable}}{{/required}}{{{dataType}}}{{{vendorExtensions.x-go-datatag}}}
 	{{/vars}}
 	}
 

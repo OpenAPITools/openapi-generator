@@ -30,10 +30,10 @@ import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 {{/useBeanValidation}}
 {{#performBeanValidation}}
-import {{javaxPackage}}.validation.ConstraintViolation;
-import {{javaxPackage}}.validation.Validation;
-import {{javaxPackage}}.validation.ValidatorFactory;
-import {{javaxPackage}}.validation.executable.ExecutableValidator;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.ValidatorFactory;
+import jakarta.validation.executable.ExecutableValidator;
 import java.util.Set;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -169,7 +169,7 @@ public class {{classname}} {
         {{^dynamicOperations}}
         {{#queryParams}}
         if ({{paramName}} != null) {
-            {{#collectionFormat}}localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("{{{.}}}", {{/collectionFormat}}{{^collectionFormat}}localVarQueryParams.addAll(localVarApiClient.parameterToPair({{/collectionFormat}}"{{baseName}}", {{paramName}}));
+            {{#isFreeFormObject}}localVarQueryParams.addAll(localVarApiClient.freeFormParameterToPairs({{paramName}}));{{/isFreeFormObject}}{{^isFreeFormObject}}{{#collectionFormat}}localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("{{{.}}}", {{/collectionFormat}}{{^collectionFormat}}localVarQueryParams.addAll(localVarApiClient.parameterToPair({{/collectionFormat}}"{{baseName}}", {{paramName}}));{{/isFreeFormObject}}
         }
 
         {{/queryParams}}

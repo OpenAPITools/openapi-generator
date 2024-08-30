@@ -79,7 +79,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathAsync(string pathString, int pathInteger, string enumNonrefStringPath, StringEnumRef enumRefStringPath, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathAsync(string pathString, int pathInteger, string enumNonrefStringPath, StringEnumRef enumRefStringPath, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
 
         /// <summary>
         /// Test path parameter(s)
@@ -95,7 +95,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfoAsync(string pathString, int pathInteger, string enumNonrefStringPath, StringEnumRef enumRefStringPath, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfoAsync(string pathString, int pathInteger, string enumNonrefStringPath, StringEnumRef enumRefStringPath, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -312,7 +312,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathAsync(string pathString, int pathInteger, string enumNonrefStringPath, StringEnumRef enumRefStringPath, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathAsync(string pathString, int pathInteger, string enumNonrefStringPath, StringEnumRef enumRefStringPath, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfoAsync(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -329,7 +329,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfoAsync(string pathString, int pathInteger, string enumNonrefStringPath, StringEnumRef enumRefStringPath, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfoAsync(string pathString, int pathInteger, string enumNonrefStringPath, StringEnumRef enumRefStringPath, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             // verify the required parameter 'pathString' is set
             if (pathString == null)

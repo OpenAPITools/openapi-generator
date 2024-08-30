@@ -22,6 +22,8 @@ docs/OneOfStringOrInt.md
 docs/Order.md
 docs/Pet.md
 docs/PetApi.md
+docs/RefRefToPathLevelParameterOneofRefToOneofParameter.md
+docs/RefToRefParameterAnyofRefToAnyofParameter.md
 docs/SimpleModelWithArrayProperty.md
 docs/StoreApi.md
 docs/StringOrInt.md
@@ -78,6 +80,8 @@ src/main/java/org/openapitools/client/model/ModelApiResponse.java
 src/main/java/org/openapitools/client/model/OneOfStringOrInt.java
 src/main/java/org/openapitools/client/model/Order.java
 src/main/java/org/openapitools/client/model/Pet.java
+src/main/java/org/openapitools/client/model/RefRefToPathLevelParameterOneofRefToOneofParameter.java
+src/main/java/org/openapitools/client/model/RefToRefParameterAnyofRefToAnyofParameter.java
 src/main/java/org/openapitools/client/model/SimpleModelWithArrayProperty.java
 src/main/java/org/openapitools/client/model/StringOrInt.java
 src/main/java/org/openapitools/client/model/Tag.java

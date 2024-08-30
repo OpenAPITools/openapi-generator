@@ -9,7 +9,7 @@ use openapi_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       AnyOfGetResponse,
                       CallbackWithHeaderPostResponse,
                       ComplexQueryParamGetResponse,
-                      EnumInPathPathParamGetResponse,
+                      GetWithBooleanParameterResponse,
                       JsonComplexQueryParamGetResponse,
                       MandatoryRequestHeaderGetResponse,
                       MergePatchJsonGetResponse,
@@ -23,6 +23,7 @@ use openapi_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       RequiredOctetStreamPutResponse,
                       ResponsesWithHeadersGetResponse,
                       Rfc7807GetResponse,
+                      TwoFirstLetterHeadersResponse,
                       UntypedPropertyGetResponse,
                       UuidGetResponse,
                       XmlExtraPostResponse,
@@ -30,6 +31,8 @@ use openapi_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       XmlOtherPutResponse,
                       XmlPostResponse,
                       XmlPutResponse,
+                      EnumInPathPathParamGetResponse,
+                      MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse,
                       CreateRepoResponse,
                       GetRepoInfoResponse,
                      };
@@ -60,31 +63,34 @@ fn main() {
         .arg(Arg::with_name("operation")
             .help("Sets the operation to run")
             .possible_values(&[
-                "AnyOfGet", 
-                "CallbackWithHeaderPost", 
-                "ComplexQueryParamGet", 
-                "JsonComplexQueryParamGet", 
-                "MandatoryRequestHeaderGet", 
-                "MergePatchJsonGet", 
-                "MultigetGet", 
-                "MultipleAuthSchemeGet", 
-                "OneOfGet", 
-                "OverrideServerGet", 
-                "ParamgetGet", 
-                "ReadonlyAuthSchemeGet", 
-                "RegisterCallbackPost", 
-                "RequiredOctetStreamPut", 
-                "ResponsesWithHeadersGet", 
-                "Rfc7807Get", 
-                "UntypedPropertyGet", 
-                "UuidGet", 
-                "XmlExtraPost", 
-                "XmlOtherPost", 
-                "XmlOtherPut", 
-                "XmlPost", 
-                "XmlPut", 
-                "CreateRepo", 
-                "GetRepoInfo", 
+                "AnyOfGet",
+                "CallbackWithHeaderPost",
+                "ComplexQueryParamGet",
+                "GetWithBooleanParameter",
+                "JsonComplexQueryParamGet",
+                "MandatoryRequestHeaderGet",
+                "MergePatchJsonGet",
+                "MultigetGet",
+                "MultipleAuthSchemeGet",
+                "OneOfGet",
+                "OverrideServerGet",
+                "ParamgetGet",
+                "ReadonlyAuthSchemeGet",
+                "RegisterCallbackPost",
+                "RequiredOctetStreamPut",
+                "ResponsesWithHeadersGet",
+                "Rfc7807Get",
+                "TwoFirstLetterHeaders",
+                "UntypedPropertyGet",
+                "UuidGet",
+                "XmlExtraPost",
+                "XmlOtherPost",
+                "XmlOtherPut",
+                "XmlPost",
+                "XmlPut",
+                "MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet",
+                "CreateRepo",
+                "GetRepoInfo",
             ])
             .required(true)
             .index(1))
@@ -107,21 +113,23 @@ fn main() {
     // In a real (production) system this Bearer token should be obtained via an external Identity/Authentication-server
     // Ensure that you set the correct algorithm and encodingkey that matches what is used on the server side.
     // See https://github.com/Keats/jsonwebtoken for more information
-
     let auth_token = build_token(
             Claims {
-                sub: "tester@acme.com".to_owned(), 
+                sub: "tester@acme.com".to_owned(),
                 company: "ACME".to_owned(),
                 iss: "my_identity_provider".to_owned(),
                 // added a very long expiry time
                 aud: "org.acme.Resource_Server".to_string(),
                 exp: 10000000000,
                 // In this example code all available Scopes are added, so the current Bearer Token gets fully authorization.
-                scopes: [
+                scopes:
+                  [
                             "test.read",
                             "test.write",
-                ].join(", ")
-            }, 
+                            "additional.test.read",
+                            "additional.test.write",
+                  ].join::<&str>(", ")
+            },
             b"secret").unwrap();
 
     let auth_data = if !auth_token.is_empty() {
@@ -177,14 +185,12 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        /* Disabled because there's no example.
-        Some("EnumInPathPathParamGet") => {
-            let result = rt.block_on(client.enum_in_path_path_param_get(
-                  ???
+        Some("GetWithBooleanParameter") => {
+            let result = rt.block_on(client.get_with_boolean_parameter(
+                  true
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        */
         Some("JsonComplexQueryParamGet") => {
             let result = rt.block_on(client.json_complex_query_param_get(
                   Some(&Vec::new())
@@ -257,6 +263,13 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        Some("TwoFirstLetterHeaders") => {
+            let result = rt.block_on(client.two_first_letter_headers(
+                  Some(true),
+                  Some(true)
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
         Some("UntypedPropertyGet") => {
             let result = rt.block_on(client.untyped_property_get(
                   None
@@ -295,6 +308,21 @@ fn main() {
         Some("XmlPut") => {
             let result = rt.block_on(client.xml_put(
                   None
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        /* Disabled because there's no example.
+        Some("EnumInPathPathParamGet") => {
+            let result = rt.block_on(client.enum_in_path_path_param_get(
+                  ???
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        */
+        Some("MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet") => {
+            let result = rt.block_on(client.multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(
+                  "path_param_a_example".to_string(),
+                  "path_param_b_example".to_string()
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },

@@ -245,6 +245,21 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testFailOnUnknownPropertiesAdditionalProperty() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+
+        codegen.processOpts();
+
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+        configAssert.assertValue(JavaClientCodegen.FAIL_ON_UNKNOWN_PROPERTIES, codegen::isFailOnUnknownProperties, Boolean.FALSE);
+
+        codegen.additionalProperties().put(JavaClientCodegen.FAIL_ON_UNKNOWN_PROPERTIES, true);
+        codegen.processOpts();
+
+        configAssert.assertValue(JavaClientCodegen.FAIL_ON_UNKNOWN_PROPERTIES, codegen::isFailOnUnknownProperties, Boolean.TRUE);
+    }
+
+    @Test
     public void testAdditionalPropertiesPutForConfigValues() throws Exception {
         final JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true");
@@ -1491,6 +1506,38 @@ public class JavaClientCodegenTest {
                 .containsWithNameAndAttributes("JsonbProperty", ImmutableMap.of("value", "\"c\""));
     }
 
+    @Test
+    public void testMicroprofileGenerateCorrectJacksonGenerator_issue18336() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0");
+        properties.put(CodegenConstants.SERIALIZATION_LIBRARY, JavaClientCodegen.SERIALIZATION_LIBRARY_JACKSON);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+
+                .setAdditionalProperties(properties)
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .setInputSpec("src/test/resources/bugs/issue_18336.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .assertConstructor("String")
+                .assertConstructorAnnotations()
+                .containsWithName("JsonCreator")
+                .toConstructor()
+                .hasParameter("name")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "JSON_PROPERTY_NAME", "required", "true"));
+    }
+
     @Test public void testJavaClientDefaultValues_issueNoNumber() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -2594,7 +2641,7 @@ public class JavaClientCodegenTest {
     /**
      * Regression test for <a href="https://github.com/OpenAPITools/openapi-generator/issues/6496">#6496</a>
      */
-    @Test void doesNotGenerateJacksonToStringSerializerAnnotation_whenLibraryIsGson_andSerializeBigDecimalAsStringIsTrue() {
+    @Test void doesNotGenerateJacksonJsonFormatAnnotation_whenLibraryIsGson_andSerializeBigDecimalAsStringIsTrue() {
         final CodegenConfigurator configurator = new CodegenConfigurator()
             .setGeneratorName("java")
             .setLibrary(JavaClientCodegen.OKHTTP_GSON)
@@ -2611,10 +2658,8 @@ public class JavaClientCodegenTest {
         assertThat(files).hasSize(1).first(FILE).content()
             .doesNotContain(
                 "@JsonDeserialize(as = LinkedHashSet.class)",
-                "@JsonSerialize(using = ToStringSerializer.class)",
-                "com.fasterxml.jackson.databind.ser.std.ToStringSerializer",
-                "com.fasterxml.jackson.databind.annotation.JsonDeserialize",
-                "com.fasterxml.jackson.databind.annotation.JsonSerialize"
+                "@JsonFormat(shape = JsonFormat.Shape.STRING)",
+                "com.fasterxml.jackson.databind.annotation.JsonDeserialize"
             );
     }
     
@@ -2622,7 +2667,7 @@ public class JavaClientCodegenTest {
      * Test that fix for <a href="https://github.com/OpenAPITools/openapi-generator/issues/6496">#6496</a> has
      * no unwanted side effects on the existing feature (Jackson + bigDecimalAsString)
      */
-    @Test void generatesJacksonToStringSerializerAnnotation_whenLibraryIsJackson_andSerializeBigDecimalAsStringIsTrue() {
+    @Test void generatesJacksonJsonFormatAnnotation_whenLibraryIsJackson_andSerializeBigDecimalAsStringIsTrue() {
         final CodegenConfigurator configurator = new CodegenConfigurator()
             .setGeneratorName("java")
             .setLibrary(JavaClientCodegen.NATIVE)
@@ -2640,10 +2685,8 @@ public class JavaClientCodegenTest {
         assertThat(files).hasSize(1).first(FILE).content()
             .contains(
                 "@JsonDeserialize(as = LinkedHashSet.class)",
-                "@JsonSerialize(using = ToStringSerializer.class)",
-                "com.fasterxml.jackson.databind.ser.std.ToStringSerializer",
-                "com.fasterxml.jackson.databind.annotation.JsonDeserialize",
-                "com.fasterxml.jackson.databind.annotation.JsonSerialize"
+                "@JsonFormat(shape = JsonFormat.Shape.STRING)",
+                "com.fasterxml.jackson.databind.annotation.JsonDeserialize"
             );
     }
         
@@ -2889,4 +2932,60 @@ public class JavaClientCodegenTest {
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"item\""))
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"activities-array\""));
     }
+
+
+    @Test
+    public void shouldGenerateOAuthTokenSuppliers() {
+
+        final Map<String, File> files = generateFromContract(
+            "src/test/resources/3_0/java/oauth.yaml",
+            JavaClientCodegen.RESTTEMPLATE
+        );
+
+        final JavaFileAssert apiClient = JavaFileAssert.assertThat(files.get("ApiClient.java"))
+            .printFileContent();
+        apiClient
+            .assertMethod("setAccessToken", "String")
+            .bodyContainsLines("setAccessToken(() -> accessToken);");
+        apiClient
+            .assertMethod("setAccessToken", "Supplier<String>")
+            .bodyContainsLines("((OAuth) auth).setAccessToken(tokenSupplier);");
+
+        final JavaFileAssert oAuth = JavaFileAssert.assertThat(files.get("OAuth.java"))
+            .printFileContent();
+        oAuth
+            .assertMethod("setAccessToken", "String")
+            .bodyContainsLines("setAccessToken(() -> accessToken);");
+        oAuth
+            .assertMethod("setAccessToken", "Supplier<String>")
+            .bodyContainsLines("this.tokenSupplier = tokenSupplier;");
+        oAuth
+            .assertMethod("applyToParams")
+            .bodyContainsLines("Optional.ofNullable(tokenSupplier).map(Supplier::get).ifPresent(accessToken ->")
+            .bodyContainsLines("headerParams.add(HttpHeaders.AUTHORIZATION, \"Bearer \" + accessToken)");
+
+    }
+
+    @Test public void testRestClientWithXML_issue_19137() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(Map.of(
+                        CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
+                        CodegenConstants.WITH_XML, true
+                ))
+                .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        TestUtils.assertFileContains(
+                output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
+                "import com.fasterxml.jackson.dataformat.xml.XmlMapper;",
+                "import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;"
+        );
+    }
+
 }

@@ -18,6 +18,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|addDownloadProgress|Add support for Qt download progress| |false|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |contentCompression|Enable Compressed Content Encoding for requests and responses| |false|
 |cppNamespace|C++ namespace (convention: name::space::for::api).| |OpenAPI|

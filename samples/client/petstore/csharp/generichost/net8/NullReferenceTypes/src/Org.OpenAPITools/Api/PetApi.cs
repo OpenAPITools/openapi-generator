@@ -212,11 +212,11 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to update</param>
-        /// <param name="file">file to upload (optional)</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <param name="file">file to upload (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IUploadFileApiResponse"/>&gt;</returns>
-        Task<IUploadFileApiResponse> UploadFileAsync(long petId, Option<System.IO.Stream> file = default, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<IUploadFileApiResponse> UploadFileAsync(long petId, Option<string> additionalMetadata = default, Option<System.IO.Stream> file = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// uploads an image
@@ -225,11 +225,11 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <param name="petId">ID of pet to update</param>
-        /// <param name="file">file to upload (optional)</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <param name="file">file to upload (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IUploadFileApiResponse"/>?&gt;</returns>
-        Task<IUploadFileApiResponse?> UploadFileOrDefaultAsync(long petId, Option<System.IO.Stream> file = default, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<IUploadFileApiResponse?> UploadFileOrDefaultAsync(long petId, Option<string> additionalMetadata = default, Option<System.IO.Stream> file = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// uploads an image (required)
@@ -238,12 +238,12 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="requiredFile">file to upload</param>
         /// <param name="petId">ID of pet to update</param>
+        /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IUploadFileWithRequiredFileApiResponse"/>&gt;</returns>
-        Task<IUploadFileWithRequiredFileApiResponse> UploadFileWithRequiredFileAsync(System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<IUploadFileWithRequiredFileApiResponse> UploadFileWithRequiredFileAsync(long petId, System.IO.Stream requiredFile, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// uploads an image (required)
@@ -251,12 +251,12 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// 
         /// </remarks>
-        /// <param name="requiredFile">file to upload</param>
         /// <param name="petId">ID of pet to update</param>
+        /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IUploadFileWithRequiredFileApiResponse"/>?&gt;</returns>
-        Task<IUploadFileWithRequiredFileApiResponse?> UploadFileWithRequiredFileOrDefaultAsync(System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<IUploadFileWithRequiredFileApiResponse?> UploadFileWithRequiredFileOrDefaultAsync(long petId, System.IO.Stream requiredFile, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -299,6 +299,18 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <returns></returns>
         bool IsBadRequest { get; }
+
+        /// <summary>
+        /// Returns true if the response is 2XX HttpStatusCode2XX
+        /// </summary>
+        /// <returns></returns>
+        bool IsHttpStatusCode2XX { get; }
+
+        /// <summary>
+        /// Returns true if the response is 4XX HttpStatusCode4XX
+        /// </summary>
+        /// <returns></returns>
+        bool IsHttpStatusCode4XX { get; }
     }
 
     /// <summary>
@@ -856,7 +868,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
 
             /// <summary>
             /// Returns true if the response is 405 MethodNotAllowed
@@ -1053,7 +1065,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
 
             /// <summary>
             /// Returns true if the response is 400 BadRequest
@@ -1266,7 +1278,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -1311,6 +1323,32 @@ namespace Org.OpenAPITools.Api
             /// </summary>
             /// <returns></returns>
             public bool IsBadRequest => 400 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 2XX HttpStatusCode2XX
+            /// </summary>
+            /// <returns></returns>
+            public bool IsHttpStatusCode2XX
+            {
+                get
+                {
+                    int statusCode = (int)StatusCode;
+                    return 200 >= statusCode && 299 <= statusCode;
+                }
+            }
+
+            /// <summary>
+            /// Returns true if the response is 4XX HttpStatusCode4XX
+            /// </summary>
+            /// <returns></returns>
+            public bool IsHttpStatusCode4XX
+            {
+                get
+                {
+                    int statusCode = (int)StatusCode;
+                    return 400 >= statusCode && 499 <= statusCode;
+                }
+            }
 
             private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
             {
@@ -1517,7 +1555,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -1746,7 +1784,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -2001,7 +2039,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
 
             /// <summary>
             /// Returns true if the response is 400 BadRequest
@@ -2238,7 +2276,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
 
             /// <summary>
             /// Returns true if the response is 405 MethodNotAllowed
@@ -2257,21 +2295,21 @@ namespace Org.OpenAPITools.Api
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatUploadFile(ref long petId, ref Option<System.IO.Stream> file, ref Option<string> additionalMetadata);
+        partial void FormatUploadFile(ref long petId, ref Option<string> additionalMetadata, ref Option<System.IO.Stream> file);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        /// <param name="file"></param>
         /// <param name="additionalMetadata"></param>
+        /// <param name="file"></param>
         /// <returns></returns>
-        private void ValidateUploadFile(Option<System.IO.Stream> file, Option<string> additionalMetadata)
+        private void ValidateUploadFile(Option<string> additionalMetadata, Option<System.IO.Stream> file)
         {
-            if (file.IsSet && file.Value == null)
-                throw new ArgumentNullException(nameof(file));
-
             if (additionalMetadata.IsSet && additionalMetadata.Value == null)
                 throw new ArgumentNullException(nameof(additionalMetadata));
+
+            if (file.IsSet && file.Value == null)
+                throw new ArgumentNullException(nameof(file));
         }
 
         /// <summary>
@@ -2279,12 +2317,12 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="petId"></param>
-        /// <param name="file"></param>
         /// <param name="additionalMetadata"></param>
-        private void AfterUploadFileDefaultImplementation(IUploadFileApiResponse apiResponseLocalVar, long petId, Option<System.IO.Stream> file, Option<string> additionalMetadata)
+        /// <param name="file"></param>
+        private void AfterUploadFileDefaultImplementation(IUploadFileApiResponse apiResponseLocalVar, long petId, Option<string> additionalMetadata, Option<System.IO.Stream> file)
         {
             bool suppressDefaultLog = false;
-            AfterUploadFile(ref suppressDefaultLog, apiResponseLocalVar, petId, file, additionalMetadata);
+            AfterUploadFile(ref suppressDefaultLog, apiResponseLocalVar, petId, additionalMetadata, file);
             if (!suppressDefaultLog)
                 Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
@@ -2295,9 +2333,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="petId"></param>
-        /// <param name="file"></param>
         /// <param name="additionalMetadata"></param>
-        partial void AfterUploadFile(ref bool suppressDefaultLog, IUploadFileApiResponse apiResponseLocalVar, long petId, Option<System.IO.Stream> file, Option<string> additionalMetadata);
+        /// <param name="file"></param>
+        partial void AfterUploadFile(ref bool suppressDefaultLog, IUploadFileApiResponse apiResponseLocalVar, long petId, Option<string> additionalMetadata, Option<System.IO.Stream> file);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2306,12 +2344,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="petId"></param>
-        /// <param name="file"></param>
         /// <param name="additionalMetadata"></param>
-        private void OnErrorUploadFileDefaultImplementation(Exception exception, string pathFormat, string path, long petId, Option<System.IO.Stream> file, Option<string> additionalMetadata)
+        /// <param name="file"></param>
+        private void OnErrorUploadFileDefaultImplementation(Exception exception, string pathFormat, string path, long petId, Option<string> additionalMetadata, Option<System.IO.Stream> file)
         {
             bool suppressDefaultLog = false;
-            OnErrorUploadFile(ref suppressDefaultLog, exception, pathFormat, path, petId, file, additionalMetadata);
+            OnErrorUploadFile(ref suppressDefaultLog, exception, pathFormat, path, petId, additionalMetadata, file);
             if (!suppressDefaultLog)
                 Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
@@ -2324,23 +2362,23 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="petId"></param>
-        /// <param name="file"></param>
         /// <param name="additionalMetadata"></param>
-        partial void OnErrorUploadFile(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, long petId, Option<System.IO.Stream> file, Option<string> additionalMetadata);
+        /// <param name="file"></param>
+        partial void OnErrorUploadFile(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, long petId, Option<string> additionalMetadata, Option<System.IO.Stream> file);
 
         /// <summary>
         /// uploads an image 
         /// </summary>
         /// <param name="petId">ID of pet to update</param>
-        /// <param name="file">file to upload (optional)</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <param name="file">file to upload (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IUploadFileApiResponse"/>&gt;</returns>
-        public async Task<IUploadFileApiResponse?> UploadFileOrDefaultAsync(long petId, Option<System.IO.Stream> file = default, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<IUploadFileApiResponse?> UploadFileOrDefaultAsync(long petId, Option<string> additionalMetadata = default, Option<System.IO.Stream> file = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await UploadFileAsync(petId, file, additionalMetadata, cancellationToken).ConfigureAwait(false);
+                return await UploadFileAsync(petId, additionalMetadata, file, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -2353,19 +2391,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to update</param>
-        /// <param name="file">file to upload (optional)</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <param name="file">file to upload (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IUploadFileApiResponse"/>&gt;</returns>
-        public async Task<IUploadFileApiResponse> UploadFileAsync(long petId, Option<System.IO.Stream> file = default, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<IUploadFileApiResponse> UploadFileAsync(long petId, Option<string> additionalMetadata = default, Option<System.IO.Stream> file = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                ValidateUploadFile(file, additionalMetadata);
+                ValidateUploadFile(additionalMetadata, file);
 
-                FormatUploadFile(ref petId, ref file, ref additionalMetadata);
+                FormatUploadFile(ref petId, ref additionalMetadata, ref file);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -2381,11 +2419,11 @@ namespace Org.OpenAPITools.Api
 
                     List<KeyValuePair<string?, string?>> formParameterLocalVars = new List<KeyValuePair<string?, string?>>();
 
-                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));                    if (file.IsSet)
-                        multipartContentLocalVar.Add(new StreamContent(file.Value));
-
-                    if (additionalMetadata.IsSet)
+                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));                    if (additionalMetadata.IsSet)
                         formParameterLocalVars.Add(new KeyValuePair<string?, string?>("additionalMetadata", ClientUtils.ParameterToString(additionalMetadata.Value)));
+
+                    if (file.IsSet)
+                        multipartContentLocalVar.Add(new StreamContent(file.Value));
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -2426,7 +2464,7 @@ namespace Org.OpenAPITools.Api
 
                         UploadFileApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/{petId}/uploadImage", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterUploadFileDefaultImplementation(apiResponseLocalVar, petId, file, additionalMetadata);
+                        AfterUploadFileDefaultImplementation(apiResponseLocalVar, petId, additionalMetadata, file);
 
                         Events.ExecuteOnUploadFile(apiResponseLocalVar);
 
@@ -2440,7 +2478,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorUploadFileDefaultImplementation(e, "/pet/{petId}/uploadImage", uriBuilderLocalVar.Path, petId, file, additionalMetadata);
+                OnErrorUploadFileDefaultImplementation(e, "/pet/{petId}/uploadImage", uriBuilderLocalVar.Path, petId, additionalMetadata, file);
                 Events.ExecuteOnErrorUploadFile(e);
                 throw;
             }
@@ -2472,7 +2510,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
 
             /// <summary>
             /// Returns true if the response is 200 Ok
@@ -2523,7 +2561,7 @@ namespace Org.OpenAPITools.Api
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatUploadFileWithRequiredFile(ref System.IO.Stream requiredFile, ref long petId, ref Option<string> additionalMetadata);
+        partial void FormatUploadFileWithRequiredFile(ref long petId, ref System.IO.Stream requiredFile, ref Option<string> additionalMetadata);
 
         /// <summary>
         /// Validates the request parameters
@@ -2544,13 +2582,13 @@ namespace Org.OpenAPITools.Api
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="requiredFile"></param>
         /// <param name="petId"></param>
+        /// <param name="requiredFile"></param>
         /// <param name="additionalMetadata"></param>
-        private void AfterUploadFileWithRequiredFileDefaultImplementation(IUploadFileWithRequiredFileApiResponse apiResponseLocalVar, System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata)
+        private void AfterUploadFileWithRequiredFileDefaultImplementation(IUploadFileWithRequiredFileApiResponse apiResponseLocalVar, long petId, System.IO.Stream requiredFile, Option<string> additionalMetadata)
         {
             bool suppressDefaultLog = false;
-            AfterUploadFileWithRequiredFile(ref suppressDefaultLog, apiResponseLocalVar, requiredFile, petId, additionalMetadata);
+            AfterUploadFileWithRequiredFile(ref suppressDefaultLog, apiResponseLocalVar, petId, requiredFile, additionalMetadata);
             if (!suppressDefaultLog)
                 Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
@@ -2560,10 +2598,10 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="requiredFile"></param>
         /// <param name="petId"></param>
+        /// <param name="requiredFile"></param>
         /// <param name="additionalMetadata"></param>
-        partial void AfterUploadFileWithRequiredFile(ref bool suppressDefaultLog, IUploadFileWithRequiredFileApiResponse apiResponseLocalVar, System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata);
+        partial void AfterUploadFileWithRequiredFile(ref bool suppressDefaultLog, IUploadFileWithRequiredFileApiResponse apiResponseLocalVar, long petId, System.IO.Stream requiredFile, Option<string> additionalMetadata);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2571,13 +2609,13 @@ namespace Org.OpenAPITools.Api
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        /// <param name="requiredFile"></param>
         /// <param name="petId"></param>
+        /// <param name="requiredFile"></param>
         /// <param name="additionalMetadata"></param>
-        private void OnErrorUploadFileWithRequiredFileDefaultImplementation(Exception exception, string pathFormat, string path, System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata)
+        private void OnErrorUploadFileWithRequiredFileDefaultImplementation(Exception exception, string pathFormat, string path, long petId, System.IO.Stream requiredFile, Option<string> additionalMetadata)
         {
             bool suppressDefaultLog = false;
-            OnErrorUploadFileWithRequiredFile(ref suppressDefaultLog, exception, pathFormat, path, requiredFile, petId, additionalMetadata);
+            OnErrorUploadFileWithRequiredFile(ref suppressDefaultLog, exception, pathFormat, path, petId, requiredFile, additionalMetadata);
             if (!suppressDefaultLog)
                 Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
@@ -2589,24 +2627,24 @@ namespace Org.OpenAPITools.Api
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        /// <param name="requiredFile"></param>
         /// <param name="petId"></param>
+        /// <param name="requiredFile"></param>
         /// <param name="additionalMetadata"></param>
-        partial void OnErrorUploadFileWithRequiredFile(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata);
+        partial void OnErrorUploadFileWithRequiredFile(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, long petId, System.IO.Stream requiredFile, Option<string> additionalMetadata);
 
         /// <summary>
         /// uploads an image (required) 
         /// </summary>
-        /// <param name="requiredFile">file to upload</param>
         /// <param name="petId">ID of pet to update</param>
+        /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IUploadFileWithRequiredFileApiResponse"/>&gt;</returns>
-        public async Task<IUploadFileWithRequiredFileApiResponse?> UploadFileWithRequiredFileOrDefaultAsync(System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<IUploadFileWithRequiredFileApiResponse?> UploadFileWithRequiredFileOrDefaultAsync(long petId, System.IO.Stream requiredFile, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await UploadFileWithRequiredFileAsync(requiredFile, petId, additionalMetadata, cancellationToken).ConfigureAwait(false);
+                return await UploadFileWithRequiredFileAsync(petId, requiredFile, additionalMetadata, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -2618,12 +2656,12 @@ namespace Org.OpenAPITools.Api
         /// uploads an image (required) 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="requiredFile">file to upload</param>
         /// <param name="petId">ID of pet to update</param>
+        /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IUploadFileWithRequiredFileApiResponse"/>&gt;</returns>
-        public async Task<IUploadFileWithRequiredFileApiResponse> UploadFileWithRequiredFileAsync(System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<IUploadFileWithRequiredFileApiResponse> UploadFileWithRequiredFileAsync(long petId, System.IO.Stream requiredFile, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -2631,7 +2669,7 @@ namespace Org.OpenAPITools.Api
             {
                 ValidateUploadFileWithRequiredFile(requiredFile, additionalMetadata);
 
-                FormatUploadFileWithRequiredFile(ref requiredFile, ref petId, ref additionalMetadata);
+                FormatUploadFileWithRequiredFile(ref petId, ref requiredFile, ref additionalMetadata);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -2692,7 +2730,7 @@ namespace Org.OpenAPITools.Api
 
                         UploadFileWithRequiredFileApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/{petId}/uploadImageWithRequiredFile", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterUploadFileWithRequiredFileDefaultImplementation(apiResponseLocalVar, requiredFile, petId, additionalMetadata);
+                        AfterUploadFileWithRequiredFileDefaultImplementation(apiResponseLocalVar, petId, requiredFile, additionalMetadata);
 
                         Events.ExecuteOnUploadFileWithRequiredFile(apiResponseLocalVar);
 
@@ -2706,7 +2744,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorUploadFileWithRequiredFileDefaultImplementation(e, "/fake/{petId}/uploadImageWithRequiredFile", uriBuilderLocalVar.Path, requiredFile, petId, additionalMetadata);
+                OnErrorUploadFileWithRequiredFileDefaultImplementation(e, "/fake/{petId}/uploadImageWithRequiredFile", uriBuilderLocalVar.Path, petId, requiredFile, additionalMetadata);
                 Events.ExecuteOnErrorUploadFileWithRequiredFile(e);
                 throw;
             }
@@ -2738,7 +2776,7 @@ namespace Org.OpenAPITools.Api
                 OnCreated(httpRequestMessage, httpResponseMessage);
             }
 
-            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
 
             /// <summary>
             /// Returns true if the response is 200 Ok

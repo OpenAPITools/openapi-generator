@@ -1,3 +1,5 @@
+{{>licenseInfo}}
+
 package {{invokerPackage}};
 
 {{#gson}}
@@ -22,7 +24,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 {{/useRxJava2}}
 {{#useRxJava3}}
-import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 {{/useRxJava3}}
 {{#gson}}
 import retrofit2.converter.gson.GsonConverterFactory;

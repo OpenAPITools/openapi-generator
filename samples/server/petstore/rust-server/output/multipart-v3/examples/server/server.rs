@@ -30,9 +30,7 @@ pub async fn create(addr: &str, https: bool) {
 
     let service = MakeService::new(server);
 
-    // This pushes a fourth layer of the middleware-stack even though Swagger assumes only three levels.
-    // This fourth layer creates an accept-all policy, hower the example-code already acchieves the same via a Bearer-token with full permissions, so next line is not needed (anymore).  
-    // let service = MakeAllowAllAuthenticator::new(service, "cosmo");
+    let service = MakeAllowAllAuthenticator::new(service, "cosmo");
 
     #[allow(unused_mut)]
     let mut service =

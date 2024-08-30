@@ -100,6 +100,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String MICROPROFILE_KUMULUZEE = "kumuluzee";
     public static final String WEBCLIENT_BLOCKING_OPERATIONS = "webclientBlockingOperations";
     public static final String USE_ENUM_CASE_INSENSITIVE = "useEnumCaseInsensitive";
+    public static final String FAIL_ON_UNKNOWN_PROPERTIES = "failOnUnknownProperties";
 
     public static final String SERIALIZATION_LIBRARY_GSON = "gson";
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
@@ -134,12 +135,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Setter protected boolean withAWSV4Signature = false;
     @Setter protected String gradleProperties;
     @Setter protected String errorObjectType;
+    @Getter @Setter protected boolean failOnUnknownProperties = false;
     protected String authFolder;
     /**
-     * -- GETTER --
      *  Serialization library.
-     *
-     * @return 'gson' or 'jackson'
      */
     @Getter protected String serializationLibrary = null;
     @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
@@ -243,6 +242,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(GENERATE_CLIENT_AS_BEAN, "For resttemplate, configure whether to create `ApiClient.java` and Apis clients as bean (with `@Component` annotation).", this.generateClientAsBean));
         cliOptions.add(CliOption.newBoolean(SUPPORT_URL_QUERY, "Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient` libraries."));
         cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE, "Use `equalsIgnoreCase` when String for enum comparison", useEnumCaseInsensitive));
+        cliOptions.add(CliOption.newBoolean(FAIL_ON_UNKNOWN_PROPERTIES, "Fail Jackson de-serialization on unknown properties", this.failOnUnknownProperties));
 
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.17.1");
         supportedLibraries.put(JERSEY3, "HTTP client: Jersey client 3.1.1. JSON processing: Jackson 2.17.1");
@@ -393,6 +393,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         convertPropertyToStringAndWriteBack(GRADLE_PROPERTIES, this::setGradleProperties);
         convertPropertyToStringAndWriteBack(ERROR_OBJECT_TYPE, this::setErrorObjectType);
         convertPropertyToBooleanAndWriteBack(WEBCLIENT_BLOCKING_OPERATIONS, op -> webclientBlockingOperations=op);
+        convertPropertyToBooleanAndWriteBack(FAIL_ON_UNKNOWN_PROPERTIES, this::setFailOnUnknownProperties);
 
         // add URL query deepObject support to native, apache-httpclient by default
         if (!additionalProperties.containsKey(SUPPORT_URL_QUERY)) {
@@ -940,8 +941,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (MICROPROFILE.equals(getLibrary())) {
             model.imports.remove("ApiModelProperty");
             model.imports.remove("ApiModel");
-            model.imports.remove("JsonSerialize");
-            model.imports.remove("ToStringSerializer");
         }
 
         if (!BooleanUtils.toBoolean(model.isEnum)) {

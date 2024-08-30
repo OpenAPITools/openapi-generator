@@ -22,7 +22,7 @@ class TestFormIntegerBooleanStringStubBuilder internal constructor(private val o
      * Let the stub for testFormIntegerBooleanString respond with HTTP status code 200.
      *
      * @param body response body for the [MappingBuilder].
-     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
@@ -39,6 +39,7 @@ class TestFormIntegerBooleanStringStubBuilder internal constructor(private val o
     /**
      * Let the stub for testFormIntegerBooleanString respond with HTTP status code [code].
      *
+     * @param code the response code.
      * @param body response body for the [MappingBuilder].
      * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return a [MappingBuilder] to be registered with a WireMock instance.
@@ -69,7 +70,7 @@ class TestFormOneofStubBuilder internal constructor(private val objectMapper: Ob
      * Let the stub for testFormOneof respond with HTTP status code 200.
      *
      * @param body response body for the [MappingBuilder].
-     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
@@ -86,6 +87,7 @@ class TestFormOneofStubBuilder internal constructor(private val objectMapper: Ob
     /**
      * Let the stub for testFormOneof respond with HTTP status code [code].
      *
+     * @param code the response code.
      * @param body response body for the [MappingBuilder].
      * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return a [MappingBuilder] to be registered with a WireMock instance.
