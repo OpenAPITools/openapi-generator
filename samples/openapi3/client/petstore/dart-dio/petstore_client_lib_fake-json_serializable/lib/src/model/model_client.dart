@@ -26,7 +26,6 @@ class ModelClient {
     name: r'client',
     required: false,
     includeIfNull: false,
-    
   )
 
 

@@ -30,7 +30,6 @@ class OuterComposite {
     name: r'my_number',
     required: false,
     includeIfNull: false,
-    
   )
 
 
@@ -43,7 +42,6 @@ class OuterComposite {
     name: r'my_string',
     required: false,
     includeIfNull: false,
-    
   )
 
 
@@ -56,7 +54,6 @@ class OuterComposite {
     name: r'my_boolean',
     required: false,
     includeIfNull: false,
-    
   )
 
 

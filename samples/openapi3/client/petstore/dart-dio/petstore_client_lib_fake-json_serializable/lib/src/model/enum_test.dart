@@ -44,7 +44,7 @@ class EnumTest {
     name: r'enum_string',
     required: false,
     includeIfNull: false,
-    unknownEnumValue: EnumTestEnumStringEnum.unknownDefaultOpenApi,
+  unknownEnumValue: EnumTestEnumStringEnum.unknownDefaultOpenApi,
   )
 
 
@@ -57,7 +57,7 @@ class EnumTest {
     name: r'enum_string_required',
     required: true,
     includeIfNull: false,
-    unknownEnumValue: EnumTestEnumStringRequiredEnum.unknownDefaultOpenApi,
+  unknownEnumValue: EnumTestEnumStringRequiredEnum.unknownDefaultOpenApi,
   )
 
 
@@ -70,7 +70,7 @@ class EnumTest {
     name: r'enum_integer',
     required: false,
     includeIfNull: false,
-    unknownEnumValue: EnumTestEnumIntegerEnum.unknownDefaultOpenApi,
+  unknownEnumValue: EnumTestEnumIntegerEnum.unknownDefaultOpenApi,
   )
 
 
@@ -83,7 +83,7 @@ class EnumTest {
     name: r'enum_number',
     required: false,
     includeIfNull: false,
-    unknownEnumValue: EnumTestEnumNumberEnum.unknownDefaultOpenApi,
+  unknownEnumValue: EnumTestEnumNumberEnum.unknownDefaultOpenApi,
   )
 
 
@@ -96,7 +96,7 @@ class EnumTest {
     name: r'outerEnum',
     required: false,
     includeIfNull: false,
-    unknownEnumValue: OuterEnum.unknownDefaultOpenApi,
+  unknownEnumValue: OuterEnum.unknownDefaultOpenApi,
   )
 
 
@@ -109,7 +109,7 @@ class EnumTest {
     name: r'outerEnumInteger',
     required: false,
     includeIfNull: false,
-    unknownEnumValue: OuterEnumInteger.unknownDefaultOpenApi,
+  unknownEnumValue: OuterEnumInteger.unknownDefaultOpenApi,
   )
 
 
@@ -122,7 +122,7 @@ class EnumTest {
     name: r'outerEnumDefaultValue',
     required: false,
     includeIfNull: false,
-    unknownEnumValue: OuterEnumDefaultValue.unknownDefaultOpenApi,
+  unknownEnumValue: OuterEnumDefaultValue.unknownDefaultOpenApi,
   )
 
 
@@ -135,7 +135,7 @@ class EnumTest {
     name: r'outerEnumIntegerDefaultValue',
     required: false,
     includeIfNull: false,
-    unknownEnumValue: OuterEnumIntegerDefaultValue.unknownDefaultOpenApi,
+  unknownEnumValue: OuterEnumIntegerDefaultValue.unknownDefaultOpenApi,
   )
 
 

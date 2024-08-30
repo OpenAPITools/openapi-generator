@@ -32,7 +32,6 @@ class MapTest {
     name: r'map_map_of_string',
     required: false,
     includeIfNull: false,
-    
   )
 
 
@@ -45,7 +44,7 @@ class MapTest {
     name: r'map_of_enum_string',
     required: false,
     includeIfNull: false,
-    unknownEnumValue: Map<String, MapTestMapOfEnumStringEnum>.unknownDefaultOpenApi,
+  unknownEnumValue: Map<String, MapTestMapOfEnumStringEnum>.unknownDefaultOpenApi,
   )
 
 
@@ -58,7 +57,6 @@ class MapTest {
     name: r'direct_map',
     required: false,
     includeIfNull: false,
-    
   )
 
 
@@ -71,7 +69,6 @@ class MapTest {
     name: r'indirect_map',
     required: false,
     includeIfNull: false,
-    
   )
 
 

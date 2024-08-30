@@ -32,7 +32,6 @@ class Name {
     name: r'name',
     required: true,
     includeIfNull: false,
-    
   )
 
 
@@ -45,7 +44,6 @@ class Name {
     name: r'snake_case',
     required: false,
     includeIfNull: false,
-    
   )
 
 
@@ -58,7 +56,6 @@ class Name {
     name: r'property',
     required: false,
     includeIfNull: false,
-    
   )
 
 
@@ -71,7 +68,6 @@ class Name {
     name: r'123Number',
     required: false,
     includeIfNull: false,
-    
   )
 
 

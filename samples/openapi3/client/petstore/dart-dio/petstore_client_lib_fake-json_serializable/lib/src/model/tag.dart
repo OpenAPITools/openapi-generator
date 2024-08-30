@@ -28,7 +28,6 @@ class Tag {
     name: r'id',
     required: false,
     includeIfNull: false,
-    
   )
 
 
@@ -41,7 +40,6 @@ class Tag {
     name: r'name',
     required: false,
     includeIfNull: false,
-    
   )
 
 

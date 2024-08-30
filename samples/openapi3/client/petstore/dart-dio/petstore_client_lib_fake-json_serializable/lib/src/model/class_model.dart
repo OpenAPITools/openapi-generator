@@ -26,7 +26,6 @@ class ClassModel {
     name: r'_class',
     required: false,
     includeIfNull: false,
-    
   )
 
 

@@ -59,7 +59,6 @@ class FormatTest {
     name: r'integer',
     required: false,
     includeIfNull: false,
-    
   )
 
 
@@ -74,7 +73,6 @@ class FormatTest {
     name: r'int32',
     required: false,
     includeIfNull: false,
-    
   )
 
 
@@ -87,7 +85,6 @@ class FormatTest {
     name: r'int64',
     required: false,
     includeIfNull: false,
-    
   )
 
 
@@ -102,7 +99,6 @@ class FormatTest {
     name: r'number',
     required: true,
     includeIfNull: false,
-    
   )
 
 
@@ -117,7 +113,6 @@ class FormatTest {
     name: r'float',
     required: false,
     includeIfNull: false,
-    
   )
 
 
@@ -132,7 +127,6 @@ class FormatTest {
     name: r'double',
     required: false,
     includeIfNull: false,
-    
   )
 
 
@@ -145,7 +139,6 @@ class FormatTest {
     name: r'decimal',
     required: false,
     includeIfNull: false,
-    
   )
 
 
@@ -158,7 +151,6 @@ class FormatTest {
     name: r'string',
     required: false,
     includeIfNull: false,
-    
   )
 
 
@@ -171,7 +163,6 @@ class FormatTest {
     name: r'byte',
     required: true,
     includeIfNull: false,
-    
   )
 
 
@@ -191,7 +182,6 @@ class FormatTest {
     name: r'date',
     required: true,
     includeIfNull: false,
-    
   )
 
 
@@ -204,7 +194,6 @@ class FormatTest {
     name: r'dateTime',
     required: false,
     includeIfNull: false,
-    
   )
 
 
@@ -217,7 +206,6 @@ class FormatTest {
     name: r'uuid',
     required: false,
     includeIfNull: false,
-    
   )
 
 
@@ -230,7 +218,6 @@ class FormatTest {
     name: r'password',
     required: true,
     includeIfNull: false,
-    
   )
 
 
@@ -244,7 +231,6 @@ class FormatTest {
     name: r'pattern_with_digits',
     required: false,
     includeIfNull: false,
-    
   )
 
 
@@ -258,7 +244,6 @@ class FormatTest {
     name: r'pattern_with_digits_and_delimiter',
     required: false,
     includeIfNull: false,
-    
   )
 
 
