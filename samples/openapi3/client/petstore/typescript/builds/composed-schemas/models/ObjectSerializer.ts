@@ -95,6 +95,13 @@ const supportedMimeTypePredicatesWithPriority: MimeTypePredicate[] = [
     isFormUrlencodedMimeType,
 ];
 
+const nullableSuffix = " | null";
+const optionalSuffix = " | undefined";
+const arrayPrefix = "Array<";
+const arraySuffix = ">";
+const mapPrefix = "{ [key: string]: ";
+const mapSuffix = "; }";
+
 export class ObjectSerializer {
     public static findCorrectType(data: any, expectedType: string) {
         if (data == undefined) {
@@ -136,31 +143,21 @@ export class ObjectSerializer {
             return data;
         } else if (primitives.indexOf(type.toLowerCase()) !== -1) {
             return data;
-        } else if (type.endsWith(" | null")) {
-            if (data === null) {
-                return data;
-            } else {
-                let subType: string = type.substring(0, type.length - 7); // Type | null => Type
-                return ObjectSerializer.serialize(data, subType, format);
-            }
-        } else if (type.endsWith(" | undefined")) {
-            if (data === undefined) {
-                return data;
-            } else {
-                let subType: string = type.substring(0, type.length - 12); // Type | undefined => Type
-                return ObjectSerializer.serialize(data, subType, format);
-            }
-        } else if (type.startsWith("Array<")) {
-            let subType: string = type.replace("Array<", ""); // Array<Type> => Type>
-            subType = subType.substring(0, subType.length - 1); // Type> => Type
+        } else if (type.endsWith(nullableSuffix)) {
+            let subType: string = type.slice(0, -nullableSuffix.length); // Type | null => Type
+            return ObjectSerializer.serialize(data, subType, format);
+        } else if (type.endsWith(optionalSuffix)) {
+            let subType: string = type.slice(0, -optionalSuffix.length); // Type | undefined => Type
+            return ObjectSerializer.serialize(data, subType, format);
+        } else if (type.startsWith(arrayPrefix)) {
+            let subType: string = type.slice(arrayPrefix.length, -arraySuffix.length); // Array<Type> => Type
             let transformedData: any[] = [];
             for (let date of data) {
                 transformedData.push(ObjectSerializer.serialize(date, subType, format));
             }
             return transformedData;
-        } else if (type.startsWith('{ [key: string]: ')) {
-            let subType: string = type.replace('{ [key: string]: ', ''); // { [key: string]: Type; } => Type; }
-            subType = subType.substring(0, subType.length - 3); // Type; } => Type
+        } else if (type.startsWith(mapPrefix)) {
+            let subType: string = type.slice(mapPrefix.length, -mapSuffix.length); // { [key: string]: Type; } => Type
             let transformedData: { [key: string]: any } = {};
             for (let key in data) {
                 transformedData[key] = ObjectSerializer.serialize(
@@ -209,31 +206,21 @@ export class ObjectSerializer {
             return data;
         } else if (primitives.indexOf(type.toLowerCase()) !== -1) {
             return data;
-        } else if (type.endsWith(" | null")) {
-            if (data === null) {
-                return data;
-            } else {
-                let subType: string = type.substring(0, type.length - 7); // Type | null => Type
-                return ObjectSerializer.deserialize(data, subType, format);
-            }
-        } else if (type.endsWith(" | undefined")) {
-            if (data === undefined) {
-                return data;
-            } else {
-                let subType: string = type.substring(0, type.length - 12); // Type | undefined => Type
-                return ObjectSerializer.deserialize(data, subType, format);
-            }
-        } else if (type.startsWith("Array<")) {
-            let subType: string = type.replace("Array<", ""); // Array<Type> => Type>
-            subType = subType.substring(0, subType.length - 1); // Type> => Type
+        } else if (type.endsWith(nullableSuffix)) {
+            let subType: string = type.slice(0, -nullableSuffix.length); // Type | null => Type
+            return ObjectSerializer.deserialize(data, subType, format);
+        } else if (type.endsWith(optionalSuffix)) {
+            let subType: string = type.slice(0, -optionalSuffix.length); // Type | undefined => Type
+            return ObjectSerializer.deserialize(data, subType, format);
+        } else if (type.startsWith(arrayPrefix)) {
+            let subType: string = type.slice(arrayPrefix.length, -arraySuffix.length); // Array<Type> => Type
             let transformedData: any[] = [];
             for (let date of data) {
                 transformedData.push(ObjectSerializer.deserialize(date, subType, format));
             }
             return transformedData;
-        } else if (type.startsWith('{ [key: string]: ')) {
-            let subType: string = type.replace('{ [key: string]: ', ''); // { [key: string]: Type; } => Type; }
-            subType = subType.substring(0, subType.length - 3); // Type; } => Type
+        } else if (type.startsWith(mapPrefix)) {
+            let subType: string = type.slice(mapPrefix.length, -mapSuffix.length); // { [key: string]: Type; } => Type
             let transformedData: { [key: string]: any } = {};
             for (let key in data) {
                 transformedData[key] = ObjectSerializer.deserialize(
