@@ -457,11 +457,11 @@ cp ./modules/openapi-generator-cli/target/openapi-generator-cli.jar /your/projec
 and then:
 ```json
 {
-    "$schema": "./node_modules/@openapitools/openapi-generator-cli/config.schema.json",
-    "spaces": 2,
-    "generator-cli": {
-        "version": "my-local-snapshot",
-    }
+  "$schema": "./node_modules/@openapitools/openapi-generator-cli/config.schema.json",
+  "spaces": 2,
+  "generator-cli": {
+    "version": "my-local-snapshot",
+  }
 }
 ```
 
