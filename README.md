@@ -461,8 +461,7 @@ and then:
     "spaces": 2,
     "generator-cli": {
         "version": "my-local-snapshot",
-    },
-    // ...
+    }
 }
 ```
 
