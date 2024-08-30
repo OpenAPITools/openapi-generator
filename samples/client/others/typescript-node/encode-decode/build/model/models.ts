@@ -46,7 +46,7 @@ function startsWith(str: string, match: string): boolean {
 
 // Check if a string ends with another string without using es6 features
 function endsWith(str: string, match: string): boolean {
-    return str.length > match.length && str.substring(str.length - match.length) === match;
+    return str.length >= match.length && str.substring(str.length - match.length) === match;
 }
 
 const nullableSuffix = " | null";
