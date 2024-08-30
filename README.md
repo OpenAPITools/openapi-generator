@@ -128,7 +128,7 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 
 | OpenAPI Generator Version                                                                                                                                 | Release Date | Notes                                             |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------- |
-| 7.9.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/7.8.0-SNAPSHOT/) | 23.09.2024   | Minor release with breaking changes (with fallback) |
+| 7.9.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/7.9.0-SNAPSHOT/) | 23.09.2024   | Minor release with breaking changes (with fallback) |
 | [7.8.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v7.8.0) (latest stable release)                                                    | 19.08.2024   | Minor release with breaking changes (with fallback) |
 | [6.6.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v6.6.0)                                                    | 11.05.2023   | Minor release with breaking changes (with fallback) |
 | [5.4.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v5.4.0)                                                    | 31.01.2022   | Minor release with breaking changes (with fallback) |
@@ -445,6 +445,44 @@ Or install it as dev-dependency:
 npm install @openapitools/openapi-generator-cli -D
 ```
 <!-- /RELEASE_VERSION -->
+
+#### Use locally built JAR
+In order to use a locally built jar of the generator CLI, you can copy the jar from your local build (i.e. if you were to `build` this repository it would be in `~/openapi-generator/modules/openapi-generator-cli/target/openapi-generator-cli.jar`) into `./node_modules/@openapitools/openapi-generator-cli/versions/` and change the `version` in the `openapitools.json` file to the base name of the jar file.
+E.g.:
+```sh
+cd openapi-generator
+./mvnw clean package
+cp ./modules/openapi-generator-cli/target/openapi-generator-cli.jar /your/project/node_modules/@openapitools/openapi-generator-cli/versions/my-local-snapshot.jar
+```
+and then:
+```json
+{
+    "$schema": "./node_modules/@openapitools/openapi-generator-cli/config.schema.json",
+    "spaces": 2,
+    "generator-cli": {
+        "version": "my-local-snapshot",
+    },
+    // ...
+}
+```
+
+#### Use nightly `SNAPSHOT` build
+Change your `openapitools.json` to:
+
+```json
+{
+  "$schema": "node_modules/@openapitools/openapi-generator-cli/config.schema.json",
+  "spaces": 2,
+  "generator-cli": {
+    "version": "7.9.0-20240829.123431-22",
+    "repository": {
+      "downloadUrl": "https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/7.9.0-SNAPSHOT/openapi-generator-cli-${versionName}.jar"
+    }
+  }
+}
+```
+(example is with a snapshot of `7.9.0`, please change the `version` and `downloadUrl` accordingly)
+
 ## [2 - Getting Started](#table-of-contents)
 
 To generate a PHP client for [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml), please run the following
