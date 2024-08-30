@@ -78,9 +78,7 @@ export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
         {{/discriminatorValue}}
         {{/allVars}}
         {{#discriminatorName}}
-        {{^discriminator.isEnum}}
         this.{{discriminatorName}} = "{{classname}}";
-        {{/discriminator.isEnum}}
         {{/discriminatorName}}
     }
 }
