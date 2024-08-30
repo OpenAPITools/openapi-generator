@@ -70,7 +70,7 @@ let typeMap: {[index: string]: any} = {
 
 // Check if a string starts with another string without using es6 features
 function startsWith(str: string, match: string): boolean {
-    return str.lastIndexOf(match, 0) === 0;
+    return str.substring(0, match.length) === match;
 }
 
 // Check if a string ends with another string without using es6 features
