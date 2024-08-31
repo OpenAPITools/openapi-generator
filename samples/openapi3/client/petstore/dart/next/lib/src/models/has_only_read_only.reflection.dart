@@ -5,14 +5,15 @@ part of 'has_only_read_only.dart';
 
 //class reflection
 
-class HasOnlyReadOnlyReflection extends ClassReflection<HasOnlyReadOnly> {
+class HasOnlyReadOnlyReflection extends ModelReflection<HasOnlyReadOnly> {
   static HasOnlyReadOnlyReflection instanceGetter() => instance;
   static const instance = HasOnlyReadOnlyReflection._(
     modelName: r'hasOnlyReadOnly',
     className: r'HasOnlyReadOnly',
+    xml: const XmlReflection(
+),
     barPart: PropertyReflection<HasOnlyReadOnly, UndefinedWrapper<
             String
-
 >>(
       dartName: r'bar',
       nullable: false,
@@ -22,12 +23,21 @@ class HasOnlyReadOnlyReflection extends ClassReflection<HasOnlyReadOnly> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _barGetter,
-      setter: _barSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_barGetter),
+      setter: FunctionWrapper2(_barSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     fooPart: PropertyReflection<HasOnlyReadOnly, UndefinedWrapper<
             String
-
 >>(
       dartName: r'foo',
       nullable: false,
@@ -37,21 +47,33 @@ class HasOnlyReadOnlyReflection extends ClassReflection<HasOnlyReadOnly> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _fooGetter,
-      setter: _fooSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_fooGetter),
+      setter: FunctionWrapper2(_fooSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<HasOnlyReadOnly, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const HasOnlyReadOnlyReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.barPart,
     required this.fooPart,
     this.discriminatorKey,
@@ -63,50 +85,45 @@ class HasOnlyReadOnlyReflection extends ClassReflection<HasOnlyReadOnly> {
 
   final PropertyReflection<HasOnlyReadOnly, UndefinedWrapper<
             String
-
 >> barPart;
   static UndefinedWrapper<
             String
-
 > _barGetter(HasOnlyReadOnly parent) {
     return parent.bar;
   }
   static void _barSetter(HasOnlyReadOnly parent, UndefinedWrapper<
             String
-
 > value) {
     parent.bar = value;
   }
+
   final PropertyReflection<HasOnlyReadOnly, UndefinedWrapper<
             String
-
 >> fooPart;
   static UndefinedWrapper<
             String
-
 > _fooGetter(HasOnlyReadOnly parent) {
     return parent.foo;
   }
   static void _fooSetter(HasOnlyReadOnly parent, UndefinedWrapper<
             String
-
 > value) {
     parent.foo = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<HasOnlyReadOnly, dynamic>> get properties => [
@@ -114,106 +131,35 @@ class HasOnlyReadOnlyReflection extends ClassReflection<HasOnlyReadOnly> {
 fooPart,
   ];
 
-  final AdditionalPropertiesReflection<HasOnlyReadOnly, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<HasOnlyReadOnly, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<HasOnlyReadOnly, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(HasOnlyReadOnly instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(HasOnlyReadOnly instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<HasOnlyReadOnly, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => HasOnlyReadOnly.canDeserialize(src);
-  @override
-  HasOnlyReadOnly Function(Object? src) get deserializeFunction =>
-      (src) => HasOnlyReadOnly.deserialize(src);
-
-  @override
-  Object? Function(HasOnlyReadOnly src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of HasOnlyReadOnly.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  HasOnlyReadOnly example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = HasOnlyReadOnly(
-      bar: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[barPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      foo: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[fooPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  HasOnlyReadOnly empty() {
+    return HasOnlyReadOnly(
     );
-    
-    return exampleResult;
   }
 }
 
-
-class HasOnlyReadOnlyXmlReflection {
-    const HasOnlyReadOnlyXmlReflection();
-}
 

@@ -5,14 +5,15 @@ part of 'zebra.dart';
 
 //class reflection
 
-class ZebraReflection extends ClassReflection<Zebra> {
+class ZebraReflection extends ModelReflection<Zebra> {
   static ZebraReflection instanceGetter() => instance;
   static const instance = ZebraReflection._(
     modelName: r'zebra',
     className: r'Zebra',
+    xml: const XmlReflection(
+),
     typePart: PropertyReflection<Zebra, UndefinedWrapper<
             ZebraTypeEnum
-
 >>(
       dartName: r'type',
       nullable: false,
@@ -22,12 +23,18 @@ class ZebraReflection extends ClassReflection<Zebra> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _typeGetter,
-      setter: _typeSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_typeGetter),
+      setter: FunctionWrapper2(_typeSetter),
+      reflection: UndefinedWrapperReflection(
+            ZebraTypeEnum.$reflection
+        
+        
+),
     ),
     classNamePart: PropertyReflection<Zebra, 
             String
-
 >(
       dartName: r'className',
       nullable: false,
@@ -37,21 +44,33 @@ class ZebraReflection extends ClassReflection<Zebra> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _classNameGetter,
-      setter: _classNameSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_classNameGetter),
+      setter: FunctionWrapper2(_classNameSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<Zebra, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const ZebraReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.typePart,
     required this.classNamePart,
     this.discriminatorKey,
@@ -63,50 +82,45 @@ class ZebraReflection extends ClassReflection<Zebra> {
 
   final PropertyReflection<Zebra, UndefinedWrapper<
             ZebraTypeEnum
-
 >> typePart;
   static UndefinedWrapper<
             ZebraTypeEnum
-
 > _typeGetter(Zebra parent) {
     return parent.type;
   }
   static void _typeSetter(Zebra parent, UndefinedWrapper<
             ZebraTypeEnum
-
 > value) {
     parent.type = value;
   }
+
   final PropertyReflection<Zebra, 
             String
-
 > classNamePart;
   static 
             String
-
  _classNameGetter(Zebra parent) {
     return parent.className;
   }
   static void _classNameSetter(Zebra parent, 
             String
-
  value) {
     parent.className = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<Zebra, dynamic>> get properties => [
@@ -114,98 +128,36 @@ class ZebraReflection extends ClassReflection<Zebra> {
 classNamePart,
   ];
 
-  final AdditionalPropertiesReflection<Zebra, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<Zebra, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<Zebra, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(Zebra instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(Zebra instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<Zebra, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => Zebra.canDeserialize(src);
-  @override
-  Zebra Function(Object? src) get deserializeFunction =>
-      (src) => Zebra.deserialize(src);
-
-  @override
-  Object? Function(Zebra src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of Zebra.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  Zebra example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = Zebra(
-      type: () {
-        var result = 
-
-
-            exampleEnum(ZebraTypeEnum.values)
-
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      className: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[classNamePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  Zebra empty() {
+    return Zebra(
+      className: classNamePart.reflection.emptyFunction(),
     );
-    
-    return exampleResult;
   }
 }
 
-
-class ZebraXmlReflection {
-    const ZebraXmlReflection();
-}
 

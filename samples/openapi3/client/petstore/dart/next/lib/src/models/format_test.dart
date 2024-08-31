@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'format_test.reflection.dart';
-part 'format_test.serialization.dart';
 
 
 /// FormatTestMixin
@@ -19,7 +18,6 @@ part 'format_test.serialization.dart';
 /// * [decimal] 
 /// * [string] 
 /// * [byte] 
-/// * [base64Str] 
 /// * [binary] 
 /// * [date] 
 /// * [dateTime] 
@@ -32,75 +30,54 @@ mixin FormatTestMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
-
 > get integer;
 UndefinedWrapper<
             int
-
 > get int32;
 UndefinedWrapper<
             int
-
 > get int64;
 
             num
-
  get number;
 UndefinedWrapper<
             double
-
 > get float;
 UndefinedWrapper<
             double
-
 > get $double;
 UndefinedWrapper<
             double
-
 > get decimal;
 UndefinedWrapper<
             String
-
 > get string;
 
             Uint8List
-
  get byte;
 UndefinedWrapper<
-            String
-
-> get base64Str;
-UndefinedWrapper<
             XFile
-
 > get binary;
 
             DateTime
-
  get date;
 UndefinedWrapper<
             DateTime
-
 > get dateTime;
 UndefinedWrapper<
             String
-
 > get uuid;
 UndefinedWrapper<
             String
-
 > get uuidWithDefault;
 
             String
-
  get password;
 UndefinedWrapper<
             String
-
 > get patternWithDigits;
 UndefinedWrapper<
             String
-
 > get patternWithDigitsAndDelimiter;
   
 }
@@ -117,7 +94,6 @@ UndefinedWrapper<
 /// * [decimal] 
 /// * [string] 
 /// * [byte] 
-/// * [base64Str] 
 /// * [binary] 
 /// * [date] 
 /// * [dateTime] 
@@ -133,96 +109,73 @@ FormatTestMixin {
   @override
   UndefinedWrapper<
             int
-
 > integer;
   @override
   UndefinedWrapper<
             int
-
 > int32;
   @override
   UndefinedWrapper<
             int
-
 > int64;
   @override
   
             num
-
  number;
   @override
   UndefinedWrapper<
             double
-
 > float;
   @override
   UndefinedWrapper<
             double
-
 > $double;
   @override
   UndefinedWrapper<
             double
-
 > decimal;
   @override
   UndefinedWrapper<
             String
-
 > string;
   @override
   
             Uint8List
-
  byte;
   @override
   UndefinedWrapper<
-            String
-
-> base64Str;
-  @override
-  UndefinedWrapper<
             XFile
-
 > binary;
   @override
   
             DateTime
-
  date;
   @override
   UndefinedWrapper<
             DateTime
-
 > dateTime;
   @override
   UndefinedWrapper<
             String
-
 > uuid;
   @override
   UndefinedWrapper<
             String
-
 > uuidWithDefault;
   @override
   
             String
-
  password;
   @override
   UndefinedWrapper<
             String
-
 > patternWithDigits;
   @override
   UndefinedWrapper<
             String
-
 > patternWithDigitsAndDelimiter;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -237,7 +190,6 @@ FormatTestMixin {
     required this.decimal,
     required this.string,
     required this.byte,
-    required this.base64Str,
     required this.binary,
     required this.date,
     required this.dateTime,
@@ -274,9 +226,6 @@ required  this.number     ,
         .undefined()
 ,
 required  this.byte     ,
-  this.base64Str = const UndefinedWrapper
-        .undefined()
-,
   this.binary = const UndefinedWrapper
         .undefined()
 ,
@@ -301,9 +250,10 @@ required  this.password     ,
   this.patternWithDigitsAndDelimiter = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = FormatTestReflection.instance;
   FormatTestReflection get $classReflection => $reflection;
@@ -313,45 +263,67 @@ required  this.password     ,
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$FormatTestToMap(this);
-  }
-  factory FormatTest.fromMap(Map<String, dynamic> src) {
-    return _$FormatTestFromMap(src);
-  }
-  static FormatTest? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return FormatTest.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$FormatTestCanFromMap(src);
+  factory FormatTest.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory FormatTest.deserialize(Object? src) {
-    return _$FormatTestDeserialize(src);
-  }
-  static FormatTest? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return FormatTest.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$FormatTestCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$FormatTestSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,57 +1,11 @@
 import 'package:test/test.dart';
 import 'package:petstore_api/_internal.dart';
-
-Stream<List<int>> _streamOfText(String value, {Encoding? encoding}) async* {
-  yield (encoding ?? utf8).encode(value);
-}
-
-final baseUrl = Uri.https("example.com", "/api");
-HttpResponseBase createFakeResponse({
-  required int statusCode,
-  required Stream<List<int>> bodyBytesStream,
-  Map<String, String> headers = const {},
-  String? reasonPhrase,
-}) {
-  return HttpResponseBase.stream(
-    originalRequest: HttpRequestBase.empty(url: baseUrl, method: 'GET'),
-    bodyBytesStream: bodyBytesStream,
-    statusCode: statusCode,
-    reasonPhrase: reasonPhrase,
-    headers: headers,
-  );
-}
-
-HttpResponseBase createFakeTextResponse({
-  required int statusCode,
-  required String value,
-  Map<String, String> headers = const {},
-  String? contentType,
-  Encoding? encoding,
-  String? reasonPhrase,
-}) {
-  var parsedContentType =
-      contentType == null ? null : MediaType.parse(contentType);
-  if (encoding != null) {
-    parsedContentType = parsedContentType?.change(parameters: {
-      ...parsedContentType.parameters,
-      'charset': encoding.name,
-    });
-  }
-  return createFakeResponse(
-    statusCode: statusCode,
-    headers: {
-      'Content-Type': 'text/plain; charset=utf-8',
-      if (parsedContentType != null)
-        'Content-Type': parsedContentType.toString(),
-      ...headers,
-    },
-    reasonPhrase: reasonPhrase,
-    bodyBytesStream: _streamOfText(value, encoding: encoding),
-  );
-}
+import '../utils.dart';
 
 /// tests for UserApi
 void main() {
+  final wireOptions = WireSerializationOptions();
+  final exampleContext = ExampleContext();
   group(UserApi, () {
     final baseUrl = Uri.https("example.com", "/api");
     // Create user
@@ -81,18 +35,7 @@ void main() {
     
     test(UserApiCreateUserRequestApplicationJson, () async {
         request = UserApiCreateUserRequest.applicationJson(
-            data: 
-
-
-            
-            
-
-
-    UserReflection.instance.example()
-    
-
-
-,
+            data: UserApiCreateUserRequestApplicationJson.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -118,13 +61,31 @@ void main() {
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<UserApiCreateUserResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(UserApiCreateUserResponseDefault, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = exampleContext.exampleCode(1, 599)
+;
+      response = await UserApiCreateUserResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<UserApiCreateUserResponseDefault>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -158,25 +119,7 @@ void main() {
     
     test(UserApiCreateUsersWithArrayInputRequestApplicationJson, () async {
         request = UserApiCreateUsersWithArrayInputRequest.applicationJson(
-            data: 
-
-
-    exampleList(() { return 
-
-
-            
-            
-
-
-    UserReflection.instance.example()
-    
-
-
-; })
-
-
-
-,
+            data: UserApiCreateUsersWithArrayInputRequestApplicationJson.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -202,13 +145,31 @@ void main() {
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<UserApiCreateUsersWithArrayInputResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(UserApiCreateUsersWithArrayInputResponseDefault, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = exampleContext.exampleCode(1, 599)
+;
+      response = await UserApiCreateUsersWithArrayInputResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<UserApiCreateUsersWithArrayInputResponseDefault>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -242,25 +203,7 @@ void main() {
     
     test(UserApiCreateUsersWithListInputRequestApplicationJson, () async {
         request = UserApiCreateUsersWithListInputRequest.applicationJson(
-            data: 
-
-
-    exampleList(() { return 
-
-
-            
-            
-
-
-    UserReflection.instance.example()
-    
-
-
-; })
-
-
-
-,
+            data: UserApiCreateUsersWithListInputRequestApplicationJson.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -286,13 +229,31 @@ void main() {
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<UserApiCreateUsersWithListInputResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(UserApiCreateUsersWithListInputResponseDefault, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = exampleContext.exampleCode(1, 599)
+;
+      response = await UserApiCreateUsersWithListInputResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<UserApiCreateUsersWithListInputResponseDefault>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -318,18 +279,14 @@ void main() {
                 "nice": "work",
             },
             
-username:  
-
-
+username: 
             
+        
+        
             
-
-
-    
-    exampleString()
-
-
-,
+                PrimitiveReflection.forString
+        
+.exampleFunction(exampleContext),
 
         );
         final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
@@ -345,19 +302,53 @@ username:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<UserApiDeleteUserResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(UserApiDeleteUserResponse400, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    400
+;
+      response = await UserApiDeleteUserResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<UserApiDeleteUserResponse400>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
   group(UserApiDeleteUserResponse404, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    404
+;
+      response = await UserApiDeleteUserResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<UserApiDeleteUserResponse404>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -383,18 +374,14 @@ username:
                 "nice": "work",
             },
             
-username:  
-
-
+username: 
             
+        
+        
             
-
-
-    
-    exampleString()
-
-
-,
+                PrimitiveReflection.forString
+        
+.exampleFunction(exampleContext),
 
         );
         final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
@@ -410,33 +397,154 @@ username:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<UserApiGetUserByNameResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(UserApiGetUserByNameResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await UserApiGetUserByNameResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<UserApiGetUserByNameResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(UserApiGetUserByNameResponse200ApplicationXml, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/xml'));
+      final bodyReflection = UserApiGetUserByNameResponse200ApplicationXml.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = serializedBody;
 
+      response = await UserApiGetUserByNameResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
     test(UserApiGetUserByNameResponse200ApplicationJson, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/json'));
+      final bodyReflection = UserApiGetUserByNameResponse200ApplicationJson.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
 
+      response = await UserApiGetUserByNameResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
   group(UserApiGetUserByNameResponse400, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    400
+;
+      response = await UserApiGetUserByNameResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<UserApiGetUserByNameResponse400>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
   group(UserApiGetUserByNameResponse404, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    404
+;
+      response = await UserApiGetUserByNameResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<UserApiGetUserByNameResponse404>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -462,31 +570,23 @@ username:
                 "nice": "work",
             },
             
-username:  
-
-
+username: 
             
+        
+        
             
+                PrimitiveReflection.forString
+        
+.exampleFunction(exampleContext),
 
-
-    
-    exampleString()
-
-
-,
-
-password:  
-
-
+password: 
             
+        
+        
             
-
-
-    
-    exampleString()
-
-
-,
+                PrimitiveReflection.forString
+        
+.exampleFunction(exampleContext),
 
         );
         final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
@@ -502,27 +602,133 @@ password:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<UserApiLoginUserResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(UserApiLoginUserResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await UserApiLoginUserResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<UserApiLoginUserResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(UserApiLoginUserResponse200ApplicationXml, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/xml'));
+      final bodyReflection = UserApiLoginUserResponse200ApplicationXml.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = serializedBody;
 
+      response = await UserApiLoginUserResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
     test(UserApiLoginUserResponse200ApplicationJson, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/json'));
+      final bodyReflection = UserApiLoginUserResponse200ApplicationJson.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
 
+      response = await UserApiLoginUserResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
   group(UserApiLoginUserResponse400, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    400
+;
+      response = await UserApiLoginUserResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<UserApiLoginUserResponse400>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -562,13 +768,31 @@ password:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<UserApiLogoutUserResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(UserApiLogoutUserResponseDefault, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = exampleContext.exampleCode(1, 599)
+;
+      response = await UserApiLogoutUserResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<UserApiLogoutUserResponseDefault>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -595,18 +819,14 @@ password:
                 "nice": "work",
             },
             
-username:  
-
-
+username: 
             
+        
+        
             
-
-
-    
-    exampleString()
-
-
-,
+                PrimitiveReflection.forString
+        
+.exampleFunction(exampleContext),
 
         );
         final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
@@ -615,18 +835,7 @@ username:
     
     test(UserApiUpdateUserRequestApplicationJson, () async {
         request = UserApiUpdateUserRequest.applicationJson(
-            data: 
-
-
-            
-            
-
-
-    UserReflection.instance.example()
-    
-
-
-,
+            data: UserApiUpdateUserRequestApplicationJson.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -637,18 +846,14 @@ username:
                 "nice": "work",
             },
             
-username:  
-
-
+username: 
             
+        
+        
             
-
-
-    
-    exampleString()
-
-
-,
+                PrimitiveReflection.forString
+        
+.exampleFunction(exampleContext),
 
         );
         final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
@@ -665,19 +870,53 @@ username:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<UserApiUpdateUserResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(UserApiUpdateUserResponse400, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    400
+;
+      response = await UserApiUpdateUserResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<UserApiUpdateUserResponse400>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
   group(UserApiUpdateUserResponse404, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    404
+;
+      response = await UserApiUpdateUserResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<UserApiUpdateUserResponse404>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });

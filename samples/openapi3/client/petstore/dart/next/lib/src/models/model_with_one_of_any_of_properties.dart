@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'model_with_one_of_any_of_properties.reflection.dart';
-part 'model_with_one_of_any_of_properties.serialization.dart';
 
 
 /// ModelWithOneOfAnyOfPropertiesMixin
@@ -16,11 +15,9 @@ mixin ModelWithOneOfAnyOfPropertiesMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             ArrayOneOf
-
 > get oneofProp;
 UndefinedWrapper<
             ArrayAnyOf
-
 > get anyofProp;
   
 }
@@ -37,16 +34,13 @@ ModelWithOneOfAnyOfPropertiesMixin {
   @override
   UndefinedWrapper<
             ArrayOneOf
-
 > oneofProp;
   @override
   UndefinedWrapper<
             ArrayAnyOf
-
 > anyofProp;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -65,9 +59,10 @@ ModelWithOneOfAnyOfPropertiesMixin {
   this.anyofProp = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = ModelWithOneOfAnyOfPropertiesReflection.instance;
   ModelWithOneOfAnyOfPropertiesReflection get $classReflection => $reflection;
@@ -77,45 +72,22 @@ ModelWithOneOfAnyOfPropertiesMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$ModelWithOneOfAnyOfPropertiesToMap(this);
-  }
-  factory ModelWithOneOfAnyOfProperties.fromMap(Map<String, dynamic> src) {
-    return _$ModelWithOneOfAnyOfPropertiesFromMap(src);
-  }
-  static ModelWithOneOfAnyOfProperties? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return ModelWithOneOfAnyOfProperties.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$ModelWithOneOfAnyOfPropertiesCanFromMap(src);
+  factory ModelWithOneOfAnyOfProperties.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory ModelWithOneOfAnyOfProperties.deserialize(Object? src) {
-    return _$ModelWithOneOfAnyOfPropertiesDeserialize(src);
-  }
-  static ModelWithOneOfAnyOfProperties? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return ModelWithOneOfAnyOfProperties.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$ModelWithOneOfAnyOfPropertiesCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$ModelWithOneOfAnyOfPropertiesSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
 
 
 

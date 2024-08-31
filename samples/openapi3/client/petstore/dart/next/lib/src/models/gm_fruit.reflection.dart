@@ -5,14 +5,15 @@ part of 'gm_fruit.dart';
 
 //class reflection
 
-class GmFruitReflection extends ClassReflection<GmFruit> {
+class GmFruitReflection extends ModelReflection<GmFruit> {
   static GmFruitReflection instanceGetter() => instance;
   static const instance = GmFruitReflection._(
     modelName: r'gmFruit',
     className: r'GmFruit',
+    xml: const XmlReflection(
+),
     colorPart: PropertyReflection<GmFruit, UndefinedWrapper<
             String
-
 >>(
       dartName: r'color',
       nullable: false,
@@ -22,25 +23,34 @@ class GmFruitReflection extends ClassReflection<GmFruit> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _colorGetter,
-      setter: _colorSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_colorGetter),
+      setter: FunctionWrapper2(_colorSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     
     
-    anyOf0Part: GmFruitAnyOf0(
+    anyOf0Part: GmFruitAnyOf0Part(
       parentReflectionGetter: instanceGetter,
-      classReflection: AppleReflection.instance,
     ),
     
-    anyOf1Part: GmFruitAnyOf1(
+    anyOf1Part: GmFruitAnyOf1Part(
       parentReflectionGetter: instanceGetter,
-      classReflection: BananaReflection.instance,
     ),
     
   );
   const GmFruitReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.colorPart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
@@ -54,51 +64,45 @@ class GmFruitReflection extends ClassReflection<GmFruit> {
 
   final PropertyReflection<GmFruit, UndefinedWrapper<
             String
-
 >> colorPart;
   static UndefinedWrapper<
             String
-
 > _colorGetter(GmFruit parent) {
     return parent.color;
   }
   static void _colorSetter(GmFruit parent, UndefinedWrapper<
             String
-
 > value) {
     parent.color = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<GmFruit, dynamic>> get properties => [
     colorPart,
   ];
 
+
   
   
+  final GmFruitAnyOf0Part anyOf0Part;
   
-  final GmFruitAnyOf0 anyOf0Part;
+  final GmFruitAnyOf1Part anyOf1Part;
   
-  final GmFruitAnyOf1 anyOf1Part;
-  
-  @override
-  List<PartReflection<GmFruit, dynamic>> get parts => [
-    ...super.parts,
-      ];
+
   @override
   List<AllOfReflection<GmFruit, dynamic>> get allOfs => [
     
@@ -113,124 +117,123 @@ class GmFruitReflection extends ClassReflection<GmFruit> {
     anyOf0Part,anyOf1Part,
   ];
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => GmFruit.canDeserialize(src);
-  @override
-  GmFruit Function(Object? src) get deserializeFunction =>
-      (src) => GmFruit.deserialize(src);
-
-  @override
-  Object? Function(GmFruit src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of GmFruit.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  GmFruit example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = GmFruit(
-      color: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[colorPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      
+  GmFruit empty() {
+    return GmFruit(
     );
-    
-    exampleResult.anyOf0 = anyOf0Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
-    
-    exampleResult.anyOf1 = anyOf1Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
-    
-    return exampleResult;
   }
 }
 
-class GmFruitAnyOf0 extends AnyOfReflection<GmFruit, 
+class GmFruitAnyOf0Part extends AnyOfReflection<GmFruit, 
             Apple
 > {
-  const GmFruitAnyOf0({
-    super.classReflection,
-    required GmFruitReflection Function() super.parentReflectionGetter,
-    super.itemsReflection,
-  });
+
+  const GmFruitAnyOf0Part({
+  required GmFruitReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+            Apple
+>, GmFruit> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, GmFruit, UndefinedWrapper<
+            Apple
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+            Apple
+> _getter(GmFruit src) {
+  return src.anyOf0;
+}
+static void _setter(GmFruit src, UndefinedWrapper<
+            Apple
+> value) {
+  src.anyOf0 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+            Apple
+> get reflection => UndefinedWrapperReflection(
+            
+        
+        
+            
+                Apple.$reflection
+        
+);
 
   UndefinedWrapper<
             Apple
-> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
     if (discriminatorExampleResults.isNotEmpty) {
       if (!discriminatorExampleResults.values
-          .any((e) => e.value == classReflection)) {
+          .any((e) => e.value == reflection.subReflection)) {
         return UndefinedWrapper.undefined();
       }
     }
-    return UndefinedWrapper(
-            
-            
-
-
-    AppleReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
-    
-);
+    return reflection.example();
   }
 }
-class GmFruitAnyOf1 extends AnyOfReflection<GmFruit, 
+class GmFruitAnyOf1Part extends AnyOfReflection<GmFruit, 
             Banana
 > {
-  const GmFruitAnyOf1({
-    super.classReflection,
-    required GmFruitReflection Function() super.parentReflectionGetter,
-    super.itemsReflection,
-  });
+
+  const GmFruitAnyOf1Part({
+  required GmFruitReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+            Banana
+>, GmFruit> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, GmFruit, UndefinedWrapper<
+            Banana
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+            Banana
+> _getter(GmFruit src) {
+  return src.anyOf1;
+}
+static void _setter(GmFruit src, UndefinedWrapper<
+            Banana
+> value) {
+  src.anyOf1 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+            Banana
+> get reflection => UndefinedWrapperReflection(
+            
+        
+        
+            
+                Banana.$reflection
+        
+);
 
   UndefinedWrapper<
             Banana
-> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
     if (discriminatorExampleResults.isNotEmpty) {
       if (!discriminatorExampleResults.values
-          .any((e) => e.value == classReflection)) {
+          .any((e) => e.value == reflection.subReflection)) {
         return UndefinedWrapper.undefined();
       }
     }
-    return UndefinedWrapper(
-            
-            
-
-
-    BananaReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
-    
-);
+    return reflection.example();
   }
-}
-
-class GmFruitXmlReflection {
-    const GmFruitXmlReflection();
 }
 

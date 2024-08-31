@@ -6,6 +6,9 @@ part of 'fake_classname_tags123_api.dart';
 
 
 
+
+
+
 abstract class FakeClassnameTags123ApiTestClassnameRequest {
   static const pathTemplate = r'/fake_classname_test';
   static String method = r'PATCH';
@@ -14,7 +17,7 @@ abstract class FakeClassnameTags123ApiTestClassnameRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
 
   const factory FakeClassnameTags123ApiTestClassnameRequest.unsafe({
@@ -22,6 +25,7 @@ abstract class FakeClassnameTags123ApiTestClassnameRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = FakeClassnameTags123ApiTestClassnameRequestUnsafe;
 
@@ -29,11 +33,9 @@ abstract class FakeClassnameTags123ApiTestClassnameRequest {
   const factory FakeClassnameTags123ApiTestClassnameRequest.applicationJson({
     required 
             Client
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -42,6 +44,7 @@ abstract class FakeClassnameTags123ApiTestClassnameRequest {
 
   const FakeClassnameTags123ApiTestClassnameRequest({
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -49,7 +52,7 @@ abstract class FakeClassnameTags123ApiTestClassnameRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -68,7 +71,7 @@ abstract class FakeClassnameTags123ApiTestClassnameRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -101,19 +104,19 @@ abstract class FakeClassnameTags123ApiTestClassnameRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -121,8 +124,8 @@ abstract class FakeClassnameTags123ApiTestClassnameRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -141,11 +144,12 @@ class FakeClassnameTags123ApiTestClassnameRequestUnsafe extends FakeClassnameTag
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -158,6 +162,8 @@ class FakeClassnameTags123ApiTestClassnameRequestUnsafe extends FakeClassnameTag
 
 
 
+
+
 class FakeClassnameTags123ApiTestClassnameRequestApplicationJson extends FakeClassnameTags123ApiTestClassnameRequest {
   static const specMediaType = r'application/json';
 
@@ -166,58 +172,46 @@ class FakeClassnameTags123ApiTestClassnameRequestApplicationJson extends FakeCla
 
   final 
             Client
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+            
+        
+        
+            
+                Client.$reflection
+        
+;
 
 
   const FakeClassnameTags123ApiTestClassnameRequestApplicationJson({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v.serialize();
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        yield* _stringResult(json.encode(serialized));
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
 

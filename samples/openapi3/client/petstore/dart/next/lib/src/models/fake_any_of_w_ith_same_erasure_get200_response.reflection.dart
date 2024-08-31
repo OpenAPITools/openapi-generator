@@ -5,39 +5,35 @@ part of 'fake_any_of_w_ith_same_erasure_get200_response.dart';
 
 //class reflection
 
-class FakeAnyOfWIthSameErasureGet200ResponseReflection extends ClassReflection<FakeAnyOfWIthSameErasureGet200Response> {
+class FakeAnyOfWIthSameErasureGet200ResponseReflection extends ModelReflection<FakeAnyOfWIthSameErasureGet200Response> {
   static FakeAnyOfWIthSameErasureGet200ResponseReflection instanceGetter() => instance;
   static const instance = FakeAnyOfWIthSameErasureGet200ResponseReflection._(
     modelName: r'_fake_anyOfWIthSameErasure_get_200_response',
     className: r'FakeAnyOfWIthSameErasureGet200Response',
+    xml: const XmlReflection(
+),
     
     
-    anyOf0Part: FakeAnyOfWIthSameErasureGet200ResponseAnyOf0(
+    anyOf0Part: FakeAnyOfWIthSameErasureGet200ResponseAnyOf0Part(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<FakeAnyOfWIthSameErasureGet200Response, 
-            String
-
->(parentReflectionGetter: instanceGetter,),
-          ),
+    ),
     
-    anyOf1Part: FakeAnyOfWIthSameErasureGet200ResponseAnyOf1(
+    anyOf1Part: FakeAnyOfWIthSameErasureGet200ResponseAnyOf1Part(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<FakeAnyOfWIthSameErasureGet200Response, 
-            int
-
->(parentReflectionGetter: instanceGetter,),
-          ),
+    ),
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<FakeAnyOfWIthSameErasureGet200Response, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const FakeAnyOfWIthSameErasureGet200ResponseReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
     this.discriminatorImplicitMappings = const {},
@@ -50,39 +46,43 @@ class FakeAnyOfWIthSameErasureGet200ResponseReflection extends ClassReflection<F
   });
 
 
-
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<FakeAnyOfWIthSameErasureGet200Response, dynamic>> get properties => [
       ];
 
-  final AdditionalPropertiesReflection<FakeAnyOfWIthSameErasureGet200Response, Object
-
-?> additionalPropertiesPart;
-
-  
-  
-  final FakeAnyOfWIthSameErasureGet200ResponseAnyOf0 anyOf0Part;
-  
-  final FakeAnyOfWIthSameErasureGet200ResponseAnyOf1 anyOf1Part;
-  
   @override
-  List<PartReflection<FakeAnyOfWIthSameErasureGet200Response, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<FakeAnyOfWIthSameErasureGet200Response, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(FakeAnyOfWIthSameErasureGet200Response instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(FakeAnyOfWIthSameErasureGet200Response instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+  final FakeAnyOfWIthSameErasureGet200ResponseAnyOf0Part anyOf0Part;
+  
+  final FakeAnyOfWIthSameErasureGet200ResponseAnyOf1Part anyOf1Part;
+  
+
   @override
   List<AllOfReflection<FakeAnyOfWIthSameErasureGet200Response, dynamic>> get allOfs => [
     
@@ -97,141 +97,169 @@ class FakeAnyOfWIthSameErasureGet200ResponseReflection extends ClassReflection<F
     anyOf0Part,anyOf1Part,
   ];
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => FakeAnyOfWIthSameErasureGet200Response.canDeserialize(src);
-  @override
-  FakeAnyOfWIthSameErasureGet200Response Function(Object? src) get deserializeFunction =>
-      (src) => FakeAnyOfWIthSameErasureGet200Response.deserialize(src);
-
-  @override
-  Object? Function(FakeAnyOfWIthSameErasureGet200Response src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of FakeAnyOfWIthSameErasureGet200Response.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  FakeAnyOfWIthSameErasureGet200Response example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = FakeAnyOfWIthSameErasureGet200Response(
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  FakeAnyOfWIthSameErasureGet200Response empty() {
+    return FakeAnyOfWIthSameErasureGet200Response(
     );
-    
-    exampleResult.anyOf0 = anyOf0Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
-    
-    exampleResult.anyOf1 = anyOf1Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
-    
-    return exampleResult;
   }
 }
 
-class FakeAnyOfWIthSameErasureGet200ResponseAnyOf0 extends AnyOfReflection<FakeAnyOfWIthSameErasureGet200Response, 
+class FakeAnyOfWIthSameErasureGet200ResponseAnyOf0Part extends AnyOfReflection<FakeAnyOfWIthSameErasureGet200Response, 
     List<
         
             String
-
 >
 > {
-  const FakeAnyOfWIthSameErasureGet200ResponseAnyOf0({
-    super.classReflection,
-    required FakeAnyOfWIthSameErasureGet200ResponseReflection Function() super.parentReflectionGetter,
-    super.itemsReflection,
-  });
+
+  const FakeAnyOfWIthSameErasureGet200ResponseAnyOf0Part({
+  required FakeAnyOfWIthSameErasureGet200ResponseReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+    List<
+        
+            String
+>
+>, FakeAnyOfWIthSameErasureGet200Response> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, FakeAnyOfWIthSameErasureGet200Response, UndefinedWrapper<
+    List<
+        
+            String
+>
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+    List<
+        
+            String
+>
+> _getter(FakeAnyOfWIthSameErasureGet200Response src) {
+  return src.anyOf0;
+}
+static void _setter(FakeAnyOfWIthSameErasureGet200Response src, UndefinedWrapper<
+    List<
+        
+            String
+>
+> value) {
+  src.anyOf0 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+    List<
+        
+            String
+>
+> get reflection => UndefinedWrapperReflection(
+    ListReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+)
+);
 
   UndefinedWrapper<
     List<
         
             String
-
 >
-> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
     if (discriminatorExampleResults.isNotEmpty) {
       if (!discriminatorExampleResults.values
-          .any((e) => e.value == classReflection)) {
+          .any((e) => e.value == reflection.subReflection)) {
         return UndefinedWrapper.undefined();
       }
     }
-    return UndefinedWrapper(
-    exampleList(() { return 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-; })
-
-);
+    return reflection.example();
   }
 }
-class FakeAnyOfWIthSameErasureGet200ResponseAnyOf1 extends AnyOfReflection<FakeAnyOfWIthSameErasureGet200Response, 
+class FakeAnyOfWIthSameErasureGet200ResponseAnyOf1Part extends AnyOfReflection<FakeAnyOfWIthSameErasureGet200Response, 
     List<
         
             int
-
 >
 > {
-  const FakeAnyOfWIthSameErasureGet200ResponseAnyOf1({
-    super.classReflection,
-    required FakeAnyOfWIthSameErasureGet200ResponseReflection Function() super.parentReflectionGetter,
-    super.itemsReflection,
-  });
+
+  const FakeAnyOfWIthSameErasureGet200ResponseAnyOf1Part({
+  required FakeAnyOfWIthSameErasureGet200ResponseReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+    List<
+        
+            int
+>
+>, FakeAnyOfWIthSameErasureGet200Response> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, FakeAnyOfWIthSameErasureGet200Response, UndefinedWrapper<
+    List<
+        
+            int
+>
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+    List<
+        
+            int
+>
+> _getter(FakeAnyOfWIthSameErasureGet200Response src) {
+  return src.anyOf1;
+}
+static void _setter(FakeAnyOfWIthSameErasureGet200Response src, UndefinedWrapper<
+    List<
+        
+            int
+>
+> value) {
+  src.anyOf1 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+    List<
+        
+            int
+>
+> get reflection => UndefinedWrapperReflection(
+    ListReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forint
+        
+)
+);
 
   UndefinedWrapper<
     List<
         
             int
-
 >
-> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
     if (discriminatorExampleResults.isNotEmpty) {
       if (!discriminatorExampleResults.values
-          .any((e) => e.value == classReflection)) {
+          .any((e) => e.value == reflection.subReflection)) {
         return UndefinedWrapper.undefined();
       }
     }
-    return UndefinedWrapper(
-    exampleList(() { return 
-
-
-            
-            
-
-
-    
-    exampleint()
-
-
-; })
-
-);
+    return reflection.example();
   }
-}
-
-class FakeAnyOfWIthSameErasureGet200ResponseXmlReflection {
-    const FakeAnyOfWIthSameErasureGet200ResponseXmlReflection();
 }
 

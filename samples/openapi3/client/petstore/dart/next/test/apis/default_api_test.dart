@@ -1,57 +1,11 @@
 import 'package:test/test.dart';
 import 'package:petstore_api/_internal.dart';
-
-Stream<List<int>> _streamOfText(String value, {Encoding? encoding}) async* {
-  yield (encoding ?? utf8).encode(value);
-}
-
-final baseUrl = Uri.https("example.com", "/api");
-HttpResponseBase createFakeResponse({
-  required int statusCode,
-  required Stream<List<int>> bodyBytesStream,
-  Map<String, String> headers = const {},
-  String? reasonPhrase,
-}) {
-  return HttpResponseBase.stream(
-    originalRequest: HttpRequestBase.empty(url: baseUrl, method: 'GET'),
-    bodyBytesStream: bodyBytesStream,
-    statusCode: statusCode,
-    reasonPhrase: reasonPhrase,
-    headers: headers,
-  );
-}
-
-HttpResponseBase createFakeTextResponse({
-  required int statusCode,
-  required String value,
-  Map<String, String> headers = const {},
-  String? contentType,
-  Encoding? encoding,
-  String? reasonPhrase,
-}) {
-  var parsedContentType =
-      contentType == null ? null : MediaType.parse(contentType);
-  if (encoding != null) {
-    parsedContentType = parsedContentType?.change(parameters: {
-      ...parsedContentType.parameters,
-      'charset': encoding.name,
-    });
-  }
-  return createFakeResponse(
-    statusCode: statusCode,
-    headers: {
-      'Content-Type': 'text/plain; charset=utf-8',
-      if (parsedContentType != null)
-        'Content-Type': parsedContentType.toString(),
-      ...headers,
-    },
-    reasonPhrase: reasonPhrase,
-    bodyBytesStream: _streamOfText(value, encoding: encoding),
-  );
-}
+import '../utils.dart';
 
 /// tests for DefaultApi
 void main() {
+  final wireOptions = WireSerializationOptions();
+  final exampleContext = ExampleContext();
   group(DefaultApi, () {
     final baseUrl = Uri.https("example.com", "/api");
     // Test route, this shouldn't cause a compiler error
@@ -85,17 +39,72 @@ void main() {
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<DefaultApiFakeAnyOfWIthSameErasureGetResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(DefaultApiFakeAnyOfWIthSameErasureGetResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await DefaultApiFakeAnyOfWIthSameErasureGetResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<DefaultApiFakeAnyOfWIthSameErasureGetResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(DefaultApiFakeAnyOfWIthSameErasureGetResponse200ApplicationJson, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/json'));
+      final bodyReflection = DefaultApiFakeAnyOfWIthSameErasureGetResponse200ApplicationJson.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
 
+      response = await DefaultApiFakeAnyOfWIthSameErasureGetResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
@@ -133,17 +142,72 @@ void main() {
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<DefaultApiFakeOneOfWIthSameErasureGetResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(DefaultApiFakeOneOfWIthSameErasureGetResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await DefaultApiFakeOneOfWIthSameErasureGetResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<DefaultApiFakeOneOfWIthSameErasureGetResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(DefaultApiFakeOneOfWIthSameErasureGetResponse200ApplicationJson, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/json'));
+      final bodyReflection = DefaultApiFakeOneOfWIthSameErasureGetResponse200ApplicationJson.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
 
+      response = await DefaultApiFakeOneOfWIthSameErasureGetResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
@@ -179,17 +243,70 @@ void main() {
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<DefaultApiFooGetResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(DefaultApiFooGetResponseDefault, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = exampleContext.exampleCode(1, 599)
+;
+      response = await DefaultApiFooGetResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<DefaultApiFooGetResponseDefault>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(DefaultApiFooGetResponseDefaultApplicationJson, () async {
+      final codeExample = exampleContext.exampleCode(1, 599)
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/json'));
+      final bodyReflection = DefaultApiFooGetResponseDefaultApplicationJson.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
 
+      response = await DefaultApiFooGetResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
@@ -221,18 +338,7 @@ void main() {
     
     test(DefaultApiPetsMulticontentTestPostRequestApplicationJson, () async {
         request = DefaultApiPetsMulticontentTestPostRequest.applicationJson(
-            data: 
-
-
-            
-            
-
-
-    PetReflection.instance.example()
-    
-
-
-,
+            data: DefaultApiPetsMulticontentTestPostRequestApplicationJson.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -250,18 +356,7 @@ void main() {
     
     test(DefaultApiPetsMulticontentTestPostRequestApplicationXml, () async {
         request = DefaultApiPetsMulticontentTestPostRequest.applicationXml(
-            data: 
-
-
-            
-            
-
-
-    NewPetReflection.instance.example()
-    
-
-
-,
+            data: DefaultApiPetsMulticontentTestPostRequestApplicationXml.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -279,18 +374,7 @@ void main() {
     
     test(DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded, () async {
         request = DefaultApiPetsMulticontentTestPostRequest.applicationXWwwFormUrlencoded(
-            data: 
-
-
-            
-            
-
-
-    TriangleReflection.instance.example()
-    
-
-
-,
+            data: DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -308,18 +392,7 @@ void main() {
     
     test(DefaultApiPetsMulticontentTestPostRequestTextPlain, () async {
         request = DefaultApiPetsMulticontentTestPostRequest.textPlain(
-            data: 
-
-
-            
-            
-
-
-    
-    exampleint()
-
-
-,
+            data: DefaultApiPetsMulticontentTestPostRequestTextPlain.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -337,13 +410,7 @@ void main() {
     
     test(DefaultApiPetsMulticontentTestPostRequestAnyAny, () async {
         request = DefaultApiPetsMulticontentTestPostRequest.anyAny(
-            data: exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) ,
+            data: DefaultApiPetsMulticontentTestPostRequestAnyAny.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -361,18 +428,7 @@ exampleObject()
     
     test(DefaultApiPetsMulticontentTestPostRequestTextAny, () async {
         request = DefaultApiPetsMulticontentTestPostRequest.textAny(
-            data: 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-,
+            data: DefaultApiPetsMulticontentTestPostRequestTextAny.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -390,18 +446,7 @@ exampleObject()
     
     test(DefaultApiPetsMulticontentTestPostRequestMultipartFormData, () async {
         request = DefaultApiPetsMulticontentTestPostRequest.multipartFormData(
-            data: 
-
-
-            
-            
-
-
-    PetsMulticontentTestPostRequestReflection.instance.example()
-    
-
-
-,
+            data: DefaultApiPetsMulticontentTestPostRequestMultipartFormData.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -427,71 +472,500 @@ exampleObject()
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<DefaultApiPetsMulticontentTestPostResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(DefaultApiPetsMulticontentTestPostResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await DefaultApiPetsMulticontentTestPostResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<DefaultApiPetsMulticontentTestPostResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(DefaultApiPetsMulticontentTestPostResponse200TextPlain, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'text/plain'));
+      final bodyReflection = DefaultApiPetsMulticontentTestPostResponse200TextPlain.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
 
+      response = await DefaultApiPetsMulticontentTestPostResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
     test(DefaultApiPetsMulticontentTestPostResponse200AnyAny, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'*/*'));
+      final bodyReflection = DefaultApiPetsMulticontentTestPostResponse200AnyAny.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
 
+      response = await DefaultApiPetsMulticontentTestPostResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
     test(DefaultApiPetsMulticontentTestPostResponse200TextAny, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'text/*'));
+      final bodyReflection = DefaultApiPetsMulticontentTestPostResponse200TextAny.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
 
+      response = await DefaultApiPetsMulticontentTestPostResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
     test(DefaultApiPetsMulticontentTestPostResponse200MultipartFormData, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'multipart/form-data'));
+      final bodyReflection = DefaultApiPetsMulticontentTestPostResponse200MultipartFormData.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
 
+      response = await DefaultApiPetsMulticontentTestPostResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
   group(DefaultApiPetsMulticontentTestPostResponse201, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    201
+;
+      response = await DefaultApiPetsMulticontentTestPostResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<DefaultApiPetsMulticontentTestPostResponse201>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(DefaultApiPetsMulticontentTestPostResponse201ApplicationJson, () async {
+      final codeExample = 
+    201
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/json'));
+      final bodyReflection = DefaultApiPetsMulticontentTestPostResponse201ApplicationJson.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
 
+      response = await DefaultApiPetsMulticontentTestPostResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
     test(DefaultApiPetsMulticontentTestPostResponse201ApplicationXml, () async {
+      final codeExample = 
+    201
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/xml'));
+      final bodyReflection = DefaultApiPetsMulticontentTestPostResponse201ApplicationXml.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = serializedBody;
 
+      response = await DefaultApiPetsMulticontentTestPostResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
     test(DefaultApiPetsMulticontentTestPostResponse201ApplicationXWwwFormUrlencoded, () async {
+      final codeExample = 
+    201
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/x-www-form-urlencoded'));
+      final bodyReflection = DefaultApiPetsMulticontentTestPostResponse201ApplicationXWwwFormUrlencoded.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = serializedBody is Map<String, dynamic> ? OASNetworkingUtils.formUrlEncoded(serializedBody, {}) : serializedBody.toString();
 
+      response = await DefaultApiPetsMulticontentTestPostResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
   group(DefaultApiPetsMulticontentTestPostResponse2XX, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+        
+        exampleContext.exampleCode(200, 300)
+        
+        
+        
+    
+;
+      response = await DefaultApiPetsMulticontentTestPostResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<DefaultApiPetsMulticontentTestPostResponse2XX>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(DefaultApiPetsMulticontentTestPostResponse2XXApplicationJson, () async {
+      final codeExample = 
+        
+        exampleContext.exampleCode(200, 300)
+        
+        
+        
+    
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/json'));
+      final bodyReflection = DefaultApiPetsMulticontentTestPostResponse2XXApplicationJson.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
 
+      response = await DefaultApiPetsMulticontentTestPostResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
   group(DefaultApiPetsMulticontentTestPostResponseDefault, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = exampleContext.exampleCode(1, 599)
+;
+      response = await DefaultApiPetsMulticontentTestPostResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<DefaultApiPetsMulticontentTestPostResponseDefault>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(DefaultApiPetsMulticontentTestPostResponseDefaultApplicationJson, () async {
+      final codeExample = exampleContext.exampleCode(1, 599)
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/json'));
+      final bodyReflection = DefaultApiPetsMulticontentTestPostResponseDefaultApplicationJson.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
 
+      response = await DefaultApiPetsMulticontentTestPostResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
     test(DefaultApiPetsMulticontentTestPostResponseDefaultApplicationXWwwFormUrlencoded, () async {
+      final codeExample = exampleContext.exampleCode(1, 599)
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/x-www-form-urlencoded'));
+      final bodyReflection = DefaultApiPetsMulticontentTestPostResponseDefaultApplicationXWwwFormUrlencoded.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = serializedBody is Map<String, dynamic> ? OASNetworkingUtils.formUrlEncoded(serializedBody, {}) : serializedBody.toString();
 
+      response = await DefaultApiPetsMulticontentTestPostResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });

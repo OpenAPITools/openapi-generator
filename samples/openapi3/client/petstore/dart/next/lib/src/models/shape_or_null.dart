@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'shape_or_null.reflection.dart';
-part 'shape_or_null.serialization.dart';
 
 
 /// The value may be a shape or the 'null' value. This is introduced in OAS schema >= 3.1.
@@ -26,7 +25,6 @@ $OpenApiObjectMixin,
 ShapeOrNullMixin {
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -49,11 +47,12 @@ ShapeOrNullMixin {
   });
 
   ShapeOrNull({
-        this.additionalProperties = const AdditionalProperties(),
+        AdditionalProperties<Object
+?>? additionalProperties,
     
     this.oneOf0 = const UndefinedWrapper.undefined(),
     this.oneOf1 = const UndefinedWrapper.undefined(),
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = ShapeOrNullReflection.instance;
   ShapeOrNullReflection get $classReflection => $reflection;
@@ -69,46 +68,17 @@ ShapeOrNullMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$ShapeOrNullToMap(this);
-  }
-  factory ShapeOrNull.fromMap(Map<String, dynamic> src) {
-    return _$ShapeOrNullFromMap(src);
-  }
-  static ShapeOrNull? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return ShapeOrNull.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$ShapeOrNullCanFromMap(src);
+  factory ShapeOrNull.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory ShapeOrNull.deserialize(Object? src) {
-    return _$ShapeOrNullDeserialize(src);
-  }
-  static ShapeOrNull? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return ShapeOrNull.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$ShapeOrNullCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
-    return _$ShapeOrNullSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
-
-
 
 

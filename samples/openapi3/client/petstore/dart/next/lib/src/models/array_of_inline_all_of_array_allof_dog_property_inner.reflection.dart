@@ -5,14 +5,15 @@ part of 'array_of_inline_all_of_array_allof_dog_property_inner.dart';
 
 //class reflection
 
-class ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection extends ClassReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner> {
+class ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection extends ModelReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner> {
   static ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection instanceGetter() => instance;
   static const instance = ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection._(
     modelName: r'ArrayOfInlineAllOf_array_allof_dog_property_inner',
     className: r'ArrayOfInlineAllOfArrayAllofDogPropertyInner',
+    xml: const XmlReflection(
+),
     breedPart: PropertyReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner, UndefinedWrapper<
             String
-
 >>(
       dartName: r'breed',
       nullable: false,
@@ -22,12 +23,21 @@ class ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection extends ClassReflec
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _breedGetter,
-      setter: _breedSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_breedGetter),
+      setter: FunctionWrapper2(_breedSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     colorPart: PropertyReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner, UndefinedWrapper<
             String
-
 >>(
       dartName: r'color',
       nullable: false,
@@ -37,21 +47,33 @@ class ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection extends ClassReflec
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _colorGetter,
-      setter: _colorSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_colorGetter),
+      setter: FunctionWrapper2(_colorSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.breedPart,
     required this.colorPart,
     this.discriminatorKey,
@@ -63,50 +85,45 @@ class ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection extends ClassReflec
 
   final PropertyReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner, UndefinedWrapper<
             String
-
 >> breedPart;
   static UndefinedWrapper<
             String
-
 > _breedGetter(ArrayOfInlineAllOfArrayAllofDogPropertyInner parent) {
     return parent.breed;
   }
   static void _breedSetter(ArrayOfInlineAllOfArrayAllofDogPropertyInner parent, UndefinedWrapper<
             String
-
 > value) {
     parent.breed = value;
   }
+
   final PropertyReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner, UndefinedWrapper<
             String
-
 >> colorPart;
   static UndefinedWrapper<
             String
-
 > _colorGetter(ArrayOfInlineAllOfArrayAllofDogPropertyInner parent) {
     return parent.color;
   }
   static void _colorSetter(ArrayOfInlineAllOfArrayAllofDogPropertyInner parent, UndefinedWrapper<
             String
-
 > value) {
     parent.color = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner, dynamic>> get properties => [
@@ -114,17 +131,22 @@ class ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection extends ClassReflec
 colorPart,
   ];
 
-  final AdditionalPropertiesReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<ArrayOfInlineAllOfArrayAllofDogPropertyInner, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(ArrayOfInlineAllOfArrayAllofDogPropertyInner instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(ArrayOfInlineAllOfArrayAllofDogPropertyInner instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner, dynamic>> get allOfs => [
     
@@ -139,89 +161,13 @@ colorPart,
     
   ];
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => ArrayOfInlineAllOfArrayAllofDogPropertyInner.canDeserialize(src);
-  @override
-  ArrayOfInlineAllOfArrayAllofDogPropertyInner Function(Object? src) get deserializeFunction =>
-      (src) => ArrayOfInlineAllOfArrayAllofDogPropertyInner.deserialize(src);
-
-  @override
-  Object? Function(ArrayOfInlineAllOfArrayAllofDogPropertyInner src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of ArrayOfInlineAllOfArrayAllofDogPropertyInner.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  ArrayOfInlineAllOfArrayAllofDogPropertyInner example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = ArrayOfInlineAllOfArrayAllofDogPropertyInner(
-      breed: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[breedPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      color: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[colorPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  ArrayOfInlineAllOfArrayAllofDogPropertyInner empty() {
+    return ArrayOfInlineAllOfArrayAllofDogPropertyInner(
     );
-    
-    return exampleResult;
   }
 }
 
-
-class ArrayOfInlineAllOfArrayAllofDogPropertyInnerXmlReflection {
-    const ArrayOfInlineAllOfArrayAllofDogPropertyInnerXmlReflection();
-}
 

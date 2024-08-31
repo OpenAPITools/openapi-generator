@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'shape.reflection.dart';
-part 'shape.serialization.dart';
 
 
 /// ShapeMixin
@@ -26,7 +25,6 @@ $OpenApiObjectMixin,
 ShapeMixin {
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -49,11 +47,12 @@ ShapeMixin {
   });
 
   Shape({
-        this.additionalProperties = const AdditionalProperties(),
+        AdditionalProperties<Object
+?>? additionalProperties,
     
     this.oneOf0 = const UndefinedWrapper.undefined(),
     this.oneOf1 = const UndefinedWrapper.undefined(),
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = ShapeReflection.instance;
   ShapeReflection get $classReflection => $reflection;
@@ -69,46 +68,17 @@ ShapeMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$ShapeToMap(this);
-  }
-  factory Shape.fromMap(Map<String, dynamic> src) {
-    return _$ShapeFromMap(src);
-  }
-  static Shape? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return Shape.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$ShapeCanFromMap(src);
+  factory Shape.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory Shape.deserialize(Object? src) {
-    return _$ShapeDeserialize(src);
-  }
-  static Shape? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return Shape.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$ShapeCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
-    return _$ShapeSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
-
-
 
 

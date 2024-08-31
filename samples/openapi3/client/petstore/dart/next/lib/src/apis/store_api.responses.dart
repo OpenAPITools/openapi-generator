@@ -8,14 +8,14 @@ class StoreApiDeleteOrderResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -32,15 +32,15 @@ class StoreApiDeleteOrderResponse {
     };
   }
 
-  static Future<StoreApiDeleteOrderResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<StoreApiDeleteOrderResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<StoreApiDeleteOrderResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
-      () => StoreApiDeleteOrderResponse400.fromResponse(response, context: context)
+      () => StoreApiDeleteOrderResponse400.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'404'),
-      () => StoreApiDeleteOrderResponse404.fromResponse(response, context: context)
+      () => StoreApiDeleteOrderResponse404.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -50,34 +50,38 @@ class StoreApiDeleteOrderResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class StoreApiDeleteOrderResponse400 extends StoreApiDeleteOrderResponse {
   StoreApiDeleteOrderResponse400({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<StoreApiDeleteOrderResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<StoreApiDeleteOrderResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return StoreApiDeleteOrderResponse400(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 
 
@@ -86,19 +90,19 @@ class StoreApiDeleteOrderResponse404 extends StoreApiDeleteOrderResponse {
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<StoreApiDeleteOrderResponse404> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<StoreApiDeleteOrderResponse404> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return StoreApiDeleteOrderResponse404(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -112,14 +116,14 @@ class StoreApiGetInventoryResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -134,11 +138,11 @@ class StoreApiGetInventoryResponse {
     };
   }
 
-  static Future<StoreApiGetInventoryResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<StoreApiGetInventoryResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<StoreApiGetInventoryResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => StoreApiGetInventoryResponse200.fromResponse(response, context: context)
+      () => StoreApiGetInventoryResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -148,18 +152,20 @@ class StoreApiGetInventoryResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class StoreApiGetInventoryResponse200 extends StoreApiGetInventoryResponse {
   StoreApiGetInventoryResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -178,7 +184,7 @@ class StoreApiGetInventoryResponse200 extends StoreApiGetInventoryResponse {
     };
   }
 
-  static Future<StoreApiGetInventoryResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<StoreApiGetInventoryResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -186,7 +192,7 @@ class StoreApiGetInventoryResponse200 extends StoreApiGetInventoryResponse {
       final matchedResponse = <(PatternMatchResult, Future<StoreApiGetInventoryResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
-        () => StoreApiGetInventoryResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => StoreApiGetInventoryResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -197,7 +203,7 @@ class StoreApiGetInventoryResponse200 extends StoreApiGetInventoryResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -205,89 +211,66 @@ class StoreApiGetInventoryResponse200 extends StoreApiGetInventoryResponse {
 
 
 
+
+
+
+
+
+
+
 /// Represent the response when content-type is application/json.
 class StoreApiGetInventoryResponse200ApplicationJson extends StoreApiGetInventoryResponse200 {
-  final 
+  final UndefinedWrapper<
     Map<String, 
         
             int
-
 >
+> body;
 
-? body;
+  static const bodyReflection = 
+    MapReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forint
+        
+)
+;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   StoreApiGetInventoryResponse200ApplicationJson({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawJson,
   });
 
-  static Future<StoreApiGetInventoryResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<StoreApiGetInventoryResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
-        if (v == null ? false :
-(
-
-    
-            v is Map<String, dynamic> && v.values.every((v) => v == null ? false :
-(
-
-    
-            
-            (v is int
-     || (int.tryParse(v.toString()) != null)
-    
-    
-    
-)
-))
-            
-)) {
-          final res = 
-(
-
-            v as Map<String, dynamic>
-            
-            
-
-)
-.map((k,v) => MapEntry(k, 
-(
-
-            
-                    ( v is int ? v as int :
-int.parse(v.toString())
-
-
-
-)
-
-)
-
-
-))
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return StoreApiGetInventoryResponse200ApplicationJson(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -296,7 +279,7 @@ int.parse(v.toString())
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawJson: v,
             
           );
@@ -307,7 +290,7 @@ int.parse(v.toString())
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
@@ -320,14 +303,14 @@ class StoreApiGetOrderByIdResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -346,19 +329,19 @@ class StoreApiGetOrderByIdResponse {
     };
   }
 
-  static Future<StoreApiGetOrderByIdResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<StoreApiGetOrderByIdResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<StoreApiGetOrderByIdResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => StoreApiGetOrderByIdResponse200.fromResponse(response, context: context)
+      () => StoreApiGetOrderByIdResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
-      () => StoreApiGetOrderByIdResponse400.fromResponse(response, context: context)
+      () => StoreApiGetOrderByIdResponse400.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'404'),
-      () => StoreApiGetOrderByIdResponse404.fromResponse(response, context: context)
+      () => StoreApiGetOrderByIdResponse404.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -368,18 +351,20 @@ class StoreApiGetOrderByIdResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class StoreApiGetOrderByIdResponse200 extends StoreApiGetOrderByIdResponse {
   StoreApiGetOrderByIdResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -402,7 +387,7 @@ class StoreApiGetOrderByIdResponse200 extends StoreApiGetOrderByIdResponse {
     };
   }
 
-  static Future<StoreApiGetOrderByIdResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<StoreApiGetOrderByIdResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -410,11 +395,11 @@ class StoreApiGetOrderByIdResponse200 extends StoreApiGetOrderByIdResponse {
       final matchedResponse = <(PatternMatchResult, Future<StoreApiGetOrderByIdResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/xml')),
-        () => StoreApiGetOrderByIdResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => StoreApiGetOrderByIdResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
-        () => StoreApiGetOrderByIdResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => StoreApiGetOrderByIdResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -425,7 +410,7 @@ class StoreApiGetOrderByIdResponse200 extends StoreApiGetOrderByIdResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -433,42 +418,57 @@ class StoreApiGetOrderByIdResponse200 extends StoreApiGetOrderByIdResponse {
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is application/xml.
 class StoreApiGetOrderByIdResponse200ApplicationXml extends StoreApiGetOrderByIdResponse200 {
-  final 
+  final UndefinedWrapper<
             Order
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                Order.$reflection
+        
+;
 
-  /// The raw result of calling XmlDocument.parse
-  final XmlDocument? rawXml;
+  /// The raw result of calling XmlDocumentFragment.parse
+  final XmlDocumentFragment? rawXml;
 
   StoreApiGetOrderByIdResponse200ApplicationXml({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawXml,
   });
 
-  static Future<StoreApiGetOrderByIdResponse200ApplicationXml> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<StoreApiGetOrderByIdResponse200ApplicationXml> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'xml'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
-        final v = XmlDocument.parse(serialized);
+        final v = XmlDocumentFragment.parse(serialized);
         // check if v can be deserialized to xml
         return StoreApiGetOrderByIdResponse200ApplicationXml(
           headers: response.headers,
           statusCode: response.statusCode,
           reasonPhrase: response.reasonPhrase,
-          context: context,
+          userContext: userContext,
           rawXml: v,
           
         );
@@ -478,65 +478,66 @@ class StoreApiGetOrderByIdResponse200ApplicationXml extends StoreApiGetOrderById
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
   }
 }
 
+
+
+
+
+
 /// Represent the response when content-type is application/json.
 class StoreApiGetOrderByIdResponse200ApplicationJson extends StoreApiGetOrderByIdResponse200 {
-  final 
+  final UndefinedWrapper<
             Order
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                Order.$reflection
+        
+;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   StoreApiGetOrderByIdResponse200ApplicationJson({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawJson,
   });
 
-  static Future<StoreApiGetOrderByIdResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<StoreApiGetOrderByIdResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
-        if (v == null ? false :
-(
-
-    
-            Order.canDeserialize(v)
-            
-)) {
-          final res = Order.deserialize
-(
-
-            v
-
-)
-
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return StoreApiGetOrderByIdResponse200ApplicationJson(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -545,7 +546,7 @@ class StoreApiGetOrderByIdResponse200ApplicationJson extends StoreApiGetOrderByI
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawJson: v,
             
           );
@@ -556,35 +557,39 @@ class StoreApiGetOrderByIdResponse200ApplicationJson extends StoreApiGetOrderByI
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
   }
 }
 
+
+
 class StoreApiGetOrderByIdResponse400 extends StoreApiGetOrderByIdResponse {
   StoreApiGetOrderByIdResponse400({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<StoreApiGetOrderByIdResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<StoreApiGetOrderByIdResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return StoreApiGetOrderByIdResponse400(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 
 
@@ -593,19 +598,19 @@ class StoreApiGetOrderByIdResponse404 extends StoreApiGetOrderByIdResponse {
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<StoreApiGetOrderByIdResponse404> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<StoreApiGetOrderByIdResponse404> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return StoreApiGetOrderByIdResponse404(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -619,14 +624,14 @@ class StoreApiPlaceOrderResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -643,15 +648,15 @@ class StoreApiPlaceOrderResponse {
     };
   }
 
-  static Future<StoreApiPlaceOrderResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<StoreApiPlaceOrderResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<StoreApiPlaceOrderResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => StoreApiPlaceOrderResponse200.fromResponse(response, context: context)
+      () => StoreApiPlaceOrderResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
-      () => StoreApiPlaceOrderResponse400.fromResponse(response, context: context)
+      () => StoreApiPlaceOrderResponse400.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -661,18 +666,20 @@ class StoreApiPlaceOrderResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class StoreApiPlaceOrderResponse200 extends StoreApiPlaceOrderResponse {
   StoreApiPlaceOrderResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -695,7 +702,7 @@ class StoreApiPlaceOrderResponse200 extends StoreApiPlaceOrderResponse {
     };
   }
 
-  static Future<StoreApiPlaceOrderResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<StoreApiPlaceOrderResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -703,11 +710,11 @@ class StoreApiPlaceOrderResponse200 extends StoreApiPlaceOrderResponse {
       final matchedResponse = <(PatternMatchResult, Future<StoreApiPlaceOrderResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/xml')),
-        () => StoreApiPlaceOrderResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => StoreApiPlaceOrderResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
-        () => StoreApiPlaceOrderResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => StoreApiPlaceOrderResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -718,7 +725,7 @@ class StoreApiPlaceOrderResponse200 extends StoreApiPlaceOrderResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -726,42 +733,57 @@ class StoreApiPlaceOrderResponse200 extends StoreApiPlaceOrderResponse {
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is application/xml.
 class StoreApiPlaceOrderResponse200ApplicationXml extends StoreApiPlaceOrderResponse200 {
-  final 
+  final UndefinedWrapper<
             Order
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                Order.$reflection
+        
+;
 
-  /// The raw result of calling XmlDocument.parse
-  final XmlDocument? rawXml;
+  /// The raw result of calling XmlDocumentFragment.parse
+  final XmlDocumentFragment? rawXml;
 
   StoreApiPlaceOrderResponse200ApplicationXml({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawXml,
   });
 
-  static Future<StoreApiPlaceOrderResponse200ApplicationXml> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<StoreApiPlaceOrderResponse200ApplicationXml> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'xml'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
-        final v = XmlDocument.parse(serialized);
+        final v = XmlDocumentFragment.parse(serialized);
         // check if v can be deserialized to xml
         return StoreApiPlaceOrderResponse200ApplicationXml(
           headers: response.headers,
           statusCode: response.statusCode,
           reasonPhrase: response.reasonPhrase,
-          context: context,
+          userContext: userContext,
           rawXml: v,
           
         );
@@ -771,65 +793,66 @@ class StoreApiPlaceOrderResponse200ApplicationXml extends StoreApiPlaceOrderResp
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
   }
 }
 
+
+
+
+
+
 /// Represent the response when content-type is application/json.
 class StoreApiPlaceOrderResponse200ApplicationJson extends StoreApiPlaceOrderResponse200 {
-  final 
+  final UndefinedWrapper<
             Order
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                Order.$reflection
+        
+;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   StoreApiPlaceOrderResponse200ApplicationJson({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawJson,
   });
 
-  static Future<StoreApiPlaceOrderResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<StoreApiPlaceOrderResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
-        if (v == null ? false :
-(
-
-    
-            Order.canDeserialize(v)
-            
-)) {
-          final res = Order.deserialize
-(
-
-            v
-
-)
-
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return StoreApiPlaceOrderResponse200ApplicationJson(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -838,7 +861,7 @@ class StoreApiPlaceOrderResponse200ApplicationJson extends StoreApiPlaceOrderRes
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawJson: v,
             
           );
@@ -849,31 +872,33 @@ class StoreApiPlaceOrderResponse200ApplicationJson extends StoreApiPlaceOrderRes
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
   }
 }
 
+
+
 class StoreApiPlaceOrderResponse400 extends StoreApiPlaceOrderResponse {
   StoreApiPlaceOrderResponse400({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<StoreApiPlaceOrderResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<StoreApiPlaceOrderResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return StoreApiPlaceOrderResponse400(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }

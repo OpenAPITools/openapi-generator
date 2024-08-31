@@ -8,14 +8,14 @@ class FakeClassnameTags123ApiTestClassnameResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -30,11 +30,11 @@ class FakeClassnameTags123ApiTestClassnameResponse {
     };
   }
 
-  static Future<FakeClassnameTags123ApiTestClassnameResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeClassnameTags123ApiTestClassnameResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<FakeClassnameTags123ApiTestClassnameResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => FakeClassnameTags123ApiTestClassnameResponse200.fromResponse(response, context: context)
+      () => FakeClassnameTags123ApiTestClassnameResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -44,18 +44,20 @@ class FakeClassnameTags123ApiTestClassnameResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class FakeClassnameTags123ApiTestClassnameResponse200 extends FakeClassnameTags123ApiTestClassnameResponse {
   FakeClassnameTags123ApiTestClassnameResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -74,7 +76,7 @@ class FakeClassnameTags123ApiTestClassnameResponse200 extends FakeClassnameTags1
     };
   }
 
-  static Future<FakeClassnameTags123ApiTestClassnameResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeClassnameTags123ApiTestClassnameResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -82,7 +84,7 @@ class FakeClassnameTags123ApiTestClassnameResponse200 extends FakeClassnameTags1
       final matchedResponse = <(PatternMatchResult, Future<FakeClassnameTags123ApiTestClassnameResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
-        () => FakeClassnameTags123ApiTestClassnameResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => FakeClassnameTags123ApiTestClassnameResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -93,7 +95,7 @@ class FakeClassnameTags123ApiTestClassnameResponse200 extends FakeClassnameTags1
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -101,58 +103,59 @@ class FakeClassnameTags123ApiTestClassnameResponse200 extends FakeClassnameTags1
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is application/json.
 class FakeClassnameTags123ApiTestClassnameResponse200ApplicationJson extends FakeClassnameTags123ApiTestClassnameResponse200 {
-  final 
+  final UndefinedWrapper<
             Client
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                Client.$reflection
+        
+;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   FakeClassnameTags123ApiTestClassnameResponse200ApplicationJson({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawJson,
   });
 
-  static Future<FakeClassnameTags123ApiTestClassnameResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<FakeClassnameTags123ApiTestClassnameResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
-        if (v == null ? false :
-(
-
-    
-            Client.canDeserialize(v)
-            
-)) {
-          final res = Client.deserialize
-(
-
-            v
-
-)
-
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return FakeClassnameTags123ApiTestClassnameResponse200ApplicationJson(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -161,7 +164,7 @@ class FakeClassnameTags123ApiTestClassnameResponse200ApplicationJson extends Fak
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawJson: v,
             
           );
@@ -172,7 +175,7 @@ class FakeClassnameTags123ApiTestClassnameResponse200ApplicationJson extends Fak
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );

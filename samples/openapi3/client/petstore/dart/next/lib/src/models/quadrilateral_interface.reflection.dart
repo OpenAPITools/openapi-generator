@@ -5,14 +5,15 @@ part of 'quadrilateral_interface.dart';
 
 //class reflection
 
-class QuadrilateralInterfaceReflection extends ClassReflection<QuadrilateralInterface> {
+class QuadrilateralInterfaceReflection extends ModelReflection<QuadrilateralInterface> {
   static QuadrilateralInterfaceReflection instanceGetter() => instance;
   static const instance = QuadrilateralInterfaceReflection._(
     modelName: r'QuadrilateralInterface',
     className: r'QuadrilateralInterface',
+    xml: const XmlReflection(
+),
     quadrilateralTypePart: PropertyReflection<QuadrilateralInterface, 
             String
-
 >(
       dartName: r'quadrilateralType',
       nullable: false,
@@ -22,21 +23,33 @@ class QuadrilateralInterfaceReflection extends ClassReflection<QuadrilateralInte
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _quadrilateralTypeGetter,
-      setter: _quadrilateralTypeSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_quadrilateralTypeGetter),
+      setter: FunctionWrapper2(_quadrilateralTypeSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<QuadrilateralInterface, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const QuadrilateralInterfaceReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.quadrilateralTypePart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
@@ -47,121 +60,67 @@ class QuadrilateralInterfaceReflection extends ClassReflection<QuadrilateralInte
 
   final PropertyReflection<QuadrilateralInterface, 
             String
-
 > quadrilateralTypePart;
   static 
             String
-
  _quadrilateralTypeGetter(QuadrilateralInterface parent) {
     return parent.quadrilateralType;
   }
   static void _quadrilateralTypeSetter(QuadrilateralInterface parent, 
             String
-
  value) {
     parent.quadrilateralType = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<QuadrilateralInterface, dynamic>> get properties => [
     quadrilateralTypePart,
   ];
 
-  final AdditionalPropertiesReflection<QuadrilateralInterface, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<QuadrilateralInterface, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<QuadrilateralInterface, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(QuadrilateralInterface instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(QuadrilateralInterface instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<QuadrilateralInterface, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => QuadrilateralInterface.canDeserialize(src);
-  @override
-  QuadrilateralInterface Function(Object? src) get deserializeFunction =>
-      (src) => QuadrilateralInterface.deserialize(src);
-
-  @override
-  Object? Function(QuadrilateralInterface src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of QuadrilateralInterface.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  QuadrilateralInterface example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = QuadrilateralInterface(
-      quadrilateralType: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[quadrilateralTypePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  QuadrilateralInterface empty() {
+    return QuadrilateralInterface(
+      quadrilateralType: quadrilateralTypePart.reflection.emptyFunction(),
     );
-    
-    return exampleResult;
   }
 }
 
-
-class QuadrilateralInterfaceXmlReflection {
-    const QuadrilateralInterfaceXmlReflection();
-}
 

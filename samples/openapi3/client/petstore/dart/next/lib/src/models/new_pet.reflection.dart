@@ -5,14 +5,15 @@ part of 'new_pet.dart';
 
 //class reflection
 
-class NewPetReflection extends ClassReflection<NewPet> {
+class NewPetReflection extends ModelReflection<NewPet> {
   static NewPetReflection instanceGetter() => instance;
   static const instance = NewPetReflection._(
     modelName: r'NewPet',
     className: r'NewPet',
+    xml: const XmlReflection(
+),
     idPart: PropertyReflection<NewPet, UndefinedWrapper<
             int
-
 >>(
       dartName: r'id',
       nullable: false,
@@ -22,12 +23,21 @@ class NewPetReflection extends ClassReflection<NewPet> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _idGetter,
-      setter: _idSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_idGetter),
+      setter: FunctionWrapper2(_idSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forint
+        
+),
     ),
     categoryInlineAllofPart: PropertyReflection<NewPet, UndefinedWrapper<
             NewPetCategoryInlineAllof
-
 >>(
       dartName: r'categoryInlineAllof',
       nullable: false,
@@ -37,13 +47,21 @@ class NewPetReflection extends ClassReflection<NewPet> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      classReflection: NewPetCategoryInlineAllofReflection.instance,
-      getter: _categoryInlineAllofGetter,
-      setter: _categoryInlineAllofSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_categoryInlineAllofGetter),
+      setter: FunctionWrapper2(_categoryInlineAllofSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                NewPetCategoryInlineAllof.$reflection
+        
+),
     ),
     categoryAllOfRefPart: PropertyReflection<NewPet, UndefinedWrapper<
             Category
-
 >>(
       dartName: r'categoryAllOfRef',
       nullable: false,
@@ -53,13 +71,22 @@ class NewPetReflection extends ClassReflection<NewPet> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      classReflection: CategoryReflection.instance,
-      getter: _categoryAllOfRefGetter,
-      setter: _categoryAllOfRefSetter,
+      xml: const XmlReflection(
+    xmlName: r'Category',
+),
+      getter: FunctionWrapper1(_categoryAllOfRefGetter),
+      setter: FunctionWrapper2(_categoryAllOfRefSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                Category.$reflection
+        
+),
     ),
     namePart: PropertyReflection<NewPet, 
             String
-
 >(
       dartName: r'name',
       nullable: false,
@@ -69,16 +96,24 @@ class NewPetReflection extends ClassReflection<NewPet> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _nameGetter,
-      setter: _nameSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_nameGetter),
+      setter: FunctionWrapper2(_nameSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
     photoUrlsPart: PropertyReflection<NewPet, 
     List<
         
             String
-
 >
-
 >(
       dartName: r'photoUrls',
       nullable: false,
@@ -88,20 +123,28 @@ class NewPetReflection extends ClassReflection<NewPet> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      itemsReflection: ItemsReflection<NewPet, 
-            String
-
->(parentReflectionGetter: instanceGetter,),
-      getter: _photoUrlsGetter,
-      setter: _photoUrlsSetter,
+      xml: const XmlReflection(
+    xmlName: r'photoUrl',
+    wrapped: true,
+),
+      getter: FunctionWrapper1(_photoUrlsGetter),
+      setter: FunctionWrapper2(_photoUrlsSetter),
+      reflection: 
+    ListReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+)
+,
     ),
     tagsPart: PropertyReflection<NewPet, UndefinedWrapper<
     List<
         
             Tag
-
 >
-
 >>(
       dartName: r'tags',
       nullable: false,
@@ -111,16 +154,25 @@ class NewPetReflection extends ClassReflection<NewPet> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      itemsReflection: ItemsReflection<NewPet, 
-            Tag
-
->(parentReflectionGetter: instanceGetter,classReflection: TagReflection.instance,),
-      getter: _tagsGetter,
-      setter: _tagsSetter,
+      xml: const XmlReflection(
+    xmlName: r'tag',
+    wrapped: true,
+),
+      getter: FunctionWrapper1(_tagsGetter),
+      setter: FunctionWrapper2(_tagsSetter),
+      reflection: UndefinedWrapperReflection(
+    ListReflection(
+            
+        
+        
+            
+                Tag.$reflection
+        
+)
+),
     ),
     statusPart: PropertyReflection<NewPet, UndefinedWrapper<
             NewPetStatusEnum
-
 >>(
       dartName: r'status',
       nullable: false,
@@ -130,21 +182,30 @@ class NewPetReflection extends ClassReflection<NewPet> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _statusGetter,
-      setter: _statusSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_statusGetter),
+      setter: FunctionWrapper2(_statusSetter),
+      reflection: UndefinedWrapperReflection(
+            NewPetStatusEnum.$reflection
+        
+        
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<NewPet, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const NewPetReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.idPart,
     required this.categoryInlineAllofPart,
     required this.categoryAllOfRefPart,
@@ -161,83 +222,71 @@ class NewPetReflection extends ClassReflection<NewPet> {
 
   final PropertyReflection<NewPet, UndefinedWrapper<
             int
-
 >> idPart;
   static UndefinedWrapper<
             int
-
 > _idGetter(NewPet parent) {
     return parent.id;
   }
   static void _idSetter(NewPet parent, UndefinedWrapper<
             int
-
 > value) {
     parent.id = value;
   }
+
   final PropertyReflection<NewPet, UndefinedWrapper<
             NewPetCategoryInlineAllof
-
 >> categoryInlineAllofPart;
   static UndefinedWrapper<
             NewPetCategoryInlineAllof
-
 > _categoryInlineAllofGetter(NewPet parent) {
     return parent.categoryInlineAllof;
   }
   static void _categoryInlineAllofSetter(NewPet parent, UndefinedWrapper<
             NewPetCategoryInlineAllof
-
 > value) {
     parent.categoryInlineAllof = value;
   }
+
   final PropertyReflection<NewPet, UndefinedWrapper<
             Category
-
 >> categoryAllOfRefPart;
   static UndefinedWrapper<
             Category
-
 > _categoryAllOfRefGetter(NewPet parent) {
     return parent.categoryAllOfRef;
   }
   static void _categoryAllOfRefSetter(NewPet parent, UndefinedWrapper<
             Category
-
 > value) {
     parent.categoryAllOfRef = value;
   }
+
   final PropertyReflection<NewPet, 
             String
-
 > namePart;
   static 
             String
-
  _nameGetter(NewPet parent) {
     return parent.name;
   }
   static void _nameSetter(NewPet parent, 
             String
-
  value) {
     parent.name = value;
   }
+
   final PropertyReflection<NewPet, 
     List<
         
             String
-
 >
-
 > photoUrlsPart;
   static 
     List<
         
             String
-
 >
-
  _photoUrlsGetter(NewPet parent) {
     return parent.photoUrls;
   }
@@ -245,27 +294,22 @@ class NewPetReflection extends ClassReflection<NewPet> {
     List<
         
             String
-
 >
-
  value) {
     parent.photoUrls = value;
   }
+
   final PropertyReflection<NewPet, UndefinedWrapper<
     List<
         
             Tag
-
 >
-
 >> tagsPart;
   static UndefinedWrapper<
     List<
         
             Tag
-
 >
-
 > _tagsGetter(NewPet parent) {
     return parent.tags;
   }
@@ -273,42 +317,38 @@ class NewPetReflection extends ClassReflection<NewPet> {
     List<
         
             Tag
-
 >
-
 > value) {
     parent.tags = value;
   }
+
   final PropertyReflection<NewPet, UndefinedWrapper<
             NewPetStatusEnum
-
 >> statusPart;
   static UndefinedWrapper<
             NewPetStatusEnum
-
 > _statusGetter(NewPet parent) {
     return parent.status;
   }
   static void _statusSetter(NewPet parent, UndefinedWrapper<
             NewPetStatusEnum
-
 > value) {
     parent.status = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<NewPet, dynamic>> get properties => [
@@ -321,187 +361,37 @@ tagsPart,
 statusPart,
   ];
 
-  final AdditionalPropertiesReflection<NewPet, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<NewPet, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<NewPet, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(NewPet instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(NewPet instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<NewPet, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => NewPet.canDeserialize(src);
-  @override
-  NewPet Function(Object? src) get deserializeFunction =>
-      (src) => NewPet.deserialize(src);
-
-  @override
-  Object? Function(NewPet src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of NewPet.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  NewPet example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = NewPet(
-      id: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleint()
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      categoryInlineAllof: () {
-        var result = 
-
-
-            
-            
-
-
-    NewPetCategoryInlineAllofReflection.instance.example()
-    
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      categoryAllOfRef: () {
-        var result = 
-
-
-            
-            
-
-
-    CategoryReflection.instance.example()
-    
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      name: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[namePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      photoUrls: () {
-        var result = 
-
-
-    exampleList(() { return 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-; })
-
-
-
-;
-        return result;
-      } (),
-      tags: () {
-        var result = 
-
-
-    exampleList(() { return 
-
-
-            
-            
-
-
-    TagReflection.instance.example()
-    
-
-
-; })
-
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      status: () {
-        var result = 
-
-
-            exampleEnum(NewPetStatusEnum.values)
-
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  NewPet empty() {
+    return NewPet(
+      name: namePart.reflection.emptyFunction(),
+      photoUrls: photoUrlsPart.reflection.emptyFunction(),
     );
-    
-    return exampleResult;
   }
 }
 
-
-class NewPetXmlReflection {
-    const NewPetXmlReflection();
-}
 

@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'scalar_any_of.reflection.dart';
-part 'scalar_any_of.serialization.dart';
 
 
 /// Values of scalar type using anyOf
@@ -29,7 +28,6 @@ $OpenApiObjectMixin,
 ScalarAnyOfMixin {
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -58,7 +56,8 @@ ScalarAnyOfMixin {
   });
 
   ScalarAnyOf({
-        this.additionalProperties = const AdditionalProperties(),
+        AdditionalProperties<Object
+?>? additionalProperties,
     
     this.anyOf0 = const UndefinedWrapper.undefined(),
     
@@ -66,7 +65,7 @@ ScalarAnyOfMixin {
     
     this.anyOf2 = const UndefinedWrapper.undefined(),
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = ScalarAnyOfReflection.instance;
   ScalarAnyOfReflection get $classReflection => $reflection;
@@ -77,46 +76,17 @@ ScalarAnyOfMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$ScalarAnyOfToMap(this);
-  }
-  factory ScalarAnyOf.fromMap(Map<String, dynamic> src) {
-    return _$ScalarAnyOfFromMap(src);
-  }
-  static ScalarAnyOf? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return ScalarAnyOf.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$ScalarAnyOfCanFromMap(src);
+  factory ScalarAnyOf.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory ScalarAnyOf.deserialize(Object? src) {
-    return _$ScalarAnyOfDeserialize(src);
-  }
-  static ScalarAnyOf? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return ScalarAnyOf.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$ScalarAnyOfCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
-    return _$ScalarAnyOfSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
-
-
 
 

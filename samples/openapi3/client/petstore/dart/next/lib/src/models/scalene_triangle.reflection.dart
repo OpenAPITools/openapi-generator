@@ -5,14 +5,15 @@ part of 'scalene_triangle.dart';
 
 //class reflection
 
-class ScaleneTriangleReflection extends ClassReflection<ScaleneTriangle> {
+class ScaleneTriangleReflection extends ModelReflection<ScaleneTriangle> {
   static ScaleneTriangleReflection instanceGetter() => instance;
   static const instance = ScaleneTriangleReflection._(
     modelName: r'ScaleneTriangle',
     className: r'ScaleneTriangle',
+    xml: const XmlReflection(
+),
     shapeTypePart: PropertyReflection<ScaleneTriangle, 
             String
-
 >(
       dartName: r'shapeType',
       nullable: false,
@@ -22,12 +23,21 @@ class ScaleneTriangleReflection extends ClassReflection<ScaleneTriangle> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _shapeTypeGetter,
-      setter: _shapeTypeSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_shapeTypeGetter),
+      setter: FunctionWrapper2(_shapeTypeSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
     triangleTypePart: PropertyReflection<ScaleneTriangle, 
             String
-
 >(
       dartName: r'triangleType',
       nullable: false,
@@ -37,76 +47,93 @@ class ScaleneTriangleReflection extends ClassReflection<ScaleneTriangle> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _triangleTypeGetter,
-      setter: _triangleTypeSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_triangleTypeGetter),
+      setter: FunctionWrapper2(_triangleTypeSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
-    
-    
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    allOfShapeInterfacePart: AllOfReflection(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<ScaleneTriangle, Object
+      reflection: ShapeInterfaceReflection.instance,
+    ),
+allOfTriangleInterfacePart: AllOfReflection(
+      parentReflectionGetter: instanceGetter,
+      reflection: TriangleInterfaceReflection.instance,
+    ),
 
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+    
+    additionalPropertiesPart: AdditionalPropertiesPart(
+      parentReflectionGetter: instanceGetter,
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const ScaleneTriangleReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.shapeTypePart,
     required this.triangleTypePart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
     this.discriminatorImplicitMappings = const {},
-        
+    required this.allOfShapeInterfacePart,
+required this.allOfTriangleInterfacePart,
+    
     required this.additionalPropertiesPart,
   });
 
   final PropertyReflection<ScaleneTriangle, 
             String
-
 > shapeTypePart;
   static 
             String
-
  _shapeTypeGetter(ScaleneTriangle parent) {
     return parent.shapeType;
   }
   static void _shapeTypeSetter(ScaleneTriangle parent, 
             String
-
  value) {
     parent.shapeType = value;
   }
+
   final PropertyReflection<ScaleneTriangle, 
             String
-
 > triangleTypePart;
   static 
             String
-
  _triangleTypeGetter(ScaleneTriangle parent) {
     return parent.triangleType;
   }
   static void _triangleTypeSetter(ScaleneTriangle parent, 
             String
-
  value) {
     parent.triangleType = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<ScaleneTriangle, dynamic>> get properties => [
@@ -114,20 +141,27 @@ class ScaleneTriangleReflection extends ClassReflection<ScaleneTriangle> {
 triangleTypePart,
   ];
 
-  final AdditionalPropertiesReflection<ScaleneTriangle, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<ScaleneTriangle, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<ScaleneTriangle, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(ScaleneTriangle instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(ScaleneTriangle instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  final AllOfReflection<ScaleneTriangle, ShapeInterfaceMixin> allOfShapeInterfacePart;
+final AllOfReflection<ScaleneTriangle, TriangleInterfaceMixin> allOfTriangleInterfacePart;
+
+  
+
   @override
   List<AllOfReflection<ScaleneTriangle, dynamic>> get allOfs => [
-    
+    allOfShapeInterfacePart,allOfTriangleInterfacePart,
   ];
 
   @override
@@ -139,89 +173,15 @@ triangleTypePart,
     
   ];
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => ScaleneTriangle.canDeserialize(src);
-  @override
-  ScaleneTriangle Function(Object? src) get deserializeFunction =>
-      (src) => ScaleneTriangle.deserialize(src);
-
-  @override
-  Object? Function(ScaleneTriangle src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of ScaleneTriangle.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  ScaleneTriangle example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = ScaleneTriangle(
-      shapeType: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[shapeTypePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      triangleType: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[triangleTypePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  ScaleneTriangle empty() {
+    return ScaleneTriangle(
+      shapeType: shapeTypePart.reflection.emptyFunction(),
+      triangleType: triangleTypePart.reflection.emptyFunction(),
     );
-    
-    return exampleResult;
   }
 }
 
-
-class ScaleneTriangleXmlReflection {
-    const ScaleneTriangleXmlReflection();
-}
 

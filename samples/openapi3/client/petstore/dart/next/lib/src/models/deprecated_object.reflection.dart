@@ -5,14 +5,15 @@ part of 'deprecated_object.dart';
 
 //class reflection
 
-class DeprecatedObjectReflection extends ClassReflection<DeprecatedObject> {
+class DeprecatedObjectReflection extends ModelReflection<DeprecatedObject> {
   static DeprecatedObjectReflection instanceGetter() => instance;
   static const instance = DeprecatedObjectReflection._(
     modelName: r'DeprecatedObject',
     className: r'DeprecatedObject',
+    xml: const XmlReflection(
+),
     namePart: PropertyReflection<DeprecatedObject, UndefinedWrapper<
             String
-
 >>(
       dartName: r'name',
       nullable: false,
@@ -22,21 +23,33 @@ class DeprecatedObjectReflection extends ClassReflection<DeprecatedObject> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _nameGetter,
-      setter: _nameSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_nameGetter),
+      setter: FunctionWrapper2(_nameSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<DeprecatedObject, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const DeprecatedObjectReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.namePart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
@@ -47,121 +60,66 @@ class DeprecatedObjectReflection extends ClassReflection<DeprecatedObject> {
 
   final PropertyReflection<DeprecatedObject, UndefinedWrapper<
             String
-
 >> namePart;
   static UndefinedWrapper<
             String
-
 > _nameGetter(DeprecatedObject parent) {
     return parent.name;
   }
   static void _nameSetter(DeprecatedObject parent, UndefinedWrapper<
             String
-
 > value) {
     parent.name = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<DeprecatedObject, dynamic>> get properties => [
     namePart,
   ];
 
-  final AdditionalPropertiesReflection<DeprecatedObject, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<DeprecatedObject, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<DeprecatedObject, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(DeprecatedObject instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(DeprecatedObject instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<DeprecatedObject, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => DeprecatedObject.canDeserialize(src);
-  @override
-  DeprecatedObject Function(Object? src) get deserializeFunction =>
-      (src) => DeprecatedObject.deserialize(src);
-
-  @override
-  Object? Function(DeprecatedObject src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of DeprecatedObject.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  DeprecatedObject example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = DeprecatedObject(
-      name: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[namePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  DeprecatedObject empty() {
+    return DeprecatedObject(
     );
-    
-    return exampleResult;
   }
 }
 
-
-class DeprecatedObjectXmlReflection {
-    const DeprecatedObjectXmlReflection();
-}
 

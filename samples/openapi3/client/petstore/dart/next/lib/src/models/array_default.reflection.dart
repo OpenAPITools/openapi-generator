@@ -5,18 +5,18 @@ part of 'array_default.dart';
 
 //class reflection
 
-class ArrayDefaultReflection extends ClassReflection<ArrayDefault> {
+class ArrayDefaultReflection extends ModelReflection<ArrayDefault> {
   static ArrayDefaultReflection instanceGetter() => instance;
   static const instance = ArrayDefaultReflection._(
     modelName: r'ArrayDefault',
     className: r'ArrayDefault',
+    xml: const XmlReflection(
+),
     withDefaultEmptyBracketPart: PropertyReflection<ArrayDefault, UndefinedWrapper<
     List<
         
             String
-
 >
-
 >>(
       dartName: r'withDefaultEmptyBracket',
       nullable: false,
@@ -26,20 +26,26 @@ class ArrayDefaultReflection extends ClassReflection<ArrayDefault> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      itemsReflection: ItemsReflection<ArrayDefault, 
-            String
-
->(parentReflectionGetter: instanceGetter,),
-      getter: _withDefaultEmptyBracketGetter,
-      setter: _withDefaultEmptyBracketSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_withDefaultEmptyBracketGetter),
+      setter: FunctionWrapper2(_withDefaultEmptyBracketSetter),
+      reflection: UndefinedWrapperReflection(
+    ListReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+)
+),
     ),
     withoutDefaultPart: PropertyReflection<ArrayDefault, UndefinedWrapper<
     List<
         
             String
-
 >
-
 >>(
       dartName: r'withoutDefault',
       nullable: false,
@@ -49,25 +55,35 @@ class ArrayDefaultReflection extends ClassReflection<ArrayDefault> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      itemsReflection: ItemsReflection<ArrayDefault, 
-            String
-
->(parentReflectionGetter: instanceGetter,),
-      getter: _withoutDefaultGetter,
-      setter: _withoutDefaultSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_withoutDefaultGetter),
+      setter: FunctionWrapper2(_withoutDefaultSetter),
+      reflection: UndefinedWrapperReflection(
+    ListReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+)
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<ArrayDefault, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const ArrayDefaultReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.withDefaultEmptyBracketPart,
     required this.withoutDefaultPart,
     this.discriminatorKey,
@@ -81,17 +97,13 @@ class ArrayDefaultReflection extends ClassReflection<ArrayDefault> {
     List<
         
             String
-
 >
-
 >> withDefaultEmptyBracketPart;
   static UndefinedWrapper<
     List<
         
             String
-
 >
-
 > _withDefaultEmptyBracketGetter(ArrayDefault parent) {
     return parent.withDefaultEmptyBracket;
   }
@@ -99,27 +111,22 @@ class ArrayDefaultReflection extends ClassReflection<ArrayDefault> {
     List<
         
             String
-
 >
-
 > value) {
     parent.withDefaultEmptyBracket = value;
   }
+
   final PropertyReflection<ArrayDefault, UndefinedWrapper<
     List<
         
             String
-
 >
-
 >> withoutDefaultPart;
   static UndefinedWrapper<
     List<
         
             String
-
 >
-
 > _withoutDefaultGetter(ArrayDefault parent) {
     return parent.withoutDefault;
   }
@@ -127,26 +134,24 @@ class ArrayDefaultReflection extends ClassReflection<ArrayDefault> {
     List<
         
             String
-
 >
-
 > value) {
     parent.withoutDefault = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<ArrayDefault, dynamic>> get properties => [
@@ -154,112 +159,35 @@ class ArrayDefaultReflection extends ClassReflection<ArrayDefault> {
 withoutDefaultPart,
   ];
 
-  final AdditionalPropertiesReflection<ArrayDefault, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<ArrayDefault, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<ArrayDefault, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(ArrayDefault instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(ArrayDefault instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<ArrayDefault, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => ArrayDefault.canDeserialize(src);
-  @override
-  ArrayDefault Function(Object? src) get deserializeFunction =>
-      (src) => ArrayDefault.deserialize(src);
-
-  @override
-  Object? Function(ArrayDefault src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of ArrayDefault.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  ArrayDefault example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = ArrayDefault(
-      withDefaultEmptyBracket: () {
-        var result = 
-
-
-    exampleList(() { return 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-; })
-
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      withoutDefault: () {
-        var result = 
-
-
-    exampleList(() { return 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-; })
-
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  ArrayDefault empty() {
+    return ArrayDefault(
     );
-    
-    return exampleResult;
   }
 }
 
-
-class ArrayDefaultXmlReflection {
-    const ArrayDefaultXmlReflection();
-}
 

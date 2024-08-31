@@ -5,11 +5,13 @@ part of 'shape.dart';
 
 //class reflection
 
-class ShapeReflection extends ClassReflection<Shape> {
+class ShapeReflection extends ModelReflection<Shape> {
   static ShapeReflection instanceGetter() => instance;
   static const instance = ShapeReflection._(
     modelName: r'Shape',
     className: r'Shape',
+    xml: const XmlReflection(
+),
     discriminatorKey: r'shapeType',
     discriminatorImplicitMappings: const {
       r'Quadrilateral': QuadrilateralReflection.instance,
@@ -21,26 +23,26 @@ class ShapeReflection extends ClassReflection<Shape> {
     },
     
     
-    oneOf0Part: ShapeOneOf0(
+    oneOf0Part: ShapeOneOf0Part(
       parentReflectionGetter: instanceGetter,
-      classReflection: TriangleReflection.instance,
     ),
     
-    oneOf1Part: ShapeOneOf1(
+    oneOf1Part: ShapeOneOf1Part(
       parentReflectionGetter: instanceGetter,
-      classReflection: QuadrilateralReflection.instance,
     ),
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<Shape, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const ShapeReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
     this.discriminatorImplicitMappings = const {},
@@ -53,39 +55,43 @@ class ShapeReflection extends ClassReflection<Shape> {
   });
 
 
-
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<Shape, dynamic>> get properties => [
       ];
 
-  final AdditionalPropertiesReflection<Shape, Object
-
-?> additionalPropertiesPart;
-
-  
-  
-  final ShapeOneOf0 oneOf0Part;
-  
-  final ShapeOneOf1 oneOf1Part;
-  
   @override
-  List<PartReflection<Shape, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<Shape, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(Shape instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(Shape instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+  final ShapeOneOf0Part oneOf0Part;
+  
+  final ShapeOneOf1Part oneOf1Part;
+  
+
   @override
   List<AllOfReflection<Shape, dynamic>> get allOfs => [
     
@@ -100,66 +106,62 @@ class ShapeReflection extends ClassReflection<Shape> {
     
   ];
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => Shape.canDeserialize(src);
-  @override
-  Shape Function(Object? src) get deserializeFunction =>
-      (src) => Shape.deserialize(src);
-
-  @override
-  Object? Function(Shape src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of Shape.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  Shape example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = Shape(
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  Shape empty() {
+    return Shape(
     );
-    
-    exampleResult.oneOf0 = oneOf0Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
-    
-    exampleResult.oneOf1 = oneOf1Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
-    
-    return exampleResult;
   }
 }
 
 
-class ShapeOneOf0 extends OneOfReflection<Shape, 
+class ShapeOneOf0Part extends OneOfReflection<Shape, 
             Triangle
 > {
-  const ShapeOneOf0({
-    super.classReflection,
-    required ShapeReflection Function() super.parentReflectionGetter,
-    super.itemsReflection,
-  });
+
+  const ShapeOneOf0Part({
+  required ShapeReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+            Triangle
+>, Shape> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, Shape, UndefinedWrapper<
+            Triangle
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+            Triangle
+> _getter(Shape src) {
+  return src.oneOf0;
+}
+static void _setter(Shape src, UndefinedWrapper<
+            Triangle
+> value) {
+  src.oneOf0 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+            Triangle
+> get reflection => UndefinedWrapperReflection(
+            
+        
+        
+            
+                Triangle.$reflection
+        
+);
 
   UndefinedWrapper<
             Triangle
-> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
     if (discriminatorExampleResults.isEmpty) {
       //return undefined for non-first oneOfs.
       // An example SHOULD be generated
@@ -167,36 +169,63 @@ class ShapeOneOf0 extends OneOfReflection<Shape,
       // if this reflection wasn't a result of any property, don't generate an example.
 
       if (!discriminatorExampleResults.values
-          .any((e) => e.value == classReflection)) {
+          .any((e) => e.value == reflection.subReflection)) {
         // if there are no discriminator examples targetting the current class:
         return UndefinedWrapper.undefined();
       } else {
         // An example SHOULD be generated
       }
     }
-    return UndefinedWrapper(
-            
-            
-
-
-    TriangleReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
-    
-);
+    return reflection.example();
   }
 }
 
-class ShapeOneOf1 extends OneOfReflection<Shape, 
+class ShapeOneOf1Part extends OneOfReflection<Shape, 
             Quadrilateral
 > {
-  const ShapeOneOf1({
-    super.classReflection,
-    required ShapeReflection Function() super.parentReflectionGetter,
-    super.itemsReflection,
-  });
+
+  const ShapeOneOf1Part({
+  required ShapeReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+            Quadrilateral
+>, Shape> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, Shape, UndefinedWrapper<
+            Quadrilateral
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+            Quadrilateral
+> _getter(Shape src) {
+  return src.oneOf1;
+}
+static void _setter(Shape src, UndefinedWrapper<
+            Quadrilateral
+> value) {
+  src.oneOf1 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+            Quadrilateral
+> get reflection => UndefinedWrapperReflection(
+            
+        
+        
+            
+                Quadrilateral.$reflection
+        
+);
 
   UndefinedWrapper<
             Quadrilateral
-> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
     if (discriminatorExampleResults.isEmpty) {
       //return undefined for non-first oneOfs.
       return UndefinedWrapper.undefined();
@@ -204,25 +233,14 @@ class ShapeOneOf1 extends OneOfReflection<Shape,
       // if this reflection wasn't a result of any property, don't generate an example.
 
       if (!discriminatorExampleResults.values
-          .any((e) => e.value == classReflection)) {
+          .any((e) => e.value == reflection.subReflection)) {
         // if there are no discriminator examples targetting the current class:
         return UndefinedWrapper.undefined();
       } else {
         // An example SHOULD be generated
       }
     }
-    return UndefinedWrapper(
-            
-            
-
-
-    QuadrilateralReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
-    
-);
+    return reflection.example();
   }
-}
-
-class ShapeXmlReflection {
-    const ShapeXmlReflection();
 }
 

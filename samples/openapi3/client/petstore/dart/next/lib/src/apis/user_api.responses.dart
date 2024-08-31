@@ -8,14 +8,14 @@ class UserApiCreateUserResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -30,11 +30,11 @@ class UserApiCreateUserResponse {
     };
   }
 
-  static Future<UserApiCreateUserResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<UserApiCreateUserResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<UserApiCreateUserResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'default'),
-      () => UserApiCreateUserResponseDefault.fromResponse(response, context: context)
+      () => UserApiCreateUserResponseDefault.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -44,30 +44,32 @@ class UserApiCreateUserResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class UserApiCreateUserResponseDefault extends UserApiCreateUserResponse {
   UserApiCreateUserResponseDefault({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<UserApiCreateUserResponseDefault> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<UserApiCreateUserResponseDefault> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return UserApiCreateUserResponseDefault(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -81,14 +83,14 @@ class UserApiCreateUsersWithArrayInputResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -103,11 +105,11 @@ class UserApiCreateUsersWithArrayInputResponse {
     };
   }
 
-  static Future<UserApiCreateUsersWithArrayInputResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<UserApiCreateUsersWithArrayInputResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<UserApiCreateUsersWithArrayInputResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'default'),
-      () => UserApiCreateUsersWithArrayInputResponseDefault.fromResponse(response, context: context)
+      () => UserApiCreateUsersWithArrayInputResponseDefault.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -117,30 +119,32 @@ class UserApiCreateUsersWithArrayInputResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class UserApiCreateUsersWithArrayInputResponseDefault extends UserApiCreateUsersWithArrayInputResponse {
   UserApiCreateUsersWithArrayInputResponseDefault({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<UserApiCreateUsersWithArrayInputResponseDefault> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<UserApiCreateUsersWithArrayInputResponseDefault> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return UserApiCreateUsersWithArrayInputResponseDefault(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -154,14 +158,14 @@ class UserApiCreateUsersWithListInputResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -176,11 +180,11 @@ class UserApiCreateUsersWithListInputResponse {
     };
   }
 
-  static Future<UserApiCreateUsersWithListInputResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<UserApiCreateUsersWithListInputResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<UserApiCreateUsersWithListInputResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'default'),
-      () => UserApiCreateUsersWithListInputResponseDefault.fromResponse(response, context: context)
+      () => UserApiCreateUsersWithListInputResponseDefault.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -190,30 +194,32 @@ class UserApiCreateUsersWithListInputResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class UserApiCreateUsersWithListInputResponseDefault extends UserApiCreateUsersWithListInputResponse {
   UserApiCreateUsersWithListInputResponseDefault({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<UserApiCreateUsersWithListInputResponseDefault> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<UserApiCreateUsersWithListInputResponseDefault> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return UserApiCreateUsersWithListInputResponseDefault(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -227,14 +233,14 @@ class UserApiDeleteUserResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -251,15 +257,15 @@ class UserApiDeleteUserResponse {
     };
   }
 
-  static Future<UserApiDeleteUserResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<UserApiDeleteUserResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<UserApiDeleteUserResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
-      () => UserApiDeleteUserResponse400.fromResponse(response, context: context)
+      () => UserApiDeleteUserResponse400.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'404'),
-      () => UserApiDeleteUserResponse404.fromResponse(response, context: context)
+      () => UserApiDeleteUserResponse404.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -269,34 +275,38 @@ class UserApiDeleteUserResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class UserApiDeleteUserResponse400 extends UserApiDeleteUserResponse {
   UserApiDeleteUserResponse400({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<UserApiDeleteUserResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<UserApiDeleteUserResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return UserApiDeleteUserResponse400(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 
 
@@ -305,19 +315,19 @@ class UserApiDeleteUserResponse404 extends UserApiDeleteUserResponse {
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<UserApiDeleteUserResponse404> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<UserApiDeleteUserResponse404> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return UserApiDeleteUserResponse404(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -331,14 +341,14 @@ class UserApiGetUserByNameResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -357,19 +367,19 @@ class UserApiGetUserByNameResponse {
     };
   }
 
-  static Future<UserApiGetUserByNameResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<UserApiGetUserByNameResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<UserApiGetUserByNameResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => UserApiGetUserByNameResponse200.fromResponse(response, context: context)
+      () => UserApiGetUserByNameResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
-      () => UserApiGetUserByNameResponse400.fromResponse(response, context: context)
+      () => UserApiGetUserByNameResponse400.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'404'),
-      () => UserApiGetUserByNameResponse404.fromResponse(response, context: context)
+      () => UserApiGetUserByNameResponse404.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -379,18 +389,20 @@ class UserApiGetUserByNameResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class UserApiGetUserByNameResponse200 extends UserApiGetUserByNameResponse {
   UserApiGetUserByNameResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -413,7 +425,7 @@ class UserApiGetUserByNameResponse200 extends UserApiGetUserByNameResponse {
     };
   }
 
-  static Future<UserApiGetUserByNameResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<UserApiGetUserByNameResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -421,11 +433,11 @@ class UserApiGetUserByNameResponse200 extends UserApiGetUserByNameResponse {
       final matchedResponse = <(PatternMatchResult, Future<UserApiGetUserByNameResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/xml')),
-        () => UserApiGetUserByNameResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => UserApiGetUserByNameResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
-        () => UserApiGetUserByNameResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => UserApiGetUserByNameResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -436,7 +448,7 @@ class UserApiGetUserByNameResponse200 extends UserApiGetUserByNameResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -444,42 +456,57 @@ class UserApiGetUserByNameResponse200 extends UserApiGetUserByNameResponse {
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is application/xml.
 class UserApiGetUserByNameResponse200ApplicationXml extends UserApiGetUserByNameResponse200 {
-  final 
+  final UndefinedWrapper<
             User
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                User.$reflection
+        
+;
 
-  /// The raw result of calling XmlDocument.parse
-  final XmlDocument? rawXml;
+  /// The raw result of calling XmlDocumentFragment.parse
+  final XmlDocumentFragment? rawXml;
 
   UserApiGetUserByNameResponse200ApplicationXml({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawXml,
   });
 
-  static Future<UserApiGetUserByNameResponse200ApplicationXml> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<UserApiGetUserByNameResponse200ApplicationXml> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'xml'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
-        final v = XmlDocument.parse(serialized);
+        final v = XmlDocumentFragment.parse(serialized);
         // check if v can be deserialized to xml
         return UserApiGetUserByNameResponse200ApplicationXml(
           headers: response.headers,
           statusCode: response.statusCode,
           reasonPhrase: response.reasonPhrase,
-          context: context,
+          userContext: userContext,
           rawXml: v,
           
         );
@@ -489,65 +516,66 @@ class UserApiGetUserByNameResponse200ApplicationXml extends UserApiGetUserByName
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
   }
 }
 
+
+
+
+
+
 /// Represent the response when content-type is application/json.
 class UserApiGetUserByNameResponse200ApplicationJson extends UserApiGetUserByNameResponse200 {
-  final 
+  final UndefinedWrapper<
             User
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                User.$reflection
+        
+;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   UserApiGetUserByNameResponse200ApplicationJson({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawJson,
   });
 
-  static Future<UserApiGetUserByNameResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<UserApiGetUserByNameResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
-        if (v == null ? false :
-(
-
-    
-            User.canDeserialize(v)
-            
-)) {
-          final res = User.deserialize
-(
-
-            v
-
-)
-
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return UserApiGetUserByNameResponse200ApplicationJson(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -556,7 +584,7 @@ class UserApiGetUserByNameResponse200ApplicationJson extends UserApiGetUserByNam
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawJson: v,
             
           );
@@ -567,35 +595,39 @@ class UserApiGetUserByNameResponse200ApplicationJson extends UserApiGetUserByNam
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
   }
 }
 
+
+
 class UserApiGetUserByNameResponse400 extends UserApiGetUserByNameResponse {
   UserApiGetUserByNameResponse400({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<UserApiGetUserByNameResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<UserApiGetUserByNameResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return UserApiGetUserByNameResponse400(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 
 
@@ -604,19 +636,19 @@ class UserApiGetUserByNameResponse404 extends UserApiGetUserByNameResponse {
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<UserApiGetUserByNameResponse404> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<UserApiGetUserByNameResponse404> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return UserApiGetUserByNameResponse404(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -630,14 +662,14 @@ class UserApiLoginUserResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -654,15 +686,15 @@ class UserApiLoginUserResponse {
     };
   }
 
-  static Future<UserApiLoginUserResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<UserApiLoginUserResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<UserApiLoginUserResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => UserApiLoginUserResponse200.fromResponse(response, context: context)
+      () => UserApiLoginUserResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
-      () => UserApiLoginUserResponse400.fromResponse(response, context: context)
+      () => UserApiLoginUserResponse400.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -672,18 +704,28 @@ class UserApiLoginUserResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
 
 class UserApiLoginUserResponse200 extends UserApiLoginUserResponse {
   UserApiLoginUserResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
      this.xRateLimit= const UndefinedWrapper
         .undefined()
@@ -695,11 +737,9 @@ class UserApiLoginUserResponse200 extends UserApiLoginUserResponse {
 
   final UndefinedWrapper<
             int
-
 > xRateLimit;
   final UndefinedWrapper<
             DateTime
-
 > xExpiresAfter;
 
   T split200<T>({
@@ -720,7 +760,7 @@ class UserApiLoginUserResponse200 extends UserApiLoginUserResponse {
     };
   }
 
-  static Future<UserApiLoginUserResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<UserApiLoginUserResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -728,11 +768,11 @@ class UserApiLoginUserResponse200 extends UserApiLoginUserResponse {
       final matchedResponse = <(PatternMatchResult, Future<UserApiLoginUserResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/xml')),
-        () => UserApiLoginUserResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => UserApiLoginUserResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
-        () => UserApiLoginUserResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => UserApiLoginUserResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -743,7 +783,7 @@ class UserApiLoginUserResponse200 extends UserApiLoginUserResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -751,75 +791,76 @@ class UserApiLoginUserResponse200 extends UserApiLoginUserResponse {
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is application/xml.
 class UserApiLoginUserResponse200ApplicationXml extends UserApiLoginUserResponse200 {
-  final 
+  final UndefinedWrapper<
             String
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+;
 
-  /// The raw result of calling XmlDocument.parse
-  final XmlDocument? rawXml;
+  /// The raw result of calling XmlDocumentFragment.parse
+  final XmlDocumentFragment? rawXml;
 
   UserApiLoginUserResponse200ApplicationXml({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
      super.xRateLimit,
      super.xExpiresAfter,
     this.rawXml,
   });
 
-  static Future<UserApiLoginUserResponse200ApplicationXml> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<UserApiLoginUserResponse200ApplicationXml> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'xml'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
-        final v = XmlDocument.parse(serialized);
+        final v = XmlDocumentFragment.parse(serialized);
         // check if v can be deserialized to xml
         return UserApiLoginUserResponse200ApplicationXml(
           headers: response.headers,
           statusCode: response.statusCode,
           reasonPhrase: response.reasonPhrase,
-          context: context,
+          userContext: userContext,
           rawXml: v,
-          xRateLimit: response.headers.getOrUndefinedMapped(r'X-Rate-Limit', (v) => 
-(
-
+          xRateLimit: UndefinedWrapperReflection(
             
-                    ( v is int ? v as int :
-int.parse(v.toString())
-
-
-
-)
-
-)
-
-
-),
-xExpiresAfter: response.headers.getOrUndefinedMapped(r'X-Expires-After', (v) => 
-(
-
+        
+        
             
-                    ( v is DateTime ? v as DateTime :
-
-
-v is int ? DateTime.fromMillisecondsSinceEpoch(v as int) : DateTime.parse(v.toString())
-
-)
-
-)
-
-
-),
+                PrimitiveReflection.forint
+        
+).deserializeFunction(response.headers.getOrUndefined(r'X-Rate-Limit')),
+xExpiresAfter: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forDateTime
+        
+).deserializeFunction(response.headers.getOrUndefined(r'X-Expires-After')),
 
         );
       default:
@@ -828,140 +869,100 @@ v is int ? DateTime.fromMillisecondsSinceEpoch(v as int) : DateTime.parse(v.toSt
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
-      xRateLimit: response.headers.getOrUndefinedMapped(r'X-Rate-Limit', (v) => 
-(
-
+      xRateLimit: UndefinedWrapperReflection(
             
-                    ( v is int ? v as int :
-int.parse(v.toString())
-
-
-
-)
-
-)
-
-
-),
-xExpiresAfter: response.headers.getOrUndefinedMapped(r'X-Expires-After', (v) => 
-(
-
+        
+        
             
-                    ( v is DateTime ? v as DateTime :
-
-
-v is int ? DateTime.fromMillisecondsSinceEpoch(v as int) : DateTime.parse(v.toString())
-
-)
-
-)
-
-
-),
+                PrimitiveReflection.forint
+        
+).deserializeFunction(response.headers.getOrUndefined(r'X-Rate-Limit')),
+xExpiresAfter: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forDateTime
+        
+).deserializeFunction(response.headers.getOrUndefined(r'X-Expires-After')),
 
     );
   }
 }
 
+
+
+
+
+
 /// Represent the response when content-type is application/json.
 class UserApiLoginUserResponse200ApplicationJson extends UserApiLoginUserResponse200 {
-  final 
+  final UndefinedWrapper<
             String
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   UserApiLoginUserResponse200ApplicationJson({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
      super.xRateLimit,
      super.xExpiresAfter,
     this.rawJson,
   });
 
-  static Future<UserApiLoginUserResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<UserApiLoginUserResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
-        if (v == null ? false :
-(
-
-    
-            
-            (v is String
-    
-    
-    
-    
-)
-)) {
-          final res = 
-(
-
-            
-                    ( v is String ? v as String :
-
-
-
-
-throwArgumentMismatch(String, v)
-
-)
-
-)
-
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return UserApiLoginUserResponse200ApplicationJson(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
-            xRateLimit: response.headers.getOrUndefinedMapped(r'X-Rate-Limit', (v) => 
-(
-
+            userContext: userContext,
+            body: UndefinedWrapper(res),
+            xRateLimit: UndefinedWrapperReflection(
             
-                    ( v is int ? v as int :
-int.parse(v.toString())
-
-
-
-)
-
-)
-
-
-),
-xExpiresAfter: response.headers.getOrUndefinedMapped(r'X-Expires-After', (v) => 
-(
-
+        
+        
             
-                    ( v is DateTime ? v as DateTime :
-
-
-v is int ? DateTime.fromMillisecondsSinceEpoch(v as int) : DateTime.parse(v.toString())
-
-)
-
-)
-
-
-),
+                PrimitiveReflection.forint
+        
+).deserializeFunction(response.headers.getOrUndefined(r'X-Rate-Limit')),
+xExpiresAfter: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forDateTime
+        
+).deserializeFunction(response.headers.getOrUndefined(r'X-Expires-After')),
 
           );
         } else {
@@ -970,38 +971,24 @@ v is int ? DateTime.fromMillisecondsSinceEpoch(v as int) : DateTime.parse(v.toSt
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawJson: v,
-            xRateLimit: response.headers.getOrUndefinedMapped(r'X-Rate-Limit', (v) => 
-(
-
+            xRateLimit: UndefinedWrapperReflection(
             
-                    ( v is int ? v as int :
-int.parse(v.toString())
-
-
-
-)
-
-)
-
-
-),
-xExpiresAfter: response.headers.getOrUndefinedMapped(r'X-Expires-After', (v) => 
-(
-
+        
+        
             
-                    ( v is DateTime ? v as DateTime :
-
-
-v is int ? DateTime.fromMillisecondsSinceEpoch(v as int) : DateTime.parse(v.toString())
-
-)
-
-)
-
-
-),
+                PrimitiveReflection.forint
+        
+).deserializeFunction(response.headers.getOrUndefined(r'X-Rate-Limit')),
+xExpiresAfter: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forDateTime
+        
+).deserializeFunction(response.headers.getOrUndefined(r'X-Expires-After')),
 
           );
         }
@@ -1011,61 +998,49 @@ v is int ? DateTime.fromMillisecondsSinceEpoch(v as int) : DateTime.parse(v.toSt
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
-      xRateLimit: response.headers.getOrUndefinedMapped(r'X-Rate-Limit', (v) => 
-(
-
+      xRateLimit: UndefinedWrapperReflection(
             
-                    ( v is int ? v as int :
-int.parse(v.toString())
-
-
-
-)
-
-)
-
-
-),
-xExpiresAfter: response.headers.getOrUndefinedMapped(r'X-Expires-After', (v) => 
-(
-
+        
+        
             
-                    ( v is DateTime ? v as DateTime :
-
-
-v is int ? DateTime.fromMillisecondsSinceEpoch(v as int) : DateTime.parse(v.toString())
-
-)
-
-)
-
-
-),
+                PrimitiveReflection.forint
+        
+).deserializeFunction(response.headers.getOrUndefined(r'X-Rate-Limit')),
+xExpiresAfter: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forDateTime
+        
+).deserializeFunction(response.headers.getOrUndefined(r'X-Expires-After')),
 
     );
   }
 }
+
+
 
 class UserApiLoginUserResponse400 extends UserApiLoginUserResponse {
   UserApiLoginUserResponse400({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<UserApiLoginUserResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<UserApiLoginUserResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return UserApiLoginUserResponse400(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -1079,14 +1054,14 @@ class UserApiLogoutUserResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -1101,11 +1076,11 @@ class UserApiLogoutUserResponse {
     };
   }
 
-  static Future<UserApiLogoutUserResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<UserApiLogoutUserResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<UserApiLogoutUserResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'default'),
-      () => UserApiLogoutUserResponseDefault.fromResponse(response, context: context)
+      () => UserApiLogoutUserResponseDefault.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -1115,30 +1090,32 @@ class UserApiLogoutUserResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class UserApiLogoutUserResponseDefault extends UserApiLogoutUserResponse {
   UserApiLogoutUserResponseDefault({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<UserApiLogoutUserResponseDefault> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<UserApiLogoutUserResponseDefault> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return UserApiLogoutUserResponseDefault(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -1152,14 +1129,14 @@ class UserApiUpdateUserResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -1176,15 +1153,15 @@ class UserApiUpdateUserResponse {
     };
   }
 
-  static Future<UserApiUpdateUserResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<UserApiUpdateUserResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<UserApiUpdateUserResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
-      () => UserApiUpdateUserResponse400.fromResponse(response, context: context)
+      () => UserApiUpdateUserResponse400.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'404'),
-      () => UserApiUpdateUserResponse404.fromResponse(response, context: context)
+      () => UserApiUpdateUserResponse404.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -1194,34 +1171,38 @@ class UserApiUpdateUserResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class UserApiUpdateUserResponse400 extends UserApiUpdateUserResponse {
   UserApiUpdateUserResponse400({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<UserApiUpdateUserResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<UserApiUpdateUserResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return UserApiUpdateUserResponse400(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 
 
@@ -1230,19 +1211,19 @@ class UserApiUpdateUserResponse404 extends UserApiUpdateUserResponse {
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<UserApiUpdateUserResponse404> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<UserApiUpdateUserResponse404> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return UserApiUpdateUserResponse404(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }

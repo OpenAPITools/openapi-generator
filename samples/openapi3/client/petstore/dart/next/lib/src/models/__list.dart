@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part '__list.reflection.dart';
-part '__list.serialization.dart';
 
 
 /// $ListMixin
@@ -15,7 +14,6 @@ mixin $ListMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
-
 > get $123list;
   
 }
@@ -31,11 +29,9 @@ $ListMixin {
   @override
   UndefinedWrapper<
             String
-
 > $123list;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -50,9 +46,10 @@ $ListMixin {
       this.$123list = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = $ListReflection.instance;
   $ListReflection get $classReflection => $reflection;
@@ -62,45 +59,19 @@ $ListMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$$ListToMap(this);
-  }
-  factory $List.fromMap(Map<String, dynamic> src) {
-    return _$$ListFromMap(src);
-  }
-  static $List? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return $List.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$$ListCanFromMap(src);
+  factory $List.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory $List.deserialize(Object? src) {
-    return _$$ListDeserialize(src);
-  }
-  static $List? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return $List.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$$ListCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$$ListSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
 
 
 

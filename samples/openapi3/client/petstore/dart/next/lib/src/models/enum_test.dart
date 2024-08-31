@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'enum_test.reflection.dart';
-part 'enum_test.serialization.dart';
 
 
 /// EnumTestMixin
@@ -23,39 +22,30 @@ mixin EnumTestMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             EnumTestEnumStringEnum
-
 > get enumString;
 
             EnumTestEnumStringRequiredEnum
-
  get enumStringRequired;
 UndefinedWrapper<
             EnumTestEnumIntegerEnum
-
 > get enumInteger;
 UndefinedWrapper<
             EnumTestEnumIntegerOnlyEnum
-
 > get enumIntegerOnly;
 UndefinedWrapper<
             EnumTestEnumNumberEnum
-
 > get enumNumber;
 UndefinedWrapper<
             OuterEnum
-
 ?> get outerEnum;
 UndefinedWrapper<
             OuterEnumInteger
-
 > get outerEnumInteger;
 UndefinedWrapper<
             OuterEnumDefaultValue
-
 > get outerEnumDefaultValue;
 UndefinedWrapper<
             OuterEnumIntegerDefaultValue
-
 > get outerEnumIntegerDefaultValue;
   
 }
@@ -79,51 +69,41 @@ EnumTestMixin {
   @override
   UndefinedWrapper<
             EnumTestEnumStringEnum
-
 > enumString;
   @override
   
             EnumTestEnumStringRequiredEnum
-
  enumStringRequired;
   @override
   UndefinedWrapper<
             EnumTestEnumIntegerEnum
-
 > enumInteger;
   @override
   UndefinedWrapper<
             EnumTestEnumIntegerOnlyEnum
-
 > enumIntegerOnly;
   @override
   UndefinedWrapper<
             EnumTestEnumNumberEnum
-
 > enumNumber;
   @override
   UndefinedWrapper<
             OuterEnum
-
 ?> outerEnum;
   @override
   UndefinedWrapper<
             OuterEnumInteger
-
 > outerEnumInteger;
   @override
   UndefinedWrapper<
             OuterEnumDefaultValue
-
 > outerEnumDefaultValue;
   @override
   UndefinedWrapper<
             OuterEnumIntegerDefaultValue
-
 > outerEnumIntegerDefaultValue;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -168,9 +148,10 @@ required  this.enumStringRequired     ,
   this.outerEnumIntegerDefaultValue = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = EnumTestReflection.instance;
   EnumTestReflection get $classReflection => $reflection;
@@ -180,47 +161,18 @@ required  this.enumStringRequired     ,
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$EnumTestToMap(this);
-  }
-  factory EnumTest.fromMap(Map<String, dynamic> src) {
-    return _$EnumTestFromMap(src);
-  }
-  static EnumTest? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return EnumTest.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$EnumTestCanFromMap(src);
+  factory EnumTest.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory EnumTest.deserialize(Object? src) {
-    return _$EnumTestDeserialize(src);
-  }
-  static EnumTest? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return EnumTest.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$EnumTestCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$EnumTestSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
-
-
 
 
 extension type const EnumTestEnumStringEnum._(String value) {
@@ -237,8 +189,29 @@ extension type const EnumTestEnumStringEnum._(String value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<EnumTestEnumStringEnum, String>(
+    PrimitiveReflection.forString,
+    members: [
+      
+        EnumMemberReflection(dartName: r'UPPER', oasValue: r'UPPER', value: EnumTestEnumStringEnum.UPPER()),
+      
+        EnumMemberReflection(dartName: r'lower', oasValue: r'lower', value: EnumTestEnumStringEnum.lower()),
+      
+        EnumMemberReflection(dartName: r'empty', oasValue: r'', value: EnumTestEnumStringEnum.empty()),
+      
+    ],
+  );
+
+  factory EnumTestEnumStringEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [EnumTestEnumStringEnum] enum from a value without checking if it exists.
@@ -252,6 +225,7 @@ extension type const EnumTestEnumStringEnum._(String value) {
     
   ];
 }
+
 
 extension type const EnumTestEnumStringRequiredEnum._(String value) {
       const EnumTestEnumStringRequiredEnum.UPPER() : this._(r'UPPER');
@@ -267,8 +241,29 @@ extension type const EnumTestEnumStringRequiredEnum._(String value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<EnumTestEnumStringRequiredEnum, String>(
+    PrimitiveReflection.forString,
+    members: [
+      
+        EnumMemberReflection(dartName: r'UPPER', oasValue: r'UPPER', value: EnumTestEnumStringRequiredEnum.UPPER()),
+      
+        EnumMemberReflection(dartName: r'lower', oasValue: r'lower', value: EnumTestEnumStringRequiredEnum.lower()),
+      
+        EnumMemberReflection(dartName: r'empty', oasValue: r'', value: EnumTestEnumStringRequiredEnum.empty()),
+      
+    ],
+  );
+
+  factory EnumTestEnumStringRequiredEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [EnumTestEnumStringRequiredEnum] enum from a value without checking if it exists.
@@ -283,6 +278,7 @@ extension type const EnumTestEnumStringRequiredEnum._(String value) {
   ];
 }
 
+
 extension type const EnumTestEnumIntegerEnum._(int value) {
       const EnumTestEnumIntegerEnum.number1() : this._(1);
       const EnumTestEnumIntegerEnum.numberNegative1() : this._(-1);
@@ -296,8 +292,27 @@ extension type const EnumTestEnumIntegerEnum._(int value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is int && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<EnumTestEnumIntegerEnum, int>(
+    PrimitiveReflection.forint,
+    members: [
+      
+        EnumMemberReflection(dartName: r'number1', oasValue: 1, value: EnumTestEnumIntegerEnum.number1()),
+      
+        EnumMemberReflection(dartName: r'numberNegative1', oasValue: -1, value: EnumTestEnumIntegerEnum.numberNegative1()),
+      
+    ],
+  );
+
+  factory EnumTestEnumIntegerEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [EnumTestEnumIntegerEnum] enum from a value without checking if it exists.
@@ -310,6 +325,7 @@ extension type const EnumTestEnumIntegerEnum._(int value) {
     
   ];
 }
+
 
 extension type const EnumTestEnumIntegerOnlyEnum._(int value) {
       const EnumTestEnumIntegerOnlyEnum.number2() : this._(2);
@@ -324,8 +340,27 @@ extension type const EnumTestEnumIntegerOnlyEnum._(int value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is int && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<EnumTestEnumIntegerOnlyEnum, int>(
+    PrimitiveReflection.forint,
+    members: [
+      
+        EnumMemberReflection(dartName: r'number2', oasValue: 2, value: EnumTestEnumIntegerOnlyEnum.number2()),
+      
+        EnumMemberReflection(dartName: r'numberNegative2', oasValue: -2, value: EnumTestEnumIntegerOnlyEnum.numberNegative2()),
+      
+    ],
+  );
+
+  factory EnumTestEnumIntegerOnlyEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [EnumTestEnumIntegerOnlyEnum] enum from a value without checking if it exists.
@@ -338,6 +373,7 @@ extension type const EnumTestEnumIntegerOnlyEnum._(int value) {
     
   ];
 }
+
 
 extension type const EnumTestEnumNumberEnum._(double value) {
       const EnumTestEnumNumberEnum.number11() : this._(1.1);
@@ -352,8 +388,27 @@ extension type const EnumTestEnumNumberEnum._(double value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is double && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<EnumTestEnumNumberEnum, double>(
+    PrimitiveReflection.fordouble,
+    members: [
+      
+        EnumMemberReflection(dartName: r'number11', oasValue: 1.1, value: EnumTestEnumNumberEnum.number11()),
+      
+        EnumMemberReflection(dartName: r'numberNegative12', oasValue: -1.2, value: EnumTestEnumNumberEnum.numberNegative12()),
+      
+    ],
+  );
+
+  factory EnumTestEnumNumberEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [EnumTestEnumNumberEnum] enum from a value without checking if it exists.
@@ -366,4 +421,17 @@ extension type const EnumTestEnumNumberEnum._(double value) {
     
   ];
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 

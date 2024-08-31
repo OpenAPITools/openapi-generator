@@ -8,14 +8,14 @@ class PetApiAddPetResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -30,11 +30,11 @@ class PetApiAddPetResponse {
     };
   }
 
-  static Future<PetApiAddPetResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiAddPetResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<PetApiAddPetResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'405'),
-      () => PetApiAddPetResponse405.fromResponse(response, context: context)
+      () => PetApiAddPetResponse405.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -44,30 +44,32 @@ class PetApiAddPetResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class PetApiAddPetResponse405 extends PetApiAddPetResponse {
   PetApiAddPetResponse405({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<PetApiAddPetResponse405> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiAddPetResponse405> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return PetApiAddPetResponse405(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -81,14 +83,14 @@ class PetApiDeletePetResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -103,11 +105,11 @@ class PetApiDeletePetResponse {
     };
   }
 
-  static Future<PetApiDeletePetResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiDeletePetResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<PetApiDeletePetResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
-      () => PetApiDeletePetResponse400.fromResponse(response, context: context)
+      () => PetApiDeletePetResponse400.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -117,30 +119,32 @@ class PetApiDeletePetResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class PetApiDeletePetResponse400 extends PetApiDeletePetResponse {
   PetApiDeletePetResponse400({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<PetApiDeletePetResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiDeletePetResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return PetApiDeletePetResponse400(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -154,14 +158,14 @@ class PetApiFindPetsByStatusResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -178,15 +182,15 @@ class PetApiFindPetsByStatusResponse {
     };
   }
 
-  static Future<PetApiFindPetsByStatusResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiFindPetsByStatusResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<PetApiFindPetsByStatusResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => PetApiFindPetsByStatusResponse200.fromResponse(response, context: context)
+      () => PetApiFindPetsByStatusResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
-      () => PetApiFindPetsByStatusResponse400.fromResponse(response, context: context)
+      () => PetApiFindPetsByStatusResponse400.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -196,18 +200,20 @@ class PetApiFindPetsByStatusResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class PetApiFindPetsByStatusResponse200 extends PetApiFindPetsByStatusResponse {
   PetApiFindPetsByStatusResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -230,7 +236,7 @@ class PetApiFindPetsByStatusResponse200 extends PetApiFindPetsByStatusResponse {
     };
   }
 
-  static Future<PetApiFindPetsByStatusResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiFindPetsByStatusResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -238,11 +244,11 @@ class PetApiFindPetsByStatusResponse200 extends PetApiFindPetsByStatusResponse {
       final matchedResponse = <(PatternMatchResult, Future<PetApiFindPetsByStatusResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/xml')),
-        () => PetApiFindPetsByStatusResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => PetApiFindPetsByStatusResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
-        () => PetApiFindPetsByStatusResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => PetApiFindPetsByStatusResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -253,7 +259,7 @@ class PetApiFindPetsByStatusResponse200 extends PetApiFindPetsByStatusResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -261,46 +267,64 @@ class PetApiFindPetsByStatusResponse200 extends PetApiFindPetsByStatusResponse {
 
 
 
+
+
+
+
+
+
+
 /// Represent the response when content-type is application/xml.
 class PetApiFindPetsByStatusResponse200ApplicationXml extends PetApiFindPetsByStatusResponse200 {
-  final 
+  final UndefinedWrapper<
     List<
         
             Pet
-
 >
+> body;
 
-? body;
+  static const bodyReflection = 
+    ListReflection(
+            
+        
+        
+            
+                Pet.$reflection
+        
+)
+;
 
-  /// The raw result of calling XmlDocument.parse
-  final XmlDocument? rawXml;
+  /// The raw result of calling XmlDocumentFragment.parse
+  final XmlDocumentFragment? rawXml;
 
   PetApiFindPetsByStatusResponse200ApplicationXml({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawXml,
   });
 
-  static Future<PetApiFindPetsByStatusResponse200ApplicationXml> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<PetApiFindPetsByStatusResponse200ApplicationXml> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'xml'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
-        final v = XmlDocument.parse(serialized);
+        final v = XmlDocumentFragment.parse(serialized);
         // check if v can be deserialized to xml
         return PetApiFindPetsByStatusResponse200ApplicationXml(
           headers: response.headers,
           statusCode: response.statusCode,
           reasonPhrase: response.reasonPhrase,
-          context: context,
+          userContext: userContext,
           rawXml: v,
           
         );
@@ -310,85 +334,73 @@ class PetApiFindPetsByStatusResponse200ApplicationXml extends PetApiFindPetsBySt
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
   }
 }
 
+
+
+
+
+
+
+
 /// Represent the response when content-type is application/json.
 class PetApiFindPetsByStatusResponse200ApplicationJson extends PetApiFindPetsByStatusResponse200 {
-  final 
+  final UndefinedWrapper<
     List<
         
             Pet
-
 >
+> body;
 
-? body;
+  static const bodyReflection = 
+    ListReflection(
+            
+        
+        
+            
+                Pet.$reflection
+        
+)
+;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   PetApiFindPetsByStatusResponse200ApplicationJson({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawJson,
   });
 
-  static Future<PetApiFindPetsByStatusResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<PetApiFindPetsByStatusResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
-        if (v == null ? false :
-(
-
-    
-            
-            v is List && v.every((v) => v == null ? false :
-(
-
-    
-            Pet.canDeserialize(v)
-            
-))
-)) {
-          final res = 
-(
-
-            
-            v as List
-            
-
-)
-
-.map((v) => Pet.deserialize
-(
-
-            v
-
-)
-
-
-).toList()
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return PetApiFindPetsByStatusResponse200ApplicationJson(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -397,7 +409,7 @@ class PetApiFindPetsByStatusResponse200ApplicationJson extends PetApiFindPetsByS
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawJson: v,
             
           );
@@ -408,31 +420,33 @@ class PetApiFindPetsByStatusResponse200ApplicationJson extends PetApiFindPetsByS
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
   }
 }
 
+
+
 class PetApiFindPetsByStatusResponse400 extends PetApiFindPetsByStatusResponse {
   PetApiFindPetsByStatusResponse400({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<PetApiFindPetsByStatusResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiFindPetsByStatusResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return PetApiFindPetsByStatusResponse400(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -447,14 +461,14 @@ class PetApiFindPetsByTagsResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -471,15 +485,15 @@ class PetApiFindPetsByTagsResponse {
     };
   }
 
-  static Future<PetApiFindPetsByTagsResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiFindPetsByTagsResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<PetApiFindPetsByTagsResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => PetApiFindPetsByTagsResponse200.fromResponse(response, context: context)
+      () => PetApiFindPetsByTagsResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
-      () => PetApiFindPetsByTagsResponse400.fromResponse(response, context: context)
+      () => PetApiFindPetsByTagsResponse400.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -489,11 +503,13 @@ class PetApiFindPetsByTagsResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 @Deprecated('This operation has been deprecated')
 class PetApiFindPetsByTagsResponse200 extends PetApiFindPetsByTagsResponse {
@@ -501,7 +517,7 @@ class PetApiFindPetsByTagsResponse200 extends PetApiFindPetsByTagsResponse {
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -524,7 +540,7 @@ class PetApiFindPetsByTagsResponse200 extends PetApiFindPetsByTagsResponse {
     };
   }
 
-  static Future<PetApiFindPetsByTagsResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiFindPetsByTagsResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -532,11 +548,11 @@ class PetApiFindPetsByTagsResponse200 extends PetApiFindPetsByTagsResponse {
       final matchedResponse = <(PatternMatchResult, Future<PetApiFindPetsByTagsResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/xml')),
-        () => PetApiFindPetsByTagsResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => PetApiFindPetsByTagsResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
-        () => PetApiFindPetsByTagsResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => PetApiFindPetsByTagsResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -547,7 +563,7 @@ class PetApiFindPetsByTagsResponse200 extends PetApiFindPetsByTagsResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -555,47 +571,65 @@ class PetApiFindPetsByTagsResponse200 extends PetApiFindPetsByTagsResponse {
 
 
 
+
+
+
+
+
+
+
 /// Represent the response when content-type is application/xml.
 @Deprecated('This operation has been deprecated')
 class PetApiFindPetsByTagsResponse200ApplicationXml extends PetApiFindPetsByTagsResponse200 {
-  final 
+  final UndefinedWrapper<
     List<
         
             Pet
-
 >
+> body;
 
-? body;
+  static const bodyReflection = 
+    ListReflection(
+            
+        
+        
+            
+                Pet.$reflection
+        
+)
+;
 
-  /// The raw result of calling XmlDocument.parse
-  final XmlDocument? rawXml;
+  /// The raw result of calling XmlDocumentFragment.parse
+  final XmlDocumentFragment? rawXml;
 
   PetApiFindPetsByTagsResponse200ApplicationXml({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawXml,
   });
 
-  static Future<PetApiFindPetsByTagsResponse200ApplicationXml> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<PetApiFindPetsByTagsResponse200ApplicationXml> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'xml'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
-        final v = XmlDocument.parse(serialized);
+        final v = XmlDocumentFragment.parse(serialized);
         // check if v can be deserialized to xml
         return PetApiFindPetsByTagsResponse200ApplicationXml(
           headers: response.headers,
           statusCode: response.statusCode,
           reasonPhrase: response.reasonPhrase,
-          context: context,
+          userContext: userContext,
           rawXml: v,
           
         );
@@ -605,86 +639,74 @@ class PetApiFindPetsByTagsResponse200ApplicationXml extends PetApiFindPetsByTags
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
   }
 }
 
+
+
+
+
+
+
+
 /// Represent the response when content-type is application/json.
 @Deprecated('This operation has been deprecated')
 class PetApiFindPetsByTagsResponse200ApplicationJson extends PetApiFindPetsByTagsResponse200 {
-  final 
+  final UndefinedWrapper<
     List<
         
             Pet
-
 >
+> body;
 
-? body;
+  static const bodyReflection = 
+    ListReflection(
+            
+        
+        
+            
+                Pet.$reflection
+        
+)
+;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   PetApiFindPetsByTagsResponse200ApplicationJson({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawJson,
   });
 
-  static Future<PetApiFindPetsByTagsResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<PetApiFindPetsByTagsResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
-        if (v == null ? false :
-(
-
-    
-            
-            v is List && v.every((v) => v == null ? false :
-(
-
-    
-            Pet.canDeserialize(v)
-            
-))
-)) {
-          final res = 
-(
-
-            
-            v as List
-            
-
-)
-
-.map((v) => Pet.deserialize
-(
-
-            v
-
-)
-
-
-).toList()
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return PetApiFindPetsByTagsResponse200ApplicationJson(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -693,7 +715,7 @@ class PetApiFindPetsByTagsResponse200ApplicationJson extends PetApiFindPetsByTag
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawJson: v,
             
           );
@@ -704,12 +726,14 @@ class PetApiFindPetsByTagsResponse200ApplicationJson extends PetApiFindPetsByTag
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
   }
 }
+
+
 
 @Deprecated('This operation has been deprecated')
 class PetApiFindPetsByTagsResponse400 extends PetApiFindPetsByTagsResponse {
@@ -717,19 +741,19 @@ class PetApiFindPetsByTagsResponse400 extends PetApiFindPetsByTagsResponse {
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<PetApiFindPetsByTagsResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiFindPetsByTagsResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return PetApiFindPetsByTagsResponse400(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -743,14 +767,14 @@ class PetApiGetPetByIdResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -769,19 +793,19 @@ class PetApiGetPetByIdResponse {
     };
   }
 
-  static Future<PetApiGetPetByIdResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiGetPetByIdResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<PetApiGetPetByIdResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => PetApiGetPetByIdResponse200.fromResponse(response, context: context)
+      () => PetApiGetPetByIdResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
-      () => PetApiGetPetByIdResponse400.fromResponse(response, context: context)
+      () => PetApiGetPetByIdResponse400.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'404'),
-      () => PetApiGetPetByIdResponse404.fromResponse(response, context: context)
+      () => PetApiGetPetByIdResponse404.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -791,18 +815,20 @@ class PetApiGetPetByIdResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class PetApiGetPetByIdResponse200 extends PetApiGetPetByIdResponse {
   PetApiGetPetByIdResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -825,7 +851,7 @@ class PetApiGetPetByIdResponse200 extends PetApiGetPetByIdResponse {
     };
   }
 
-  static Future<PetApiGetPetByIdResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiGetPetByIdResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -833,11 +859,11 @@ class PetApiGetPetByIdResponse200 extends PetApiGetPetByIdResponse {
       final matchedResponse = <(PatternMatchResult, Future<PetApiGetPetByIdResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/xml')),
-        () => PetApiGetPetByIdResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => PetApiGetPetByIdResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
-        () => PetApiGetPetByIdResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => PetApiGetPetByIdResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -848,7 +874,7 @@ class PetApiGetPetByIdResponse200 extends PetApiGetPetByIdResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -856,42 +882,57 @@ class PetApiGetPetByIdResponse200 extends PetApiGetPetByIdResponse {
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is application/xml.
 class PetApiGetPetByIdResponse200ApplicationXml extends PetApiGetPetByIdResponse200 {
-  final 
+  final UndefinedWrapper<
             Pet
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                Pet.$reflection
+        
+;
 
-  /// The raw result of calling XmlDocument.parse
-  final XmlDocument? rawXml;
+  /// The raw result of calling XmlDocumentFragment.parse
+  final XmlDocumentFragment? rawXml;
 
   PetApiGetPetByIdResponse200ApplicationXml({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawXml,
   });
 
-  static Future<PetApiGetPetByIdResponse200ApplicationXml> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<PetApiGetPetByIdResponse200ApplicationXml> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'xml'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
-        final v = XmlDocument.parse(serialized);
+        final v = XmlDocumentFragment.parse(serialized);
         // check if v can be deserialized to xml
         return PetApiGetPetByIdResponse200ApplicationXml(
           headers: response.headers,
           statusCode: response.statusCode,
           reasonPhrase: response.reasonPhrase,
-          context: context,
+          userContext: userContext,
           rawXml: v,
           
         );
@@ -901,65 +942,66 @@ class PetApiGetPetByIdResponse200ApplicationXml extends PetApiGetPetByIdResponse
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
   }
 }
 
+
+
+
+
+
 /// Represent the response when content-type is application/json.
 class PetApiGetPetByIdResponse200ApplicationJson extends PetApiGetPetByIdResponse200 {
-  final 
+  final UndefinedWrapper<
             Pet
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                Pet.$reflection
+        
+;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   PetApiGetPetByIdResponse200ApplicationJson({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawJson,
   });
 
-  static Future<PetApiGetPetByIdResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<PetApiGetPetByIdResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
-        if (v == null ? false :
-(
-
-    
-            Pet.canDeserialize(v)
-            
-)) {
-          final res = Pet.deserialize
-(
-
-            v
-
-)
-
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return PetApiGetPetByIdResponse200ApplicationJson(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -968,7 +1010,7 @@ class PetApiGetPetByIdResponse200ApplicationJson extends PetApiGetPetByIdRespons
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawJson: v,
             
           );
@@ -979,35 +1021,39 @@ class PetApiGetPetByIdResponse200ApplicationJson extends PetApiGetPetByIdRespons
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
   }
 }
 
+
+
 class PetApiGetPetByIdResponse400 extends PetApiGetPetByIdResponse {
   PetApiGetPetByIdResponse400({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<PetApiGetPetByIdResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiGetPetByIdResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return PetApiGetPetByIdResponse400(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 
 
@@ -1016,19 +1062,19 @@ class PetApiGetPetByIdResponse404 extends PetApiGetPetByIdResponse {
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<PetApiGetPetByIdResponse404> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiGetPetByIdResponse404> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return PetApiGetPetByIdResponse404(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -1042,14 +1088,14 @@ class PetApiUpdatePetResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -1068,19 +1114,19 @@ class PetApiUpdatePetResponse {
     };
   }
 
-  static Future<PetApiUpdatePetResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiUpdatePetResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<PetApiUpdatePetResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
-      () => PetApiUpdatePetResponse400.fromResponse(response, context: context)
+      () => PetApiUpdatePetResponse400.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'404'),
-      () => PetApiUpdatePetResponse404.fromResponse(response, context: context)
+      () => PetApiUpdatePetResponse404.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'405'),
-      () => PetApiUpdatePetResponse405.fromResponse(response, context: context)
+      () => PetApiUpdatePetResponse405.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -1090,34 +1136,38 @@ class PetApiUpdatePetResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class PetApiUpdatePetResponse400 extends PetApiUpdatePetResponse {
   PetApiUpdatePetResponse400({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<PetApiUpdatePetResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiUpdatePetResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return PetApiUpdatePetResponse400(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 
 
@@ -1126,23 +1176,25 @@ class PetApiUpdatePetResponse404 extends PetApiUpdatePetResponse {
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<PetApiUpdatePetResponse404> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiUpdatePetResponse404> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return PetApiUpdatePetResponse404(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 
 
@@ -1151,19 +1203,19 @@ class PetApiUpdatePetResponse405 extends PetApiUpdatePetResponse {
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<PetApiUpdatePetResponse405> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiUpdatePetResponse405> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return PetApiUpdatePetResponse405(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -1177,14 +1229,14 @@ class PetApiUpdatePetWithFormResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -1199,11 +1251,11 @@ class PetApiUpdatePetWithFormResponse {
     };
   }
 
-  static Future<PetApiUpdatePetWithFormResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiUpdatePetWithFormResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<PetApiUpdatePetWithFormResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'405'),
-      () => PetApiUpdatePetWithFormResponse405.fromResponse(response, context: context)
+      () => PetApiUpdatePetWithFormResponse405.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -1213,30 +1265,32 @@ class PetApiUpdatePetWithFormResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class PetApiUpdatePetWithFormResponse405 extends PetApiUpdatePetWithFormResponse {
   PetApiUpdatePetWithFormResponse405({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<PetApiUpdatePetWithFormResponse405> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiUpdatePetWithFormResponse405> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return PetApiUpdatePetWithFormResponse405(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -1250,14 +1304,14 @@ class PetApiUploadFileResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -1272,11 +1326,11 @@ class PetApiUploadFileResponse {
     };
   }
 
-  static Future<PetApiUploadFileResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiUploadFileResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<PetApiUploadFileResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => PetApiUploadFileResponse200.fromResponse(response, context: context)
+      () => PetApiUploadFileResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -1286,18 +1340,20 @@ class PetApiUploadFileResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class PetApiUploadFileResponse200 extends PetApiUploadFileResponse {
   PetApiUploadFileResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -1316,7 +1372,7 @@ class PetApiUploadFileResponse200 extends PetApiUploadFileResponse {
     };
   }
 
-  static Future<PetApiUploadFileResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiUploadFileResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -1324,7 +1380,7 @@ class PetApiUploadFileResponse200 extends PetApiUploadFileResponse {
       final matchedResponse = <(PatternMatchResult, Future<PetApiUploadFileResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
-        () => PetApiUploadFileResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => PetApiUploadFileResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -1335,7 +1391,7 @@ class PetApiUploadFileResponse200 extends PetApiUploadFileResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -1343,58 +1399,59 @@ class PetApiUploadFileResponse200 extends PetApiUploadFileResponse {
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is application/json.
 class PetApiUploadFileResponse200ApplicationJson extends PetApiUploadFileResponse200 {
-  final 
+  final UndefinedWrapper<
             ApiResponse
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                ApiResponse.$reflection
+        
+;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   PetApiUploadFileResponse200ApplicationJson({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawJson,
   });
 
-  static Future<PetApiUploadFileResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<PetApiUploadFileResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
-        if (v == null ? false :
-(
-
-    
-            ApiResponse.canDeserialize(v)
-            
-)) {
-          final res = ApiResponse.deserialize
-(
-
-            v
-
-)
-
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return PetApiUploadFileResponse200ApplicationJson(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -1403,7 +1460,7 @@ class PetApiUploadFileResponse200ApplicationJson extends PetApiUploadFileRespons
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawJson: v,
             
           );
@@ -1414,7 +1471,7 @@ class PetApiUploadFileResponse200ApplicationJson extends PetApiUploadFileRespons
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
@@ -1427,14 +1484,14 @@ class PetApiUploadFileWithRequiredFileResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -1449,11 +1506,11 @@ class PetApiUploadFileWithRequiredFileResponse {
     };
   }
 
-  static Future<PetApiUploadFileWithRequiredFileResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiUploadFileWithRequiredFileResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<PetApiUploadFileWithRequiredFileResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => PetApiUploadFileWithRequiredFileResponse200.fromResponse(response, context: context)
+      () => PetApiUploadFileWithRequiredFileResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -1463,18 +1520,20 @@ class PetApiUploadFileWithRequiredFileResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class PetApiUploadFileWithRequiredFileResponse200 extends PetApiUploadFileWithRequiredFileResponse {
   PetApiUploadFileWithRequiredFileResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -1493,7 +1552,7 @@ class PetApiUploadFileWithRequiredFileResponse200 extends PetApiUploadFileWithRe
     };
   }
 
-  static Future<PetApiUploadFileWithRequiredFileResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<PetApiUploadFileWithRequiredFileResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -1501,7 +1560,7 @@ class PetApiUploadFileWithRequiredFileResponse200 extends PetApiUploadFileWithRe
       final matchedResponse = <(PatternMatchResult, Future<PetApiUploadFileWithRequiredFileResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
-        () => PetApiUploadFileWithRequiredFileResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => PetApiUploadFileWithRequiredFileResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -1512,7 +1571,7 @@ class PetApiUploadFileWithRequiredFileResponse200 extends PetApiUploadFileWithRe
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -1520,58 +1579,59 @@ class PetApiUploadFileWithRequiredFileResponse200 extends PetApiUploadFileWithRe
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is application/json.
 class PetApiUploadFileWithRequiredFileResponse200ApplicationJson extends PetApiUploadFileWithRequiredFileResponse200 {
-  final 
+  final UndefinedWrapper<
             ApiResponse
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                ApiResponse.$reflection
+        
+;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   PetApiUploadFileWithRequiredFileResponse200ApplicationJson({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawJson,
   });
 
-  static Future<PetApiUploadFileWithRequiredFileResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<PetApiUploadFileWithRequiredFileResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
-        if (v == null ? false :
-(
-
-    
-            ApiResponse.canDeserialize(v)
-            
-)) {
-          final res = ApiResponse.deserialize
-(
-
-            v
-
-)
-
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return PetApiUploadFileWithRequiredFileResponse200ApplicationJson(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -1580,7 +1640,7 @@ class PetApiUploadFileWithRequiredFileResponse200ApplicationJson extends PetApiU
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawJson: v,
             
           );
@@ -1591,7 +1651,7 @@ class PetApiUploadFileWithRequiredFileResponse200ApplicationJson extends PetApiU
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );

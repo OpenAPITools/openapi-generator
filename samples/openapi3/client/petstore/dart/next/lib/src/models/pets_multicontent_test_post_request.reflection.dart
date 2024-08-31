@@ -5,14 +5,15 @@ part of 'pets_multicontent_test_post_request.dart';
 
 //class reflection
 
-class PetsMulticontentTestPostRequestReflection extends ClassReflection<PetsMulticontentTestPostRequest> {
+class PetsMulticontentTestPostRequestReflection extends ModelReflection<PetsMulticontentTestPostRequest> {
   static PetsMulticontentTestPostRequestReflection instanceGetter() => instance;
   static const instance = PetsMulticontentTestPostRequestReflection._(
     modelName: r'_pets_multicontent_test_post_request',
     className: r'PetsMulticontentTestPostRequest',
+    xml: const XmlReflection(
+),
     idPart: PropertyReflection<PetsMulticontentTestPostRequest, UndefinedWrapper<
             String
-
 >>(
       dartName: r'id',
       nullable: false,
@@ -22,12 +23,21 @@ class PetsMulticontentTestPostRequestReflection extends ClassReflection<PetsMult
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _idGetter,
-      setter: _idSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_idGetter),
+      setter: FunctionWrapper2(_idSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     addressPart: PropertyReflection<PetsMulticontentTestPostRequest, UndefinedWrapper<
             PetsMulticontentTestPostRequestAddress
-
 >>(
       dartName: r'address',
       nullable: false,
@@ -37,17 +47,24 @@ class PetsMulticontentTestPostRequestReflection extends ClassReflection<PetsMult
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      classReflection: PetsMulticontentTestPostRequestAddressReflection.instance,
-      getter: _addressGetter,
-      setter: _addressSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_addressGetter),
+      setter: FunctionWrapper2(_addressSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PetsMulticontentTestPostRequestAddress.$reflection
+        
+),
     ),
     profileImagesPart: PropertyReflection<PetsMulticontentTestPostRequest, UndefinedWrapper<
     List<
         
             XFile
-
 >
-
 >>(
       dartName: r'profileImages',
       nullable: false,
@@ -57,25 +74,35 @@ class PetsMulticontentTestPostRequestReflection extends ClassReflection<PetsMult
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      itemsReflection: ItemsReflection<PetsMulticontentTestPostRequest, 
-            XFile
-
->(parentReflectionGetter: instanceGetter,),
-      getter: _profileImagesGetter,
-      setter: _profileImagesSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_profileImagesGetter),
+      setter: FunctionWrapper2(_profileImagesSetter),
+      reflection: UndefinedWrapperReflection(
+    ListReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forXFile
+        
+)
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<PetsMulticontentTestPostRequest, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const PetsMulticontentTestPostRequestReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.idPart,
     required this.addressPart,
     required this.profileImagesPart,
@@ -88,51 +115,43 @@ class PetsMulticontentTestPostRequestReflection extends ClassReflection<PetsMult
 
   final PropertyReflection<PetsMulticontentTestPostRequest, UndefinedWrapper<
             String
-
 >> idPart;
   static UndefinedWrapper<
             String
-
 > _idGetter(PetsMulticontentTestPostRequest parent) {
     return parent.id;
   }
   static void _idSetter(PetsMulticontentTestPostRequest parent, UndefinedWrapper<
             String
-
 > value) {
     parent.id = value;
   }
+
   final PropertyReflection<PetsMulticontentTestPostRequest, UndefinedWrapper<
             PetsMulticontentTestPostRequestAddress
-
 >> addressPart;
   static UndefinedWrapper<
             PetsMulticontentTestPostRequestAddress
-
 > _addressGetter(PetsMulticontentTestPostRequest parent) {
     return parent.address;
   }
   static void _addressSetter(PetsMulticontentTestPostRequest parent, UndefinedWrapper<
             PetsMulticontentTestPostRequestAddress
-
 > value) {
     parent.address = value;
   }
+
   final PropertyReflection<PetsMulticontentTestPostRequest, UndefinedWrapper<
     List<
         
             XFile
-
 >
-
 >> profileImagesPart;
   static UndefinedWrapper<
     List<
         
             XFile
-
 >
-
 > _profileImagesGetter(PetsMulticontentTestPostRequest parent) {
     return parent.profileImages;
   }
@@ -140,26 +159,24 @@ class PetsMulticontentTestPostRequestReflection extends ClassReflection<PetsMult
     List<
         
             XFile
-
 >
-
 > value) {
     parent.profileImages = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<PetsMulticontentTestPostRequest, dynamic>> get properties => [
@@ -168,124 +185,35 @@ addressPart,
 profileImagesPart,
   ];
 
-  final AdditionalPropertiesReflection<PetsMulticontentTestPostRequest, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<PetsMulticontentTestPostRequest, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<PetsMulticontentTestPostRequest, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(PetsMulticontentTestPostRequest instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(PetsMulticontentTestPostRequest instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<PetsMulticontentTestPostRequest, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => PetsMulticontentTestPostRequest.canDeserialize(src);
-  @override
-  PetsMulticontentTestPostRequest Function(Object? src) get deserializeFunction =>
-      (src) => PetsMulticontentTestPostRequest.deserialize(src);
-
-  @override
-  Object? Function(PetsMulticontentTestPostRequest src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of PetsMulticontentTestPostRequest.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  PetsMulticontentTestPostRequest example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = PetsMulticontentTestPostRequest(
-      id: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[idPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      address: () {
-        var result = 
-
-
-            
-            
-
-
-    PetsMulticontentTestPostRequestAddressReflection.instance.example()
-    
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      profileImages: () {
-        var result = 
-
-
-    exampleList(() { return 
-
-
-            
-            
-
-
-    
-    exampleXFile()
-
-
-; })
-
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  PetsMulticontentTestPostRequest empty() {
+    return PetsMulticontentTestPostRequest(
     );
-    
-    return exampleResult;
   }
 }
 
-
-class PetsMulticontentTestPostRequestXmlReflection {
-    const PetsMulticontentTestPostRequestXmlReflection();
-}
 

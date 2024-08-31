@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'map_test.reflection.dart';
-part 'map_test.serialization.dart';
 
 
 /// MapTestMixin
@@ -22,35 +21,26 @@ mixin MapTestMixin on
     Map<String, 
         
             String
-
 >
-
 >
-
 > get mapMapOfString;
 UndefinedWrapper<
     Map<String, 
         
             MapTestMapOfEnumStringEnum
-
 >
-
 > get mapOfEnumString;
 UndefinedWrapper<
     Map<String, 
         
             bool
-
 >
-
 > get directMap;
 UndefinedWrapper<
     Map<String, 
         
             bool
-
 >
-
 > get indirectMap;
   
 }
@@ -73,42 +63,32 @@ MapTestMixin {
     Map<String, 
         
             String
-
 >
-
 >
-
 > mapMapOfString;
   @override
   UndefinedWrapper<
     Map<String, 
         
             MapTestMapOfEnumStringEnum
-
 >
-
 > mapOfEnumString;
   @override
   UndefinedWrapper<
     Map<String, 
         
             bool
-
 >
-
 > directMap;
   @override
   UndefinedWrapper<
     Map<String, 
         
             bool
-
 >
-
 > indirectMap;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -135,9 +115,10 @@ MapTestMixin {
   this.indirectMap = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = MapTestReflection.instance;
   MapTestReflection get $classReflection => $reflection;
@@ -147,45 +128,23 @@ MapTestMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$MapTestToMap(this);
-  }
-  factory MapTest.fromMap(Map<String, dynamic> src) {
-    return _$MapTestFromMap(src);
-  }
-  static MapTest? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return MapTest.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$MapTestCanFromMap(src);
+  factory MapTest.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory MapTest.deserialize(Object? src) {
-    return _$MapTestDeserialize(src);
-  }
-  static MapTest? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return MapTest.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$MapTestCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$MapTestSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
+
 
 
 
@@ -203,8 +162,27 @@ extension type const MapTestMapOfEnumStringEnum._(String value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<MapTestMapOfEnumStringEnum, String>(
+    PrimitiveReflection.forString,
+    members: [
+      
+        EnumMemberReflection(dartName: r'UPPER', oasValue: r'UPPER', value: MapTestMapOfEnumStringEnum.UPPER()),
+      
+        EnumMemberReflection(dartName: r'lower', oasValue: r'lower', value: MapTestMapOfEnumStringEnum.lower()),
+      
+    ],
+  );
+
+  factory MapTestMapOfEnumStringEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [MapTestMapOfEnumStringEnum] enum from a value without checking if it exists.
@@ -217,4 +195,17 @@ extension type const MapTestMapOfEnumStringEnum._(String value) {
     
   ];
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -1625,6 +1625,186 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
+    XmlItem:
+      type: object
+      xml:
+        namespace: http://a.com/schema
+        prefix: pre
+      properties:
+        attribute_string:
+          type: string
+          example: string
+          xml:
+            attribute: true
+        attribute_number:
+          type: number
+          example: 1.234
+          xml:
+            attribute: true
+        attribute_integer:
+          type: integer
+          example: -2
+          xml:
+            attribute: true
+        attribute_boolean:
+          type: boolean
+          example: true
+          xml:
+            attribute: true
+        wrapped_array:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            type: integer
+        name_string:
+          type: string
+          example: string
+          xml:
+            name: xml_name_string
+        name_number:
+          type: number
+          example: 1.234
+          xml:
+            name: xml_name_number
+        name_integer:
+          type: integer
+          example: -2
+          xml:
+            name: xml_name_integer
+        name_boolean:
+          type: boolean
+          example: true
+          xml:
+            name: xml_name_boolean
+        name_array:
+          type: array
+          items:
+            type: integer
+            xml:
+              name: xml_name_array_item
+        name_wrapped_array:
+          type: array
+          xml:
+            wrapped: true
+            name: xml_name_wrapped_array
+          items:
+            type: integer
+            xml:
+              name: xml_name_wrapped_array_item
+        prefix_string:
+          type: string
+          example: string
+          xml:
+            prefix: ab
+        prefix_number:
+          type: number
+          example: 1.234
+          xml:
+            prefix: cd
+        prefix_integer:
+          type: integer
+          example: -2
+          xml:
+            prefix: ef
+        prefix_boolean:
+          type: boolean
+          example: true
+          xml:
+            prefix: gh
+        prefix_array:
+          type: array
+          items:
+            type: integer
+            xml:
+              prefix: ij
+        prefix_wrapped_array:
+          type: array
+          xml:
+            wrapped: true
+            prefix: kl
+          items:
+            type: integer
+            xml:
+              prefix: mn
+        namespace_string:
+          type: string
+          example: string
+          xml:
+            namespace: http://a.com/schema
+        namespace_number:
+          type: number
+          example: 1.234
+          xml:
+            namespace: http://b.com/schema
+        namespace_integer:
+          type: integer
+          example: -2
+          xml:
+            namespace: http://c.com/schema
+        namespace_boolean:
+          type: boolean
+          example: true
+          xml:
+            namespace: http://d.com/schema
+        namespace_array:
+          type: array
+          items:
+            type: integer
+            xml:
+              namespace: http://e.com/schema
+        namespace_wrapped_array:
+          type: array
+          xml:
+            wrapped: true
+            namespace: http://f.com/schema
+          items:
+            type: integer
+            xml:
+              namespace: http://g.com/schema
+        prefix_ns_string:
+          type: string
+          example: string
+          xml:
+            namespace: http://a.com/schema
+            prefix: a
+        prefix_ns_number:
+          type: number
+          example: 1.234
+          xml:
+            namespace: http://b.com/schema
+            prefix: b
+        prefix_ns_integer:
+          type: integer
+          example: -2
+          xml:
+            namespace: http://c.com/schema
+            prefix: c
+        prefix_ns_boolean:
+          type: boolean
+          example: true
+          xml:
+            namespace: http://d.com/schema
+            prefix: d
+        prefix_ns_array:
+          type: array
+          items:
+            type: integer
+            xml:
+              namespace: http://e.com/schema
+              prefix: e
+        prefix_ns_wrapped_array:
+          type: array
+          xml:
+            wrapped: true
+            namespace: http://f.com/schema
+            prefix: f
+          items:
+            type: integer
+            xml:
+              namespace: http://g.com/schema
+              prefix: g
+
     Foo:
       type: object
       properties:
@@ -1910,9 +2090,6 @@ components:
         byte:
           type: string
           format: byte
-        base64Str:
-          type: string
-          format: base64
         binary:
           type: string
           format: binary
@@ -2895,3 +3072,40 @@ components:
           $ref: '#/components/schemas/ArrayOneOf'
         anyof_prop:
           $ref: '#/components/schemas/ArrayAnyOf'
+    MixedTypeOneOfNumber:
+      type: number
+      oneOf:
+        - type: number
+          format: float
+        - type: number
+          format: double
+    MixedTypeOneOfObject:
+      type: object
+      properties:
+        c:
+          type: boolean
+      anyOf:
+        - type: object
+          properties:
+            a:
+              type: integer
+          required:
+            - a
+        - type: object
+          properties:
+            b:
+              type: number
+          required:
+            - b
+      oneOf:
+        - properties:
+            content:
+              type: string
+          required:
+            - content
+        - properties:
+            url:
+              type: string
+              format: uri
+          required:
+            - url

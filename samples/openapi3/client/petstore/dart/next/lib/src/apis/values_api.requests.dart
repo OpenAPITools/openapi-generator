@@ -5,7 +5,6 @@ part of 'values_api.dart';
 
 
 
-
  class ValuesApiGetSomeValuesRequest {
   static const pathTemplate = r'/values';
   static String method = r'GET';
@@ -13,10 +12,11 @@ part of 'values_api.dart';
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
 
 
   const ValuesApiGetSomeValuesRequest({
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -24,7 +24,7 @@ part of 'values_api.dart';
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -43,7 +43,7 @@ part of 'values_api.dart';
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -76,14 +76,14 @@ part of 'values_api.dart';
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -92,7 +92,7 @@ part of 'values_api.dart';
       headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
-      context: context,
+      context: userContext,
     );
   }
 }

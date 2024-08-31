@@ -5,22 +5,21 @@ part of 'array_of_array_of_number_only.dart';
 
 //class reflection
 
-class ArrayOfArrayOfNumberOnlyReflection extends ClassReflection<ArrayOfArrayOfNumberOnly> {
+class ArrayOfArrayOfNumberOnlyReflection extends ModelReflection<ArrayOfArrayOfNumberOnly> {
   static ArrayOfArrayOfNumberOnlyReflection instanceGetter() => instance;
   static const instance = ArrayOfArrayOfNumberOnlyReflection._(
     modelName: r'ArrayOfArrayOfNumberOnly',
     className: r'ArrayOfArrayOfNumberOnly',
+    xml: const XmlReflection(
+),
     arrayArrayNumberPart: PropertyReflection<ArrayOfArrayOfNumberOnly, UndefinedWrapper<
     List<
         
     List<
         
             num
-
 >
-
 >
-
 >>(
       dartName: r'arrayArrayNumber',
       nullable: false,
@@ -30,32 +29,37 @@ class ArrayOfArrayOfNumberOnlyReflection extends ClassReflection<ArrayOfArrayOfN
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      itemsReflection: ItemsReflection<ArrayOfArrayOfNumberOnly, 
-    List<
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_arrayArrayNumberGetter),
+      setter: FunctionWrapper2(_arrayArrayNumberSetter),
+      reflection: UndefinedWrapperReflection(
+    ListReflection(
+    ListReflection(
+            
         
-            num
-
->
-
->(parentReflectionGetter: instanceGetter,itemsReflection: ItemsReflection<ArrayOfArrayOfNumberOnly, 
-            num
-
->(parentReflectionGetter: instanceGetter,)),
-      getter: _arrayArrayNumberGetter,
-      setter: _arrayArrayNumberSetter,
+        
+            
+                PrimitiveReflection.fornum
+        
+)
+)
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<ArrayOfArrayOfNumberOnly, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const ArrayOfArrayOfNumberOnlyReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.arrayArrayNumberPart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
@@ -70,11 +74,8 @@ class ArrayOfArrayOfNumberOnlyReflection extends ClassReflection<ArrayOfArrayOfN
     List<
         
             num
-
 >
-
 >
-
 >> arrayArrayNumberPart;
   static UndefinedWrapper<
     List<
@@ -82,11 +83,8 @@ class ArrayOfArrayOfNumberOnlyReflection extends ClassReflection<ArrayOfArrayOfN
     List<
         
             num
-
 >
-
 >
-
 > _arrayArrayNumberGetter(ArrayOfArrayOfNumberOnly parent) {
     return parent.arrayArrayNumber;
   }
@@ -96,125 +94,60 @@ class ArrayOfArrayOfNumberOnlyReflection extends ClassReflection<ArrayOfArrayOfN
     List<
         
             num
-
 >
-
 >
-
 > value) {
     parent.arrayArrayNumber = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<ArrayOfArrayOfNumberOnly, dynamic>> get properties => [
     arrayArrayNumberPart,
   ];
 
-  final AdditionalPropertiesReflection<ArrayOfArrayOfNumberOnly, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<ArrayOfArrayOfNumberOnly, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<ArrayOfArrayOfNumberOnly, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(ArrayOfArrayOfNumberOnly instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(ArrayOfArrayOfNumberOnly instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<ArrayOfArrayOfNumberOnly, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => ArrayOfArrayOfNumberOnly.canDeserialize(src);
-  @override
-  ArrayOfArrayOfNumberOnly Function(Object? src) get deserializeFunction =>
-      (src) => ArrayOfArrayOfNumberOnly.deserialize(src);
-
-  @override
-  Object? Function(ArrayOfArrayOfNumberOnly src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of ArrayOfArrayOfNumberOnly.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  ArrayOfArrayOfNumberOnly example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = ArrayOfArrayOfNumberOnly(
-      arrayArrayNumber: () {
-        var result = 
-
-
-    exampleList(() { return 
-
-
-    exampleList(() { return 
-
-
-            
-            
-
-
-    
-    examplenum()
-
-
-; })
-
-
-
-; })
-
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  ArrayOfArrayOfNumberOnly empty() {
+    return ArrayOfArrayOfNumberOnly(
     );
-    
-    return exampleResult;
   }
 }
 
-
-class ArrayOfArrayOfNumberOnlyXmlReflection {
-    const ArrayOfArrayOfNumberOnlyXmlReflection();
-}
 

@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'enum_string_discriminator.reflection.dart';
-part 'enum_string_discriminator.serialization.dart';
 
 
 /// An object to test discriminator of enum string
@@ -15,7 +14,6 @@ mixin EnumStringDiscriminatorMixin on
   $OpenApiObjectMixin {
   
             EnumStringDiscriminatorEnumStrTypeEnum
-
  get enumStrType;
   
 }
@@ -31,11 +29,9 @@ EnumStringDiscriminatorMixin {
   @override
   
             EnumStringDiscriminatorEnumStrTypeEnum
-
  enumStrType;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -48,9 +44,10 @@ EnumStringDiscriminatorMixin {
 
   EnumStringDiscriminator({
     required  this.enumStrType     ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = EnumStringDiscriminatorReflection.instance;
   EnumStringDiscriminatorReflection get $classReflection => $reflection;
@@ -60,47 +57,18 @@ EnumStringDiscriminatorMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$EnumStringDiscriminatorToMap(this);
-  }
-  factory EnumStringDiscriminator.fromMap(Map<String, dynamic> src) {
-    return _$EnumStringDiscriminatorFromMap(src);
-  }
-  static EnumStringDiscriminator? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return EnumStringDiscriminator.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$EnumStringDiscriminatorCanFromMap(src);
+  factory EnumStringDiscriminator.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory EnumStringDiscriminator.deserialize(Object? src) {
-    return _$EnumStringDiscriminatorDeserialize(src);
-  }
-  static EnumStringDiscriminator? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return EnumStringDiscriminator.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$EnumStringDiscriminatorCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$EnumStringDiscriminatorSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
-
-
 
 
 extension type const EnumStringDiscriminatorEnumStrTypeEnum._(String value) {
@@ -118,8 +86,27 @@ extension type const EnumStringDiscriminatorEnumStrTypeEnum._(String value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<EnumStringDiscriminatorEnumStrTypeEnum, String>(
+    PrimitiveReflection.forString,
+    members: [
+      
+        EnumMemberReflection(dartName: r'a', oasValue: r'type_a', value: EnumStringDiscriminatorEnumStrTypeEnum.a()),
+      
+        EnumMemberReflection(dartName: r'b', oasValue: r'type_b', value: EnumStringDiscriminatorEnumStrTypeEnum.b()),
+      
+    ],
+  );
+
+  factory EnumStringDiscriminatorEnumStrTypeEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [EnumStringDiscriminatorEnumStrTypeEnum] enum from a value without checking if it exists.
@@ -132,4 +119,5 @@ extension type const EnumStringDiscriminatorEnumStrTypeEnum._(String value) {
     
   ];
 }
+
 

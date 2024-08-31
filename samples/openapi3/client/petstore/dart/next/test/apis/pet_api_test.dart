@@ -1,57 +1,11 @@
 import 'package:test/test.dart';
 import 'package:petstore_api/_internal.dart';
-
-Stream<List<int>> _streamOfText(String value, {Encoding? encoding}) async* {
-  yield (encoding ?? utf8).encode(value);
-}
-
-final baseUrl = Uri.https("example.com", "/api");
-HttpResponseBase createFakeResponse({
-  required int statusCode,
-  required Stream<List<int>> bodyBytesStream,
-  Map<String, String> headers = const {},
-  String? reasonPhrase,
-}) {
-  return HttpResponseBase.stream(
-    originalRequest: HttpRequestBase.empty(url: baseUrl, method: 'GET'),
-    bodyBytesStream: bodyBytesStream,
-    statusCode: statusCode,
-    reasonPhrase: reasonPhrase,
-    headers: headers,
-  );
-}
-
-HttpResponseBase createFakeTextResponse({
-  required int statusCode,
-  required String value,
-  Map<String, String> headers = const {},
-  String? contentType,
-  Encoding? encoding,
-  String? reasonPhrase,
-}) {
-  var parsedContentType =
-      contentType == null ? null : MediaType.parse(contentType);
-  if (encoding != null) {
-    parsedContentType = parsedContentType?.change(parameters: {
-      ...parsedContentType.parameters,
-      'charset': encoding.name,
-    });
-  }
-  return createFakeResponse(
-    statusCode: statusCode,
-    headers: {
-      'Content-Type': 'text/plain; charset=utf-8',
-      if (parsedContentType != null)
-        'Content-Type': parsedContentType.toString(),
-      ...headers,
-    },
-    reasonPhrase: reasonPhrase,
-    bodyBytesStream: _streamOfText(value, encoding: encoding),
-  );
-}
+import '../utils.dart';
 
 /// tests for PetApi
 void main() {
+  final wireOptions = WireSerializationOptions();
+  final exampleContext = ExampleContext();
   group(PetApi, () {
     final baseUrl = Uri.https("example.com", "/api");
     // Add a new pet to the store
@@ -81,18 +35,7 @@ void main() {
     
     test(PetApiAddPetRequestApplicationJson, () async {
         request = PetApiAddPetRequest.applicationJson(
-            data: 
-
-
-            
-            
-
-
-    PetReflection.instance.example()
-    
-
-
-,
+            data: PetApiAddPetRequestApplicationJson.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -110,18 +53,7 @@ void main() {
     
     test(PetApiAddPetRequestApplicationXml, () async {
         request = PetApiAddPetRequest.applicationXml(
-            data: 
-
-
-            
-            
-
-
-    PetReflection.instance.example()
-    
-
-
-,
+            data: PetApiAddPetRequestApplicationXml.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -147,13 +79,32 @@ void main() {
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<PetApiAddPetResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(PetApiAddPetResponse405, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    405
+;
+      response = await PetApiAddPetResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<PetApiAddPetResponse405>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -179,31 +130,23 @@ void main() {
                 "nice": "work",
             },
             
-petId:  
-
-
+petId: 
             
+        
+        
             
+                PrimitiveReflection.forint
+        
+.exampleFunction(exampleContext),
 
-
-    
-    exampleint()
-
-
-,
-
-apiKey: UndefinedWrapper( 
-
-
+apiKey: UndefinedWrapperReflection(
             
+        
+        
             
-
-
-    
-    exampleString()
-
-
-),
+                PrimitiveReflection.forString
+        
+).exampleFunction(exampleContext),
 
         );
         final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
@@ -219,13 +162,32 @@ apiKey: UndefinedWrapper(
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<PetApiDeletePetResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(PetApiDeletePetResponse400, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    400
+;
+      response = await PetApiDeletePetResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<PetApiDeletePetResponse400>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -251,21 +213,13 @@ apiKey: UndefinedWrapper(
                 "nice": "work",
             },
             
-status:  
-
-
-    exampleList(() { return 
-
-
-            exampleEnum(StatusEnum.values)
-
-
-
-; })
-
-
-
-,
+status: 
+    ListReflection(
+            StatusEnum.$reflection
+        
+        
+)
+.exampleFunction(exampleContext),
 
         );
         final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
@@ -281,27 +235,133 @@ status:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<PetApiFindPetsByStatusResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(PetApiFindPetsByStatusResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await PetApiFindPetsByStatusResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<PetApiFindPetsByStatusResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(PetApiFindPetsByStatusResponse200ApplicationXml, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/xml'));
+      final bodyReflection = PetApiFindPetsByStatusResponse200ApplicationXml.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = serializedBody;
 
+      response = await PetApiFindPetsByStatusResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
     test(PetApiFindPetsByStatusResponse200ApplicationJson, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/json'));
+      final bodyReflection = PetApiFindPetsByStatusResponse200ApplicationJson.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
 
+      response = await PetApiFindPetsByStatusResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
   group(PetApiFindPetsByStatusResponse400, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    400
+;
+      response = await PetApiFindPetsByStatusResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<PetApiFindPetsByStatusResponse400>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -327,25 +387,16 @@ status:
                 "nice": "work",
             },
             
-tags:  
-
-
-    exampleList(() { return 
-
-
+tags: 
+    ListReflection(
             
+        
+        
             
-
-
-    
-    exampleString()
-
-
-; })
-
-
-
-,
+                PrimitiveReflection.forString
+        
+)
+.exampleFunction(exampleContext),
 
         );
         final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
@@ -361,27 +412,133 @@ tags:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<PetApiFindPetsByTagsResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(PetApiFindPetsByTagsResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await PetApiFindPetsByTagsResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<PetApiFindPetsByTagsResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(PetApiFindPetsByTagsResponse200ApplicationXml, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/xml'));
+      final bodyReflection = PetApiFindPetsByTagsResponse200ApplicationXml.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = serializedBody;
 
+      response = await PetApiFindPetsByTagsResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
     test(PetApiFindPetsByTagsResponse200ApplicationJson, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/json'));
+      final bodyReflection = PetApiFindPetsByTagsResponse200ApplicationJson.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
 
+      response = await PetApiFindPetsByTagsResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
   group(PetApiFindPetsByTagsResponse400, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    400
+;
+      response = await PetApiFindPetsByTagsResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<PetApiFindPetsByTagsResponse400>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -407,18 +564,14 @@ tags:
                 "nice": "work",
             },
             
-petId:  
-
-
+petId: 
             
+        
+        
             
-
-
-    
-    exampleint()
-
-
-,
+                PrimitiveReflection.forint
+        
+.exampleFunction(exampleContext),
 
         );
         final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
@@ -434,33 +587,154 @@ petId:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<PetApiGetPetByIdResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(PetApiGetPetByIdResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await PetApiGetPetByIdResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<PetApiGetPetByIdResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(PetApiGetPetByIdResponse200ApplicationXml, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/xml'));
+      final bodyReflection = PetApiGetPetByIdResponse200ApplicationXml.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = serializedBody;
 
+      response = await PetApiGetPetByIdResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
     test(PetApiGetPetByIdResponse200ApplicationJson, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/json'));
+      final bodyReflection = PetApiGetPetByIdResponse200ApplicationJson.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
 
+      response = await PetApiGetPetByIdResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
   group(PetApiGetPetByIdResponse400, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    400
+;
+      response = await PetApiGetPetByIdResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<PetApiGetPetByIdResponse400>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
   group(PetApiGetPetByIdResponse404, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    404
+;
+      response = await PetApiGetPetByIdResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<PetApiGetPetByIdResponse404>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -494,18 +768,7 @@ petId:
     
     test(PetApiUpdatePetRequestApplicationJson, () async {
         request = PetApiUpdatePetRequest.applicationJson(
-            data: 
-
-
-            
-            
-
-
-    PetReflection.instance.example()
-    
-
-
-,
+            data: PetApiUpdatePetRequestApplicationJson.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -523,18 +786,7 @@ petId:
     
     test(PetApiUpdatePetRequestApplicationXml, () async {
         request = PetApiUpdatePetRequest.applicationXml(
-            data: 
-
-
-            
-            
-
-
-    PetReflection.instance.example()
-    
-
-
-,
+            data: PetApiUpdatePetRequestApplicationXml.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -560,25 +812,74 @@ petId:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<PetApiUpdatePetResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(PetApiUpdatePetResponse400, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    400
+;
+      response = await PetApiUpdatePetResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<PetApiUpdatePetResponse400>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
   group(PetApiUpdatePetResponse404, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    404
+;
+      response = await PetApiUpdatePetResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<PetApiUpdatePetResponse404>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
   group(PetApiUpdatePetResponse405, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    405
+;
+      response = await PetApiUpdatePetResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<PetApiUpdatePetResponse405>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -605,18 +906,14 @@ petId:
                 "nice": "work",
             },
             
-petId:  
-
-
+petId: 
             
+        
+        
             
-
-
-    
-    exampleint()
-
-
-,
+                PrimitiveReflection.forint
+        
+.exampleFunction(exampleContext),
 
         );
         final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
@@ -633,13 +930,32 @@ petId:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<PetApiUpdatePetWithFormResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(PetApiUpdatePetWithFormResponse405, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    405
+;
+      response = await PetApiUpdatePetWithFormResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<PetApiUpdatePetWithFormResponse405>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -666,18 +982,14 @@ petId:
                 "nice": "work",
             },
             
-petId:  
-
-
+petId: 
             
+        
+        
             
-
-
-    
-    exampleint()
-
-
-,
+                PrimitiveReflection.forint
+        
+.exampleFunction(exampleContext),
 
         );
         final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
@@ -694,17 +1006,72 @@ petId:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<PetApiUploadFileResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(PetApiUploadFileResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await PetApiUploadFileResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<PetApiUploadFileResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(PetApiUploadFileResponse200ApplicationJson, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/json'));
+      final bodyReflection = PetApiUploadFileResponse200ApplicationJson.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
 
+      response = await PetApiUploadFileResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
@@ -731,18 +1098,14 @@ petId:
                 "nice": "work",
             },
             
-petId:  
-
-
+petId: 
             
+        
+        
             
-
-
-    
-    exampleint()
-
-
-,
+                PrimitiveReflection.forint
+        
+.exampleFunction(exampleContext),
 
         );
         final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
@@ -759,17 +1122,72 @@ petId:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<PetApiUploadFileWithRequiredFileResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(PetApiUploadFileWithRequiredFileResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await PetApiUploadFileWithRequiredFileResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<PetApiUploadFileWithRequiredFileResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(PetApiUploadFileWithRequiredFileResponse200ApplicationJson, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/json'));
+      final bodyReflection = PetApiUploadFileWithRequiredFileResponse200ApplicationJson.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
 
+      response = await PetApiUploadFileWithRequiredFileResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });

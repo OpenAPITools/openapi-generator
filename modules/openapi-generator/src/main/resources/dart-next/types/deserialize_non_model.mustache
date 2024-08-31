@@ -1,8 +1,0 @@
-({{#isNullable}}v == null ? null : {{/isNullable}} v is {{dataType}} ? v as {{dataType}} :
-{{#isNumeric}}{{dataType}}.parse(v.toString()){{/isNumeric}}
-{{#isBoolean}}{{dataType}}.parse(v.toString()){{/isBoolean}}
-{{#isDateTime}}v is int ? {{dataType}}.fromMillisecondsSinceEpoch(v as int) : {{dataType}}.parse(v.toString()){{/isDateTime}}
-{{^isNumeric}}{{^isBoolean}}{{^isDateTime}}
-throwArgumentMismatch({{dataType}}, v)
-{{/isDateTime}}{{/isBoolean}}{{/isNumeric}}
-)

@@ -5,14 +5,15 @@ part of 'all_of_model_array_any_of_all_of_attributes.dart';
 
 //class reflection
 
-class AllOfModelArrayAnyOfAllOfAttributesReflection extends ClassReflection<AllOfModelArrayAnyOfAllOfAttributes> {
+class AllOfModelArrayAnyOfAllOfAttributesReflection extends ModelReflection<AllOfModelArrayAnyOfAllOfAttributes> {
   static AllOfModelArrayAnyOfAllOfAttributesReflection instanceGetter() => instance;
   static const instance = AllOfModelArrayAnyOfAllOfAttributesReflection._(
     modelName: r'AllOfModelArrayAnyOf_allOf_attributes',
     className: r'AllOfModelArrayAnyOfAllOfAttributes',
+    xml: const XmlReflection(
+),
     CPart: PropertyReflection<AllOfModelArrayAnyOfAllOfAttributes, UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfAttributesC
-
 >>(
       dartName: r'C',
       nullable: false,
@@ -22,22 +23,33 @@ class AllOfModelArrayAnyOfAllOfAttributesReflection extends ClassReflection<AllO
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      classReflection: AllOfModelArrayAnyOfAllOfAttributesCReflection.instance,
-      getter: _CGetter,
-      setter: _CSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_CGetter),
+      setter: FunctionWrapper2(_CSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                AllOfModelArrayAnyOfAllOfAttributesC.$reflection
+        
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<AllOfModelArrayAnyOfAllOfAttributes, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const AllOfModelArrayAnyOfAllOfAttributesReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.CPart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
@@ -48,117 +60,66 @@ class AllOfModelArrayAnyOfAllOfAttributesReflection extends ClassReflection<AllO
 
   final PropertyReflection<AllOfModelArrayAnyOfAllOfAttributes, UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfAttributesC
-
 >> CPart;
   static UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfAttributesC
-
 > _CGetter(AllOfModelArrayAnyOfAllOfAttributes parent) {
     return parent.C;
   }
   static void _CSetter(AllOfModelArrayAnyOfAllOfAttributes parent, UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfAttributesC
-
 > value) {
     parent.C = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<AllOfModelArrayAnyOfAllOfAttributes, dynamic>> get properties => [
     CPart,
   ];
 
-  final AdditionalPropertiesReflection<AllOfModelArrayAnyOfAllOfAttributes, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<AllOfModelArrayAnyOfAllOfAttributes, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<AllOfModelArrayAnyOfAllOfAttributes, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(AllOfModelArrayAnyOfAllOfAttributes instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(AllOfModelArrayAnyOfAllOfAttributes instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<AllOfModelArrayAnyOfAllOfAttributes, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => AllOfModelArrayAnyOfAllOfAttributes.canDeserialize(src);
-  @override
-  AllOfModelArrayAnyOfAllOfAttributes Function(Object? src) get deserializeFunction =>
-      (src) => AllOfModelArrayAnyOfAllOfAttributes.deserialize(src);
-
-  @override
-  Object? Function(AllOfModelArrayAnyOfAllOfAttributes src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of AllOfModelArrayAnyOfAllOfAttributes.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  AllOfModelArrayAnyOfAllOfAttributes example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = AllOfModelArrayAnyOfAllOfAttributes(
-      C: () {
-        var result = 
-
-
-            
-            
-
-
-    AllOfModelArrayAnyOfAllOfAttributesCReflection.instance.example()
-    
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  AllOfModelArrayAnyOfAllOfAttributes empty() {
+    return AllOfModelArrayAnyOfAllOfAttributes(
     );
-    
-    return exampleResult;
   }
 }
 
-
-class AllOfModelArrayAnyOfAllOfAttributesXmlReflection {
-    const AllOfModelArrayAnyOfAllOfAttributesXmlReflection();
-}
 

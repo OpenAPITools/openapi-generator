@@ -5,14 +5,15 @@ part of 'health_check_result.dart';
 
 //class reflection
 
-class HealthCheckResultReflection extends ClassReflection<HealthCheckResult> {
+class HealthCheckResultReflection extends ModelReflection<HealthCheckResult> {
   static HealthCheckResultReflection instanceGetter() => instance;
   static const instance = HealthCheckResultReflection._(
     modelName: r'HealthCheckResult',
     className: r'HealthCheckResult',
+    xml: const XmlReflection(
+),
     nullableMessagePart: PropertyReflection<HealthCheckResult, UndefinedWrapper<
             String
-
 ?>>(
       dartName: r'nullableMessage',
       nullable: true,
@@ -22,21 +23,33 @@ class HealthCheckResultReflection extends ClassReflection<HealthCheckResult> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _nullableMessageGetter,
-      setter: _nullableMessageSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_nullableMessageGetter),
+      setter: FunctionWrapper2(_nullableMessageSetter),
+      reflection: UndefinedWrapperReflection(NullableReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+)),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<HealthCheckResult, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const HealthCheckResultReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.nullableMessagePart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
@@ -47,121 +60,66 @@ class HealthCheckResultReflection extends ClassReflection<HealthCheckResult> {
 
   final PropertyReflection<HealthCheckResult, UndefinedWrapper<
             String
-
 ?>> nullableMessagePart;
   static UndefinedWrapper<
             String
-
 ?> _nullableMessageGetter(HealthCheckResult parent) {
     return parent.nullableMessage;
   }
   static void _nullableMessageSetter(HealthCheckResult parent, UndefinedWrapper<
             String
-
 ?> value) {
     parent.nullableMessage = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<HealthCheckResult, dynamic>> get properties => [
     nullableMessagePart,
   ];
 
-  final AdditionalPropertiesReflection<HealthCheckResult, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<HealthCheckResult, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<HealthCheckResult, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(HealthCheckResult instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(HealthCheckResult instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<HealthCheckResult, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => HealthCheckResult.canDeserialize(src);
-  @override
-  HealthCheckResult Function(Object? src) get deserializeFunction =>
-      (src) => HealthCheckResult.deserialize(src);
-
-  @override
-  Object? Function(HealthCheckResult src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of HealthCheckResult.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  HealthCheckResult example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = HealthCheckResult(
-      nullableMessage: () {
-        var result = exampleNullable(() =>
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
- ) ;
-        final preSelectedResult = discriminatorExampleResults[nullableMessagePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  HealthCheckResult empty() {
+    return HealthCheckResult(
     );
-    
-    return exampleResult;
   }
 }
 
-
-class HealthCheckResultXmlReflection {
-    const HealthCheckResultXmlReflection();
-}
 

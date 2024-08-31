@@ -1,5 +1,0 @@
-{{! this should evaluate to an expression that returns true if the variable can be mapped. }}
-src.getOrUndefined(_reflection.{{name}}Part.oasName).split<bool>(
-    defined: (v) => {{>types/can_deserialize_recursive}},
-    unDefined: () => !_reflection.{{name}}Part.required,
-)

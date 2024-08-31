@@ -6,72 +6,76 @@ part 'store_api.responses.dart';
 class StoreApi {
   final NetworkingClientBase networkingClient;
   final Uri baseUrl;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
 
   const StoreApi({
     required this.networkingClient,
     required this.baseUrl,
-    this.context = const {},
+    this.userContext = const {},
   });
 
   Future<StoreApiDeleteOrderResponse> deleteOrder(
     StoreApiDeleteOrderRequest request, {
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
-    final newContext = {...this.context, ...context};
+    final newContext = {...this.userContext, ...userContext};
     final httpRequest = await request.createHttpRequest(
-      context: newContext,
+      userContext: newContext,
       baseUrl: baseUrl,
     );
     final response = await networkingClient.sendRequest(httpRequest);
     return StoreApiDeleteOrderResponse.fromResponse(
       response,
-      context: newContext,
+      userContext: newContext,
+      wireSerializationOptions: request.wireSerializationOptions,
     );
   }
   Future<StoreApiGetInventoryResponse> getInventory(
     StoreApiGetInventoryRequest request, {
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
-    final newContext = {...this.context, ...context};
+    final newContext = {...this.userContext, ...userContext};
     final httpRequest = await request.createHttpRequest(
-      context: newContext,
+      userContext: newContext,
       baseUrl: baseUrl,
     );
     final response = await networkingClient.sendRequest(httpRequest);
     return StoreApiGetInventoryResponse.fromResponse(
       response,
-      context: newContext,
+      userContext: newContext,
+      wireSerializationOptions: request.wireSerializationOptions,
     );
   }
   Future<StoreApiGetOrderByIdResponse> getOrderById(
     StoreApiGetOrderByIdRequest request, {
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
-    final newContext = {...this.context, ...context};
+    final newContext = {...this.userContext, ...userContext};
     final httpRequest = await request.createHttpRequest(
-      context: newContext,
+      userContext: newContext,
       baseUrl: baseUrl,
     );
     final response = await networkingClient.sendRequest(httpRequest);
     return StoreApiGetOrderByIdResponse.fromResponse(
       response,
-      context: newContext,
+      userContext: newContext,
+      wireSerializationOptions: request.wireSerializationOptions,
     );
   }
   Future<StoreApiPlaceOrderResponse> placeOrder(
     StoreApiPlaceOrderRequest request, {
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
-    final newContext = {...this.context, ...context};
+    final newContext = {...this.userContext, ...userContext};
     final httpRequest = await request.createHttpRequest(
-      context: newContext,
+      userContext: newContext,
       baseUrl: baseUrl,
     );
     final response = await networkingClient.sendRequest(httpRequest);
     return StoreApiPlaceOrderResponse.fromResponse(
       response,
-      context: newContext,
+      userContext: newContext,
+      wireSerializationOptions: request.wireSerializationOptions,
     );
   }
 }

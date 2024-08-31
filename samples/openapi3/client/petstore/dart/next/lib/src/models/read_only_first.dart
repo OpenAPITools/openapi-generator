@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'read_only_first.reflection.dart';
-part 'read_only_first.serialization.dart';
 
 
 /// ReadOnlyFirstMixin
@@ -16,11 +15,9 @@ mixin ReadOnlyFirstMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
-
 > get bar;
 UndefinedWrapper<
             String
-
 > get baz;
   
 }
@@ -37,16 +34,13 @@ ReadOnlyFirstMixin {
   @override
   UndefinedWrapper<
             String
-
 > bar;
   @override
   UndefinedWrapper<
             String
-
 > baz;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -65,9 +59,10 @@ ReadOnlyFirstMixin {
   this.baz = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = ReadOnlyFirstReflection.instance;
   ReadOnlyFirstReflection get $classReflection => $reflection;
@@ -77,45 +72,22 @@ ReadOnlyFirstMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$ReadOnlyFirstToMap(this);
-  }
-  factory ReadOnlyFirst.fromMap(Map<String, dynamic> src) {
-    return _$ReadOnlyFirstFromMap(src);
-  }
-  static ReadOnlyFirst? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return ReadOnlyFirst.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$ReadOnlyFirstCanFromMap(src);
+  factory ReadOnlyFirst.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory ReadOnlyFirst.deserialize(Object? src) {
-    return _$ReadOnlyFirstDeserialize(src);
-  }
-  static ReadOnlyFirst? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return ReadOnlyFirst.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$ReadOnlyFirstCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$ReadOnlyFirstSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
 
 
 

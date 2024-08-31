@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'fruit.reflection.dart';
-part 'fruit.serialization.dart';
 
 
 /// FruitMixin
@@ -15,7 +14,6 @@ mixin FruitMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
-
 > get color;
   
   UndefinedWrapper<
@@ -37,7 +35,6 @@ FruitMixin {
   @override
   UndefinedWrapper<
             String
-
 > color;
 
 
@@ -86,45 +83,19 @@ FruitMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$FruitToMap(this);
-  }
-  factory Fruit.fromMap(Map<String, dynamic> src) {
-    return _$FruitFromMap(src);
-  }
-  static Fruit? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return Fruit.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$FruitCanFromMap(src);
+  factory Fruit.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory Fruit.deserialize(Object? src) {
-    return _$FruitDeserialize(src);
-  }
-  static Fruit? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return Fruit.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$FruitCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$FruitSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
 
 
 

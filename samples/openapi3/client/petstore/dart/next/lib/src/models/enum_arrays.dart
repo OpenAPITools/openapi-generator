@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'enum_arrays.reflection.dart';
-part 'enum_arrays.serialization.dart';
 
 
 /// EnumArraysMixin
@@ -16,15 +15,12 @@ mixin EnumArraysMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             EnumArraysJustSymbolEnum
-
 > get justSymbol;
 UndefinedWrapper<
     List<
         
             EnumArraysArrayEnumEnum
-
 >
-
 > get arrayEnum;
   
 }
@@ -41,20 +37,16 @@ EnumArraysMixin {
   @override
   UndefinedWrapper<
             EnumArraysJustSymbolEnum
-
 > justSymbol;
   @override
   UndefinedWrapper<
     List<
         
             EnumArraysArrayEnumEnum
-
 >
-
 > arrayEnum;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -73,9 +65,10 @@ EnumArraysMixin {
   this.arrayEnum = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = EnumArraysReflection.instance;
   EnumArraysReflection get $classReflection => $reflection;
@@ -85,47 +78,18 @@ EnumArraysMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$EnumArraysToMap(this);
-  }
-  factory EnumArrays.fromMap(Map<String, dynamic> src) {
-    return _$EnumArraysFromMap(src);
-  }
-  static EnumArrays? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return EnumArrays.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$EnumArraysCanFromMap(src);
+  factory EnumArrays.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory EnumArrays.deserialize(Object? src) {
-    return _$EnumArraysDeserialize(src);
-  }
-  static EnumArrays? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return EnumArrays.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$EnumArraysCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$EnumArraysSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
-
-
 
 
 extension type const EnumArraysJustSymbolEnum._(String value) {
@@ -141,8 +105,27 @@ extension type const EnumArraysJustSymbolEnum._(String value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<EnumArraysJustSymbolEnum, String>(
+    PrimitiveReflection.forString,
+    members: [
+      
+        EnumMemberReflection(dartName: r'greaterThanEqual', oasValue: r'>=', value: EnumArraysJustSymbolEnum.greaterThanEqual()),
+      
+        EnumMemberReflection(dartName: r'value', oasValue: r'$', value: EnumArraysJustSymbolEnum.value()),
+      
+    ],
+  );
+
+  factory EnumArraysJustSymbolEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [EnumArraysJustSymbolEnum] enum from a value without checking if it exists.
@@ -155,6 +138,7 @@ extension type const EnumArraysJustSymbolEnum._(String value) {
     
   ];
 }
+
 
 extension type const EnumArraysArrayEnumEnum._(String value) {
       const EnumArraysArrayEnumEnum.fish() : this._(r'fish');
@@ -169,8 +153,27 @@ extension type const EnumArraysArrayEnumEnum._(String value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<EnumArraysArrayEnumEnum, String>(
+    PrimitiveReflection.forString,
+    members: [
+      
+        EnumMemberReflection(dartName: r'fish', oasValue: r'fish', value: EnumArraysArrayEnumEnum.fish()),
+      
+        EnumMemberReflection(dartName: r'crab', oasValue: r'crab', value: EnumArraysArrayEnumEnum.crab()),
+      
+    ],
+  );
+
+  factory EnumArraysArrayEnumEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [EnumArraysArrayEnumEnum] enum from a value without checking if it exists.
@@ -183,4 +186,7 @@ extension type const EnumArraysArrayEnumEnum._(String value) {
     
   ];
 }
+
+
+
 

@@ -8,14 +8,14 @@ class ValuesApiGetSomeValuesResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -32,15 +32,15 @@ class ValuesApiGetSomeValuesResponse {
     };
   }
 
-  static Future<ValuesApiGetSomeValuesResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<ValuesApiGetSomeValuesResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<ValuesApiGetSomeValuesResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => ValuesApiGetSomeValuesResponse200.fromResponse(response, context: context)
+      () => ValuesApiGetSomeValuesResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
-      () => ValuesApiGetSomeValuesResponse400.fromResponse(response, context: context)
+      () => ValuesApiGetSomeValuesResponse400.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -50,18 +50,20 @@ class ValuesApiGetSomeValuesResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class ValuesApiGetSomeValuesResponse200 extends ValuesApiGetSomeValuesResponse {
   ValuesApiGetSomeValuesResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -80,7 +82,7 @@ class ValuesApiGetSomeValuesResponse200 extends ValuesApiGetSomeValuesResponse {
     };
   }
 
-  static Future<ValuesApiGetSomeValuesResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<ValuesApiGetSomeValuesResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -88,7 +90,7 @@ class ValuesApiGetSomeValuesResponse200 extends ValuesApiGetSomeValuesResponse {
       final matchedResponse = <(PatternMatchResult, Future<ValuesApiGetSomeValuesResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
-        () => ValuesApiGetSomeValuesResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => ValuesApiGetSomeValuesResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -99,7 +101,7 @@ class ValuesApiGetSomeValuesResponse200 extends ValuesApiGetSomeValuesResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -107,58 +109,59 @@ class ValuesApiGetSomeValuesResponse200 extends ValuesApiGetSomeValuesResponse {
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is application/json.
 class ValuesApiGetSomeValuesResponse200ApplicationJson extends ValuesApiGetSomeValuesResponse200 {
-  final 
+  final UndefinedWrapper<
             Variable
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                Variable.$reflection
+        
+;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   ValuesApiGetSomeValuesResponse200ApplicationJson({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawJson,
   });
 
-  static Future<ValuesApiGetSomeValuesResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<ValuesApiGetSomeValuesResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
-        if (v == null ? false :
-(
-
-    
-            Variable.canDeserialize(v)
-            
-)) {
-          final res = Variable.deserialize
-(
-
-            v
-
-)
-
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return ValuesApiGetSomeValuesResponse200ApplicationJson(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -167,7 +170,7 @@ class ValuesApiGetSomeValuesResponse200ApplicationJson extends ValuesApiGetSomeV
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawJson: v,
             
           );
@@ -178,31 +181,33 @@ class ValuesApiGetSomeValuesResponse200ApplicationJson extends ValuesApiGetSomeV
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
   }
 }
 
+
+
 class ValuesApiGetSomeValuesResponse400 extends ValuesApiGetSomeValuesResponse {
   ValuesApiGetSomeValuesResponse400({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<ValuesApiGetSomeValuesResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<ValuesApiGetSomeValuesResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return ValuesApiGetSomeValuesResponse400(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }

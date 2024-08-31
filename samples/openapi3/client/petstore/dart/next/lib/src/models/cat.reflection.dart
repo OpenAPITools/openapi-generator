@@ -5,14 +5,15 @@ part of 'cat.dart';
 
 //class reflection
 
-class CatReflection extends ClassReflection<Cat> {
+class CatReflection extends ModelReflection<Cat> {
   static CatReflection instanceGetter() => instance;
   static const instance = CatReflection._(
     modelName: r'Cat',
     className: r'Cat',
+    xml: const XmlReflection(
+),
     colorPart: PropertyReflection<Cat, UndefinedWrapper<
             String
-
 >>(
       dartName: r'color',
       nullable: false,
@@ -22,12 +23,21 @@ class CatReflection extends ClassReflection<Cat> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _colorGetter,
-      setter: _colorSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_colorGetter),
+      setter: FunctionWrapper2(_colorSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     declawedPart: PropertyReflection<Cat, UndefinedWrapper<
             bool
-
 >>(
       dartName: r'declawed',
       nullable: false,
@@ -37,12 +47,21 @@ class CatReflection extends ClassReflection<Cat> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _declawedGetter,
-      setter: _declawedSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_declawedGetter),
+      setter: FunctionWrapper2(_declawedSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forbool
+        
+),
     ),
     classNamePart: PropertyReflection<Cat, 
             String
-
 >(
       dartName: r'className',
       nullable: false,
@@ -52,98 +71,109 @@ class CatReflection extends ClassReflection<Cat> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: true,
-      getter: _classNameGetter,
-      setter: _classNameSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_classNameGetter),
+      setter: FunctionWrapper2(_classNameSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
     discriminatorKey: r'className',
     discriminatorImplicitMappings: const {
+      r'Animal': AnimalReflection.instance,
     },
     discriminatorMappings: const {
     },
-    
-    
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    allOfAnimalPart: AllOfReflection(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<Cat, Object
+      reflection: AnimalReflection.instance,
+    ),
 
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+    
+    additionalPropertiesPart: AdditionalPropertiesPart(
+      parentReflectionGetter: instanceGetter,
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const CatReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.colorPart,
     required this.declawedPart,
     required this.classNamePart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
     this.discriminatorImplicitMappings = const {},
-        
+    required this.allOfAnimalPart,
+    
     required this.additionalPropertiesPart,
   });
 
   final PropertyReflection<Cat, UndefinedWrapper<
             String
-
 >> colorPart;
   static UndefinedWrapper<
             String
-
 > _colorGetter(Cat parent) {
     return parent.color;
   }
   static void _colorSetter(Cat parent, UndefinedWrapper<
             String
-
 > value) {
     parent.color = value;
   }
+
   final PropertyReflection<Cat, UndefinedWrapper<
             bool
-
 >> declawedPart;
   static UndefinedWrapper<
             bool
-
 > _declawedGetter(Cat parent) {
     return parent.declawed;
   }
   static void _declawedSetter(Cat parent, UndefinedWrapper<
             bool
-
 > value) {
     parent.declawed = value;
   }
+
   final PropertyReflection<Cat, 
             String
-
 > classNamePart;
   static 
             String
-
  _classNameGetter(Cat parent) {
     return parent.className;
   }
   static void _classNameSetter(Cat parent, 
             String
-
  value) {
     parent.className = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<Cat, dynamic>> get properties => [
@@ -152,20 +182,26 @@ declawedPart,
 classNamePart,
   ];
 
-  final AdditionalPropertiesReflection<Cat, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<Cat, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<Cat, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(Cat instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(Cat instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  final AllOfReflection<Cat, AnimalMixin> allOfAnimalPart;
+
+  
+
   @override
   List<AllOfReflection<Cat, dynamic>> get allOfs => [
-    
+    allOfAnimalPart,
   ];
 
   @override
@@ -177,104 +213,14 @@ classNamePart,
     
   ];
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => Cat.canDeserialize(src);
-  @override
-  Cat Function(Object? src) get deserializeFunction =>
-      (src) => Cat.deserialize(src);
-
-  @override
-  Object? Function(Cat src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of Cat.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  Cat example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = Cat(
-      color: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[colorPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      declawed: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    examplebool()
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      className: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[classNamePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  Cat empty() {
+    return Cat(
+      className: classNamePart.reflection.emptyFunction(),
     );
-    
-    return exampleResult;
   }
 }
 
-
-class CatXmlReflection {
-    const CatXmlReflection();
-}
 

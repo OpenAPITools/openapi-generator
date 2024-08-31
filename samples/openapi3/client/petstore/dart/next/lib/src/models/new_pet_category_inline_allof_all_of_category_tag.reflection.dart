@@ -5,14 +5,15 @@ part of 'new_pet_category_inline_allof_all_of_category_tag.dart';
 
 //class reflection
 
-class NewPetCategoryInlineAllofAllOfCategoryTagReflection extends ClassReflection<NewPetCategoryInlineAllofAllOfCategoryTag> {
+class NewPetCategoryInlineAllofAllOfCategoryTagReflection extends ModelReflection<NewPetCategoryInlineAllofAllOfCategoryTag> {
   static NewPetCategoryInlineAllofAllOfCategoryTagReflection instanceGetter() => instance;
   static const instance = NewPetCategoryInlineAllofAllOfCategoryTagReflection._(
     modelName: r'NewPet_category_inline_allof_allOf_category_tag',
     className: r'NewPetCategoryInlineAllofAllOfCategoryTag',
+    xml: const XmlReflection(
+),
     idPart: PropertyReflection<NewPetCategoryInlineAllofAllOfCategoryTag, UndefinedWrapper<
             int
-
 >>(
       dartName: r'id',
       nullable: false,
@@ -22,12 +23,21 @@ class NewPetCategoryInlineAllofAllOfCategoryTagReflection extends ClassReflectio
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _idGetter,
-      setter: _idSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_idGetter),
+      setter: FunctionWrapper2(_idSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forint
+        
+),
     ),
     namePart: PropertyReflection<NewPetCategoryInlineAllofAllOfCategoryTag, UndefinedWrapper<
             String
-
 >>(
       dartName: r'name',
       nullable: false,
@@ -37,21 +47,33 @@ class NewPetCategoryInlineAllofAllOfCategoryTagReflection extends ClassReflectio
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _nameGetter,
-      setter: _nameSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_nameGetter),
+      setter: FunctionWrapper2(_nameSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<NewPetCategoryInlineAllofAllOfCategoryTag, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const NewPetCategoryInlineAllofAllOfCategoryTagReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.idPart,
     required this.namePart,
     this.discriminatorKey,
@@ -63,50 +85,45 @@ class NewPetCategoryInlineAllofAllOfCategoryTagReflection extends ClassReflectio
 
   final PropertyReflection<NewPetCategoryInlineAllofAllOfCategoryTag, UndefinedWrapper<
             int
-
 >> idPart;
   static UndefinedWrapper<
             int
-
 > _idGetter(NewPetCategoryInlineAllofAllOfCategoryTag parent) {
     return parent.id;
   }
   static void _idSetter(NewPetCategoryInlineAllofAllOfCategoryTag parent, UndefinedWrapper<
             int
-
 > value) {
     parent.id = value;
   }
+
   final PropertyReflection<NewPetCategoryInlineAllofAllOfCategoryTag, UndefinedWrapper<
             String
-
 >> namePart;
   static UndefinedWrapper<
             String
-
 > _nameGetter(NewPetCategoryInlineAllofAllOfCategoryTag parent) {
     return parent.name;
   }
   static void _nameSetter(NewPetCategoryInlineAllofAllOfCategoryTag parent, UndefinedWrapper<
             String
-
 > value) {
     parent.name = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<NewPetCategoryInlineAllofAllOfCategoryTag, dynamic>> get properties => [
@@ -114,102 +131,35 @@ class NewPetCategoryInlineAllofAllOfCategoryTagReflection extends ClassReflectio
 namePart,
   ];
 
-  final AdditionalPropertiesReflection<NewPetCategoryInlineAllofAllOfCategoryTag, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<NewPetCategoryInlineAllofAllOfCategoryTag, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<NewPetCategoryInlineAllofAllOfCategoryTag, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(NewPetCategoryInlineAllofAllOfCategoryTag instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(NewPetCategoryInlineAllofAllOfCategoryTag instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<NewPetCategoryInlineAllofAllOfCategoryTag, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => NewPetCategoryInlineAllofAllOfCategoryTag.canDeserialize(src);
-  @override
-  NewPetCategoryInlineAllofAllOfCategoryTag Function(Object? src) get deserializeFunction =>
-      (src) => NewPetCategoryInlineAllofAllOfCategoryTag.deserialize(src);
-
-  @override
-  Object? Function(NewPetCategoryInlineAllofAllOfCategoryTag src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of NewPetCategoryInlineAllofAllOfCategoryTag.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  NewPetCategoryInlineAllofAllOfCategoryTag example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = NewPetCategoryInlineAllofAllOfCategoryTag(
-      id: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleint()
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      name: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[namePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  NewPetCategoryInlineAllofAllOfCategoryTag empty() {
+    return NewPetCategoryInlineAllofAllOfCategoryTag(
     );
-    
-    return exampleResult;
   }
 }
 
-
-class NewPetCategoryInlineAllofAllOfCategoryTagXmlReflection {
-    const NewPetCategoryInlineAllofAllOfCategoryTagXmlReflection();
-}
 

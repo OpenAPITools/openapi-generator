@@ -1,81 +1,44 @@
-import 'dart:math';
-import 'dart:typed_data';
-import 'package:cross_file/cross_file.dart';
-import '_internal.dart';
+import 'package:{{pubName}}/_internal.dart';
 
 var $examplesRandom = Random(123);
 
-T? exampleNullable<T>(T Function() result) {
-  return $examplesRandom.nextBool() ? result() : null;
-}
+class ExampleContext {
+  ExampleContext({
+    Random? random,
+    AggregatedDiscriminatorsResult? discriminators,
+    Map<String, Uint8List>? fileCache,
+    Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>>?
+        discriminatorExampleResults,
+  })  : discriminators = discriminators ?? {},
+        fileCache = fileCache ?? {},
+        discriminatorExampleResults = discriminatorExampleResults ?? {},
+        random = random ?? $examplesRandom;
 
-T exampleEnum<T>(List<T> values) {
-  return values.elementAt($examplesRandom.nextInt(values.length));
-}
+  final Random random;
+  final AggregatedDiscriminatorsResult discriminators;
+  final Map<String, Uint8List> fileCache;
+  final Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>>
+      discriminatorExampleResults;
 
-List<T> exampleList<T>(T Function() getItem) {
-  return List.generate($examplesRandom.nextInt(10), (_) => getItem());
-}
-Set<T> exampleSet<T>(T Function() getItem) {
-  return exampleList(getItem).toSet();
-}
-Map<String, T> exampleMap<T>(T Function() getItem) {
-  return Map.fromEntries(exampleList(getItem).map((e) => MapEntry(exampleString(), e)));
-}
-
-Uint8List exampleUint8List() {
-  final len = $examplesRandom.nextInt(50);
-  return Uint8List(len )..fillRange(0, len, $examplesRandom.nextInt(255));
-}
-
-Object exampleObject() {
-  return $examplesRandom.nextBool() ? exampleString() : examplenum();
-}
-$FreeFormObject example$FreeFormObject() {
-  return exampleMap(() => exampleNullable(exampleObject));
-}
-XFile exampleXFile() {
-  final data = exampleUint8List();
-  return XFile.fromData(
-    data,
-    name: exampleString() + ".txt",
-    length: data.lengthInBytes,
-    mimeType: "text/plain",
-  );
-}
-String exampleString() {
-  return 'Random string ${$examplesRandom.nextInt(100)}';
-}
-
-int exampleint() {
-  return $examplesRandom.nextInt(100);
-}
-
-double exampledouble() {
-  return $examplesRandom.nextDouble();
-}
-num examplenum() {
-  return $examplesRandom.nextDouble();
-}
-
-bool examplebool() {
-  return $examplesRandom.nextBool();
-}
-
-DateTime exampleDateTime() {
-  return DateTime.fromMillisecondsSinceEpoch(
-      $examplesRandom.nextInt(4294967296) +
-          $examplesRandom.nextInt(4294967296) +
-          $examplesRandom.nextInt(4294967296),
-      isUtc: true);
-}
-
-MapEntry<DiscriminatorValue, ClassReflection>? exampleDiscriminator(
-  Map<DiscriminatorValue, ClassReflection<dynamic>> discriminatorMappings,
-) {
-  if (discriminatorMappings.isEmpty) {
-    return null;
+  T exampleEnum<T>(List<T> values) {
+    return values.elementAt(random.nextInt(values.length));
   }
-  final pickResult = $examplesRandom.nextInt(discriminatorMappings.length);
-  return discriminatorMappings.entries.elementAt(pickResult);
+
+  int exampleCode(int min, int max) {
+    return random.nextInt(max - min) + min;
+  }
+
+  String exampleMimeType(String pattern) {
+    return MediaType.parse(pattern).fillDefaults().toString();
+  }
+
+  MapEntry<DiscriminatorValue, ModelReflection>? exampleDiscriminator(
+    Map<DiscriminatorValue, ModelReflection<dynamic>> discriminatorMappings,
+  ) {
+    if (discriminatorMappings.isEmpty) {
+      return null;
+    }
+    final pickResult = random.nextInt(discriminatorMappings.length);
+    return discriminatorMappings.entries.elementAt(pickResult);
+  }
 }

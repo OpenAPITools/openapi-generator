@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'api_response.reflection.dart';
-part 'api_response.serialization.dart';
 
 
 /// ApiResponseMixin
@@ -17,15 +16,12 @@ mixin ApiResponseMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
-
 > get code;
 UndefinedWrapper<
             String
-
 > get type;
 UndefinedWrapper<
             String
-
 > get message;
   
 }
@@ -43,21 +39,17 @@ ApiResponseMixin {
   @override
   UndefinedWrapper<
             int
-
 > code;
   @override
   UndefinedWrapper<
             String
-
 > type;
   @override
   UndefinedWrapper<
             String
-
 > message;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -80,9 +72,10 @@ ApiResponseMixin {
   this.message = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = ApiResponseReflection.instance;
   ApiResponseReflection get $classReflection => $reflection;
@@ -92,45 +85,25 @@ ApiResponseMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$ApiResponseToMap(this);
-  }
-  factory ApiResponse.fromMap(Map<String, dynamic> src) {
-    return _$ApiResponseFromMap(src);
-  }
-  static ApiResponse? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return ApiResponse.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$ApiResponseCanFromMap(src);
+  factory ApiResponse.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory ApiResponse.deserialize(Object? src) {
-    return _$ApiResponseDeserialize(src);
-  }
-  static ApiResponse? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return ApiResponse.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$ApiResponseCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$ApiResponseSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
+
+
+
 
 
 

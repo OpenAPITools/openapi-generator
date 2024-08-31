@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'banana.reflection.dart';
-part 'banana.serialization.dart';
 
 
 /// BananaMixin
@@ -15,7 +14,6 @@ mixin BananaMixin on
   $OpenApiObjectMixin {
   
             num
-
  get lengthCm;
   
 }
@@ -31,11 +29,9 @@ BananaMixin {
   @override
   
             num
-
  lengthCm;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -48,9 +44,10 @@ BananaMixin {
 
   Banana({
     required  this.lengthCm     ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = BananaReflection.instance;
   BananaReflection get $classReflection => $reflection;
@@ -60,45 +57,19 @@ BananaMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$BananaToMap(this);
-  }
-  factory Banana.fromMap(Map<String, dynamic> src) {
-    return _$BananaFromMap(src);
-  }
-  static Banana? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return Banana.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$BananaCanFromMap(src);
+  factory Banana.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory Banana.deserialize(Object? src) {
-    return _$BananaDeserialize(src);
-  }
-  static Banana? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return Banana.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$BananaCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$BananaSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
 
 
 

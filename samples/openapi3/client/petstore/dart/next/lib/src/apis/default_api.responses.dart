@@ -8,14 +8,14 @@ class DefaultApiFakeAnyOfWIthSameErasureGetResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -30,11 +30,11 @@ class DefaultApiFakeAnyOfWIthSameErasureGetResponse {
     };
   }
 
-  static Future<DefaultApiFakeAnyOfWIthSameErasureGetResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<DefaultApiFakeAnyOfWIthSameErasureGetResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<DefaultApiFakeAnyOfWIthSameErasureGetResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => DefaultApiFakeAnyOfWIthSameErasureGetResponse200.fromResponse(response, context: context)
+      () => DefaultApiFakeAnyOfWIthSameErasureGetResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -44,18 +44,20 @@ class DefaultApiFakeAnyOfWIthSameErasureGetResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class DefaultApiFakeAnyOfWIthSameErasureGetResponse200 extends DefaultApiFakeAnyOfWIthSameErasureGetResponse {
   DefaultApiFakeAnyOfWIthSameErasureGetResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -74,7 +76,7 @@ class DefaultApiFakeAnyOfWIthSameErasureGetResponse200 extends DefaultApiFakeAny
     };
   }
 
-  static Future<DefaultApiFakeAnyOfWIthSameErasureGetResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<DefaultApiFakeAnyOfWIthSameErasureGetResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -82,7 +84,7 @@ class DefaultApiFakeAnyOfWIthSameErasureGetResponse200 extends DefaultApiFakeAny
       final matchedResponse = <(PatternMatchResult, Future<DefaultApiFakeAnyOfWIthSameErasureGetResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
-        () => DefaultApiFakeAnyOfWIthSameErasureGetResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => DefaultApiFakeAnyOfWIthSameErasureGetResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -93,7 +95,7 @@ class DefaultApiFakeAnyOfWIthSameErasureGetResponse200 extends DefaultApiFakeAny
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -101,58 +103,59 @@ class DefaultApiFakeAnyOfWIthSameErasureGetResponse200 extends DefaultApiFakeAny
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is application/json.
 class DefaultApiFakeAnyOfWIthSameErasureGetResponse200ApplicationJson extends DefaultApiFakeAnyOfWIthSameErasureGetResponse200 {
-  final 
+  final UndefinedWrapper<
             FakeAnyOfWIthSameErasureGet200Response
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                FakeAnyOfWIthSameErasureGet200Response.$reflection
+        
+;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   DefaultApiFakeAnyOfWIthSameErasureGetResponse200ApplicationJson({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawJson,
   });
 
-  static Future<DefaultApiFakeAnyOfWIthSameErasureGetResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<DefaultApiFakeAnyOfWIthSameErasureGetResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
-        if (v == null ? false :
-(
-
-    
-            FakeAnyOfWIthSameErasureGet200Response.canDeserialize(v)
-            
-)) {
-          final res = FakeAnyOfWIthSameErasureGet200Response.deserialize
-(
-
-            v
-
-)
-
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return DefaultApiFakeAnyOfWIthSameErasureGetResponse200ApplicationJson(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -161,7 +164,7 @@ class DefaultApiFakeAnyOfWIthSameErasureGetResponse200ApplicationJson extends De
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawJson: v,
             
           );
@@ -172,7 +175,7 @@ class DefaultApiFakeAnyOfWIthSameErasureGetResponse200ApplicationJson extends De
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
@@ -185,14 +188,14 @@ class DefaultApiFakeOneOfWIthSameErasureGetResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -207,11 +210,11 @@ class DefaultApiFakeOneOfWIthSameErasureGetResponse {
     };
   }
 
-  static Future<DefaultApiFakeOneOfWIthSameErasureGetResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<DefaultApiFakeOneOfWIthSameErasureGetResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<DefaultApiFakeOneOfWIthSameErasureGetResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => DefaultApiFakeOneOfWIthSameErasureGetResponse200.fromResponse(response, context: context)
+      () => DefaultApiFakeOneOfWIthSameErasureGetResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -221,18 +224,20 @@ class DefaultApiFakeOneOfWIthSameErasureGetResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class DefaultApiFakeOneOfWIthSameErasureGetResponse200 extends DefaultApiFakeOneOfWIthSameErasureGetResponse {
   DefaultApiFakeOneOfWIthSameErasureGetResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -251,7 +256,7 @@ class DefaultApiFakeOneOfWIthSameErasureGetResponse200 extends DefaultApiFakeOne
     };
   }
 
-  static Future<DefaultApiFakeOneOfWIthSameErasureGetResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<DefaultApiFakeOneOfWIthSameErasureGetResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -259,7 +264,7 @@ class DefaultApiFakeOneOfWIthSameErasureGetResponse200 extends DefaultApiFakeOne
       final matchedResponse = <(PatternMatchResult, Future<DefaultApiFakeOneOfWIthSameErasureGetResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
-        () => DefaultApiFakeOneOfWIthSameErasureGetResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => DefaultApiFakeOneOfWIthSameErasureGetResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -270,7 +275,7 @@ class DefaultApiFakeOneOfWIthSameErasureGetResponse200 extends DefaultApiFakeOne
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -278,58 +283,59 @@ class DefaultApiFakeOneOfWIthSameErasureGetResponse200 extends DefaultApiFakeOne
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is application/json.
 class DefaultApiFakeOneOfWIthSameErasureGetResponse200ApplicationJson extends DefaultApiFakeOneOfWIthSameErasureGetResponse200 {
-  final 
+  final UndefinedWrapper<
             FakeOneOfWIthSameErasureGet200Response
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                FakeOneOfWIthSameErasureGet200Response.$reflection
+        
+;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   DefaultApiFakeOneOfWIthSameErasureGetResponse200ApplicationJson({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawJson,
   });
 
-  static Future<DefaultApiFakeOneOfWIthSameErasureGetResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<DefaultApiFakeOneOfWIthSameErasureGetResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
-        if (v == null ? false :
-(
-
-    
-            FakeOneOfWIthSameErasureGet200Response.canDeserialize(v)
-            
-)) {
-          final res = FakeOneOfWIthSameErasureGet200Response.deserialize
-(
-
-            v
-
-)
-
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return DefaultApiFakeOneOfWIthSameErasureGetResponse200ApplicationJson(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -338,7 +344,7 @@ class DefaultApiFakeOneOfWIthSameErasureGetResponse200ApplicationJson extends De
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawJson: v,
             
           );
@@ -349,7 +355,7 @@ class DefaultApiFakeOneOfWIthSameErasureGetResponse200ApplicationJson extends De
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
@@ -362,14 +368,14 @@ class DefaultApiFooGetResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -384,11 +390,11 @@ class DefaultApiFooGetResponse {
     };
   }
 
-  static Future<DefaultApiFooGetResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<DefaultApiFooGetResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<DefaultApiFooGetResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'default'),
-      () => DefaultApiFooGetResponseDefault.fromResponse(response, context: context)
+      () => DefaultApiFooGetResponseDefault.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -398,18 +404,20 @@ class DefaultApiFooGetResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class DefaultApiFooGetResponseDefault extends DefaultApiFooGetResponse {
   DefaultApiFooGetResponseDefault({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -428,7 +436,7 @@ class DefaultApiFooGetResponseDefault extends DefaultApiFooGetResponse {
     };
   }
 
-  static Future<DefaultApiFooGetResponseDefault> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<DefaultApiFooGetResponseDefault> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -436,7 +444,7 @@ class DefaultApiFooGetResponseDefault extends DefaultApiFooGetResponse {
       final matchedResponse = <(PatternMatchResult, Future<DefaultApiFooGetResponseDefault> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
-        () => DefaultApiFooGetResponseDefaultApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => DefaultApiFooGetResponseDefaultApplicationJson.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -447,7 +455,7 @@ class DefaultApiFooGetResponseDefault extends DefaultApiFooGetResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -455,58 +463,59 @@ class DefaultApiFooGetResponseDefault extends DefaultApiFooGetResponse {
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is application/json.
 class DefaultApiFooGetResponseDefaultApplicationJson extends DefaultApiFooGetResponseDefault {
-  final 
+  final UndefinedWrapper<
             FooGetDefaultResponse
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                FooGetDefaultResponse.$reflection
+        
+;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   DefaultApiFooGetResponseDefaultApplicationJson({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawJson,
   });
 
-  static Future<DefaultApiFooGetResponseDefaultApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<DefaultApiFooGetResponseDefaultApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
-        if (v == null ? false :
-(
-
-    
-            FooGetDefaultResponse.canDeserialize(v)
-            
-)) {
-          final res = FooGetDefaultResponse.deserialize
-(
-
-            v
-
-)
-
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return DefaultApiFooGetResponseDefaultApplicationJson(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -515,7 +524,7 @@ class DefaultApiFooGetResponseDefaultApplicationJson extends DefaultApiFooGetRes
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawJson: v,
             
           );
@@ -526,7 +535,7 @@ class DefaultApiFooGetResponseDefaultApplicationJson extends DefaultApiFooGetRes
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
@@ -539,14 +548,14 @@ class DefaultApiPetsMulticontentTestPostResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -567,23 +576,23 @@ class DefaultApiPetsMulticontentTestPostResponse {
     };
   }
 
-  static Future<DefaultApiPetsMulticontentTestPostResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<DefaultApiPetsMulticontentTestPostResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<DefaultApiPetsMulticontentTestPostResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => DefaultApiPetsMulticontentTestPostResponse200.fromResponse(response, context: context)
+      () => DefaultApiPetsMulticontentTestPostResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'201'),
-      () => DefaultApiPetsMulticontentTestPostResponse201.fromResponse(response, context: context)
+      () => DefaultApiPetsMulticontentTestPostResponse201.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'2XX'),
-      () => DefaultApiPetsMulticontentTestPostResponse2XX.fromResponse(response, context: context)
+      () => DefaultApiPetsMulticontentTestPostResponse2XX.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'default'),
-      () => DefaultApiPetsMulticontentTestPostResponseDefault.fromResponse(response, context: context)
+      () => DefaultApiPetsMulticontentTestPostResponseDefault.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -593,18 +602,20 @@ class DefaultApiPetsMulticontentTestPostResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class DefaultApiPetsMulticontentTestPostResponse200 extends DefaultApiPetsMulticontentTestPostResponse {
   DefaultApiPetsMulticontentTestPostResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -635,7 +646,7 @@ class DefaultApiPetsMulticontentTestPostResponse200 extends DefaultApiPetsMultic
     };
   }
 
-  static Future<DefaultApiPetsMulticontentTestPostResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<DefaultApiPetsMulticontentTestPostResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -643,19 +654,19 @@ class DefaultApiPetsMulticontentTestPostResponse200 extends DefaultApiPetsMultic
       final matchedResponse = <(PatternMatchResult, Future<DefaultApiPetsMulticontentTestPostResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'text/plain')),
-        () => DefaultApiPetsMulticontentTestPostResponse200TextPlain.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => DefaultApiPetsMulticontentTestPostResponse200TextPlain.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'*/*')),
-        () => DefaultApiPetsMulticontentTestPostResponse200AnyAny.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => DefaultApiPetsMulticontentTestPostResponse200AnyAny.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'text/*')),
-        () => DefaultApiPetsMulticontentTestPostResponse200TextAny.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => DefaultApiPetsMulticontentTestPostResponse200TextAny.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'multipart/form-data')),
-        () => DefaultApiPetsMulticontentTestPostResponse200MultipartFormData.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => DefaultApiPetsMulticontentTestPostResponse200MultipartFormData.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -666,7 +677,7 @@ class DefaultApiPetsMulticontentTestPostResponse200 extends DefaultApiPetsMultic
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -674,69 +685,59 @@ class DefaultApiPetsMulticontentTestPostResponse200 extends DefaultApiPetsMultic
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is text/plain.
 class DefaultApiPetsMulticontentTestPostResponse200TextPlain extends DefaultApiPetsMulticontentTestPostResponse200 {
-  final 
+  final UndefinedWrapper<
             int
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                PrimitiveReflection.forint
+        
+;
 
   /// The raw result of decoding bytes to text.
   final String? rawText;
 
   DefaultApiPetsMulticontentTestPostResponse200TextPlain({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawText,
   });
 
-  static Future<DefaultApiPetsMulticontentTestPostResponse200TextPlain> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<DefaultApiPetsMulticontentTestPostResponse200TextPlain> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'text'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = serialized;
-        if (v == null ? false :
-(
-
-    
-            
-            (v is int
-     || (int.tryParse(v.toString()) != null)
-    
-    
-    
-)
-)) {
-          final res = 
-(
-
-            
-                    ( v is int ? v as int :
-int.parse(v.toString())
-
-
-
-)
-
-)
-
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return DefaultApiPetsMulticontentTestPostResponse200TextPlain(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -745,7 +746,7 @@ int.parse(v.toString())
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawText: v,
             
           );
@@ -756,33 +757,42 @@ int.parse(v.toString())
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
   }
 }
 
+
+
+
+
+
 /// Represent the response when content-type is */*.
 class DefaultApiPetsMulticontentTestPostResponse200AnyAny extends DefaultApiPetsMulticontentTestPostResponse200 {
-  final Object
+  final UndefinedWrapper<Object
+?> body;
 
-? body;
+  static const bodyReflection = NullableReflection(ObjectReflection()
+);
 
 
   DefaultApiPetsMulticontentTestPostResponse200AnyAny({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
-  static Future<DefaultApiPetsMulticontentTestPostResponse200AnyAny> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<DefaultApiPetsMulticontentTestPostResponse200AnyAny> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       default:
@@ -791,78 +801,66 @@ class DefaultApiPetsMulticontentTestPostResponse200AnyAny extends DefaultApiPets
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
   }
 }
 
+
+
+
+
+
 /// Represent the response when content-type is text/*.
 class DefaultApiPetsMulticontentTestPostResponse200TextAny extends DefaultApiPetsMulticontentTestPostResponse200 {
-  final 
+  final UndefinedWrapper<
             String
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+;
 
   /// The raw result of decoding bytes to text.
   final String? rawText;
 
   DefaultApiPetsMulticontentTestPostResponse200TextAny({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawText,
   });
 
-  static Future<DefaultApiPetsMulticontentTestPostResponse200TextAny> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<DefaultApiPetsMulticontentTestPostResponse200TextAny> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'text'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = serialized;
-        if (v == null ? false :
-(
-
-    
-            
-            (v is String
-    
-    
-    
-    
-)
-)) {
-          final res = 
-(
-
-            
-                    ( v is String ? v as String :
-
-
-
-
-throwArgumentMismatch(String, v)
-
-)
-
-)
-
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return DefaultApiPetsMulticontentTestPostResponse200TextAny(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -871,7 +869,7 @@ throwArgumentMismatch(String, v)
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawText: v,
             
           );
@@ -882,31 +880,44 @@ throwArgumentMismatch(String, v)
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
   }
 }
 
+
+
+
+
+
 /// Represent the response when content-type is multipart/form-data.
 class DefaultApiPetsMulticontentTestPostResponse200MultipartFormData extends DefaultApiPetsMulticontentTestPostResponse200 {
-  final 
+  final UndefinedWrapper<
             PetsMulticontentTestPostRequest
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                PetsMulticontentTestPostRequest.$reflection
+        
+;
 
 
   DefaultApiPetsMulticontentTestPostResponse200MultipartFormData({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
-  static Future<DefaultApiPetsMulticontentTestPostResponse200MultipartFormData> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<DefaultApiPetsMulticontentTestPostResponse200MultipartFormData> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
       r'address': PropertyEncodingRule(
@@ -924,6 +935,8 @@ class DefaultApiPetsMulticontentTestPostResponse200MultipartFormData extends Def
       
     };
 
+    final context = wireSerializationOptions.createSerializationContext(contentType);
+
     switch (contentType) {
       default:
     }
@@ -931,19 +944,21 @@ class DefaultApiPetsMulticontentTestPostResponse200MultipartFormData extends Def
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
   }
 }
 
+
+
 class DefaultApiPetsMulticontentTestPostResponse201 extends DefaultApiPetsMulticontentTestPostResponse {
   DefaultApiPetsMulticontentTestPostResponse201({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -970,7 +985,7 @@ class DefaultApiPetsMulticontentTestPostResponse201 extends DefaultApiPetsMultic
     };
   }
 
-  static Future<DefaultApiPetsMulticontentTestPostResponse201> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<DefaultApiPetsMulticontentTestPostResponse201> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -978,15 +993,15 @@ class DefaultApiPetsMulticontentTestPostResponse201 extends DefaultApiPetsMultic
       final matchedResponse = <(PatternMatchResult, Future<DefaultApiPetsMulticontentTestPostResponse201> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
-        () => DefaultApiPetsMulticontentTestPostResponse201ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => DefaultApiPetsMulticontentTestPostResponse201ApplicationJson.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/xml')),
-        () => DefaultApiPetsMulticontentTestPostResponse201ApplicationXml.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => DefaultApiPetsMulticontentTestPostResponse201ApplicationXml.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/x-www-form-urlencoded')),
-        () => DefaultApiPetsMulticontentTestPostResponse201ApplicationXWwwFormUrlencoded.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => DefaultApiPetsMulticontentTestPostResponse201ApplicationXWwwFormUrlencoded.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -997,7 +1012,7 @@ class DefaultApiPetsMulticontentTestPostResponse201 extends DefaultApiPetsMultic
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -1005,58 +1020,59 @@ class DefaultApiPetsMulticontentTestPostResponse201 extends DefaultApiPetsMultic
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is application/json.
 class DefaultApiPetsMulticontentTestPostResponse201ApplicationJson extends DefaultApiPetsMulticontentTestPostResponse201 {
-  final 
+  final UndefinedWrapper<
             Pet
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                Pet.$reflection
+        
+;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   DefaultApiPetsMulticontentTestPostResponse201ApplicationJson({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawJson,
   });
 
-  static Future<DefaultApiPetsMulticontentTestPostResponse201ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<DefaultApiPetsMulticontentTestPostResponse201ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
-        if (v == null ? false :
-(
-
-    
-            Pet.canDeserialize(v)
-            
-)) {
-          final res = Pet.deserialize
-(
-
-            v
-
-)
-
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return DefaultApiPetsMulticontentTestPostResponse201ApplicationJson(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -1065,7 +1081,7 @@ class DefaultApiPetsMulticontentTestPostResponse201ApplicationJson extends Defau
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawJson: v,
             
           );
@@ -1076,49 +1092,64 @@ class DefaultApiPetsMulticontentTestPostResponse201ApplicationJson extends Defau
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
   }
 }
 
+
+
+
+
+
 /// Represent the response when content-type is application/xml.
 class DefaultApiPetsMulticontentTestPostResponse201ApplicationXml extends DefaultApiPetsMulticontentTestPostResponse201 {
-  final 
+  final UndefinedWrapper<
             NewPet
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                NewPet.$reflection
+        
+;
 
-  /// The raw result of calling XmlDocument.parse
-  final XmlDocument? rawXml;
+  /// The raw result of calling XmlDocumentFragment.parse
+  final XmlDocumentFragment? rawXml;
 
   DefaultApiPetsMulticontentTestPostResponse201ApplicationXml({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawXml,
   });
 
-  static Future<DefaultApiPetsMulticontentTestPostResponse201ApplicationXml> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<DefaultApiPetsMulticontentTestPostResponse201ApplicationXml> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'xml'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
-        final v = XmlDocument.parse(serialized);
+        final v = XmlDocumentFragment.parse(serialized);
         // check if v can be deserialized to xml
         return DefaultApiPetsMulticontentTestPostResponse201ApplicationXml(
           headers: response.headers,
           statusCode: response.statusCode,
           reasonPhrase: response.reasonPhrase,
-          context: context,
+          userContext: userContext,
           rawXml: v,
           
         );
@@ -1128,33 +1159,46 @@ class DefaultApiPetsMulticontentTestPostResponse201ApplicationXml extends Defaul
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
   }
 }
 
+
+
+
+
+
 /// Represent the response when content-type is application/x-www-form-urlencoded.
 class DefaultApiPetsMulticontentTestPostResponse201ApplicationXWwwFormUrlencoded extends DefaultApiPetsMulticontentTestPostResponse201 {
-  final 
+  final UndefinedWrapper<
             Triangle
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                Triangle.$reflection
+        
+;
 
   final Map<String, dynamic>? rawQueryParameters;
 
   DefaultApiPetsMulticontentTestPostResponse201ApplicationXWwwFormUrlencoded({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawQueryParameters,
   });
 
-  static Future<DefaultApiPetsMulticontentTestPostResponse201ApplicationXWwwFormUrlencoded> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<DefaultApiPetsMulticontentTestPostResponse201ApplicationXWwwFormUrlencoded> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
       r'name': PropertyEncodingRule(
@@ -1166,34 +1210,22 @@ class DefaultApiPetsMulticontentTestPostResponse201ApplicationXWwwFormUrlencoded
       
     };
 
+    final context = wireSerializationOptions.createSerializationContext(contentType);
+
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final queryParametersAll = Uri(query: serialized).queryParametersAll;
         final v = queryParametersAll.map((k,v) => MapEntry<String, dynamic>(k, v.isEmpty ? null : v.length == 1 ? v.first.isEmpty ? null : v.first : v));
-        if (v == null ? false :
-(
-
-    
-            Triangle.canDeserialize(v)
-            
-)) {
-          final res = Triangle.deserialize
-(
-
-            v
-
-)
-
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return DefaultApiPetsMulticontentTestPostResponse201ApplicationXWwwFormUrlencoded(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -1202,7 +1234,7 @@ class DefaultApiPetsMulticontentTestPostResponse201ApplicationXWwwFormUrlencoded
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawQueryParameters: v,
             
           );
@@ -1213,19 +1245,33 @@ class DefaultApiPetsMulticontentTestPostResponse201ApplicationXWwwFormUrlencoded
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
   }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class DefaultApiPetsMulticontentTestPostResponse2XX extends DefaultApiPetsMulticontentTestPostResponse {
   DefaultApiPetsMulticontentTestPostResponse2XX({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
      this.xRateLimit= const UndefinedWrapper
         .undefined()
@@ -1240,15 +1286,12 @@ class DefaultApiPetsMulticontentTestPostResponse2XX extends DefaultApiPetsMultic
 
   final UndefinedWrapper<
             int
-
 > xRateLimit;
   final UndefinedWrapper<
             int
-
 > xRateLimitRemaining;
   final UndefinedWrapper<
             DateTime
-
 > xRateLimitReset;
 
   T split2XX<T>({
@@ -1265,7 +1308,7 @@ class DefaultApiPetsMulticontentTestPostResponse2XX extends DefaultApiPetsMultic
     };
   }
 
-  static Future<DefaultApiPetsMulticontentTestPostResponse2XX> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<DefaultApiPetsMulticontentTestPostResponse2XX> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -1273,7 +1316,7 @@ class DefaultApiPetsMulticontentTestPostResponse2XX extends DefaultApiPetsMultic
       final matchedResponse = <(PatternMatchResult, Future<DefaultApiPetsMulticontentTestPostResponse2XX> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
-        () => DefaultApiPetsMulticontentTestPostResponse2XXApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => DefaultApiPetsMulticontentTestPostResponse2XXApplicationJson.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -1284,7 +1327,7 @@ class DefaultApiPetsMulticontentTestPostResponse2XX extends DefaultApiPetsMultic
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -1292,22 +1335,35 @@ class DefaultApiPetsMulticontentTestPostResponse2XX extends DefaultApiPetsMultic
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is application/json.
 class DefaultApiPetsMulticontentTestPostResponse2XXApplicationJson extends DefaultApiPetsMulticontentTestPostResponse2XX {
-  final 
+  final UndefinedWrapper<
             Pet
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                Pet.$reflection
+        
+;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   DefaultApiPetsMulticontentTestPostResponse2XXApplicationJson({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
      super.xRateLimit,
      super.xRateLimitRemaining,
@@ -1315,83 +1371,50 @@ class DefaultApiPetsMulticontentTestPostResponse2XXApplicationJson extends Defau
     this.rawJson,
   });
 
-  static Future<DefaultApiPetsMulticontentTestPostResponse2XXApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<DefaultApiPetsMulticontentTestPostResponse2XXApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
-        if (v == null ? false :
-(
-
-    
-            Pet.canDeserialize(v)
-            
-)) {
-          final res = Pet.deserialize
-(
-
-            v
-
-)
-
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return DefaultApiPetsMulticontentTestPostResponse2XXApplicationJson(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
-            xRateLimit: response.headers.getOrUndefinedMapped(r'X-Rate-Limit', (v) => 
-(
-
+            userContext: userContext,
+            body: UndefinedWrapper(res),
+            xRateLimit: UndefinedWrapperReflection(
             
-                    ( v is int ? v as int :
-int.parse(v.toString())
-
-
-
-)
-
-)
-
-
-),
-xRateLimitRemaining: response.headers.getOrUndefinedMapped(r'X-RateLimit-Remaining', (v) => 
-(
-
+        
+        
             
-                    ( v is int ? v as int :
-int.parse(v.toString())
-
-
-
-)
-
-)
-
-
-),
-xRateLimitReset: response.headers.getOrUndefinedMapped(r'X-RateLimit-Reset', (v) => 
-(
-
+                PrimitiveReflection.forint
+        
+).deserializeFunction(response.headers.getOrUndefined(r'X-Rate-Limit')),
+xRateLimitRemaining: UndefinedWrapperReflection(
             
-                    ( v is DateTime ? v as DateTime :
-
-
-v is int ? DateTime.fromMillisecondsSinceEpoch(v as int) : DateTime.parse(v.toString())
-
-)
-
-)
-
-
-),
+        
+        
+            
+                PrimitiveReflection.forint
+        
+).deserializeFunction(response.headers.getOrUndefined(r'X-RateLimit-Remaining')),
+xRateLimitReset: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forDateTime
+        
+).deserializeFunction(response.headers.getOrUndefined(r'X-RateLimit-Reset')),
 
           );
         } else {
@@ -1400,53 +1423,32 @@ v is int ? DateTime.fromMillisecondsSinceEpoch(v as int) : DateTime.parse(v.toSt
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawJson: v,
-            xRateLimit: response.headers.getOrUndefinedMapped(r'X-Rate-Limit', (v) => 
-(
-
+            xRateLimit: UndefinedWrapperReflection(
             
-                    ( v is int ? v as int :
-int.parse(v.toString())
-
-
-
-)
-
-)
-
-
-),
-xRateLimitRemaining: response.headers.getOrUndefinedMapped(r'X-RateLimit-Remaining', (v) => 
-(
-
+        
+        
             
-                    ( v is int ? v as int :
-int.parse(v.toString())
-
-
-
-)
-
-)
-
-
-),
-xRateLimitReset: response.headers.getOrUndefinedMapped(r'X-RateLimit-Reset', (v) => 
-(
-
+                PrimitiveReflection.forint
+        
+).deserializeFunction(response.headers.getOrUndefined(r'X-Rate-Limit')),
+xRateLimitRemaining: UndefinedWrapperReflection(
             
-                    ( v is DateTime ? v as DateTime :
-
-
-v is int ? DateTime.fromMillisecondsSinceEpoch(v as int) : DateTime.parse(v.toString())
-
-)
-
-)
-
-
-),
+        
+        
+            
+                PrimitiveReflection.forint
+        
+).deserializeFunction(response.headers.getOrUndefined(r'X-RateLimit-Remaining')),
+xRateLimitReset: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forDateTime
+        
+).deserializeFunction(response.headers.getOrUndefined(r'X-RateLimit-Reset')),
 
           );
         }
@@ -1456,64 +1458,45 @@ v is int ? DateTime.fromMillisecondsSinceEpoch(v as int) : DateTime.parse(v.toSt
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
-      xRateLimit: response.headers.getOrUndefinedMapped(r'X-Rate-Limit', (v) => 
-(
-
+      xRateLimit: UndefinedWrapperReflection(
             
-                    ( v is int ? v as int :
-int.parse(v.toString())
-
-
-
-)
-
-)
-
-
-),
-xRateLimitRemaining: response.headers.getOrUndefinedMapped(r'X-RateLimit-Remaining', (v) => 
-(
-
+        
+        
             
-                    ( v is int ? v as int :
-int.parse(v.toString())
-
-
-
-)
-
-)
-
-
-),
-xRateLimitReset: response.headers.getOrUndefinedMapped(r'X-RateLimit-Reset', (v) => 
-(
-
+                PrimitiveReflection.forint
+        
+).deserializeFunction(response.headers.getOrUndefined(r'X-Rate-Limit')),
+xRateLimitRemaining: UndefinedWrapperReflection(
             
-                    ( v is DateTime ? v as DateTime :
-
-
-v is int ? DateTime.fromMillisecondsSinceEpoch(v as int) : DateTime.parse(v.toString())
-
-)
-
-)
-
-
-),
+        
+        
+            
+                PrimitiveReflection.forint
+        
+).deserializeFunction(response.headers.getOrUndefined(r'X-RateLimit-Remaining')),
+xRateLimitReset: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forDateTime
+        
+).deserializeFunction(response.headers.getOrUndefined(r'X-RateLimit-Reset')),
 
     );
   }
 }
+
+
 
 class DefaultApiPetsMulticontentTestPostResponseDefault extends DefaultApiPetsMulticontentTestPostResponse {
   DefaultApiPetsMulticontentTestPostResponseDefault({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -1536,7 +1519,7 @@ class DefaultApiPetsMulticontentTestPostResponseDefault extends DefaultApiPetsMu
     };
   }
 
-  static Future<DefaultApiPetsMulticontentTestPostResponseDefault> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<DefaultApiPetsMulticontentTestPostResponseDefault> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -1544,11 +1527,11 @@ class DefaultApiPetsMulticontentTestPostResponseDefault extends DefaultApiPetsMu
       final matchedResponse = <(PatternMatchResult, Future<DefaultApiPetsMulticontentTestPostResponseDefault> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
-        () => DefaultApiPetsMulticontentTestPostResponseDefaultApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => DefaultApiPetsMulticontentTestPostResponseDefaultApplicationJson.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/x-www-form-urlencoded')),
-        () => DefaultApiPetsMulticontentTestPostResponseDefaultApplicationXWwwFormUrlencoded.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => DefaultApiPetsMulticontentTestPostResponseDefaultApplicationXWwwFormUrlencoded.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -1559,7 +1542,7 @@ class DefaultApiPetsMulticontentTestPostResponseDefault extends DefaultApiPetsMu
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -1567,58 +1550,59 @@ class DefaultApiPetsMulticontentTestPostResponseDefault extends DefaultApiPetsMu
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is application/json.
 class DefaultApiPetsMulticontentTestPostResponseDefaultApplicationJson extends DefaultApiPetsMulticontentTestPostResponseDefault {
-  final 
+  final UndefinedWrapper<
             Pet
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                Pet.$reflection
+        
+;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   DefaultApiPetsMulticontentTestPostResponseDefaultApplicationJson({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawJson,
   });
 
-  static Future<DefaultApiPetsMulticontentTestPostResponseDefaultApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<DefaultApiPetsMulticontentTestPostResponseDefaultApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
-        if (v == null ? false :
-(
-
-    
-            Pet.canDeserialize(v)
-            
-)) {
-          final res = Pet.deserialize
-(
-
-            v
-
-)
-
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return DefaultApiPetsMulticontentTestPostResponseDefaultApplicationJson(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -1627,7 +1611,7 @@ class DefaultApiPetsMulticontentTestPostResponseDefaultApplicationJson extends D
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawJson: v,
             
           );
@@ -1638,33 +1622,46 @@ class DefaultApiPetsMulticontentTestPostResponseDefaultApplicationJson extends D
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
   }
 }
 
+
+
+
+
+
 /// Represent the response when content-type is application/x-www-form-urlencoded.
 class DefaultApiPetsMulticontentTestPostResponseDefaultApplicationXWwwFormUrlencoded extends DefaultApiPetsMulticontentTestPostResponseDefault {
-  final 
+  final UndefinedWrapper<
             Triangle
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                Triangle.$reflection
+        
+;
 
   final Map<String, dynamic>? rawQueryParameters;
 
   DefaultApiPetsMulticontentTestPostResponseDefaultApplicationXWwwFormUrlencoded({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawQueryParameters,
   });
 
-  static Future<DefaultApiPetsMulticontentTestPostResponseDefaultApplicationXWwwFormUrlencoded> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<DefaultApiPetsMulticontentTestPostResponseDefaultApplicationXWwwFormUrlencoded> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
       r'name': PropertyEncodingRule(
@@ -1676,34 +1673,22 @@ class DefaultApiPetsMulticontentTestPostResponseDefaultApplicationXWwwFormUrlenc
       
     };
 
+    final context = wireSerializationOptions.createSerializationContext(contentType);
+
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final queryParametersAll = Uri(query: serialized).queryParametersAll;
         final v = queryParametersAll.map((k,v) => MapEntry<String, dynamic>(k, v.isEmpty ? null : v.length == 1 ? v.first.isEmpty ? null : v.first : v));
-        if (v == null ? false :
-(
-
-    
-            Triangle.canDeserialize(v)
-            
-)) {
-          final res = Triangle.deserialize
-(
-
-            v
-
-)
-
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return DefaultApiPetsMulticontentTestPostResponseDefaultApplicationXWwwFormUrlencoded(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -1712,7 +1697,7 @@ class DefaultApiPetsMulticontentTestPostResponseDefaultApplicationXWwwFormUrlenc
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawQueryParameters: v,
             
           );
@@ -1723,7 +1708,7 @@ class DefaultApiPetsMulticontentTestPostResponseDefaultApplicationXWwwFormUrlenc
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );

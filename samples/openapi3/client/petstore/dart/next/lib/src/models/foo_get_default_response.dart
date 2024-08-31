@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'foo_get_default_response.reflection.dart';
-part 'foo_get_default_response.serialization.dart';
 
 
 /// FooGetDefaultResponseMixin
@@ -15,7 +14,6 @@ mixin FooGetDefaultResponseMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             Foo
-
 > get string;
   
 }
@@ -31,11 +29,9 @@ FooGetDefaultResponseMixin {
   @override
   UndefinedWrapper<
             Foo
-
 > string;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -50,9 +46,10 @@ FooGetDefaultResponseMixin {
       this.string = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = FooGetDefaultResponseReflection.instance;
   FooGetDefaultResponseReflection get $classReflection => $reflection;
@@ -62,45 +59,19 @@ FooGetDefaultResponseMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$FooGetDefaultResponseToMap(this);
-  }
-  factory FooGetDefaultResponse.fromMap(Map<String, dynamic> src) {
-    return _$FooGetDefaultResponseFromMap(src);
-  }
-  static FooGetDefaultResponse? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return FooGetDefaultResponse.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$FooGetDefaultResponseCanFromMap(src);
+  factory FooGetDefaultResponse.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory FooGetDefaultResponse.deserialize(Object? src) {
-    return _$FooGetDefaultResponseDeserialize(src);
-  }
-  static FooGetDefaultResponse? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return FooGetDefaultResponse.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$FooGetDefaultResponseCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$FooGetDefaultResponseSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
 
 
 

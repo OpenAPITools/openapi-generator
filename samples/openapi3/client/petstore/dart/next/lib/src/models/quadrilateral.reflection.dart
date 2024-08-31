@@ -5,14 +5,15 @@ part of 'quadrilateral.dart';
 
 //class reflection
 
-class QuadrilateralReflection extends ClassReflection<Quadrilateral> {
+class QuadrilateralReflection extends ModelReflection<Quadrilateral> {
   static QuadrilateralReflection instanceGetter() => instance;
   static const instance = QuadrilateralReflection._(
     modelName: r'Quadrilateral',
     className: r'Quadrilateral',
+    xml: const XmlReflection(
+),
     quadrilateralTypePart: PropertyReflection<Quadrilateral, 
             String
-
 >(
       dartName: r'quadrilateralType',
       nullable: false,
@@ -22,8 +23,18 @@ class QuadrilateralReflection extends ClassReflection<Quadrilateral> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: true,
-      getter: _quadrilateralTypeGetter,
-      setter: _quadrilateralTypeSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_quadrilateralTypeGetter),
+      setter: FunctionWrapper2(_quadrilateralTypeSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
     discriminatorKey: r'quadrilateralType',
     discriminatorImplicitMappings: const {
@@ -36,26 +47,26 @@ class QuadrilateralReflection extends ClassReflection<Quadrilateral> {
     },
     
     
-    oneOf0Part: QuadrilateralOneOf0(
+    oneOf0Part: QuadrilateralOneOf0Part(
       parentReflectionGetter: instanceGetter,
-      classReflection: SimpleQuadrilateralReflection.instance,
     ),
     
-    oneOf1Part: QuadrilateralOneOf1(
+    oneOf1Part: QuadrilateralOneOf1Part(
       parentReflectionGetter: instanceGetter,
-      classReflection: ComplexQuadrilateralReflection.instance,
     ),
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<Quadrilateral, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const QuadrilateralReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.quadrilateralTypePart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
@@ -70,55 +81,57 @@ class QuadrilateralReflection extends ClassReflection<Quadrilateral> {
 
   final PropertyReflection<Quadrilateral, 
             String
-
 > quadrilateralTypePart;
   static 
             String
-
  _quadrilateralTypeGetter(Quadrilateral parent) {
     return parent.quadrilateralType;
   }
   static void _quadrilateralTypeSetter(Quadrilateral parent, 
             String
-
  value) {
     parent.quadrilateralType = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<Quadrilateral, dynamic>> get properties => [
     quadrilateralTypePart,
   ];
 
-  final AdditionalPropertiesReflection<Quadrilateral, Object
-
-?> additionalPropertiesPart;
-
-  
-  
-  final QuadrilateralOneOf0 oneOf0Part;
-  
-  final QuadrilateralOneOf1 oneOf1Part;
-  
   @override
-  List<PartReflection<Quadrilateral, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<Quadrilateral, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(Quadrilateral instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(Quadrilateral instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+  final QuadrilateralOneOf0Part oneOf0Part;
+  
+  final QuadrilateralOneOf1Part oneOf1Part;
+  
+
   @override
   List<AllOfReflection<Quadrilateral, dynamic>> get allOfs => [
     
@@ -133,85 +146,63 @@ class QuadrilateralReflection extends ClassReflection<Quadrilateral> {
     
   ];
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => Quadrilateral.canDeserialize(src);
-  @override
-  Quadrilateral Function(Object? src) get deserializeFunction =>
-      (src) => Quadrilateral.deserialize(src);
-
-  @override
-  Object? Function(Quadrilateral src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of Quadrilateral.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  Quadrilateral example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = Quadrilateral(
-      quadrilateralType: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[quadrilateralTypePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  Quadrilateral empty() {
+    return Quadrilateral(
+      quadrilateralType: quadrilateralTypePart.reflection.emptyFunction(),
     );
-    
-    exampleResult.oneOf0 = oneOf0Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
-    
-    exampleResult.oneOf1 = oneOf1Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
-    
-    return exampleResult;
   }
 }
 
 
-class QuadrilateralOneOf0 extends OneOfReflection<Quadrilateral, 
+class QuadrilateralOneOf0Part extends OneOfReflection<Quadrilateral, 
             SimpleQuadrilateral
 > {
-  const QuadrilateralOneOf0({
-    super.classReflection,
-    required QuadrilateralReflection Function() super.parentReflectionGetter,
-    super.itemsReflection,
-  });
+
+  const QuadrilateralOneOf0Part({
+  required QuadrilateralReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+            SimpleQuadrilateral
+>, Quadrilateral> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, Quadrilateral, UndefinedWrapper<
+            SimpleQuadrilateral
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+            SimpleQuadrilateral
+> _getter(Quadrilateral src) {
+  return src.oneOf0;
+}
+static void _setter(Quadrilateral src, UndefinedWrapper<
+            SimpleQuadrilateral
+> value) {
+  src.oneOf0 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+            SimpleQuadrilateral
+> get reflection => UndefinedWrapperReflection(
+            
+        
+        
+            
+                SimpleQuadrilateral.$reflection
+        
+);
 
   UndefinedWrapper<
             SimpleQuadrilateral
-> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
     if (discriminatorExampleResults.isEmpty) {
       //return undefined for non-first oneOfs.
       // An example SHOULD be generated
@@ -219,36 +210,63 @@ class QuadrilateralOneOf0 extends OneOfReflection<Quadrilateral,
       // if this reflection wasn't a result of any property, don't generate an example.
 
       if (!discriminatorExampleResults.values
-          .any((e) => e.value == classReflection)) {
+          .any((e) => e.value == reflection.subReflection)) {
         // if there are no discriminator examples targetting the current class:
         return UndefinedWrapper.undefined();
       } else {
         // An example SHOULD be generated
       }
     }
-    return UndefinedWrapper(
-            
-            
-
-
-    SimpleQuadrilateralReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
-    
-);
+    return reflection.example();
   }
 }
 
-class QuadrilateralOneOf1 extends OneOfReflection<Quadrilateral, 
+class QuadrilateralOneOf1Part extends OneOfReflection<Quadrilateral, 
             ComplexQuadrilateral
 > {
-  const QuadrilateralOneOf1({
-    super.classReflection,
-    required QuadrilateralReflection Function() super.parentReflectionGetter,
-    super.itemsReflection,
-  });
+
+  const QuadrilateralOneOf1Part({
+  required QuadrilateralReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+            ComplexQuadrilateral
+>, Quadrilateral> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, Quadrilateral, UndefinedWrapper<
+            ComplexQuadrilateral
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+            ComplexQuadrilateral
+> _getter(Quadrilateral src) {
+  return src.oneOf1;
+}
+static void _setter(Quadrilateral src, UndefinedWrapper<
+            ComplexQuadrilateral
+> value) {
+  src.oneOf1 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+            ComplexQuadrilateral
+> get reflection => UndefinedWrapperReflection(
+            
+        
+        
+            
+                ComplexQuadrilateral.$reflection
+        
+);
 
   UndefinedWrapper<
             ComplexQuadrilateral
-> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
     if (discriminatorExampleResults.isEmpty) {
       //return undefined for non-first oneOfs.
       return UndefinedWrapper.undefined();
@@ -256,25 +274,14 @@ class QuadrilateralOneOf1 extends OneOfReflection<Quadrilateral,
       // if this reflection wasn't a result of any property, don't generate an example.
 
       if (!discriminatorExampleResults.values
-          .any((e) => e.value == classReflection)) {
+          .any((e) => e.value == reflection.subReflection)) {
         // if there are no discriminator examples targetting the current class:
         return UndefinedWrapper.undefined();
       } else {
         // An example SHOULD be generated
       }
     }
-    return UndefinedWrapper(
-            
-            
-
-
-    ComplexQuadrilateralReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
-    
-);
+    return reflection.example();
   }
-}
-
-class QuadrilateralXmlReflection {
-    const QuadrilateralXmlReflection();
 }
 

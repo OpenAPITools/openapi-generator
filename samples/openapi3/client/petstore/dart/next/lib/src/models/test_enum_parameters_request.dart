@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'test_enum_parameters_request.reflection.dart';
-part 'test_enum_parameters_request.serialization.dart';
 
 
 /// TestEnumParametersRequestMixin
@@ -18,13 +17,10 @@ mixin TestEnumParametersRequestMixin on
     List<
         
             TestEnumParametersRequestEnumFormStringArrayEnum
-
 >
-
 > get enumFormStringArray;
 UndefinedWrapper<
             TestEnumParametersRequestEnumFormStringEnum
-
 > get enumFormString;
   
 }
@@ -43,18 +39,14 @@ TestEnumParametersRequestMixin {
     List<
         
             TestEnumParametersRequestEnumFormStringArrayEnum
-
 >
-
 > enumFormStringArray;
   @override
   UndefinedWrapper<
             TestEnumParametersRequestEnumFormStringEnum
-
 > enumFormString;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -77,9 +69,10 @@ TestEnumParametersRequestMixin {
     )
     
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = TestEnumParametersRequestReflection.instance;
   TestEnumParametersRequestReflection get $classReflection => $reflection;
@@ -89,53 +82,22 @@ TestEnumParametersRequestMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$TestEnumParametersRequestToMap(this);
-  }
-  factory TestEnumParametersRequest.fromMap(Map<String, dynamic> src) {
-    return _$TestEnumParametersRequestFromMap(src);
-  }
-  static TestEnumParametersRequest? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return TestEnumParametersRequest.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$TestEnumParametersRequestCanFromMap(src);
+  factory TestEnumParametersRequest.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory TestEnumParametersRequest.deserialize(Object? src) {
-    return _$TestEnumParametersRequestDeserialize(src);
-  }
-  static TestEnumParametersRequest? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return TestEnumParametersRequest.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$TestEnumParametersRequestCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$TestEnumParametersRequestSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
 
 
-
-
 extension type const TestEnumParametersRequestEnumFormStringArrayEnum._(String value) {
-  /// Form parameter enum test (string array)
       const TestEnumParametersRequestEnumFormStringArrayEnum.greaterThan() : this._(r'>');
-  /// Form parameter enum test (string array)
       const TestEnumParametersRequestEnumFormStringArrayEnum.value() : this._(r'$');
 
   /// Creates a [TestEnumParametersRequestEnumFormStringArrayEnum] enum from a value and safely checking if it exists.
@@ -147,8 +109,27 @@ extension type const TestEnumParametersRequestEnumFormStringArrayEnum._(String v
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<TestEnumParametersRequestEnumFormStringArrayEnum, String>(
+    PrimitiveReflection.forString,
+    members: [
+      
+        EnumMemberReflection(dartName: r'greaterThan', oasValue: r'>', value: TestEnumParametersRequestEnumFormStringArrayEnum.greaterThan()),
+      
+        EnumMemberReflection(dartName: r'value', oasValue: r'$', value: TestEnumParametersRequestEnumFormStringArrayEnum.value()),
+      
+    ],
+  );
+
+  factory TestEnumParametersRequestEnumFormStringArrayEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [TestEnumParametersRequestEnumFormStringArrayEnum] enum from a value without checking if it exists.
@@ -161,6 +142,9 @@ extension type const TestEnumParametersRequestEnumFormStringArrayEnum._(String v
     
   ];
 }
+
+
+
 
 extension type const TestEnumParametersRequestEnumFormStringEnum._(String value) {
   /// Form parameter enum test (string)
@@ -179,8 +163,29 @@ extension type const TestEnumParametersRequestEnumFormStringEnum._(String value)
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<TestEnumParametersRequestEnumFormStringEnum, String>(
+    PrimitiveReflection.forString,
+    members: [
+      
+        EnumMemberReflection(dartName: r'abc', oasValue: r'_abc', value: TestEnumParametersRequestEnumFormStringEnum.abc()),
+      
+        EnumMemberReflection(dartName: r'efg', oasValue: r'-efg', value: TestEnumParametersRequestEnumFormStringEnum.efg()),
+      
+        EnumMemberReflection(dartName: r'xyz', oasValue: r'(xyz)', value: TestEnumParametersRequestEnumFormStringEnum.xyz()),
+      
+    ],
+  );
+
+  factory TestEnumParametersRequestEnumFormStringEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [TestEnumParametersRequestEnumFormStringEnum] enum from a value without checking if it exists.
@@ -194,4 +199,5 @@ extension type const TestEnumParametersRequestEnumFormStringEnum._(String value)
     
   ];
 }
+
 

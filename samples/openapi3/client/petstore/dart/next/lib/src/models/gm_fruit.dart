@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'gm_fruit.reflection.dart';
-part 'gm_fruit.serialization.dart';
 
 
 /// GmFruitMixin
@@ -15,7 +14,6 @@ mixin GmFruitMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
-
 > get color;
   
   UndefinedWrapper<
@@ -37,7 +35,6 @@ GmFruitMixin {
   @override
   UndefinedWrapper<
             String
-
 > color;
 
 
@@ -83,45 +80,19 @@ GmFruitMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$GmFruitToMap(this);
-  }
-  factory GmFruit.fromMap(Map<String, dynamic> src) {
-    return _$GmFruitFromMap(src);
-  }
-  static GmFruit? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return GmFruit.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$GmFruitCanFromMap(src);
+  factory GmFruit.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory GmFruit.deserialize(Object? src) {
-    return _$GmFruitDeserialize(src);
-  }
-  static GmFruit? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return GmFruit.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$GmFruitCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$GmFruitSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
 
 
 

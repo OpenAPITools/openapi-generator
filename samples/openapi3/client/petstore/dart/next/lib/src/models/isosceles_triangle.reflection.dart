@@ -5,14 +5,15 @@ part of 'isosceles_triangle.dart';
 
 //class reflection
 
-class IsoscelesTriangleReflection extends ClassReflection<IsoscelesTriangle> {
+class IsoscelesTriangleReflection extends ModelReflection<IsoscelesTriangle> {
   static IsoscelesTriangleReflection instanceGetter() => instance;
   static const instance = IsoscelesTriangleReflection._(
     modelName: r'IsoscelesTriangle',
     className: r'IsoscelesTriangle',
+    xml: const XmlReflection(
+),
     shapeTypePart: PropertyReflection<IsoscelesTriangle, 
             String
-
 >(
       dartName: r'shapeType',
       nullable: false,
@@ -22,12 +23,21 @@ class IsoscelesTriangleReflection extends ClassReflection<IsoscelesTriangle> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _shapeTypeGetter,
-      setter: _shapeTypeSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_shapeTypeGetter),
+      setter: FunctionWrapper2(_shapeTypeSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
     triangleTypePart: PropertyReflection<IsoscelesTriangle, 
             String
-
 >(
       dartName: r'triangleType',
       nullable: false,
@@ -37,69 +47,85 @@ class IsoscelesTriangleReflection extends ClassReflection<IsoscelesTriangle> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _triangleTypeGetter,
-      setter: _triangleTypeSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_triangleTypeGetter),
+      setter: FunctionWrapper2(_triangleTypeSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
-    
+    allOfShapeInterfacePart: AllOfReflection(
+      parentReflectionGetter: instanceGetter,
+      reflection: ShapeInterfaceReflection.instance,
+    ),
+allOfTriangleInterfacePart: AllOfReflection(
+      parentReflectionGetter: instanceGetter,
+      reflection: TriangleInterfaceReflection.instance,
+    ),
+
     
   );
   const IsoscelesTriangleReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.shapeTypePart,
     required this.triangleTypePart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
     this.discriminatorImplicitMappings = const {},
-        
+    required this.allOfShapeInterfacePart,
+required this.allOfTriangleInterfacePart,
+    
   });
 
   final PropertyReflection<IsoscelesTriangle, 
             String
-
 > shapeTypePart;
   static 
             String
-
  _shapeTypeGetter(IsoscelesTriangle parent) {
     return parent.shapeType;
   }
   static void _shapeTypeSetter(IsoscelesTriangle parent, 
             String
-
  value) {
     parent.shapeType = value;
   }
+
   final PropertyReflection<IsoscelesTriangle, 
             String
-
 > triangleTypePart;
   static 
             String
-
  _triangleTypeGetter(IsoscelesTriangle parent) {
     return parent.triangleType;
   }
   static void _triangleTypeSetter(IsoscelesTriangle parent, 
             String
-
  value) {
     parent.triangleType = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<IsoscelesTriangle, dynamic>> get properties => [
@@ -107,16 +133,15 @@ class IsoscelesTriangleReflection extends ClassReflection<IsoscelesTriangle> {
 triangleTypePart,
   ];
 
+
+  final AllOfReflection<IsoscelesTriangle, ShapeInterfaceMixin> allOfShapeInterfacePart;
+final AllOfReflection<IsoscelesTriangle, TriangleInterfaceMixin> allOfTriangleInterfacePart;
+
   
-  
-  
-  @override
-  List<PartReflection<IsoscelesTriangle, dynamic>> get parts => [
-    ...super.parts,
-      ];
+
   @override
   List<AllOfReflection<IsoscelesTriangle, dynamic>> get allOfs => [
-    
+    allOfShapeInterfacePart,allOfTriangleInterfacePart,
   ];
 
   @override
@@ -128,83 +153,15 @@ triangleTypePart,
     
   ];
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => IsoscelesTriangle.canDeserialize(src);
-  @override
-  IsoscelesTriangle Function(Object? src) get deserializeFunction =>
-      (src) => IsoscelesTriangle.deserialize(src);
-
-  @override
-  Object? Function(IsoscelesTriangle src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of IsoscelesTriangle.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  IsoscelesTriangle example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = IsoscelesTriangle(
-      shapeType: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[shapeTypePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      triangleType: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[triangleTypePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      
+  IsoscelesTriangle empty() {
+    return IsoscelesTriangle(
+      shapeType: shapeTypePart.reflection.emptyFunction(),
+      triangleType: triangleTypePart.reflection.emptyFunction(),
     );
-    
-    return exampleResult;
   }
 }
 
-
-class IsoscelesTriangleXmlReflection {
-    const IsoscelesTriangleXmlReflection();
-}
 

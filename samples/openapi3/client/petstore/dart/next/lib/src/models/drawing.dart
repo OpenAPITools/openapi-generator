@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'drawing.reflection.dart';
-part 'drawing.serialization.dart';
 
 
 /// DrawingMixin
@@ -18,23 +17,18 @@ mixin DrawingMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             Shape
-
 > get mainShape;
 UndefinedWrapper<
             ShapeOrNull
-
 > get shapeOrNull;
 UndefinedWrapper<
             NullableShape
-
 ?> get nullableShape;
 UndefinedWrapper<
     List<
         
             Shape
-
 >
-
 > get shapes;
   
 }
@@ -53,31 +47,25 @@ DrawingMixin {
   @override
   UndefinedWrapper<
             Shape
-
 > mainShape;
   @override
   UndefinedWrapper<
             ShapeOrNull
-
 > shapeOrNull;
   @override
   UndefinedWrapper<
             NullableShape
-
 ?> nullableShape;
   @override
   UndefinedWrapper<
     List<
         
             Shape
-
 >
-
 > shapes;
 
   AdditionalProperties<
             Fruit
-
 > additionalProperties;
 
   
@@ -104,9 +92,11 @@ DrawingMixin {
   this.shapes = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<
+            Fruit
+>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = DrawingReflection.instance;
   DrawingReflection get $classReflection => $reflection;
@@ -116,45 +106,30 @@ DrawingMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$DrawingToMap(this);
-  }
-  factory Drawing.fromMap(Map<String, dynamic> src) {
-    return _$DrawingFromMap(src);
-  }
-  static Drawing? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return Drawing.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$DrawingCanFromMap(src);
+  factory Drawing.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory Drawing.deserialize(Object? src) {
-    return _$DrawingDeserialize(src);
-  }
-  static Drawing? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return Drawing.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$DrawingCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$DrawingSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

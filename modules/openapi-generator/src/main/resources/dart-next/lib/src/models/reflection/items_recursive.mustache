@@ -1,1 +1,6 @@
-ItemsReflection<{{classname}}, {{>types/variable_recursive}}>(parentReflectionGetter: instanceGetter,{{#isModel}}classReflection: {{dataType}}Reflection.instance,{{/isModel}}{{#items}}itemsReflection: {{>lib/src/models/reflection/items_recursive}}{{/items}})
+ItemsReflection<{{classname}}, {{>types/variable_recursive}}>(
+    parentReflectionGetter: instanceGetter,
+    xml: {{>lib/src/models/reflection/xml}},
+    {{#isModel}}classReflection: {{dataType}}Reflection.instance,{{/isModel}}
+    {{#items}}itemsReflection: {{>lib/src/models/reflection/items_recursive}}{{/items}}
+)

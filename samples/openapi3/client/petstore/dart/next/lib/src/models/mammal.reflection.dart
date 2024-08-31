@@ -5,14 +5,15 @@ part of 'mammal.dart';
 
 //class reflection
 
-class MammalReflection extends ClassReflection<Mammal> {
+class MammalReflection extends ModelReflection<Mammal> {
   static MammalReflection instanceGetter() => instance;
   static const instance = MammalReflection._(
     modelName: r'mammal',
     className: r'Mammal',
+    xml: const XmlReflection(
+),
     classNamePart: PropertyReflection<Mammal, 
             String
-
 >(
       dartName: r'className',
       nullable: false,
@@ -22,8 +23,18 @@ class MammalReflection extends ClassReflection<Mammal> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: true,
-      getter: _classNameGetter,
-      setter: _classNameSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_classNameGetter),
+      setter: FunctionWrapper2(_classNameSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
     discriminatorKey: r'className',
     discriminatorImplicitMappings: const {
@@ -38,31 +49,30 @@ class MammalReflection extends ClassReflection<Mammal> {
     },
     
     
-    oneOf0Part: MammalOneOf0(
+    oneOf0Part: MammalOneOf0Part(
       parentReflectionGetter: instanceGetter,
-      classReflection: WhaleReflection.instance,
     ),
     
-    oneOf1Part: MammalOneOf1(
+    oneOf1Part: MammalOneOf1Part(
       parentReflectionGetter: instanceGetter,
-      classReflection: ZebraReflection.instance,
     ),
     
-    oneOf2Part: MammalOneOf2(
+    oneOf2Part: MammalOneOf2Part(
       parentReflectionGetter: instanceGetter,
-      classReflection: PigReflection.instance,
     ),
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<Mammal, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const MammalReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.classNamePart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
@@ -79,57 +89,59 @@ class MammalReflection extends ClassReflection<Mammal> {
 
   final PropertyReflection<Mammal, 
             String
-
 > classNamePart;
   static 
             String
-
  _classNameGetter(Mammal parent) {
     return parent.className;
   }
   static void _classNameSetter(Mammal parent, 
             String
-
  value) {
     parent.className = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<Mammal, dynamic>> get properties => [
     classNamePart,
   ];
 
-  final AdditionalPropertiesReflection<Mammal, Object
-
-?> additionalPropertiesPart;
-
-  
-  
-  final MammalOneOf0 oneOf0Part;
-  
-  final MammalOneOf1 oneOf1Part;
-  
-  final MammalOneOf2 oneOf2Part;
-  
   @override
-  List<PartReflection<Mammal, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<Mammal, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(Mammal instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(Mammal instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+  final MammalOneOf0Part oneOf0Part;
+  
+  final MammalOneOf1Part oneOf1Part;
+  
+  final MammalOneOf2Part oneOf2Part;
+  
+
   @override
   List<AllOfReflection<Mammal, dynamic>> get allOfs => [
     
@@ -144,87 +156,63 @@ class MammalReflection extends ClassReflection<Mammal> {
     
   ];
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => Mammal.canDeserialize(src);
-  @override
-  Mammal Function(Object? src) get deserializeFunction =>
-      (src) => Mammal.deserialize(src);
-
-  @override
-  Object? Function(Mammal src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of Mammal.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  Mammal example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = Mammal(
-      className: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[classNamePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  Mammal empty() {
+    return Mammal(
+      className: classNamePart.reflection.emptyFunction(),
     );
-    
-    exampleResult.oneOf0 = oneOf0Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
-    
-    exampleResult.oneOf1 = oneOf1Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
-    
-    exampleResult.oneOf2 = oneOf2Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
-    
-    return exampleResult;
   }
 }
 
 
-class MammalOneOf0 extends OneOfReflection<Mammal, 
+class MammalOneOf0Part extends OneOfReflection<Mammal, 
             Whale
 > {
-  const MammalOneOf0({
-    super.classReflection,
-    required MammalReflection Function() super.parentReflectionGetter,
-    super.itemsReflection,
-  });
+
+  const MammalOneOf0Part({
+  required MammalReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+            Whale
+>, Mammal> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, Mammal, UndefinedWrapper<
+            Whale
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+            Whale
+> _getter(Mammal src) {
+  return src.oneOf0;
+}
+static void _setter(Mammal src, UndefinedWrapper<
+            Whale
+> value) {
+  src.oneOf0 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+            Whale
+> get reflection => UndefinedWrapperReflection(
+            
+        
+        
+            
+                Whale.$reflection
+        
+);
 
   UndefinedWrapper<
             Whale
-> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
     if (discriminatorExampleResults.isEmpty) {
       //return undefined for non-first oneOfs.
       // An example SHOULD be generated
@@ -232,36 +220,63 @@ class MammalOneOf0 extends OneOfReflection<Mammal,
       // if this reflection wasn't a result of any property, don't generate an example.
 
       if (!discriminatorExampleResults.values
-          .any((e) => e.value == classReflection)) {
+          .any((e) => e.value == reflection.subReflection)) {
         // if there are no discriminator examples targetting the current class:
         return UndefinedWrapper.undefined();
       } else {
         // An example SHOULD be generated
       }
     }
-    return UndefinedWrapper(
-            
-            
-
-
-    WhaleReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
-    
-);
+    return reflection.example();
   }
 }
 
-class MammalOneOf1 extends OneOfReflection<Mammal, 
+class MammalOneOf1Part extends OneOfReflection<Mammal, 
             Zebra
 > {
-  const MammalOneOf1({
-    super.classReflection,
-    required MammalReflection Function() super.parentReflectionGetter,
-    super.itemsReflection,
-  });
+
+  const MammalOneOf1Part({
+  required MammalReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+            Zebra
+>, Mammal> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, Mammal, UndefinedWrapper<
+            Zebra
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+            Zebra
+> _getter(Mammal src) {
+  return src.oneOf1;
+}
+static void _setter(Mammal src, UndefinedWrapper<
+            Zebra
+> value) {
+  src.oneOf1 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+            Zebra
+> get reflection => UndefinedWrapperReflection(
+            
+        
+        
+            
+                Zebra.$reflection
+        
+);
 
   UndefinedWrapper<
             Zebra
-> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
     if (discriminatorExampleResults.isEmpty) {
       //return undefined for non-first oneOfs.
       return UndefinedWrapper.undefined();
@@ -269,36 +284,63 @@ class MammalOneOf1 extends OneOfReflection<Mammal,
       // if this reflection wasn't a result of any property, don't generate an example.
 
       if (!discriminatorExampleResults.values
-          .any((e) => e.value == classReflection)) {
+          .any((e) => e.value == reflection.subReflection)) {
         // if there are no discriminator examples targetting the current class:
         return UndefinedWrapper.undefined();
       } else {
         // An example SHOULD be generated
       }
     }
-    return UndefinedWrapper(
-            
-            
-
-
-    ZebraReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
-    
-);
+    return reflection.example();
   }
 }
 
-class MammalOneOf2 extends OneOfReflection<Mammal, 
+class MammalOneOf2Part extends OneOfReflection<Mammal, 
             Pig
 > {
-  const MammalOneOf2({
-    super.classReflection,
-    required MammalReflection Function() super.parentReflectionGetter,
-    super.itemsReflection,
-  });
+
+  const MammalOneOf2Part({
+  required MammalReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+            Pig
+>, Mammal> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, Mammal, UndefinedWrapper<
+            Pig
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+            Pig
+> _getter(Mammal src) {
+  return src.oneOf2;
+}
+static void _setter(Mammal src, UndefinedWrapper<
+            Pig
+> value) {
+  src.oneOf2 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+            Pig
+> get reflection => UndefinedWrapperReflection(
+            
+        
+        
+            
+                Pig.$reflection
+        
+);
 
   UndefinedWrapper<
             Pig
-> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
     if (discriminatorExampleResults.isEmpty) {
       //return undefined for non-first oneOfs.
       return UndefinedWrapper.undefined();
@@ -306,25 +348,14 @@ class MammalOneOf2 extends OneOfReflection<Mammal,
       // if this reflection wasn't a result of any property, don't generate an example.
 
       if (!discriminatorExampleResults.values
-          .any((e) => e.value == classReflection)) {
+          .any((e) => e.value == reflection.subReflection)) {
         // if there are no discriminator examples targetting the current class:
         return UndefinedWrapper.undefined();
       } else {
         // An example SHOULD be generated
       }
     }
-    return UndefinedWrapper(
-            
-            
-
-
-    PigReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
-    
-);
+    return reflection.example();
   }
-}
-
-class MammalXmlReflection {
-    const MammalXmlReflection();
 }
 

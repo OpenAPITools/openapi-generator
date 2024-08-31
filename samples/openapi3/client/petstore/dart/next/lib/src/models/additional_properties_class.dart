@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'additional_properties_class.reflection.dart';
-part 'additional_properties_class.serialization.dart';
 
 
 /// AdditionalPropertiesClassMixin
@@ -24,9 +23,7 @@ mixin AdditionalPropertiesClassMixin on
     Map<String, 
         
             String
-
 >
-
 > get mapProperty;
 UndefinedWrapper<
     Map<String, 
@@ -34,41 +31,30 @@ UndefinedWrapper<
     Map<String, 
         
             String
-
 >
-
 >
-
 > get mapOfMapProperty;
 UndefinedWrapper<Object
-
 ?> get anytype1;
 UndefinedWrapper<
             $FreeFormObject
-
 > get mapWithUndeclaredPropertiesAnytype1;
 UndefinedWrapper<
             $FreeFormObject
-
 > get mapWithUndeclaredPropertiesAnytype2;
 UndefinedWrapper<
     Map<String, 
         Object
-
 ?>
-
 > get mapWithUndeclaredPropertiesAnytype3;
 UndefinedWrapper<
             $FreeFormObject
-
 > get emptyMap;
 UndefinedWrapper<
     Map<String, 
         
             String
-
 >
-
 > get mapWithUndeclaredPropertiesString;
   
 }
@@ -93,9 +79,7 @@ AdditionalPropertiesClassMixin {
     Map<String, 
         
             String
-
 >
-
 > mapProperty;
   @override
   UndefinedWrapper<
@@ -104,51 +88,39 @@ AdditionalPropertiesClassMixin {
     Map<String, 
         
             String
-
 >
-
 >
-
 > mapOfMapProperty;
   @override
   UndefinedWrapper<Object
-
 ?> anytype1;
   @override
   UndefinedWrapper<
             $FreeFormObject
-
 > mapWithUndeclaredPropertiesAnytype1;
   @override
   UndefinedWrapper<
             $FreeFormObject
-
 > mapWithUndeclaredPropertiesAnytype2;
   @override
   UndefinedWrapper<
     Map<String, 
         Object
-
 ?>
-
 > mapWithUndeclaredPropertiesAnytype3;
   @override
   UndefinedWrapper<
             $FreeFormObject
-
 > emptyMap;
   @override
   UndefinedWrapper<
     Map<String, 
         
             String
-
 >
-
 > mapWithUndeclaredPropertiesString;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -191,9 +163,10 @@ AdditionalPropertiesClassMixin {
   this.mapWithUndeclaredPropertiesString = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = AdditionalPropertiesClassReflection.instance;
   AdditionalPropertiesClassReflection get $classReflection => $reflection;
@@ -203,45 +176,50 @@ AdditionalPropertiesClassMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$AdditionalPropertiesClassToMap(this);
-  }
-  factory AdditionalPropertiesClass.fromMap(Map<String, dynamic> src) {
-    return _$AdditionalPropertiesClassFromMap(src);
-  }
-  static AdditionalPropertiesClass? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return AdditionalPropertiesClass.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$AdditionalPropertiesClassCanFromMap(src);
+  factory AdditionalPropertiesClass.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory AdditionalPropertiesClass.deserialize(Object? src) {
-    return _$AdditionalPropertiesClassDeserialize(src);
-  }
-  static AdditionalPropertiesClass? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return AdditionalPropertiesClass.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$AdditionalPropertiesClassCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$AdditionalPropertiesClassSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

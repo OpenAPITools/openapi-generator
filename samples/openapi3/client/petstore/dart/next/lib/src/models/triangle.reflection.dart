@@ -5,14 +5,15 @@ part of 'triangle.dart';
 
 //class reflection
 
-class TriangleReflection extends ClassReflection<Triangle> {
+class TriangleReflection extends ModelReflection<Triangle> {
   static TriangleReflection instanceGetter() => instance;
   static const instance = TriangleReflection._(
     modelName: r'Triangle',
     className: r'Triangle',
+    xml: const XmlReflection(
+),
     triangleTypePart: PropertyReflection<Triangle, 
             String
-
 >(
       dartName: r'triangleType',
       nullable: false,
@@ -22,8 +23,18 @@ class TriangleReflection extends ClassReflection<Triangle> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: true,
-      getter: _triangleTypeGetter,
-      setter: _triangleTypeSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_triangleTypeGetter),
+      setter: FunctionWrapper2(_triangleTypeSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
     discriminatorKey: r'triangleType',
     discriminatorImplicitMappings: const {
@@ -38,31 +49,30 @@ class TriangleReflection extends ClassReflection<Triangle> {
     },
     
     
-    oneOf0Part: TriangleOneOf0(
+    oneOf0Part: TriangleOneOf0Part(
       parentReflectionGetter: instanceGetter,
-      classReflection: EquilateralTriangleReflection.instance,
     ),
     
-    oneOf1Part: TriangleOneOf1(
+    oneOf1Part: TriangleOneOf1Part(
       parentReflectionGetter: instanceGetter,
-      classReflection: IsoscelesTriangleReflection.instance,
     ),
     
-    oneOf2Part: TriangleOneOf2(
+    oneOf2Part: TriangleOneOf2Part(
       parentReflectionGetter: instanceGetter,
-      classReflection: ScaleneTriangleReflection.instance,
     ),
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<Triangle, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const TriangleReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.triangleTypePart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
@@ -79,57 +89,59 @@ class TriangleReflection extends ClassReflection<Triangle> {
 
   final PropertyReflection<Triangle, 
             String
-
 > triangleTypePart;
   static 
             String
-
  _triangleTypeGetter(Triangle parent) {
     return parent.triangleType;
   }
   static void _triangleTypeSetter(Triangle parent, 
             String
-
  value) {
     parent.triangleType = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<Triangle, dynamic>> get properties => [
     triangleTypePart,
   ];
 
-  final AdditionalPropertiesReflection<Triangle, Object
-
-?> additionalPropertiesPart;
-
-  
-  
-  final TriangleOneOf0 oneOf0Part;
-  
-  final TriangleOneOf1 oneOf1Part;
-  
-  final TriangleOneOf2 oneOf2Part;
-  
   @override
-  List<PartReflection<Triangle, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<Triangle, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(Triangle instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(Triangle instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+  final TriangleOneOf0Part oneOf0Part;
+  
+  final TriangleOneOf1Part oneOf1Part;
+  
+  final TriangleOneOf2Part oneOf2Part;
+  
+
   @override
   List<AllOfReflection<Triangle, dynamic>> get allOfs => [
     
@@ -144,87 +156,63 @@ class TriangleReflection extends ClassReflection<Triangle> {
     
   ];
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => Triangle.canDeserialize(src);
-  @override
-  Triangle Function(Object? src) get deserializeFunction =>
-      (src) => Triangle.deserialize(src);
-
-  @override
-  Object? Function(Triangle src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of Triangle.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  Triangle example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = Triangle(
-      triangleType: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[triangleTypePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  Triangle empty() {
+    return Triangle(
+      triangleType: triangleTypePart.reflection.emptyFunction(),
     );
-    
-    exampleResult.oneOf0 = oneOf0Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
-    
-    exampleResult.oneOf1 = oneOf1Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
-    
-    exampleResult.oneOf2 = oneOf2Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
-    
-    return exampleResult;
   }
 }
 
 
-class TriangleOneOf0 extends OneOfReflection<Triangle, 
+class TriangleOneOf0Part extends OneOfReflection<Triangle, 
             EquilateralTriangle
 > {
-  const TriangleOneOf0({
-    super.classReflection,
-    required TriangleReflection Function() super.parentReflectionGetter,
-    super.itemsReflection,
-  });
+
+  const TriangleOneOf0Part({
+  required TriangleReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+            EquilateralTriangle
+>, Triangle> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, Triangle, UndefinedWrapper<
+            EquilateralTriangle
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+            EquilateralTriangle
+> _getter(Triangle src) {
+  return src.oneOf0;
+}
+static void _setter(Triangle src, UndefinedWrapper<
+            EquilateralTriangle
+> value) {
+  src.oneOf0 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+            EquilateralTriangle
+> get reflection => UndefinedWrapperReflection(
+            
+        
+        
+            
+                EquilateralTriangle.$reflection
+        
+);
 
   UndefinedWrapper<
             EquilateralTriangle
-> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
     if (discriminatorExampleResults.isEmpty) {
       //return undefined for non-first oneOfs.
       // An example SHOULD be generated
@@ -232,36 +220,63 @@ class TriangleOneOf0 extends OneOfReflection<Triangle,
       // if this reflection wasn't a result of any property, don't generate an example.
 
       if (!discriminatorExampleResults.values
-          .any((e) => e.value == classReflection)) {
+          .any((e) => e.value == reflection.subReflection)) {
         // if there are no discriminator examples targetting the current class:
         return UndefinedWrapper.undefined();
       } else {
         // An example SHOULD be generated
       }
     }
-    return UndefinedWrapper(
-            
-            
-
-
-    EquilateralTriangleReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
-    
-);
+    return reflection.example();
   }
 }
 
-class TriangleOneOf1 extends OneOfReflection<Triangle, 
+class TriangleOneOf1Part extends OneOfReflection<Triangle, 
             IsoscelesTriangle
 > {
-  const TriangleOneOf1({
-    super.classReflection,
-    required TriangleReflection Function() super.parentReflectionGetter,
-    super.itemsReflection,
-  });
+
+  const TriangleOneOf1Part({
+  required TriangleReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+            IsoscelesTriangle
+>, Triangle> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, Triangle, UndefinedWrapper<
+            IsoscelesTriangle
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+            IsoscelesTriangle
+> _getter(Triangle src) {
+  return src.oneOf1;
+}
+static void _setter(Triangle src, UndefinedWrapper<
+            IsoscelesTriangle
+> value) {
+  src.oneOf1 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+            IsoscelesTriangle
+> get reflection => UndefinedWrapperReflection(
+            
+        
+        
+            
+                IsoscelesTriangle.$reflection
+        
+);
 
   UndefinedWrapper<
             IsoscelesTriangle
-> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
     if (discriminatorExampleResults.isEmpty) {
       //return undefined for non-first oneOfs.
       return UndefinedWrapper.undefined();
@@ -269,36 +284,63 @@ class TriangleOneOf1 extends OneOfReflection<Triangle,
       // if this reflection wasn't a result of any property, don't generate an example.
 
       if (!discriminatorExampleResults.values
-          .any((e) => e.value == classReflection)) {
+          .any((e) => e.value == reflection.subReflection)) {
         // if there are no discriminator examples targetting the current class:
         return UndefinedWrapper.undefined();
       } else {
         // An example SHOULD be generated
       }
     }
-    return UndefinedWrapper(
-            
-            
-
-
-    IsoscelesTriangleReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
-    
-);
+    return reflection.example();
   }
 }
 
-class TriangleOneOf2 extends OneOfReflection<Triangle, 
+class TriangleOneOf2Part extends OneOfReflection<Triangle, 
             ScaleneTriangle
 > {
-  const TriangleOneOf2({
-    super.classReflection,
-    required TriangleReflection Function() super.parentReflectionGetter,
-    super.itemsReflection,
-  });
+
+  const TriangleOneOf2Part({
+  required TriangleReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+            ScaleneTriangle
+>, Triangle> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, Triangle, UndefinedWrapper<
+            ScaleneTriangle
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+            ScaleneTriangle
+> _getter(Triangle src) {
+  return src.oneOf2;
+}
+static void _setter(Triangle src, UndefinedWrapper<
+            ScaleneTriangle
+> value) {
+  src.oneOf2 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+            ScaleneTriangle
+> get reflection => UndefinedWrapperReflection(
+            
+        
+        
+            
+                ScaleneTriangle.$reflection
+        
+);
 
   UndefinedWrapper<
             ScaleneTriangle
-> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
     if (discriminatorExampleResults.isEmpty) {
       //return undefined for non-first oneOfs.
       return UndefinedWrapper.undefined();
@@ -306,25 +348,14 @@ class TriangleOneOf2 extends OneOfReflection<Triangle,
       // if this reflection wasn't a result of any property, don't generate an example.
 
       if (!discriminatorExampleResults.values
-          .any((e) => e.value == classReflection)) {
+          .any((e) => e.value == reflection.subReflection)) {
         // if there are no discriminator examples targetting the current class:
         return UndefinedWrapper.undefined();
       } else {
         // An example SHOULD be generated
       }
     }
-    return UndefinedWrapper(
-            
-            
-
-
-    ScaleneTriangleReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
-    
-);
+    return reflection.example();
   }
-}
-
-class TriangleXmlReflection {
-    const TriangleXmlReflection();
 }
 

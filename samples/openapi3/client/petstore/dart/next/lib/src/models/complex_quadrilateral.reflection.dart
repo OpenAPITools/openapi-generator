@@ -5,14 +5,15 @@ part of 'complex_quadrilateral.dart';
 
 //class reflection
 
-class ComplexQuadrilateralReflection extends ClassReflection<ComplexQuadrilateral> {
+class ComplexQuadrilateralReflection extends ModelReflection<ComplexQuadrilateral> {
   static ComplexQuadrilateralReflection instanceGetter() => instance;
   static const instance = ComplexQuadrilateralReflection._(
     modelName: r'ComplexQuadrilateral',
     className: r'ComplexQuadrilateral',
+    xml: const XmlReflection(
+),
     quadrilateralTypePart: PropertyReflection<ComplexQuadrilateral, 
             String
-
 >(
       dartName: r'quadrilateralType',
       nullable: false,
@@ -22,12 +23,21 @@ class ComplexQuadrilateralReflection extends ClassReflection<ComplexQuadrilatera
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _quadrilateralTypeGetter,
-      setter: _quadrilateralTypeSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_quadrilateralTypeGetter),
+      setter: FunctionWrapper2(_quadrilateralTypeSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
     shapeTypePart: PropertyReflection<ComplexQuadrilateral, 
             String
-
 >(
       dartName: r'shapeType',
       nullable: false,
@@ -37,76 +47,93 @@ class ComplexQuadrilateralReflection extends ClassReflection<ComplexQuadrilatera
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _shapeTypeGetter,
-      setter: _shapeTypeSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_shapeTypeGetter),
+      setter: FunctionWrapper2(_shapeTypeSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
-    
-    
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    allOfQuadrilateralInterfacePart: AllOfReflection(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<ComplexQuadrilateral, Object
+      reflection: QuadrilateralInterfaceReflection.instance,
+    ),
+allOfShapeInterfacePart: AllOfReflection(
+      parentReflectionGetter: instanceGetter,
+      reflection: ShapeInterfaceReflection.instance,
+    ),
 
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+    
+    additionalPropertiesPart: AdditionalPropertiesPart(
+      parentReflectionGetter: instanceGetter,
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const ComplexQuadrilateralReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.quadrilateralTypePart,
     required this.shapeTypePart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
     this.discriminatorImplicitMappings = const {},
-        
+    required this.allOfQuadrilateralInterfacePart,
+required this.allOfShapeInterfacePart,
+    
     required this.additionalPropertiesPart,
   });
 
   final PropertyReflection<ComplexQuadrilateral, 
             String
-
 > quadrilateralTypePart;
   static 
             String
-
  _quadrilateralTypeGetter(ComplexQuadrilateral parent) {
     return parent.quadrilateralType;
   }
   static void _quadrilateralTypeSetter(ComplexQuadrilateral parent, 
             String
-
  value) {
     parent.quadrilateralType = value;
   }
+
   final PropertyReflection<ComplexQuadrilateral, 
             String
-
 > shapeTypePart;
   static 
             String
-
  _shapeTypeGetter(ComplexQuadrilateral parent) {
     return parent.shapeType;
   }
   static void _shapeTypeSetter(ComplexQuadrilateral parent, 
             String
-
  value) {
     parent.shapeType = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<ComplexQuadrilateral, dynamic>> get properties => [
@@ -114,20 +141,27 @@ class ComplexQuadrilateralReflection extends ClassReflection<ComplexQuadrilatera
 shapeTypePart,
   ];
 
-  final AdditionalPropertiesReflection<ComplexQuadrilateral, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<ComplexQuadrilateral, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<ComplexQuadrilateral, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(ComplexQuadrilateral instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(ComplexQuadrilateral instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  final AllOfReflection<ComplexQuadrilateral, QuadrilateralInterfaceMixin> allOfQuadrilateralInterfacePart;
+final AllOfReflection<ComplexQuadrilateral, ShapeInterfaceMixin> allOfShapeInterfacePart;
+
+  
+
   @override
   List<AllOfReflection<ComplexQuadrilateral, dynamic>> get allOfs => [
-    
+    allOfQuadrilateralInterfacePart,allOfShapeInterfacePart,
   ];
 
   @override
@@ -139,89 +173,15 @@ shapeTypePart,
     
   ];
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => ComplexQuadrilateral.canDeserialize(src);
-  @override
-  ComplexQuadrilateral Function(Object? src) get deserializeFunction =>
-      (src) => ComplexQuadrilateral.deserialize(src);
-
-  @override
-  Object? Function(ComplexQuadrilateral src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of ComplexQuadrilateral.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  ComplexQuadrilateral example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = ComplexQuadrilateral(
-      quadrilateralType: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[quadrilateralTypePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      shapeType: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[shapeTypePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  ComplexQuadrilateral empty() {
+    return ComplexQuadrilateral(
+      quadrilateralType: quadrilateralTypePart.reflection.emptyFunction(),
+      shapeType: shapeTypePart.reflection.emptyFunction(),
     );
-    
-    return exampleResult;
   }
 }
 
-
-class ComplexQuadrilateralXmlReflection {
-    const ComplexQuadrilateralXmlReflection();
-}
 

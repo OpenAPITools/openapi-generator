@@ -5,14 +5,15 @@ part of 'mixed_properties_and_additional_properties_class.dart';
 
 //class reflection
 
-class MixedPropertiesAndAdditionalPropertiesClassReflection extends ClassReflection<MixedPropertiesAndAdditionalPropertiesClass> {
+class MixedPropertiesAndAdditionalPropertiesClassReflection extends ModelReflection<MixedPropertiesAndAdditionalPropertiesClass> {
   static MixedPropertiesAndAdditionalPropertiesClassReflection instanceGetter() => instance;
   static const instance = MixedPropertiesAndAdditionalPropertiesClassReflection._(
     modelName: r'MixedPropertiesAndAdditionalPropertiesClass',
     className: r'MixedPropertiesAndAdditionalPropertiesClass',
+    xml: const XmlReflection(
+),
     uuidPart: PropertyReflection<MixedPropertiesAndAdditionalPropertiesClass, UndefinedWrapper<
             String
-
 >>(
       dartName: r'uuid',
       nullable: false,
@@ -22,12 +23,21 @@ class MixedPropertiesAndAdditionalPropertiesClassReflection extends ClassReflect
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _uuidGetter,
-      setter: _uuidSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_uuidGetter),
+      setter: FunctionWrapper2(_uuidSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     dateTimePart: PropertyReflection<MixedPropertiesAndAdditionalPropertiesClass, UndefinedWrapper<
             DateTime
-
 >>(
       dartName: r'dateTime',
       nullable: false,
@@ -37,16 +47,24 @@ class MixedPropertiesAndAdditionalPropertiesClassReflection extends ClassReflect
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _dateTimeGetter,
-      setter: _dateTimeSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_dateTimeGetter),
+      setter: FunctionWrapper2(_dateTimeSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forDateTime
+        
+),
     ),
     mapPart: PropertyReflection<MixedPropertiesAndAdditionalPropertiesClass, UndefinedWrapper<
     Map<String, 
         
             Animal
-
 >
-
 >>(
       dartName: r'map',
       nullable: false,
@@ -56,25 +74,35 @@ class MixedPropertiesAndAdditionalPropertiesClassReflection extends ClassReflect
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      itemsReflection: ItemsReflection<MixedPropertiesAndAdditionalPropertiesClass, 
-            Animal
-
->(parentReflectionGetter: instanceGetter,classReflection: AnimalReflection.instance,),
-      getter: _mapGetter,
-      setter: _mapSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_mapGetter),
+      setter: FunctionWrapper2(_mapSetter),
+      reflection: UndefinedWrapperReflection(
+    MapReflection(
+            
+        
+        
+            
+                Animal.$reflection
+        
+)
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<MixedPropertiesAndAdditionalPropertiesClass, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const MixedPropertiesAndAdditionalPropertiesClassReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.uuidPart,
     required this.dateTimePart,
     required this.mapPart,
@@ -87,51 +115,43 @@ class MixedPropertiesAndAdditionalPropertiesClassReflection extends ClassReflect
 
   final PropertyReflection<MixedPropertiesAndAdditionalPropertiesClass, UndefinedWrapper<
             String
-
 >> uuidPart;
   static UndefinedWrapper<
             String
-
 > _uuidGetter(MixedPropertiesAndAdditionalPropertiesClass parent) {
     return parent.uuid;
   }
   static void _uuidSetter(MixedPropertiesAndAdditionalPropertiesClass parent, UndefinedWrapper<
             String
-
 > value) {
     parent.uuid = value;
   }
+
   final PropertyReflection<MixedPropertiesAndAdditionalPropertiesClass, UndefinedWrapper<
             DateTime
-
 >> dateTimePart;
   static UndefinedWrapper<
             DateTime
-
 > _dateTimeGetter(MixedPropertiesAndAdditionalPropertiesClass parent) {
     return parent.dateTime;
   }
   static void _dateTimeSetter(MixedPropertiesAndAdditionalPropertiesClass parent, UndefinedWrapper<
             DateTime
-
 > value) {
     parent.dateTime = value;
   }
+
   final PropertyReflection<MixedPropertiesAndAdditionalPropertiesClass, UndefinedWrapper<
     Map<String, 
         
             Animal
-
 >
-
 >> mapPart;
   static UndefinedWrapper<
     Map<String, 
         
             Animal
-
 >
-
 > _mapGetter(MixedPropertiesAndAdditionalPropertiesClass parent) {
     return parent.map;
   }
@@ -139,26 +159,24 @@ class MixedPropertiesAndAdditionalPropertiesClassReflection extends ClassReflect
     Map<String, 
         
             Animal
-
 >
-
 > value) {
     parent.map = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<MixedPropertiesAndAdditionalPropertiesClass, dynamic>> get properties => [
@@ -167,124 +185,35 @@ dateTimePart,
 mapPart,
   ];
 
-  final AdditionalPropertiesReflection<MixedPropertiesAndAdditionalPropertiesClass, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<MixedPropertiesAndAdditionalPropertiesClass, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<MixedPropertiesAndAdditionalPropertiesClass, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(MixedPropertiesAndAdditionalPropertiesClass instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(MixedPropertiesAndAdditionalPropertiesClass instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<MixedPropertiesAndAdditionalPropertiesClass, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => MixedPropertiesAndAdditionalPropertiesClass.canDeserialize(src);
-  @override
-  MixedPropertiesAndAdditionalPropertiesClass Function(Object? src) get deserializeFunction =>
-      (src) => MixedPropertiesAndAdditionalPropertiesClass.deserialize(src);
-
-  @override
-  Object? Function(MixedPropertiesAndAdditionalPropertiesClass src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of MixedPropertiesAndAdditionalPropertiesClass.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  MixedPropertiesAndAdditionalPropertiesClass example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = MixedPropertiesAndAdditionalPropertiesClass(
-      uuid: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[uuidPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      dateTime: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleDateTime()
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      map: () {
-        var result = 
-
-
-    exampleMap(() { return 
-
-
-            
-            
-
-
-    AnimalReflection.instance.example()
-    
-
-
-; })
-
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  MixedPropertiesAndAdditionalPropertiesClass empty() {
+    return MixedPropertiesAndAdditionalPropertiesClass(
     );
-    
-    return exampleResult;
   }
 }
 
-
-class MixedPropertiesAndAdditionalPropertiesClassXmlReflection {
-    const MixedPropertiesAndAdditionalPropertiesClassXmlReflection();
-}
 

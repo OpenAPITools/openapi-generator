@@ -5,14 +5,15 @@ part of 'shape_interface.dart';
 
 //class reflection
 
-class ShapeInterfaceReflection extends ClassReflection<ShapeInterface> {
+class ShapeInterfaceReflection extends ModelReflection<ShapeInterface> {
   static ShapeInterfaceReflection instanceGetter() => instance;
   static const instance = ShapeInterfaceReflection._(
     modelName: r'ShapeInterface',
     className: r'ShapeInterface',
+    xml: const XmlReflection(
+),
     shapeTypePart: PropertyReflection<ShapeInterface, 
             String
-
 >(
       dartName: r'shapeType',
       nullable: false,
@@ -22,21 +23,33 @@ class ShapeInterfaceReflection extends ClassReflection<ShapeInterface> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _shapeTypeGetter,
-      setter: _shapeTypeSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_shapeTypeGetter),
+      setter: FunctionWrapper2(_shapeTypeSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<ShapeInterface, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const ShapeInterfaceReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.shapeTypePart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
@@ -47,121 +60,67 @@ class ShapeInterfaceReflection extends ClassReflection<ShapeInterface> {
 
   final PropertyReflection<ShapeInterface, 
             String
-
 > shapeTypePart;
   static 
             String
-
  _shapeTypeGetter(ShapeInterface parent) {
     return parent.shapeType;
   }
   static void _shapeTypeSetter(ShapeInterface parent, 
             String
-
  value) {
     parent.shapeType = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<ShapeInterface, dynamic>> get properties => [
     shapeTypePart,
   ];
 
-  final AdditionalPropertiesReflection<ShapeInterface, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<ShapeInterface, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<ShapeInterface, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(ShapeInterface instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(ShapeInterface instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<ShapeInterface, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => ShapeInterface.canDeserialize(src);
-  @override
-  ShapeInterface Function(Object? src) get deserializeFunction =>
-      (src) => ShapeInterface.deserialize(src);
-
-  @override
-  Object? Function(ShapeInterface src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of ShapeInterface.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  ShapeInterface example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = ShapeInterface(
-      shapeType: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[shapeTypePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  ShapeInterface empty() {
+    return ShapeInterface(
+      shapeType: shapeTypePart.reflection.emptyFunction(),
     );
-    
-    return exampleResult;
   }
 }
 
-
-class ShapeInterfaceXmlReflection {
-    const ShapeInterfaceXmlReflection();
-}
 

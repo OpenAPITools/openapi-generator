@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'array_of_inline_all_of.reflection.dart';
-part 'array_of_inline_all_of.serialization.dart';
 
 
 /// ArrayOfInlineAllOfMixin
@@ -17,19 +16,15 @@ mixin ArrayOfInlineAllOfMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
-
 > get id;
 
             String
-
  get name;
 UndefinedWrapper<
     List<
         
             ArrayOfInlineAllOfArrayAllofDogPropertyInner
-
 >
-
 > get arrayAllofDogProperty;
   
 }
@@ -47,25 +42,20 @@ ArrayOfInlineAllOfMixin {
   @override
   UndefinedWrapper<
             int
-
 > id;
   @override
   
             String
-
  name;
   @override
   UndefinedWrapper<
     List<
         
             ArrayOfInlineAllOfArrayAllofDogPropertyInner
-
 >
-
 > arrayAllofDogProperty;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -86,9 +76,10 @@ required  this.name     ,
   this.arrayAllofDogProperty = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = ArrayOfInlineAllOfReflection.instance;
   ArrayOfInlineAllOfReflection get $classReflection => $reflection;
@@ -98,45 +89,27 @@ required  this.name     ,
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$ArrayOfInlineAllOfToMap(this);
-  }
-  factory ArrayOfInlineAllOf.fromMap(Map<String, dynamic> src) {
-    return _$ArrayOfInlineAllOfFromMap(src);
-  }
-  static ArrayOfInlineAllOf? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return ArrayOfInlineAllOf.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$ArrayOfInlineAllOfCanFromMap(src);
+  factory ArrayOfInlineAllOf.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory ArrayOfInlineAllOf.deserialize(Object? src) {
-    return _$ArrayOfInlineAllOfDeserialize(src);
-  }
-  static ArrayOfInlineAllOf? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return ArrayOfInlineAllOf.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$ArrayOfInlineAllOfCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$ArrayOfInlineAllOfSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
+
+
+
+
+
 
 
 

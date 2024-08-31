@@ -39,7 +39,7 @@ group({{classname}}{{operationIdCamelCase}}Request, () {
     {{#vendorExtensions}}{{#better-consumes}}{{#content}}{{#schema}}
     test({{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}}, () async {
         request = {{classname}}{{operationIdCamelCase}}Request.{{nameInCamelCase}}(
-            data: {{>lib/src/models/reflection/example_recursive}},
+            data: {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}}.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },

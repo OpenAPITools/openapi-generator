@@ -1,7 +1,0 @@
-// ignore_for_file: unnecessary_cast, unused_local_variable
-
-{{#models}}{{#model}}part of '{{classFilename}}.dart';
-{{/model}}{{/models}}
-
-{{#models}}{{#model}}{{#isEnum}}{{>lib/src/models/enum.serialization}}{{/isEnum}}{{^isEnum}}{{>lib/src/models/class.serialization}}
-{{/isEnum}}{{/model}}{{/models}}

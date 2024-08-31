@@ -5,14 +5,15 @@ part of 'danish_pig.dart';
 
 //class reflection
 
-class DanishPigReflection extends ClassReflection<DanishPig> {
+class DanishPigReflection extends ModelReflection<DanishPig> {
   static DanishPigReflection instanceGetter() => instance;
   static const instance = DanishPigReflection._(
     modelName: r'DanishPig',
     className: r'DanishPig',
+    xml: const XmlReflection(
+),
     classNamePart: PropertyReflection<DanishPig, 
             String
-
 >(
       dartName: r'className',
       nullable: false,
@@ -22,21 +23,33 @@ class DanishPigReflection extends ClassReflection<DanishPig> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _classNameGetter,
-      setter: _classNameSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_classNameGetter),
+      setter: FunctionWrapper2(_classNameSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<DanishPig, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const DanishPigReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.classNamePart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
@@ -47,121 +60,67 @@ class DanishPigReflection extends ClassReflection<DanishPig> {
 
   final PropertyReflection<DanishPig, 
             String
-
 > classNamePart;
   static 
             String
-
  _classNameGetter(DanishPig parent) {
     return parent.className;
   }
   static void _classNameSetter(DanishPig parent, 
             String
-
  value) {
     parent.className = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<DanishPig, dynamic>> get properties => [
     classNamePart,
   ];
 
-  final AdditionalPropertiesReflection<DanishPig, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<DanishPig, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<DanishPig, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(DanishPig instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(DanishPig instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<DanishPig, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => DanishPig.canDeserialize(src);
-  @override
-  DanishPig Function(Object? src) get deserializeFunction =>
-      (src) => DanishPig.deserialize(src);
-
-  @override
-  Object? Function(DanishPig src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of DanishPig.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  DanishPig example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = DanishPig(
-      className: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[classNamePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  DanishPig empty() {
+    return DanishPig(
+      className: classNamePart.reflection.emptyFunction(),
     );
-    
-    return exampleResult;
   }
 }
 
-
-class DanishPigXmlReflection {
-    const DanishPigXmlReflection();
-}
 

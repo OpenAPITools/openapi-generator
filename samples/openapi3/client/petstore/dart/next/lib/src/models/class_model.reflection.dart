@@ -5,14 +5,15 @@ part of 'class_model.dart';
 
 //class reflection
 
-class ClassModelReflection extends ClassReflection<ClassModel> {
+class ClassModelReflection extends ModelReflection<ClassModel> {
   static ClassModelReflection instanceGetter() => instance;
   static const instance = ClassModelReflection._(
     modelName: r'ClassModel',
     className: r'ClassModel',
+    xml: const XmlReflection(
+),
     propertyClassPart: PropertyReflection<ClassModel, UndefinedWrapper<
             String
-
 >>(
       dartName: r'propertyClass',
       nullable: false,
@@ -22,21 +23,33 @@ class ClassModelReflection extends ClassReflection<ClassModel> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _propertyClassGetter,
-      setter: _propertyClassSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_propertyClassGetter),
+      setter: FunctionWrapper2(_propertyClassSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<ClassModel, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const ClassModelReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.propertyClassPart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
@@ -47,121 +60,66 @@ class ClassModelReflection extends ClassReflection<ClassModel> {
 
   final PropertyReflection<ClassModel, UndefinedWrapper<
             String
-
 >> propertyClassPart;
   static UndefinedWrapper<
             String
-
 > _propertyClassGetter(ClassModel parent) {
     return parent.propertyClass;
   }
   static void _propertyClassSetter(ClassModel parent, UndefinedWrapper<
             String
-
 > value) {
     parent.propertyClass = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<ClassModel, dynamic>> get properties => [
     propertyClassPart,
   ];
 
-  final AdditionalPropertiesReflection<ClassModel, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<ClassModel, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<ClassModel, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(ClassModel instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(ClassModel instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<ClassModel, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => ClassModel.canDeserialize(src);
-  @override
-  ClassModel Function(Object? src) get deserializeFunction =>
-      (src) => ClassModel.deserialize(src);
-
-  @override
-  Object? Function(ClassModel src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of ClassModel.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  ClassModel example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = ClassModel(
-      propertyClass: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[propertyClassPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  ClassModel empty() {
+    return ClassModel(
     );
-    
-    return exampleResult;
   }
 }
 
-
-class ClassModelXmlReflection {
-    const ClassModelXmlReflection();
-}
 

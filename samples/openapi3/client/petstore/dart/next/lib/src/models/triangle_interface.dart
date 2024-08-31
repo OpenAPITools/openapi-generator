@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'triangle_interface.reflection.dart';
-part 'triangle_interface.serialization.dart';
 
 
 /// TriangleInterfaceMixin
@@ -15,7 +14,6 @@ mixin TriangleInterfaceMixin on
   $OpenApiObjectMixin {
   
             String
-
  get triangleType;
   
 }
@@ -31,11 +29,9 @@ TriangleInterfaceMixin {
   @override
   
             String
-
  triangleType;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -48,9 +44,10 @@ TriangleInterfaceMixin {
 
   TriangleInterface({
     required  this.triangleType     ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = TriangleInterfaceReflection.instance;
   TriangleInterfaceReflection get $classReflection => $reflection;
@@ -60,45 +57,19 @@ TriangleInterfaceMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$TriangleInterfaceToMap(this);
-  }
-  factory TriangleInterface.fromMap(Map<String, dynamic> src) {
-    return _$TriangleInterfaceFromMap(src);
-  }
-  static TriangleInterface? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return TriangleInterface.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$TriangleInterfaceCanFromMap(src);
+  factory TriangleInterface.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory TriangleInterface.deserialize(Object? src) {
-    return _$TriangleInterfaceDeserialize(src);
-  }
-  static TriangleInterface? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return TriangleInterface.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$TriangleInterfaceCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$TriangleInterfaceSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
 
 
 

@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'upload_file_request.reflection.dart';
-part 'upload_file_request.serialization.dart';
 
 
 /// UploadFileRequestMixin
@@ -16,11 +15,9 @@ mixin UploadFileRequestMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
-
 > get additionalMetadata;
 UndefinedWrapper<
             XFile
-
 > get file;
   
 }
@@ -37,16 +34,13 @@ UploadFileRequestMixin {
   @override
   UndefinedWrapper<
             String
-
 > additionalMetadata;
   @override
   UndefinedWrapper<
             XFile
-
 > file;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -65,9 +59,10 @@ UploadFileRequestMixin {
   this.file = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = UploadFileRequestReflection.instance;
   UploadFileRequestReflection get $classReflection => $reflection;
@@ -77,45 +72,22 @@ UploadFileRequestMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$UploadFileRequestToMap(this);
-  }
-  factory UploadFileRequest.fromMap(Map<String, dynamic> src) {
-    return _$UploadFileRequestFromMap(src);
-  }
-  static UploadFileRequest? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return UploadFileRequest.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$UploadFileRequestCanFromMap(src);
+  factory UploadFileRequest.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory UploadFileRequest.deserialize(Object? src) {
-    return _$UploadFileRequestDeserialize(src);
-  }
-  static UploadFileRequest? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return UploadFileRequest.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$UploadFileRequestCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$UploadFileRequestSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
 
 
 

@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'user.reflection.dart';
-part 'user.serialization.dart';
 
 
 /// UserMixin
@@ -26,49 +25,37 @@ mixin UserMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
-
 > get id;
 UndefinedWrapper<
             String
-
 > get username;
 UndefinedWrapper<
             String
-
 > get firstName;
 UndefinedWrapper<
             String
-
 > get lastName;
 UndefinedWrapper<
             String
-
 > get email;
 UndefinedWrapper<
             String
-
 > get password;
 UndefinedWrapper<
             String
-
 > get phone;
 UndefinedWrapper<
             int
-
 > get userStatus;
 UndefinedWrapper<
             $FreeFormObject
-
 > get objectWithNoDeclaredProps;
 UndefinedWrapper<
             $FreeFormObject
-
 ?> get objectWithNoDeclaredPropsNullable;
 UndefinedWrapper<Object
-
 ?> get anyTypeProp;
 UndefinedWrapper<Object
-
 ?> get anyTypePropNullable;
   
 }
@@ -95,64 +82,51 @@ UserMixin {
   @override
   UndefinedWrapper<
             int
-
 > id;
   @override
   UndefinedWrapper<
             String
-
 > username;
   @override
   UndefinedWrapper<
             String
-
 > firstName;
   @override
   UndefinedWrapper<
             String
-
 > lastName;
   @override
   UndefinedWrapper<
             String
-
 > email;
   @override
   UndefinedWrapper<
             String
-
 > password;
   @override
   UndefinedWrapper<
             String
-
 > phone;
   @override
   UndefinedWrapper<
             int
-
 > userStatus;
   @override
   UndefinedWrapper<
             $FreeFormObject
-
 > objectWithNoDeclaredProps;
   @override
   UndefinedWrapper<
             $FreeFormObject
-
 ?> objectWithNoDeclaredPropsNullable;
   @override
   UndefinedWrapper<Object
-
 ?> anyTypeProp;
   @override
   UndefinedWrapper<Object
-
 ?> anyTypePropNullable;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -211,9 +185,10 @@ UserMixin {
   this.anyTypePropNullable = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = UserReflection.instance;
   UserReflection get $classReflection => $reflection;
@@ -223,45 +198,52 @@ UserMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$UserToMap(this);
-  }
-  factory User.fromMap(Map<String, dynamic> src) {
-    return _$UserFromMap(src);
-  }
-  static User? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return User.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$UserCanFromMap(src);
+  factory User.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory User.deserialize(Object? src) {
-    return _$UserDeserialize(src);
-  }
-  static User? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return User.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$UserCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$UserSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

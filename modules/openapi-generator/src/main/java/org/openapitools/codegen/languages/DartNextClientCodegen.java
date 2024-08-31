@@ -55,6 +55,7 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Compiler;
 
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -107,6 +108,10 @@ public class DartNextClientCodegen extends DefaultCodegen {
 
     protected String srcPath() {
         return libPath + sourceFolder + File.separator;
+    }
+
+    protected String testPath() {
+        return "test" + File.separator;
     }
 
     protected String modelsPath() {
@@ -444,7 +449,7 @@ public class DartNextClientCodegen extends DefaultCodegen {
 
         modelTemplateFiles.put(modelsMustache + "model.mustache", ".dart");
         modelTemplateFiles.put(modelsMustache + "model.reflection.mustache", ".reflection.dart");
-        modelTemplateFiles.put(modelsMustache + "model.serialization.mustache", ".serialization.dart");
+        // modelTemplateFiles.put(modelsMustache + "model.serialization.mustache", ".serialization.dart");
 
         modelTestTemplateFiles.put(modelsTestsMustache + "model_tests.mustache", ".dart");
         apiTestTemplateFiles.put(apisTestsMustache + "api_tests.mustache", ".dart");
@@ -462,6 +467,8 @@ public class DartNextClientCodegen extends DefaultCodegen {
         supportingFiles.add(new SupportingFile(modelsMustache + "_exports.mustache", modelsPath(), "_exports.dart"));
         supportingFiles.add(new SupportingFile(apisMustache + "_exports.mustache", apisPath(), "_exports.dart"));
 
+        supportingFiles.add(new SupportingFile(testsMustache + "utils.mustache", testPath(), "utils.dart"));
+
         String networkingMustache = "lib/src/networking/";
         supportingFiles
                 .add(new SupportingFile(networkingMustache + "_exports.mustache", networkingPath(), "_exports.dart"));
@@ -473,10 +480,17 @@ public class DartNextClientCodegen extends DefaultCodegen {
                 .add(new SupportingFile(networkingMustache + "property_encoding_rule.mustache", networkingPath(),
                         "property_encoding_rule.dart"));
         supportingFiles
+                .add(new SupportingFile(networkingMustache + "wire_serialization_options.mustache", networkingPath(),
+                        "wire_serialization_options.dart"));
+        supportingFiles
                 .add(new SupportingFile(networkingMustache + "multipart.mustache", networkingPath(), "multipart.dart"));
         supportingFiles
                 .add(new SupportingFile(networkingMustache + "package_http_client.mustache", networkingPath(),
                         "package_http_client.dart"));
+        supportingFiles
+                .add(new SupportingFile(testsMustache + "networking/helpers_test.mustache",
+                        testPath() + File.separator + "networking",
+                        "helpers_test.dart"));
 
         String serializationMustache = "lib/src/serialization/";
         supportingFiles
@@ -502,15 +516,33 @@ public class DartNextClientCodegen extends DefaultCodegen {
                 .add(new SupportingFile(serializationMustache + "json_extensions.mustache", serializationPath(),
                         "json_extensions.dart"));
         supportingFiles
-                .add(new SupportingFile(serializationMustache + "json_reflection.mustache", serializationPath(),
-                        "json_reflection.dart"));
+                .add(new SupportingFile(serializationMustache + "reflection.mustache", serializationPath(),
+                        "reflection.dart"));
+        supportingFiles
+                .add(new SupportingFile(serializationMustache + "model_reflection.mustache", serializationPath(),
+                        "model_reflection.dart"));
+        supportingFiles
+                .add(new SupportingFile(serializationMustache + "container_reflection.mustache", serializationPath(),
+                        "container_reflection.dart"));
+        supportingFiles
+                .add(new SupportingFile(serializationMustache + "generated_reflections.mustache", serializationPath(),
+                        "generated_reflections.dart"));
+        supportingFiles
+                .add(new SupportingFile(serializationMustache + "primitive_reflection.mustache", serializationPath(),
+                        "primitive_reflection.dart"));
+        supportingFiles
+                .add(new SupportingFile(serializationMustache + "context.mustache", serializationPath(),
+                        "context.dart"));
         supportingFiles
                 .add(new SupportingFile(serializationMustache + "xml_extensions.mustache", serializationPath(),
                         "xml_extensions.dart"));
         supportingFiles
                 .add(new SupportingFile(serializationMustache + "xml_reflection.mustache", serializationPath(),
                         "xml_reflection.dart"));
-
+        supportingFiles
+                .add(new SupportingFile(testsMustache + "serialization/helpers_test.mustache",
+                        testPath() + File.separator + "serialization",
+                        "helpers_test.dart"));
         // TODO: add all files inside shared_infrastructure to root folder of generated
         // addSharedInfrastructureFiles();
     }
@@ -524,10 +556,26 @@ public class DartNextClientCodegen extends DefaultCodegen {
     private final String kHasAncestorOnlyProps = "x-has-ancestor-only-props";
     private final String kSelfAndAncestorOnlyProps = "x-self-and-ancestor-only-props";
     private final String kHasSelfAndAncestorOnlyProps = "x-has-self-and-ancestor-only-props";
+    /// Whether the model has any variable at all.
+    /// If this is false, the modal MUST be serialized to a scalar value via oneOf or anyOf.
+    private final String kHasAnyVars = "x-has-any-vars";
     private final String kParentDiscriminator = "x-parent-discriminator";
 
     Map<String, Object> getInheritanceVariablesLocation(CodegenModel mo) {
         return mo.vendorExtensions;
+    }
+
+
+    // Workaround weird case in DefaultCodegen where parameter can have isInteger but isNumeric == false.
+    @Override
+    public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
+        var result = super.fromParameter(parameter, imports);
+        if (result!=null) {
+            if (result.isInteger || result.isFloat || result.isDouble || result.isLong || result.isShort) {
+                result.isNumeric = true;
+            }
+        }
+        return result;
     }
 
     // adapts codegen models and property to dart rules of inheritance
@@ -541,16 +589,19 @@ public class DartNextClientCodegen extends DefaultCodegen {
                         || (model.oneOf != null && !model.oneOf.isEmpty()));
                 model.vendorExtensions.put("hasAnyOfOrOneOf", hasAnyOfOrOneOf);
                 // if (model.discriminator != null) {
-                //     //if there is a discriminator, make sure it exists in vars.
-                //     var discriminatorPropertyResult = model.requiredVars.stream()
-                //             .filter(t -> t.baseName.equals(model.discriminator.getPropertyBaseName())).findFirst();
+                // //if there is a discriminator, make sure it exists in vars.
+                // var discriminatorPropertyResult = model.requiredVars.stream()
+                // .filter(t ->
+                // t.baseName.equals(model.discriminator.getPropertyBaseName())).findFirst();
 
-                //     if (discriminatorPropertyResult.isPresent()) {
-                //         final CodegenProperty discriminatorProperty = discriminatorPropertyResult.get();
-                //         if (!model.vars.stream().anyMatch(v -> v.baseName.equals(discriminatorProperty.baseName))) {
-                //             model.vars.add(discriminatorProperty);
-                //         }
-                //     }
+                // if (discriminatorPropertyResult.isPresent()) {
+                // final CodegenProperty discriminatorProperty =
+                // discriminatorPropertyResult.get();
+                // if (!model.vars.stream().anyMatch(v ->
+                // v.baseName.equals(discriminatorProperty.baseName))) {
+                // model.vars.add(discriminatorProperty);
+                // }
+                // }
                 // }
                 allModels.put(model.getClassname(), model);
             }
@@ -593,16 +644,17 @@ public class DartNextClientCodegen extends DefaultCodegen {
             varLocation.put(kIsParent, isParent);
             varLocation.put(kIsPure, isPure);
             // if (!isParent && (cm.oneOf == null || cm.oneOf.isEmpty())) {
-            //     // discriminator has no meaning here
-            //     if (cm.discriminator != null) {
-            //         varLocation.put(kParentDiscriminator, cm.discriminator);
-            //         cm.discriminator = null;
-            //     }
+            // // discriminator has no meaning here
+            // if (cm.discriminator != null) {
+            // varLocation.put(kParentDiscriminator, cm.discriminator);
+            // cm.discriminator = null;
+            // }
             // }
             // when pure:
             // vars = allVars = selfOnlyProperties = kSelfAndAncestorOnlyProps
             // ancestorOnlyProps = empty
             if (isPure) {
+                varLocation.put(kHasAnyVars, cm.getAllVars() != null && cm.getAllVars().size() > 0);
                 varLocation.put(kSelfOnlyProps, new ArrayList<>(cm.getVars()));
                 varLocation.put(kHasSelfOnlyProps, !cm.getVars().isEmpty());
                 varLocation.put(kAncestorOnlyProps, cm.parentVars = new ArrayList<CodegenProperty>());
@@ -679,6 +731,7 @@ public class DartNextClientCodegen extends DefaultCodegen {
             selfAndAncestorOnlyProperties.putAll(ancestorOnlyProperties);
 
             Map<String, Object> varLocation = getInheritanceVariablesLocation(cm);
+            varLocation.put(kHasAnyVars, cm.getAllVars() != null && cm.getAllVars().size() > 0);
             varLocation.put(kSelfOnlyProps, cm.vars = new ArrayList<>(selfOnlyProperties.values()));
             varLocation.put(kHasSelfOnlyProps, !selfOnlyProperties.isEmpty());
             varLocation.put(kAncestorOnlyProps, cm.parentVars = new ArrayList<>(ancestorOnlyProperties.values()));

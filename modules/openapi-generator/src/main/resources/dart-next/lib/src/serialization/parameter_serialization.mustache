@@ -128,8 +128,9 @@ abstract class OpenApiParameterSerializationQuery
       return template;
     }
 
-    var expanded = StdUriTemplate.expand('{?$parameterName$appendExplode}', {
-      parameterName: value,
+    final key = Uri.encodeComponent(parameterName);
+    var expanded = StdUriTemplate.expand('{?$key$appendExplode}', {
+      key: value,
     });
     if (expanded.startsWith('?')) {
       expanded = expanded.substring(1);

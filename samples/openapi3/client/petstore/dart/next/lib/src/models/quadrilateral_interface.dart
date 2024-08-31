@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'quadrilateral_interface.reflection.dart';
-part 'quadrilateral_interface.serialization.dart';
 
 
 /// QuadrilateralInterfaceMixin
@@ -15,7 +14,6 @@ mixin QuadrilateralInterfaceMixin on
   $OpenApiObjectMixin {
   
             String
-
  get quadrilateralType;
   
 }
@@ -31,11 +29,9 @@ QuadrilateralInterfaceMixin {
   @override
   
             String
-
  quadrilateralType;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -48,9 +44,10 @@ QuadrilateralInterfaceMixin {
 
   QuadrilateralInterface({
     required  this.quadrilateralType     ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = QuadrilateralInterfaceReflection.instance;
   QuadrilateralInterfaceReflection get $classReflection => $reflection;
@@ -60,45 +57,19 @@ QuadrilateralInterfaceMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$QuadrilateralInterfaceToMap(this);
-  }
-  factory QuadrilateralInterface.fromMap(Map<String, dynamic> src) {
-    return _$QuadrilateralInterfaceFromMap(src);
-  }
-  static QuadrilateralInterface? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return QuadrilateralInterface.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$QuadrilateralInterfaceCanFromMap(src);
+  factory QuadrilateralInterface.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory QuadrilateralInterface.deserialize(Object? src) {
-    return _$QuadrilateralInterfaceDeserialize(src);
-  }
-  static QuadrilateralInterface? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return QuadrilateralInterface.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$QuadrilateralInterfaceCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$QuadrilateralInterfaceSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
 
 
 

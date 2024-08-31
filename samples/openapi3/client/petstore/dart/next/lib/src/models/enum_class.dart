@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'enum_class.reflection.dart';
-part 'enum_class.serialization.dart';
 
 
 //enum def
@@ -23,8 +22,29 @@ extension type const EnumClass._(String value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection(
+    PrimitiveReflection.forString,
+    members: [
+      
+        EnumMemberReflection(dartName: r'abc', oasValue: r'_abc', value: EnumClass.abc()),
+      
+        EnumMemberReflection(dartName: r'efg', oasValue: r'-efg', value: EnumClass.efg()),
+      
+        EnumMemberReflection(dartName: r'xyz', oasValue: r'(xyz)', value: EnumClass.xyz()),
+      
+    ],
+  );
+
+  factory EnumClass.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value, context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [EnumClass] enum from a value without checking if it exists.

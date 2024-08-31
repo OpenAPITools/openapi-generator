@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'outer_enum_default_value.reflection.dart';
-part 'outer_enum_default_value.serialization.dart';
 
 
 //enum def
@@ -23,8 +22,29 @@ extension type const OuterEnumDefaultValue._(String value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection(
+    PrimitiveReflection.forString,
+    members: [
+      
+        EnumMemberReflection(dartName: r'placed', oasValue: r'placed', value: OuterEnumDefaultValue.placed()),
+      
+        EnumMemberReflection(dartName: r'approved', oasValue: r'approved', value: OuterEnumDefaultValue.approved()),
+      
+        EnumMemberReflection(dartName: r'delivered', oasValue: r'delivered', value: OuterEnumDefaultValue.delivered()),
+      
+    ],
+  );
+
+  factory OuterEnumDefaultValue.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value, context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [OuterEnumDefaultValue] enum from a value without checking if it exists.

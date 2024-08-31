@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'property_name_collision.reflection.dart';
-part 'property_name_collision.serialization.dart';
 
 
 /// PropertyNameCollisionMixin
@@ -17,15 +16,12 @@ mixin PropertyNameCollisionMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
-
 > get $type;
 UndefinedWrapper<
             String
-
 > get type;
 UndefinedWrapper<
             String
-
 > get type$;
   
 }
@@ -43,21 +39,17 @@ PropertyNameCollisionMixin {
   @override
   UndefinedWrapper<
             String
-
 > $type;
   @override
   UndefinedWrapper<
             String
-
 > type;
   @override
   UndefinedWrapper<
             String
-
 > type$;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -80,9 +72,10 @@ PropertyNameCollisionMixin {
   this.type$ = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = PropertyNameCollisionReflection.instance;
   PropertyNameCollisionReflection get $classReflection => $reflection;
@@ -92,45 +85,25 @@ PropertyNameCollisionMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$PropertyNameCollisionToMap(this);
-  }
-  factory PropertyNameCollision.fromMap(Map<String, dynamic> src) {
-    return _$PropertyNameCollisionFromMap(src);
-  }
-  static PropertyNameCollision? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return PropertyNameCollision.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$PropertyNameCollisionCanFromMap(src);
+  factory PropertyNameCollision.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory PropertyNameCollision.deserialize(Object? src) {
-    return _$PropertyNameCollisionDeserialize(src);
-  }
-  static PropertyNameCollision? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return PropertyNameCollision.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$PropertyNameCollisionCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$PropertyNameCollisionSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
+
+
+
 
 
 

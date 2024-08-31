@@ -6,6 +6,9 @@ part of 'user_api.dart';
 
 
 
+
+
+
 abstract class UserApiCreateUserRequest {
   static const pathTemplate = r'/user';
   static String method = r'POST';
@@ -14,7 +17,7 @@ abstract class UserApiCreateUserRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
 
   const factory UserApiCreateUserRequest.unsafe({
@@ -22,6 +25,7 @@ abstract class UserApiCreateUserRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = UserApiCreateUserRequestUnsafe;
 
@@ -29,11 +33,9 @@ abstract class UserApiCreateUserRequest {
   const factory UserApiCreateUserRequest.applicationJson({
     required 
             User
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -42,6 +44,7 @@ abstract class UserApiCreateUserRequest {
 
   const UserApiCreateUserRequest({
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -49,7 +52,7 @@ abstract class UserApiCreateUserRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -68,7 +71,7 @@ abstract class UserApiCreateUserRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -101,19 +104,19 @@ abstract class UserApiCreateUserRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -121,8 +124,8 @@ abstract class UserApiCreateUserRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -141,11 +144,12 @@ class UserApiCreateUserRequestUnsafe extends UserApiCreateUserRequest {
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -158,6 +162,8 @@ class UserApiCreateUserRequestUnsafe extends UserApiCreateUserRequest {
 
 
 
+
+
 class UserApiCreateUserRequestApplicationJson extends UserApiCreateUserRequest {
   static const specMediaType = r'application/json';
 
@@ -166,60 +172,53 @@ class UserApiCreateUserRequestApplicationJson extends UserApiCreateUserRequest {
 
   final 
             User
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+            
+        
+        
+            
+                User.$reflection
+        
+;
 
 
   const UserApiCreateUserRequestApplicationJson({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v.serialize();
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        yield* _stringResult(json.encode(serialized));
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
+
+
+
 
 
 
@@ -233,7 +232,7 @@ abstract class UserApiCreateUsersWithArrayInputRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
 
   const factory UserApiCreateUsersWithArrayInputRequest.unsafe({
@@ -241,6 +240,7 @@ abstract class UserApiCreateUsersWithArrayInputRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = UserApiCreateUsersWithArrayInputRequestUnsafe;
 
@@ -250,13 +250,10 @@ abstract class UserApiCreateUsersWithArrayInputRequest {
     List<
         
             User
-
 >
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -265,6 +262,7 @@ abstract class UserApiCreateUsersWithArrayInputRequest {
 
   const UserApiCreateUsersWithArrayInputRequest({
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -272,7 +270,7 @@ abstract class UserApiCreateUsersWithArrayInputRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -291,7 +289,7 @@ abstract class UserApiCreateUsersWithArrayInputRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -324,19 +322,19 @@ abstract class UserApiCreateUsersWithArrayInputRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -344,8 +342,8 @@ abstract class UserApiCreateUsersWithArrayInputRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -364,11 +362,12 @@ class UserApiCreateUsersWithArrayInputRequestUnsafe extends UserApiCreateUsersWi
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -377,6 +376,8 @@ class UserApiCreateUsersWithArrayInputRequestUnsafe extends UserApiCreateUsersWi
     yield* body;
   }
 }
+
+
 
 
 
@@ -391,62 +392,56 @@ class UserApiCreateUsersWithArrayInputRequestApplicationJson extends UserApiCrea
     List<
         
             User
-
 >
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+    ListReflection(
+            
+        
+        
+            
+                User.$reflection
+        
+)
+;
 
 
   const UserApiCreateUsersWithArrayInputRequestApplicationJson({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v.map((v) => v.serialize()).toList();
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        yield* _stringResult(json.encode(serialized));
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
+
+
+
 
 
 
@@ -460,7 +455,7 @@ abstract class UserApiCreateUsersWithListInputRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
 
   const factory UserApiCreateUsersWithListInputRequest.unsafe({
@@ -468,6 +463,7 @@ abstract class UserApiCreateUsersWithListInputRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = UserApiCreateUsersWithListInputRequestUnsafe;
 
@@ -477,13 +473,10 @@ abstract class UserApiCreateUsersWithListInputRequest {
     List<
         
             User
-
 >
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -492,6 +485,7 @@ abstract class UserApiCreateUsersWithListInputRequest {
 
   const UserApiCreateUsersWithListInputRequest({
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -499,7 +493,7 @@ abstract class UserApiCreateUsersWithListInputRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -518,7 +512,7 @@ abstract class UserApiCreateUsersWithListInputRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -551,19 +545,19 @@ abstract class UserApiCreateUsersWithListInputRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -571,8 +565,8 @@ abstract class UserApiCreateUsersWithListInputRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -591,11 +585,12 @@ class UserApiCreateUsersWithListInputRequestUnsafe extends UserApiCreateUsersWit
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -604,6 +599,8 @@ class UserApiCreateUsersWithListInputRequestUnsafe extends UserApiCreateUsersWit
     yield* body;
   }
 }
+
+
 
 
 
@@ -618,62 +615,54 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
     List<
         
             User
-
 >
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+    ListReflection(
+            
+        
+        
+            
+                User.$reflection
+        
+)
+;
 
 
   const UserApiCreateUsersWithListInputRequestApplicationJson({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v.map((v) => v.serialize()).toList();
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        yield* _stringResult(json.encode(serialized));
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
+
 
 
 
@@ -686,13 +675,12 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
   /// The name that needs to be deleted
   /// spec name: username
   final 
             String
-
  username;
   
 
@@ -701,6 +689,7 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
     
     required this.username    ,
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -708,7 +697,7 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     resolvedPath = OpenApiParameterSerializationPath.fromStyle(r'simple', explode: false, parameterName: r'username',).expand(resolvedPath, username);
@@ -728,7 +717,7 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -761,14 +750,14 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -777,10 +766,13 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
       headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
-      context: context,
+      context: userContext,
     );
   }
 }
+
+
+
 
 
 
@@ -795,13 +787,12 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
   /// The name that needs to be fetched. Use user1 for testing.
   /// spec name: username
   final 
             String
-
  username;
   
 
@@ -810,6 +801,7 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
     
     required this.username    ,
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -817,7 +809,7 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     resolvedPath = OpenApiParameterSerializationPath.fromStyle(r'simple', explode: false, parameterName: r'username',).expand(resolvedPath, username);
@@ -837,7 +829,7 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -870,14 +862,14 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -886,10 +878,17 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
       headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
-      context: context,
+      context: userContext,
     );
   }
 }
+
+
+
+
+
+
+
 
 
 
@@ -904,13 +903,12 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
   /// The user name for login
   /// spec name: username
   final 
             String
-
  username;
   
   
@@ -918,7 +916,6 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
   /// spec name: password
   final 
             String
-
  password;
   
 
@@ -930,6 +927,7 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
     
     required this.password    ,
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -937,7 +935,7 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -958,7 +956,7 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -991,14 +989,14 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -1007,11 +1005,10 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
       headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
-      context: context,
+      context: userContext,
     );
   }
 }
-
 
 
 
@@ -1025,10 +1022,11 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
 
 
   const UserApiLogoutUserRequest({
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -1036,7 +1034,7 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -1055,7 +1053,7 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -1088,14 +1086,14 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -1104,10 +1102,17 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
       headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
-      context: context,
+      context: userContext,
     );
   }
 }
+
+
+
+
+
+
+
 
 
 
@@ -1123,13 +1128,12 @@ abstract class UserApiUpdateUserRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
   /// name that need to be deleted
   /// spec name: username
   final 
             String
-
  username;
   
   
@@ -1138,12 +1142,12 @@ abstract class UserApiUpdateUserRequest {
     
     required 
             String
-
  username,
     
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = UserApiUpdateUserRequestUnsafe;
 
@@ -1151,17 +1155,14 @@ abstract class UserApiUpdateUserRequest {
   const factory UserApiUpdateUserRequest.applicationJson({
     required 
             User
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
-    
     
     required 
             String
-
  username,
     
     
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -1173,6 +1174,7 @@ abstract class UserApiUpdateUserRequest {
     required this.username    ,
     
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -1180,7 +1182,7 @@ abstract class UserApiUpdateUserRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     resolvedPath = OpenApiParameterSerializationPath.fromStyle(r'simple', explode: false, parameterName: r'username',).expand(resolvedPath, username);
@@ -1200,7 +1202,7 @@ abstract class UserApiUpdateUserRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -1233,19 +1235,19 @@ abstract class UserApiUpdateUserRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -1253,8 +1255,8 @@ abstract class UserApiUpdateUserRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -1276,11 +1278,12 @@ class UserApiUpdateUserRequestUnsafe extends UserApiUpdateUserRequest {
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -1293,6 +1296,8 @@ class UserApiUpdateUserRequestUnsafe extends UserApiUpdateUserRequest {
 
 
 
+
+
 class UserApiUpdateUserRequestApplicationJson extends UserApiUpdateUserRequest {
   static const specMediaType = r'application/json';
 
@@ -1301,61 +1306,49 @@ class UserApiUpdateUserRequestApplicationJson extends UserApiUpdateUserRequest {
 
   final 
             User
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+            
+        
+        
+            
+                User.$reflection
+        
+;
 
 
   const UserApiUpdateUserRequestApplicationJson({
     required this.data,
-    this.handleUnkownMediaType,
     
     required super.username,
-    
     
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v.serialize();
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        yield* _stringResult(json.encode(serialized));
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
 

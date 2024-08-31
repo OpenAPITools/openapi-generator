@@ -5,7 +5,6 @@ part of 'fake_api.dart';
 
 
 
-
  class FakeApiFakeGetFreeFormObjectGetRequest {
   static const pathTemplate = r'/fake/get-free-form-object';
   static String method = r'GET';
@@ -13,10 +12,11 @@ part of 'fake_api.dart';
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
 
 
   const FakeApiFakeGetFreeFormObjectGetRequest({
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -24,7 +24,7 @@ part of 'fake_api.dart';
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -43,7 +43,7 @@ part of 'fake_api.dart';
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -76,14 +76,14 @@ part of 'fake_api.dart';
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -92,10 +92,13 @@ part of 'fake_api.dart';
       headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
-      context: context,
+      context: userContext,
     );
   }
 }
+
+
+
 
 
 
@@ -111,7 +114,7 @@ abstract class FakeApiFakeOuterBooleanSerializeRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
 
   const factory FakeApiFakeOuterBooleanSerializeRequest.unsafe({
@@ -119,6 +122,7 @@ abstract class FakeApiFakeOuterBooleanSerializeRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiFakeOuterBooleanSerializeRequestUnsafe;
 
@@ -126,11 +130,9 @@ abstract class FakeApiFakeOuterBooleanSerializeRequest {
   const factory FakeApiFakeOuterBooleanSerializeRequest.applicationJson({
     required 
             bool
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -139,6 +141,7 @@ abstract class FakeApiFakeOuterBooleanSerializeRequest {
 
   const FakeApiFakeOuterBooleanSerializeRequest({
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -146,7 +149,7 @@ abstract class FakeApiFakeOuterBooleanSerializeRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -165,7 +168,7 @@ abstract class FakeApiFakeOuterBooleanSerializeRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -198,19 +201,19 @@ abstract class FakeApiFakeOuterBooleanSerializeRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -218,8 +221,8 @@ abstract class FakeApiFakeOuterBooleanSerializeRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -238,11 +241,12 @@ class FakeApiFakeOuterBooleanSerializeRequestUnsafe extends FakeApiFakeOuterBool
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -255,6 +259,8 @@ class FakeApiFakeOuterBooleanSerializeRequestUnsafe extends FakeApiFakeOuterBool
 
 
 
+
+
 class FakeApiFakeOuterBooleanSerializeRequestApplicationJson extends FakeApiFakeOuterBooleanSerializeRequest {
   static const specMediaType = r'application/json';
 
@@ -263,60 +269,51 @@ class FakeApiFakeOuterBooleanSerializeRequestApplicationJson extends FakeApiFake
 
   final 
             bool
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+            
+        
+        
+            
+                PrimitiveReflection.forbool
+        
+;
 
 
   const FakeApiFakeOuterBooleanSerializeRequestApplicationJson({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v;
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        yield* _stringResult(json.encode(serialized));
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
+
 
 
 
@@ -330,7 +327,7 @@ abstract class FakeApiFakeOuterCompositeSerializeRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
 
   const factory FakeApiFakeOuterCompositeSerializeRequest.unsafe({
@@ -338,6 +335,7 @@ abstract class FakeApiFakeOuterCompositeSerializeRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiFakeOuterCompositeSerializeRequestUnsafe;
 
@@ -345,11 +343,9 @@ abstract class FakeApiFakeOuterCompositeSerializeRequest {
   const factory FakeApiFakeOuterCompositeSerializeRequest.applicationJson({
     required 
             OuterComposite
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -358,6 +354,7 @@ abstract class FakeApiFakeOuterCompositeSerializeRequest {
 
   const FakeApiFakeOuterCompositeSerializeRequest({
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -365,7 +362,7 @@ abstract class FakeApiFakeOuterCompositeSerializeRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -384,7 +381,7 @@ abstract class FakeApiFakeOuterCompositeSerializeRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -417,19 +414,19 @@ abstract class FakeApiFakeOuterCompositeSerializeRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -437,8 +434,8 @@ abstract class FakeApiFakeOuterCompositeSerializeRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -457,11 +454,12 @@ class FakeApiFakeOuterCompositeSerializeRequestUnsafe extends FakeApiFakeOuterCo
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -474,6 +472,8 @@ class FakeApiFakeOuterCompositeSerializeRequestUnsafe extends FakeApiFakeOuterCo
 
 
 
+
+
 class FakeApiFakeOuterCompositeSerializeRequestApplicationJson extends FakeApiFakeOuterCompositeSerializeRequest {
   static const specMediaType = r'application/json';
 
@@ -482,60 +482,51 @@ class FakeApiFakeOuterCompositeSerializeRequestApplicationJson extends FakeApiFa
 
   final 
             OuterComposite
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+            
+        
+        
+            
+                OuterComposite.$reflection
+        
+;
 
 
   const FakeApiFakeOuterCompositeSerializeRequestApplicationJson({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v.serialize();
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        yield* _stringResult(json.encode(serialized));
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
+
 
 
 
@@ -549,7 +540,7 @@ abstract class FakeApiFakeOuterNumberSerializeRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
 
   const factory FakeApiFakeOuterNumberSerializeRequest.unsafe({
@@ -557,6 +548,7 @@ abstract class FakeApiFakeOuterNumberSerializeRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiFakeOuterNumberSerializeRequestUnsafe;
 
@@ -564,11 +556,9 @@ abstract class FakeApiFakeOuterNumberSerializeRequest {
   const factory FakeApiFakeOuterNumberSerializeRequest.applicationJson({
     required 
             num
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -577,6 +567,7 @@ abstract class FakeApiFakeOuterNumberSerializeRequest {
 
   const FakeApiFakeOuterNumberSerializeRequest({
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -584,7 +575,7 @@ abstract class FakeApiFakeOuterNumberSerializeRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -603,7 +594,7 @@ abstract class FakeApiFakeOuterNumberSerializeRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -636,19 +627,19 @@ abstract class FakeApiFakeOuterNumberSerializeRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -656,8 +647,8 @@ abstract class FakeApiFakeOuterNumberSerializeRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -676,11 +667,12 @@ class FakeApiFakeOuterNumberSerializeRequestUnsafe extends FakeApiFakeOuterNumbe
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -693,6 +685,8 @@ class FakeApiFakeOuterNumberSerializeRequestUnsafe extends FakeApiFakeOuterNumbe
 
 
 
+
+
 class FakeApiFakeOuterNumberSerializeRequestApplicationJson extends FakeApiFakeOuterNumberSerializeRequest {
   static const specMediaType = r'application/json';
 
@@ -701,60 +695,51 @@ class FakeApiFakeOuterNumberSerializeRequestApplicationJson extends FakeApiFakeO
 
   final 
             num
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+            
+        
+        
+            
+                PrimitiveReflection.fornum
+        
+;
 
 
   const FakeApiFakeOuterNumberSerializeRequestApplicationJson({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v;
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        yield* _stringResult(json.encode(serialized));
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
+
 
 
 
@@ -768,7 +753,7 @@ abstract class FakeApiFakeOuterStringSerializeRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
 
   const factory FakeApiFakeOuterStringSerializeRequest.unsafe({
@@ -776,6 +761,7 @@ abstract class FakeApiFakeOuterStringSerializeRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiFakeOuterStringSerializeRequestUnsafe;
 
@@ -783,11 +769,9 @@ abstract class FakeApiFakeOuterStringSerializeRequest {
   const factory FakeApiFakeOuterStringSerializeRequest.applicationJson({
     required 
             String
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -796,6 +780,7 @@ abstract class FakeApiFakeOuterStringSerializeRequest {
 
   const FakeApiFakeOuterStringSerializeRequest({
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -803,7 +788,7 @@ abstract class FakeApiFakeOuterStringSerializeRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -822,7 +807,7 @@ abstract class FakeApiFakeOuterStringSerializeRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -855,19 +840,19 @@ abstract class FakeApiFakeOuterStringSerializeRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -875,8 +860,8 @@ abstract class FakeApiFakeOuterStringSerializeRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -895,11 +880,12 @@ class FakeApiFakeOuterStringSerializeRequestUnsafe extends FakeApiFakeOuterStrin
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -912,6 +898,8 @@ class FakeApiFakeOuterStringSerializeRequestUnsafe extends FakeApiFakeOuterStrin
 
 
 
+
+
 class FakeApiFakeOuterStringSerializeRequestApplicationJson extends FakeApiFakeOuterStringSerializeRequest {
   static const specMediaType = r'application/json';
 
@@ -920,60 +908,59 @@ class FakeApiFakeOuterStringSerializeRequestApplicationJson extends FakeApiFakeO
 
   final 
             String
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+;
 
 
   const FakeApiFakeOuterStringSerializeRequestApplicationJson({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v;
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        yield* _stringResult(json.encode(serialized));
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -987,13 +974,12 @@ abstract class FakeApiFakeUploadRefRequestBodiesRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
   /// ID of pet to update
   /// spec name: petId
   final 
             int
-
  petId;
   
   
@@ -1003,12 +989,12 @@ abstract class FakeApiFakeUploadRefRequestBodiesRequest {
     
     required 
             int
-
  petId,
     
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiFakeUploadRefRequestBodiesRequestUnsafe;
 
@@ -1020,6 +1006,7 @@ abstract class FakeApiFakeUploadRefRequestBodiesRequest {
     
     
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -1027,7 +1014,7 @@ abstract class FakeApiFakeUploadRefRequestBodiesRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     resolvedPath = OpenApiParameterSerializationPath.fromStyle(r'simple', explode: false, parameterName: r'petId',).expand(resolvedPath, petId);
@@ -1047,7 +1034,7 @@ abstract class FakeApiFakeUploadRefRequestBodiesRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -1080,19 +1067,19 @@ abstract class FakeApiFakeUploadRefRequestBodiesRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -1100,8 +1087,8 @@ abstract class FakeApiFakeUploadRefRequestBodiesRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -1124,11 +1111,12 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -1145,7 +1133,6 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
 
 
 
-
  class FakeApiGetFakeArrayofenumsRequest {
   static const pathTemplate = r'/fake/array-of-enums';
   static String method = r'GET';
@@ -1153,10 +1140,11 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
 
 
   const FakeApiGetFakeArrayofenumsRequest({
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -1164,7 +1152,7 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -1183,7 +1171,7 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -1216,14 +1204,14 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -1232,11 +1220,10 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
       headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
-      context: context,
+      context: userContext,
     );
   }
 }
-
 
 
 
@@ -1250,10 +1237,11 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
 
 
   const FakeApiGetFakeHealthRequest({
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -1261,7 +1249,7 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -1280,7 +1268,7 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -1313,14 +1301,14 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -1329,10 +1317,21 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
       headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
-      context: context,
+      context: userContext,
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1347,13 +1346,12 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
   /// _type
   /// spec name: _type
   final 
             int
-
  $type;
   
   
@@ -1361,7 +1359,6 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
   /// spec name: type
   final 
             String
-
  type;
   
   
@@ -1369,7 +1366,6 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
   /// spec name: type_
   final 
             String
-
  type$;
   
 
@@ -1384,6 +1380,7 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
     
     required this.type$    ,
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -1391,7 +1388,7 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -1411,7 +1408,7 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -1448,14 +1445,14 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -1464,10 +1461,15 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
       headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
-      context: context,
+      context: userContext,
     );
   }
 }
+
+
+
+
+
 
 
 
@@ -1483,7 +1485,7 @@ abstract class FakeApiTestAdditionalPropertiesReferenceRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
 
   const factory FakeApiTestAdditionalPropertiesReferenceRequest.unsafe({
@@ -1491,6 +1493,7 @@ abstract class FakeApiTestAdditionalPropertiesReferenceRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiTestAdditionalPropertiesReferenceRequestUnsafe;
 
@@ -1499,13 +1502,10 @@ abstract class FakeApiTestAdditionalPropertiesReferenceRequest {
     required 
     Map<String, 
         Object
-
 ?>
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -1514,6 +1514,7 @@ abstract class FakeApiTestAdditionalPropertiesReferenceRequest {
 
   const FakeApiTestAdditionalPropertiesReferenceRequest({
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -1521,7 +1522,7 @@ abstract class FakeApiTestAdditionalPropertiesReferenceRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -1540,7 +1541,7 @@ abstract class FakeApiTestAdditionalPropertiesReferenceRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -1573,19 +1574,19 @@ abstract class FakeApiTestAdditionalPropertiesReferenceRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -1593,8 +1594,8 @@ abstract class FakeApiTestAdditionalPropertiesReferenceRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -1613,11 +1614,12 @@ class FakeApiTestAdditionalPropertiesReferenceRequestUnsafe extends FakeApiTestA
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -1626,6 +1628,8 @@ class FakeApiTestAdditionalPropertiesReferenceRequestUnsafe extends FakeApiTestA
     yield* body;
   }
 }
+
+
 
 
 
@@ -1639,62 +1643,48 @@ class FakeApiTestAdditionalPropertiesReferenceRequestApplicationJson extends Fak
   final 
     Map<String, 
         Object
-
 ?>
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+    MapReflection(NullableReflection(ObjectReflection()
+))
+;
 
 
   const FakeApiTestAdditionalPropertiesReferenceRequestApplicationJson({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v;
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        yield* _stringResult(json.encode(serialized));
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
+
 
 
 
@@ -1708,7 +1698,7 @@ abstract class FakeApiTestBodyWithFileSchemaRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
 
   const factory FakeApiTestBodyWithFileSchemaRequest.unsafe({
@@ -1716,6 +1706,7 @@ abstract class FakeApiTestBodyWithFileSchemaRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiTestBodyWithFileSchemaRequestUnsafe;
 
@@ -1723,11 +1714,9 @@ abstract class FakeApiTestBodyWithFileSchemaRequest {
   const factory FakeApiTestBodyWithFileSchemaRequest.applicationJson({
     required 
             FileSchemaTestClass
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -1736,6 +1725,7 @@ abstract class FakeApiTestBodyWithFileSchemaRequest {
 
   const FakeApiTestBodyWithFileSchemaRequest({
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -1743,7 +1733,7 @@ abstract class FakeApiTestBodyWithFileSchemaRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -1762,7 +1752,7 @@ abstract class FakeApiTestBodyWithFileSchemaRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -1795,19 +1785,19 @@ abstract class FakeApiTestBodyWithFileSchemaRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -1815,8 +1805,8 @@ abstract class FakeApiTestBodyWithFileSchemaRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -1835,11 +1825,12 @@ class FakeApiTestBodyWithFileSchemaRequestUnsafe extends FakeApiTestBodyWithFile
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -1852,6 +1843,8 @@ class FakeApiTestBodyWithFileSchemaRequestUnsafe extends FakeApiTestBodyWithFile
 
 
 
+
+
 class FakeApiTestBodyWithFileSchemaRequestApplicationJson extends FakeApiTestBodyWithFileSchemaRequest {
   static const specMediaType = r'application/json';
 
@@ -1860,60 +1853,55 @@ class FakeApiTestBodyWithFileSchemaRequestApplicationJson extends FakeApiTestBod
 
   final 
             FileSchemaTestClass
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+            
+        
+        
+            
+                FileSchemaTestClass.$reflection
+        
+;
 
 
   const FakeApiTestBodyWithFileSchemaRequestApplicationJson({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v.serialize();
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        yield* _stringResult(json.encode(serialized));
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
+
+
+
+
+
 
 
 
@@ -1927,13 +1915,12 @@ abstract class FakeApiTestBodyWithQueryParamsRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
   /// 
   /// spec name: query
   final 
             String
-
  query;
   
   
@@ -1942,12 +1929,12 @@ abstract class FakeApiTestBodyWithQueryParamsRequest {
     
     required 
             String
-
  query,
     
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiTestBodyWithQueryParamsRequestUnsafe;
 
@@ -1955,17 +1942,14 @@ abstract class FakeApiTestBodyWithQueryParamsRequest {
   const factory FakeApiTestBodyWithQueryParamsRequest.applicationJson({
     required 
             User
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
-    
     
     required 
             String
-
  query,
     
     
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -1977,6 +1961,7 @@ abstract class FakeApiTestBodyWithQueryParamsRequest {
     required this.query    ,
     
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -1984,7 +1969,7 @@ abstract class FakeApiTestBodyWithQueryParamsRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -2004,7 +1989,7 @@ abstract class FakeApiTestBodyWithQueryParamsRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -2037,19 +2022,19 @@ abstract class FakeApiTestBodyWithQueryParamsRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -2057,8 +2042,8 @@ abstract class FakeApiTestBodyWithQueryParamsRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -2080,11 +2065,12 @@ class FakeApiTestBodyWithQueryParamsRequestUnsafe extends FakeApiTestBodyWithQue
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -2097,6 +2083,8 @@ class FakeApiTestBodyWithQueryParamsRequestUnsafe extends FakeApiTestBodyWithQue
 
 
 
+
+
 class FakeApiTestBodyWithQueryParamsRequestApplicationJson extends FakeApiTestBodyWithQueryParamsRequest {
   static const specMediaType = r'application/json';
 
@@ -2105,63 +2093,54 @@ class FakeApiTestBodyWithQueryParamsRequestApplicationJson extends FakeApiTestBo
 
   final 
             User
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+            
+        
+        
+            
+                User.$reflection
+        
+;
 
 
   const FakeApiTestBodyWithQueryParamsRequestApplicationJson({
     required this.data,
-    this.handleUnkownMediaType,
     
     required super.query,
-    
     
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v.serialize();
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        yield* _stringResult(json.encode(serialized));
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
+
 
 
 
@@ -2175,7 +2154,7 @@ abstract class FakeApiTestClientModelRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
 
   const factory FakeApiTestClientModelRequest.unsafe({
@@ -2183,6 +2162,7 @@ abstract class FakeApiTestClientModelRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiTestClientModelRequestUnsafe;
 
@@ -2190,11 +2170,9 @@ abstract class FakeApiTestClientModelRequest {
   const factory FakeApiTestClientModelRequest.applicationJson({
     required 
             Client
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -2203,6 +2181,7 @@ abstract class FakeApiTestClientModelRequest {
 
   const FakeApiTestClientModelRequest({
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -2210,7 +2189,7 @@ abstract class FakeApiTestClientModelRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -2229,7 +2208,7 @@ abstract class FakeApiTestClientModelRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -2262,19 +2241,19 @@ abstract class FakeApiTestClientModelRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -2282,8 +2261,8 @@ abstract class FakeApiTestClientModelRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -2302,11 +2281,12 @@ class FakeApiTestClientModelRequestUnsafe extends FakeApiTestClientModelRequest 
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -2319,6 +2299,8 @@ class FakeApiTestClientModelRequestUnsafe extends FakeApiTestClientModelRequest 
 
 
 
+
+
 class FakeApiTestClientModelRequestApplicationJson extends FakeApiTestClientModelRequest {
   static const specMediaType = r'application/json';
 
@@ -2327,60 +2309,103 @@ class FakeApiTestClientModelRequestApplicationJson extends FakeApiTestClientMode
 
   final 
             Client
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+            
+        
+        
+            
+                Client.$reflection
+        
+;
 
 
   const FakeApiTestClientModelRequestApplicationJson({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v.serialize();
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        yield* _stringResult(json.encode(serialized));
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2394,7 +2419,7 @@ abstract class FakeApiTestEndpointParametersRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
   
   
@@ -2415,6 +2440,7 @@ abstract class FakeApiTestEndpointParametersRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiTestEndpointParametersRequestUnsafe;
 
@@ -2435,6 +2461,7 @@ abstract class FakeApiTestEndpointParametersRequest {
     
     
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -2442,7 +2469,7 @@ abstract class FakeApiTestEndpointParametersRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -2461,7 +2488,7 @@ abstract class FakeApiTestEndpointParametersRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -2494,19 +2521,19 @@ abstract class FakeApiTestEndpointParametersRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -2514,8 +2541,8 @@ abstract class FakeApiTestEndpointParametersRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -2547,11 +2574,12 @@ class FakeApiTestEndpointParametersRequestUnsafe extends FakeApiTestEndpointPara
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -2569,9 +2597,7 @@ class FakeApiTestEndpointParametersRequestUnsafe extends FakeApiTestEndpointPara
 
 
 extension type const EnumHeaderStringArrayEnum._(String value) {
-  /// Header parameter enum test (string array)
       const EnumHeaderStringArrayEnum.greaterThan() : this._(r'>');
-  /// Header parameter enum test (string array)
       const EnumHeaderStringArrayEnum.value() : this._(r'$');
 
   /// Creates a [EnumHeaderStringArrayEnum] enum from a value and safely checking if it exists.
@@ -2583,8 +2609,27 @@ extension type const EnumHeaderStringArrayEnum._(String value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<EnumHeaderStringArrayEnum, String>(
+    PrimitiveReflection.forString,
+    members: [
+      
+        EnumMemberReflection(dartName: r'greaterThan', oasValue: r'>', value: EnumHeaderStringArrayEnum.greaterThan()),
+      
+        EnumMemberReflection(dartName: r'value', oasValue: r'$', value: EnumHeaderStringArrayEnum.value()),
+      
+    ],
+  );
+
+  factory EnumHeaderStringArrayEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [EnumHeaderStringArrayEnum] enum from a value without checking if it exists.
@@ -2598,12 +2643,13 @@ extension type const EnumHeaderStringArrayEnum._(String value) {
   ];
 }
 
+
+
+
+
 extension type const EnumHeaderStringEnum._(String value) {
-  /// Header parameter enum test (string)
       const EnumHeaderStringEnum.abc() : this._(r'_abc');
-  /// Header parameter enum test (string)
       const EnumHeaderStringEnum.efg() : this._(r'-efg');
-  /// Header parameter enum test (string)
       const EnumHeaderStringEnum.xyz() : this._(r'(xyz)');
 
   /// Creates a [EnumHeaderStringEnum] enum from a value and safely checking if it exists.
@@ -2615,8 +2661,29 @@ extension type const EnumHeaderStringEnum._(String value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<EnumHeaderStringEnum, String>(
+    PrimitiveReflection.forString,
+    members: [
+      
+        EnumMemberReflection(dartName: r'abc', oasValue: r'_abc', value: EnumHeaderStringEnum.abc()),
+      
+        EnumMemberReflection(dartName: r'efg', oasValue: r'-efg', value: EnumHeaderStringEnum.efg()),
+      
+        EnumMemberReflection(dartName: r'xyz', oasValue: r'(xyz)', value: EnumHeaderStringEnum.xyz()),
+      
+    ],
+  );
+
+  factory EnumHeaderStringEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [EnumHeaderStringEnum] enum from a value without checking if it exists.
@@ -2631,10 +2698,10 @@ extension type const EnumHeaderStringEnum._(String value) {
   ];
 }
 
+
+
 extension type const EnumQueryStringArrayEnum._(String value) {
-  /// Query parameter enum test (string array)
       const EnumQueryStringArrayEnum.greaterThan() : this._(r'>');
-  /// Query parameter enum test (string array)
       const EnumQueryStringArrayEnum.value() : this._(r'$');
 
   /// Creates a [EnumQueryStringArrayEnum] enum from a value and safely checking if it exists.
@@ -2646,8 +2713,27 @@ extension type const EnumQueryStringArrayEnum._(String value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<EnumQueryStringArrayEnum, String>(
+    PrimitiveReflection.forString,
+    members: [
+      
+        EnumMemberReflection(dartName: r'greaterThan', oasValue: r'>', value: EnumQueryStringArrayEnum.greaterThan()),
+      
+        EnumMemberReflection(dartName: r'value', oasValue: r'$', value: EnumQueryStringArrayEnum.value()),
+      
+    ],
+  );
+
+  factory EnumQueryStringArrayEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [EnumQueryStringArrayEnum] enum from a value without checking if it exists.
@@ -2661,12 +2747,13 @@ extension type const EnumQueryStringArrayEnum._(String value) {
   ];
 }
 
+
+
+
+
 extension type const EnumQueryStringEnum._(String value) {
-  /// Query parameter enum test (string)
       const EnumQueryStringEnum.abc() : this._(r'_abc');
-  /// Query parameter enum test (string)
       const EnumQueryStringEnum.efg() : this._(r'-efg');
-  /// Query parameter enum test (string)
       const EnumQueryStringEnum.xyz() : this._(r'(xyz)');
 
   /// Creates a [EnumQueryStringEnum] enum from a value and safely checking if it exists.
@@ -2678,8 +2765,29 @@ extension type const EnumQueryStringEnum._(String value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<EnumQueryStringEnum, String>(
+    PrimitiveReflection.forString,
+    members: [
+      
+        EnumMemberReflection(dartName: r'abc', oasValue: r'_abc', value: EnumQueryStringEnum.abc()),
+      
+        EnumMemberReflection(dartName: r'efg', oasValue: r'-efg', value: EnumQueryStringEnum.efg()),
+      
+        EnumMemberReflection(dartName: r'xyz', oasValue: r'(xyz)', value: EnumQueryStringEnum.xyz()),
+      
+    ],
+  );
+
+  factory EnumQueryStringEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [EnumQueryStringEnum] enum from a value without checking if it exists.
@@ -2694,10 +2802,10 @@ extension type const EnumQueryStringEnum._(String value) {
   ];
 }
 
+
+
 extension type const EnumQueryIntegerEnum._(int value) {
-  /// Query parameter enum test (double)
       const EnumQueryIntegerEnum.number1() : this._(1);
-  /// Query parameter enum test (double)
       const EnumQueryIntegerEnum.numberNegative2() : this._(-2);
 
   /// Creates a [EnumQueryIntegerEnum] enum from a value and safely checking if it exists.
@@ -2709,8 +2817,27 @@ extension type const EnumQueryIntegerEnum._(int value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is int && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<EnumQueryIntegerEnum, int>(
+    PrimitiveReflection.forint,
+    members: [
+      
+        EnumMemberReflection(dartName: r'number1', oasValue: 1, value: EnumQueryIntegerEnum.number1()),
+      
+        EnumMemberReflection(dartName: r'numberNegative2', oasValue: -2, value: EnumQueryIntegerEnum.numberNegative2()),
+      
+    ],
+  );
+
+  factory EnumQueryIntegerEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [EnumQueryIntegerEnum] enum from a value without checking if it exists.
@@ -2724,10 +2851,10 @@ extension type const EnumQueryIntegerEnum._(int value) {
   ];
 }
 
+
+
 extension type const EnumQueryDoubleEnum._(double value) {
-  /// Query parameter enum test (double)
       const EnumQueryDoubleEnum.number11() : this._(1.1);
-  /// Query parameter enum test (double)
       const EnumQueryDoubleEnum.numberNegative12() : this._(-1.2);
 
   /// Creates a [EnumQueryDoubleEnum] enum from a value and safely checking if it exists.
@@ -2739,8 +2866,27 @@ extension type const EnumQueryDoubleEnum._(double value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is double && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<EnumQueryDoubleEnum, double>(
+    PrimitiveReflection.fordouble,
+    members: [
+      
+        EnumMemberReflection(dartName: r'number11', oasValue: 1.1, value: EnumQueryDoubleEnum.number11()),
+      
+        EnumMemberReflection(dartName: r'numberNegative12', oasValue: -1.2, value: EnumQueryDoubleEnum.numberNegative12()),
+      
+    ],
+  );
+
+  factory EnumQueryDoubleEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [EnumQueryDoubleEnum] enum from a value without checking if it exists.
@@ -2754,14 +2900,13 @@ extension type const EnumQueryDoubleEnum._(double value) {
   ];
 }
 
-extension type const EnumFormStringArrayEnum._(String value) {
-  /// Form parameter enum test (string array)
-      const EnumFormStringArrayEnum.greaterThan() : this._(r'>');
-  /// Form parameter enum test (string array)
-      const EnumFormStringArrayEnum.value() : this._(r'$');
 
-  /// Creates a [EnumFormStringArrayEnum] enum from a value and safely checking if it exists.
-  factory EnumFormStringArrayEnum.$safe(String value) {
+
+
+extension type const InnerEnum._(String value) {
+
+  /// Creates a [InnerEnum] enum from a value and safely checking if it exists.
+  factory InnerEnum.$safe(String value) {
     final res = values.where((element) => element.value == value).firstOrNull;
     if (res == null) {
       throw 'Invalid enum value $value';
@@ -2769,20 +2914,37 @@ extension type const EnumFormStringArrayEnum._(String value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<InnerEnum, String>(
+    PrimitiveReflection.forString,
+    members: [
+      
+    ],
+  );
+
+  factory InnerEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
   }
 
-  /// Creates a [EnumFormStringArrayEnum] enum from a value without checking if it exists.
-  const EnumFormStringArrayEnum.$unsafe(String value) : this._(value);
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
+  }
+
+  /// Creates a [InnerEnum] enum from a value without checking if it exists.
+  const InnerEnum.$unsafe(String value) : this._(value);
 
   /// All possible values of the enum.
-  static const List<EnumFormStringArrayEnum> values = [
-    EnumFormStringArrayEnum.greaterThan(),
-    EnumFormStringArrayEnum.value(),
+  static const List<InnerEnum> values = [
     
   ];
 }
+
+
+
+
 
 extension type const EnumFormStringEnum._(String value) {
   /// Form parameter enum test (string)
@@ -2801,8 +2963,29 @@ extension type const EnumFormStringEnum._(String value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<EnumFormStringEnum, String>(
+    PrimitiveReflection.forString,
+    members: [
+      
+        EnumMemberReflection(dartName: r'abc', oasValue: r'_abc', value: EnumFormStringEnum.abc()),
+      
+        EnumMemberReflection(dartName: r'efg', oasValue: r'-efg', value: EnumFormStringEnum.efg()),
+      
+        EnumMemberReflection(dartName: r'xyz', oasValue: r'(xyz)', value: EnumFormStringEnum.xyz()),
+      
+    ],
+  );
+
+  factory EnumFormStringEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [EnumFormStringEnum] enum from a value without checking if it exists.
@@ -2825,7 +3008,7 @@ extension type const EnumFormStringEnum._(String value) {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
   /// Header parameter enum test (string array)
   /// spec name: enum_header_string_array
@@ -2833,9 +3016,7 @@ extension type const EnumFormStringEnum._(String value) {
     List<
         
             EnumHeaderStringArrayEnum
-
 >
-
 > enumHeaderStringArray;
   
   
@@ -2843,7 +3024,6 @@ extension type const EnumFormStringEnum._(String value) {
   /// spec name: enum_header_string
   final UndefinedWrapper<
             EnumHeaderStringEnum
-
 > enumHeaderString;
   
   
@@ -2853,9 +3033,7 @@ extension type const EnumFormStringEnum._(String value) {
     List<
         
             EnumQueryStringArrayEnum
-
 >
-
 > enumQueryStringArray;
   
   
@@ -2863,7 +3041,6 @@ extension type const EnumFormStringEnum._(String value) {
   /// spec name: enum_query_string
   final UndefinedWrapper<
             EnumQueryStringEnum
-
 > enumQueryString;
   
   
@@ -2871,7 +3048,6 @@ extension type const EnumFormStringEnum._(String value) {
   /// spec name: enum_query_integer
   final UndefinedWrapper<
             EnumQueryIntegerEnum
-
 > enumQueryInteger;
   
   
@@ -2879,7 +3055,6 @@ extension type const EnumFormStringEnum._(String value) {
   /// spec name: enum_query_double
   final UndefinedWrapper<
             EnumQueryDoubleEnum
-
 > enumQueryDouble;
   
   
@@ -2927,6 +3102,7 @@ extension type const EnumFormStringEnum._(String value) {
     
     
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -2934,7 +3110,7 @@ extension type const EnumFormStringEnum._(String value) {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -2965,7 +3141,7 @@ extension type const EnumFormStringEnum._(String value) {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -3002,14 +3178,14 @@ extension type const EnumFormStringEnum._(String value) {
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -3018,10 +3194,33 @@ extension type const EnumFormStringEnum._(String value) {
       headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
-      context: context,
+      context: userContext,
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3036,13 +3235,12 @@ extension type const EnumFormStringEnum._(String value) {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
   /// Required String in group parameters
   /// spec name: required_string_group
   final 
             int
-
  requiredStringGroup;
   
   
@@ -3050,7 +3248,6 @@ extension type const EnumFormStringEnum._(String value) {
   /// spec name: required_boolean_group
   final 
             bool
-
  requiredBooleanGroup;
   
   
@@ -3058,7 +3255,6 @@ extension type const EnumFormStringEnum._(String value) {
   /// spec name: required_int64_group
   final 
             int
-
  requiredInt64Group;
   
   
@@ -3066,7 +3262,6 @@ extension type const EnumFormStringEnum._(String value) {
   /// spec name: string_group
   final UndefinedWrapper<
             int
-
 > stringGroup;
   
   
@@ -3074,7 +3269,6 @@ extension type const EnumFormStringEnum._(String value) {
   /// spec name: boolean_group
   final UndefinedWrapper<
             bool
-
 > booleanGroup;
   
   
@@ -3082,7 +3276,6 @@ extension type const EnumFormStringEnum._(String value) {
   /// spec name: int64_group
   final UndefinedWrapper<
             int
-
 > int64Group;
   
 
@@ -3112,6 +3305,7 @@ extension type const EnumFormStringEnum._(String value) {
         .undefined()
 ,
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -3119,7 +3313,7 @@ extension type const EnumFormStringEnum._(String value) {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -3146,7 +3340,7 @@ extension type const EnumFormStringEnum._(String value) {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -3183,14 +3377,14 @@ extension type const EnumFormStringEnum._(String value) {
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -3199,10 +3393,15 @@ extension type const EnumFormStringEnum._(String value) {
       headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
-      context: context,
+      context: userContext,
     );
   }
 }
+
+
+
+
+
 
 
 
@@ -3218,7 +3417,7 @@ abstract class FakeApiTestInlineAdditionalPropertiesRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
 
   const factory FakeApiTestInlineAdditionalPropertiesRequest.unsafe({
@@ -3226,6 +3425,7 @@ abstract class FakeApiTestInlineAdditionalPropertiesRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiTestInlineAdditionalPropertiesRequestUnsafe;
 
@@ -3235,13 +3435,10 @@ abstract class FakeApiTestInlineAdditionalPropertiesRequest {
     Map<String, 
         
             String
-
 >
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -3250,6 +3447,7 @@ abstract class FakeApiTestInlineAdditionalPropertiesRequest {
 
   const FakeApiTestInlineAdditionalPropertiesRequest({
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -3257,7 +3455,7 @@ abstract class FakeApiTestInlineAdditionalPropertiesRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -3276,7 +3474,7 @@ abstract class FakeApiTestInlineAdditionalPropertiesRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -3309,19 +3507,19 @@ abstract class FakeApiTestInlineAdditionalPropertiesRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -3329,8 +3527,8 @@ abstract class FakeApiTestInlineAdditionalPropertiesRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -3349,11 +3547,12 @@ class FakeApiTestInlineAdditionalPropertiesRequestUnsafe extends FakeApiTestInli
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -3362,6 +3561,8 @@ class FakeApiTestInlineAdditionalPropertiesRequestUnsafe extends FakeApiTestInli
     yield* body;
   }
 }
+
+
 
 
 
@@ -3376,62 +3577,54 @@ class FakeApiTestInlineAdditionalPropertiesRequestApplicationJson extends FakeAp
     Map<String, 
         
             String
-
 >
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+    MapReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+)
+;
 
 
   const FakeApiTestInlineAdditionalPropertiesRequestApplicationJson({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v.map((k,v) => MapEntry(k, v));
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        yield* _stringResult(json.encode(serialized));
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
+
 
 
 
@@ -3445,7 +3638,7 @@ abstract class FakeApiTestInlineFreeformAdditionalPropertiesRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
 
   const factory FakeApiTestInlineFreeformAdditionalPropertiesRequest.unsafe({
@@ -3453,6 +3646,7 @@ abstract class FakeApiTestInlineFreeformAdditionalPropertiesRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiTestInlineFreeformAdditionalPropertiesRequestUnsafe;
 
@@ -3460,11 +3654,9 @@ abstract class FakeApiTestInlineFreeformAdditionalPropertiesRequest {
   const factory FakeApiTestInlineFreeformAdditionalPropertiesRequest.applicationJson({
     required 
             TestInlineFreeformAdditionalPropertiesRequest
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -3473,6 +3665,7 @@ abstract class FakeApiTestInlineFreeformAdditionalPropertiesRequest {
 
   const FakeApiTestInlineFreeformAdditionalPropertiesRequest({
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -3480,7 +3673,7 @@ abstract class FakeApiTestInlineFreeformAdditionalPropertiesRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -3499,7 +3692,7 @@ abstract class FakeApiTestInlineFreeformAdditionalPropertiesRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -3532,19 +3725,19 @@ abstract class FakeApiTestInlineFreeformAdditionalPropertiesRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -3552,8 +3745,8 @@ abstract class FakeApiTestInlineFreeformAdditionalPropertiesRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -3572,11 +3765,12 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestUnsafe extends FakeApi
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -3589,6 +3783,8 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestUnsafe extends FakeApi
 
 
 
+
+
 class FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson extends FakeApiTestInlineFreeformAdditionalPropertiesRequest {
   static const specMediaType = r'application/json';
 
@@ -3597,60 +3793,55 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson extend
 
   final 
             TestInlineFreeformAdditionalPropertiesRequest
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+            
+        
+        
+            
+                TestInlineFreeformAdditionalPropertiesRequest.$reflection
+        
+;
 
 
   const FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v.serialize();
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        yield* _stringResult(json.encode(serialized));
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
+
+
+
+
+
 
 
 
@@ -3663,7 +3854,7 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson extend
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
   
 
@@ -3671,6 +3862,7 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson extend
   const FakeApiTestJsonFormDataRequest({
     
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -3678,7 +3870,7 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson extend
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -3697,7 +3889,7 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson extend
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -3730,14 +3922,14 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson extend
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -3746,10 +3938,39 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson extend
       headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
-      context: context,
+      context: userContext,
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3765,7 +3986,7 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
   /// 
   /// spec name: pipe
@@ -3773,9 +3994,7 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
     List<
         
             String
-
 >
-
  pipe;
   
   
@@ -3785,9 +4004,7 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
     List<
         
             String
-
 >
-
  ioutil;
   
   
@@ -3797,9 +4014,7 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
     List<
         
             String
-
 >
-
  http;
   
   
@@ -3809,9 +4024,7 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
     List<
         
             String
-
 >
-
  url;
   
   
@@ -3821,9 +4034,7 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
     List<
         
             String
-
 >
-
  context;
   
 
@@ -3833,50 +4044,41 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
     List<
         
             String
-
 >
-
  pipe,
     
     required 
     List<
         
             String
-
 >
-
  ioutil,
     
     required 
     List<
         
             String
-
 >
-
  http,
     
     required 
     List<
         
             String
-
 >
-
  url,
     
     required 
     List<
         
             String
-
 >
-
  context,
     
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiTestQueryParameterCollectionFormatRequestUnsafe;
 
@@ -3898,6 +4100,7 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
     
     required this.context    ,
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -3905,7 +4108,7 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -3929,7 +4132,7 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -3962,19 +4165,19 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -3982,8 +4185,8 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -4016,11 +4219,12 @@ class FakeApiTestQueryParameterCollectionFormatRequestUnsafe extends FakeApiTest
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -4038,6 +4242,11 @@ class FakeApiTestQueryParameterCollectionFormatRequestUnsafe extends FakeApiTest
 
 
 
+
+
+
+
+
 abstract class FakeApiTestStringMapReferenceRequest {
   static const pathTemplate = r'/fake/stringMap-reference';
   static String method = r'POST';
@@ -4046,7 +4255,7 @@ abstract class FakeApiTestStringMapReferenceRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
 
   const factory FakeApiTestStringMapReferenceRequest.unsafe({
@@ -4054,6 +4263,7 @@ abstract class FakeApiTestStringMapReferenceRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = FakeApiTestStringMapReferenceRequestUnsafe;
 
@@ -4063,13 +4273,10 @@ abstract class FakeApiTestStringMapReferenceRequest {
     Map<String, 
         
             String
-
 >
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -4078,6 +4285,7 @@ abstract class FakeApiTestStringMapReferenceRequest {
 
   const FakeApiTestStringMapReferenceRequest({
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -4085,7 +4293,7 @@ abstract class FakeApiTestStringMapReferenceRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -4104,7 +4312,7 @@ abstract class FakeApiTestStringMapReferenceRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -4137,19 +4345,19 @@ abstract class FakeApiTestStringMapReferenceRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -4157,8 +4365,8 @@ abstract class FakeApiTestStringMapReferenceRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -4177,11 +4385,12 @@ class FakeApiTestStringMapReferenceRequestUnsafe extends FakeApiTestStringMapRef
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -4190,6 +4399,8 @@ class FakeApiTestStringMapReferenceRequestUnsafe extends FakeApiTestStringMapRef
     yield* body;
   }
 }
+
+
 
 
 
@@ -4204,60 +4415,49 @@ class FakeApiTestStringMapReferenceRequestApplicationJson extends FakeApiTestStr
     Map<String, 
         
             String
-
 >
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+    MapReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+)
+;
 
 
   const FakeApiTestStringMapReferenceRequestApplicationJson({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v.map((k,v) => MapEntry(k, v));
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        yield* _stringResult(json.encode(serialized));
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
 

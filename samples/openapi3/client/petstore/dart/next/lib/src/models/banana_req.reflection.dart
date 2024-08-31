@@ -5,14 +5,15 @@ part of 'banana_req.dart';
 
 //class reflection
 
-class BananaReqReflection extends ClassReflection<BananaReq> {
+class BananaReqReflection extends ModelReflection<BananaReq> {
   static BananaReqReflection instanceGetter() => instance;
   static const instance = BananaReqReflection._(
     modelName: r'bananaReq',
     className: r'BananaReq',
+    xml: const XmlReflection(
+),
     lengthCmPart: PropertyReflection<BananaReq, 
             num
-
 >(
       dartName: r'lengthCm',
       nullable: false,
@@ -22,12 +23,21 @@ class BananaReqReflection extends ClassReflection<BananaReq> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _lengthCmGetter,
-      setter: _lengthCmSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_lengthCmGetter),
+      setter: FunctionWrapper2(_lengthCmSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.fornum
+        
+,
     ),
     sweetPart: PropertyReflection<BananaReq, UndefinedWrapper<
             bool
-
 >>(
       dartName: r'sweet',
       nullable: false,
@@ -37,8 +47,18 @@ class BananaReqReflection extends ClassReflection<BananaReq> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _sweetGetter,
-      setter: _sweetSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_sweetGetter),
+      setter: FunctionWrapper2(_sweetSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forbool
+        
+),
     ),
     
     
@@ -46,6 +66,7 @@ class BananaReqReflection extends ClassReflection<BananaReq> {
   const BananaReqReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.lengthCmPart,
     required this.sweetPart,
     this.discriminatorKey,
@@ -56,50 +77,45 @@ class BananaReqReflection extends ClassReflection<BananaReq> {
 
   final PropertyReflection<BananaReq, 
             num
-
 > lengthCmPart;
   static 
             num
-
  _lengthCmGetter(BananaReq parent) {
     return parent.lengthCm;
   }
   static void _lengthCmSetter(BananaReq parent, 
             num
-
  value) {
     parent.lengthCm = value;
   }
+
   final PropertyReflection<BananaReq, UndefinedWrapper<
             bool
-
 >> sweetPart;
   static UndefinedWrapper<
             bool
-
 > _sweetGetter(BananaReq parent) {
     return parent.sweet;
   }
   static void _sweetSetter(BananaReq parent, UndefinedWrapper<
             bool
-
 > value) {
     parent.sweet = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<BananaReq, dynamic>> get properties => [
@@ -107,88 +123,24 @@ class BananaReqReflection extends ClassReflection<BananaReq> {
 sweetPart,
   ];
 
+
   
   
-  
-  @override
-  List<PartReflection<BananaReq, dynamic>> get parts => [
-    ...super.parts,
-      ];
+
   @override
   List<AllOfReflection<BananaReq, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => BananaReq.canDeserialize(src);
-  @override
-  BananaReq Function(Object? src) get deserializeFunction =>
-      (src) => BananaReq.deserialize(src);
-
-  @override
-  Object? Function(BananaReq src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of BananaReq.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  BananaReq example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = BananaReq(
-      lengthCm: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    examplenum()
-
-
-;
-        return result;
-      } (),
-      sweet: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    examplebool()
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      
+  BananaReq empty() {
+    return BananaReq(
+      lengthCm: lengthCmPart.reflection.emptyFunction(),
     );
-    
-    return exampleResult;
   }
 }
 
-
-class BananaReqXmlReflection {
-    const BananaReqXmlReflection();
-}
 

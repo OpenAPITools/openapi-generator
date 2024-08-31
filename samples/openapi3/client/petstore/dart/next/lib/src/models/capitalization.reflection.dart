@@ -5,14 +5,15 @@ part of 'capitalization.dart';
 
 //class reflection
 
-class CapitalizationReflection extends ClassReflection<Capitalization> {
+class CapitalizationReflection extends ModelReflection<Capitalization> {
   static CapitalizationReflection instanceGetter() => instance;
   static const instance = CapitalizationReflection._(
     modelName: r'Capitalization',
     className: r'Capitalization',
+    xml: const XmlReflection(
+),
     smallCamelPart: PropertyReflection<Capitalization, UndefinedWrapper<
             String
-
 >>(
       dartName: r'smallCamel',
       nullable: false,
@@ -22,12 +23,21 @@ class CapitalizationReflection extends ClassReflection<Capitalization> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _smallCamelGetter,
-      setter: _smallCamelSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_smallCamelGetter),
+      setter: FunctionWrapper2(_smallCamelSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     capitalCamelPart: PropertyReflection<Capitalization, UndefinedWrapper<
             String
-
 >>(
       dartName: r'capitalCamel',
       nullable: false,
@@ -37,12 +47,21 @@ class CapitalizationReflection extends ClassReflection<Capitalization> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _capitalCamelGetter,
-      setter: _capitalCamelSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_capitalCamelGetter),
+      setter: FunctionWrapper2(_capitalCamelSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     smallSnakePart: PropertyReflection<Capitalization, UndefinedWrapper<
             String
-
 >>(
       dartName: r'smallSnake',
       nullable: false,
@@ -52,12 +71,21 @@ class CapitalizationReflection extends ClassReflection<Capitalization> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _smallSnakeGetter,
-      setter: _smallSnakeSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_smallSnakeGetter),
+      setter: FunctionWrapper2(_smallSnakeSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     capitalSnakePart: PropertyReflection<Capitalization, UndefinedWrapper<
             String
-
 >>(
       dartName: r'capitalSnake',
       nullable: false,
@@ -67,12 +95,21 @@ class CapitalizationReflection extends ClassReflection<Capitalization> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _capitalSnakeGetter,
-      setter: _capitalSnakeSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_capitalSnakeGetter),
+      setter: FunctionWrapper2(_capitalSnakeSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     scAETHFlowPointsPart: PropertyReflection<Capitalization, UndefinedWrapper<
             String
-
 >>(
       dartName: r'scAETHFlowPoints',
       nullable: false,
@@ -82,12 +119,21 @@ class CapitalizationReflection extends ClassReflection<Capitalization> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _scAETHFlowPointsGetter,
-      setter: _scAETHFlowPointsSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_scAETHFlowPointsGetter),
+      setter: FunctionWrapper2(_scAETHFlowPointsSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     ATT_NAMEPart: PropertyReflection<Capitalization, UndefinedWrapper<
             String
-
 >>(
       dartName: r'ATT_NAME',
       nullable: false,
@@ -97,21 +143,33 @@ class CapitalizationReflection extends ClassReflection<Capitalization> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _ATT_NAMEGetter,
-      setter: _ATT_NAMESetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_ATT_NAMEGetter),
+      setter: FunctionWrapper2(_ATT_NAMESetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<Capitalization, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const CapitalizationReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.smallCamelPart,
     required this.capitalCamelPart,
     required this.smallSnakePart,
@@ -127,114 +185,101 @@ class CapitalizationReflection extends ClassReflection<Capitalization> {
 
   final PropertyReflection<Capitalization, UndefinedWrapper<
             String
-
 >> smallCamelPart;
   static UndefinedWrapper<
             String
-
 > _smallCamelGetter(Capitalization parent) {
     return parent.smallCamel;
   }
   static void _smallCamelSetter(Capitalization parent, UndefinedWrapper<
             String
-
 > value) {
     parent.smallCamel = value;
   }
+
   final PropertyReflection<Capitalization, UndefinedWrapper<
             String
-
 >> capitalCamelPart;
   static UndefinedWrapper<
             String
-
 > _capitalCamelGetter(Capitalization parent) {
     return parent.capitalCamel;
   }
   static void _capitalCamelSetter(Capitalization parent, UndefinedWrapper<
             String
-
 > value) {
     parent.capitalCamel = value;
   }
+
   final PropertyReflection<Capitalization, UndefinedWrapper<
             String
-
 >> smallSnakePart;
   static UndefinedWrapper<
             String
-
 > _smallSnakeGetter(Capitalization parent) {
     return parent.smallSnake;
   }
   static void _smallSnakeSetter(Capitalization parent, UndefinedWrapper<
             String
-
 > value) {
     parent.smallSnake = value;
   }
+
   final PropertyReflection<Capitalization, UndefinedWrapper<
             String
-
 >> capitalSnakePart;
   static UndefinedWrapper<
             String
-
 > _capitalSnakeGetter(Capitalization parent) {
     return parent.capitalSnake;
   }
   static void _capitalSnakeSetter(Capitalization parent, UndefinedWrapper<
             String
-
 > value) {
     parent.capitalSnake = value;
   }
+
   final PropertyReflection<Capitalization, UndefinedWrapper<
             String
-
 >> scAETHFlowPointsPart;
   static UndefinedWrapper<
             String
-
 > _scAETHFlowPointsGetter(Capitalization parent) {
     return parent.scAETHFlowPoints;
   }
   static void _scAETHFlowPointsSetter(Capitalization parent, UndefinedWrapper<
             String
-
 > value) {
     parent.scAETHFlowPoints = value;
   }
+
   final PropertyReflection<Capitalization, UndefinedWrapper<
             String
-
 >> ATT_NAMEPart;
   static UndefinedWrapper<
             String
-
 > _ATT_NAMEGetter(Capitalization parent) {
     return parent.ATT_NAME;
   }
   static void _ATT_NAMESetter(Capitalization parent, UndefinedWrapper<
             String
-
 > value) {
     parent.ATT_NAME = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<Capitalization, dynamic>> get properties => [
@@ -246,182 +291,35 @@ scAETHFlowPointsPart,
 ATT_NAMEPart,
   ];
 
-  final AdditionalPropertiesReflection<Capitalization, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<Capitalization, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<Capitalization, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(Capitalization instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(Capitalization instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<Capitalization, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => Capitalization.canDeserialize(src);
-  @override
-  Capitalization Function(Object? src) get deserializeFunction =>
-      (src) => Capitalization.deserialize(src);
-
-  @override
-  Object? Function(Capitalization src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of Capitalization.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  Capitalization example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = Capitalization(
-      smallCamel: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[smallCamelPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      capitalCamel: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[capitalCamelPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      smallSnake: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[smallSnakePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      capitalSnake: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[capitalSnakePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      scAETHFlowPoints: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[scAETHFlowPointsPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      ATT_NAME: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[ATT_NAMEPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  Capitalization empty() {
+    return Capitalization(
     );
-    
-    return exampleResult;
   }
 }
 
-
-class CapitalizationXmlReflection {
-    const CapitalizationXmlReflection();
-}
 

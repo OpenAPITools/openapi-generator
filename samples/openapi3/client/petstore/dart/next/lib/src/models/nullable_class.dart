@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'nullable_class.reflection.dart';
-part 'nullable_class.serialization.dart';
 
 
 /// NullableClassMixin
@@ -26,75 +25,57 @@ mixin NullableClassMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
-
 ?> get integerProp;
 UndefinedWrapper<
             num
-
 ?> get numberProp;
 UndefinedWrapper<
             bool
-
 ?> get booleanProp;
 UndefinedWrapper<
             String
-
 ?> get stringProp;
 UndefinedWrapper<
             DateTime
-
 ?> get dateProp;
 UndefinedWrapper<
             DateTime
-
 ?> get datetimeProp;
 UndefinedWrapper<
     List<
         
             $FreeFormObject
-
 >
-
 ?> get arrayNullableProp;
 UndefinedWrapper<
     List<
         
             $FreeFormObject
-
 ?>
-
 ?> get arrayAndItemsNullableProp;
 UndefinedWrapper<
     List<
         
             $FreeFormObject
-
 ?>
-
 > get arrayItemsNullable;
 UndefinedWrapper<
     Map<String, 
         
             $FreeFormObject
-
 >
-
 ?> get objectNullableProp;
 UndefinedWrapper<
     Map<String, 
         
             $FreeFormObject
-
 ?>
-
 ?> get objectAndItemsNullableProp;
 UndefinedWrapper<
     Map<String, 
         
             $FreeFormObject
-
 ?>
-
 > get objectItemsNullable;
   
 }
@@ -121,91 +102,72 @@ NullableClassMixin {
   @override
   UndefinedWrapper<
             int
-
 ?> integerProp;
   @override
   UndefinedWrapper<
             num
-
 ?> numberProp;
   @override
   UndefinedWrapper<
             bool
-
 ?> booleanProp;
   @override
   UndefinedWrapper<
             String
-
 ?> stringProp;
   @override
   UndefinedWrapper<
             DateTime
-
 ?> dateProp;
   @override
   UndefinedWrapper<
             DateTime
-
 ?> datetimeProp;
   @override
   UndefinedWrapper<
     List<
         
             $FreeFormObject
-
 >
-
 ?> arrayNullableProp;
   @override
   UndefinedWrapper<
     List<
         
             $FreeFormObject
-
 ?>
-
 ?> arrayAndItemsNullableProp;
   @override
   UndefinedWrapper<
     List<
         
             $FreeFormObject
-
 ?>
-
 > arrayItemsNullable;
   @override
   UndefinedWrapper<
     Map<String, 
         
             $FreeFormObject
-
 >
-
 ?> objectNullableProp;
   @override
   UndefinedWrapper<
     Map<String, 
         
             $FreeFormObject
-
 ?>
-
 ?> objectAndItemsNullableProp;
   @override
   UndefinedWrapper<
     Map<String, 
         
             $FreeFormObject
-
 ?>
-
 > objectItemsNullable;
 
   AdditionalProperties<
             $FreeFormObject
-
 ?> additionalProperties;
 
   
@@ -264,9 +226,11 @@ NullableClassMixin {
   this.objectItemsNullable = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<
+            $FreeFormObject
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = NullableClassReflection.instance;
   NullableClassReflection get $classReflection => $reflection;
@@ -276,45 +240,64 @@ NullableClassMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$NullableClassToMap(this);
-  }
-  factory NullableClass.fromMap(Map<String, dynamic> src) {
-    return _$NullableClassFromMap(src);
-  }
-  static NullableClass? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return NullableClass.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$NullableClassCanFromMap(src);
+  factory NullableClass.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory NullableClass.deserialize(Object? src) {
-    return _$NullableClassDeserialize(src);
-  }
-  static NullableClass? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return NullableClass.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$NullableClassCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$NullableClassSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

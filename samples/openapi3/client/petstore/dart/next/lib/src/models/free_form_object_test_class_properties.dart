@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'free_form_object_test_class_properties.reflection.dart';
-part 'free_form_object_test_class_properties.serialization.dart';
 
 
 /// FreeFormObjectTestClassPropertiesMixin
@@ -17,7 +16,6 @@ mixin FreeFormObjectTestClassPropertiesMixin on
   UndefinedWrapper<
     Map<String, 
         Object
-
 ?>
 > get oneOf1;
 }
@@ -29,7 +27,6 @@ $OpenApiObjectMixin,
 FreeFormObjectTestClassPropertiesMixin {
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -42,7 +39,6 @@ FreeFormObjectTestClassPropertiesMixin {
   UndefinedWrapper<
     Map<String, 
         Object
-
 ?>
 > oneOf1;
   
@@ -55,11 +51,12 @@ FreeFormObjectTestClassPropertiesMixin {
   });
 
   FreeFormObjectTestClassProperties({
-        this.additionalProperties = const AdditionalProperties(),
+        AdditionalProperties<Object
+?>? additionalProperties,
     
     this.oneOf0 = const UndefinedWrapper.undefined(),
     this.oneOf1 = const UndefinedWrapper.undefined(),
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = FreeFormObjectTestClassPropertiesReflection.instance;
   FreeFormObjectTestClassPropertiesReflection get $classReflection => $reflection;
@@ -75,46 +72,17 @@ FreeFormObjectTestClassPropertiesMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$FreeFormObjectTestClassPropertiesToMap(this);
-  }
-  factory FreeFormObjectTestClassProperties.fromMap(Map<String, dynamic> src) {
-    return _$FreeFormObjectTestClassPropertiesFromMap(src);
-  }
-  static FreeFormObjectTestClassProperties? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return FreeFormObjectTestClassProperties.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$FreeFormObjectTestClassPropertiesCanFromMap(src);
+  factory FreeFormObjectTestClassProperties.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory FreeFormObjectTestClassProperties.deserialize(Object? src) {
-    return _$FreeFormObjectTestClassPropertiesDeserialize(src);
-  }
-  static FreeFormObjectTestClassProperties? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return FreeFormObjectTestClassProperties.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$FreeFormObjectTestClassPropertiesCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
-    return _$FreeFormObjectTestClassPropertiesSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
-
-
 
 

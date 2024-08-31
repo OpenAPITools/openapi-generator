@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'basque_pig.reflection.dart';
-part 'basque_pig.serialization.dart';
 
 
 /// BasquePigMixin
@@ -15,7 +14,6 @@ mixin BasquePigMixin on
   $OpenApiObjectMixin {
   
             String
-
  get className;
   
 }
@@ -31,11 +29,9 @@ BasquePigMixin {
   @override
   
             String
-
  className;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -48,9 +44,10 @@ BasquePigMixin {
 
   BasquePig({
     required  this.className     ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = BasquePigReflection.instance;
   BasquePigReflection get $classReflection => $reflection;
@@ -60,45 +57,19 @@ BasquePigMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$BasquePigToMap(this);
-  }
-  factory BasquePig.fromMap(Map<String, dynamic> src) {
-    return _$BasquePigFromMap(src);
-  }
-  static BasquePig? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return BasquePig.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$BasquePigCanFromMap(src);
+  factory BasquePig.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory BasquePig.deserialize(Object? src) {
-    return _$BasquePigDeserialize(src);
-  }
-  static BasquePig? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return BasquePig.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$BasquePigCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$BasquePigSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
 
 
 

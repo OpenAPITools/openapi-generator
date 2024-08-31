@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'object_with_deprecated_fields.reflection.dart';
-part 'object_with_deprecated_fields.serialization.dart';
 
 
 /// ObjectWithDeprecatedFieldsMixin
@@ -18,23 +17,18 @@ mixin ObjectWithDeprecatedFieldsMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
-
 > get uuid;
 UndefinedWrapper<
             num
-
 > get id;
 UndefinedWrapper<
             DeprecatedObject
-
 > get deprecatedRef;
 UndefinedWrapper<
     List<
         
             String
-
 >
-
 > get bars;
   
 }
@@ -53,30 +47,24 @@ ObjectWithDeprecatedFieldsMixin {
   @override
   UndefinedWrapper<
             String
-
 > uuid;
   @override
   UndefinedWrapper<
             num
-
 > id;
   @override
   UndefinedWrapper<
             DeprecatedObject
-
 > deprecatedRef;
   @override
   UndefinedWrapper<
     List<
         
             String
-
 >
-
 > bars;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -103,9 +91,10 @@ ObjectWithDeprecatedFieldsMixin {
   this.bars = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = ObjectWithDeprecatedFieldsReflection.instance;
   ObjectWithDeprecatedFieldsReflection get $classReflection => $reflection;
@@ -115,45 +104,30 @@ ObjectWithDeprecatedFieldsMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$ObjectWithDeprecatedFieldsToMap(this);
-  }
-  factory ObjectWithDeprecatedFields.fromMap(Map<String, dynamic> src) {
-    return _$ObjectWithDeprecatedFieldsFromMap(src);
-  }
-  static ObjectWithDeprecatedFields? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return ObjectWithDeprecatedFields.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$ObjectWithDeprecatedFieldsCanFromMap(src);
+  factory ObjectWithDeprecatedFields.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory ObjectWithDeprecatedFields.deserialize(Object? src) {
-    return _$ObjectWithDeprecatedFieldsDeserialize(src);
-  }
-  static ObjectWithDeprecatedFields? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return ObjectWithDeprecatedFields.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$ObjectWithDeprecatedFieldsCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$ObjectWithDeprecatedFieldsSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

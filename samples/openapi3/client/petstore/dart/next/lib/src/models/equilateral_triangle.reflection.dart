@@ -5,14 +5,15 @@ part of 'equilateral_triangle.dart';
 
 //class reflection
 
-class EquilateralTriangleReflection extends ClassReflection<EquilateralTriangle> {
+class EquilateralTriangleReflection extends ModelReflection<EquilateralTriangle> {
   static EquilateralTriangleReflection instanceGetter() => instance;
   static const instance = EquilateralTriangleReflection._(
     modelName: r'EquilateralTriangle',
     className: r'EquilateralTriangle',
+    xml: const XmlReflection(
+),
     shapeTypePart: PropertyReflection<EquilateralTriangle, 
             String
-
 >(
       dartName: r'shapeType',
       nullable: false,
@@ -22,12 +23,21 @@ class EquilateralTriangleReflection extends ClassReflection<EquilateralTriangle>
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _shapeTypeGetter,
-      setter: _shapeTypeSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_shapeTypeGetter),
+      setter: FunctionWrapper2(_shapeTypeSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
     triangleTypePart: PropertyReflection<EquilateralTriangle, 
             String
-
 >(
       dartName: r'triangleType',
       nullable: false,
@@ -37,76 +47,93 @@ class EquilateralTriangleReflection extends ClassReflection<EquilateralTriangle>
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _triangleTypeGetter,
-      setter: _triangleTypeSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_triangleTypeGetter),
+      setter: FunctionWrapper2(_triangleTypeSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
-    
-    
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    allOfShapeInterfacePart: AllOfReflection(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<EquilateralTriangle, Object
+      reflection: ShapeInterfaceReflection.instance,
+    ),
+allOfTriangleInterfacePart: AllOfReflection(
+      parentReflectionGetter: instanceGetter,
+      reflection: TriangleInterfaceReflection.instance,
+    ),
 
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+    
+    additionalPropertiesPart: AdditionalPropertiesPart(
+      parentReflectionGetter: instanceGetter,
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const EquilateralTriangleReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.shapeTypePart,
     required this.triangleTypePart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
     this.discriminatorImplicitMappings = const {},
-        
+    required this.allOfShapeInterfacePart,
+required this.allOfTriangleInterfacePart,
+    
     required this.additionalPropertiesPart,
   });
 
   final PropertyReflection<EquilateralTriangle, 
             String
-
 > shapeTypePart;
   static 
             String
-
  _shapeTypeGetter(EquilateralTriangle parent) {
     return parent.shapeType;
   }
   static void _shapeTypeSetter(EquilateralTriangle parent, 
             String
-
  value) {
     parent.shapeType = value;
   }
+
   final PropertyReflection<EquilateralTriangle, 
             String
-
 > triangleTypePart;
   static 
             String
-
  _triangleTypeGetter(EquilateralTriangle parent) {
     return parent.triangleType;
   }
   static void _triangleTypeSetter(EquilateralTriangle parent, 
             String
-
  value) {
     parent.triangleType = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<EquilateralTriangle, dynamic>> get properties => [
@@ -114,20 +141,27 @@ class EquilateralTriangleReflection extends ClassReflection<EquilateralTriangle>
 triangleTypePart,
   ];
 
-  final AdditionalPropertiesReflection<EquilateralTriangle, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<EquilateralTriangle, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<EquilateralTriangle, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(EquilateralTriangle instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(EquilateralTriangle instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  final AllOfReflection<EquilateralTriangle, ShapeInterfaceMixin> allOfShapeInterfacePart;
+final AllOfReflection<EquilateralTriangle, TriangleInterfaceMixin> allOfTriangleInterfacePart;
+
+  
+
   @override
   List<AllOfReflection<EquilateralTriangle, dynamic>> get allOfs => [
-    
+    allOfShapeInterfacePart,allOfTriangleInterfacePart,
   ];
 
   @override
@@ -139,89 +173,15 @@ triangleTypePart,
     
   ];
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => EquilateralTriangle.canDeserialize(src);
-  @override
-  EquilateralTriangle Function(Object? src) get deserializeFunction =>
-      (src) => EquilateralTriangle.deserialize(src);
-
-  @override
-  Object? Function(EquilateralTriangle src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of EquilateralTriangle.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  EquilateralTriangle example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = EquilateralTriangle(
-      shapeType: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[shapeTypePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      triangleType: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[triangleTypePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  EquilateralTriangle empty() {
+    return EquilateralTriangle(
+      shapeType: shapeTypePart.reflection.emptyFunction(),
+      triangleType: triangleTypePart.reflection.emptyFunction(),
     );
-    
-    return exampleResult;
   }
 }
 
-
-class EquilateralTriangleXmlReflection {
-    const EquilateralTriangleXmlReflection();
-}
 

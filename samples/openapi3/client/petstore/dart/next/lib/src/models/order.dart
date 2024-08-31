@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'order.reflection.dart';
-part 'order.serialization.dart';
 
 
 /// OrderMixin
@@ -20,27 +19,21 @@ mixin OrderMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
-
 > get id;
 UndefinedWrapper<
             int
-
 > get petId;
 UndefinedWrapper<
             int
-
 > get quantity;
 UndefinedWrapper<
             DateTime
-
 > get shipDate;
 UndefinedWrapper<
             OrderStatusEnum
-
 > get status;
 UndefinedWrapper<
             bool
-
 > get complete;
   
 }
@@ -61,36 +54,29 @@ OrderMixin {
   @override
   UndefinedWrapper<
             int
-
 > id;
   @override
   UndefinedWrapper<
             int
-
 > petId;
   @override
   UndefinedWrapper<
             int
-
 > quantity;
   @override
   UndefinedWrapper<
             DateTime
-
 > shipDate;
   @override
   UndefinedWrapper<
             OrderStatusEnum
-
 > status;
   @override
   UndefinedWrapper<
             bool
-
 > complete;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -129,9 +115,10 @@ OrderMixin {
     )
     
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = OrderReflection.instance;
   OrderReflection get $classReflection => $reflection;
@@ -141,45 +128,28 @@ OrderMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$OrderToMap(this);
-  }
-  factory Order.fromMap(Map<String, dynamic> src) {
-    return _$OrderFromMap(src);
-  }
-  static Order? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return Order.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$OrderCanFromMap(src);
+  factory Order.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory Order.deserialize(Object? src) {
-    return _$OrderDeserialize(src);
-  }
-  static Order? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return Order.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$OrderCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$OrderSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -201,8 +171,29 @@ extension type const OrderStatusEnum._(String value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<OrderStatusEnum, String>(
+    PrimitiveReflection.forString,
+    members: [
+      
+        EnumMemberReflection(dartName: r'placed', oasValue: r'placed', value: OrderStatusEnum.placed()),
+      
+        EnumMemberReflection(dartName: r'approved', oasValue: r'approved', value: OrderStatusEnum.approved()),
+      
+        EnumMemberReflection(dartName: r'delivered', oasValue: r'delivered', value: OrderStatusEnum.delivered()),
+      
+    ],
+  );
+
+  factory OrderStatusEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [OrderStatusEnum] enum from a value without checking if it exists.
@@ -216,4 +207,8 @@ extension type const OrderStatusEnum._(String value) {
     
   ];
 }
+
+
+
+
 

@@ -5,14 +5,15 @@ part of 'grandparent_animal.dart';
 
 //class reflection
 
-class GrandparentAnimalReflection extends ClassReflection<GrandparentAnimal> {
+class GrandparentAnimalReflection extends ModelReflection<GrandparentAnimal> {
   static GrandparentAnimalReflection instanceGetter() => instance;
   static const instance = GrandparentAnimalReflection._(
     modelName: r'GrandparentAnimal',
     className: r'GrandparentAnimal',
+    xml: const XmlReflection(
+),
     petTypePart: PropertyReflection<GrandparentAnimal, 
             String
-
 >(
       dartName: r'petType',
       nullable: false,
@@ -22,8 +23,18 @@ class GrandparentAnimalReflection extends ClassReflection<GrandparentAnimal> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: true,
-      getter: _petTypeGetter,
-      setter: _petTypeSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_petTypeGetter),
+      setter: FunctionWrapper2(_petTypeSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
     discriminatorKey: r'pet_type',
     discriminatorImplicitMappings: const {
@@ -32,16 +43,18 @@ class GrandparentAnimalReflection extends ClassReflection<GrandparentAnimal> {
     },
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<GrandparentAnimal, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const GrandparentAnimalReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.petTypePart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
@@ -52,121 +65,67 @@ class GrandparentAnimalReflection extends ClassReflection<GrandparentAnimal> {
 
   final PropertyReflection<GrandparentAnimal, 
             String
-
 > petTypePart;
   static 
             String
-
  _petTypeGetter(GrandparentAnimal parent) {
     return parent.petType;
   }
   static void _petTypeSetter(GrandparentAnimal parent, 
             String
-
  value) {
     parent.petType = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<GrandparentAnimal, dynamic>> get properties => [
     petTypePart,
   ];
 
-  final AdditionalPropertiesReflection<GrandparentAnimal, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<GrandparentAnimal, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<GrandparentAnimal, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(GrandparentAnimal instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(GrandparentAnimal instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<GrandparentAnimal, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => GrandparentAnimal.canDeserialize(src);
-  @override
-  GrandparentAnimal Function(Object? src) get deserializeFunction =>
-      (src) => GrandparentAnimal.deserialize(src);
-
-  @override
-  Object? Function(GrandparentAnimal src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of GrandparentAnimal.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  GrandparentAnimal example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = GrandparentAnimal(
-      petType: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[petTypePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  GrandparentAnimal empty() {
+    return GrandparentAnimal(
+      petType: petTypePart.reflection.emptyFunction(),
     );
-    
-    return exampleResult;
   }
 }
 
-
-class GrandparentAnimalXmlReflection {
-    const GrandparentAnimalXmlReflection();
-}
 

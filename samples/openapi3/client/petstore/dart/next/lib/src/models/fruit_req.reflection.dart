@@ -5,27 +5,28 @@ part of 'fruit_req.dart';
 
 //class reflection
 
-class FruitReqReflection extends ClassReflection<FruitReq> {
+class FruitReqReflection extends ModelReflection<FruitReq> {
   static FruitReqReflection instanceGetter() => instance;
   static const instance = FruitReqReflection._(
     modelName: r'fruitReq',
     className: r'FruitReq',
+    xml: const XmlReflection(
+),
     
     
-    oneOf0Part: FruitReqOneOf0(
+    oneOf0Part: FruitReqOneOf0Part(
       parentReflectionGetter: instanceGetter,
-      classReflection: AppleReqReflection.instance,
     ),
     
-    oneOf1Part: FruitReqOneOf1(
+    oneOf1Part: FruitReqOneOf1Part(
       parentReflectionGetter: instanceGetter,
-      classReflection: BananaReqReflection.instance,
     ),
     
   );
   const FruitReqReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
     this.discriminatorImplicitMappings = const {},
@@ -37,35 +38,31 @@ class FruitReqReflection extends ClassReflection<FruitReq> {
   });
 
 
-
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<FruitReq, dynamic>> get properties => [
       ];
 
+
   
   
+  final FruitReqOneOf0Part oneOf0Part;
   
-  final FruitReqOneOf0 oneOf0Part;
+  final FruitReqOneOf1Part oneOf1Part;
   
-  final FruitReqOneOf1 oneOf1Part;
-  
-  @override
-  List<PartReflection<FruitReq, dynamic>> get parts => [
-    ...super.parts,
-      ];
+
   @override
   List<AllOfReflection<FruitReq, dynamic>> get allOfs => [
     
@@ -80,60 +77,62 @@ class FruitReqReflection extends ClassReflection<FruitReq> {
     
   ];
 
-  @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => FruitReq.canDeserialize(src);
-  @override
-  FruitReq Function(Object? src) get deserializeFunction =>
-      (src) => FruitReq.deserialize(src);
 
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  Object? Function(FruitReq src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of FruitReq.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  FruitReq example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = FruitReq(
-      
+  FruitReq empty() {
+    return FruitReq(
     );
-    
-    exampleResult.oneOf0 = oneOf0Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
-    
-    exampleResult.oneOf1 = oneOf1Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
-    
-    return exampleResult;
   }
 }
 
 
-class FruitReqOneOf0 extends OneOfReflection<FruitReq, 
+class FruitReqOneOf0Part extends OneOfReflection<FruitReq, 
             AppleReq
 > {
-  const FruitReqOneOf0({
-    super.classReflection,
-    required FruitReqReflection Function() super.parentReflectionGetter,
-    super.itemsReflection,
-  });
+
+  const FruitReqOneOf0Part({
+  required FruitReqReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+            AppleReq
+>, FruitReq> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, FruitReq, UndefinedWrapper<
+            AppleReq
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+            AppleReq
+> _getter(FruitReq src) {
+  return src.oneOf0;
+}
+static void _setter(FruitReq src, UndefinedWrapper<
+            AppleReq
+> value) {
+  src.oneOf0 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+            AppleReq
+> get reflection => UndefinedWrapperReflection(
+            
+        
+        
+            
+                AppleReq.$reflection
+        
+);
 
   UndefinedWrapper<
             AppleReq
-> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
     if (discriminatorExampleResults.isEmpty) {
       //return undefined for non-first oneOfs.
       // An example SHOULD be generated
@@ -141,36 +140,63 @@ class FruitReqOneOf0 extends OneOfReflection<FruitReq,
       // if this reflection wasn't a result of any property, don't generate an example.
 
       if (!discriminatorExampleResults.values
-          .any((e) => e.value == classReflection)) {
+          .any((e) => e.value == reflection.subReflection)) {
         // if there are no discriminator examples targetting the current class:
         return UndefinedWrapper.undefined();
       } else {
         // An example SHOULD be generated
       }
     }
-    return UndefinedWrapper(
-            
-            
-
-
-    AppleReqReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
-    
-);
+    return reflection.example();
   }
 }
 
-class FruitReqOneOf1 extends OneOfReflection<FruitReq, 
+class FruitReqOneOf1Part extends OneOfReflection<FruitReq, 
             BananaReq
 > {
-  const FruitReqOneOf1({
-    super.classReflection,
-    required FruitReqReflection Function() super.parentReflectionGetter,
-    super.itemsReflection,
-  });
+
+  const FruitReqOneOf1Part({
+  required FruitReqReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+            BananaReq
+>, FruitReq> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, FruitReq, UndefinedWrapper<
+            BananaReq
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+            BananaReq
+> _getter(FruitReq src) {
+  return src.oneOf1;
+}
+static void _setter(FruitReq src, UndefinedWrapper<
+            BananaReq
+> value) {
+  src.oneOf1 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+            BananaReq
+> get reflection => UndefinedWrapperReflection(
+            
+        
+        
+            
+                BananaReq.$reflection
+        
+);
 
   UndefinedWrapper<
             BananaReq
-> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
     if (discriminatorExampleResults.isEmpty) {
       //return undefined for non-first oneOfs.
       return UndefinedWrapper.undefined();
@@ -178,25 +204,14 @@ class FruitReqOneOf1 extends OneOfReflection<FruitReq,
       // if this reflection wasn't a result of any property, don't generate an example.
 
       if (!discriminatorExampleResults.values
-          .any((e) => e.value == classReflection)) {
+          .any((e) => e.value == reflection.subReflection)) {
         // if there are no discriminator examples targetting the current class:
         return UndefinedWrapper.undefined();
       } else {
         // An example SHOULD be generated
       }
     }
-    return UndefinedWrapper(
-            
-            
-
-
-    BananaReqReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
-    
-);
+    return reflection.example();
   }
-}
-
-class FruitReqXmlReflection {
-    const FruitReqXmlReflection();
 }
 

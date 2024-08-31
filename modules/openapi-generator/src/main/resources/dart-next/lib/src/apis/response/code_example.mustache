@@ -1,0 +1,11 @@
+{{#wildcard}}exampleContext.exampleCode(1, 599){{/wildcard}}
+{{^wildcard}}
+    {{#range}}
+        {{#is1xx}}exampleContext.exampleCode(100, 200){{/is1xx}}
+        {{#is2xx}}exampleContext.exampleCode(200, 300){{/is2xx}}
+        {{#is3xx}}exampleContext.exampleCode(300, 400){{/is3xx}}
+        {{#is4xx}}exampleContext.exampleCode(400, 500){{/is4xx}}
+        {{#is5xx}}exampleContext.exampleCode(500, 600){{/is5xx}}
+    {{/range}}
+    {{^range}}{{code}}{{/range}}
+{{/wildcard}}

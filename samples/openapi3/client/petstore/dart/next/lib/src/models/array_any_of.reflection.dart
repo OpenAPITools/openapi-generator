@@ -5,35 +5,35 @@ part of 'array_any_of.dart';
 
 //class reflection
 
-class ArrayAnyOfReflection extends ClassReflection<ArrayAnyOf> {
+class ArrayAnyOfReflection extends ModelReflection<ArrayAnyOf> {
   static ArrayAnyOfReflection instanceGetter() => instance;
   static const instance = ArrayAnyOfReflection._(
     modelName: r'ArrayAnyOf',
     className: r'ArrayAnyOf',
+    xml: const XmlReflection(
+),
     
     
-    anyOf0Part: ArrayAnyOfAnyOf0(
+    anyOf0Part: ArrayAnyOfAnyOf0Part(
       parentReflectionGetter: instanceGetter,
-          ),
+    ),
     
-    anyOf1Part: ArrayAnyOfAnyOf1(
+    anyOf1Part: ArrayAnyOfAnyOf1Part(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<ArrayAnyOf, 
-            String
-
->(parentReflectionGetter: instanceGetter,),
-          ),
+    ),
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<ArrayAnyOf, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const ArrayAnyOfReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
     this.discriminatorImplicitMappings = const {},
@@ -46,39 +46,43 @@ class ArrayAnyOfReflection extends ClassReflection<ArrayAnyOf> {
   });
 
 
-
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<ArrayAnyOf, dynamic>> get properties => [
       ];
 
-  final AdditionalPropertiesReflection<ArrayAnyOf, Object
-
-?> additionalPropertiesPart;
-
-  
-  
-  final ArrayAnyOfAnyOf0 anyOf0Part;
-  
-  final ArrayAnyOfAnyOf1 anyOf1Part;
-  
   @override
-  List<PartReflection<ArrayAnyOf, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<ArrayAnyOf, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(ArrayAnyOf instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(ArrayAnyOf instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+  final ArrayAnyOfAnyOf0Part anyOf0Part;
+  
+  final ArrayAnyOfAnyOf1Part anyOf1Part;
+  
+
   @override
   List<AllOfReflection<ArrayAnyOf, dynamic>> get allOfs => [
     
@@ -93,126 +97,146 @@ class ArrayAnyOfReflection extends ClassReflection<ArrayAnyOf> {
     anyOf0Part,anyOf1Part,
   ];
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => ArrayAnyOf.canDeserialize(src);
-  @override
-  ArrayAnyOf Function(Object? src) get deserializeFunction =>
-      (src) => ArrayAnyOf.deserialize(src);
-
-  @override
-  Object? Function(ArrayAnyOf src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of ArrayAnyOf.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  ArrayAnyOf example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = ArrayAnyOf(
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  ArrayAnyOf empty() {
+    return ArrayAnyOf(
     );
-    
-    exampleResult.anyOf0 = anyOf0Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
-    
-    exampleResult.anyOf1 = anyOf1Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
-    
-    return exampleResult;
   }
 }
 
-class ArrayAnyOfAnyOf0 extends AnyOfReflection<ArrayAnyOf, 
+class ArrayAnyOfAnyOf0Part extends AnyOfReflection<ArrayAnyOf, 
             int
 > {
-  const ArrayAnyOfAnyOf0({
-    super.classReflection,
-    required ArrayAnyOfReflection Function() super.parentReflectionGetter,
-    super.itemsReflection,
-  });
+
+  const ArrayAnyOfAnyOf0Part({
+  required ArrayAnyOfReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+            int
+>, ArrayAnyOf> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, ArrayAnyOf, UndefinedWrapper<
+            int
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+            int
+> _getter(ArrayAnyOf src) {
+  return src.anyOf0;
+}
+static void _setter(ArrayAnyOf src, UndefinedWrapper<
+            int
+> value) {
+  src.anyOf0 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+            int
+> get reflection => UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forint
+        
+);
 
   UndefinedWrapper<
             int
-> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
     if (discriminatorExampleResults.isNotEmpty) {
       if (!discriminatorExampleResults.values
-          .any((e) => e.value == classReflection)) {
+          .any((e) => e.value == reflection.subReflection)) {
         return UndefinedWrapper.undefined();
       }
     }
-    return UndefinedWrapper(
-            
-            
-
-
-    
-    exampleint()
-);
+    return reflection.example();
   }
 }
-class ArrayAnyOfAnyOf1 extends AnyOfReflection<ArrayAnyOf, 
+class ArrayAnyOfAnyOf1Part extends AnyOfReflection<ArrayAnyOf, 
     List<
         
             String
-
 >
 > {
-  const ArrayAnyOfAnyOf1({
-    super.classReflection,
-    required ArrayAnyOfReflection Function() super.parentReflectionGetter,
-    super.itemsReflection,
-  });
+
+  const ArrayAnyOfAnyOf1Part({
+  required ArrayAnyOfReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+    List<
+        
+            String
+>
+>, ArrayAnyOf> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, ArrayAnyOf, UndefinedWrapper<
+    List<
+        
+            String
+>
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+    List<
+        
+            String
+>
+> _getter(ArrayAnyOf src) {
+  return src.anyOf1;
+}
+static void _setter(ArrayAnyOf src, UndefinedWrapper<
+    List<
+        
+            String
+>
+> value) {
+  src.anyOf1 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+    List<
+        
+            String
+>
+> get reflection => UndefinedWrapperReflection(
+    ListReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+)
+);
 
   UndefinedWrapper<
     List<
         
             String
-
 >
-> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
     if (discriminatorExampleResults.isNotEmpty) {
       if (!discriminatorExampleResults.values
-          .any((e) => e.value == classReflection)) {
+          .any((e) => e.value == reflection.subReflection)) {
         return UndefinedWrapper.undefined();
       }
     }
-    return UndefinedWrapper(
-    exampleList(() { return 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-; })
-
-);
+    return reflection.example();
   }
-}
-
-class ArrayAnyOfXmlReflection {
-    const ArrayAnyOfXmlReflection();
 }
 

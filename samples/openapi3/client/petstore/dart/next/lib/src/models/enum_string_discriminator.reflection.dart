@@ -5,14 +5,15 @@ part of 'enum_string_discriminator.dart';
 
 //class reflection
 
-class EnumStringDiscriminatorReflection extends ClassReflection<EnumStringDiscriminator> {
+class EnumStringDiscriminatorReflection extends ModelReflection<EnumStringDiscriminator> {
   static EnumStringDiscriminatorReflection instanceGetter() => instance;
   static const instance = EnumStringDiscriminatorReflection._(
     modelName: r'EnumStringDiscriminator',
     className: r'EnumStringDiscriminator',
+    xml: const XmlReflection(
+),
     enumStrTypePart: PropertyReflection<EnumStringDiscriminator, 
             EnumStringDiscriminatorEnumStrTypeEnum
-
 >(
       dartName: r'enumStrType',
       nullable: false,
@@ -22,8 +23,15 @@ class EnumStringDiscriminatorReflection extends ClassReflection<EnumStringDiscri
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: true,
-      getter: _enumStrTypeGetter,
-      setter: _enumStrTypeSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_enumStrTypeGetter),
+      setter: FunctionWrapper2(_enumStrTypeSetter),
+      reflection: 
+            EnumStringDiscriminatorEnumStrTypeEnum.$reflection
+        
+        
+,
     ),
     discriminatorKey: r'enum_str_type',
     discriminatorImplicitMappings: const {
@@ -32,16 +40,18 @@ class EnumStringDiscriminatorReflection extends ClassReflection<EnumStringDiscri
     },
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<EnumStringDiscriminator, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const EnumStringDiscriminatorReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.enumStrTypePart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
@@ -52,113 +62,67 @@ class EnumStringDiscriminatorReflection extends ClassReflection<EnumStringDiscri
 
   final PropertyReflection<EnumStringDiscriminator, 
             EnumStringDiscriminatorEnumStrTypeEnum
-
 > enumStrTypePart;
   static 
             EnumStringDiscriminatorEnumStrTypeEnum
-
  _enumStrTypeGetter(EnumStringDiscriminator parent) {
     return parent.enumStrType;
   }
   static void _enumStrTypeSetter(EnumStringDiscriminator parent, 
             EnumStringDiscriminatorEnumStrTypeEnum
-
  value) {
     parent.enumStrType = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<EnumStringDiscriminator, dynamic>> get properties => [
     enumStrTypePart,
   ];
 
-  final AdditionalPropertiesReflection<EnumStringDiscriminator, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<EnumStringDiscriminator, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<EnumStringDiscriminator, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(EnumStringDiscriminator instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(EnumStringDiscriminator instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<EnumStringDiscriminator, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => EnumStringDiscriminator.canDeserialize(src);
-  @override
-  EnumStringDiscriminator Function(Object? src) get deserializeFunction =>
-      (src) => EnumStringDiscriminator.deserialize(src);
-
-  @override
-  Object? Function(EnumStringDiscriminator src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of EnumStringDiscriminator.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  EnumStringDiscriminator example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = EnumStringDiscriminator(
-      enumStrType: () {
-        var result = 
-
-
-            exampleEnum(EnumStringDiscriminatorEnumStrTypeEnum.values)
-
-
-
-;
-        return result;
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  EnumStringDiscriminator empty() {
+    return EnumStringDiscriminator(
+      enumStrType: enumStrTypePart.reflection.emptyFunction(),
     );
-    
-    return exampleResult;
   }
 }
 
-
-class EnumStringDiscriminatorXmlReflection {
-    const EnumStringDiscriminatorXmlReflection();
-}
 

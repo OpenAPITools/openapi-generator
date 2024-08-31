@@ -5,14 +5,15 @@ part of 'test_endpoint_parameters_request.dart';
 
 //class reflection
 
-class TestEndpointParametersRequestReflection extends ClassReflection<TestEndpointParametersRequest> {
+class TestEndpointParametersRequestReflection extends ModelReflection<TestEndpointParametersRequest> {
   static TestEndpointParametersRequestReflection instanceGetter() => instance;
   static const instance = TestEndpointParametersRequestReflection._(
     modelName: r'testEndpointParameters_request',
     className: r'TestEndpointParametersRequest',
+    xml: const XmlReflection(
+),
     integerPart: PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
             int
-
 >>(
       dartName: r'integer',
       nullable: false,
@@ -22,12 +23,21 @@ class TestEndpointParametersRequestReflection extends ClassReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _integerGetter,
-      setter: _integerSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_integerGetter),
+      setter: FunctionWrapper2(_integerSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forint
+        
+),
     ),
     int32Part: PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
             int
-
 >>(
       dartName: r'int32',
       nullable: false,
@@ -37,12 +47,21 @@ class TestEndpointParametersRequestReflection extends ClassReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _int32Getter,
-      setter: _int32Setter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_int32Getter),
+      setter: FunctionWrapper2(_int32Setter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forint
+        
+),
     ),
     int64Part: PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
             int
-
 >>(
       dartName: r'int64',
       nullable: false,
@@ -52,12 +71,21 @@ class TestEndpointParametersRequestReflection extends ClassReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _int64Getter,
-      setter: _int64Setter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_int64Getter),
+      setter: FunctionWrapper2(_int64Setter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forint
+        
+),
     ),
     numberPart: PropertyReflection<TestEndpointParametersRequest, 
             num
-
 >(
       dartName: r'number',
       nullable: false,
@@ -67,12 +95,21 @@ class TestEndpointParametersRequestReflection extends ClassReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _numberGetter,
-      setter: _numberSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_numberGetter),
+      setter: FunctionWrapper2(_numberSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.fornum
+        
+,
     ),
     floatPart: PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
             double
-
 >>(
       dartName: r'float',
       nullable: false,
@@ -82,12 +119,21 @@ class TestEndpointParametersRequestReflection extends ClassReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _floatGetter,
-      setter: _floatSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_floatGetter),
+      setter: FunctionWrapper2(_floatSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.fordouble
+        
+),
     ),
     $doublePart: PropertyReflection<TestEndpointParametersRequest, 
             double
-
 >(
       dartName: r'$double',
       nullable: false,
@@ -97,12 +143,21 @@ class TestEndpointParametersRequestReflection extends ClassReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _$doubleGetter,
-      setter: _$doubleSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_$doubleGetter),
+      setter: FunctionWrapper2(_$doubleSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.fordouble
+        
+,
     ),
     stringPart: PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
             String
-
 >>(
       dartName: r'string',
       nullable: false,
@@ -112,12 +167,21 @@ class TestEndpointParametersRequestReflection extends ClassReflection<TestEndpoi
       pattern: r'/[a-z]/i',
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _stringGetter,
-      setter: _stringSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_stringGetter),
+      setter: FunctionWrapper2(_stringSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     patternWithoutDelimiterPart: PropertyReflection<TestEndpointParametersRequest, 
             String
-
 >(
       dartName: r'patternWithoutDelimiter',
       nullable: false,
@@ -127,12 +191,21 @@ class TestEndpointParametersRequestReflection extends ClassReflection<TestEndpoi
       pattern: r'/^[A-Z].*/',
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _patternWithoutDelimiterGetter,
-      setter: _patternWithoutDelimiterSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_patternWithoutDelimiterGetter),
+      setter: FunctionWrapper2(_patternWithoutDelimiterSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
     bytePart: PropertyReflection<TestEndpointParametersRequest, 
             Uint8List
-
 >(
       dartName: r'byte',
       nullable: false,
@@ -142,12 +215,21 @@ class TestEndpointParametersRequestReflection extends ClassReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _byteGetter,
-      setter: _byteSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_byteGetter),
+      setter: FunctionWrapper2(_byteSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forUint8List
+        
+,
     ),
     binaryPart: PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
             XFile
-
 >>(
       dartName: r'binary',
       nullable: false,
@@ -157,12 +239,21 @@ class TestEndpointParametersRequestReflection extends ClassReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _binaryGetter,
-      setter: _binarySetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_binaryGetter),
+      setter: FunctionWrapper2(_binarySetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forXFile
+        
+),
     ),
     datePart: PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
             DateTime
-
 >>(
       dartName: r'date',
       nullable: false,
@@ -172,12 +263,21 @@ class TestEndpointParametersRequestReflection extends ClassReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _dateGetter,
-      setter: _dateSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_dateGetter),
+      setter: FunctionWrapper2(_dateSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forDateTime
+        
+),
     ),
     dateTimePart: PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
             DateTime
-
 >>(
       dartName: r'dateTime',
       nullable: false,
@@ -187,12 +287,21 @@ class TestEndpointParametersRequestReflection extends ClassReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _dateTimeGetter,
-      setter: _dateTimeSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_dateTimeGetter),
+      setter: FunctionWrapper2(_dateTimeSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forDateTime
+        
+),
     ),
     passwordPart: PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
             String
-
 >>(
       dartName: r'password',
       nullable: false,
@@ -202,12 +311,21 @@ class TestEndpointParametersRequestReflection extends ClassReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _passwordGetter,
-      setter: _passwordSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_passwordGetter),
+      setter: FunctionWrapper2(_passwordSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     callbackPart: PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
             String
-
 >>(
       dartName: r'callback',
       nullable: false,
@@ -217,21 +335,33 @@ class TestEndpointParametersRequestReflection extends ClassReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _callbackGetter,
-      setter: _callbackSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_callbackGetter),
+      setter: FunctionWrapper2(_callbackSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<TestEndpointParametersRequest, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const TestEndpointParametersRequestReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.integerPart,
     required this.int32Part,
     required this.int64Part,
@@ -255,242 +385,213 @@ class TestEndpointParametersRequestReflection extends ClassReflection<TestEndpoi
 
   final PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
             int
-
 >> integerPart;
   static UndefinedWrapper<
             int
-
 > _integerGetter(TestEndpointParametersRequest parent) {
     return parent.integer;
   }
   static void _integerSetter(TestEndpointParametersRequest parent, UndefinedWrapper<
             int
-
 > value) {
     parent.integer = value;
   }
+
   final PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
             int
-
 >> int32Part;
   static UndefinedWrapper<
             int
-
 > _int32Getter(TestEndpointParametersRequest parent) {
     return parent.int32;
   }
   static void _int32Setter(TestEndpointParametersRequest parent, UndefinedWrapper<
             int
-
 > value) {
     parent.int32 = value;
   }
+
   final PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
             int
-
 >> int64Part;
   static UndefinedWrapper<
             int
-
 > _int64Getter(TestEndpointParametersRequest parent) {
     return parent.int64;
   }
   static void _int64Setter(TestEndpointParametersRequest parent, UndefinedWrapper<
             int
-
 > value) {
     parent.int64 = value;
   }
+
   final PropertyReflection<TestEndpointParametersRequest, 
             num
-
 > numberPart;
   static 
             num
-
  _numberGetter(TestEndpointParametersRequest parent) {
     return parent.number;
   }
   static void _numberSetter(TestEndpointParametersRequest parent, 
             num
-
  value) {
     parent.number = value;
   }
+
   final PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
             double
-
 >> floatPart;
   static UndefinedWrapper<
             double
-
 > _floatGetter(TestEndpointParametersRequest parent) {
     return parent.float;
   }
   static void _floatSetter(TestEndpointParametersRequest parent, UndefinedWrapper<
             double
-
 > value) {
     parent.float = value;
   }
+
   final PropertyReflection<TestEndpointParametersRequest, 
             double
-
 > $doublePart;
   static 
             double
-
  _$doubleGetter(TestEndpointParametersRequest parent) {
     return parent.$double;
   }
   static void _$doubleSetter(TestEndpointParametersRequest parent, 
             double
-
  value) {
     parent.$double = value;
   }
+
   final PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
             String
-
 >> stringPart;
   static UndefinedWrapper<
             String
-
 > _stringGetter(TestEndpointParametersRequest parent) {
     return parent.string;
   }
   static void _stringSetter(TestEndpointParametersRequest parent, UndefinedWrapper<
             String
-
 > value) {
     parent.string = value;
   }
+
   final PropertyReflection<TestEndpointParametersRequest, 
             String
-
 > patternWithoutDelimiterPart;
   static 
             String
-
  _patternWithoutDelimiterGetter(TestEndpointParametersRequest parent) {
     return parent.patternWithoutDelimiter;
   }
   static void _patternWithoutDelimiterSetter(TestEndpointParametersRequest parent, 
             String
-
  value) {
     parent.patternWithoutDelimiter = value;
   }
+
   final PropertyReflection<TestEndpointParametersRequest, 
             Uint8List
-
 > bytePart;
   static 
             Uint8List
-
  _byteGetter(TestEndpointParametersRequest parent) {
     return parent.byte;
   }
   static void _byteSetter(TestEndpointParametersRequest parent, 
             Uint8List
-
  value) {
     parent.byte = value;
   }
+
   final PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
             XFile
-
 >> binaryPart;
   static UndefinedWrapper<
             XFile
-
 > _binaryGetter(TestEndpointParametersRequest parent) {
     return parent.binary;
   }
   static void _binarySetter(TestEndpointParametersRequest parent, UndefinedWrapper<
             XFile
-
 > value) {
     parent.binary = value;
   }
+
   final PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
             DateTime
-
 >> datePart;
   static UndefinedWrapper<
             DateTime
-
 > _dateGetter(TestEndpointParametersRequest parent) {
     return parent.date;
   }
   static void _dateSetter(TestEndpointParametersRequest parent, UndefinedWrapper<
             DateTime
-
 > value) {
     parent.date = value;
   }
+
   final PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
             DateTime
-
 >> dateTimePart;
   static UndefinedWrapper<
             DateTime
-
 > _dateTimeGetter(TestEndpointParametersRequest parent) {
     return parent.dateTime;
   }
   static void _dateTimeSetter(TestEndpointParametersRequest parent, UndefinedWrapper<
             DateTime
-
 > value) {
     parent.dateTime = value;
   }
+
   final PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
             String
-
 >> passwordPart;
   static UndefinedWrapper<
             String
-
 > _passwordGetter(TestEndpointParametersRequest parent) {
     return parent.password;
   }
   static void _passwordSetter(TestEndpointParametersRequest parent, UndefinedWrapper<
             String
-
 > value) {
     parent.password = value;
   }
+
   final PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
             String
-
 >> callbackPart;
   static UndefinedWrapper<
             String
-
 > _callbackGetter(TestEndpointParametersRequest parent) {
     return parent.callback;
   }
   static void _callbackSetter(TestEndpointParametersRequest parent, UndefinedWrapper<
             String
-
 > value) {
     parent.callback = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<TestEndpointParametersRequest, dynamic>> get properties => [
@@ -510,294 +611,39 @@ passwordPart,
 callbackPart,
   ];
 
-  final AdditionalPropertiesReflection<TestEndpointParametersRequest, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<TestEndpointParametersRequest, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<TestEndpointParametersRequest, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(TestEndpointParametersRequest instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(TestEndpointParametersRequest instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<TestEndpointParametersRequest, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => TestEndpointParametersRequest.canDeserialize(src);
-  @override
-  TestEndpointParametersRequest Function(Object? src) get deserializeFunction =>
-      (src) => TestEndpointParametersRequest.deserialize(src);
-
-  @override
-  Object? Function(TestEndpointParametersRequest src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of TestEndpointParametersRequest.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  TestEndpointParametersRequest example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = TestEndpointParametersRequest(
-      integer: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleint()
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      int32: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleint()
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      int64: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleint()
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      number: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    examplenum()
-
-
-;
-        return result;
-      } (),
-      float: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampledouble()
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      $double: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampledouble()
-
-
-;
-        return result;
-      } (),
-      string: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[stringPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      patternWithoutDelimiter: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[patternWithoutDelimiterPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      byte: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleUint8List()
-
-
-;
-        return result;
-      } (),
-      binary: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleXFile()
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      date: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleDateTime()
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      dateTime: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleDateTime()
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      password: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[passwordPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      callback: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[callbackPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  TestEndpointParametersRequest empty() {
+    return TestEndpointParametersRequest(
+      number: numberPart.reflection.emptyFunction(),
+      $double: $doublePart.reflection.emptyFunction(),
+      patternWithoutDelimiter: patternWithoutDelimiterPart.reflection.emptyFunction(),
+      byte: bytePart.reflection.emptyFunction(),
     );
-    
-    return exampleResult;
   }
 }
 
-
-class TestEndpointParametersRequestXmlReflection {
-    const TestEndpointParametersRequestXmlReflection();
-}
 

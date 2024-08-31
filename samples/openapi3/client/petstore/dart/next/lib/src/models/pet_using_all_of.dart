@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'pet_using_all_of.reflection.dart';
-part 'pet_using_all_of.serialization.dart';
 
 
 /// PetUsingAllOfMixin
@@ -20,35 +19,27 @@ mixin PetUsingAllOfMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
-
 > get id;
 UndefinedWrapper<
             Category
-
 > get category;
 
             String
-
  get name;
 
     List<
         
             String
-
 >
-
  get photoUrls;
 UndefinedWrapper<
     List<
         
             Tag
-
 >
-
 > get tags;
 UndefinedWrapper<
             PetUsingAllOfStatusEnum
-
 > get status;
   
 }
@@ -69,44 +60,35 @@ PetUsingAllOfMixin {
   @override
   UndefinedWrapper<
             int
-
 > id;
   @override
   UndefinedWrapper<
             Category
-
 > category;
   @override
   
             String
-
  name;
   @override
   
     List<
         
             String
-
 >
-
  photoUrls;
   @override
   UndefinedWrapper<
     List<
         
             Tag
-
 >
-
 > tags;
   @override
   UndefinedWrapper<
             PetUsingAllOfStatusEnum
-
 > status;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -137,9 +119,10 @@ required  this.photoUrls     ,
   this.status = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = PetUsingAllOfReflection.instance;
   PetUsingAllOfReflection get $classReflection => $reflection;
@@ -149,45 +132,35 @@ required  this.photoUrls     ,
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$PetUsingAllOfToMap(this);
-  }
-  factory PetUsingAllOf.fromMap(Map<String, dynamic> src) {
-    return _$PetUsingAllOfFromMap(src);
-  }
-  static PetUsingAllOf? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return PetUsingAllOf.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$PetUsingAllOfCanFromMap(src);
+  factory PetUsingAllOf.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory PetUsingAllOf.deserialize(Object? src) {
-    return _$PetUsingAllOfDeserialize(src);
-  }
-  static PetUsingAllOf? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return PetUsingAllOf.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$PetUsingAllOfCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$PetUsingAllOfSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -209,8 +182,29 @@ extension type const PetUsingAllOfStatusEnum._(String value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<PetUsingAllOfStatusEnum, String>(
+    PrimitiveReflection.forString,
+    members: [
+      
+        EnumMemberReflection(dartName: r'available', oasValue: r'available', value: PetUsingAllOfStatusEnum.available()),
+      
+        EnumMemberReflection(dartName: r'pending', oasValue: r'pending', value: PetUsingAllOfStatusEnum.pending()),
+      
+        EnumMemberReflection(dartName: r'sold', oasValue: r'sold', value: PetUsingAllOfStatusEnum.sold()),
+      
+    ],
+  );
+
+  factory PetUsingAllOfStatusEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [PetUsingAllOfStatusEnum] enum from a value without checking if it exists.
@@ -224,4 +218,5 @@ extension type const PetUsingAllOfStatusEnum._(String value) {
     
   ];
 }
+
 

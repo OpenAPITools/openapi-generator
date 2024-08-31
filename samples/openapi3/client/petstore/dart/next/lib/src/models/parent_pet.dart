@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'parent_pet.reflection.dart';
-part 'parent_pet.serialization.dart';
 
 
 /// ParentPetMixin
@@ -21,11 +20,9 @@ ParentPetMixin {
   @override
   
             String
-
  petType;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -38,9 +35,10 @@ ParentPetMixin {
 
   ParentPet({
     required  this.petType     ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = ParentPetReflection.instance;
   ParentPetReflection get $classReflection => $reflection;
@@ -51,46 +49,17 @@ ParentPetMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$ParentPetToMap(this);
-  }
-  factory ParentPet.fromMap(Map<String, dynamic> src) {
-    return _$ParentPetFromMap(src);
-  }
-  static ParentPet? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return ParentPet.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$ParentPetCanFromMap(src);
+  factory ParentPet.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory ParentPet.deserialize(Object? src) {
-    return _$ParentPetDeserialize(src);
-  }
-  static ParentPet? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return ParentPet.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$ParentPetCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$ParentPetSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
-
-
 
 

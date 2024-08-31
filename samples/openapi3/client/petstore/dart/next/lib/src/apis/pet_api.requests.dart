@@ -6,6 +6,9 @@ part of 'pet_api.dart';
 
 
 
+
+
+
 abstract class PetApiAddPetRequest {
   static const pathTemplate = r'/pet';
   static String method = r'POST';
@@ -14,7 +17,7 @@ abstract class PetApiAddPetRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
 
   const factory PetApiAddPetRequest.unsafe({
@@ -22,6 +25,7 @@ abstract class PetApiAddPetRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = PetApiAddPetRequestUnsafe;
 
@@ -29,11 +33,9 @@ abstract class PetApiAddPetRequest {
   const factory PetApiAddPetRequest.applicationJson({
     required 
             Pet
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -42,11 +44,9 @@ abstract class PetApiAddPetRequest {
   const factory PetApiAddPetRequest.applicationXml({
     required 
             Pet
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -55,6 +55,7 @@ abstract class PetApiAddPetRequest {
 
   const PetApiAddPetRequest({
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -62,7 +63,7 @@ abstract class PetApiAddPetRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -81,7 +82,7 @@ abstract class PetApiAddPetRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -114,19 +115,19 @@ abstract class PetApiAddPetRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -134,8 +135,8 @@ abstract class PetApiAddPetRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -154,11 +155,12 @@ class PetApiAddPetRequestUnsafe extends PetApiAddPetRequest {
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -171,6 +173,8 @@ class PetApiAddPetRequestUnsafe extends PetApiAddPetRequest {
 
 
 
+
+
 class PetApiAddPetRequestApplicationJson extends PetApiAddPetRequest {
   static const specMediaType = r'application/json';
 
@@ -179,60 +183,50 @@ class PetApiAddPetRequestApplicationJson extends PetApiAddPetRequest {
 
   final 
             Pet
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+            
+        
+        
+            
+                Pet.$reflection
+        
+;
 
 
   const PetApiAddPetRequestApplicationJson({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v.serialize();
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        yield* _stringResult(json.encode(serialized));
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
 class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
   static const specMediaType = r'application/xml';
 
@@ -241,60 +235,55 @@ class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
 
   final 
             Pet
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+            
+        
+        
+            
+                Pet.$reflection
+        
+;
 
 
   const PetApiAddPetRequestApplicationXml({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v.serialize();
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
+
+
+
+
+
 
 
 
@@ -307,13 +296,12 @@ class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
   /// Pet id to delete
   /// spec name: petId
   final 
             int
-
  petId;
   
   
@@ -321,7 +309,6 @@ class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
   /// spec name: api_key
   final UndefinedWrapper<
             String
-
 > apiKey;
   
 
@@ -335,6 +322,7 @@ class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
         .undefined()
 ,
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -342,7 +330,7 @@ class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     resolvedPath = OpenApiParameterSerializationPath.fromStyle(r'simple', explode: false, parameterName: r'petId',).expand(resolvedPath, petId);
@@ -362,7 +350,7 @@ class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -397,14 +385,14 @@ class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -413,7 +401,7 @@ class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
       headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
-      context: context,
+      context: userContext,
     );
   }
 }
@@ -424,11 +412,8 @@ class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
 
 
 extension type const StatusEnum._(String value) {
-  /// Status values that need to be considered for filter
       const StatusEnum.available() : this._(r'available');
-  /// Status values that need to be considered for filter
       const StatusEnum.pending() : this._(r'pending');
-  /// Status values that need to be considered for filter
       const StatusEnum.sold() : this._(r'sold');
 
   /// Creates a [StatusEnum] enum from a value and safely checking if it exists.
@@ -440,8 +425,29 @@ extension type const StatusEnum._(String value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<StatusEnum, String>(
+    PrimitiveReflection.forString,
+    members: [
+      
+        EnumMemberReflection(dartName: r'available', oasValue: r'available', value: StatusEnum.available()),
+      
+        EnumMemberReflection(dartName: r'pending', oasValue: r'pending', value: StatusEnum.pending()),
+      
+        EnumMemberReflection(dartName: r'sold', oasValue: r'sold', value: StatusEnum.sold()),
+      
+    ],
+  );
+
+  factory StatusEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [StatusEnum] enum from a value without checking if it exists.
@@ -457,6 +463,9 @@ extension type const StatusEnum._(String value) {
 }
 
 
+
+
+
  class PetApiFindPetsByStatusRequest {
   static const pathTemplate = r'/pet/findByStatus';
   static String method = r'GET';
@@ -464,7 +473,7 @@ extension type const StatusEnum._(String value) {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
   /// Status values that need to be considered for filter
   /// spec name: status
@@ -472,9 +481,7 @@ extension type const StatusEnum._(String value) {
     List<
         
             StatusEnum
-
 >
-
  status;
   
 
@@ -483,6 +490,7 @@ extension type const StatusEnum._(String value) {
     
     required this.status    ,
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -490,7 +498,7 @@ extension type const StatusEnum._(String value) {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -510,7 +518,7 @@ extension type const StatusEnum._(String value) {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -543,14 +551,14 @@ extension type const StatusEnum._(String value) {
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -559,10 +567,15 @@ extension type const StatusEnum._(String value) {
       headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
-      context: context,
+      context: userContext,
     );
   }
 }
+
+
+
+
+
 
 
 
@@ -578,7 +591,7 @@ extension type const StatusEnum._(String value) {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
   /// Tags to filter by
   /// spec name: tags
@@ -586,9 +599,7 @@ extension type const StatusEnum._(String value) {
     List<
         
             String
-
 >
-
  tags;
   
 
@@ -597,6 +608,7 @@ extension type const StatusEnum._(String value) {
     
     required this.tags    ,
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -604,7 +616,7 @@ extension type const StatusEnum._(String value) {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -624,7 +636,7 @@ extension type const StatusEnum._(String value) {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -657,14 +669,14 @@ extension type const StatusEnum._(String value) {
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -673,10 +685,13 @@ extension type const StatusEnum._(String value) {
       headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
-      context: context,
+      context: userContext,
     );
   }
 }
+
+
+
 
 
 
@@ -691,13 +706,12 @@ extension type const StatusEnum._(String value) {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
   /// ID of pet to return
   /// spec name: petId
   final 
             int
-
  petId;
   
 
@@ -706,6 +720,7 @@ extension type const StatusEnum._(String value) {
     
     required this.petId    ,
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -713,7 +728,7 @@ extension type const StatusEnum._(String value) {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     resolvedPath = OpenApiParameterSerializationPath.fromStyle(r'simple', explode: false, parameterName: r'petId',).expand(resolvedPath, petId);
@@ -733,7 +748,7 @@ extension type const StatusEnum._(String value) {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -766,14 +781,14 @@ extension type const StatusEnum._(String value) {
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -782,10 +797,13 @@ extension type const StatusEnum._(String value) {
       headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
-      context: context,
+      context: userContext,
     );
   }
 }
+
+
+
 
 
 
@@ -801,7 +819,7 @@ abstract class PetApiUpdatePetRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
 
   const factory PetApiUpdatePetRequest.unsafe({
@@ -809,6 +827,7 @@ abstract class PetApiUpdatePetRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = PetApiUpdatePetRequestUnsafe;
 
@@ -816,11 +835,9 @@ abstract class PetApiUpdatePetRequest {
   const factory PetApiUpdatePetRequest.applicationJson({
     required 
             Pet
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -829,11 +846,9 @@ abstract class PetApiUpdatePetRequest {
   const factory PetApiUpdatePetRequest.applicationXml({
     required 
             Pet
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -842,6 +857,7 @@ abstract class PetApiUpdatePetRequest {
 
   const PetApiUpdatePetRequest({
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -849,7 +865,7 @@ abstract class PetApiUpdatePetRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -868,7 +884,7 @@ abstract class PetApiUpdatePetRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -901,19 +917,19 @@ abstract class PetApiUpdatePetRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -921,8 +937,8 @@ abstract class PetApiUpdatePetRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -941,11 +957,12 @@ class PetApiUpdatePetRequestUnsafe extends PetApiUpdatePetRequest {
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -958,6 +975,8 @@ class PetApiUpdatePetRequestUnsafe extends PetApiUpdatePetRequest {
 
 
 
+
+
 class PetApiUpdatePetRequestApplicationJson extends PetApiUpdatePetRequest {
   static const specMediaType = r'application/json';
 
@@ -966,60 +985,50 @@ class PetApiUpdatePetRequestApplicationJson extends PetApiUpdatePetRequest {
 
   final 
             Pet
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+            
+        
+        
+            
+                Pet.$reflection
+        
+;
 
 
   const PetApiUpdatePetRequestApplicationJson({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v.serialize();
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        yield* _stringResult(json.encode(serialized));
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
 class PetApiUpdatePetRequestApplicationXml extends PetApiUpdatePetRequest {
   static const specMediaType = r'application/xml';
 
@@ -1028,60 +1037,59 @@ class PetApiUpdatePetRequestApplicationXml extends PetApiUpdatePetRequest {
 
   final 
             Pet
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+            
+        
+        
+            
+                Pet.$reflection
+        
+;
 
 
   const PetApiUpdatePetRequestApplicationXml({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v.serialize();
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1095,13 +1103,12 @@ abstract class PetApiUpdatePetWithFormRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
   /// ID of pet that needs to be updated
   /// spec name: petId
   final 
             int
-
  petId;
   
   
@@ -1111,12 +1118,12 @@ abstract class PetApiUpdatePetWithFormRequest {
     
     required 
             int
-
  petId,
     
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = PetApiUpdatePetWithFormRequestUnsafe;
 
@@ -1128,6 +1135,7 @@ abstract class PetApiUpdatePetWithFormRequest {
     
     
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -1135,7 +1143,7 @@ abstract class PetApiUpdatePetWithFormRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     resolvedPath = OpenApiParameterSerializationPath.fromStyle(r'simple', explode: false, parameterName: r'petId',).expand(resolvedPath, petId);
@@ -1155,7 +1163,7 @@ abstract class PetApiUpdatePetWithFormRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -1188,19 +1196,19 @@ abstract class PetApiUpdatePetWithFormRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -1208,8 +1216,8 @@ abstract class PetApiUpdatePetWithFormRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -1232,11 +1240,12 @@ class PetApiUpdatePetWithFormRequestUnsafe extends PetApiUpdatePetWithFormReques
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -1254,6 +1263,17 @@ class PetApiUpdatePetWithFormRequestUnsafe extends PetApiUpdatePetWithFormReques
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 abstract class PetApiUploadFileRequest {
   static const pathTemplate = r'/pet/{petId}/uploadImage';
   static String method = r'POST';
@@ -1262,13 +1282,12 @@ abstract class PetApiUploadFileRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
   /// ID of pet to update
   /// spec name: petId
   final 
             int
-
  petId;
   
   
@@ -1278,12 +1297,12 @@ abstract class PetApiUploadFileRequest {
     
     required 
             int
-
  petId,
     
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = PetApiUploadFileRequestUnsafe;
 
@@ -1295,6 +1314,7 @@ abstract class PetApiUploadFileRequest {
     
     
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -1302,7 +1322,7 @@ abstract class PetApiUploadFileRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     resolvedPath = OpenApiParameterSerializationPath.fromStyle(r'simple', explode: false, parameterName: r'petId',).expand(resolvedPath, petId);
@@ -1322,7 +1342,7 @@ abstract class PetApiUploadFileRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -1355,19 +1375,19 @@ abstract class PetApiUploadFileRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -1375,8 +1395,8 @@ abstract class PetApiUploadFileRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -1399,11 +1419,12 @@ class PetApiUploadFileRequestUnsafe extends PetApiUploadFileRequest {
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -1421,6 +1442,17 @@ class PetApiUploadFileRequestUnsafe extends PetApiUploadFileRequest {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 abstract class PetApiUploadFileWithRequiredFileRequest {
   static const pathTemplate = r'/fake/{petId}/uploadImageWithRequiredFile';
   static String method = r'POST';
@@ -1429,13 +1461,12 @@ abstract class PetApiUploadFileWithRequiredFileRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
   /// ID of pet to update
   /// spec name: petId
   final 
             int
-
  petId;
   
   
@@ -1445,12 +1476,12 @@ abstract class PetApiUploadFileWithRequiredFileRequest {
     
     required 
             int
-
  petId,
     
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = PetApiUploadFileWithRequiredFileRequestUnsafe;
 
@@ -1462,6 +1493,7 @@ abstract class PetApiUploadFileWithRequiredFileRequest {
     
     
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -1469,7 +1501,7 @@ abstract class PetApiUploadFileWithRequiredFileRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     resolvedPath = OpenApiParameterSerializationPath.fromStyle(r'simple', explode: false, parameterName: r'petId',).expand(resolvedPath, petId);
@@ -1489,7 +1521,7 @@ abstract class PetApiUploadFileWithRequiredFileRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -1522,19 +1554,19 @@ abstract class PetApiUploadFileWithRequiredFileRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -1542,8 +1574,8 @@ abstract class PetApiUploadFileWithRequiredFileRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -1566,11 +1598,12 @@ class PetApiUploadFileWithRequiredFileRequestUnsafe extends PetApiUploadFileWith
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {

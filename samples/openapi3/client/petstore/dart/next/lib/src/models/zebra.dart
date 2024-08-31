@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'zebra.reflection.dart';
-part 'zebra.serialization.dart';
 
 
 /// ZebraMixin
@@ -16,11 +15,9 @@ mixin ZebraMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             ZebraTypeEnum
-
 > get type;
 
             String
-
  get className;
   
 }
@@ -37,16 +34,13 @@ ZebraMixin {
   @override
   UndefinedWrapper<
             ZebraTypeEnum
-
 > type;
   @override
   
             String
-
  className;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -63,9 +57,10 @@ ZebraMixin {
         .undefined()
 ,
 required  this.className     ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = ZebraReflection.instance;
   ZebraReflection get $classReflection => $reflection;
@@ -75,47 +70,18 @@ required  this.className     ,
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$ZebraToMap(this);
-  }
-  factory Zebra.fromMap(Map<String, dynamic> src) {
-    return _$ZebraFromMap(src);
-  }
-  static Zebra? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return Zebra.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$ZebraCanFromMap(src);
+  factory Zebra.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory Zebra.deserialize(Object? src) {
-    return _$ZebraDeserialize(src);
-  }
-  static Zebra? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return Zebra.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$ZebraCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$ZebraSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
-
-
 
 
 extension type const ZebraTypeEnum._(String value) {
@@ -132,8 +98,29 @@ extension type const ZebraTypeEnum._(String value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<ZebraTypeEnum, String>(
+    PrimitiveReflection.forString,
+    members: [
+      
+        EnumMemberReflection(dartName: r'plains', oasValue: r'plains', value: ZebraTypeEnum.plains()),
+      
+        EnumMemberReflection(dartName: r'mountain', oasValue: r'mountain', value: ZebraTypeEnum.mountain()),
+      
+        EnumMemberReflection(dartName: r'grevys', oasValue: r'grevys', value: ZebraTypeEnum.grevys()),
+      
+    ],
+  );
+
+  factory ZebraTypeEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [ZebraTypeEnum] enum from a value without checking if it exists.
@@ -147,4 +134,8 @@ extension type const ZebraTypeEnum._(String value) {
     
   ];
 }
+
+
+
+
 

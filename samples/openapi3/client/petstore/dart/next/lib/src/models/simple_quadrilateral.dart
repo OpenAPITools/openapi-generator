@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'simple_quadrilateral.reflection.dart';
-part 'simple_quadrilateral.serialization.dart';
 
 
 /// SimpleQuadrilateralMixin
@@ -27,16 +26,13 @@ SimpleQuadrilateralMixin {
   @override
   
             String
-
  quadrilateralType;
   @override
   
             String
-
  shapeType;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -51,9 +47,10 @@ SimpleQuadrilateralMixin {
   SimpleQuadrilateral({
     required  this.quadrilateralType     ,
 required  this.shapeType     ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = SimpleQuadrilateralReflection.instance;
   SimpleQuadrilateralReflection get $classReflection => $reflection;
@@ -64,46 +61,17 @@ required  this.shapeType     ,
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$SimpleQuadrilateralToMap(this);
-  }
-  factory SimpleQuadrilateral.fromMap(Map<String, dynamic> src) {
-    return _$SimpleQuadrilateralFromMap(src);
-  }
-  static SimpleQuadrilateral? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return SimpleQuadrilateral.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$SimpleQuadrilateralCanFromMap(src);
+  factory SimpleQuadrilateral.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory SimpleQuadrilateral.deserialize(Object? src) {
-    return _$SimpleQuadrilateralDeserialize(src);
-  }
-  static SimpleQuadrilateral? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return SimpleQuadrilateral.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$SimpleQuadrilateralCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$SimpleQuadrilateralSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
-
-
 
 

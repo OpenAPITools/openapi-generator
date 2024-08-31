@@ -5,14 +5,16 @@ part of 'category.dart';
 
 //class reflection
 
-class CategoryReflection extends ClassReflection<Category> {
+class CategoryReflection extends ModelReflection<Category> {
   static CategoryReflection instanceGetter() => instance;
   static const instance = CategoryReflection._(
     modelName: r'Category',
     className: r'Category',
+    xml: const XmlReflection(
+    xmlName: r'Category',
+),
     idPart: PropertyReflection<Category, UndefinedWrapper<
             int
-
 >>(
       dartName: r'id',
       nullable: false,
@@ -22,12 +24,21 @@ class CategoryReflection extends ClassReflection<Category> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _idGetter,
-      setter: _idSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_idGetter),
+      setter: FunctionWrapper2(_idSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forint
+        
+),
     ),
     namePart: PropertyReflection<Category, 
             String
-
 >(
       dartName: r'name',
       nullable: false,
@@ -37,21 +48,33 @@ class CategoryReflection extends ClassReflection<Category> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _nameGetter,
-      setter: _nameSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_nameGetter),
+      setter: FunctionWrapper2(_nameSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<Category, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const CategoryReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.idPart,
     required this.namePart,
     this.discriminatorKey,
@@ -63,50 +86,45 @@ class CategoryReflection extends ClassReflection<Category> {
 
   final PropertyReflection<Category, UndefinedWrapper<
             int
-
 >> idPart;
   static UndefinedWrapper<
             int
-
 > _idGetter(Category parent) {
     return parent.id;
   }
   static void _idSetter(Category parent, UndefinedWrapper<
             int
-
 > value) {
     parent.id = value;
   }
+
   final PropertyReflection<Category, 
             String
-
 > namePart;
   static 
             String
-
  _nameGetter(Category parent) {
     return parent.name;
   }
   static void _nameSetter(Category parent, 
             String
-
  value) {
     parent.name = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<Category, dynamic>> get properties => [
@@ -114,102 +132,36 @@ class CategoryReflection extends ClassReflection<Category> {
 namePart,
   ];
 
-  final AdditionalPropertiesReflection<Category, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<Category, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<Category, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(Category instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(Category instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<Category, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => Category.canDeserialize(src);
-  @override
-  Category Function(Object? src) get deserializeFunction =>
-      (src) => Category.deserialize(src);
-
-  @override
-  Object? Function(Category src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of Category.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  Category example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = Category(
-      id: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleint()
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      name: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[namePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  Category empty() {
+    return Category(
+      name: namePart.reflection.emptyFunction(),
     );
-    
-    return exampleResult;
   }
 }
 
-
-class CategoryXmlReflection {
-    const CategoryXmlReflection();
-}
 

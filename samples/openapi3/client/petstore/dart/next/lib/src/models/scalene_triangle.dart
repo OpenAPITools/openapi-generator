@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'scalene_triangle.reflection.dart';
-part 'scalene_triangle.serialization.dart';
 
 
 /// ScaleneTriangleMixin
@@ -27,16 +26,13 @@ ScaleneTriangleMixin {
   @override
   
             String
-
  shapeType;
   @override
   
             String
-
  triangleType;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -51,9 +47,10 @@ ScaleneTriangleMixin {
   ScaleneTriangle({
     required  this.shapeType     ,
 required  this.triangleType     ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = ScaleneTriangleReflection.instance;
   ScaleneTriangleReflection get $classReflection => $reflection;
@@ -64,46 +61,17 @@ required  this.triangleType     ,
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$ScaleneTriangleToMap(this);
-  }
-  factory ScaleneTriangle.fromMap(Map<String, dynamic> src) {
-    return _$ScaleneTriangleFromMap(src);
-  }
-  static ScaleneTriangle? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return ScaleneTriangle.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$ScaleneTriangleCanFromMap(src);
+  factory ScaleneTriangle.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory ScaleneTriangle.deserialize(Object? src) {
-    return _$ScaleneTriangleDeserialize(src);
-  }
-  static ScaleneTriangle? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return ScaleneTriangle.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$ScaleneTriangleCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$ScaleneTriangleSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
-
-
 
 

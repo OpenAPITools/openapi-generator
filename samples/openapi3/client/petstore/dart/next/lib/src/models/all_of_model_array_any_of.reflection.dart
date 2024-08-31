@@ -5,14 +5,15 @@ part of 'all_of_model_array_any_of.dart';
 
 //class reflection
 
-class AllOfModelArrayAnyOfReflection extends ClassReflection<AllOfModelArrayAnyOf> {
+class AllOfModelArrayAnyOfReflection extends ModelReflection<AllOfModelArrayAnyOf> {
   static AllOfModelArrayAnyOfReflection instanceGetter() => instance;
   static const instance = AllOfModelArrayAnyOfReflection._(
     modelName: r'AllOfModelArrayAnyOf',
     className: r'AllOfModelArrayAnyOf',
+    xml: const XmlReflection(
+),
     namePart: PropertyReflection<AllOfModelArrayAnyOf, 
             String
-
 >(
       dartName: r'name',
       nullable: false,
@@ -22,12 +23,21 @@ class AllOfModelArrayAnyOfReflection extends ClassReflection<AllOfModelArrayAnyO
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _nameGetter,
-      setter: _nameSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_nameGetter),
+      setter: FunctionWrapper2(_nameSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
     attributesPart: PropertyReflection<AllOfModelArrayAnyOf, UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfAttributes
-
 >>(
       dartName: r'attributes',
       nullable: false,
@@ -37,13 +47,21 @@ class AllOfModelArrayAnyOfReflection extends ClassReflection<AllOfModelArrayAnyO
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      classReflection: AllOfModelArrayAnyOfAllOfAttributesReflection.instance,
-      getter: _attributesGetter,
-      setter: _attributesSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_attributesGetter),
+      setter: FunctionWrapper2(_attributesSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                AllOfModelArrayAnyOfAllOfAttributes.$reflection
+        
+),
     ),
     idPart: PropertyReflection<AllOfModelArrayAnyOf, UndefinedWrapper<
             int
-
 >>(
       dartName: r'id',
       nullable: false,
@@ -53,12 +71,21 @@ class AllOfModelArrayAnyOfReflection extends ClassReflection<AllOfModelArrayAnyO
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _idGetter,
-      setter: _idSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_idGetter),
+      setter: FunctionWrapper2(_idSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forint
+        
+),
     ),
     linkListColumn1Part: PropertyReflection<AllOfModelArrayAnyOf, UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfLinkListColumn1
-
 >>(
       dartName: r'linkListColumn1',
       nullable: false,
@@ -68,22 +95,37 @@ class AllOfModelArrayAnyOfReflection extends ClassReflection<AllOfModelArrayAnyO
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      classReflection: AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection.instance,
-      getter: _linkListColumn1Getter,
-      setter: _linkListColumn1Setter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_linkListColumn1Getter),
+      setter: FunctionWrapper2(_linkListColumn1Setter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                AllOfModelArrayAnyOfAllOfLinkListColumn1.$reflection
+        
+),
     ),
-    
-    
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    allOfCategoryPart: AllOfReflection(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<AllOfModelArrayAnyOf, Object
+      reflection: CategoryReflection.instance,
+    ),
 
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+    
+    additionalPropertiesPart: AdditionalPropertiesPart(
+      parentReflectionGetter: instanceGetter,
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const AllOfModelArrayAnyOfReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.namePart,
     required this.attributesPart,
     required this.idPart,
@@ -91,88 +133,80 @@ class AllOfModelArrayAnyOfReflection extends ClassReflection<AllOfModelArrayAnyO
     this.discriminatorKey,
     this.discriminatorMappings = const {},
     this.discriminatorImplicitMappings = const {},
-        
+    required this.allOfCategoryPart,
+    
     required this.additionalPropertiesPart,
   });
 
   final PropertyReflection<AllOfModelArrayAnyOf, 
             String
-
 > namePart;
   static 
             String
-
  _nameGetter(AllOfModelArrayAnyOf parent) {
     return parent.name;
   }
   static void _nameSetter(AllOfModelArrayAnyOf parent, 
             String
-
  value) {
     parent.name = value;
   }
+
   final PropertyReflection<AllOfModelArrayAnyOf, UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfAttributes
-
 >> attributesPart;
   static UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfAttributes
-
 > _attributesGetter(AllOfModelArrayAnyOf parent) {
     return parent.attributes;
   }
   static void _attributesSetter(AllOfModelArrayAnyOf parent, UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfAttributes
-
 > value) {
     parent.attributes = value;
   }
+
   final PropertyReflection<AllOfModelArrayAnyOf, UndefinedWrapper<
             int
-
 >> idPart;
   static UndefinedWrapper<
             int
-
 > _idGetter(AllOfModelArrayAnyOf parent) {
     return parent.id;
   }
   static void _idSetter(AllOfModelArrayAnyOf parent, UndefinedWrapper<
             int
-
 > value) {
     parent.id = value;
   }
+
   final PropertyReflection<AllOfModelArrayAnyOf, UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfLinkListColumn1
-
 >> linkListColumn1Part;
   static UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfLinkListColumn1
-
 > _linkListColumn1Getter(AllOfModelArrayAnyOf parent) {
     return parent.linkListColumn1;
   }
   static void _linkListColumn1Setter(AllOfModelArrayAnyOf parent, UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfLinkListColumn1
-
 > value) {
     parent.linkListColumn1 = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<AllOfModelArrayAnyOf, dynamic>> get properties => [
@@ -182,20 +216,26 @@ idPart,
 linkListColumn1Part,
   ];
 
-  final AdditionalPropertiesReflection<AllOfModelArrayAnyOf, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<AllOfModelArrayAnyOf, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<AllOfModelArrayAnyOf, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(AllOfModelArrayAnyOf instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(AllOfModelArrayAnyOf instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  final AllOfReflection<AllOfModelArrayAnyOf, CategoryMixin> allOfCategoryPart;
+
+  
+
   @override
   List<AllOfReflection<AllOfModelArrayAnyOf, dynamic>> get allOfs => [
-    
+    allOfCategoryPart,
   ];
 
   @override
@@ -207,115 +247,14 @@ linkListColumn1Part,
     
   ];
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => AllOfModelArrayAnyOf.canDeserialize(src);
-  @override
-  AllOfModelArrayAnyOf Function(Object? src) get deserializeFunction =>
-      (src) => AllOfModelArrayAnyOf.deserialize(src);
-
-  @override
-  Object? Function(AllOfModelArrayAnyOf src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of AllOfModelArrayAnyOf.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  AllOfModelArrayAnyOf example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = AllOfModelArrayAnyOf(
-      name: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[namePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      attributes: () {
-        var result = 
-
-
-            
-            
-
-
-    AllOfModelArrayAnyOfAllOfAttributesReflection.instance.example()
-    
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      id: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleint()
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      linkListColumn1: () {
-        var result = 
-
-
-            
-            
-
-
-    AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection.instance.example()
-    
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  AllOfModelArrayAnyOf empty() {
+    return AllOfModelArrayAnyOf(
+      name: namePart.reflection.emptyFunction(),
     );
-    
-    return exampleResult;
   }
 }
 
-
-class AllOfModelArrayAnyOfXmlReflection {
-    const AllOfModelArrayAnyOfXmlReflection();
-}
 

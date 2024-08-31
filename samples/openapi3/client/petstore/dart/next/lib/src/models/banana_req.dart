@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'banana_req.reflection.dart';
-part 'banana_req.serialization.dart';
 
 
 /// BananaReqMixin
@@ -16,11 +15,9 @@ mixin BananaReqMixin on
   $OpenApiObjectMixin {
   
             num
-
  get lengthCm;
 UndefinedWrapper<
             bool
-
 > get sweet;
   
 }
@@ -37,12 +34,10 @@ BananaReqMixin {
   @override
   
             num
-
  lengthCm;
   @override
   UndefinedWrapper<
             bool
-
 > sweet;
 
 
@@ -73,45 +68,22 @@ BananaReqMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$BananaReqToMap(this);
-  }
-  factory BananaReq.fromMap(Map<String, dynamic> src) {
-    return _$BananaReqFromMap(src);
-  }
-  static BananaReq? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return BananaReq.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$BananaReqCanFromMap(src);
+  factory BananaReq.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory BananaReq.deserialize(Object? src) {
-    return _$BananaReqDeserialize(src);
-  }
-  static BananaReq? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return BananaReq.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$BananaReqCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$BananaReqSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
 
 
 

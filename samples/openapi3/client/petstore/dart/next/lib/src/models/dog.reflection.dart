@@ -5,14 +5,15 @@ part of 'dog.dart';
 
 //class reflection
 
-class DogReflection extends ClassReflection<Dog> {
+class DogReflection extends ModelReflection<Dog> {
   static DogReflection instanceGetter() => instance;
   static const instance = DogReflection._(
     modelName: r'Dog',
     className: r'Dog',
+    xml: const XmlReflection(
+),
     colorPart: PropertyReflection<Dog, UndefinedWrapper<
             String
-
 >>(
       dartName: r'color',
       nullable: false,
@@ -22,12 +23,21 @@ class DogReflection extends ClassReflection<Dog> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _colorGetter,
-      setter: _colorSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_colorGetter),
+      setter: FunctionWrapper2(_colorSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     breedPart: PropertyReflection<Dog, UndefinedWrapper<
             String
-
 >>(
       dartName: r'breed',
       nullable: false,
@@ -37,12 +47,21 @@ class DogReflection extends ClassReflection<Dog> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _breedGetter,
-      setter: _breedSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_breedGetter),
+      setter: FunctionWrapper2(_breedSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     classNamePart: PropertyReflection<Dog, 
             String
-
 >(
       dartName: r'className',
       nullable: false,
@@ -52,98 +71,109 @@ class DogReflection extends ClassReflection<Dog> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: true,
-      getter: _classNameGetter,
-      setter: _classNameSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_classNameGetter),
+      setter: FunctionWrapper2(_classNameSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
     discriminatorKey: r'className',
     discriminatorImplicitMappings: const {
+      r'Animal': AnimalReflection.instance,
     },
     discriminatorMappings: const {
     },
-    
-    
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    allOfAnimalPart: AllOfReflection(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<Dog, Object
+      reflection: AnimalReflection.instance,
+    ),
 
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+    
+    additionalPropertiesPart: AdditionalPropertiesPart(
+      parentReflectionGetter: instanceGetter,
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const DogReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.colorPart,
     required this.breedPart,
     required this.classNamePart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
     this.discriminatorImplicitMappings = const {},
-        
+    required this.allOfAnimalPart,
+    
     required this.additionalPropertiesPart,
   });
 
   final PropertyReflection<Dog, UndefinedWrapper<
             String
-
 >> colorPart;
   static UndefinedWrapper<
             String
-
 > _colorGetter(Dog parent) {
     return parent.color;
   }
   static void _colorSetter(Dog parent, UndefinedWrapper<
             String
-
 > value) {
     parent.color = value;
   }
+
   final PropertyReflection<Dog, UndefinedWrapper<
             String
-
 >> breedPart;
   static UndefinedWrapper<
             String
-
 > _breedGetter(Dog parent) {
     return parent.breed;
   }
   static void _breedSetter(Dog parent, UndefinedWrapper<
             String
-
 > value) {
     parent.breed = value;
   }
+
   final PropertyReflection<Dog, 
             String
-
 > classNamePart;
   static 
             String
-
  _classNameGetter(Dog parent) {
     return parent.className;
   }
   static void _classNameSetter(Dog parent, 
             String
-
  value) {
     parent.className = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<Dog, dynamic>> get properties => [
@@ -152,20 +182,26 @@ breedPart,
 classNamePart,
   ];
 
-  final AdditionalPropertiesReflection<Dog, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<Dog, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<Dog, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(Dog instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(Dog instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  final AllOfReflection<Dog, AnimalMixin> allOfAnimalPart;
+
+  
+
   @override
   List<AllOfReflection<Dog, dynamic>> get allOfs => [
-    
+    allOfAnimalPart,
   ];
 
   @override
@@ -177,108 +213,14 @@ classNamePart,
     
   ];
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => Dog.canDeserialize(src);
-  @override
-  Dog Function(Object? src) get deserializeFunction =>
-      (src) => Dog.deserialize(src);
-
-  @override
-  Object? Function(Dog src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of Dog.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  Dog example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = Dog(
-      color: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[colorPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      breed: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[breedPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      className: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[classNamePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  Dog empty() {
+    return Dog(
+      className: classNamePart.reflection.emptyFunction(),
     );
-    
-    return exampleResult;
   }
 }
 
-
-class DogXmlReflection {
-    const DogXmlReflection();
-}
 

@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'mixed_properties_and_additional_properties_class.reflection.dart';
-part 'mixed_properties_and_additional_properties_class.serialization.dart';
 
 
 /// MixedPropertiesAndAdditionalPropertiesClassMixin
@@ -17,19 +16,15 @@ mixin MixedPropertiesAndAdditionalPropertiesClassMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
-
 > get uuid;
 UndefinedWrapper<
             DateTime
-
 > get dateTime;
 UndefinedWrapper<
     Map<String, 
         
             Animal
-
 >
-
 > get map;
   
 }
@@ -47,25 +42,20 @@ MixedPropertiesAndAdditionalPropertiesClassMixin {
   @override
   UndefinedWrapper<
             String
-
 > uuid;
   @override
   UndefinedWrapper<
             DateTime
-
 > dateTime;
   @override
   UndefinedWrapper<
     Map<String, 
         
             Animal
-
 >
-
 > map;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -88,9 +78,10 @@ MixedPropertiesAndAdditionalPropertiesClassMixin {
   this.map = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = MixedPropertiesAndAdditionalPropertiesClassReflection.instance;
   MixedPropertiesAndAdditionalPropertiesClassReflection get $classReflection => $reflection;
@@ -100,45 +91,27 @@ MixedPropertiesAndAdditionalPropertiesClassMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$MixedPropertiesAndAdditionalPropertiesClassToMap(this);
-  }
-  factory MixedPropertiesAndAdditionalPropertiesClass.fromMap(Map<String, dynamic> src) {
-    return _$MixedPropertiesAndAdditionalPropertiesClassFromMap(src);
-  }
-  static MixedPropertiesAndAdditionalPropertiesClass? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return MixedPropertiesAndAdditionalPropertiesClass.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$MixedPropertiesAndAdditionalPropertiesClassCanFromMap(src);
+  factory MixedPropertiesAndAdditionalPropertiesClass.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory MixedPropertiesAndAdditionalPropertiesClass.deserialize(Object? src) {
-    return _$MixedPropertiesAndAdditionalPropertiesClassDeserialize(src);
-  }
-  static MixedPropertiesAndAdditionalPropertiesClass? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return MixedPropertiesAndAdditionalPropertiesClass.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$MixedPropertiesAndAdditionalPropertiesClassCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$MixedPropertiesAndAdditionalPropertiesClassSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
+
+
+
+
+
 
 
 

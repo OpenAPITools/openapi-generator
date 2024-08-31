@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'health_check_result.reflection.dart';
-part 'health_check_result.serialization.dart';
 
 
 /// Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
@@ -15,7 +14,6 @@ mixin HealthCheckResultMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
-
 ?> get nullableMessage;
   
 }
@@ -31,11 +29,9 @@ HealthCheckResultMixin {
   @override
   UndefinedWrapper<
             String
-
 ?> nullableMessage;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -50,9 +46,10 @@ HealthCheckResultMixin {
       this.nullableMessage = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = HealthCheckResultReflection.instance;
   HealthCheckResultReflection get $classReflection => $reflection;
@@ -62,45 +59,19 @@ HealthCheckResultMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$HealthCheckResultToMap(this);
-  }
-  factory HealthCheckResult.fromMap(Map<String, dynamic> src) {
-    return _$HealthCheckResultFromMap(src);
-  }
-  static HealthCheckResult? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return HealthCheckResult.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$HealthCheckResultCanFromMap(src);
+  factory HealthCheckResult.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory HealthCheckResult.deserialize(Object? src) {
-    return _$HealthCheckResultDeserialize(src);
-  }
-  static HealthCheckResult? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return HealthCheckResult.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$HealthCheckResultCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$HealthCheckResultSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
 
 
 

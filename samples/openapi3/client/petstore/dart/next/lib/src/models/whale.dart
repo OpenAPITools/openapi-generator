@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'whale.reflection.dart';
-part 'whale.serialization.dart';
 
 
 /// WhaleMixin
@@ -17,15 +16,12 @@ mixin WhaleMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             bool
-
 > get hasBaleen;
 UndefinedWrapper<
             bool
-
 > get hasTeeth;
 
             String
-
  get className;
   
 }
@@ -43,21 +39,17 @@ WhaleMixin {
   @override
   UndefinedWrapper<
             bool
-
 > hasBaleen;
   @override
   UndefinedWrapper<
             bool
-
 > hasTeeth;
   @override
   
             String
-
  className;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -78,9 +70,10 @@ WhaleMixin {
         .undefined()
 ,
 required  this.className     ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = WhaleReflection.instance;
   WhaleReflection get $classReflection => $reflection;
@@ -90,45 +83,25 @@ required  this.className     ,
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$WhaleToMap(this);
-  }
-  factory Whale.fromMap(Map<String, dynamic> src) {
-    return _$WhaleFromMap(src);
-  }
-  static Whale? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return Whale.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$WhaleCanFromMap(src);
+  factory Whale.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory Whale.deserialize(Object? src) {
-    return _$WhaleDeserialize(src);
-  }
-  static Whale? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return Whale.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$WhaleCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$WhaleSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
+
+
+
 
 
 

@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'array_of_inline_all_of_array_allof_dog_property_inner.reflection.dart';
-part 'array_of_inline_all_of_array_allof_dog_property_inner.serialization.dart';
 
 
 /// ArrayOfInlineAllOfArrayAllofDogPropertyInnerMixin
@@ -16,11 +15,9 @@ mixin ArrayOfInlineAllOfArrayAllofDogPropertyInnerMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
-
 > get breed;
 UndefinedWrapper<
             String
-
 > get color;
   
 }
@@ -37,16 +34,13 @@ ArrayOfInlineAllOfArrayAllofDogPropertyInnerMixin {
   @override
   UndefinedWrapper<
             String
-
 > breed;
   @override
   UndefinedWrapper<
             String
-
 > color;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -65,9 +59,10 @@ ArrayOfInlineAllOfArrayAllofDogPropertyInnerMixin {
   this.color = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection.instance;
   ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection get $classReflection => $reflection;
@@ -78,45 +73,22 @@ ArrayOfInlineAllOfArrayAllofDogPropertyInnerMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$ArrayOfInlineAllOfArrayAllofDogPropertyInnerToMap(this);
-  }
-  factory ArrayOfInlineAllOfArrayAllofDogPropertyInner.fromMap(Map<String, dynamic> src) {
-    return _$ArrayOfInlineAllOfArrayAllofDogPropertyInnerFromMap(src);
-  }
-  static ArrayOfInlineAllOfArrayAllofDogPropertyInner? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return ArrayOfInlineAllOfArrayAllofDogPropertyInner.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$ArrayOfInlineAllOfArrayAllofDogPropertyInnerCanFromMap(src);
+  factory ArrayOfInlineAllOfArrayAllofDogPropertyInner.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory ArrayOfInlineAllOfArrayAllofDogPropertyInner.deserialize(Object? src) {
-    return _$ArrayOfInlineAllOfArrayAllofDogPropertyInnerDeserialize(src);
-  }
-  static ArrayOfInlineAllOfArrayAllofDogPropertyInner? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return ArrayOfInlineAllOfArrayAllofDogPropertyInner.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$ArrayOfInlineAllOfArrayAllofDogPropertyInnerCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$ArrayOfInlineAllOfArrayAllofDogPropertyInnerSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
 
 
 

@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'category.reflection.dart';
-part 'category.serialization.dart';
 
 
 /// CategoryMixin
@@ -16,11 +15,9 @@ mixin CategoryMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
-
 > get id;
 
             String
-
  get name;
   
 }
@@ -37,16 +34,13 @@ CategoryMixin {
   @override
   UndefinedWrapper<
             int
-
 > id;
   @override
   
             String
-
  name;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -67,9 +61,10 @@ CategoryMixin {
         'default-name'
         
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = CategoryReflection.instance;
   CategoryReflection get $classReflection => $reflection;
@@ -79,45 +74,22 @@ CategoryMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$CategoryToMap(this);
-  }
-  factory Category.fromMap(Map<String, dynamic> src) {
-    return _$CategoryFromMap(src);
-  }
-  static Category? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return Category.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$CategoryCanFromMap(src);
+  factory Category.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory Category.deserialize(Object? src) {
-    return _$CategoryDeserialize(src);
-  }
-  static Category? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return Category.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$CategoryCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$CategorySerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
 
 
 

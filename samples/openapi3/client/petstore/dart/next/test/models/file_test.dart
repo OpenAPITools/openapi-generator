@@ -1,36 +1,39 @@
 import 'package:petstore_api/_internal.dart';
 import 'package:test/test.dart';
+import '../utils.dart';
+import 'package:parameterized_test/parameterized_test.dart';
 
 void main() {
   group(r'File', () {
-
     final reflection = File.$reflection;
+    final exampleContext = ExampleContext();
 
-    late File exampleInstance;
-    setUp(() {
-      exampleInstance = reflection.example();
-    });
+      late File exampleInstance;
+      setUp(() {
+        exampleInstance = reflection.example(exampleContext);
+      });
 
-    Object? doSerialize() {
-      final result = exampleInstance.serialize();
-      return result;
-    }
-    test('serialize', () {
-      expect(exampleInstance, isNotNull);
-      final serialized = doSerialize();
-      expect(serialized, isNotNull);
-    });
+      test('validate', () {
+        expect(exampleInstance, isNotNull);
+        expect(exampleInstance.validate(), isTrue);
+      });
 
-    test('validate', () {
-      expect(exampleInstance, isNotNull);
-      expect(exampleInstance.validate(), isTrue);
-    });
-    test('deserialize', () {
-      expect(exampleInstance, isNotNull);
-      final serialized = doSerialize();
-      final deserialized = File.deserialize(serialized);
-      expect(deserialized.validate(), isTrue);
-      expect(deserialized.serialize(), serialized);
-    });
+      parameterizedTest(
+        'serialization roundtrip',
+        [
+          SerializationContext.json(
+            fileBytesResolver: (file) => exampleContext.fileCache[file.name],
+          ),
+          SerializationContext.xml(
+            fileBytesResolver: (file) => exampleContext.fileCache[file.name],
+          ),
+        ],
+        (SerializationContext context) {
+          final serialized = exampleInstance.serialize(context);
+          final deserialized = File.deserialize(serialized, context);
+          expect(deserialized.validate(), isTrue);
+          expect(deserialized.serialize(context), serialized);
+        }
+      );
   });
 }

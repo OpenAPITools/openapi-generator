@@ -19,8 +19,25 @@ extension type const {{{classname}}}._({{dataType}} value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is {{dataType}} && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection(
+    PrimitiveReflection.for{{dataType}},
+    members: [
+      {{#allowableValues}}{{#enumVars}}
+        EnumMemberReflection(dartName: r'{{name}}', oasValue: {{#isString}}r{{/isString}}{{{value}}}, value: {{{classname}}}.{{name}}()),
+      {{/enumVars}}{{/allowableValues}}
+    ],
+  );
+
+  factory {{{classname}}}.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value, context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [{{{classname}}}] enum from a value without checking if it exists.

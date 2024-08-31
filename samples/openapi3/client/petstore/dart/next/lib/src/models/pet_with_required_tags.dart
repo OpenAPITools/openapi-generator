@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'pet_with_required_tags.reflection.dart';
-part 'pet_with_required_tags.serialization.dart';
 
 
 /// PetWithRequiredTagsMixin
@@ -20,35 +19,27 @@ mixin PetWithRequiredTagsMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
-
 > get id;
 UndefinedWrapper<
             Category
-
 > get category;
 
             String
-
  get name;
 
     List<
         
             String
-
 >
-
  get photoUrls;
 
     List<
         
             Tag
-
 >
-
  get tags;
 UndefinedWrapper<
             PetWithRequiredTagsStatusEnum
-
 > get status;
   
 }
@@ -69,44 +60,35 @@ PetWithRequiredTagsMixin {
   @override
   UndefinedWrapper<
             int
-
 > id;
   @override
   UndefinedWrapper<
             Category
-
 > category;
   @override
   
             String
-
  name;
   @override
   
     List<
         
             String
-
 >
-
  photoUrls;
   @override
   
     List<
         
             Tag
-
 >
-
  tags;
   @override
   UndefinedWrapper<
             PetWithRequiredTagsStatusEnum
-
 > status;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -135,9 +117,10 @@ required  this.tags     ,
   this.status = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = PetWithRequiredTagsReflection.instance;
   PetWithRequiredTagsReflection get $classReflection => $reflection;
@@ -147,45 +130,35 @@ required  this.tags     ,
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$PetWithRequiredTagsToMap(this);
-  }
-  factory PetWithRequiredTags.fromMap(Map<String, dynamic> src) {
-    return _$PetWithRequiredTagsFromMap(src);
-  }
-  static PetWithRequiredTags? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return PetWithRequiredTags.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$PetWithRequiredTagsCanFromMap(src);
+  factory PetWithRequiredTags.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory PetWithRequiredTags.deserialize(Object? src) {
-    return _$PetWithRequiredTagsDeserialize(src);
-  }
-  static PetWithRequiredTags? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return PetWithRequiredTags.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$PetWithRequiredTagsCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$PetWithRequiredTagsSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -207,8 +180,29 @@ extension type const PetWithRequiredTagsStatusEnum._(String value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<PetWithRequiredTagsStatusEnum, String>(
+    PrimitiveReflection.forString,
+    members: [
+      
+        EnumMemberReflection(dartName: r'available', oasValue: r'available', value: PetWithRequiredTagsStatusEnum.available()),
+      
+        EnumMemberReflection(dartName: r'pending', oasValue: r'pending', value: PetWithRequiredTagsStatusEnum.pending()),
+      
+        EnumMemberReflection(dartName: r'sold', oasValue: r'sold', value: PetWithRequiredTagsStatusEnum.sold()),
+      
+    ],
+  );
+
+  factory PetWithRequiredTagsStatusEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [PetWithRequiredTagsStatusEnum] enum from a value without checking if it exists.
@@ -222,4 +216,5 @@ extension type const PetWithRequiredTagsStatusEnum._(String value) {
     
   ];
 }
+
 

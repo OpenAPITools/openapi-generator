@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'outer_enum_integer.reflection.dart';
-part 'outer_enum_integer.serialization.dart';
 
 
 //enum def
@@ -23,8 +22,29 @@ extension type const OuterEnumInteger._(int value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is int && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection(
+    PrimitiveReflection.forint,
+    members: [
+      
+        EnumMemberReflection(dartName: r'number0', oasValue: 0, value: OuterEnumInteger.number0()),
+      
+        EnumMemberReflection(dartName: r'number1', oasValue: 1, value: OuterEnumInteger.number1()),
+      
+        EnumMemberReflection(dartName: r'number2', oasValue: 2, value: OuterEnumInteger.number2()),
+      
+    ],
+  );
+
+  factory OuterEnumInteger.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value, context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [OuterEnumInteger] enum from a value without checking if it exists.

@@ -5,18 +5,18 @@ part of 'array_test.dart';
 
 //class reflection
 
-class ArrayTestReflection extends ClassReflection<ArrayTest> {
+class ArrayTestReflection extends ModelReflection<ArrayTest> {
   static ArrayTestReflection instanceGetter() => instance;
   static const instance = ArrayTestReflection._(
     modelName: r'ArrayTest',
     className: r'ArrayTest',
+    xml: const XmlReflection(
+),
     arrayOfStringPart: PropertyReflection<ArrayTest, UndefinedWrapper<
     List<
         
             String
-
 >
-
 >>(
       dartName: r'arrayOfString',
       nullable: false,
@@ -26,12 +26,20 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      itemsReflection: ItemsReflection<ArrayTest, 
-            String
-
->(parentReflectionGetter: instanceGetter,),
-      getter: _arrayOfStringGetter,
-      setter: _arrayOfStringSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_arrayOfStringGetter),
+      setter: FunctionWrapper2(_arrayOfStringSetter),
+      reflection: UndefinedWrapperReflection(
+    ListReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+)
+),
     ),
     arrayArrayOfIntegerPart: PropertyReflection<ArrayTest, UndefinedWrapper<
     List<
@@ -39,11 +47,8 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
     List<
         
             int
-
 >
-
 >
-
 >>(
       dartName: r'arrayArrayOfInteger',
       nullable: false,
@@ -53,19 +58,22 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      itemsReflection: ItemsReflection<ArrayTest, 
-    List<
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_arrayArrayOfIntegerGetter),
+      setter: FunctionWrapper2(_arrayArrayOfIntegerSetter),
+      reflection: UndefinedWrapperReflection(
+    ListReflection(
+    ListReflection(
+            
         
-            int
-
->
-
->(parentReflectionGetter: instanceGetter,itemsReflection: ItemsReflection<ArrayTest, 
-            int
-
->(parentReflectionGetter: instanceGetter,)),
-      getter: _arrayArrayOfIntegerGetter,
-      setter: _arrayArrayOfIntegerSetter,
+        
+            
+                PrimitiveReflection.forint
+        
+)
+)
+),
     ),
     arrayArrayOfModelPart: PropertyReflection<ArrayTest, UndefinedWrapper<
     List<
@@ -73,11 +81,8 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
     List<
         
             ReadOnlyFirst
-
 >
-
 >
-
 >>(
       dartName: r'arrayArrayOfModel',
       nullable: false,
@@ -87,32 +92,37 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      itemsReflection: ItemsReflection<ArrayTest, 
-    List<
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_arrayArrayOfModelGetter),
+      setter: FunctionWrapper2(_arrayArrayOfModelSetter),
+      reflection: UndefinedWrapperReflection(
+    ListReflection(
+    ListReflection(
+            
         
-            ReadOnlyFirst
-
->
-
->(parentReflectionGetter: instanceGetter,itemsReflection: ItemsReflection<ArrayTest, 
-            ReadOnlyFirst
-
->(parentReflectionGetter: instanceGetter,classReflection: ReadOnlyFirstReflection.instance,)),
-      getter: _arrayArrayOfModelGetter,
-      setter: _arrayArrayOfModelSetter,
+        
+            
+                ReadOnlyFirst.$reflection
+        
+)
+)
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<ArrayTest, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const ArrayTestReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.arrayOfStringPart,
     required this.arrayArrayOfIntegerPart,
     required this.arrayArrayOfModelPart,
@@ -127,17 +137,13 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
     List<
         
             String
-
 >
-
 >> arrayOfStringPart;
   static UndefinedWrapper<
     List<
         
             String
-
 >
-
 > _arrayOfStringGetter(ArrayTest parent) {
     return parent.arrayOfString;
   }
@@ -145,23 +151,19 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
     List<
         
             String
-
 >
-
 > value) {
     parent.arrayOfString = value;
   }
+
   final PropertyReflection<ArrayTest, UndefinedWrapper<
     List<
         
     List<
         
             int
-
 >
-
 >
-
 >> arrayArrayOfIntegerPart;
   static UndefinedWrapper<
     List<
@@ -169,11 +171,8 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
     List<
         
             int
-
 >
-
 >
-
 > _arrayArrayOfIntegerGetter(ArrayTest parent) {
     return parent.arrayArrayOfInteger;
   }
@@ -183,25 +182,20 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
     List<
         
             int
-
 >
-
 >
-
 > value) {
     parent.arrayArrayOfInteger = value;
   }
+
   final PropertyReflection<ArrayTest, UndefinedWrapper<
     List<
         
     List<
         
             ReadOnlyFirst
-
 >
-
 >
-
 >> arrayArrayOfModelPart;
   static UndefinedWrapper<
     List<
@@ -209,11 +203,8 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
     List<
         
             ReadOnlyFirst
-
 >
-
 >
-
 > _arrayArrayOfModelGetter(ArrayTest parent) {
     return parent.arrayArrayOfModel;
   }
@@ -223,28 +214,25 @@ class ArrayTestReflection extends ClassReflection<ArrayTest> {
     List<
         
             ReadOnlyFirst
-
 >
-
 >
-
 > value) {
     parent.arrayArrayOfModel = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<ArrayTest, dynamic>> get properties => [
@@ -253,148 +241,35 @@ arrayArrayOfIntegerPart,
 arrayArrayOfModelPart,
   ];
 
-  final AdditionalPropertiesReflection<ArrayTest, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<ArrayTest, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<ArrayTest, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(ArrayTest instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(ArrayTest instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<ArrayTest, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => ArrayTest.canDeserialize(src);
-  @override
-  ArrayTest Function(Object? src) get deserializeFunction =>
-      (src) => ArrayTest.deserialize(src);
-
-  @override
-  Object? Function(ArrayTest src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of ArrayTest.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  ArrayTest example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = ArrayTest(
-      arrayOfString: () {
-        var result = 
-
-
-    exampleList(() { return 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-; })
-
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      arrayArrayOfInteger: () {
-        var result = 
-
-
-    exampleList(() { return 
-
-
-    exampleList(() { return 
-
-
-            
-            
-
-
-    
-    exampleint()
-
-
-; })
-
-
-
-; })
-
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      arrayArrayOfModel: () {
-        var result = 
-
-
-    exampleList(() { return 
-
-
-    exampleList(() { return 
-
-
-            
-            
-
-
-    ReadOnlyFirstReflection.instance.example()
-    
-
-
-; })
-
-
-
-; })
-
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  ArrayTest empty() {
+    return ArrayTest(
     );
-    
-    return exampleResult;
   }
 }
 
-
-class ArrayTestXmlReflection {
-    const ArrayTestXmlReflection();
-}
 

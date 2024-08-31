@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'animal.reflection.dart';
-part 'animal.serialization.dart';
 
 
 /// AnimalMixin
@@ -16,11 +15,9 @@ mixin AnimalMixin on
   $OpenApiObjectMixin {
   
             String
-
  get className;
 UndefinedWrapper<
             String
-
 > get color;
   
 }
@@ -37,16 +34,13 @@ AnimalMixin {
   @override
   
             String
-
  className;
   @override
   UndefinedWrapper<
             String
-
 > color;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -67,9 +61,10 @@ AnimalMixin {
     )
     
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = AnimalReflection.instance;
   AnimalReflection get $classReflection => $reflection;
@@ -79,45 +74,22 @@ AnimalMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$AnimalToMap(this);
-  }
-  factory Animal.fromMap(Map<String, dynamic> src) {
-    return _$AnimalFromMap(src);
-  }
-  static Animal? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return Animal.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$AnimalCanFromMap(src);
+  factory Animal.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory Animal.deserialize(Object? src) {
-    return _$AnimalDeserialize(src);
-  }
-  static Animal? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return Animal.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$AnimalCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$AnimalSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
 
 
 

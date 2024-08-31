@@ -5,14 +5,15 @@ part of 'test_inline_freeform_additional_properties_request.dart';
 
 //class reflection
 
-class TestInlineFreeformAdditionalPropertiesRequestReflection extends ClassReflection<TestInlineFreeformAdditionalPropertiesRequest> {
+class TestInlineFreeformAdditionalPropertiesRequestReflection extends ModelReflection<TestInlineFreeformAdditionalPropertiesRequest> {
   static TestInlineFreeformAdditionalPropertiesRequestReflection instanceGetter() => instance;
   static const instance = TestInlineFreeformAdditionalPropertiesRequestReflection._(
     modelName: r'testInlineFreeformAdditionalProperties_request',
     className: r'TestInlineFreeformAdditionalPropertiesRequest',
+    xml: const XmlReflection(
+),
     somePropertyPart: PropertyReflection<TestInlineFreeformAdditionalPropertiesRequest, UndefinedWrapper<
             String
-
 >>(
       dartName: r'someProperty',
       nullable: false,
@@ -22,21 +23,33 @@ class TestInlineFreeformAdditionalPropertiesRequestReflection extends ClassRefle
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _somePropertyGetter,
-      setter: _somePropertySetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_somePropertyGetter),
+      setter: FunctionWrapper2(_somePropertySetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<TestInlineFreeformAdditionalPropertiesRequest, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const TestInlineFreeformAdditionalPropertiesRequestReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.somePropertyPart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
@@ -47,121 +60,66 @@ class TestInlineFreeformAdditionalPropertiesRequestReflection extends ClassRefle
 
   final PropertyReflection<TestInlineFreeformAdditionalPropertiesRequest, UndefinedWrapper<
             String
-
 >> somePropertyPart;
   static UndefinedWrapper<
             String
-
 > _somePropertyGetter(TestInlineFreeformAdditionalPropertiesRequest parent) {
     return parent.someProperty;
   }
   static void _somePropertySetter(TestInlineFreeformAdditionalPropertiesRequest parent, UndefinedWrapper<
             String
-
 > value) {
     parent.someProperty = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<TestInlineFreeformAdditionalPropertiesRequest, dynamic>> get properties => [
     somePropertyPart,
   ];
 
-  final AdditionalPropertiesReflection<TestInlineFreeformAdditionalPropertiesRequest, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<TestInlineFreeformAdditionalPropertiesRequest, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<TestInlineFreeformAdditionalPropertiesRequest, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(TestInlineFreeformAdditionalPropertiesRequest instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(TestInlineFreeformAdditionalPropertiesRequest instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<TestInlineFreeformAdditionalPropertiesRequest, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => TestInlineFreeformAdditionalPropertiesRequest.canDeserialize(src);
-  @override
-  TestInlineFreeformAdditionalPropertiesRequest Function(Object? src) get deserializeFunction =>
-      (src) => TestInlineFreeformAdditionalPropertiesRequest.deserialize(src);
-
-  @override
-  Object? Function(TestInlineFreeformAdditionalPropertiesRequest src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of TestInlineFreeformAdditionalPropertiesRequest.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  TestInlineFreeformAdditionalPropertiesRequest example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = TestInlineFreeformAdditionalPropertiesRequest(
-      someProperty: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[somePropertyPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  TestInlineFreeformAdditionalPropertiesRequest empty() {
+    return TestInlineFreeformAdditionalPropertiesRequest(
     );
-    
-    return exampleResult;
   }
 }
 
-
-class TestInlineFreeformAdditionalPropertiesRequestXmlReflection {
-    const TestInlineFreeformAdditionalPropertiesRequestXmlReflection();
-}
 

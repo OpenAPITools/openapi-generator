@@ -5,14 +5,16 @@ part of 'name.dart';
 
 //class reflection
 
-class NameReflection extends ClassReflection<Name> {
+class NameReflection extends ModelReflection<Name> {
   static NameReflection instanceGetter() => instance;
   static const instance = NameReflection._(
     modelName: r'Name',
     className: r'Name',
+    xml: const XmlReflection(
+    xmlName: r'Name',
+),
     namePart: PropertyReflection<Name, 
             int
-
 >(
       dartName: r'name',
       nullable: false,
@@ -22,12 +24,21 @@ class NameReflection extends ClassReflection<Name> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _nameGetter,
-      setter: _nameSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_nameGetter),
+      setter: FunctionWrapper2(_nameSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forint
+        
+,
     ),
     snakeCasePart: PropertyReflection<Name, UndefinedWrapper<
             int
-
 >>(
       dartName: r'snakeCase',
       nullable: false,
@@ -37,12 +48,21 @@ class NameReflection extends ClassReflection<Name> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _snakeCaseGetter,
-      setter: _snakeCaseSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_snakeCaseGetter),
+      setter: FunctionWrapper2(_snakeCaseSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forint
+        
+),
     ),
     propertyPart: PropertyReflection<Name, UndefinedWrapper<
             String
-
 >>(
       dartName: r'property',
       nullable: false,
@@ -52,12 +72,21 @@ class NameReflection extends ClassReflection<Name> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _propertyGetter,
-      setter: _propertySetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_propertyGetter),
+      setter: FunctionWrapper2(_propertySetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     $123numberPart: PropertyReflection<Name, UndefinedWrapper<
             int
-
 >>(
       dartName: r'$123number',
       nullable: false,
@@ -67,21 +96,33 @@ class NameReflection extends ClassReflection<Name> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _$123numberGetter,
-      setter: _$123numberSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_$123numberGetter),
+      setter: FunctionWrapper2(_$123numberSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forint
+        
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<Name, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const NameReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.namePart,
     required this.snakeCasePart,
     required this.propertyPart,
@@ -95,82 +136,73 @@ class NameReflection extends ClassReflection<Name> {
 
   final PropertyReflection<Name, 
             int
-
 > namePart;
   static 
             int
-
  _nameGetter(Name parent) {
     return parent.name;
   }
   static void _nameSetter(Name parent, 
             int
-
  value) {
     parent.name = value;
   }
+
   final PropertyReflection<Name, UndefinedWrapper<
             int
-
 >> snakeCasePart;
   static UndefinedWrapper<
             int
-
 > _snakeCaseGetter(Name parent) {
     return parent.snakeCase;
   }
   static void _snakeCaseSetter(Name parent, UndefinedWrapper<
             int
-
 > value) {
     parent.snakeCase = value;
   }
+
   final PropertyReflection<Name, UndefinedWrapper<
             String
-
 >> propertyPart;
   static UndefinedWrapper<
             String
-
 > _propertyGetter(Name parent) {
     return parent.property;
   }
   static void _propertySetter(Name parent, UndefinedWrapper<
             String
-
 > value) {
     parent.property = value;
   }
+
   final PropertyReflection<Name, UndefinedWrapper<
             int
-
 >> $123numberPart;
   static UndefinedWrapper<
             int
-
 > _$123numberGetter(Name parent) {
     return parent.$123number;
   }
   static void _$123numberSetter(Name parent, UndefinedWrapper<
             int
-
 > value) {
     parent.$123number = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<Name, dynamic>> get properties => [
@@ -180,132 +212,36 @@ propertyPart,
 $123numberPart,
   ];
 
-  final AdditionalPropertiesReflection<Name, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<Name, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<Name, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(Name instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(Name instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<Name, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => Name.canDeserialize(src);
-  @override
-  Name Function(Object? src) get deserializeFunction =>
-      (src) => Name.deserialize(src);
-
-  @override
-  Object? Function(Name src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of Name.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  Name example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = Name(
-      name: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleint()
-
-
-;
-        return result;
-      } (),
-      snakeCase: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleint()
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      property: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[propertyPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      $123number: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleint()
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  Name empty() {
+    return Name(
+      name: namePart.reflection.emptyFunction(),
     );
-    
-    return exampleResult;
   }
 }
 
-
-class NameXmlReflection {
-    const NameXmlReflection();
-}
 

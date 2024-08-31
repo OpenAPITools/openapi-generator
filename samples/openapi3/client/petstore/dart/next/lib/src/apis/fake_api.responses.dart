@@ -8,14 +8,14 @@ class FakeApiFakeGetFreeFormObjectGetResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -30,11 +30,11 @@ class FakeApiFakeGetFreeFormObjectGetResponse {
     };
   }
 
-  static Future<FakeApiFakeGetFreeFormObjectGetResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiFakeGetFreeFormObjectGetResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<FakeApiFakeGetFreeFormObjectGetResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => FakeApiFakeGetFreeFormObjectGetResponse200.fromResponse(response, context: context)
+      () => FakeApiFakeGetFreeFormObjectGetResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -44,18 +44,20 @@ class FakeApiFakeGetFreeFormObjectGetResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class FakeApiFakeGetFreeFormObjectGetResponse200 extends FakeApiFakeGetFreeFormObjectGetResponse {
   FakeApiFakeGetFreeFormObjectGetResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -74,7 +76,7 @@ class FakeApiFakeGetFreeFormObjectGetResponse200 extends FakeApiFakeGetFreeFormO
     };
   }
 
-  static Future<FakeApiFakeGetFreeFormObjectGetResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiFakeGetFreeFormObjectGetResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -82,7 +84,7 @@ class FakeApiFakeGetFreeFormObjectGetResponse200 extends FakeApiFakeGetFreeFormO
       final matchedResponse = <(PatternMatchResult, Future<FakeApiFakeGetFreeFormObjectGetResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
-        () => FakeApiFakeGetFreeFormObjectGetResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => FakeApiFakeGetFreeFormObjectGetResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -93,7 +95,7 @@ class FakeApiFakeGetFreeFormObjectGetResponse200 extends FakeApiFakeGetFreeFormO
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -101,58 +103,59 @@ class FakeApiFakeGetFreeFormObjectGetResponse200 extends FakeApiFakeGetFreeFormO
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is application/json.
 class FakeApiFakeGetFreeFormObjectGetResponse200ApplicationJson extends FakeApiFakeGetFreeFormObjectGetResponse200 {
-  final 
+  final UndefinedWrapper<
             FreeFormObjectTestClass
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                FreeFormObjectTestClass.$reflection
+        
+;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   FakeApiFakeGetFreeFormObjectGetResponse200ApplicationJson({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawJson,
   });
 
-  static Future<FakeApiFakeGetFreeFormObjectGetResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<FakeApiFakeGetFreeFormObjectGetResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
-        if (v == null ? false :
-(
-
-    
-            FreeFormObjectTestClass.canDeserialize(v)
-            
-)) {
-          final res = FreeFormObjectTestClass.deserialize
-(
-
-            v
-
-)
-
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return FakeApiFakeGetFreeFormObjectGetResponse200ApplicationJson(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -161,7 +164,7 @@ class FakeApiFakeGetFreeFormObjectGetResponse200ApplicationJson extends FakeApiF
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawJson: v,
             
           );
@@ -172,7 +175,7 @@ class FakeApiFakeGetFreeFormObjectGetResponse200ApplicationJson extends FakeApiF
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
@@ -185,14 +188,14 @@ class FakeApiFakeOuterBooleanSerializeResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -207,11 +210,11 @@ class FakeApiFakeOuterBooleanSerializeResponse {
     };
   }
 
-  static Future<FakeApiFakeOuterBooleanSerializeResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiFakeOuterBooleanSerializeResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<FakeApiFakeOuterBooleanSerializeResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => FakeApiFakeOuterBooleanSerializeResponse200.fromResponse(response, context: context)
+      () => FakeApiFakeOuterBooleanSerializeResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -221,18 +224,20 @@ class FakeApiFakeOuterBooleanSerializeResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class FakeApiFakeOuterBooleanSerializeResponse200 extends FakeApiFakeOuterBooleanSerializeResponse {
   FakeApiFakeOuterBooleanSerializeResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -251,7 +256,7 @@ class FakeApiFakeOuterBooleanSerializeResponse200 extends FakeApiFakeOuterBoolea
     };
   }
 
-  static Future<FakeApiFakeOuterBooleanSerializeResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiFakeOuterBooleanSerializeResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -259,7 +264,7 @@ class FakeApiFakeOuterBooleanSerializeResponse200 extends FakeApiFakeOuterBoolea
       final matchedResponse = <(PatternMatchResult, Future<FakeApiFakeOuterBooleanSerializeResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'*/*')),
-        () => FakeApiFakeOuterBooleanSerializeResponse200AnyAny.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => FakeApiFakeOuterBooleanSerializeResponse200AnyAny.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -270,7 +275,7 @@ class FakeApiFakeOuterBooleanSerializeResponse200 extends FakeApiFakeOuterBoolea
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -278,27 +283,42 @@ class FakeApiFakeOuterBooleanSerializeResponse200 extends FakeApiFakeOuterBoolea
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is */*.
 class FakeApiFakeOuterBooleanSerializeResponse200AnyAny extends FakeApiFakeOuterBooleanSerializeResponse200 {
-  final 
+  final UndefinedWrapper<
             bool
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                PrimitiveReflection.forbool
+        
+;
 
 
   FakeApiFakeOuterBooleanSerializeResponse200AnyAny({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
-  static Future<FakeApiFakeOuterBooleanSerializeResponse200AnyAny> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<FakeApiFakeOuterBooleanSerializeResponse200AnyAny> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       default:
@@ -307,7 +327,7 @@ class FakeApiFakeOuterBooleanSerializeResponse200AnyAny extends FakeApiFakeOuter
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
@@ -320,14 +340,14 @@ class FakeApiFakeOuterCompositeSerializeResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -342,11 +362,11 @@ class FakeApiFakeOuterCompositeSerializeResponse {
     };
   }
 
-  static Future<FakeApiFakeOuterCompositeSerializeResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiFakeOuterCompositeSerializeResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<FakeApiFakeOuterCompositeSerializeResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => FakeApiFakeOuterCompositeSerializeResponse200.fromResponse(response, context: context)
+      () => FakeApiFakeOuterCompositeSerializeResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -356,18 +376,20 @@ class FakeApiFakeOuterCompositeSerializeResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class FakeApiFakeOuterCompositeSerializeResponse200 extends FakeApiFakeOuterCompositeSerializeResponse {
   FakeApiFakeOuterCompositeSerializeResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -386,7 +408,7 @@ class FakeApiFakeOuterCompositeSerializeResponse200 extends FakeApiFakeOuterComp
     };
   }
 
-  static Future<FakeApiFakeOuterCompositeSerializeResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiFakeOuterCompositeSerializeResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -394,7 +416,7 @@ class FakeApiFakeOuterCompositeSerializeResponse200 extends FakeApiFakeOuterComp
       final matchedResponse = <(PatternMatchResult, Future<FakeApiFakeOuterCompositeSerializeResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'*/*')),
-        () => FakeApiFakeOuterCompositeSerializeResponse200AnyAny.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => FakeApiFakeOuterCompositeSerializeResponse200AnyAny.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -405,7 +427,7 @@ class FakeApiFakeOuterCompositeSerializeResponse200 extends FakeApiFakeOuterComp
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -413,27 +435,42 @@ class FakeApiFakeOuterCompositeSerializeResponse200 extends FakeApiFakeOuterComp
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is */*.
 class FakeApiFakeOuterCompositeSerializeResponse200AnyAny extends FakeApiFakeOuterCompositeSerializeResponse200 {
-  final 
+  final UndefinedWrapper<
             OuterComposite
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                OuterComposite.$reflection
+        
+;
 
 
   FakeApiFakeOuterCompositeSerializeResponse200AnyAny({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
-  static Future<FakeApiFakeOuterCompositeSerializeResponse200AnyAny> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<FakeApiFakeOuterCompositeSerializeResponse200AnyAny> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       default:
@@ -442,7 +479,7 @@ class FakeApiFakeOuterCompositeSerializeResponse200AnyAny extends FakeApiFakeOut
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
@@ -455,14 +492,14 @@ class FakeApiFakeOuterNumberSerializeResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -477,11 +514,11 @@ class FakeApiFakeOuterNumberSerializeResponse {
     };
   }
 
-  static Future<FakeApiFakeOuterNumberSerializeResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiFakeOuterNumberSerializeResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<FakeApiFakeOuterNumberSerializeResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => FakeApiFakeOuterNumberSerializeResponse200.fromResponse(response, context: context)
+      () => FakeApiFakeOuterNumberSerializeResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -491,18 +528,20 @@ class FakeApiFakeOuterNumberSerializeResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class FakeApiFakeOuterNumberSerializeResponse200 extends FakeApiFakeOuterNumberSerializeResponse {
   FakeApiFakeOuterNumberSerializeResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -521,7 +560,7 @@ class FakeApiFakeOuterNumberSerializeResponse200 extends FakeApiFakeOuterNumberS
     };
   }
 
-  static Future<FakeApiFakeOuterNumberSerializeResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiFakeOuterNumberSerializeResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -529,7 +568,7 @@ class FakeApiFakeOuterNumberSerializeResponse200 extends FakeApiFakeOuterNumberS
       final matchedResponse = <(PatternMatchResult, Future<FakeApiFakeOuterNumberSerializeResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'*/*')),
-        () => FakeApiFakeOuterNumberSerializeResponse200AnyAny.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => FakeApiFakeOuterNumberSerializeResponse200AnyAny.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -540,7 +579,7 @@ class FakeApiFakeOuterNumberSerializeResponse200 extends FakeApiFakeOuterNumberS
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -548,27 +587,42 @@ class FakeApiFakeOuterNumberSerializeResponse200 extends FakeApiFakeOuterNumberS
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is */*.
 class FakeApiFakeOuterNumberSerializeResponse200AnyAny extends FakeApiFakeOuterNumberSerializeResponse200 {
-  final 
+  final UndefinedWrapper<
             num
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                PrimitiveReflection.fornum
+        
+;
 
 
   FakeApiFakeOuterNumberSerializeResponse200AnyAny({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
-  static Future<FakeApiFakeOuterNumberSerializeResponse200AnyAny> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<FakeApiFakeOuterNumberSerializeResponse200AnyAny> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       default:
@@ -577,7 +631,7 @@ class FakeApiFakeOuterNumberSerializeResponse200AnyAny extends FakeApiFakeOuterN
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
@@ -590,14 +644,14 @@ class FakeApiFakeOuterStringSerializeResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -612,11 +666,11 @@ class FakeApiFakeOuterStringSerializeResponse {
     };
   }
 
-  static Future<FakeApiFakeOuterStringSerializeResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiFakeOuterStringSerializeResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<FakeApiFakeOuterStringSerializeResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => FakeApiFakeOuterStringSerializeResponse200.fromResponse(response, context: context)
+      () => FakeApiFakeOuterStringSerializeResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -626,18 +680,20 @@ class FakeApiFakeOuterStringSerializeResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class FakeApiFakeOuterStringSerializeResponse200 extends FakeApiFakeOuterStringSerializeResponse {
   FakeApiFakeOuterStringSerializeResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -656,7 +712,7 @@ class FakeApiFakeOuterStringSerializeResponse200 extends FakeApiFakeOuterStringS
     };
   }
 
-  static Future<FakeApiFakeOuterStringSerializeResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiFakeOuterStringSerializeResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -664,7 +720,7 @@ class FakeApiFakeOuterStringSerializeResponse200 extends FakeApiFakeOuterStringS
       final matchedResponse = <(PatternMatchResult, Future<FakeApiFakeOuterStringSerializeResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'*/*')),
-        () => FakeApiFakeOuterStringSerializeResponse200AnyAny.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => FakeApiFakeOuterStringSerializeResponse200AnyAny.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -675,7 +731,7 @@ class FakeApiFakeOuterStringSerializeResponse200 extends FakeApiFakeOuterStringS
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -683,27 +739,42 @@ class FakeApiFakeOuterStringSerializeResponse200 extends FakeApiFakeOuterStringS
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is */*.
 class FakeApiFakeOuterStringSerializeResponse200AnyAny extends FakeApiFakeOuterStringSerializeResponse200 {
-  final 
+  final UndefinedWrapper<
             String
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+;
 
 
   FakeApiFakeOuterStringSerializeResponse200AnyAny({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
-  static Future<FakeApiFakeOuterStringSerializeResponse200AnyAny> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<FakeApiFakeOuterStringSerializeResponse200AnyAny> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       default:
@@ -712,7 +783,7 @@ class FakeApiFakeOuterStringSerializeResponse200AnyAny extends FakeApiFakeOuterS
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
@@ -725,14 +796,14 @@ class FakeApiFakeUploadRefRequestBodiesResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -747,11 +818,11 @@ class FakeApiFakeUploadRefRequestBodiesResponse {
     };
   }
 
-  static Future<FakeApiFakeUploadRefRequestBodiesResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiFakeUploadRefRequestBodiesResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<FakeApiFakeUploadRefRequestBodiesResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => FakeApiFakeUploadRefRequestBodiesResponse200.fromResponse(response, context: context)
+      () => FakeApiFakeUploadRefRequestBodiesResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -761,18 +832,20 @@ class FakeApiFakeUploadRefRequestBodiesResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class FakeApiFakeUploadRefRequestBodiesResponse200 extends FakeApiFakeUploadRefRequestBodiesResponse {
   FakeApiFakeUploadRefRequestBodiesResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -791,7 +864,7 @@ class FakeApiFakeUploadRefRequestBodiesResponse200 extends FakeApiFakeUploadRefR
     };
   }
 
-  static Future<FakeApiFakeUploadRefRequestBodiesResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiFakeUploadRefRequestBodiesResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -799,7 +872,7 @@ class FakeApiFakeUploadRefRequestBodiesResponse200 extends FakeApiFakeUploadRefR
       final matchedResponse = <(PatternMatchResult, Future<FakeApiFakeUploadRefRequestBodiesResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
-        () => FakeApiFakeUploadRefRequestBodiesResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => FakeApiFakeUploadRefRequestBodiesResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -810,7 +883,7 @@ class FakeApiFakeUploadRefRequestBodiesResponse200 extends FakeApiFakeUploadRefR
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -818,58 +891,59 @@ class FakeApiFakeUploadRefRequestBodiesResponse200 extends FakeApiFakeUploadRefR
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is application/json.
 class FakeApiFakeUploadRefRequestBodiesResponse200ApplicationJson extends FakeApiFakeUploadRefRequestBodiesResponse200 {
-  final 
+  final UndefinedWrapper<
             ApiResponse
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                ApiResponse.$reflection
+        
+;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   FakeApiFakeUploadRefRequestBodiesResponse200ApplicationJson({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawJson,
   });
 
-  static Future<FakeApiFakeUploadRefRequestBodiesResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<FakeApiFakeUploadRefRequestBodiesResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
-        if (v == null ? false :
-(
-
-    
-            ApiResponse.canDeserialize(v)
-            
-)) {
-          final res = ApiResponse.deserialize
-(
-
-            v
-
-)
-
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return FakeApiFakeUploadRefRequestBodiesResponse200ApplicationJson(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -878,7 +952,7 @@ class FakeApiFakeUploadRefRequestBodiesResponse200ApplicationJson extends FakeAp
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawJson: v,
             
           );
@@ -889,7 +963,7 @@ class FakeApiFakeUploadRefRequestBodiesResponse200ApplicationJson extends FakeAp
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
@@ -902,14 +976,14 @@ class FakeApiGetFakeArrayofenumsResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -924,11 +998,11 @@ class FakeApiGetFakeArrayofenumsResponse {
     };
   }
 
-  static Future<FakeApiGetFakeArrayofenumsResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiGetFakeArrayofenumsResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<FakeApiGetFakeArrayofenumsResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => FakeApiGetFakeArrayofenumsResponse200.fromResponse(response, context: context)
+      () => FakeApiGetFakeArrayofenumsResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -938,18 +1012,20 @@ class FakeApiGetFakeArrayofenumsResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class FakeApiGetFakeArrayofenumsResponse200 extends FakeApiGetFakeArrayofenumsResponse {
   FakeApiGetFakeArrayofenumsResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -968,7 +1044,7 @@ class FakeApiGetFakeArrayofenumsResponse200 extends FakeApiGetFakeArrayofenumsRe
     };
   }
 
-  static Future<FakeApiGetFakeArrayofenumsResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiGetFakeArrayofenumsResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -976,7 +1052,7 @@ class FakeApiGetFakeArrayofenumsResponse200 extends FakeApiGetFakeArrayofenumsRe
       final matchedResponse = <(PatternMatchResult, Future<FakeApiGetFakeArrayofenumsResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
-        () => FakeApiGetFakeArrayofenumsResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => FakeApiGetFakeArrayofenumsResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -987,7 +1063,7 @@ class FakeApiGetFakeArrayofenumsResponse200 extends FakeApiGetFakeArrayofenumsRe
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -995,91 +1071,65 @@ class FakeApiGetFakeArrayofenumsResponse200 extends FakeApiGetFakeArrayofenumsRe
 
 
 
+
+
+
+
+
+
+
 /// Represent the response when content-type is application/json.
 class FakeApiGetFakeArrayofenumsResponse200ApplicationJson extends FakeApiGetFakeArrayofenumsResponse200 {
-  final 
+  final UndefinedWrapper<
     List<
         
             OuterEnum
-
 ?>
+> body;
 
-? body;
+  static const bodyReflection = 
+    ListReflection(NullableReflection(
+            
+        
+        
+            OuterEnum.$reflection
+        
+))
+;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   FakeApiGetFakeArrayofenumsResponse200ApplicationJson({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawJson,
   });
 
-  static Future<FakeApiGetFakeArrayofenumsResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<FakeApiGetFakeArrayofenumsResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
-        if (v == null ? false :
-(
-
-    
-            
-            v is List && v.every((v) => v == null ? true :
-(
-
-    
-            
-            (v is OuterEnum
-    
-    
-    
-    
-)
-))
-)) {
-          final res = 
-(
-
-            
-            v as List
-            
-
-)
-
-.map((v) => 
-(
-
-            
-                    (v == null ? null :  v is OuterEnum ? v as OuterEnum :
-
-
-
-
-throwArgumentMismatch(OuterEnum, v)
-
-)
-
-)
-
-
-).toList()
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return FakeApiGetFakeArrayofenumsResponse200ApplicationJson(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -1088,7 +1138,7 @@ throwArgumentMismatch(OuterEnum, v)
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawJson: v,
             
           );
@@ -1099,7 +1149,7 @@ throwArgumentMismatch(OuterEnum, v)
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
@@ -1112,14 +1162,14 @@ class FakeApiGetFakeHealthResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -1134,11 +1184,11 @@ class FakeApiGetFakeHealthResponse {
     };
   }
 
-  static Future<FakeApiGetFakeHealthResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiGetFakeHealthResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<FakeApiGetFakeHealthResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => FakeApiGetFakeHealthResponse200.fromResponse(response, context: context)
+      () => FakeApiGetFakeHealthResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -1148,18 +1198,20 @@ class FakeApiGetFakeHealthResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class FakeApiGetFakeHealthResponse200 extends FakeApiGetFakeHealthResponse {
   FakeApiGetFakeHealthResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -1178,7 +1230,7 @@ class FakeApiGetFakeHealthResponse200 extends FakeApiGetFakeHealthResponse {
     };
   }
 
-  static Future<FakeApiGetFakeHealthResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiGetFakeHealthResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -1186,7 +1238,7 @@ class FakeApiGetFakeHealthResponse200 extends FakeApiGetFakeHealthResponse {
       final matchedResponse = <(PatternMatchResult, Future<FakeApiGetFakeHealthResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
-        () => FakeApiGetFakeHealthResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => FakeApiGetFakeHealthResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -1197,7 +1249,7 @@ class FakeApiGetFakeHealthResponse200 extends FakeApiGetFakeHealthResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -1205,58 +1257,59 @@ class FakeApiGetFakeHealthResponse200 extends FakeApiGetFakeHealthResponse {
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is application/json.
 class FakeApiGetFakeHealthResponse200ApplicationJson extends FakeApiGetFakeHealthResponse200 {
-  final 
+  final UndefinedWrapper<
             HealthCheckResult
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                HealthCheckResult.$reflection
+        
+;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   FakeApiGetFakeHealthResponse200ApplicationJson({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawJson,
   });
 
-  static Future<FakeApiGetFakeHealthResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<FakeApiGetFakeHealthResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
-        if (v == null ? false :
-(
-
-    
-            HealthCheckResult.canDeserialize(v)
-            
-)) {
-          final res = HealthCheckResult.deserialize
-(
-
-            v
-
-)
-
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return FakeApiGetFakeHealthResponse200ApplicationJson(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -1265,7 +1318,7 @@ class FakeApiGetFakeHealthResponse200ApplicationJson extends FakeApiGetFakeHealt
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawJson: v,
             
           );
@@ -1276,7 +1329,7 @@ class FakeApiGetFakeHealthResponse200ApplicationJson extends FakeApiGetFakeHealt
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
@@ -1289,14 +1342,14 @@ class FakeApiGetParameterNameMappingResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -1311,11 +1364,11 @@ class FakeApiGetParameterNameMappingResponse {
     };
   }
 
-  static Future<FakeApiGetParameterNameMappingResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiGetParameterNameMappingResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<FakeApiGetParameterNameMappingResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => FakeApiGetParameterNameMappingResponse200.fromResponse(response, context: context)
+      () => FakeApiGetParameterNameMappingResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -1325,30 +1378,32 @@ class FakeApiGetParameterNameMappingResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class FakeApiGetParameterNameMappingResponse200 extends FakeApiGetParameterNameMappingResponse {
   FakeApiGetParameterNameMappingResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<FakeApiGetParameterNameMappingResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiGetParameterNameMappingResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return FakeApiGetParameterNameMappingResponse200(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -1362,14 +1417,14 @@ class FakeApiTestAdditionalPropertiesReferenceResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -1384,11 +1439,11 @@ class FakeApiTestAdditionalPropertiesReferenceResponse {
     };
   }
 
-  static Future<FakeApiTestAdditionalPropertiesReferenceResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestAdditionalPropertiesReferenceResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<FakeApiTestAdditionalPropertiesReferenceResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => FakeApiTestAdditionalPropertiesReferenceResponse200.fromResponse(response, context: context)
+      () => FakeApiTestAdditionalPropertiesReferenceResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -1398,30 +1453,32 @@ class FakeApiTestAdditionalPropertiesReferenceResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class FakeApiTestAdditionalPropertiesReferenceResponse200 extends FakeApiTestAdditionalPropertiesReferenceResponse {
   FakeApiTestAdditionalPropertiesReferenceResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<FakeApiTestAdditionalPropertiesReferenceResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestAdditionalPropertiesReferenceResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return FakeApiTestAdditionalPropertiesReferenceResponse200(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -1435,14 +1492,14 @@ class FakeApiTestBodyWithFileSchemaResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -1457,11 +1514,11 @@ class FakeApiTestBodyWithFileSchemaResponse {
     };
   }
 
-  static Future<FakeApiTestBodyWithFileSchemaResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestBodyWithFileSchemaResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<FakeApiTestBodyWithFileSchemaResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => FakeApiTestBodyWithFileSchemaResponse200.fromResponse(response, context: context)
+      () => FakeApiTestBodyWithFileSchemaResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -1471,30 +1528,32 @@ class FakeApiTestBodyWithFileSchemaResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class FakeApiTestBodyWithFileSchemaResponse200 extends FakeApiTestBodyWithFileSchemaResponse {
   FakeApiTestBodyWithFileSchemaResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<FakeApiTestBodyWithFileSchemaResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestBodyWithFileSchemaResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return FakeApiTestBodyWithFileSchemaResponse200(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -1508,14 +1567,14 @@ class FakeApiTestBodyWithQueryParamsResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -1530,11 +1589,11 @@ class FakeApiTestBodyWithQueryParamsResponse {
     };
   }
 
-  static Future<FakeApiTestBodyWithQueryParamsResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestBodyWithQueryParamsResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<FakeApiTestBodyWithQueryParamsResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => FakeApiTestBodyWithQueryParamsResponse200.fromResponse(response, context: context)
+      () => FakeApiTestBodyWithQueryParamsResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -1544,30 +1603,32 @@ class FakeApiTestBodyWithQueryParamsResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class FakeApiTestBodyWithQueryParamsResponse200 extends FakeApiTestBodyWithQueryParamsResponse {
   FakeApiTestBodyWithQueryParamsResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<FakeApiTestBodyWithQueryParamsResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestBodyWithQueryParamsResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return FakeApiTestBodyWithQueryParamsResponse200(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -1581,14 +1642,14 @@ class FakeApiTestClientModelResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -1603,11 +1664,11 @@ class FakeApiTestClientModelResponse {
     };
   }
 
-  static Future<FakeApiTestClientModelResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestClientModelResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<FakeApiTestClientModelResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => FakeApiTestClientModelResponse200.fromResponse(response, context: context)
+      () => FakeApiTestClientModelResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -1617,18 +1678,20 @@ class FakeApiTestClientModelResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class FakeApiTestClientModelResponse200 extends FakeApiTestClientModelResponse {
   FakeApiTestClientModelResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
@@ -1647,7 +1710,7 @@ class FakeApiTestClientModelResponse200 extends FakeApiTestClientModelResponse {
     };
   }
 
-  static Future<FakeApiTestClientModelResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestClientModelResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final headers = response.headers;
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
@@ -1655,7 +1718,7 @@ class FakeApiTestClientModelResponse200 extends FakeApiTestClientModelResponse {
       final matchedResponse = <(PatternMatchResult, Future<FakeApiTestClientModelResponse200> Function())>[
       (
         OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
-        () => FakeApiTestClientModelResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+        () => FakeApiTestClientModelResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
       ),
       ].pickPrioritized();
       if (matchedResponse != null) {
@@ -1666,7 +1729,7 @@ class FakeApiTestClientModelResponse200 extends FakeApiTestClientModelResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -1674,58 +1737,59 @@ class FakeApiTestClientModelResponse200 extends FakeApiTestClientModelResponse {
 
 
 
+
+
+
+
+
 /// Represent the response when content-type is application/json.
 class FakeApiTestClientModelResponse200ApplicationJson extends FakeApiTestClientModelResponse200 {
-  final 
+  final UndefinedWrapper<
             Client
+> body;
 
-? body;
+  static const bodyReflection = 
+            
+        
+        
+            
+                Client.$reflection
+        
+;
 
   /// The raw result of calling jsonDecode
   final Object? rawJson;
 
   FakeApiTestClientModelResponse200ApplicationJson({
-    this.body,
+    this.body = const UndefinedWrapper.undefined(),
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
     this.rawJson,
   });
 
-  static Future<FakeApiTestClientModelResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestClientModelResponse200ApplicationJson> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
   final encodingRules = <String, PropertyEncodingRule>{
       
     };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
 
     switch (contentType) {
       case MediaType(type: 'application', subtype: 'json'):
         final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
         final serialized = await encoding.decodeStream(response.bodyBytesStream);
         final v = jsonDecode(serialized);
-        if (v == null ? false :
-(
-
-    
-            Client.canDeserialize(v)
-            
-)) {
-          final res = Client.deserialize
-(
-
-            v
-
-)
-
-
-;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
           return FakeApiTestClientModelResponse200ApplicationJson(
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
-            body: res,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
             
           );
         } else {
@@ -1734,7 +1798,7 @@ class FakeApiTestClientModelResponse200ApplicationJson extends FakeApiTestClient
             headers: response.headers,
             statusCode: response.statusCode,
             reasonPhrase: response.reasonPhrase,
-            context: context,
+            userContext: userContext,
             rawJson: v,
             
           );
@@ -1745,7 +1809,7 @@ class FakeApiTestClientModelResponse200ApplicationJson extends FakeApiTestClient
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
       
     );
@@ -1758,14 +1822,14 @@ class FakeApiTestEndpointParametersResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -1782,15 +1846,15 @@ class FakeApiTestEndpointParametersResponse {
     };
   }
 
-  static Future<FakeApiTestEndpointParametersResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestEndpointParametersResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<FakeApiTestEndpointParametersResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
-      () => FakeApiTestEndpointParametersResponse400.fromResponse(response, context: context)
+      () => FakeApiTestEndpointParametersResponse400.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'404'),
-      () => FakeApiTestEndpointParametersResponse404.fromResponse(response, context: context)
+      () => FakeApiTestEndpointParametersResponse404.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -1800,34 +1864,38 @@ class FakeApiTestEndpointParametersResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class FakeApiTestEndpointParametersResponse400 extends FakeApiTestEndpointParametersResponse {
   FakeApiTestEndpointParametersResponse400({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<FakeApiTestEndpointParametersResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestEndpointParametersResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return FakeApiTestEndpointParametersResponse400(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 
 
@@ -1836,19 +1904,19 @@ class FakeApiTestEndpointParametersResponse404 extends FakeApiTestEndpointParame
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<FakeApiTestEndpointParametersResponse404> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestEndpointParametersResponse404> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return FakeApiTestEndpointParametersResponse404(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -1862,14 +1930,14 @@ class FakeApiTestEnumParametersResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -1886,15 +1954,15 @@ class FakeApiTestEnumParametersResponse {
     };
   }
 
-  static Future<FakeApiTestEnumParametersResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestEnumParametersResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<FakeApiTestEnumParametersResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
-      () => FakeApiTestEnumParametersResponse400.fromResponse(response, context: context)
+      () => FakeApiTestEnumParametersResponse400.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'404'),
-      () => FakeApiTestEnumParametersResponse404.fromResponse(response, context: context)
+      () => FakeApiTestEnumParametersResponse404.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -1904,34 +1972,38 @@ class FakeApiTestEnumParametersResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class FakeApiTestEnumParametersResponse400 extends FakeApiTestEnumParametersResponse {
   FakeApiTestEnumParametersResponse400({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<FakeApiTestEnumParametersResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestEnumParametersResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return FakeApiTestEnumParametersResponse400(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 
 
@@ -1940,19 +2012,19 @@ class FakeApiTestEnumParametersResponse404 extends FakeApiTestEnumParametersResp
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<FakeApiTestEnumParametersResponse404> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestEnumParametersResponse404> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return FakeApiTestEnumParametersResponse404(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -1966,14 +2038,14 @@ class FakeApiTestGroupParametersResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -1988,11 +2060,11 @@ class FakeApiTestGroupParametersResponse {
     };
   }
 
-  static Future<FakeApiTestGroupParametersResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestGroupParametersResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<FakeApiTestGroupParametersResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
-      () => FakeApiTestGroupParametersResponse400.fromResponse(response, context: context)
+      () => FakeApiTestGroupParametersResponse400.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -2002,30 +2074,32 @@ class FakeApiTestGroupParametersResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class FakeApiTestGroupParametersResponse400 extends FakeApiTestGroupParametersResponse {
   FakeApiTestGroupParametersResponse400({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<FakeApiTestGroupParametersResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestGroupParametersResponse400> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return FakeApiTestGroupParametersResponse400(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -2039,14 +2113,14 @@ class FakeApiTestInlineAdditionalPropertiesResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -2061,11 +2135,11 @@ class FakeApiTestInlineAdditionalPropertiesResponse {
     };
   }
 
-  static Future<FakeApiTestInlineAdditionalPropertiesResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestInlineAdditionalPropertiesResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<FakeApiTestInlineAdditionalPropertiesResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => FakeApiTestInlineAdditionalPropertiesResponse200.fromResponse(response, context: context)
+      () => FakeApiTestInlineAdditionalPropertiesResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -2075,30 +2149,32 @@ class FakeApiTestInlineAdditionalPropertiesResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class FakeApiTestInlineAdditionalPropertiesResponse200 extends FakeApiTestInlineAdditionalPropertiesResponse {
   FakeApiTestInlineAdditionalPropertiesResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<FakeApiTestInlineAdditionalPropertiesResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestInlineAdditionalPropertiesResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return FakeApiTestInlineAdditionalPropertiesResponse200(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -2112,14 +2188,14 @@ class FakeApiTestInlineFreeformAdditionalPropertiesResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -2134,11 +2210,11 @@ class FakeApiTestInlineFreeformAdditionalPropertiesResponse {
     };
   }
 
-  static Future<FakeApiTestInlineFreeformAdditionalPropertiesResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestInlineFreeformAdditionalPropertiesResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<FakeApiTestInlineFreeformAdditionalPropertiesResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => FakeApiTestInlineFreeformAdditionalPropertiesResponse200.fromResponse(response, context: context)
+      () => FakeApiTestInlineFreeformAdditionalPropertiesResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -2148,30 +2224,32 @@ class FakeApiTestInlineFreeformAdditionalPropertiesResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class FakeApiTestInlineFreeformAdditionalPropertiesResponse200 extends FakeApiTestInlineFreeformAdditionalPropertiesResponse {
   FakeApiTestInlineFreeformAdditionalPropertiesResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<FakeApiTestInlineFreeformAdditionalPropertiesResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestInlineFreeformAdditionalPropertiesResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return FakeApiTestInlineFreeformAdditionalPropertiesResponse200(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -2185,14 +2263,14 @@ class FakeApiTestJsonFormDataResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -2207,11 +2285,11 @@ class FakeApiTestJsonFormDataResponse {
     };
   }
 
-  static Future<FakeApiTestJsonFormDataResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestJsonFormDataResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<FakeApiTestJsonFormDataResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => FakeApiTestJsonFormDataResponse200.fromResponse(response, context: context)
+      () => FakeApiTestJsonFormDataResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -2221,30 +2299,32 @@ class FakeApiTestJsonFormDataResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class FakeApiTestJsonFormDataResponse200 extends FakeApiTestJsonFormDataResponse {
   FakeApiTestJsonFormDataResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<FakeApiTestJsonFormDataResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestJsonFormDataResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return FakeApiTestJsonFormDataResponse200(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -2258,14 +2338,14 @@ class FakeApiTestQueryParameterCollectionFormatResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -2280,11 +2360,11 @@ class FakeApiTestQueryParameterCollectionFormatResponse {
     };
   }
 
-  static Future<FakeApiTestQueryParameterCollectionFormatResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestQueryParameterCollectionFormatResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<FakeApiTestQueryParameterCollectionFormatResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => FakeApiTestQueryParameterCollectionFormatResponse200.fromResponse(response, context: context)
+      () => FakeApiTestQueryParameterCollectionFormatResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -2294,30 +2374,32 @@ class FakeApiTestQueryParameterCollectionFormatResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class FakeApiTestQueryParameterCollectionFormatResponse200 extends FakeApiTestQueryParameterCollectionFormatResponse {
   FakeApiTestQueryParameterCollectionFormatResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<FakeApiTestQueryParameterCollectionFormatResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestQueryParameterCollectionFormatResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return FakeApiTestQueryParameterCollectionFormatResponse200(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
@@ -2331,14 +2413,14 @@ class FakeApiTestStringMapReferenceResponse {
     required this.headers,
     required this.statusCode,
     required this.reasonPhrase,
-    required this.context,
+    required this.userContext,
     this.bodyBytesStream,
   });
 
   final Map<String, String> headers;
   final int statusCode;
   final String? reasonPhrase;
-  final Map<String, dynamic> context;
+  final Map<String, dynamic> userContext;
   /// This variable is only assigned if other response classes fail to read the response.
   /// Thus, handing the responsibility of reading the response to the user.
   final Stream<List<int>>? bodyBytesStream;
@@ -2353,11 +2435,11 @@ class FakeApiTestStringMapReferenceResponse {
     };
   }
 
-  static Future<FakeApiTestStringMapReferenceResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestStringMapReferenceResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     final matchedResponse = <(PatternMatchResult, Future<FakeApiTestStringMapReferenceResponse> Function())> [
     (
       OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
-      () => FakeApiTestStringMapReferenceResponse200.fromResponse(response, context: context)
+      () => FakeApiTestStringMapReferenceResponse200.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
     ),
     ].pickPrioritized();
     if (matchedResponse != null) {
@@ -2367,30 +2449,32 @@ class FakeApiTestStringMapReferenceResponse {
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }
 }
+
+
 
 class FakeApiTestStringMapReferenceResponse200 extends FakeApiTestStringMapReferenceResponse {
   FakeApiTestStringMapReferenceResponse200({
     required super.headers,
     required super.statusCode,
     required super.reasonPhrase,
-    required super.context,
+    required super.userContext,
     super.bodyBytesStream,
   });
 
 
 
 
-  static Future<FakeApiTestStringMapReferenceResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+  static Future<FakeApiTestStringMapReferenceResponse200> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
     return FakeApiTestStringMapReferenceResponse200(
       headers: response.headers,
       statusCode: response.statusCode,
       reasonPhrase: response.reasonPhrase,
-      context: context,
+      userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
     );
   }

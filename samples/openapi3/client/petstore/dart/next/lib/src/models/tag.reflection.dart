@@ -5,14 +5,16 @@ part of 'tag.dart';
 
 //class reflection
 
-class TagReflection extends ClassReflection<Tag> {
+class TagReflection extends ModelReflection<Tag> {
   static TagReflection instanceGetter() => instance;
   static const instance = TagReflection._(
     modelName: r'Tag',
     className: r'Tag',
+    xml: const XmlReflection(
+    xmlName: r'Tag',
+),
     idPart: PropertyReflection<Tag, UndefinedWrapper<
             int
-
 >>(
       dartName: r'id',
       nullable: false,
@@ -22,12 +24,21 @@ class TagReflection extends ClassReflection<Tag> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _idGetter,
-      setter: _idSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_idGetter),
+      setter: FunctionWrapper2(_idSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forint
+        
+),
     ),
     namePart: PropertyReflection<Tag, UndefinedWrapper<
             String
-
 >>(
       dartName: r'name',
       nullable: false,
@@ -37,21 +48,33 @@ class TagReflection extends ClassReflection<Tag> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _nameGetter,
-      setter: _nameSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_nameGetter),
+      setter: FunctionWrapper2(_nameSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<Tag, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const TagReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.idPart,
     required this.namePart,
     this.discriminatorKey,
@@ -63,50 +86,45 @@ class TagReflection extends ClassReflection<Tag> {
 
   final PropertyReflection<Tag, UndefinedWrapper<
             int
-
 >> idPart;
   static UndefinedWrapper<
             int
-
 > _idGetter(Tag parent) {
     return parent.id;
   }
   static void _idSetter(Tag parent, UndefinedWrapper<
             int
-
 > value) {
     parent.id = value;
   }
+
   final PropertyReflection<Tag, UndefinedWrapper<
             String
-
 >> namePart;
   static UndefinedWrapper<
             String
-
 > _nameGetter(Tag parent) {
     return parent.name;
   }
   static void _nameSetter(Tag parent, UndefinedWrapper<
             String
-
 > value) {
     parent.name = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<Tag, dynamic>> get properties => [
@@ -114,102 +132,35 @@ class TagReflection extends ClassReflection<Tag> {
 namePart,
   ];
 
-  final AdditionalPropertiesReflection<Tag, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<Tag, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<Tag, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(Tag instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(Tag instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<Tag, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => Tag.canDeserialize(src);
-  @override
-  Tag Function(Object? src) get deserializeFunction =>
-      (src) => Tag.deserialize(src);
-
-  @override
-  Object? Function(Tag src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of Tag.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  Tag example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = Tag(
-      id: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleint()
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      name: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[namePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  Tag empty() {
+    return Tag(
     );
-    
-    return exampleResult;
   }
 }
 
-
-class TagXmlReflection {
-    const TagXmlReflection();
-}
 

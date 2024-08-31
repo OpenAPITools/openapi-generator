@@ -5,7 +5,6 @@ part of 'default_api.dart';
 
 
 
-
  class DefaultApiFakeAnyOfWIthSameErasureGetRequest {
   static const pathTemplate = r'/fake/anyOfWIthSameErasure';
   static String method = r'GET';
@@ -13,10 +12,11 @@ part of 'default_api.dart';
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
 
 
   const DefaultApiFakeAnyOfWIthSameErasureGetRequest({
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -24,7 +24,7 @@ part of 'default_api.dart';
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -43,7 +43,7 @@ part of 'default_api.dart';
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -76,14 +76,14 @@ part of 'default_api.dart';
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -92,11 +92,10 @@ part of 'default_api.dart';
       headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
-      context: context,
+      context: userContext,
     );
   }
 }
-
 
 
 
@@ -110,10 +109,11 @@ part of 'default_api.dart';
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
 
 
   const DefaultApiFakeOneOfWIthSameErasureGetRequest({
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -121,7 +121,7 @@ part of 'default_api.dart';
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -140,7 +140,7 @@ part of 'default_api.dart';
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -173,14 +173,14 @@ part of 'default_api.dart';
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -189,11 +189,10 @@ part of 'default_api.dart';
       headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
-      context: context,
+      context: userContext,
     );
   }
 }
-
 
 
 
@@ -207,10 +206,11 @@ part of 'default_api.dart';
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
 
 
   const DefaultApiFooGetRequest({
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -218,7 +218,7 @@ part of 'default_api.dart';
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -237,7 +237,7 @@ part of 'default_api.dart';
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -270,14 +270,14 @@ part of 'default_api.dart';
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -286,10 +286,13 @@ part of 'default_api.dart';
       headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
-      context: context,
+      context: userContext,
     );
   }
 }
+
+
+
 
 
 
@@ -305,7 +308,7 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
 
   const factory DefaultApiPetsMulticontentTestPostRequest.unsafe({
@@ -313,6 +316,7 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = DefaultApiPetsMulticontentTestPostRequestUnsafe;
 
@@ -320,11 +324,9 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
   const factory DefaultApiPetsMulticontentTestPostRequest.applicationJson({
     required 
             Pet
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -333,11 +335,9 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
   const factory DefaultApiPetsMulticontentTestPostRequest.applicationXml({
     required 
             NewPet
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -346,11 +346,9 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
   const factory DefaultApiPetsMulticontentTestPostRequest.applicationXWwwFormUrlencoded({
     required 
             Triangle
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -359,11 +357,9 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
   const factory DefaultApiPetsMulticontentTestPostRequest.textPlain({
     required 
             int
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -371,11 +367,9 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
   
   const factory DefaultApiPetsMulticontentTestPostRequest.anyAny({
     required Object
-
 ? data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -384,11 +378,9 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
   const factory DefaultApiPetsMulticontentTestPostRequest.textAny({
     required 
             String
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -397,16 +389,12 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
   const factory DefaultApiPetsMulticontentTestPostRequest.multipartFormData({
     required 
             PetsMulticontentTestPostRequest
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
-    AppendFormDataPartHandler? appendUnkownFormDataPart,
-    
     UndefinedWrapper<
             String
-
 > profileImagesHelloHeader,
     
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -415,6 +403,7 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
 
   const DefaultApiPetsMulticontentTestPostRequest({
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -422,7 +411,7 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -441,7 +430,7 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -474,19 +463,19 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -494,8 +483,8 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -514,11 +503,12 @@ class DefaultApiPetsMulticontentTestPostRequestUnsafe extends DefaultApiPetsMult
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -531,6 +521,8 @@ class DefaultApiPetsMulticontentTestPostRequestUnsafe extends DefaultApiPetsMult
 
 
 
+
+
 class DefaultApiPetsMulticontentTestPostRequestApplicationJson extends DefaultApiPetsMulticontentTestPostRequest {
   static const specMediaType = r'application/json';
 
@@ -539,60 +531,50 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationJson extends DefaultAp
 
   final 
             Pet
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+            
+        
+        
+            
+                Pet.$reflection
+        
+;
 
 
   const DefaultApiPetsMulticontentTestPostRequestApplicationJson({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v.serialize();
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        yield* _stringResult(json.encode(serialized));
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
 class DefaultApiPetsMulticontentTestPostRequestApplicationXml extends DefaultApiPetsMulticontentTestPostRequest {
   static const specMediaType = r'application/xml';
 
@@ -601,60 +583,50 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXml extends DefaultApi
 
   final 
             NewPet
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+            
+        
+        
+            
+                NewPet.$reflection
+        
+;
 
 
   const DefaultApiPetsMulticontentTestPostRequestApplicationXml({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v.serialize();
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
 class DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded extends DefaultApiPetsMulticontentTestPostRequest {
   static const specMediaType = r'application/x-www-form-urlencoded';
 
@@ -663,84 +635,58 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded ext
 
   final 
             Triangle
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+            
+        
+        
+            
+                Triangle.$reflection
+        
+;
 
 
   const DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+    r'name': PropertyEncodingRule(
+      style: r'form',
+      explode: true,
+      
+      
+      
+    ),
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v.serialize();
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-      r'name': PropertyEncodingRule(
-        style: r'form',
-        explode: true,
-        
-        
-        
-      ),
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          yield* _stringResult(serialized.toString());
-          return;
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?.style ?? 'form';
-          final explode = rule?.explode ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString = resultString.substring(1);
-        }
-        yield* _stringResult(resultString);
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
 class DefaultApiPetsMulticontentTestPostRequestTextPlain extends DefaultApiPetsMulticontentTestPostRequest {
   static const specMediaType = r'text/plain';
 
@@ -749,58 +695,50 @@ class DefaultApiPetsMulticontentTestPostRequestTextPlain extends DefaultApiPetsM
 
   final 
             int
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+            
+        
+        
+            
+                PrimitiveReflection.forint
+        
+;
 
 
   const DefaultApiPetsMulticontentTestPostRequestTextPlain({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v;
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
 class DefaultApiPetsMulticontentTestPostRequestAnyAny extends DefaultApiPetsMulticontentTestPostRequest {
   static const specMediaType = r'*/*';
 
@@ -808,58 +746,44 @@ class DefaultApiPetsMulticontentTestPostRequestAnyAny extends DefaultApiPetsMult
   String get contentType => specMediaType;
 
   final Object
-
 ? data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = NullableReflection(ObjectReflection()
+);
 
 
   const DefaultApiPetsMulticontentTestPostRequestAnyAny({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v;
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
 class DefaultApiPetsMulticontentTestPostRequestTextAny extends DefaultApiPetsMulticontentTestPostRequest {
   static const specMediaType = r'text/*';
 
@@ -868,58 +792,55 @@ class DefaultApiPetsMulticontentTestPostRequestTextAny extends DefaultApiPetsMul
 
   final 
             String
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+;
 
 
   const DefaultApiPetsMulticontentTestPostRequestTextAny({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v;
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
+
+
+
+
+
 class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends DefaultApiPetsMulticontentTestPostRequest {
   static const specMediaType = r'multipart/form-data';
 
@@ -928,118 +849,72 @@ class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends Default
 
   final 
             PetsMulticontentTestPostRequest
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-  /// Pass this to handle serialization of unkown form data values yourself.
-  /// A value can result in one or more parts.
-  /// returning an empty iterable will skip the field entirely.
-  ///
-  /// The default behavior is to call [defaultAppendFormDataPart] which will call `.toString`
-  /// to stringify the value.
-  final AppendFormDataPartHandler? appendUnkownFormDataPart;
-
-  
+  static const dataReflection = 
+            
+        
+        
+            
+                PetsMulticontentTestPostRequest.$reflection
+        
+;
 
   final UndefinedWrapper<
             String
-
 > profileImagesHelloHeader;
 
   const DefaultApiPetsMulticontentTestPostRequestMultipartFormData({
     required this.data,
-    this.handleUnkownMediaType,
      this.profileImagesHelloHeader= const UndefinedWrapper
         .undefined()
 ,
     
-    this.appendUnkownFormDataPart,
-    
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+    r'address': PropertyEncodingRule(
+      style: r'form',
+      
+      
+      contentType: MediaType.parse(r'application/json'),
+      
+    ),
+    r'profileImages': PropertyEncodingRule(
+      style: r'form',
+      
+      
+      
+      
+      headers: <String, String>{
+      if (profileImagesHelloHeader.isDefined)
+  r'hello': OpenApiParameterSerializationHeader(parameterName: r'hello',explode: false).serialize(profileImagesHelloHeader.valueRequired),
+      },
+      
+    ),
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v.serialize();
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-      r'address': PropertyEncodingRule(
-        style: r'form',
-        
-        
-        contentType: MediaType.parse(r'application/json'),
-        
-      ),
-      r'profileImages': PropertyEncodingRule(
-        style: r'form',
-        
-        
-        
-        
-        headers: <String, String>{
-        if (profileImagesHelloHeader.isDefined)
-  r'hello': OpenApiParameterSerializationHeader(parameterName: r'hello',explode: false).serialize(profileImagesHelloHeader.valueRequired),
-        },
-        
-      ),
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'multipart'):
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-
-        Stream<HttpPacketMixin> getParts() async* {
-          switch (resolvedMediaType.subtype) {
-            case 'form-data':
-              for (final e in serialized.entries) {
-                final fieldName = e.key;
-                final rule = encodingRules[e.key];
-                final value = e.value;
-                final contentType = rule?.contentType;
-                final headers = rule?.headers;
-                yield* appendFormDataValue(fieldName, value, contentType, headers, unkownHandler: this.appendUnkownFormDataPart ?? defaultAppendFormDataPart);
-              }
-            default:
-            
-          }
-        }
-
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: getParts(),
-        );
-        final result = await bodySerializer.serialize();
-        yield* result.bodyBytesStream;
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
 

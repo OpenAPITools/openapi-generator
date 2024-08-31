@@ -6,6 +6,9 @@ part of 'another_fake_api.dart';
 
 
 
+
+
+
 abstract class AnotherFakeApi$123testSpecialTagsRequest {
   static const pathTemplate = r'/another-fake/dummy';
   static String method = r'PATCH';
@@ -14,7 +17,7 @@ abstract class AnotherFakeApi$123testSpecialTagsRequest {
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
 
   const factory AnotherFakeApi$123testSpecialTagsRequest.unsafe({
@@ -22,6 +25,7 @@ abstract class AnotherFakeApi$123testSpecialTagsRequest {
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
+    WireSerializationOptions wireSerializationOptions,
     Stream<Uint8List>? bodyBytesStream,
   }) = AnotherFakeApi$123testSpecialTagsRequestUnsafe;
 
@@ -29,11 +33,9 @@ abstract class AnotherFakeApi$123testSpecialTagsRequest {
   const factory AnotherFakeApi$123testSpecialTagsRequest.applicationJson({
     required 
             Client
-
  data,
-    UnknownMediaTypeHandler? handleUnkownMediaType,
     
-    
+    WireSerializationOptions wireSerializationOptions,
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -42,6 +44,7 @@ abstract class AnotherFakeApi$123testSpecialTagsRequest {
 
   const AnotherFakeApi$123testSpecialTagsRequest({
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -49,7 +52,7 @@ abstract class AnotherFakeApi$123testSpecialTagsRequest {
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -68,7 +71,7 @@ abstract class AnotherFakeApi$123testSpecialTagsRequest {
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -101,19 +104,19 @@ abstract class AnotherFakeApi$123testSpecialTagsRequest {
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -121,8 +124,8 @@ abstract class AnotherFakeApi$123testSpecialTagsRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, headers: headers),
-      context: context,
+      bodyBytesStream: getResolvedBody(userContext: userContext, headers: headers),
+      context: userContext,
     );
   }
 }
@@ -141,11 +144,12 @@ class AnotherFakeApi$123testSpecialTagsRequestUnsafe extends AnotherFakeApi$123t
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
 
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async* {
     final body = this.bodyBytesStream;
     if (body == null) {
@@ -158,6 +162,8 @@ class AnotherFakeApi$123testSpecialTagsRequestUnsafe extends AnotherFakeApi$123t
 
 
 
+
+
 class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFakeApi$123testSpecialTagsRequest {
   static const specMediaType = r'application/json';
 
@@ -166,60 +172,53 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
 
   final 
             Client
-
  data;
-
-  /// Pass this to handle serialization and encoding of unkown media types yourself.
-  final UnknownMediaTypeHandler? handleUnkownMediaType;
-
-
-  
+  static const dataReflection = 
+            
+        
+        
+            
+                Client.$reflection
+        
+;
 
 
   const AnotherFakeApi$123testSpecialTagsRequestApplicationJson({
     required this.data,
-    this.handleUnkownMediaType,
-    
     
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
+    super.wireSerializationOptions,
   });
+
+  Map<String, PropertyEncodingRule> get encodingRules => <String, PropertyEncodingRule>{
+    
+  };
 
   @override
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
-    Map<String, dynamic> context = const {},
-  }) async* {
-    //TODO: serialize model, then encode it according to media type.
+    Map<String, dynamic> userContext = const {},
+  }) {
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
-
+    final wireSerializationOptions = this.wireSerializationOptions.withEncodingRules({...encodingRules, ...this.wireSerializationOptions.encodingRules});
+    final context = wireSerializationOptions.createSerializationContext(resolvedMediaType);
     final v = data;
-    var serialized = v.serialize();
-    final encoding = OASNetworkingUtils.getEncodingOrDefault(resolvedMediaType);
-    Stream<List<int>> _stringResult(String src) {
-      return Stream.value(encoding.encode(src));
-    }
-    final encodingRules = <String, PropertyEncodingRule>{
-      
-    };
-
-    // Since the user can override mime type at runtime, we need to check the
-    // mime type and serialize the model accordingly.
-    switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        yield* _stringResult(json.encode(serialized));
-      default:
-        final handleUnkownMediaType = this.handleUnkownMediaType;
-        if (handleUnkownMediaType != null) {
-          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
-          return;
-        }
-        yield* _stringResult(serialized.toString());
-    }
+    var serialized = dataReflection.serialize(v, context);
+    return wireSerializationOptions.getBodyFromSerialized(
+      headers: headers,
+      serialized: serialized,
+      resolvedMediaType: resolvedMediaType,
+    );
   }
 }
+
+
+
+
+
 
 
 
@@ -232,7 +231,7 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
   /// array integer
   /// spec name: array
@@ -240,9 +239,7 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
     List<
         
             int
-
 >
-
  array;
   
 
@@ -255,6 +252,7 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
         
 ,
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -262,7 +260,7 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -281,7 +279,7 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -316,14 +314,14 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -332,10 +330,13 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
       headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
-      context: context,
+      context: userContext,
     );
   }
 }
+
+
+
 
 
 
@@ -350,13 +351,12 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
   /// string number
   /// spec name: string_number
   final 
             double
-
  stringNumber;
   
 
@@ -365,6 +365,7 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
     
     required this.stringNumber    ,
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -372,7 +373,7 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -391,7 +392,7 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -426,14 +427,14 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -442,10 +443,17 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
       headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
-      context: context,
+      context: userContext,
     );
   }
 }
+
+
+
+
+
+
+
 
 
 
@@ -460,13 +468,12 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
+  final WireSerializationOptions wireSerializationOptions;
   
   /// 
   /// spec name: Accept-Language
   final UndefinedWrapper<
             String
-
 > acceptLanguage;
   
   
@@ -479,6 +486,7 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
 ,
     
     
+    this.wireSerializationOptions = const WireSerializationOptions(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -486,7 +494,7 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
 
   Future<Uri> getResolvedUri({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     var resolvedPath = pathTemplate;
     var methodUri = Uri(path: resolvedPath);
@@ -505,7 +513,7 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
   }
 
   Future<Map<String, String>> getResolvedHeaders({
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
 
     final cookieParts = <String,String>{
@@ -540,14 +548,14 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
-    Map<String, dynamic> context = const {},
+    Map<String, dynamic> userContext = const {},
   }) async {
     final futures = [
       getResolvedUri(
-        context: context,
+        userContext: userContext,
         baseUrl: baseUrl,
       ),
-      getResolvedHeaders(context: context),
+      getResolvedHeaders(userContext: userContext),
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
@@ -556,7 +564,7 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
       headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
-      context: context,
+      context: userContext,
     );
   }
 }

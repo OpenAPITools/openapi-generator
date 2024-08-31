@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'array_test.reflection.dart';
-part 'array_test.serialization.dart';
 
 
 /// ArrayTestMixin
@@ -19,9 +18,7 @@ mixin ArrayTestMixin on
     List<
         
             String
-
 >
-
 > get arrayOfString;
 UndefinedWrapper<
     List<
@@ -29,11 +26,8 @@ UndefinedWrapper<
     List<
         
             int
-
 >
-
 >
-
 > get arrayArrayOfInteger;
 UndefinedWrapper<
     List<
@@ -41,11 +35,8 @@ UndefinedWrapper<
     List<
         
             ReadOnlyFirst
-
 >
-
 >
-
 > get arrayArrayOfModel;
   
 }
@@ -65,9 +56,7 @@ ArrayTestMixin {
     List<
         
             String
-
 >
-
 > arrayOfString;
   @override
   UndefinedWrapper<
@@ -76,11 +65,8 @@ ArrayTestMixin {
     List<
         
             int
-
 >
-
 >
-
 > arrayArrayOfInteger;
   @override
   UndefinedWrapper<
@@ -89,15 +75,11 @@ ArrayTestMixin {
     List<
         
             ReadOnlyFirst
-
 >
-
 >
-
 > arrayArrayOfModel;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -120,9 +102,10 @@ ArrayTestMixin {
   this.arrayArrayOfModel = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = ArrayTestReflection.instance;
   ArrayTestReflection get $classReflection => $reflection;
@@ -132,45 +115,35 @@ ArrayTestMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$ArrayTestToMap(this);
-  }
-  factory ArrayTest.fromMap(Map<String, dynamic> src) {
-    return _$ArrayTestFromMap(src);
-  }
-  static ArrayTest? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return ArrayTest.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$ArrayTestCanFromMap(src);
+  factory ArrayTest.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory ArrayTest.deserialize(Object? src) {
-    return _$ArrayTestDeserialize(src);
-  }
-  static ArrayTest? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return ArrayTest.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$ArrayTestCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$ArrayTestSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'grandparent_animal.reflection.dart';
-part 'grandparent_animal.serialization.dart';
 
 
 /// GrandparentAnimalMixin
@@ -15,7 +14,6 @@ mixin GrandparentAnimalMixin on
   $OpenApiObjectMixin {
   
             String
-
  get petType;
   
 }
@@ -31,11 +29,9 @@ GrandparentAnimalMixin {
   @override
   
             String
-
  petType;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -48,9 +44,10 @@ GrandparentAnimalMixin {
 
   GrandparentAnimal({
     required  this.petType     ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = GrandparentAnimalReflection.instance;
   GrandparentAnimalReflection get $classReflection => $reflection;
@@ -60,45 +57,19 @@ GrandparentAnimalMixin {
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$GrandparentAnimalToMap(this);
-  }
-  factory GrandparentAnimal.fromMap(Map<String, dynamic> src) {
-    return _$GrandparentAnimalFromMap(src);
-  }
-  static GrandparentAnimal? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return GrandparentAnimal.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$GrandparentAnimalCanFromMap(src);
+  factory GrandparentAnimal.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory GrandparentAnimal.deserialize(Object? src) {
-    return _$GrandparentAnimalDeserialize(src);
-  }
-  static GrandparentAnimal? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return GrandparentAnimal.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$GrandparentAnimalCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$GrandparentAnimalSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
 
 
 

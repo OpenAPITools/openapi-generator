@@ -5,14 +5,15 @@ part of 'pig.dart';
 
 //class reflection
 
-class PigReflection extends ClassReflection<Pig> {
+class PigReflection extends ModelReflection<Pig> {
   static PigReflection instanceGetter() => instance;
   static const instance = PigReflection._(
     modelName: r'Pig',
     className: r'Pig',
+    xml: const XmlReflection(
+),
     classNamePart: PropertyReflection<Pig, 
             String
-
 >(
       dartName: r'className',
       nullable: false,
@@ -22,8 +23,18 @@ class PigReflection extends ClassReflection<Pig> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: true,
-      getter: _classNameGetter,
-      setter: _classNameSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_classNameGetter),
+      setter: FunctionWrapper2(_classNameSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
     discriminatorKey: r'className',
     discriminatorImplicitMappings: const {
@@ -36,26 +47,26 @@ class PigReflection extends ClassReflection<Pig> {
     },
     
     
-    oneOf0Part: PigOneOf0(
+    oneOf0Part: PigOneOf0Part(
       parentReflectionGetter: instanceGetter,
-      classReflection: BasquePigReflection.instance,
     ),
     
-    oneOf1Part: PigOneOf1(
+    oneOf1Part: PigOneOf1Part(
       parentReflectionGetter: instanceGetter,
-      classReflection: DanishPigReflection.instance,
     ),
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<Pig, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const PigReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.classNamePart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
@@ -70,55 +81,57 @@ class PigReflection extends ClassReflection<Pig> {
 
   final PropertyReflection<Pig, 
             String
-
 > classNamePart;
   static 
             String
-
  _classNameGetter(Pig parent) {
     return parent.className;
   }
   static void _classNameSetter(Pig parent, 
             String
-
  value) {
     parent.className = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<Pig, dynamic>> get properties => [
     classNamePart,
   ];
 
-  final AdditionalPropertiesReflection<Pig, Object
-
-?> additionalPropertiesPart;
-
-  
-  
-  final PigOneOf0 oneOf0Part;
-  
-  final PigOneOf1 oneOf1Part;
-  
   @override
-  List<PartReflection<Pig, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<Pig, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(Pig instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(Pig instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+  final PigOneOf0Part oneOf0Part;
+  
+  final PigOneOf1Part oneOf1Part;
+  
+
   @override
   List<AllOfReflection<Pig, dynamic>> get allOfs => [
     
@@ -133,85 +146,63 @@ class PigReflection extends ClassReflection<Pig> {
     
   ];
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => Pig.canDeserialize(src);
-  @override
-  Pig Function(Object? src) get deserializeFunction =>
-      (src) => Pig.deserialize(src);
-
-  @override
-  Object? Function(Pig src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of Pig.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  Pig example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = Pig(
-      className: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[classNamePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  Pig empty() {
+    return Pig(
+      className: classNamePart.reflection.emptyFunction(),
     );
-    
-    exampleResult.oneOf0 = oneOf0Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
-    
-    exampleResult.oneOf1 = oneOf1Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
-    
-    return exampleResult;
   }
 }
 
 
-class PigOneOf0 extends OneOfReflection<Pig, 
+class PigOneOf0Part extends OneOfReflection<Pig, 
             BasquePig
 > {
-  const PigOneOf0({
-    super.classReflection,
-    required PigReflection Function() super.parentReflectionGetter,
-    super.itemsReflection,
-  });
+
+  const PigOneOf0Part({
+  required PigReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+            BasquePig
+>, Pig> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, Pig, UndefinedWrapper<
+            BasquePig
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+            BasquePig
+> _getter(Pig src) {
+  return src.oneOf0;
+}
+static void _setter(Pig src, UndefinedWrapper<
+            BasquePig
+> value) {
+  src.oneOf0 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+            BasquePig
+> get reflection => UndefinedWrapperReflection(
+            
+        
+        
+            
+                BasquePig.$reflection
+        
+);
 
   UndefinedWrapper<
             BasquePig
-> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
     if (discriminatorExampleResults.isEmpty) {
       //return undefined for non-first oneOfs.
       // An example SHOULD be generated
@@ -219,36 +210,63 @@ class PigOneOf0 extends OneOfReflection<Pig,
       // if this reflection wasn't a result of any property, don't generate an example.
 
       if (!discriminatorExampleResults.values
-          .any((e) => e.value == classReflection)) {
+          .any((e) => e.value == reflection.subReflection)) {
         // if there are no discriminator examples targetting the current class:
         return UndefinedWrapper.undefined();
       } else {
         // An example SHOULD be generated
       }
     }
-    return UndefinedWrapper(
-            
-            
-
-
-    BasquePigReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
-    
-);
+    return reflection.example();
   }
 }
 
-class PigOneOf1 extends OneOfReflection<Pig, 
+class PigOneOf1Part extends OneOfReflection<Pig, 
             DanishPig
 > {
-  const PigOneOf1({
-    super.classReflection,
-    required PigReflection Function() super.parentReflectionGetter,
-    super.itemsReflection,
-  });
+
+  const PigOneOf1Part({
+  required PigReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+            DanishPig
+>, Pig> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, Pig, UndefinedWrapper<
+            DanishPig
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+            DanishPig
+> _getter(Pig src) {
+  return src.oneOf1;
+}
+static void _setter(Pig src, UndefinedWrapper<
+            DanishPig
+> value) {
+  src.oneOf1 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+            DanishPig
+> get reflection => UndefinedWrapperReflection(
+            
+        
+        
+            
+                DanishPig.$reflection
+        
+);
 
   UndefinedWrapper<
             DanishPig
-> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
     if (discriminatorExampleResults.isEmpty) {
       //return undefined for non-first oneOfs.
       return UndefinedWrapper.undefined();
@@ -256,25 +274,14 @@ class PigOneOf1 extends OneOfReflection<Pig,
       // if this reflection wasn't a result of any property, don't generate an example.
 
       if (!discriminatorExampleResults.values
-          .any((e) => e.value == classReflection)) {
+          .any((e) => e.value == reflection.subReflection)) {
         // if there are no discriminator examples targetting the current class:
         return UndefinedWrapper.undefined();
       } else {
         // An example SHOULD be generated
       }
     }
-    return UndefinedWrapper(
-            
-            
-
-
-    DanishPigReflection.instance.example(discriminators: discriminators, discriminatorExampleResults: discriminatorExampleResults)
-    
-);
+    return reflection.example();
   }
-}
-
-class PigXmlReflection {
-    const PigXmlReflection();
 }
 

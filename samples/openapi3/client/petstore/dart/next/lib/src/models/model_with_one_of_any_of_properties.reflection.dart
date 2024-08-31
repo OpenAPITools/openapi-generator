@@ -5,14 +5,15 @@ part of 'model_with_one_of_any_of_properties.dart';
 
 //class reflection
 
-class ModelWithOneOfAnyOfPropertiesReflection extends ClassReflection<ModelWithOneOfAnyOfProperties> {
+class ModelWithOneOfAnyOfPropertiesReflection extends ModelReflection<ModelWithOneOfAnyOfProperties> {
   static ModelWithOneOfAnyOfPropertiesReflection instanceGetter() => instance;
   static const instance = ModelWithOneOfAnyOfPropertiesReflection._(
     modelName: r'ModelWithOneOfAnyOfProperties',
     className: r'ModelWithOneOfAnyOfProperties',
+    xml: const XmlReflection(
+),
     oneofPropPart: PropertyReflection<ModelWithOneOfAnyOfProperties, UndefinedWrapper<
             ArrayOneOf
-
 >>(
       dartName: r'oneofProp',
       nullable: false,
@@ -22,13 +23,21 @@ class ModelWithOneOfAnyOfPropertiesReflection extends ClassReflection<ModelWithO
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      classReflection: ArrayOneOfReflection.instance,
-      getter: _oneofPropGetter,
-      setter: _oneofPropSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_oneofPropGetter),
+      setter: FunctionWrapper2(_oneofPropSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                ArrayOneOf.$reflection
+        
+),
     ),
     anyofPropPart: PropertyReflection<ModelWithOneOfAnyOfProperties, UndefinedWrapper<
             ArrayAnyOf
-
 >>(
       dartName: r'anyofProp',
       nullable: false,
@@ -38,22 +47,33 @@ class ModelWithOneOfAnyOfPropertiesReflection extends ClassReflection<ModelWithO
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      classReflection: ArrayAnyOfReflection.instance,
-      getter: _anyofPropGetter,
-      setter: _anyofPropSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_anyofPropGetter),
+      setter: FunctionWrapper2(_anyofPropSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                ArrayAnyOf.$reflection
+        
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<ModelWithOneOfAnyOfProperties, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const ModelWithOneOfAnyOfPropertiesReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.oneofPropPart,
     required this.anyofPropPart,
     this.discriminatorKey,
@@ -65,50 +85,45 @@ class ModelWithOneOfAnyOfPropertiesReflection extends ClassReflection<ModelWithO
 
   final PropertyReflection<ModelWithOneOfAnyOfProperties, UndefinedWrapper<
             ArrayOneOf
-
 >> oneofPropPart;
   static UndefinedWrapper<
             ArrayOneOf
-
 > _oneofPropGetter(ModelWithOneOfAnyOfProperties parent) {
     return parent.oneofProp;
   }
   static void _oneofPropSetter(ModelWithOneOfAnyOfProperties parent, UndefinedWrapper<
             ArrayOneOf
-
 > value) {
     parent.oneofProp = value;
   }
+
   final PropertyReflection<ModelWithOneOfAnyOfProperties, UndefinedWrapper<
             ArrayAnyOf
-
 >> anyofPropPart;
   static UndefinedWrapper<
             ArrayAnyOf
-
 > _anyofPropGetter(ModelWithOneOfAnyOfProperties parent) {
     return parent.anyofProp;
   }
   static void _anyofPropSetter(ModelWithOneOfAnyOfProperties parent, UndefinedWrapper<
             ArrayAnyOf
-
 > value) {
     parent.anyofProp = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<ModelWithOneOfAnyOfProperties, dynamic>> get properties => [
@@ -116,98 +131,35 @@ class ModelWithOneOfAnyOfPropertiesReflection extends ClassReflection<ModelWithO
 anyofPropPart,
   ];
 
-  final AdditionalPropertiesReflection<ModelWithOneOfAnyOfProperties, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<ModelWithOneOfAnyOfProperties, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<ModelWithOneOfAnyOfProperties, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(ModelWithOneOfAnyOfProperties instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(ModelWithOneOfAnyOfProperties instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<ModelWithOneOfAnyOfProperties, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => ModelWithOneOfAnyOfProperties.canDeserialize(src);
-  @override
-  ModelWithOneOfAnyOfProperties Function(Object? src) get deserializeFunction =>
-      (src) => ModelWithOneOfAnyOfProperties.deserialize(src);
-
-  @override
-  Object? Function(ModelWithOneOfAnyOfProperties src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of ModelWithOneOfAnyOfProperties.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  ModelWithOneOfAnyOfProperties example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = ModelWithOneOfAnyOfProperties(
-      oneofProp: () {
-        var result = 
-
-
-            
-            
-
-
-    ArrayOneOfReflection.instance.example()
-    
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      anyofProp: () {
-        var result = 
-
-
-            
-            
-
-
-    ArrayAnyOfReflection.instance.example()
-    
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  ModelWithOneOfAnyOfProperties empty() {
+    return ModelWithOneOfAnyOfProperties(
     );
-    
-    return exampleResult;
   }
 }
 
-
-class ModelWithOneOfAnyOfPropertiesXmlReflection {
-    const ModelWithOneOfAnyOfPropertiesXmlReflection();
-}
 

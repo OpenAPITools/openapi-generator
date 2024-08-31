@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'new_pet.reflection.dart';
-part 'new_pet.serialization.dart';
 
 
 /// NewPetMixin
@@ -21,39 +20,30 @@ mixin NewPetMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
-
 > get id;
 UndefinedWrapper<
             NewPetCategoryInlineAllof
-
 > get categoryInlineAllof;
 UndefinedWrapper<
             Category
-
 > get categoryAllOfRef;
 
             String
-
  get name;
 
     List<
         
             String
-
 >
-
  get photoUrls;
 UndefinedWrapper<
     List<
         
             Tag
-
 >
-
 > get tags;
 UndefinedWrapper<
             NewPetStatusEnum
-
 > get status;
   
 }
@@ -75,49 +65,39 @@ NewPetMixin {
   @override
   UndefinedWrapper<
             int
-
 > id;
   @override
   UndefinedWrapper<
             NewPetCategoryInlineAllof
-
 > categoryInlineAllof;
   @override
   UndefinedWrapper<
             Category
-
 > categoryAllOfRef;
   @override
   
             String
-
  name;
   @override
   
     List<
         
             String
-
 >
-
  photoUrls;
   @override
   UndefinedWrapper<
     List<
         
             Tag
-
 >
-
 > tags;
   @override
   UndefinedWrapper<
             NewPetStatusEnum
-
 > status;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -152,9 +132,10 @@ required  this.photoUrls     ,
   this.status = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = NewPetReflection.instance;
   NewPetReflection get $classReflection => $reflection;
@@ -164,45 +145,38 @@ required  this.photoUrls     ,
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$NewPetToMap(this);
-  }
-  factory NewPet.fromMap(Map<String, dynamic> src) {
-    return _$NewPetFromMap(src);
-  }
-  static NewPet? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return NewPet.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$NewPetCanFromMap(src);
+  factory NewPet.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory NewPet.deserialize(Object? src) {
-    return _$NewPetDeserialize(src);
-  }
-  static NewPet? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return NewPet.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$NewPetCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$NewPetSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -224,8 +198,29 @@ extension type const NewPetStatusEnum._(String value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is String && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<NewPetStatusEnum, String>(
+    PrimitiveReflection.forString,
+    members: [
+      
+        EnumMemberReflection(dartName: r'available', oasValue: r'available', value: NewPetStatusEnum.available()),
+      
+        EnumMemberReflection(dartName: r'pending', oasValue: r'pending', value: NewPetStatusEnum.pending()),
+      
+        EnumMemberReflection(dartName: r'sold', oasValue: r'sold', value: NewPetStatusEnum.sold()),
+      
+    ],
+  );
+
+  factory NewPetStatusEnum.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [NewPetStatusEnum] enum from a value without checking if it exists.
@@ -239,4 +234,5 @@ extension type const NewPetStatusEnum._(String value) {
     
   ];
 }
+
 

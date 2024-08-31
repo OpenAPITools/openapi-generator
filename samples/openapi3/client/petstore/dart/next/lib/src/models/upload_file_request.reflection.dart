@@ -5,14 +5,15 @@ part of 'upload_file_request.dart';
 
 //class reflection
 
-class UploadFileRequestReflection extends ClassReflection<UploadFileRequest> {
+class UploadFileRequestReflection extends ModelReflection<UploadFileRequest> {
   static UploadFileRequestReflection instanceGetter() => instance;
   static const instance = UploadFileRequestReflection._(
     modelName: r'uploadFile_request',
     className: r'UploadFileRequest',
+    xml: const XmlReflection(
+),
     additionalMetadataPart: PropertyReflection<UploadFileRequest, UndefinedWrapper<
             String
-
 >>(
       dartName: r'additionalMetadata',
       nullable: false,
@@ -22,12 +23,21 @@ class UploadFileRequestReflection extends ClassReflection<UploadFileRequest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _additionalMetadataGetter,
-      setter: _additionalMetadataSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_additionalMetadataGetter),
+      setter: FunctionWrapper2(_additionalMetadataSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     filePart: PropertyReflection<UploadFileRequest, UndefinedWrapper<
             XFile
-
 >>(
       dartName: r'file',
       nullable: false,
@@ -37,21 +47,33 @@ class UploadFileRequestReflection extends ClassReflection<UploadFileRequest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _fileGetter,
-      setter: _fileSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_fileGetter),
+      setter: FunctionWrapper2(_fileSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forXFile
+        
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<UploadFileRequest, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const UploadFileRequestReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.additionalMetadataPart,
     required this.filePart,
     this.discriminatorKey,
@@ -63,50 +85,45 @@ class UploadFileRequestReflection extends ClassReflection<UploadFileRequest> {
 
   final PropertyReflection<UploadFileRequest, UndefinedWrapper<
             String
-
 >> additionalMetadataPart;
   static UndefinedWrapper<
             String
-
 > _additionalMetadataGetter(UploadFileRequest parent) {
     return parent.additionalMetadata;
   }
   static void _additionalMetadataSetter(UploadFileRequest parent, UndefinedWrapper<
             String
-
 > value) {
     parent.additionalMetadata = value;
   }
+
   final PropertyReflection<UploadFileRequest, UndefinedWrapper<
             XFile
-
 >> filePart;
   static UndefinedWrapper<
             XFile
-
 > _fileGetter(UploadFileRequest parent) {
     return parent.file;
   }
   static void _fileSetter(UploadFileRequest parent, UndefinedWrapper<
             XFile
-
 > value) {
     parent.file = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<UploadFileRequest, dynamic>> get properties => [
@@ -114,102 +131,35 @@ class UploadFileRequestReflection extends ClassReflection<UploadFileRequest> {
 filePart,
   ];
 
-  final AdditionalPropertiesReflection<UploadFileRequest, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<UploadFileRequest, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<UploadFileRequest, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(UploadFileRequest instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(UploadFileRequest instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<UploadFileRequest, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => UploadFileRequest.canDeserialize(src);
-  @override
-  UploadFileRequest Function(Object? src) get deserializeFunction =>
-      (src) => UploadFileRequest.deserialize(src);
-
-  @override
-  Object? Function(UploadFileRequest src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of UploadFileRequest.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  UploadFileRequest example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = UploadFileRequest(
-      additionalMetadata: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[additionalMetadataPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      file: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleXFile()
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  UploadFileRequest empty() {
+    return UploadFileRequest(
     );
-    
-    return exampleResult;
   }
 }
 
-
-class UploadFileRequestXmlReflection {
-    const UploadFileRequestXmlReflection();
-}
 

@@ -5,14 +5,15 @@ part of 'drawing.dart';
 
 //class reflection
 
-class DrawingReflection extends ClassReflection<Drawing> {
+class DrawingReflection extends ModelReflection<Drawing> {
   static DrawingReflection instanceGetter() => instance;
   static const instance = DrawingReflection._(
     modelName: r'Drawing',
     className: r'Drawing',
+    xml: const XmlReflection(
+),
     mainShapePart: PropertyReflection<Drawing, UndefinedWrapper<
             Shape
-
 >>(
       dartName: r'mainShape',
       nullable: false,
@@ -22,13 +23,21 @@ class DrawingReflection extends ClassReflection<Drawing> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      classReflection: ShapeReflection.instance,
-      getter: _mainShapeGetter,
-      setter: _mainShapeSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_mainShapeGetter),
+      setter: FunctionWrapper2(_mainShapeSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                Shape.$reflection
+        
+),
     ),
     shapeOrNullPart: PropertyReflection<Drawing, UndefinedWrapper<
             ShapeOrNull
-
 >>(
       dartName: r'shapeOrNull',
       nullable: false,
@@ -38,13 +47,21 @@ class DrawingReflection extends ClassReflection<Drawing> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      classReflection: ShapeOrNullReflection.instance,
-      getter: _shapeOrNullGetter,
-      setter: _shapeOrNullSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_shapeOrNullGetter),
+      setter: FunctionWrapper2(_shapeOrNullSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                ShapeOrNull.$reflection
+        
+),
     ),
     nullableShapePart: PropertyReflection<Drawing, UndefinedWrapper<
             NullableShape
-
 ?>>(
       dartName: r'nullableShape',
       nullable: true,
@@ -54,17 +71,24 @@ class DrawingReflection extends ClassReflection<Drawing> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      classReflection: NullableShapeReflection.instance,
-      getter: _nullableShapeGetter,
-      setter: _nullableShapeSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_nullableShapeGetter),
+      setter: FunctionWrapper2(_nullableShapeSetter),
+      reflection: UndefinedWrapperReflection(NullableReflection(
+            
+        
+        
+            
+                NullableShape.$reflection
+        
+)),
     ),
     shapesPart: PropertyReflection<Drawing, UndefinedWrapper<
     List<
         
             Shape
-
 >
-
 >>(
       dartName: r'shapes',
       nullable: false,
@@ -74,27 +98,41 @@ class DrawingReflection extends ClassReflection<Drawing> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      itemsReflection: ItemsReflection<Drawing, 
-            Shape
-
->(parentReflectionGetter: instanceGetter,classReflection: ShapeReflection.instance,),
-      getter: _shapesGetter,
-      setter: _shapesSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_shapesGetter),
+      setter: FunctionWrapper2(_shapesSetter),
+      reflection: UndefinedWrapperReflection(
+    ListReflection(
+            
+        
+        
+            
+                Shape.$reflection
+        
+)
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<Drawing, 
-            Fruit
-
->(parentReflectionGetter: instanceGetter,classReflection: FruitReflection.instance,),
-      classReflection: FruitReflection.instance,
+      itemReflection: 
+            
+        
+        
+            
+                Fruit.$reflection
+        
+,
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
   );
   const DrawingReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.mainShapePart,
     required this.shapeOrNullPart,
     required this.nullableShapePart,
@@ -108,67 +146,57 @@ class DrawingReflection extends ClassReflection<Drawing> {
 
   final PropertyReflection<Drawing, UndefinedWrapper<
             Shape
-
 >> mainShapePart;
   static UndefinedWrapper<
             Shape
-
 > _mainShapeGetter(Drawing parent) {
     return parent.mainShape;
   }
   static void _mainShapeSetter(Drawing parent, UndefinedWrapper<
             Shape
-
 > value) {
     parent.mainShape = value;
   }
+
   final PropertyReflection<Drawing, UndefinedWrapper<
             ShapeOrNull
-
 >> shapeOrNullPart;
   static UndefinedWrapper<
             ShapeOrNull
-
 > _shapeOrNullGetter(Drawing parent) {
     return parent.shapeOrNull;
   }
   static void _shapeOrNullSetter(Drawing parent, UndefinedWrapper<
             ShapeOrNull
-
 > value) {
     parent.shapeOrNull = value;
   }
+
   final PropertyReflection<Drawing, UndefinedWrapper<
             NullableShape
-
 ?>> nullableShapePart;
   static UndefinedWrapper<
             NullableShape
-
 ?> _nullableShapeGetter(Drawing parent) {
     return parent.nullableShape;
   }
   static void _nullableShapeSetter(Drawing parent, UndefinedWrapper<
             NullableShape
-
 ?> value) {
     parent.nullableShape = value;
   }
+
   final PropertyReflection<Drawing, UndefinedWrapper<
     List<
         
             Shape
-
 >
-
 >> shapesPart;
   static UndefinedWrapper<
     List<
         
             Shape
-
 >
-
 > _shapesGetter(Drawing parent) {
     return parent.shapes;
   }
@@ -176,26 +204,24 @@ class DrawingReflection extends ClassReflection<Drawing> {
     List<
         
             Shape
-
 >
-
 > value) {
     parent.shapes = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<Drawing, dynamic>> get properties => [
@@ -205,141 +231,38 @@ nullableShapePart,
 shapesPart,
   ];
 
-  final AdditionalPropertiesReflection<Drawing, 
-            Fruit
-
-> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<Drawing, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<Drawing, 
+            Fruit
+>? additionalPropertiesPart;
+
+  static AdditionalProperties<
+            Fruit
+> _AdditionalPropertiesGetter(Drawing instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(Drawing instance, AdditionalProperties<
+            Fruit
+> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<Drawing, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => Drawing.canDeserialize(src);
-  @override
-  Drawing Function(Object? src) get deserializeFunction =>
-      (src) => Drawing.deserialize(src);
-
-  @override
-  Object? Function(Drawing src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of Drawing.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  Drawing example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = Drawing(
-      mainShape: () {
-        var result = 
-
-
-            
-            
-
-
-    ShapeReflection.instance.example()
-    
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      shapeOrNull: () {
-        var result = 
-
-
-            
-            
-
-
-    ShapeOrNullReflection.instance.example()
-    
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      nullableShape: () {
-        var result = exampleNullable(() =>
-
-
-            
-            
-
-
-    NullableShapeReflection.instance.example()
-    
-
-
- ) ;
-        return UndefinedWrapper(result);
-      } (),
-      shapes: () {
-        var result = 
-
-
-    exampleList(() { return 
-
-
-            
-            
-
-
-    ShapeReflection.instance.example()
-    
-
-
-; })
-
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => 
-
-
-            
-            
-
-
-    FruitReflection.instance.example()
-    
-
-
-)); }(),
+  Drawing empty() {
+    return Drawing(
     );
-    
-    return exampleResult;
   }
 }
 
-
-class DrawingXmlReflection {
-    const DrawingXmlReflection();
-}
 

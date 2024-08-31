@@ -5,14 +5,15 @@ part of 'test_json_form_data_request.dart';
 
 //class reflection
 
-class TestJsonFormDataRequestReflection extends ClassReflection<TestJsonFormDataRequest> {
+class TestJsonFormDataRequestReflection extends ModelReflection<TestJsonFormDataRequest> {
   static TestJsonFormDataRequestReflection instanceGetter() => instance;
   static const instance = TestJsonFormDataRequestReflection._(
     modelName: r'testJsonFormData_request',
     className: r'TestJsonFormDataRequest',
+    xml: const XmlReflection(
+),
     paramPart: PropertyReflection<TestJsonFormDataRequest, 
             String
-
 >(
       dartName: r'param',
       nullable: false,
@@ -22,12 +23,21 @@ class TestJsonFormDataRequestReflection extends ClassReflection<TestJsonFormData
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _paramGetter,
-      setter: _paramSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_paramGetter),
+      setter: FunctionWrapper2(_paramSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
     param2Part: PropertyReflection<TestJsonFormDataRequest, 
             String
-
 >(
       dartName: r'param2',
       nullable: false,
@@ -37,21 +47,33 @@ class TestJsonFormDataRequestReflection extends ClassReflection<TestJsonFormData
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _param2Getter,
-      setter: _param2Setter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_param2Getter),
+      setter: FunctionWrapper2(_param2Setter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<TestJsonFormDataRequest, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const TestJsonFormDataRequestReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.paramPart,
     required this.param2Part,
     this.discriminatorKey,
@@ -63,50 +85,45 @@ class TestJsonFormDataRequestReflection extends ClassReflection<TestJsonFormData
 
   final PropertyReflection<TestJsonFormDataRequest, 
             String
-
 > paramPart;
   static 
             String
-
  _paramGetter(TestJsonFormDataRequest parent) {
     return parent.param;
   }
   static void _paramSetter(TestJsonFormDataRequest parent, 
             String
-
  value) {
     parent.param = value;
   }
+
   final PropertyReflection<TestJsonFormDataRequest, 
             String
-
 > param2Part;
   static 
             String
-
  _param2Getter(TestJsonFormDataRequest parent) {
     return parent.param2;
   }
   static void _param2Setter(TestJsonFormDataRequest parent, 
             String
-
  value) {
     parent.param2 = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<TestJsonFormDataRequest, dynamic>> get properties => [
@@ -114,106 +131,37 @@ class TestJsonFormDataRequestReflection extends ClassReflection<TestJsonFormData
 param2Part,
   ];
 
-  final AdditionalPropertiesReflection<TestJsonFormDataRequest, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<TestJsonFormDataRequest, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<TestJsonFormDataRequest, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(TestJsonFormDataRequest instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(TestJsonFormDataRequest instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<TestJsonFormDataRequest, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => TestJsonFormDataRequest.canDeserialize(src);
-  @override
-  TestJsonFormDataRequest Function(Object? src) get deserializeFunction =>
-      (src) => TestJsonFormDataRequest.deserialize(src);
-
-  @override
-  Object? Function(TestJsonFormDataRequest src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of TestJsonFormDataRequest.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  TestJsonFormDataRequest example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = TestJsonFormDataRequest(
-      param: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[paramPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      param2: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[param2Part.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  TestJsonFormDataRequest empty() {
+    return TestJsonFormDataRequest(
+      param: paramPart.reflection.emptyFunction(),
+      param2: param2Part.reflection.emptyFunction(),
     );
-    
-    return exampleResult;
   }
 }
 
-
-class TestJsonFormDataRequestXmlReflection {
-    const TestJsonFormDataRequestXmlReflection();
-}
 

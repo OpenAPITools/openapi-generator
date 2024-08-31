@@ -5,35 +5,39 @@ part of 'scalar_any_of.dart';
 
 //class reflection
 
-class ScalarAnyOfReflection extends ClassReflection<ScalarAnyOf> {
+class ScalarAnyOfReflection extends ModelReflection<ScalarAnyOf> {
   static ScalarAnyOfReflection instanceGetter() => instance;
   static const instance = ScalarAnyOfReflection._(
     modelName: r'ScalarAnyOf',
     className: r'ScalarAnyOf',
+    xml: const XmlReflection(
+),
     
     
-    anyOf0Part: ScalarAnyOfAnyOf0(
+    anyOf0Part: ScalarAnyOfAnyOf0Part(
       parentReflectionGetter: instanceGetter,
-          ),
+    ),
     
-    anyOf1Part: ScalarAnyOfAnyOf1(
+    anyOf1Part: ScalarAnyOfAnyOf1Part(
       parentReflectionGetter: instanceGetter,
-          ),
+    ),
     
-    anyOf2Part: ScalarAnyOfAnyOf2(
+    anyOf2Part: ScalarAnyOfAnyOf2Part(
       parentReflectionGetter: instanceGetter,
-          ),
+    ),
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<ScalarAnyOf, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const ScalarAnyOfReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
     this.discriminatorImplicitMappings = const {},
@@ -48,41 +52,45 @@ class ScalarAnyOfReflection extends ClassReflection<ScalarAnyOf> {
   });
 
 
-
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<ScalarAnyOf, dynamic>> get properties => [
       ];
 
-  final AdditionalPropertiesReflection<ScalarAnyOf, Object
-
-?> additionalPropertiesPart;
-
-  
-  
-  final ScalarAnyOfAnyOf0 anyOf0Part;
-  
-  final ScalarAnyOfAnyOf1 anyOf1Part;
-  
-  final ScalarAnyOfAnyOf2 anyOf2Part;
-  
   @override
-  List<PartReflection<ScalarAnyOf, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<ScalarAnyOf, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(ScalarAnyOf instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(ScalarAnyOf instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+  final ScalarAnyOfAnyOf0Part anyOf0Part;
+  
+  final ScalarAnyOfAnyOf1Part anyOf1Part;
+  
+  final ScalarAnyOfAnyOf2Part anyOf2Part;
+  
+
   @override
   List<AllOfReflection<ScalarAnyOf, dynamic>> get allOfs => [
     
@@ -97,141 +105,178 @@ class ScalarAnyOfReflection extends ClassReflection<ScalarAnyOf> {
     anyOf0Part,anyOf1Part,anyOf2Part,
   ];
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => ScalarAnyOf.canDeserialize(src);
-  @override
-  ScalarAnyOf Function(Object? src) get deserializeFunction =>
-      (src) => ScalarAnyOf.deserialize(src);
-
-  @override
-  Object? Function(ScalarAnyOf src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of ScalarAnyOf.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  ScalarAnyOf example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = ScalarAnyOf(
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  ScalarAnyOf empty() {
+    return ScalarAnyOf(
     );
-    
-    exampleResult.anyOf0 = anyOf0Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
-    
-    exampleResult.anyOf1 = anyOf1Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
-    
-    exampleResult.anyOf2 = anyOf2Part.example(discriminators: actualDiscriminators, discriminatorExampleResults: discriminatorExampleResults);
-    
-    return exampleResult;
   }
 }
 
-class ScalarAnyOfAnyOf0 extends AnyOfReflection<ScalarAnyOf, 
+class ScalarAnyOfAnyOf0Part extends AnyOfReflection<ScalarAnyOf, 
             String
 > {
-  const ScalarAnyOfAnyOf0({
-    super.classReflection,
-    required ScalarAnyOfReflection Function() super.parentReflectionGetter,
-    super.itemsReflection,
-  });
+
+  const ScalarAnyOfAnyOf0Part({
+  required ScalarAnyOfReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+            String
+>, ScalarAnyOf> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, ScalarAnyOf, UndefinedWrapper<
+            String
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+            String
+> _getter(ScalarAnyOf src) {
+  return src.anyOf0;
+}
+static void _setter(ScalarAnyOf src, UndefinedWrapper<
+            String
+> value) {
+  src.anyOf0 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+            String
+> get reflection => UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+);
 
   UndefinedWrapper<
             String
-> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
     if (discriminatorExampleResults.isNotEmpty) {
       if (!discriminatorExampleResults.values
-          .any((e) => e.value == classReflection)) {
+          .any((e) => e.value == reflection.subReflection)) {
         return UndefinedWrapper.undefined();
       }
     }
-    return UndefinedWrapper(
-            
-            
-
-
-    
-    exampleString()
-);
+    return reflection.example();
   }
 }
-class ScalarAnyOfAnyOf1 extends AnyOfReflection<ScalarAnyOf, 
+class ScalarAnyOfAnyOf1Part extends AnyOfReflection<ScalarAnyOf, 
             num
 > {
-  const ScalarAnyOfAnyOf1({
-    super.classReflection,
-    required ScalarAnyOfReflection Function() super.parentReflectionGetter,
-    super.itemsReflection,
-  });
+
+  const ScalarAnyOfAnyOf1Part({
+  required ScalarAnyOfReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+            num
+>, ScalarAnyOf> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, ScalarAnyOf, UndefinedWrapper<
+            num
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+            num
+> _getter(ScalarAnyOf src) {
+  return src.anyOf1;
+}
+static void _setter(ScalarAnyOf src, UndefinedWrapper<
+            num
+> value) {
+  src.anyOf1 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+            num
+> get reflection => UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.fornum
+        
+);
 
   UndefinedWrapper<
             num
-> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
     if (discriminatorExampleResults.isNotEmpty) {
       if (!discriminatorExampleResults.values
-          .any((e) => e.value == classReflection)) {
+          .any((e) => e.value == reflection.subReflection)) {
         return UndefinedWrapper.undefined();
       }
     }
-    return UndefinedWrapper(
-            
-            
-
-
-    
-    examplenum()
-);
+    return reflection.example();
   }
 }
-class ScalarAnyOfAnyOf2 extends AnyOfReflection<ScalarAnyOf, 
+class ScalarAnyOfAnyOf2Part extends AnyOfReflection<ScalarAnyOf, 
             bool
 > {
-  const ScalarAnyOfAnyOf2({
-    super.classReflection,
-    required ScalarAnyOfReflection Function() super.parentReflectionGetter,
-    super.itemsReflection,
-  });
+
+  const ScalarAnyOfAnyOf2Part({
+  required ScalarAnyOfReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+            bool
+>, ScalarAnyOf> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, ScalarAnyOf, UndefinedWrapper<
+            bool
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+            bool
+> _getter(ScalarAnyOf src) {
+  return src.anyOf2;
+}
+static void _setter(ScalarAnyOf src, UndefinedWrapper<
+            bool
+> value) {
+  src.anyOf2 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+            bool
+> get reflection => UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forbool
+        
+);
 
   UndefinedWrapper<
             bool
-> example({required AggregatedDiscriminatorsResult discriminators, required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>> discriminatorExampleResults}) {
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
     if (discriminatorExampleResults.isNotEmpty) {
       if (!discriminatorExampleResults.values
-          .any((e) => e.value == classReflection)) {
+          .any((e) => e.value == reflection.subReflection)) {
         return UndefinedWrapper.undefined();
       }
     }
-    return UndefinedWrapper(
-            
-            
-
-
-    
-    examplebool()
-);
+    return reflection.example();
   }
-}
-
-class ScalarAnyOfXmlReflection {
-    const ScalarAnyOfXmlReflection();
 }
 

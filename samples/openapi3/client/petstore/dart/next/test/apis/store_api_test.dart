@@ -1,57 +1,11 @@
 import 'package:test/test.dart';
 import 'package:petstore_api/_internal.dart';
-
-Stream<List<int>> _streamOfText(String value, {Encoding? encoding}) async* {
-  yield (encoding ?? utf8).encode(value);
-}
-
-final baseUrl = Uri.https("example.com", "/api");
-HttpResponseBase createFakeResponse({
-  required int statusCode,
-  required Stream<List<int>> bodyBytesStream,
-  Map<String, String> headers = const {},
-  String? reasonPhrase,
-}) {
-  return HttpResponseBase.stream(
-    originalRequest: HttpRequestBase.empty(url: baseUrl, method: 'GET'),
-    bodyBytesStream: bodyBytesStream,
-    statusCode: statusCode,
-    reasonPhrase: reasonPhrase,
-    headers: headers,
-  );
-}
-
-HttpResponseBase createFakeTextResponse({
-  required int statusCode,
-  required String value,
-  Map<String, String> headers = const {},
-  String? contentType,
-  Encoding? encoding,
-  String? reasonPhrase,
-}) {
-  var parsedContentType =
-      contentType == null ? null : MediaType.parse(contentType);
-  if (encoding != null) {
-    parsedContentType = parsedContentType?.change(parameters: {
-      ...parsedContentType.parameters,
-      'charset': encoding.name,
-    });
-  }
-  return createFakeResponse(
-    statusCode: statusCode,
-    headers: {
-      'Content-Type': 'text/plain; charset=utf-8',
-      if (parsedContentType != null)
-        'Content-Type': parsedContentType.toString(),
-      ...headers,
-    },
-    reasonPhrase: reasonPhrase,
-    bodyBytesStream: _streamOfText(value, encoding: encoding),
-  );
-}
+import '../utils.dart';
 
 /// tests for StoreApi
 void main() {
+  final wireOptions = WireSerializationOptions();
+  final exampleContext = ExampleContext();
   group(StoreApi, () {
     final baseUrl = Uri.https("example.com", "/api");
     // Delete purchase order by ID
@@ -73,18 +27,14 @@ void main() {
                 "nice": "work",
             },
             
-orderId:  
-
-
+orderId: 
             
+        
+        
             
-
-
-    
-    exampleString()
-
-
-,
+                PrimitiveReflection.forString
+        
+.exampleFunction(exampleContext),
 
         );
         final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
@@ -100,19 +50,53 @@ orderId:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<StoreApiDeleteOrderResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(StoreApiDeleteOrderResponse400, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    400
+;
+      response = await StoreApiDeleteOrderResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<StoreApiDeleteOrderResponse400>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
   group(StoreApiDeleteOrderResponse404, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    404
+;
+      response = await StoreApiDeleteOrderResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<StoreApiDeleteOrderResponse404>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -152,17 +136,72 @@ orderId:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<StoreApiGetInventoryResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(StoreApiGetInventoryResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await StoreApiGetInventoryResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<StoreApiGetInventoryResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(StoreApiGetInventoryResponse200ApplicationJson, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/json'));
+      final bodyReflection = StoreApiGetInventoryResponse200ApplicationJson.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
 
+      response = await StoreApiGetInventoryResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
@@ -188,18 +227,14 @@ orderId:
                 "nice": "work",
             },
             
-orderId:  
-
-
+orderId: 
             
+        
+        
             
-
-
-    
-    exampleint()
-
-
-,
+                PrimitiveReflection.forint
+        
+.exampleFunction(exampleContext),
 
         );
         final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
@@ -215,33 +250,154 @@ orderId:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<StoreApiGetOrderByIdResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(StoreApiGetOrderByIdResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await StoreApiGetOrderByIdResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<StoreApiGetOrderByIdResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(StoreApiGetOrderByIdResponse200ApplicationXml, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/xml'));
+      final bodyReflection = StoreApiGetOrderByIdResponse200ApplicationXml.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = serializedBody;
 
+      response = await StoreApiGetOrderByIdResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
     test(StoreApiGetOrderByIdResponse200ApplicationJson, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/json'));
+      final bodyReflection = StoreApiGetOrderByIdResponse200ApplicationJson.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
 
+      response = await StoreApiGetOrderByIdResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
   group(StoreApiGetOrderByIdResponse400, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    400
+;
+      response = await StoreApiGetOrderByIdResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<StoreApiGetOrderByIdResponse400>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
   group(StoreApiGetOrderByIdResponse404, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    404
+;
+      response = await StoreApiGetOrderByIdResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<StoreApiGetOrderByIdResponse404>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -275,18 +431,7 @@ orderId:
     
     test(StoreApiPlaceOrderRequestApplicationJson, () async {
         request = StoreApiPlaceOrderRequest.applicationJson(
-            data: 
-
-
-            
-            
-
-
-    OrderReflection.instance.example()
-    
-
-
-,
+            data: StoreApiPlaceOrderRequestApplicationJson.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -312,27 +457,133 @@ orderId:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<StoreApiPlaceOrderResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(StoreApiPlaceOrderResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await StoreApiPlaceOrderResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<StoreApiPlaceOrderResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(StoreApiPlaceOrderResponse200ApplicationXml, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/xml'));
+      final bodyReflection = StoreApiPlaceOrderResponse200ApplicationXml.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = serializedBody;
 
+      response = await StoreApiPlaceOrderResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
     test(StoreApiPlaceOrderResponse200ApplicationJson, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/json'));
+      final bodyReflection = StoreApiPlaceOrderResponse200ApplicationJson.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
 
+      response = await StoreApiPlaceOrderResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
   group(StoreApiPlaceOrderResponse400, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    400
+;
+      response = await StoreApiPlaceOrderResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<StoreApiPlaceOrderResponse400>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });

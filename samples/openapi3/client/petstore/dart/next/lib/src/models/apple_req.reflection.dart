@@ -5,14 +5,15 @@ part of 'apple_req.dart';
 
 //class reflection
 
-class AppleReqReflection extends ClassReflection<AppleReq> {
+class AppleReqReflection extends ModelReflection<AppleReq> {
   static AppleReqReflection instanceGetter() => instance;
   static const instance = AppleReqReflection._(
     modelName: r'appleReq',
     className: r'AppleReq',
+    xml: const XmlReflection(
+),
     cultivarPart: PropertyReflection<AppleReq, 
             String
-
 >(
       dartName: r'cultivar',
       nullable: false,
@@ -22,12 +23,21 @@ class AppleReqReflection extends ClassReflection<AppleReq> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _cultivarGetter,
-      setter: _cultivarSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_cultivarGetter),
+      setter: FunctionWrapper2(_cultivarSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
     mealyPart: PropertyReflection<AppleReq, UndefinedWrapper<
             bool
-
 >>(
       dartName: r'mealy',
       nullable: false,
@@ -37,8 +47,18 @@ class AppleReqReflection extends ClassReflection<AppleReq> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _mealyGetter,
-      setter: _mealySetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_mealyGetter),
+      setter: FunctionWrapper2(_mealySetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forbool
+        
+),
     ),
     
     
@@ -46,6 +66,7 @@ class AppleReqReflection extends ClassReflection<AppleReq> {
   const AppleReqReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.cultivarPart,
     required this.mealyPart,
     this.discriminatorKey,
@@ -56,50 +77,45 @@ class AppleReqReflection extends ClassReflection<AppleReq> {
 
   final PropertyReflection<AppleReq, 
             String
-
 > cultivarPart;
   static 
             String
-
  _cultivarGetter(AppleReq parent) {
     return parent.cultivar;
   }
   static void _cultivarSetter(AppleReq parent, 
             String
-
  value) {
     parent.cultivar = value;
   }
+
   final PropertyReflection<AppleReq, UndefinedWrapper<
             bool
-
 >> mealyPart;
   static UndefinedWrapper<
             bool
-
 > _mealyGetter(AppleReq parent) {
     return parent.mealy;
   }
   static void _mealySetter(AppleReq parent, UndefinedWrapper<
             bool
-
 > value) {
     parent.mealy = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<AppleReq, dynamic>> get properties => [
@@ -107,92 +123,24 @@ class AppleReqReflection extends ClassReflection<AppleReq> {
 mealyPart,
   ];
 
+
   
   
-  
-  @override
-  List<PartReflection<AppleReq, dynamic>> get parts => [
-    ...super.parts,
-      ];
+
   @override
   List<AllOfReflection<AppleReq, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => AppleReq.canDeserialize(src);
-  @override
-  AppleReq Function(Object? src) get deserializeFunction =>
-      (src) => AppleReq.deserialize(src);
-
-  @override
-  Object? Function(AppleReq src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of AppleReq.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  AppleReq example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = AppleReq(
-      cultivar: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[cultivarPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      mealy: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    examplebool()
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      
+  AppleReq empty() {
+    return AppleReq(
+      cultivar: cultivarPart.reflection.emptyFunction(),
     );
-    
-    return exampleResult;
   }
 }
 
-
-class AppleReqXmlReflection {
-    const AppleReqXmlReflection();
-}
 

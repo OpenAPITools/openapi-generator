@@ -1,54 +1,59 @@
 import 'package:petstore_api/_internal.dart';
 import 'package:test/test.dart';
+import '../utils.dart';
+import 'package:parameterized_test/parameterized_test.dart';
 
 {{#models}}
 {{#model}}
 void main() {
   group(r'{{{classname}}}', () {
-    {{#isEnum}}
-    test('values not empty', () {
-      expect({{{classname}}}.values, isNotEmpty);
-    });
-
-    test('unsafe', () {
-      final example = {{#isString}}'abc'{{/isString}}{{#isNumeric}}123{{/isNumeric}}{{^isNumeric}}{{^isString}}null{{/isString}}{{/isNumeric}};
-      expect({{{classname}}}.$unsafe(example), example);
-    });
-
-    {{#allowableValues}}{{#enumVars}}
-    test(r'{{name}}', () {
-      expect({{{classname}}}.{{name}}().value, {{#isString}}r{{/isString}}{{{value}}});
-    });
-    {{/enumVars}}{{/allowableValues}}{{/isEnum}}
-    {{^isEnum}}
     final reflection = {{{classname}}}.$reflection;
+    final exampleContext = ExampleContext();
+    {{#isEnum}}
+      test('values not empty', () {
+        expect({{{classname}}}.values, isNotEmpty);
+      });
 
-    late {{{classname}}} exampleInstance;
-    setUp(() {
-      exampleInstance = reflection.example();
-    });
+      test('unsafe', () {
+        final example = reflection.subReflection.exampleFunction(exampleContext);
+        expect({{{classname}}}.$unsafe(example), example);
+      });
 
-    Object? doSerialize() {
-      final result = exampleInstance.serialize();
-      return result;
-    }
-    test('serialize', () {
-      expect(exampleInstance, isNotNull);
-      final serialized = doSerialize();
-      expect(serialized, isNotNull);
-    });
+      {{#allowableValues}}{{#enumVars}}
+      test(r'{{name}}', () {
+        expect({{{classname}}}.{{name}}().value, {{#isString}}r{{/isString}}{{{value}}});
+      });
+      {{/enumVars}}{{/allowableValues}}
+    {{/isEnum}}
+    {{^isEnum}}
 
-    test('validate', () {
-      expect(exampleInstance, isNotNull);
-      expect(exampleInstance.validate(), isTrue);
-    });
-    test('deserialize', () {
-      expect(exampleInstance, isNotNull);
-      final serialized = doSerialize();
-      final deserialized = {{{classname}}}.deserialize(serialized);
-      expect(deserialized.validate(), isTrue);
-      expect(deserialized.serialize(), serialized);
-    });
+      late {{{classname}}} exampleInstance;
+      setUp(() {
+        exampleInstance = reflection.example(exampleContext);
+      });
+
+      test('validate', () {
+        expect(exampleInstance, isNotNull);
+        expect(exampleInstance.validate(), isTrue);
+      });
+
+      parameterizedTest(
+        'serialization roundtrip',
+        [
+          SerializationContext.json(
+            fileBytesResolver: (file) => exampleContext.fileCache[file.name],
+          ),
+          SerializationContext.xml(
+            fileBytesResolver: (file) => exampleContext.fileCache[file.name],
+          ),
+        ],
+        (SerializationContext context) {
+          final serialized = exampleInstance.serialize(context);
+          final deserialized = {{{classname}}}.deserialize(serialized, context);
+          expect(deserialized.validate(), isTrue);
+          expect(deserialized.serialize(context), serialized);
+        }
+      );
     {{/isEnum}}
   });
 }

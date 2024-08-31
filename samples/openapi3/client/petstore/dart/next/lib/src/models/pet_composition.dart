@@ -4,7 +4,6 @@ import 'package:petstore_api/_internal.dart';
 
 
 part 'pet_composition.reflection.dart';
-part 'pet_composition.serialization.dart';
 
 
 /// PetCompositionMixin
@@ -33,42 +32,33 @@ PetCompositionMixin {
     List<
         
             String
-
 >
-
  photoUrls;
   @override
   
             String
-
  name;
   @override
   UndefinedWrapper<
             int
-
 > id;
   @override
   UndefinedWrapper<
             Category
-
 > category;
   @override
   UndefinedWrapper<
     List<
         
             Tag
-
 >
-
 > tags;
   @override
   UndefinedWrapper<
             PetStatusEnum
-
 > status;
 
   AdditionalProperties<Object
-
 ?> additionalProperties;
 
   
@@ -99,9 +89,10 @@ required  this.name     ,
   this.status = const UndefinedWrapper
         .undefined()
 ,
-    this.additionalProperties = const AdditionalProperties(),
+    AdditionalProperties<Object
+?>? additionalProperties,
     
-  });
+  }) : additionalProperties = additionalProperties ?? {};
 
   static const $reflection = PetCompositionReflection.instance;
   PetCompositionReflection get $classReflection => $reflection;
@@ -112,46 +103,17 @@ required  this.name     ,
     return super.validate();
   }
 
-  Map<String, dynamic> toMap() {
-    return _$PetCompositionToMap(this);
-  }
-  factory PetComposition.fromMap(Map<String, dynamic> src) {
-    return _$PetCompositionFromMap(src);
-  }
-  static PetComposition? fromMapOrNull(Map<String, dynamic>? src) {
-    if (src == null) {
-      return null;
-    }
-    return PetComposition.fromMap(src);
-  }
-  static bool canFromMap(Map<String, dynamic>? src) {
-    if (src  == null) {
-      return false;
-    }
-    return _$PetCompositionCanFromMap(src);
+  factory PetComposition.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserialize(src, context);
   }
 
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserialize(src, context);
+  }
 
-  /// Deserializes a primitive Object (num, String, List, Map).
-  factory PetComposition.deserialize(Object? src) {
-    return _$PetCompositionDeserialize(src);
-  }
-  static PetComposition? deserializeOrNull(Object? src) {
-    if (src == null) {
-      return null;
-    }
-    return PetComposition.deserialize(src);
-  }
-  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
-  static bool canDeserialize(Object? src) {
-    return _$PetCompositionCanDeserialize(src);
-  }
-  /// Serializes to a primitive Object (num, String, List, Map).
-  Map<String,dynamic> serialize() {
-    return _$PetCompositionSerialize(this);
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serialize(this, context);
   }
 }
-
-
 
 

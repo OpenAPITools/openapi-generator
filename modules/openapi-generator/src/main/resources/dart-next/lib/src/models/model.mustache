@@ -4,7 +4,6 @@ import 'package:{{pubName}}/_internal.dart';
 
 
 {{#models}}{{#model}}part '{{classFilename}}.reflection.dart';
-part '{{classFilename}}.serialization.dart';
 {{/model}}{{/models}}
 
 {{#models}}{{#model}}{{#isEnum}}{{>lib/src/models/enum}}{{/isEnum}}{{^isEnum}}{{>lib/src/models/class}}

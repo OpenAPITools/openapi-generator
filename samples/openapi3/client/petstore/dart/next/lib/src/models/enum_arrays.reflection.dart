@@ -5,14 +5,15 @@ part of 'enum_arrays.dart';
 
 //class reflection
 
-class EnumArraysReflection extends ClassReflection<EnumArrays> {
+class EnumArraysReflection extends ModelReflection<EnumArrays> {
   static EnumArraysReflection instanceGetter() => instance;
   static const instance = EnumArraysReflection._(
     modelName: r'EnumArrays',
     className: r'EnumArrays',
+    xml: const XmlReflection(
+),
     justSymbolPart: PropertyReflection<EnumArrays, UndefinedWrapper<
             EnumArraysJustSymbolEnum
-
 >>(
       dartName: r'justSymbol',
       nullable: false,
@@ -22,16 +23,21 @@ class EnumArraysReflection extends ClassReflection<EnumArrays> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _justSymbolGetter,
-      setter: _justSymbolSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_justSymbolGetter),
+      setter: FunctionWrapper2(_justSymbolSetter),
+      reflection: UndefinedWrapperReflection(
+            EnumArraysJustSymbolEnum.$reflection
+        
+        
+),
     ),
     arrayEnumPart: PropertyReflection<EnumArrays, UndefinedWrapper<
     List<
         
             EnumArraysArrayEnumEnum
-
 >
-
 >>(
       dartName: r'arrayEnum',
       nullable: false,
@@ -41,25 +47,32 @@ class EnumArraysReflection extends ClassReflection<EnumArrays> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      itemsReflection: ItemsReflection<EnumArrays, 
-            EnumArraysArrayEnumEnum
-
->(parentReflectionGetter: instanceGetter,),
-      getter: _arrayEnumGetter,
-      setter: _arrayEnumSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_arrayEnumGetter),
+      setter: FunctionWrapper2(_arrayEnumSetter),
+      reflection: UndefinedWrapperReflection(
+    ListReflection(
+            EnumArraysArrayEnumEnum.$reflection
+        
+        
+)
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<EnumArrays, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const EnumArraysReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.justSymbolPart,
     required this.arrayEnumPart,
     this.discriminatorKey,
@@ -71,35 +84,29 @@ class EnumArraysReflection extends ClassReflection<EnumArrays> {
 
   final PropertyReflection<EnumArrays, UndefinedWrapper<
             EnumArraysJustSymbolEnum
-
 >> justSymbolPart;
   static UndefinedWrapper<
             EnumArraysJustSymbolEnum
-
 > _justSymbolGetter(EnumArrays parent) {
     return parent.justSymbol;
   }
   static void _justSymbolSetter(EnumArrays parent, UndefinedWrapper<
             EnumArraysJustSymbolEnum
-
 > value) {
     parent.justSymbol = value;
   }
+
   final PropertyReflection<EnumArrays, UndefinedWrapper<
     List<
         
             EnumArraysArrayEnumEnum
-
 >
-
 >> arrayEnumPart;
   static UndefinedWrapper<
     List<
         
             EnumArraysArrayEnumEnum
-
 >
-
 > _arrayEnumGetter(EnumArrays parent) {
     return parent.arrayEnum;
   }
@@ -107,26 +114,24 @@ class EnumArraysReflection extends ClassReflection<EnumArrays> {
     List<
         
             EnumArraysArrayEnumEnum
-
 >
-
 > value) {
     parent.arrayEnum = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<EnumArrays, dynamic>> get properties => [
@@ -134,97 +139,35 @@ class EnumArraysReflection extends ClassReflection<EnumArrays> {
 arrayEnumPart,
   ];
 
-  final AdditionalPropertiesReflection<EnumArrays, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<EnumArrays, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<EnumArrays, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(EnumArrays instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(EnumArrays instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<EnumArrays, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => EnumArrays.canDeserialize(src);
-  @override
-  EnumArrays Function(Object? src) get deserializeFunction =>
-      (src) => EnumArrays.deserialize(src);
-
-  @override
-  Object? Function(EnumArrays src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of EnumArrays.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  EnumArrays example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = EnumArrays(
-      justSymbol: () {
-        var result = 
-
-
-            exampleEnum(EnumArraysJustSymbolEnum.values)
-
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      arrayEnum: () {
-        var result = 
-
-
-    exampleList(() { return 
-
-
-            exampleEnum(EnumArraysArrayEnumEnum.values)
-
-
-
-; })
-
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  EnumArrays empty() {
+    return EnumArrays(
     );
-    
-    return exampleResult;
   }
 }
 
-
-class EnumArraysXmlReflection {
-    const EnumArraysXmlReflection();
-}
 

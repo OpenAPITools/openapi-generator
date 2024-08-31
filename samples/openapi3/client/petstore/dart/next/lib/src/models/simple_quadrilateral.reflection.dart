@@ -5,14 +5,15 @@ part of 'simple_quadrilateral.dart';
 
 //class reflection
 
-class SimpleQuadrilateralReflection extends ClassReflection<SimpleQuadrilateral> {
+class SimpleQuadrilateralReflection extends ModelReflection<SimpleQuadrilateral> {
   static SimpleQuadrilateralReflection instanceGetter() => instance;
   static const instance = SimpleQuadrilateralReflection._(
     modelName: r'SimpleQuadrilateral',
     className: r'SimpleQuadrilateral',
+    xml: const XmlReflection(
+),
     quadrilateralTypePart: PropertyReflection<SimpleQuadrilateral, 
             String
-
 >(
       dartName: r'quadrilateralType',
       nullable: false,
@@ -22,12 +23,21 @@ class SimpleQuadrilateralReflection extends ClassReflection<SimpleQuadrilateral>
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _quadrilateralTypeGetter,
-      setter: _quadrilateralTypeSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_quadrilateralTypeGetter),
+      setter: FunctionWrapper2(_quadrilateralTypeSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
     shapeTypePart: PropertyReflection<SimpleQuadrilateral, 
             String
-
 >(
       dartName: r'shapeType',
       nullable: false,
@@ -37,76 +47,93 @@ class SimpleQuadrilateralReflection extends ClassReflection<SimpleQuadrilateral>
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _shapeTypeGetter,
-      setter: _shapeTypeSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_shapeTypeGetter),
+      setter: FunctionWrapper2(_shapeTypeSetter),
+      reflection: 
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+,
     ),
-    
-    
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    allOfQuadrilateralInterfacePart: AllOfReflection(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<SimpleQuadrilateral, Object
+      reflection: QuadrilateralInterfaceReflection.instance,
+    ),
+allOfShapeInterfacePart: AllOfReflection(
+      parentReflectionGetter: instanceGetter,
+      reflection: ShapeInterfaceReflection.instance,
+    ),
 
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+    
+    additionalPropertiesPart: AdditionalPropertiesPart(
+      parentReflectionGetter: instanceGetter,
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const SimpleQuadrilateralReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.quadrilateralTypePart,
     required this.shapeTypePart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
     this.discriminatorImplicitMappings = const {},
-        
+    required this.allOfQuadrilateralInterfacePart,
+required this.allOfShapeInterfacePart,
+    
     required this.additionalPropertiesPart,
   });
 
   final PropertyReflection<SimpleQuadrilateral, 
             String
-
 > quadrilateralTypePart;
   static 
             String
-
  _quadrilateralTypeGetter(SimpleQuadrilateral parent) {
     return parent.quadrilateralType;
   }
   static void _quadrilateralTypeSetter(SimpleQuadrilateral parent, 
             String
-
  value) {
     parent.quadrilateralType = value;
   }
+
   final PropertyReflection<SimpleQuadrilateral, 
             String
-
 > shapeTypePart;
   static 
             String
-
  _shapeTypeGetter(SimpleQuadrilateral parent) {
     return parent.shapeType;
   }
   static void _shapeTypeSetter(SimpleQuadrilateral parent, 
             String
-
  value) {
     parent.shapeType = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<SimpleQuadrilateral, dynamic>> get properties => [
@@ -114,20 +141,27 @@ class SimpleQuadrilateralReflection extends ClassReflection<SimpleQuadrilateral>
 shapeTypePart,
   ];
 
-  final AdditionalPropertiesReflection<SimpleQuadrilateral, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<SimpleQuadrilateral, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<SimpleQuadrilateral, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(SimpleQuadrilateral instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(SimpleQuadrilateral instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  final AllOfReflection<SimpleQuadrilateral, QuadrilateralInterfaceMixin> allOfQuadrilateralInterfacePart;
+final AllOfReflection<SimpleQuadrilateral, ShapeInterfaceMixin> allOfShapeInterfacePart;
+
+  
+
   @override
   List<AllOfReflection<SimpleQuadrilateral, dynamic>> get allOfs => [
-    
+    allOfQuadrilateralInterfacePart,allOfShapeInterfacePart,
   ];
 
   @override
@@ -139,89 +173,15 @@ shapeTypePart,
     
   ];
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => SimpleQuadrilateral.canDeserialize(src);
-  @override
-  SimpleQuadrilateral Function(Object? src) get deserializeFunction =>
-      (src) => SimpleQuadrilateral.deserialize(src);
-
-  @override
-  Object? Function(SimpleQuadrilateral src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of SimpleQuadrilateral.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  SimpleQuadrilateral example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = SimpleQuadrilateral(
-      quadrilateralType: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[quadrilateralTypePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      shapeType: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[shapeTypePart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return result;
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  SimpleQuadrilateral empty() {
+    return SimpleQuadrilateral(
+      quadrilateralType: quadrilateralTypePart.reflection.emptyFunction(),
+      shapeType: shapeTypePart.reflection.emptyFunction(),
     );
-    
-    return exampleResult;
   }
 }
 
-
-class SimpleQuadrilateralXmlReflection {
-    const SimpleQuadrilateralXmlReflection();
-}
 

@@ -1,4 +1,4 @@
-extension type const {{{enumName}}}._({{>types/enum_var_datatype}} value) {
+extension type const {{{enumName}}}._({{dataType}} value) {
   {{#allowableValues}}
     {{#enumVars}}
       {{#description}}
@@ -9,7 +9,7 @@ extension type const {{{enumName}}}._({{>types/enum_var_datatype}} value) {
   {{/allowableValues}}
 
   /// Creates a [{{{enumName}}}] enum from a value and safely checking if it exists.
-  factory {{{enumName}}}.$safe({{>types/enum_var_datatype}} value) {
+  factory {{{enumName}}}.$safe({{dataType}} value) {
     final res = values.where((element) => element.value == value).firstOrNull;
     if (res == null) {
       throw 'Invalid enum value $value';
@@ -17,12 +17,29 @@ extension type const {{{enumName}}}._({{>types/enum_var_datatype}} value) {
     return res;
   }
 
-  static bool canDeserialize(Object? value) {
-    return value is {{>types/enum_var_datatype}} && values.where((element) => element.value == value).firstOrNull != null;
+  static const $reflection = EnumReflection<{{{enumName}}}, {{dataType}}>(
+    PrimitiveReflection.for{{dataType}},
+    members: [
+      {{#allowableValues}}{{#enumVars}}
+        EnumMemberReflection(dartName: r'{{name}}', oasValue: {{#isString}}r{{/isString}}{{{value}}}, value: {{{enumName}}}.{{name}}()),
+      {{/enumVars}}{{/allowableValues}}
+    ],
+  );
+
+  factory {{{enumName}}}.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
   }
 
   /// Creates a [{{enumName}}] enum from a value without checking if it exists.
-  const {{enumName}}.$unsafe({{>types/enum_var_datatype}} value) : this._(value);
+  const {{enumName}}.$unsafe({{dataType}} value) : this._(value);
 
   /// All possible values of the enum.
   static const List<{{enumName}}> values = [

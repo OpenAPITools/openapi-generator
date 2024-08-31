@@ -5,14 +5,15 @@ part of 'client.dart';
 
 //class reflection
 
-class ClientReflection extends ClassReflection<Client> {
+class ClientReflection extends ModelReflection<Client> {
   static ClientReflection instanceGetter() => instance;
   static const instance = ClientReflection._(
     modelName: r'Client',
     className: r'Client',
+    xml: const XmlReflection(
+),
     clientPart: PropertyReflection<Client, UndefinedWrapper<
             String
-
 >>(
       dartName: r'client',
       nullable: false,
@@ -22,21 +23,33 @@ class ClientReflection extends ClassReflection<Client> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _clientGetter,
-      setter: _clientSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_clientGetter),
+      setter: FunctionWrapper2(_clientSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<Client, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const ClientReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.clientPart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
@@ -47,121 +60,66 @@ class ClientReflection extends ClassReflection<Client> {
 
   final PropertyReflection<Client, UndefinedWrapper<
             String
-
 >> clientPart;
   static UndefinedWrapper<
             String
-
 > _clientGetter(Client parent) {
     return parent.client;
   }
   static void _clientSetter(Client parent, UndefinedWrapper<
             String
-
 > value) {
     parent.client = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<Client, dynamic>> get properties => [
     clientPart,
   ];
 
-  final AdditionalPropertiesReflection<Client, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<Client, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<Client, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(Client instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(Client instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<Client, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => Client.canDeserialize(src);
-  @override
-  Client Function(Object? src) get deserializeFunction =>
-      (src) => Client.deserialize(src);
-
-  @override
-  Object? Function(Client src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of Client.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  Client example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = Client(
-      client: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[clientPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  Client empty() {
+    return Client(
     );
-    
-    return exampleResult;
   }
 }
 
-
-class ClientXmlReflection {
-    const ClientXmlReflection();
-}
 

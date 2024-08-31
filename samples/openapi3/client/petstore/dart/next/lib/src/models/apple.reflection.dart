@@ -5,14 +5,15 @@ part of 'apple.dart';
 
 //class reflection
 
-class AppleReflection extends ClassReflection<Apple> {
+class AppleReflection extends ModelReflection<Apple> {
   static AppleReflection instanceGetter() => instance;
   static const instance = AppleReflection._(
     modelName: r'apple',
     className: r'Apple',
+    xml: const XmlReflection(
+),
     cultivarPart: PropertyReflection<Apple, UndefinedWrapper<
             String
-
 >>(
       dartName: r'cultivar',
       nullable: false,
@@ -22,12 +23,21 @@ class AppleReflection extends ClassReflection<Apple> {
       pattern: r'/^[a-zA-Z\\s]*$/',
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _cultivarGetter,
-      setter: _cultivarSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_cultivarGetter),
+      setter: FunctionWrapper2(_cultivarSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     originPart: PropertyReflection<Apple, UndefinedWrapper<
             String
-
 >>(
       dartName: r'origin',
       nullable: false,
@@ -37,21 +47,33 @@ class AppleReflection extends ClassReflection<Apple> {
       pattern: r'/^[A-Z\\s]*$/i',
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _originGetter,
-      setter: _originSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_originGetter),
+      setter: FunctionWrapper2(_originSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forString
+        
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<Apple, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const AppleReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.cultivarPart,
     required this.originPart,
     this.discriminatorKey,
@@ -63,50 +85,45 @@ class AppleReflection extends ClassReflection<Apple> {
 
   final PropertyReflection<Apple, UndefinedWrapper<
             String
-
 >> cultivarPart;
   static UndefinedWrapper<
             String
-
 > _cultivarGetter(Apple parent) {
     return parent.cultivar;
   }
   static void _cultivarSetter(Apple parent, UndefinedWrapper<
             String
-
 > value) {
     parent.cultivar = value;
   }
+
   final PropertyReflection<Apple, UndefinedWrapper<
             String
-
 >> originPart;
   static UndefinedWrapper<
             String
-
 > _originGetter(Apple parent) {
     return parent.origin;
   }
   static void _originSetter(Apple parent, UndefinedWrapper<
             String
-
 > value) {
     parent.origin = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<Apple, dynamic>> get properties => [
@@ -114,106 +131,35 @@ class AppleReflection extends ClassReflection<Apple> {
 originPart,
   ];
 
-  final AdditionalPropertiesReflection<Apple, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<Apple, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<Apple, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter(Apple instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter(Apple instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<Apple, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => Apple.canDeserialize(src);
-  @override
-  Apple Function(Object? src) get deserializeFunction =>
-      (src) => Apple.deserialize(src);
-
-  @override
-  Object? Function(Apple src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of Apple.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  Apple example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = Apple(
-      cultivar: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[cultivarPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      origin: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-;
-        final preSelectedResult = discriminatorExampleResults[originPart.oasName]?.key.key;
-        if (preSelectedResult != null) {
-          result = preSelectedResult;
-        }
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  Apple empty() {
+    return Apple(
     );
-    
-    return exampleResult;
   }
 }
 
-
-class AppleXmlReflection {
-    const AppleXmlReflection();
-}
 

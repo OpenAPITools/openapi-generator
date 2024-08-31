@@ -5,14 +5,16 @@ part of '__return.dart';
 
 //class reflection
 
-class $ReturnReflection extends ClassReflection<$Return> {
+class $ReturnReflection extends ModelReflection<$Return> {
   static $ReturnReflection instanceGetter() => instance;
   static const instance = $ReturnReflection._(
     modelName: r'Return',
     className: r'$Return',
+    xml: const XmlReflection(
+    xmlName: r'Return',
+),
     $returnPart: PropertyReflection<$Return, UndefinedWrapper<
             int
-
 >>(
       dartName: r'$return',
       nullable: false,
@@ -22,21 +24,33 @@ class $ReturnReflection extends ClassReflection<$Return> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      getter: _$returnGetter,
-      setter: _$returnSetter,
+      xml: const XmlReflection(
+),
+      getter: FunctionWrapper1(_$returnGetter),
+      setter: FunctionWrapper2(_$returnSetter),
+      reflection: UndefinedWrapperReflection(
+            
+        
+        
+            
+                PrimitiveReflection.forint
+        
+),
     ),
     
     
-    additionalPropertiesPart: AdditionalPropertiesReflection(
+    additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemsReflection: ItemsReflection<$Return, Object
-
-?>(parentReflectionGetter: instanceGetter,),
-          ),
+      itemReflection: NullableReflection(ObjectReflection()
+),
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
   );
   const $ReturnReflection._({
     required this.modelName,
     required this.className,
+    required this.xml,
     required this.$returnPart,
     this.discriminatorKey,
     this.discriminatorMappings = const {},
@@ -47,117 +61,66 @@ class $ReturnReflection extends ClassReflection<$Return> {
 
   final PropertyReflection<$Return, UndefinedWrapper<
             int
-
 >> $returnPart;
   static UndefinedWrapper<
             int
-
 > _$returnGetter($Return parent) {
     return parent.$return;
   }
   static void _$returnSetter($Return parent, UndefinedWrapper<
             int
-
 > value) {
     parent.$return = value;
   }
 
 
-
   @override
-  final Map<String, ClassReflection> discriminatorMappings;
+  final Map<String, ModelReflection> discriminatorMappings;
   @override
-  final Map<String, ClassReflection> discriminatorImplicitMappings;
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
   @override
   final String? discriminatorKey;
   @override
   final String modelName;
   @override
   final String className;
-
+  @override
+  final XmlReflection xml;
 
   @override
   List<PropertyReflection<$Return, dynamic>> get properties => [
     $returnPart,
   ];
 
-  final AdditionalPropertiesReflection<$Return, Object
-
-?> additionalPropertiesPart;
-
-  
-  
   @override
-  List<PartReflection<$Return, dynamic>> get parts => [
-    ...super.parts,
-    additionalPropertiesPart,
-  ];
+  final AdditionalPropertiesPart<$Return, Object
+?>? additionalPropertiesPart;
+
+  static AdditionalProperties<Object
+?> _AdditionalPropertiesGetter($Return instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter($Return instance, AdditionalProperties<Object
+?> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+
+  
+  
+
   @override
   List<AllOfReflection<$Return, dynamic>> get allOfs => [
     
   ];
 
 
+
+  /// Creates an empty instance used as a starting point for deserialization.
   @override
-  bool Function(Object? src) get canDeserializeFunction =>
-    (src) => $Return.canDeserialize(src);
-  @override
-  $Return Function(Object? src) get deserializeFunction =>
-      (src) => $Return.deserialize(src);
-
-  @override
-  Object? Function($Return src) get serializeFunction =>
-      (src) => src.serialize();
-
-  /// Gets an example of $Return.
-  /// - [discriminators]: The set of aggregated discriminator properties in the target type, accessed by
-  ///  calling [aggregatedDiscriminators].
-  $Return example({AggregatedDiscriminatorsResult? discriminators, Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ClassReflection>>
-        discriminatorExampleResults = const {},}) {
-    final _reflection = this;
-    final actualDiscriminators = discriminators ?? _reflection.aggregatedDiscriminators;
-    discriminatorExampleResults = Map.from(discriminatorExampleResults);
-    for (final MapEntry(key: propName, value: mappings) in actualDiscriminators.entries) {
-      if (discriminatorExampleResults.containsKey(propName)) {
-        continue;
-      }
-      final r =  exampleDiscriminator(mappings);
-      if (r != null){
-        discriminatorExampleResults[propName] = r;
-      }
-    }
-
-    final exampleResult = $Return(
-      $return: () {
-        var result = 
-
-
-            
-            
-
-
-    
-    exampleint()
-
-
-;
-        return UndefinedWrapper(result);
-      } (),
-      additionalProperties: () { return AdditionalProperties(exampleMap(() => exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) )); }(),
+  $Return empty() {
+    return $Return(
     );
-    
-    return exampleResult;
   }
 }
 
-
-class $ReturnXmlReflection {
-    const $ReturnXmlReflection();
-}
 

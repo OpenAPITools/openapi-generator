@@ -1,57 +1,11 @@
 import 'package:test/test.dart';
 import 'package:petstore_api/_internal.dart';
-
-Stream<List<int>> _streamOfText(String value, {Encoding? encoding}) async* {
-  yield (encoding ?? utf8).encode(value);
-}
-
-final baseUrl = Uri.https("example.com", "/api");
-HttpResponseBase createFakeResponse({
-  required int statusCode,
-  required Stream<List<int>> bodyBytesStream,
-  Map<String, String> headers = const {},
-  String? reasonPhrase,
-}) {
-  return HttpResponseBase.stream(
-    originalRequest: HttpRequestBase.empty(url: baseUrl, method: 'GET'),
-    bodyBytesStream: bodyBytesStream,
-    statusCode: statusCode,
-    reasonPhrase: reasonPhrase,
-    headers: headers,
-  );
-}
-
-HttpResponseBase createFakeTextResponse({
-  required int statusCode,
-  required String value,
-  Map<String, String> headers = const {},
-  String? contentType,
-  Encoding? encoding,
-  String? reasonPhrase,
-}) {
-  var parsedContentType =
-      contentType == null ? null : MediaType.parse(contentType);
-  if (encoding != null) {
-    parsedContentType = parsedContentType?.change(parameters: {
-      ...parsedContentType.parameters,
-      'charset': encoding.name,
-    });
-  }
-  return createFakeResponse(
-    statusCode: statusCode,
-    headers: {
-      'Content-Type': 'text/plain; charset=utf-8',
-      if (parsedContentType != null)
-        'Content-Type': parsedContentType.toString(),
-      ...headers,
-    },
-    reasonPhrase: reasonPhrase,
-    bodyBytesStream: _streamOfText(value, encoding: encoding),
-  );
-}
+import '../utils.dart';
 
 /// tests for FakeApi
 void main() {
+  final wireOptions = WireSerializationOptions();
+  final exampleContext = ExampleContext();
   group(FakeApi, () {
     final baseUrl = Uri.https("example.com", "/api");
     // Get a free form object or Json string
@@ -85,17 +39,72 @@ void main() {
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<FakeApiFakeGetFreeFormObjectGetResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(FakeApiFakeGetFreeFormObjectGetResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await FakeApiFakeGetFreeFormObjectGetResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<FakeApiFakeGetFreeFormObjectGetResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(FakeApiFakeGetFreeFormObjectGetResponse200ApplicationJson, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/json'));
+      final bodyReflection = FakeApiFakeGetFreeFormObjectGetResponse200ApplicationJson.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
 
+      response = await FakeApiFakeGetFreeFormObjectGetResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
@@ -127,18 +136,7 @@ void main() {
     
     test(FakeApiFakeOuterBooleanSerializeRequestApplicationJson, () async {
         request = FakeApiFakeOuterBooleanSerializeRequest.applicationJson(
-            data: 
-
-
-            
-            
-
-
-    
-    examplebool()
-
-
-,
+            data: FakeApiFakeOuterBooleanSerializeRequestApplicationJson.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -164,17 +162,71 @@ void main() {
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<FakeApiFakeOuterBooleanSerializeResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(FakeApiFakeOuterBooleanSerializeResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await FakeApiFakeOuterBooleanSerializeResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<FakeApiFakeOuterBooleanSerializeResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(FakeApiFakeOuterBooleanSerializeResponse200AnyAny, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'*/*'));
+      final bodyReflection = FakeApiFakeOuterBooleanSerializeResponse200AnyAny.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
 
+      response = await FakeApiFakeOuterBooleanSerializeResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
@@ -206,18 +258,7 @@ void main() {
     
     test(FakeApiFakeOuterCompositeSerializeRequestApplicationJson, () async {
         request = FakeApiFakeOuterCompositeSerializeRequest.applicationJson(
-            data: 
-
-
-            
-            
-
-
-    OuterCompositeReflection.instance.example()
-    
-
-
-,
+            data: FakeApiFakeOuterCompositeSerializeRequestApplicationJson.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -243,17 +284,71 @@ void main() {
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<FakeApiFakeOuterCompositeSerializeResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(FakeApiFakeOuterCompositeSerializeResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await FakeApiFakeOuterCompositeSerializeResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<FakeApiFakeOuterCompositeSerializeResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(FakeApiFakeOuterCompositeSerializeResponse200AnyAny, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'*/*'));
+      final bodyReflection = FakeApiFakeOuterCompositeSerializeResponse200AnyAny.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
 
+      response = await FakeApiFakeOuterCompositeSerializeResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
@@ -285,18 +380,7 @@ void main() {
     
     test(FakeApiFakeOuterNumberSerializeRequestApplicationJson, () async {
         request = FakeApiFakeOuterNumberSerializeRequest.applicationJson(
-            data: 
-
-
-            
-            
-
-
-    
-    examplenum()
-
-
-,
+            data: FakeApiFakeOuterNumberSerializeRequestApplicationJson.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -322,17 +406,71 @@ void main() {
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<FakeApiFakeOuterNumberSerializeResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(FakeApiFakeOuterNumberSerializeResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await FakeApiFakeOuterNumberSerializeResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<FakeApiFakeOuterNumberSerializeResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(FakeApiFakeOuterNumberSerializeResponse200AnyAny, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'*/*'));
+      final bodyReflection = FakeApiFakeOuterNumberSerializeResponse200AnyAny.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
 
+      response = await FakeApiFakeOuterNumberSerializeResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
@@ -364,18 +502,7 @@ void main() {
     
     test(FakeApiFakeOuterStringSerializeRequestApplicationJson, () async {
         request = FakeApiFakeOuterStringSerializeRequest.applicationJson(
-            data: 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-,
+            data: FakeApiFakeOuterStringSerializeRequestApplicationJson.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -401,17 +528,71 @@ void main() {
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<FakeApiFakeOuterStringSerializeResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(FakeApiFakeOuterStringSerializeResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await FakeApiFakeOuterStringSerializeResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<FakeApiFakeOuterStringSerializeResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(FakeApiFakeOuterStringSerializeResponse200AnyAny, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'*/*'));
+      final bodyReflection = FakeApiFakeOuterStringSerializeResponse200AnyAny.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
 
+      response = await FakeApiFakeOuterStringSerializeResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
@@ -438,18 +619,14 @@ void main() {
                 "nice": "work",
             },
             
-petId:  
-
-
+petId: 
             
+        
+        
             
-
-
-    
-    exampleint()
-
-
-,
+                PrimitiveReflection.forint
+        
+.exampleFunction(exampleContext),
 
         );
         final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
@@ -466,17 +643,72 @@ petId:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<FakeApiFakeUploadRefRequestBodiesResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(FakeApiFakeUploadRefRequestBodiesResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await FakeApiFakeUploadRefRequestBodiesResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<FakeApiFakeUploadRefRequestBodiesResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(FakeApiFakeUploadRefRequestBodiesResponse200ApplicationJson, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/json'));
+      final bodyReflection = FakeApiFakeUploadRefRequestBodiesResponse200ApplicationJson.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
 
+      response = await FakeApiFakeUploadRefRequestBodiesResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
@@ -514,17 +746,72 @@ petId:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<FakeApiGetFakeArrayofenumsResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(FakeApiGetFakeArrayofenumsResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await FakeApiGetFakeArrayofenumsResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<FakeApiGetFakeArrayofenumsResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(FakeApiGetFakeArrayofenumsResponse200ApplicationJson, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/json'));
+      final bodyReflection = FakeApiGetFakeArrayofenumsResponse200ApplicationJson.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
 
+      response = await FakeApiGetFakeArrayofenumsResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
@@ -562,17 +849,72 @@ petId:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<FakeApiGetFakeHealthResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(FakeApiGetFakeHealthResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await FakeApiGetFakeHealthResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<FakeApiGetFakeHealthResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(FakeApiGetFakeHealthResponse200ApplicationJson, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/json'));
+      final bodyReflection = FakeApiGetFakeHealthResponse200ApplicationJson.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
 
+      response = await FakeApiGetFakeHealthResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
@@ -596,44 +938,32 @@ petId:
                 "nice": "work",
             },
             
-$type:  
-
-
+$type: 
             
+        
+        
             
+                PrimitiveReflection.forint
+        
+.exampleFunction(exampleContext),
 
-
-    
-    exampleint()
-
-
-,
-
-type:  
-
-
+type: 
             
+        
+        
             
+                PrimitiveReflection.forString
+        
+.exampleFunction(exampleContext),
 
-
-    
-    exampleString()
-
-
-,
-
-type$:  
-
-
+type$: 
             
+        
+        
             
-
-
-    
-    exampleString()
-
-
-,
+                PrimitiveReflection.forString
+        
+.exampleFunction(exampleContext),
 
         );
         final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
@@ -649,13 +979,32 @@ type$:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<FakeApiGetParameterNameMappingResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(FakeApiGetParameterNameMappingResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await FakeApiGetParameterNameMappingResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<FakeApiGetParameterNameMappingResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -689,20 +1038,7 @@ type$:
     
     test(FakeApiTestAdditionalPropertiesReferenceRequestApplicationJson, () async {
         request = FakeApiTestAdditionalPropertiesReferenceRequest.applicationJson(
-            data: 
-
-
-    exampleMap(() { return exampleNullable(() =>
-
-exampleObject()
-
-
-
- ) ; })
-
-
-
-,
+            data: FakeApiTestAdditionalPropertiesReferenceRequestApplicationJson.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -728,13 +1064,32 @@ exampleObject()
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<FakeApiTestAdditionalPropertiesReferenceResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(FakeApiTestAdditionalPropertiesReferenceResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await FakeApiTestAdditionalPropertiesReferenceResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<FakeApiTestAdditionalPropertiesReferenceResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -766,18 +1121,7 @@ exampleObject()
     
     test(FakeApiTestBodyWithFileSchemaRequestApplicationJson, () async {
         request = FakeApiTestBodyWithFileSchemaRequest.applicationJson(
-            data: 
-
-
-            
-            
-
-
-    FileSchemaTestClassReflection.instance.example()
-    
-
-
-,
+            data: FakeApiTestBodyWithFileSchemaRequestApplicationJson.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -803,13 +1147,32 @@ exampleObject()
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<FakeApiTestBodyWithFileSchemaResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(FakeApiTestBodyWithFileSchemaResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await FakeApiTestBodyWithFileSchemaResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<FakeApiTestBodyWithFileSchemaResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -832,18 +1195,14 @@ exampleObject()
                 "nice": "work",
             },
             
-query:  
-
-
+query: 
             
+        
+        
             
-
-
-    
-    exampleString()
-
-
-,
+                PrimitiveReflection.forString
+        
+.exampleFunction(exampleContext),
 
         );
         final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
@@ -852,18 +1211,7 @@ query:
     
     test(FakeApiTestBodyWithQueryParamsRequestApplicationJson, () async {
         request = FakeApiTestBodyWithQueryParamsRequest.applicationJson(
-            data: 
-
-
-            
-            
-
-
-    UserReflection.instance.example()
-    
-
-
-,
+            data: FakeApiTestBodyWithQueryParamsRequestApplicationJson.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -874,18 +1222,14 @@ query:
                 "nice": "work",
             },
             
-query:  
-
-
+query: 
             
+        
+        
             
-
-
-    
-    exampleString()
-
-
-,
+                PrimitiveReflection.forString
+        
+.exampleFunction(exampleContext),
 
         );
         final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
@@ -902,13 +1246,32 @@ query:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<FakeApiTestBodyWithQueryParamsResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(FakeApiTestBodyWithQueryParamsResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await FakeApiTestBodyWithQueryParamsResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<FakeApiTestBodyWithQueryParamsResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -942,18 +1305,7 @@ query:
     
     test(FakeApiTestClientModelRequestApplicationJson, () async {
         request = FakeApiTestClientModelRequest.applicationJson(
-            data: 
-
-
-            
-            
-
-
-    ClientReflection.instance.example()
-    
-
-
-,
+            data: FakeApiTestClientModelRequestApplicationJson.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -979,17 +1331,72 @@ query:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<FakeApiTestClientModelResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(FakeApiTestClientModelResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await FakeApiTestClientModelResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<FakeApiTestClientModelResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
     test(FakeApiTestClientModelResponse200ApplicationJson, () async {
+      final codeExample = 
+    200
+;
+      final mimeExample = MediaType.parse(exampleContext.exampleMimeType(r'application/json'));
+      final bodyReflection = FakeApiTestClientModelResponse200ApplicationJson.bodyReflection;
+      // v: an example response body.
+      final v = bodyReflection.exampleFunction(exampleContext);
+      SerializationContext context;
+      if (wireOptions.isXml(mimeExample)) {
+        context = const SerializationContext.xml();
+      } else {
+        context = const SerializationContext.json();
+      }
+      final serializedBody = bodyReflection.serializeFunction(v, context);
+      Object? finalValue = null;
+      finalValue = jsonEncode(serializedBody, toEncodable: wireOptions.toEncodable);
 
+      response = await FakeApiTestClientModelResponse.fromResponse(
+        switch (finalValue) {
+          String() => createFakeTextResponse(
+            statusCode: codeExample,
+            value: finalValue,
+            contentType: mimeExample.toString(),
+          ),
+          _ => createFakeTextResponse(
+            value: serializedBody.toString(),
+            statusCode: codeExample,
+            contentType: mimeExample.toString(),
+          ),
+        },
+        userContext: {},
+        wireSerializationOptions: wireOptions,
+      );
+      expect(response.statusCode, codeExample);
+      expect(response.headers, containsPair('content-type', mimeExample.toString()));
+      //bodyBytesStream SHOULD be null if the response was handled successfully.
+      expect(response.bodyBytesStream, OASNetworkingUtils.isMediaTypeSerializable(mimeExample) ? isNull : isNotNull);
     });
     
   });
@@ -1031,19 +1438,53 @@ query:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<FakeApiTestEndpointParametersResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(FakeApiTestEndpointParametersResponse400, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    400
+;
+      response = await FakeApiTestEndpointParametersResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<FakeApiTestEndpointParametersResponse400>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
   group(FakeApiTestEndpointParametersResponse404, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    404
+;
+      response = await FakeApiTestEndpointParametersResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<FakeApiTestEndpointParametersResponse404>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -1069,73 +1510,45 @@ query:
                 "nice": "work",
             },
             
-enumHeaderStringArray: UndefinedWrapper( 
+enumHeaderStringArray: UndefinedWrapperReflection(
+    ListReflection(
+            EnumHeaderStringArrayEnum.$reflection
+        
+        
+)
+).exampleFunction(exampleContext),
 
+enumHeaderString: UndefinedWrapperReflection(
+            EnumHeaderStringEnum.$reflection
+        
+        
+).exampleFunction(exampleContext),
 
-    exampleList(() { return 
+enumQueryStringArray: UndefinedWrapperReflection(
+    ListReflection(
+            EnumQueryStringArrayEnum.$reflection
+        
+        
+)
+).exampleFunction(exampleContext),
 
+enumQueryString: UndefinedWrapperReflection(
+            EnumQueryStringEnum.$reflection
+        
+        
+).exampleFunction(exampleContext),
 
-            exampleEnum(EnumHeaderStringArrayEnum.values)
+enumQueryInteger: UndefinedWrapperReflection(
+            EnumQueryIntegerEnum.$reflection
+        
+        
+).exampleFunction(exampleContext),
 
-
-
-; })
-
-
-
-),
-
-enumHeaderString: UndefinedWrapper( 
-
-
-            exampleEnum(EnumHeaderStringEnum.values)
-
-
-
-),
-
-enumQueryStringArray: UndefinedWrapper( 
-
-
-    exampleList(() { return 
-
-
-            exampleEnum(EnumQueryStringArrayEnum.values)
-
-
-
-; })
-
-
-
-),
-
-enumQueryString: UndefinedWrapper( 
-
-
-            exampleEnum(EnumQueryStringEnum.values)
-
-
-
-),
-
-enumQueryInteger: UndefinedWrapper( 
-
-
-            exampleEnum(EnumQueryIntegerEnum.values)
-
-
-
-),
-
-enumQueryDouble: UndefinedWrapper( 
-
-
-            exampleEnum(EnumQueryDoubleEnum.values)
-
-
-
-),
+enumQueryDouble: UndefinedWrapperReflection(
+            EnumQueryDoubleEnum.$reflection
+        
+        
+).exampleFunction(exampleContext),
 
         );
         final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
@@ -1151,19 +1564,53 @@ enumQueryDouble: UndefinedWrapper(
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<FakeApiTestEnumParametersResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(FakeApiTestEnumParametersResponse400, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    400
+;
+      response = await FakeApiTestEnumParametersResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<FakeApiTestEnumParametersResponse400>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
   group(FakeApiTestEnumParametersResponse404, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    404
+;
+      response = await FakeApiTestEnumParametersResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<FakeApiTestEnumParametersResponse404>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -1189,83 +1636,59 @@ enumQueryDouble: UndefinedWrapper(
                 "nice": "work",
             },
             
-requiredStringGroup:  
-
-
+requiredStringGroup: 
             
+        
+        
             
+                PrimitiveReflection.forint
+        
+.exampleFunction(exampleContext),
 
-
-    
-    exampleint()
-
-
-,
-
-requiredBooleanGroup:  
-
-
+requiredBooleanGroup: 
             
+        
+        
             
+                PrimitiveReflection.forbool
+        
+.exampleFunction(exampleContext),
 
-
-    
-    examplebool()
-
-
-,
-
-requiredInt64Group:  
-
-
+requiredInt64Group: 
             
+        
+        
             
+                PrimitiveReflection.forint
+        
+.exampleFunction(exampleContext),
 
-
-    
-    exampleint()
-
-
-,
-
-stringGroup: UndefinedWrapper( 
-
-
+stringGroup: UndefinedWrapperReflection(
             
+        
+        
             
+                PrimitiveReflection.forint
+        
+).exampleFunction(exampleContext),
 
-
-    
-    exampleint()
-
-
-),
-
-booleanGroup: UndefinedWrapper( 
-
-
+booleanGroup: UndefinedWrapperReflection(
             
+        
+        
             
+                PrimitiveReflection.forbool
+        
+).exampleFunction(exampleContext),
 
-
-    
-    examplebool()
-
-
-),
-
-int64Group: UndefinedWrapper( 
-
-
+int64Group: UndefinedWrapperReflection(
             
+        
+        
             
-
-
-    
-    exampleint()
-
-
-),
+                PrimitiveReflection.forint
+        
+).exampleFunction(exampleContext),
 
         );
         final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
@@ -1281,13 +1704,32 @@ int64Group: UndefinedWrapper(
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<FakeApiTestGroupParametersResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(FakeApiTestGroupParametersResponse400, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    400
+;
+      response = await FakeApiTestGroupParametersResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<FakeApiTestGroupParametersResponse400>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -1321,25 +1763,7 @@ int64Group: UndefinedWrapper(
     
     test(FakeApiTestInlineAdditionalPropertiesRequestApplicationJson, () async {
         request = FakeApiTestInlineAdditionalPropertiesRequest.applicationJson(
-            data: 
-
-
-    exampleMap(() { return 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-; })
-
-
-
-,
+            data: FakeApiTestInlineAdditionalPropertiesRequestApplicationJson.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -1365,13 +1789,32 @@ int64Group: UndefinedWrapper(
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<FakeApiTestInlineAdditionalPropertiesResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(FakeApiTestInlineAdditionalPropertiesResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await FakeApiTestInlineAdditionalPropertiesResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<FakeApiTestInlineAdditionalPropertiesResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -1405,18 +1848,7 @@ int64Group: UndefinedWrapper(
     
     test(FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson, () async {
         request = FakeApiTestInlineFreeformAdditionalPropertiesRequest.applicationJson(
-            data: 
-
-
-            
-            
-
-
-    TestInlineFreeformAdditionalPropertiesRequestReflection.instance.example()
-    
-
-
-,
+            data: FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -1442,13 +1874,32 @@ int64Group: UndefinedWrapper(
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<FakeApiTestInlineFreeformAdditionalPropertiesResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(FakeApiTestInlineFreeformAdditionalPropertiesResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await FakeApiTestInlineFreeformAdditionalPropertiesResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<FakeApiTestInlineFreeformAdditionalPropertiesResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -1488,13 +1939,32 @@ int64Group: UndefinedWrapper(
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<FakeApiTestJsonFormDataResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(FakeApiTestJsonFormDataResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await FakeApiTestJsonFormDataResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<FakeApiTestJsonFormDataResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -1519,105 +1989,60 @@ int64Group: UndefinedWrapper(
                 "nice": "work",
             },
             
-pipe:  
-
-
-    exampleList(() { return 
-
-
+pipe: 
+    ListReflection(
             
+        
+        
             
+                PrimitiveReflection.forString
+        
+)
+.exampleFunction(exampleContext),
 
-
-    
-    exampleString()
-
-
-; })
-
-
-
-,
-
-ioutil:  
-
-
-    exampleList(() { return 
-
-
+ioutil: 
+    ListReflection(
             
+        
+        
             
+                PrimitiveReflection.forString
+        
+)
+.exampleFunction(exampleContext),
 
-
-    
-    exampleString()
-
-
-; })
-
-
-
-,
-
-http:  
-
-
-    exampleList(() { return 
-
-
+http: 
+    ListReflection(
             
+        
+        
             
+                PrimitiveReflection.forString
+        
+)
+.exampleFunction(exampleContext),
 
-
-    
-    exampleString()
-
-
-; })
-
-
-
-,
-
-url:  
-
-
-    exampleList(() { return 
-
-
+url: 
+    ListReflection(
             
+        
+        
             
+                PrimitiveReflection.forString
+        
+)
+.exampleFunction(exampleContext),
 
-
-    
-    exampleString()
-
-
-; })
-
-
-
-,
-
-context:  
-
-
-    exampleList(() { return 
-
-
+context: 
+    ListReflection(
             
+        
+        
             
-
-
-    
-    exampleString()
-
-
-; })
-
-
-
-,
+                PrimitiveReflection.forString
+        
+)
+.exampleFunction(exampleContext),
 
         );
         final createdRequest = await request.createHttpRequest(baseUrl: baseUrl);
@@ -1634,13 +2059,32 @@ context:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<FakeApiTestQueryParameterCollectionFormatResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(FakeApiTestQueryParameterCollectionFormatResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await FakeApiTestQueryParameterCollectionFormatResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<FakeApiTestQueryParameterCollectionFormatResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
@@ -1674,25 +2118,7 @@ context:
     
     test(FakeApiTestStringMapReferenceRequestApplicationJson, () async {
         request = FakeApiTestStringMapReferenceRequest.applicationJson(
-            data: 
-
-
-    exampleMap(() { return 
-
-
-            
-            
-
-
-    
-    exampleString()
-
-
-; })
-
-
-
-,
+            data: FakeApiTestStringMapReferenceRequestApplicationJson.dataReflection.exampleFunction(exampleContext),
             extraHeaders: {
                 "hello":"world",
             },
@@ -1718,13 +2144,32 @@ context:
         statusCode: 2,
         value: "value",
       ),
-      context: {},
+      wireSerializationOptions: wireOptions,
+      userContext: {},
+    );
+    expect(response, isA<FakeApiTestStringMapReferenceResponse>()
+      .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
     );
     expect(response.statusCode, 2);
   });
   group(FakeApiTestStringMapReferenceResponse200, () {
-    test('Unkown mime', () async {
-
+    test('Unknown mime', () async {
+      final codeExample = 
+    200
+;
+      response = await FakeApiTestStringMapReferenceResponse.fromResponse(
+        createFakeTextResponse(
+          statusCode: codeExample,
+          value: "value",
+          contentType: "application/whatever",
+        ),
+        wireSerializationOptions: wireOptions,
+        userContext: {},
+      );
+      expect(response.statusCode, codeExample);
+      expect(response, isA<FakeApiTestStringMapReferenceResponse200>()
+        .having((f) => f.bodyBytesStream, 'bodyBytesStream', isNotNull),
+      );
     });
     
   });
