@@ -46,6 +46,11 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="integer">integer.</param>
         /// <param name="int32">int32.</param>
+        /// <param name="int32Range">int32Range.</param>
+        /// <param name="int64Positive">int64Positive.</param>
+        /// <param name="int64Negative">int64Negative.</param>
+        /// <param name="int64PositiveExclusive">int64PositiveExclusive.</param>
+        /// <param name="int64NegativeExclusive">int64NegativeExclusive.</param>
         /// <param name="unsignedInteger">unsignedInteger.</param>
         /// <param name="int64">int64.</param>
         /// <param name="unsignedLong">unsignedLong.</param>
@@ -63,7 +68,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
         /// <param name="patternWithBackslash">None.</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double), decimal varDecimal = default(decimal), string varString = default(string), byte[] varByte = default(byte[]), FileParameter binary = default(FileParameter), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
+        public FormatTest(int integer = default(int), int int32 = default(int), int int32Range = default(int), int int64Positive = default(int), int int64Negative = default(int), int int64PositiveExclusive = default(int), int int64NegativeExclusive = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double), decimal varDecimal = default(decimal), string varString = default(string), byte[] varByte = default(byte[]), FileParameter binary = default(FileParameter), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
         {
             this.Number = number;
             // to ensure "varByte" is required (not null)
@@ -81,6 +86,11 @@ namespace Org.OpenAPITools.Model
             this.Password = password;
             this.Integer = integer;
             this.Int32 = int32;
+            this.Int32Range = int32Range;
+            this.Int64Positive = int64Positive;
+            this.Int64Negative = int64Negative;
+            this.Int64PositiveExclusive = int64PositiveExclusive;
+            this.Int64NegativeExclusive = int64NegativeExclusive;
             this.UnsignedInteger = unsignedInteger;
             this.Int64 = int64;
             this.UnsignedLong = unsignedLong;
@@ -108,6 +118,36 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "int32", EmitDefaultValue = false)]
         public int Int32 { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Int32Range
+        /// </summary>
+        [DataMember(Name = "int32Range", EmitDefaultValue = false)]
+        public int Int32Range { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Int64Positive
+        /// </summary>
+        [DataMember(Name = "int64Positive", EmitDefaultValue = false)]
+        public long Int64Positive { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Int64Negative
+        /// </summary>
+        [DataMember(Name = "int64Negative", EmitDefaultValue = false)]
+        public long Int64Negative { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Int64PositiveExclusive
+        /// </summary>
+        [DataMember(Name = "int64PositiveExclusive", EmitDefaultValue = false)]
+        public long Int64PositiveExclusive { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Int64NegativeExclusive
+        /// </summary>
+        [DataMember(Name = "int64NegativeExclusive", EmitDefaultValue = false)]
+        public long Int64NegativeExclusive { get; set; }
 
         /// <summary>
         /// Gets or Sets UnsignedInteger
@@ -234,6 +274,11 @@ namespace Org.OpenAPITools.Model
             sb.Append("class FormatTest {\n");
             sb.Append("  Integer: ").Append(Integer).Append("\n");
             sb.Append("  Int32: ").Append(Int32).Append("\n");
+            sb.Append("  Int32Range: ").Append(Int32Range).Append("\n");
+            sb.Append("  Int64Positive: ").Append(Int64Positive).Append("\n");
+            sb.Append("  Int64Negative: ").Append(Int64Negative).Append("\n");
+            sb.Append("  Int64PositiveExclusive: ").Append(Int64PositiveExclusive).Append("\n");
+            sb.Append("  Int64NegativeExclusive: ").Append(Int64NegativeExclusive).Append("\n");
             sb.Append("  UnsignedInteger: ").Append(UnsignedInteger).Append("\n");
             sb.Append("  Int64: ").Append(Int64).Append("\n");
             sb.Append("  UnsignedLong: ").Append(UnsignedLong).Append("\n");
@@ -296,6 +341,11 @@ namespace Org.OpenAPITools.Model
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.Integer.GetHashCode();
                 hashCode = (hashCode * 59) + this.Int32.GetHashCode();
+                hashCode = (hashCode * 59) + this.Int32Range.GetHashCode();
+                hashCode = (hashCode * 59) + this.Int64Positive.GetHashCode();
+                hashCode = (hashCode * 59) + this.Int64Negative.GetHashCode();
+                hashCode = (hashCode * 59) + this.Int64PositiveExclusive.GetHashCode();
+                hashCode = (hashCode * 59) + this.Int64NegativeExclusive.GetHashCode();
                 hashCode = (hashCode * 59) + this.UnsignedInteger.GetHashCode();
                 hashCode = (hashCode * 59) + this.Int64.GetHashCode();
                 hashCode = (hashCode * 59) + this.UnsignedLong.GetHashCode();
@@ -380,6 +430,42 @@ namespace Org.OpenAPITools.Model
             if (this.Int32 < (int)20)
             {
                 yield return new ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
+            }
+
+            // Int32Range (int) maximum
+            if (this.Int32Range > (int)2147483647)
+            {
+                yield return new ValidationResult("Invalid value for Int32Range, must be a value less than or equal to 2147483647.", new [] { "Int32Range" });
+            }
+
+            // Int32Range (int) minimum
+            if (this.Int32Range < (int)-2147483648)
+            {
+                yield return new ValidationResult("Invalid value for Int32Range, must be a value greater than or equal to -2147483648.", new [] { "Int32Range" });
+            }
+
+            // Int64Positive (long) minimum
+            if (this.Int64Positive < (long)2147483648)
+            {
+                yield return new ValidationResult("Invalid value for Int64Positive, must be a value greater than or equal to 2147483648.", new [] { "Int64Positive" });
+            }
+
+            // Int64Negative (long) maximum
+            if (this.Int64Negative > (long)-2147483649)
+            {
+                yield return new ValidationResult("Invalid value for Int64Negative, must be a value less than or equal to -2147483649.", new [] { "Int64Negative" });
+            }
+
+            // Int64PositiveExclusive (long) minimum
+            if (this.Int64PositiveExclusive < (long)2147483647)
+            {
+                yield return new ValidationResult("Invalid value for Int64PositiveExclusive, must be a value greater than 2147483647.", new [] { "Int64PositiveExclusive" });
+            }
+
+            // Int64NegativeExclusive (long) maximum
+            if (this.Int64NegativeExclusive <= (long)-2147483648)
+            {
+                yield return new ValidationResult("Invalid value for Int64NegativeExclusive, must be a value less than -2147483648.", new [] { "Int64NegativeExclusive" });
             }
 
             // UnsignedInteger (uint) maximum

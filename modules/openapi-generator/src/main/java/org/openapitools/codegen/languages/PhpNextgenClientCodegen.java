@@ -18,6 +18,8 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -41,6 +43,11 @@ import java.util.Map;
 public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
     @SuppressWarnings("hiding")
     private final Logger LOGGER = LoggerFactory.getLogger(PhpNextgenClientCodegen.class);
+
+    public static final String SUPPORT_STREAMING = "supportStreaming";
+
+    @Getter @Setter
+    protected boolean supportStreaming = false;
 
     public PhpNextgenClientCodegen() {
         super();
@@ -92,6 +99,7 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
 
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.ALLOW_UNICODE_IDENTIFIERS_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(CliOption.newBoolean(SUPPORT_STREAMING, "Support streaming endpoint", this.supportStreaming));
     }
 
     @Override
@@ -113,6 +121,8 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
     public void processOpts() {
         super.processOpts();
 
+        convertPropertyToBooleanAndWriteBack(SUPPORT_STREAMING, this::setSupportStreaming);
+
         supportingFiles.add(new SupportingFile("ApiException.mustache", toSrcPath(invokerPackage, srcBasePath), "ApiException.php"));
         supportingFiles.add(new SupportingFile("Configuration.mustache", toSrcPath(invokerPackage, srcBasePath), "Configuration.php"));
         supportingFiles.add(new SupportingFile("ObjectSerializer.mustache", toSrcPath(invokerPackage, srcBasePath), "ObjectSerializer.php"));
@@ -125,6 +135,10 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile(".php-cs-fixer.dist.php", "", ".php-cs-fixer.dist.php"));
         supportingFiles.add(new SupportingFile(".phplint.mustache", "", ".phplint.yml"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+
+        if(this.supportStreaming) {
+            typeMapping.put("file", "\\Psr\\\\Http\\\\Message\\\\StreamInterface");
+        }
     }
 
     @Override

@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of File
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<File?> FileOption { get; private set; }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Files
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<File>?> FilesOption { get; private set; }
 
         /// <summary>

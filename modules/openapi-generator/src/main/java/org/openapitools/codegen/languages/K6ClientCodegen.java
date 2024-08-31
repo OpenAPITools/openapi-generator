@@ -72,6 +72,8 @@ import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 
 public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -300,6 +302,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         @Nullable
         HTTPBody body;
         boolean hasBodyExample;
+        boolean hasCookie;
         @Nullable
         HTTPParameters params;
         @Nullable
@@ -308,7 +311,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         DataExtractSubstituteParameter dataExtract;
 
         public HTTPRequest(String operationId, String method, String path, @Nullable List<Parameter> query, @Nullable HTTPBody body,
-                           boolean hasBodyExample, @Nullable HTTPParameters params, @Nullable List<k6Check> k6Checks,
+                           boolean hasBodyExample, boolean hasCookie, @Nullable HTTPParameters params, @Nullable List<k6Check> k6Checks,
                            DataExtractSubstituteParameter dataExtract) {
             // NOTE: https://k6.io/docs/javascript-api/k6-http/del-url-body-params
             this.method = method.equals("delete") ? "del" : method;
@@ -318,6 +321,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
             this.query = query;
             this.body = body;
             this.hasBodyExample = hasBodyExample;
+            this.hasCookie = hasCookie;
             this.params = params;
             this.k6Checks = k6Checks;
             this.dataExtract = dataExtract;
@@ -358,6 +362,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_DESCRIPTION = "projectDescription";
     public static final String PROJECT_VERSION = "projectVersion";
     public static final String BASE_URL = "baseURL";
+    public static final String TOKEN = "authToken";
     public static final String PRESERVE_LEADING_PARAM_CHAR = "preserveLeadingParamChar";
     static final Collection<String> INVOKER_PKG_SUPPORTING_FILES = Arrays.asList("script.mustache", "README.mustache");
     static final String[][] JAVASCRIPT_SUPPORTING_FILES = {
@@ -494,6 +499,29 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         Set<Parameter> extraParameters = new HashSet<>();
         Map<String, Set<Parameter>> pathVariables = new HashMap<>();
 
+        // get security schema from components
+        Map<String, SecurityScheme> securitySchemeMap = openAPI != null ?
+                (openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null) : null;
+
+        // get global security requirements
+        List<SecurityRequirement> securityRequirements = openAPI.getSecurity();
+
+        // match global security requirements with security schemes and transform them to global auth methods
+        // global auth methods is a list of auth methods that are used in all requests
+        List<CodegenSecurity> globalAuthMethods = new ArrayList<>();
+        Map<String, SecurityScheme> globalSecurityMap = new HashMap<>();
+        if (securityRequirements != null) {
+            for (SecurityRequirement securityRequirement : securityRequirements) {
+                for (String securityRequirementKey : securityRequirement.keySet()) {
+                    SecurityScheme securityScheme = securitySchemeMap.get(securityRequirementKey);
+                    if (securityScheme != null) {
+                        globalSecurityMap.put(securityRequirementKey, securityScheme);
+                    }
+                }
+            }
+            globalAuthMethods = fromSecurity(globalSecurityMap);
+        }
+
         for (String path : openAPI.getPaths().keySet()) {
             Map<Integer, HTTPRequest> requests = new HashMap<>();
             Set<Parameter> variables = new HashSet<>();
@@ -503,6 +531,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
             for (Map.Entry<PathItem.HttpMethod, Operation> methodOperation : openAPI.getPaths().get(path).
                     readOperationsMap().entrySet()) {
                 List<Parameter> httpParams = new ArrayList<>();
+                List<Parameter> cookieParams = new ArrayList<>();
                 List<Parameter> queryParams = new ArrayList<>();
                 List<Parameter> bodyOrFormParams = new ArrayList<>();
                 List<k6Check> k6Checks = new ArrayList<>();
@@ -638,7 +667,38 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
                 pathVariables.put(groupName, variables);
 
-                final HTTPParameters params = new HTTPParameters(null, null, httpParams, null, null, null, null, null,
+                // put auth methods in header or cookie
+                for (CodegenSecurity globalAuthMethod : globalAuthMethods) {
+                    if (globalAuthMethod.isKeyInHeader) {
+                        httpParams.add(new Parameter(globalAuthMethod.keyParamName, getTemplateString(toVarName(globalAuthMethod.keyParamName))));
+                        extraParameters.add(new Parameter(toVarName(globalAuthMethod.keyParamName), globalAuthMethod.keyParamName.toUpperCase(Locale.ROOT)));
+                    }
+                    if (globalAuthMethod.isKeyInCookie) {
+                        cookieParams.add(new Parameter(globalAuthMethod.keyParamName, getTemplateString(toVarName(globalAuthMethod.keyParamName))));
+                        extraParameters.add(new Parameter(toVarName(globalAuthMethod.keyParamName), globalAuthMethod.keyParamName.toUpperCase(Locale.ROOT)));
+                    }
+
+                    // when security is specifically given empty for an end point, it should not be included
+                    if (operation.getSecurity() != null && operation.getSecurity().isEmpty()) {
+                        continue;
+                    }
+                    if ("bearerAuth".equalsIgnoreCase(globalAuthMethod.name)) {
+                        if (operation.getSecurity() == null ||
+                                operation.getSecurity().stream().anyMatch(securityRequirement -> securityRequirement.containsKey("bearerAuth"))) {
+                            httpParams.add(new Parameter("Authorization", "`Bearer ${TOKEN}`"));
+                            additionalProperties.put(TOKEN, true);
+                        }
+                    }
+                    if ("basicAuth".equalsIgnoreCase(globalAuthMethod.name)) {
+                        if (operation.getSecurity() == null ||
+                                operation.getSecurity().stream().anyMatch(securityRequirement -> securityRequirement.containsKey("basicAuth"))) {
+                            httpParams.add(new Parameter("Authorization", "`Basic ${TOKEN}`"));
+                            additionalProperties.put(TOKEN, true);
+                        }
+                    }
+                }
+
+                final HTTPParameters params = new HTTPParameters(null, cookieParams, httpParams, null, null, null, null, null,
                         responseType.length() > 0 ? responseType : null);
 
                 assert params.headers != null;
@@ -650,11 +710,18 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                 // calculate order for this current request
                 Integer requestOrder = calculateRequestOrder(operationGroupingOrder, requests.size());
 
-                requests.put(requestOrder, new HTTPRequest(operationId, method.toString().toLowerCase(Locale.ROOT), path,
-                        queryParams.size() > 0 ? queryParams : null,
-                        bodyOrFormParams.size() > 0 ? new HTTPBody(bodyOrFormParams) : null, hasRequestBodyExample,
-                        params.headers.size() > 0 ? params : null, k6Checks.size() > 0 ? k6Checks : null,
-                        dataExtract.orElse(null)));
+                requests.put(requestOrder, new HTTPRequest(
+                    operationId,
+                    method.toString().toLowerCase(Locale.ROOT),
+                    path,
+                    queryParams.size() > 0 ? queryParams : null,
+                    bodyOrFormParams.size() > 0 ? new HTTPBody(bodyOrFormParams) : null,
+                    hasRequestBodyExample,
+                    params.cookies.size() > 0 ? true : false,
+                    params.headers.size() > 0 ? params : null,
+                    k6Checks.size() > 0 ? k6Checks : null,
+                    dataExtract.orElse(null))
+                );
             }
 
             addOrUpdateRequestGroup(requestGroups, groupName, pathVariables.get(groupName), requests);

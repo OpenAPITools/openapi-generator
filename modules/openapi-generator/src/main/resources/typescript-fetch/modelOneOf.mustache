@@ -36,6 +36,8 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
         return {{{.}}}FromJSONTyped(json, true);
     }
     {{/oneOf}}
+
+    return {} as any;
 {{/discriminator}}
 }
 

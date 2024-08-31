@@ -38,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   TypeHolderDefault.JSON_PROPERTY_ARRAY_ITEM
 })
 @javax.annotation.concurrent.Immutable
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class TypeHolderDefault {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
   private String stringItem = "what";

@@ -1,0 +1,187 @@
+    /**
+     * Returns a new instance of the class which handles parameters to and responses from the {{operationId}} operation.
+     * <p>
+     *     Developers can override this method if they extend the {{classname}} class.
+     * </p>
+     *
+     * @return new {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}
+     */
+    protected {{#lambda.titlecase}}{{operationId}}Op{{/lambda.titlecase}} create{{#lambda.titlecase}}{{operationId}}Op{{/lambda.titlecase}}() {
+        return new {{#lambda.titlecase}}{{operationId}}Op{{/lambda.titlecase}}();
+    }
+
+{{!
+    Declares an inner class for each operation which collects:
+        * overridable methods for preparing each parameter from the request
+        * an interface which defines the possible return groups (body or header results and status).
+}}
+    /**
+     * Helper elements for the {{=<% %>=}}{@code <%operationId%>}<%={{ }}=%> operation.
+     * <p>
+     * Also below are records for each response declared in the OpenAPI document, organized by response status.
+     * <p>
+     *     Once your code determines which (if any) declared response to send it can use the static {@code builder} method for
+     *     that specific result, passing the required elements of the response as parameters, and then assign any optional
+     *     response elements using the other builder methods.
+     * <p>
+     *     Finally, your code should invoke the {@code apply} method, passing the original {@link ServerResponse}. The
+     *     generated method sets any headers you have assigned, sets the correct status in the response, and sends
+     *     the response including any appropriate entity.
+     * </p>
+     */
+    public static class {{#lambda.titlecase}}{{operationId}}Op{{/lambda.titlecase}} {
+{{#allParams}}
+
+        /**
+         * Prepares the {{paramName}} parameter.
+         *
+         * @param request {@link io.helidon.webserver.http.ServerRequest} containing the parameter
+{{#isFormParameter}}{{^isMultipart}}{{!
+}}         * @param formParams {@link io.helidon.common.parameters.Parameters} containing all form parameters
+{{/isMultipart}}{{/isFormParameter}}{{#vendorExtensions.x-helidon-isMultipartFormParam}}{{!
+}}         * @param parts {@code Map} of part names to {@link io.helidon.http.media.multipart.ReadablePart} for each part
+{{/vendorExtensions.x-helidon-isMultipartFormParam}}{{!
+}}         * @param validator {@link {{apiPackage}}.ValidatorUtils.Validator} for validating all parameters to the operation
+         * @return {{paramName}} parameter value
+         */
+        protected {{> paramDeclType }} {{> paramMethodName }}(ServerRequest request, {{#isFormParam}}{{^isMultipart}}Parameters formParams, {{/isMultipart}}{{#isMultipart}}Map<String, ReadablePart> parts, {{/isMultipart}}{{/isFormParam}}ValidatorUtils.Validator validator) {
+            return {{^isBodyParam}}{{> paramValueExpr}}{{/isBodyParam}}{{#isBodyParam}}{{> bodyParamValue }};{{/isBodyParam}}
+        }
+{{/allParams}}
+{{#responses}}
+
+        /**
+         * {{#isDefault}}Default result{{/isDefault}}{{^isDefault}}Response for HTTP status code {{=<% %>=}}{@code <%code%>}<%={{ }}=%>{{/isDefault}}.{{!
+}}{{#isDefault}}
+         *
+         * @param status (required) Status value to be sent with this default result{{/isDefault}}{{!
+}}{{#vendorExtensions.x-helidon-hasResponseProps}}{{!
+}}{{^isDefault}}
+        *{{/isDefault}}{{!
+}}{{#vendorExtensions.x-helidon-allResponseProps}}
+         * @param {{name}} {{#required}}(required) {{/required}}{{description}}{{/vendorExtensions.x-helidon-allResponseProps}}{{/vendorExtensions.x-helidon-hasResponseProps}}
+         */
+        record {{> resultRecordTypeName }}({{#isDefault}}Status status{{#vendorExtensions.x-helidon-hasResponseProps}}, {{/vendorExtensions.x-helidon-hasResponseProps}}{{!
+}}{{/isDefault}}{{#vendorExtensions.x-helidon-allResponseProps}}{{^-first}},
+                    {{/-first}}{{> opResultParamDecl}}{{/vendorExtensions.x-helidon-allResponseProps}}{{!
+}}) {
+
+            /**
+             * Creates a response builder for the {{#isDefault}}default{{/isDefault}}{{^isDefault}}status {{=<% %>=}}{@code <%code%>}<%={{ }}=%>{{/isDefault}} response
+             * for the {{operationId}} operation{{#x-helidon-hasRequiredResponseProps}}, accepting all the required response values{{/x-helidon-hasRequiredResponseProps}}{{^x-helidon-hasRequiredResponseProps}}; there are no required result values{{/x-helidon-hasRequiredResponseProps}} for this response.
+             *{{!
+}}{{#vendorExtensions.x-helidon-requiredResponseProps}}
+             * @param {{name}} returned {{#isHeader}}header{{/isHeader}}{{^isHeader}}entity{{/isHeader}}{{/vendorExtensions.x-helidon-requiredResponseProps}}
+             * @return new builder for status {{code}}
+             */
+            static Builder builder({{#isDefault}}Status status{{#vendorExtensions.x-helidon-hasRequiredResponseProps}},
+                {{/vendorExtensions.x-helidon-hasRequiredResponseProps}}{{/isDefault}}{{#vendorExtensions.x-helidon-requiredResponseProps}}{{^-first}},
+                {{/-first}}{{> opResultParamDecl }}{{/vendorExtensions.x-helidon-requiredResponseProps}}) {
+                return new Builder({{#isDefault}}status{{#vendorExtensions.x-helidon-hasRequiredResponseProps}},
+                            {{/vendorExtensions.x-helidon-hasRequiredResponseProps}}{{/isDefault}}{{#vendorExtensions.x-helidon-requiredResponseProps}}{{^-first}},
+                            {{/-first}}{{name}}{{/vendorExtensions.x-helidon-requiredResponseProps}});
+            }
+
+            /**
+             * Builder for the {{> resultRecordTypeName}} result.
+             */
+            static class Builder implements io.helidon.common.Builder<Builder, {{> resultRecordTypeName }}> {
+{{#vendorExtensions.x-helidon-allResponseProps}}{{#-first}}
+{{/-first}}{{!
+}}                private {{#required}}final {{/required}}{{> opResultParamDecl }};{{/vendorExtensions.x-helidon-allResponseProps}}
+{{#vendorExtensions.x-helidon-resultBuilderNeedsCtor}}{{!
+}}{{#isDefault}}{{!
+}}                private final Status status;
+{{/isDefault}}
+                Builder({{#isDefault}}Status status{{#vendorExtensions.x-helidon-hasRequiredResponseProps}},
+                        {{/vendorExtensions.x-helidon-hasRequiredResponseProps}}{{/isDefault}}{{#vendorExtensions.x-helidon-requiredResponseProps}}{{^-first}},
+                        {{/-first}}{{> opResultParamDecl }}{{/vendorExtensions.x-helidon-requiredResponseProps}}) {
+{{#isDefault}}{{!
+}}                    this.status = status;{{/isDefault}}
+{{#vendorExtensions.x-helidon-requiredResponseProps}}{{!
+}}                    this.{{name}} = {{name}};{{/vendorExtensions.x-helidon-requiredResponseProps}}
+                }
+{{/vendorExtensions.x-helidon-resultBuilderNeedsCtor}}
+                @Override
+                public {{> resultRecordTypeName}} build() {
+                    return new {{> resultRecordTypeName}}({{#isDefault}}status{{#vendorExtensions.x-helidon-hasResponseProps}},
+                            {{/vendorExtensions.x-helidon-hasResponseProps}}{{/isDefault}}{{#vendorExtensions.x-helidon-allResponseProps}}{{^-first}},
+                            {{/-first}}{{name}}{{/vendorExtensions.x-helidon-allResponseProps}});
+                }
+
+                /**
+                 * Sends the response data in this builder to the specified {@link io.helidon.webserver.http.ServerResponse},
+                 * assigning the HTTP status, any response headers, and any response entity.
+                 * <p>
+                 *     Equivalent to {@snippet :
+                 *     build().send(_serverResponse);
+                 *     }
+                 * </p>
+                 *
+                 * @param _serverResponse the {@code ServerResponse} to which to apply the status, headers, and entity
+                 */
+                void send(ServerResponse _serverResponse) {
+                    build().send(_serverResponse);
+                }{{#vendorExtensions.x-helidon-optionalResponseProps}}
+
+                /**
+                 * Sets the value for the optional return property {{=<% %>=}}{@code <%name%>}<%={{ }}=%>.
+                 * @param {{name}} {{description}}
+                 * @return updated result builder
+                 */
+                Builder {{name}}({{> opResultParamDecl }}) {
+                    this.{{name}} = {{name}};
+                    return this;
+                }{{/vendorExtensions.x-helidon-optionalResponseProps}}
+            }
+{{!
+    Suppress the generated constructor if it would duplicate the implied canonical constructor.
+}}{{!
+}}{{#vendorExtensions.x-helidon-hasRequiredResponseProps}}
+{{> opResultRecordCtor }}{{!
+}}{{/vendorExtensions.x-helidon-hasRequiredResponseProps}}{{!
+}}{{^vendorExtensions.x-helidon-hasRequiredResponseProps}}{{#isDefault}}
+    {{> opResultRecordCtor }}{{!
+}}{{/isDefault}}{{/vendorExtensions.x-helidon-hasRequiredResponseProps}}
+            /**
+             * Applies this response data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             *
+             * @param _serverResponse the server response to which to apply these result values
+             */
+            void send(ServerResponse _serverResponse) {
+                _serverResponse.status({{^isDefault}}{{vendorExtensions.x-helidon-resultStatusDecl}}{{/isDefault}}{{#isDefault}}status{{/isDefault}});{{!
+}}{{#headers}}{{!
+}}                if ({{name}} != null) {
+                    _serverResponse.header("{{baseName}}", {{name}}{{^isString}}.toString(){{/isString}});
+                }{{/headers}}{{!
+}}{{#returnProperty}}{{!
+}}{{^required}}
+                if ({{name}} != null) { {{!
+}}{{/required}}{{!
+}}{{^isFile}}
+{{^required}}    {{/required}}{{!
+}}            _serverResponse.send({{name}});{{!
+}}{{^required}}
+                } else {
+                    _serverResponse.send();
+                }{{!
+}}{{/required}}{{!
+}}{{/isFile}}{{!
+}}{{#isFile}}
+{{^required}}   {{/required}}{{!
+}}                _serverResponse.contentLength({{name}}.transferTo(_serverResponse.outputStream()));{{!
+}}{{^required}}
+                }{{!
+}}{{/required}}{{!
+}}                _serverResponse.send();{{!
+}}{{/isFile}}{{!
+}}{{/returnProperty}}{{!
+}}{{^dataType}}
+                _serverResponse.send();{{!
+}}{{/dataType}}{{!
+}}
+            }
+        }
+{{/responses}}
+    }

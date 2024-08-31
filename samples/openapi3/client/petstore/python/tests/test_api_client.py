@@ -10,6 +10,7 @@ $ pytest
 """
 
 import unittest
+from decimal import Decimal
 from enum import Enum
 
 from dateutil.parser import parse
@@ -55,6 +56,33 @@ class ApiClientTests(unittest.TestCase):
         # test basic auth
         self.assertEqual('test_username', client.configuration.username)
         self.assertEqual('test_password', client.configuration.password)
+
+    def test_ignore_operation_servers(self):
+        config = petstore_api.Configuration(host=HOST)
+        client = petstore_api.ApiClient(config)
+        user_api_instance = petstore_api.api.user_api.UserApi(client)
+
+        config_ignore = petstore_api.Configuration(host=HOST, ignore_operation_servers=True)
+        client_ignore = petstore_api.ApiClient(config_ignore)
+        user_api_instance_ignore = petstore_api.api.user_api.UserApi(client_ignore)
+
+        params_to_serialize = {
+            'user': petstore_api.User(id=1, username='test'),
+            '_request_auth': None,
+            '_content_type': 'application/json',
+            '_headers': None,
+            '_host_index': 0
+        }
+
+        # operation servers should be used
+        _, url, *_ = user_api_instance._create_user_serialize(**params_to_serialize)
+        self.assertEqual(client.configuration.host, HOST)
+        self.assertEqual(url, 'http://petstore.swagger.io/v2/user')
+
+        # operation servers should be ignored
+        _, url_ignore, *_ = user_api_instance_ignore._create_user_serialize(**params_to_serialize)
+        self.assertEqual(client.configuration.host, HOST)
+        self.assertEqual(url_ignore, HOST + '/user')
 
     def test_select_header_accept(self):
         accepts = ['APPLICATION/JSON', 'APPLICATION/XML']
@@ -152,6 +180,11 @@ class ApiClientTests(unittest.TestCase):
         data = parse("1997-07-16T19:20:30.45+01:00")  # datetime
         result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, "1997-07-16T19:20:30.450000+01:00")
+
+    def test_sanitize_for_serialization_decimal(self):
+        data = Decimal("1.0")
+        result = self.api_client.sanitize_for_serialization(data)
+        self.assertEqual(result, "1.0")
 
     def test_sanitize_for_serialization_list_enum(self):
         class EnumSerialization(int, Enum):

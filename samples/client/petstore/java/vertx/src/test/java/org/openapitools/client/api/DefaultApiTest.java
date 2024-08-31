@@ -16,11 +16,10 @@ import org.openapitools.client.model.FooGetDefaultResponse;
 
 import org.openapitools.client.Configuration;
 
-import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -41,24 +40,16 @@ import java.util.Map;
 /**
  * API tests for DefaultApi
  */
-@RunWith(VertxUnitRunner.class)
-@Ignore
+@Disabled
 public class DefaultApiTest {
 
     private DefaultApi api;
 
-    @Rule
-    public RunTestOnContext rule = new RunTestOnContext();
-
-    @BeforeClass
+    @BeforeAll
     public void setupApiClient() {
-        JsonObject config = new JsonObject();
-        Vertx vertx = rule.vertx();
-        Configuration.setupDefaultApiClient(vertx, config);
-
         api = new DefaultApiImpl();
     }
-    
+
     /**
      * 
      * 
@@ -73,5 +64,4 @@ public class DefaultApiTest {
             async.complete();
         });
     }
-    
 }

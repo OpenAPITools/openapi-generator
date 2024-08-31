@@ -11,3 +11,5 @@ additionalProperties:
   nullableReferenceTypes: false
   equatable: true
   targetFramework: net48
+  modelPropertySorting: alphabetical
+  operationParameterSorting: alphabetical

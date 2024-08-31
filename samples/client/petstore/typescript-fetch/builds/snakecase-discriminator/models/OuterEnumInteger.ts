@@ -28,7 +28,7 @@ export type OuterEnumInteger = typeof OuterEnumInteger[keyof typeof OuterEnumInt
 export function instanceOfOuterEnumInteger(value: any): boolean {
     for (const key in OuterEnumInteger) {
         if (Object.prototype.hasOwnProperty.call(OuterEnumInteger, key)) {
-            if ((OuterEnumInteger as Record<string, OuterEnumInteger>)[key] === value) {
+            if (OuterEnumInteger[key as keyof typeof OuterEnumInteger] === value) {
                 return true;
             }
         }

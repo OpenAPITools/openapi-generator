@@ -6,6 +6,7 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.core.io.Resource
+import org.springframework.http.server.reactive.ServerHttpRequest
 
 import java.util.Optional
 
@@ -13,7 +14,7 @@ import java.util.Optional
  * A delegate to be called by the {@link UserApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.9.0-SNAPSHOT")
 interface UserApiDelegate {
 
     fun getRequest(): Optional<NativeWebRequest> = Optional.empty()
@@ -21,7 +22,8 @@ interface UserApiDelegate {
     /**
      * @see UserApi#createUser
      */
-    fun createUser(user: User): ResponseEntity<Unit> {
+    fun createUser(user: User,
+        serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -30,7 +32,8 @@ interface UserApiDelegate {
     /**
      * @see UserApi#createUsersWithArrayInput
      */
-    fun createUsersWithArrayInput(user: kotlin.collections.List<User>): ResponseEntity<Unit> {
+    fun createUsersWithArrayInput(user: kotlin.collections.List<User>,
+        serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -39,7 +42,8 @@ interface UserApiDelegate {
     /**
      * @see UserApi#createUsersWithListInput
      */
-    fun createUsersWithListInput(user: kotlin.collections.List<User>): ResponseEntity<Unit> {
+    fun createUsersWithListInput(user: kotlin.collections.List<User>,
+        serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -48,7 +52,8 @@ interface UserApiDelegate {
     /**
      * @see UserApi#deleteUser
      */
-    fun deleteUser(username: kotlin.String): ResponseEntity<Unit> {
+    fun deleteUser(username: kotlin.String,
+        serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -57,7 +62,8 @@ interface UserApiDelegate {
     /**
      * @see UserApi#getUserByName
      */
-    fun getUserByName(username: kotlin.String): ResponseEntity<User> {
+    fun getUserByName(username: kotlin.String,
+        serverHttpRequest: ServerHttpRequest): ResponseEntity<User> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -79,7 +85,8 @@ interface UserApiDelegate {
      * @see UserApi#loginUser
      */
     fun loginUser(username: kotlin.String,
-        password: kotlin.String): ResponseEntity<kotlin.String> {
+        password: kotlin.String,
+        serverHttpRequest: ServerHttpRequest): ResponseEntity<kotlin.String> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -88,7 +95,7 @@ interface UserApiDelegate {
     /**
      * @see UserApi#logoutUser
      */
-    fun logoutUser(): ResponseEntity<Unit> {
+    fun logoutUser(serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -98,7 +105,8 @@ interface UserApiDelegate {
      * @see UserApi#updateUser
      */
     fun updateUser(username: kotlin.String,
-        user: User): ResponseEntity<Unit> {
+        user: User,
+        serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }

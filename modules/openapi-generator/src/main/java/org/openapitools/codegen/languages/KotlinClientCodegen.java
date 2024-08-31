@@ -331,7 +331,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
      * Sets the serialization engine for Kotlin
      *
      * @param enumSerializationLibrary The string representation of the serialization library as defined by
-     *                                 {@link org.openapitools.codegen.languages.AbstractKotlinCodegen.SERIALIZATION_LIBRARY_TYPE}
+     *                                 {@link org.openapitools.codegen.languages.KotlinClientCodegen.SERIALIZATION_LIBRARY_TYPE}
      */
     public void setSerializationLibrary(final String enumSerializationLibrary) {
         try {

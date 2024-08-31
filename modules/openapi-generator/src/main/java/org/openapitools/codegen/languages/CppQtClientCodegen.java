@@ -40,6 +40,7 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
     // source folder where to write the files
     protected String sourceFolder = "client";
     @Setter protected boolean optionalProjectFileFlag = true;
+    @Setter protected boolean addDownloadProgress = false;
 
     public CppQtClientCodegen() {
         super();
@@ -98,6 +99,7 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
         // CLI options
         addOption(CodegenConstants.PACKAGE_NAME, "C++ package (library) name.", DEFAULT_PACKAGE_NAME);
         addSwitch(CodegenConstants.OPTIONAL_PROJECT_FILE, OPTIONAL_PROJECT_FILE_DESC, this.optionalProjectFileFlag);
+        addSwitch("addDownloadProgress", "Add support for Qt download progress", this.addDownloadProgress);
 
         supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder, PREFIX + "Helpers.h"));
         supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder, PREFIX + "Helpers.cpp"));

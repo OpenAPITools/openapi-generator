@@ -65,6 +65,7 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
 
     private static final String X_HELIDON_REQUIRED_IMPL_IMPORTS = "x-helidon-requiredImplImports";
     private static final String X_HELIDON_IMPL_IMPORTS = "x-helidon-implImports";
+    private static final String X_CLIENT_STYLE_V3 = "x-helidon-client-style-v3";
     public static final String CONFIG_KEY = "configKey";
 
     @Setter protected String configKey = null;
@@ -173,6 +174,8 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
     public void processOpts() {
         super.processOpts();
 
+        // Not intended for users to set; we compute this based on the major version.
+        additionalProperties.put(X_CLIENT_STYLE_V3, helidonMajorVersion == 3);
         convertPropertyToStringAndWriteBack(SERIALIZATION_LIBRARY, this::setSerializationLibrary);
 
         convertPropertyToStringAndWriteBack(CONFIG_KEY, this::setConfigKey);
@@ -199,7 +202,12 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
         } else if (isLibrary(HELIDON_SE)) {
             apiTemplateFiles.put("api_impl.mustache", ".java");
             importMapping.put("StringJoiner", "java.util.StringJoiner");
-            importMapping.put("WebClientRequestHeaders", "io.helidon.webclient.WebClientRequestHeaders");
+            if (helidonMajorVersion == 3) {
+                importMapping.put("WebClientRequestHeaders", "io.helidon.webclient.WebClientRequestHeaders");
+            } else {
+                importMapping.put("ClientRequestHeaders", "io.helidon.http.ClientRequestHeaders");
+                importMapping.put("HeaderNames", "io.helidon.http.HeaderNames");
+            }
             importMapping.put("Pair", invokerPackage + ".Pair");
 
 
@@ -309,7 +317,10 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
             requiredImplImports.add("Pair");
         }
         if (op.getHasHeaderParams()) {
-            requiredImplImports.add("WebClientRequestHeaders");
+            requiredImplImports.add(helidonMajorVersion == 3 ? "WebClientRequestHeaders" : "ClientRequestHeaders");
+            if (helidonMajorVersion > 3) {
+                requiredImplImports.add("HeaderNames");
+            }
         }
         if (op.getHasFormParams()) {
             requiredImplImports.add("StringJoiner");
@@ -360,14 +371,10 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
         if (HELIDON_MP.equals(getLibrary())) {
             model.imports.remove("ApiModelProperty");
             model.imports.remove("ApiModel");
-            model.imports.remove("JsonSerialize");
-            model.imports.remove("ToStringSerializer");
         } else if (HELIDON_SE.equals(getLibrary())) {
             // TODO check for SE-specifics
             model.imports.remove("ApiModelProperty");
             model.imports.remove("ApiModel");
-            model.imports.remove("JsonSerialize");
-            model.imports.remove("ToStringSerializer");
         }
 
         if ("set".equals(property.containerType) && !JACKSON.equals(serializationLibrary)) {

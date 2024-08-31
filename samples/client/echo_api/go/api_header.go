@@ -116,19 +116,19 @@ func (a *HeaderAPIService) TestHeaderIntegerBooleanStringEnumsExecute(r ApiTestH
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	if r.integerHeader != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "integer_header", r.integerHeader, "")
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "integer_header", r.integerHeader, "form", "")
 	}
 	if r.booleanHeader != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "boolean_header", r.booleanHeader, "")
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "boolean_header", r.booleanHeader, "form", "")
 	}
 	if r.stringHeader != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "string_header", r.stringHeader, "")
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "string_header", r.stringHeader, "form", "")
 	}
 	if r.enumNonrefStringHeader != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "enum_nonref_string_header", r.enumNonrefStringHeader, "")
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "enum_nonref_string_header", r.enumNonrefStringHeader, "form", "")
 	}
 	if r.enumRefStringHeader != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "enum_ref_string_header", r.enumRefStringHeader, "")
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "enum_ref_string_header", r.enumRefStringHeader, "form", "")
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {

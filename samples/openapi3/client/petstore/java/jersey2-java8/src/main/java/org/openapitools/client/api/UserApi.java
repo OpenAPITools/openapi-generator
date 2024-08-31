@@ -17,7 +17,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class UserApi {
   private ApiClient apiClient;
 
@@ -201,7 +201,7 @@ public class UserApi {
 
     // Path parameters
     String localVarPath = "/user/{username}"
-            .replaceAll("\\{username}", apiClient.escapeString(username));
+            .replaceAll("\\{username}", apiClient.escapeString(username.toString()));
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType();
@@ -249,7 +249,7 @@ public class UserApi {
 
     // Path parameters
     String localVarPath = "/user/{username}"
-            .replaceAll("\\{username}", apiClient.escapeString(username));
+            .replaceAll("\\{username}", apiClient.escapeString(username.toString()));
 
     String localVarAccept = apiClient.selectHeaderAccept("application/xml", "application/json");
     String localVarContentType = apiClient.selectHeaderContentType();
@@ -386,7 +386,7 @@ public class UserApi {
 
     // Path parameters
     String localVarPath = "/user/{username}"
-            .replaceAll("\\{username}", apiClient.escapeString(username));
+            .replaceAll("\\{username}", apiClient.escapeString(username.toString()));
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/json");

@@ -1,5 +1,11 @@
+{{>licenseInfo}}
+
 package {{invokerPackage}};
 
+{{#withXml}}
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+{{/withXml}}
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -12,8 +18,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.MediaType;
-  import org.springframework.http.converter.HttpMessageConverter;
-  import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 {{#withXml}}
   import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
 {{/withXml}}
@@ -119,7 +125,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setDateFormat(dateFormat);
         mapper.registerModule(new JavaTimeModule());
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, {{failOnUnknownProperties}});
         {{#openApiNullable}}
         JsonNullableModule jnm = new JsonNullableModule();
         mapper.registerModule(jnm);

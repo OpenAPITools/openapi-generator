@@ -62,11 +62,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     ));
 
     /**
-     * -- GETTER --
      *  Returns default database name for all MySQL queries
-     *  This value must be used with backticks only, eg. `database_name`
-     *
-     * @return default database name
+     *  This value must be used with backticks only, e.g. `database_name`
      */
     @Getter protected String defaultDatabaseName = "", databaseNamePrefix = "", databaseNameSuffix = "_db";
     protected String tableNamePrefix = "tbl_", tableNameSuffix = "";
@@ -83,10 +80,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     @Getter @Setter
     protected Boolean namedParametersEnabled = false;
     /**
-     * -- GETTER --
      *  Returns identifier naming convention for table names and column names.
-     *
-     * @return identifier naming convention
      */
     @Getter protected String identifierNamingConvention = "original";
 

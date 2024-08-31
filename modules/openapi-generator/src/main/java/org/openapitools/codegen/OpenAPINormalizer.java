@@ -411,9 +411,7 @@ public class OpenAPINormalizer {
                 parameter = ModelUtils.getReferencedParameter(openAPI, parameter);
             }
 
-            if (parameter.getSchema() == null) {
-                continue;
-            } else {
+            if (parameter.getSchema() != null) {
                 Schema newSchema = normalizeSchema(parameter.getSchema(), new HashSet<>());
                 parameter.setSchema(newSchema);
             }

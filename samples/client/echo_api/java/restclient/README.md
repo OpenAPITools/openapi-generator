@@ -4,7 +4,7 @@ Echo Server API
 
 - API version: 0.1.0
 
-- Generator version: 7.7.0-SNAPSHOT
+- Generator version: 7.9.0-SNAPSHOT
 
 Echo Server API
 
@@ -89,7 +89,7 @@ import org.openapitools.client.api.AuthApi;
 public class AuthApiExample {
 
     public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        ApiClient defaultClient = new ApiClient();
         defaultClient.setBasePath("http://localhost:3000");
         
         // Configure HTTP basic authorization: http_auth
@@ -101,10 +101,10 @@ public class AuthApiExample {
         try {
             String result = apiInstance.testAuthHttpBasic();
             System.out.println(result);
-        } catch (ApiException e) {
+        } catch (HttpStatusCodeException e) {
             System.err.println("Exception when calling AuthApi#testAuthHttpBasic");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Status code: " + e.getStatusCode().value());
+            System.err.println("Reason: " + e.getResponseBodyAsString());
             System.err.println("Response headers: " + e.getResponseHeaders());
             e.printStackTrace();
         }

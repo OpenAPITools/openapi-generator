@@ -18,6 +18,7 @@ public final class Pet: Content, Hashable {
         case pending = "pending"
         case sold = "sold"
     }
+    static let photoUrlsRule = ArrayRule(minItems: nil, maxItems: nil, uniqueItems: true)
     public var id: Int64?
     public var category: Category?
     public var name: String

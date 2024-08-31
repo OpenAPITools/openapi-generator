@@ -125,7 +125,7 @@ namespace Org.OpenAPITools.Client
                 var text = request.downloadHandler?.text;
 
                 // Generated APIs that don't expect a return value provide System.Object as the type
-                if (type == typeof(System.Object) && (string.IsNullOrEmpty(text) || text.Trim() == "null"))
+                if (type == typeof(global::System.Object) && (string.IsNullOrEmpty(text) || text.Trim() == "null"))
                 {
                     return null;
                 }
@@ -148,7 +148,7 @@ namespace Org.OpenAPITools.Client
                 }
             }
             
-            if (type != typeof(System.Object) && request.responseCode >= 200 && request.responseCode < 300)
+            if (type != typeof(global::System.Object) && request.responseCode >= 200 && request.responseCode < 300)
             {
                 throw new UnexpectedResponseException(request, type);
             }
@@ -298,7 +298,7 @@ namespace Org.OpenAPITools.Client
                 request = new UnityWebRequest(builder.GetFullUri(), method);
             }
 
-            if (request.downloadHandler == null && typeof(T) != typeof(System.Object))
+            if (request.downloadHandler == null && typeof(T) != typeof(global::System.Object))
             {
                 request.downloadHandler = new DownloadHandlerBuffer();
             }
@@ -379,7 +379,7 @@ namespace Org.OpenAPITools.Client
             string path,
             RequestOptions options,
             IReadableConfiguration configuration,
-            System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+            System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             var deserializer = new CustomJsonCodec(SerializerSettings, configuration);
 
@@ -452,7 +452,7 @@ namespace Org.OpenAPITools.Client
         /// GlobalConfiguration has been done before calling this method.</param>
         /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> GetAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public Task<ApiResponse<T>> GetAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
             return ExecAsync<T>(NewRequest<T>("GET", path, options, config), path, options, config, cancellationToken);
@@ -467,7 +467,7 @@ namespace Org.OpenAPITools.Client
         /// GlobalConfiguration has been done before calling this method.</param>
         /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> PostAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public Task<ApiResponse<T>> PostAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
             return ExecAsync<T>(NewRequest<T>("POST", path, options, config), path, options, config, cancellationToken);
@@ -482,7 +482,7 @@ namespace Org.OpenAPITools.Client
         /// GlobalConfiguration has been done before calling this method.</param>
         /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> PutAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public Task<ApiResponse<T>> PutAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
             return ExecAsync<T>(NewRequest<T>("PUT", path, options, config), path, options, config, cancellationToken);
@@ -497,7 +497,7 @@ namespace Org.OpenAPITools.Client
         /// GlobalConfiguration has been done before calling this method.</param>
         /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> DeleteAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public Task<ApiResponse<T>> DeleteAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
             return ExecAsync<T>(NewRequest<T>("DELETE", path, options, config), path, options, config, cancellationToken);
@@ -512,7 +512,7 @@ namespace Org.OpenAPITools.Client
         /// GlobalConfiguration has been done before calling this method.</param>
         /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> HeadAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public Task<ApiResponse<T>> HeadAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
             return ExecAsync<T>(NewRequest<T>("HEAD", path, options, config), path, options, config, cancellationToken);
@@ -527,7 +527,7 @@ namespace Org.OpenAPITools.Client
         /// GlobalConfiguration has been done before calling this method.</param>
         /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> OptionsAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public Task<ApiResponse<T>> OptionsAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
             return ExecAsync<T>(NewRequest<T>("OPTIONS", path, options, config), path, options, config, cancellationToken);
@@ -542,7 +542,7 @@ namespace Org.OpenAPITools.Client
         /// GlobalConfiguration has been done before calling this method.</param>
         /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> PatchAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public Task<ApiResponse<T>> PatchAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
             return ExecAsync<T>(NewRequest<T>("PATCH", path, options, config), path, options, config, cancellationToken);

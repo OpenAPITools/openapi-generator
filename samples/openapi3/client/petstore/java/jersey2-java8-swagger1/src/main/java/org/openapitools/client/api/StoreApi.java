@@ -16,7 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class StoreApi {
   private ApiClient apiClient;
 
@@ -83,7 +83,7 @@ public class StoreApi {
 
     // Path parameters
     String localVarPath = "/store/order/{orderId}"
-            .replaceAll("\\{orderId}", apiClient.escapeString(orderId));
+            .replaceAll("\\{orderId}", apiClient.escapeString(orderId.toString()));
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType();

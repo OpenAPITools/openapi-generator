@@ -166,10 +166,10 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         # override the default output from pydantic by calling `to_dict()` of each item in {{{name}}} (list of list)
         _items = []
         if self.{{{name}}}:
-            for _item in self.{{{name}}}:
-                if _item:
+            for _item_{{{name}}} in self.{{{name}}}:
+                if _item_{{{name}}}:
                     _items.append(
-                         [_inner_item.to_dict() for _inner_item in _item if _inner_item is not None]
+                         [_inner_item.to_dict() for _inner_item in _item_{{{name}}} if _inner_item is not None]
                     )
             _dict['{{{baseName}}}'] = _items
         {{/items.items.isPrimitiveType}}
@@ -180,9 +180,9 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         # override the default output from pydantic by calling `to_dict()` of each item in {{{name}}} (list)
         _items = []
         if self.{{{name}}}:
-            for _item in self.{{{name}}}:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_{{{name}}} in self.{{{name}}}:
+                if _item_{{{name}}}:
+                    _items.append(_item_{{{name}}}.to_dict())
             _dict['{{{baseName}}}'] = _items
         {{/items.isEnumOrRef}}
         {{/items.isPrimitiveType}}
@@ -194,10 +194,10 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         # override the default output from pydantic by calling `to_dict()` of each value in {{{name}}} (dict of array)
         _field_dict_of_array = {}
         if self.{{{name}}}:
-            for _key in self.{{{name}}}:
-                if self.{{{name}}}[_key] is not None:
-                    _field_dict_of_array[_key] = [
-                        _item.to_dict() for _item in self.{{{name}}}[_key]
+            for _key_{{{name}}} in self.{{{name}}}:
+                if self.{{{name}}}[_key_{{{name}}}] is not None:
+                    _field_dict_of_array[_key_{{{name}}}] = [
+                        _item.to_dict() for _item in self.{{{name}}}[_key_{{{name}}}]
                     ]
             _dict['{{{baseName}}}'] = _field_dict_of_array
         {{/items.items.isPrimitiveType}}
@@ -208,9 +208,9 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         # override the default output from pydantic by calling `to_dict()` of each value in {{{name}}} (dict)
         _field_dict = {}
         if self.{{{name}}}:
-            for _key in self.{{{name}}}:
-                if self.{{{name}}}[_key]:
-                    _field_dict[_key] = self.{{{name}}}[_key].to_dict()
+            for _key_{{{name}}} in self.{{{name}}}:
+                if self.{{{name}}}[_key_{{{name}}}]:
+                    _field_dict[_key_{{{name}}}] = self.{{{name}}}[_key_{{{name}}}].to_dict()
             _dict['{{{baseName}}}'] = _field_dict
         {{/items.isEnumOrRef}}
         {{/items.isPrimitiveType}}

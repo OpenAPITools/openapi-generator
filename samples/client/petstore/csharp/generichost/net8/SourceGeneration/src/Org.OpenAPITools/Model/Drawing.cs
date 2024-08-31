@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of MainShape
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<Shape?> MainShapeOption { get; private set; }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of NullableShape
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<NullableShape?> NullableShapeOption { get; private set; }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of ShapeOrNull
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<ShapeOrNull?> ShapeOrNullOption { get; private set; }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Shapes
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<List<Shape>?> ShapesOption { get; private set; }
 
         /// <summary>

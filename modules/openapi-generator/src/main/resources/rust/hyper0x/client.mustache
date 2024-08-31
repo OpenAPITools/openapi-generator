@@ -1,0 +1,54 @@
+use std::rc::Rc;
+
+use hyper;
+use super::configuration::Configuration;
+
+pub struct APIClient {
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+    {{#-last}}
+    {{{classFilename}}}: Box<dyn crate::apis::{{{classname}}}>,
+    {{/-last}}
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+}
+
+impl APIClient {
+    pub fn new<C: hyper::client::connect::Connect>(configuration: Configuration<C>) -> APIClient
+        where C: Clone + std::marker::Send + Sync + 'static {
+        let rc = Rc::new(configuration);
+
+        APIClient {
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+            {{#-last}}
+            {{{classFilename}}}: Box::new(crate::apis::{{{classname}}}Client::new(rc.clone())),
+            {{/-last}}
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+        }
+    }
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+{{#-last}}
+    pub fn {{{classFilename}}}(&self) -> &dyn crate::apis::{{{classname}}}{
+        self.{{{classFilename}}}.as_ref()
+    }
+
+{{/-last}}
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+}

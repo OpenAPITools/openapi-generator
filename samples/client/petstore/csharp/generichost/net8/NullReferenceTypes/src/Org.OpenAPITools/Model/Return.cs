@@ -66,7 +66,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of VarReturn
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<int?> VarReturnOption { get; private set; }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Org.OpenAPITools.Model
         /// Used to track the state of Unsafe
         /// </summary>
         [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public Option<string?> UnsafeOption { get; private set; }
 
         /// <summary>

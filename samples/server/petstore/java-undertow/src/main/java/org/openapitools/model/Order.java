@@ -25,7 +25,7 @@ import java.util.Date;
  */
 
 @ApiModel(description = "An order for a pets from the pet store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
 public class Order   {
   
   private Long id;

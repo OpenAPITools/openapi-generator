@@ -2128,7 +2128,7 @@ public class ModelUtils {
         }
 
         if (schema instanceof JsonSchema) {
-            if (schema.getTypes() != null) {
+            if (schema.getTypes() != null && !schema.getTypes().isEmpty()) {
                 return String.valueOf(schema.getTypes().iterator().next());
             } else {
                 return null;

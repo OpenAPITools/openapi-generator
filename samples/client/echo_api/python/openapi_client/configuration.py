@@ -33,6 +33,9 @@ class Configuration:
     """This class contains various settings of the API client.
 
     :param host: Base url.
+    :param ignore_operation_servers
+      Boolean to ignore operation servers for the API client.
+      Config will use `host` as the base url regardless of the operation servers.
     :param api_key: Dict to store API key(s).
       Each entry in the dict specifies an API key.
       The dict key is the name of the security scheme in the OAS specification.
@@ -84,6 +87,7 @@ conf = openapi_client.Configuration(
                  access_token=None,
                  server_index=None, server_variables=None,
                  server_operation_index=None, server_operation_variables=None,
+                 ignore_operation_servers=False,
                  ssl_ca_cert=None,
                  retries=None,
                  *,
@@ -101,6 +105,9 @@ conf = openapi_client.Configuration(
         self.server_variables = server_variables or {}
         self.server_operation_variables = server_operation_variables or {}
         """Default server variables
+        """
+        self.ignore_operation_servers = ignore_operation_servers
+        """Ignore operation servers
         """
         self.temp_folder_path = None
         """Temp file folder for downloading files

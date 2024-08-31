@@ -126,5 +126,10 @@
 -
   caption: "Kong"
   image: "img/companies/kong.png"
-  infoLink: "https://konghq.com/products/kong-konnect/register?utm_medium=referral&utm_source=github&utm_campaign=platform&utm_content=openapi-generator"
+  infoLink: "https://konghq.com/products/kong-konnect?utm_medium=referral&utm_source=github&utm_campaign=platform&utm_content=openapi-generator"
+  bronze: true
+-
+  caption: "Route4Me"
+  image: "img/companies/route4me.png"
+  infoLink: "https://route4me.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
   bronze: true
