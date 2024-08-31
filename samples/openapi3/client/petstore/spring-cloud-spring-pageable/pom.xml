@@ -10,7 +10,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <springdoc.version>1.6.14</springdoc.version>
+        <springdoc.version>1.8.0</springdoc.version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
