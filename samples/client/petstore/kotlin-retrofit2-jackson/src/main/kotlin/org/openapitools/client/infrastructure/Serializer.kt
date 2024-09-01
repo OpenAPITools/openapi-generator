@@ -11,4 +11,5 @@ object Serializer {
         .findAndRegisterModules()
         .setSerializationInclusion(JsonInclude.Include.NON_ABSENT)
         .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 }
