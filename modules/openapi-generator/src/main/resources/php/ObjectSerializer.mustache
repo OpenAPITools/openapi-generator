@@ -185,6 +185,10 @@ class ObjectSerializer
             case 'boolean':
                 return !in_array($value, [false, 0], true);
 
+            # For string values, '' is considered empty.
+            case 'string':
+                return $value === '';
+
             # For all the other types, any value at this point can be considered empty.
             default:
                 return true;

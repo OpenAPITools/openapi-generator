@@ -198,6 +198,9 @@ class ObjectSerializer
             # For boolean values, '' is considered empty
             'bool','boolean' => !in_array($value, [false, 0], true),
 
+            # For string values, '' is considered empty.
+            'string' => $value === '',
+
             # For all the other types, any value at this point can be considered empty.
             default => true
         };
