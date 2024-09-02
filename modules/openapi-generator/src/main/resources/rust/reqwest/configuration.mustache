@@ -1,5 +1,5 @@
 {{>partial_header}}
-
+use std::collections::HashMap;
 {{#withAWSV4Signature}}
 use std::time::SystemTime;
 use aws_sigv4::http_request::{sign, SigningSettings, SigningParams, SignableRequest};
@@ -15,7 +15,7 @@ pub struct Configuration {
     pub basic_auth: Option<BasicAuth>,
     pub oauth_access_token: Option<String>,
     pub bearer_access_token: Option<String>,
-    pub api_key: Option<ApiKey>,
+    pub api_keys: HashMap<String,String>,
     {{#withAWSV4Signature}}
     pub aws_v4_key: Option<AWSv4Key>,
     {{/withAWSV4Signature}}
@@ -23,12 +23,6 @@ pub struct Configuration {
 }
 
 pub type BasicAuth = (String, Option<String>);
-
-#[derive(Debug, Clone)]
-pub struct ApiKey {
-    pub prefix: Option<String>,
-    pub key: String,
-}
 
 {{#withAWSV4Signature}}
 #[derive(Debug, Clone)]
@@ -84,7 +78,7 @@ impl Default for Configuration {
             basic_auth: None,
             oauth_access_token: None,
             bearer_access_token: None,
-            api_key: None,
+            api_keys: HashMap::new(),
 {{#withAWSV4Signature}}            aws_v4_key: None,{{/withAWSV4Signature}}
         }
     }
