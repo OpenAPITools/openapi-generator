@@ -104,12 +104,19 @@ class MapTest {
 
 
 enum MapTestMapOfEnumStringEnum {
-  @JsonValue(r'UPPER')
-  UPPER,
-  @JsonValue(r'lower')
-  lower,
-  @JsonValue(r'unknown_default_open_api')
-  unknownDefaultOpenApi,
+@JsonValue(r'UPPER')
+UPPER(r'UPPER'),
+@JsonValue(r'lower')
+lower(r'lower'),
+@JsonValue(r'unknown_default_open_api')
+unknownDefaultOpenApi(r'unknown_default_open_api');
+
+const MapTestMapOfEnumStringEnum(this.value);
+
+final String value;
+
+@override
+String toString() => value;
 }
 
 

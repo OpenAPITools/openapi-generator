@@ -139,14 +139,25 @@ class Pet {
 
 /// pet status in the store
 enum PetStatusEnum {
-  @JsonValue(r'available')
-  available,
-  @JsonValue(r'pending')
-  pending,
-  @JsonValue(r'sold')
-  sold,
-  @JsonValue(r'unknown_default_open_api')
-  unknownDefaultOpenApi,
+    /// pet status in the store
+@JsonValue(r'available')
+available(r'available'),
+    /// pet status in the store
+@JsonValue(r'pending')
+pending(r'pending'),
+    /// pet status in the store
+@JsonValue(r'sold')
+sold(r'sold'),
+    /// pet status in the store
+@JsonValue(r'unknown_default_open_api')
+unknownDefaultOpenApi(r'unknown_default_open_api');
+
+const PetStatusEnum(this.value);
+
+final String value;
+
+@override
+String toString() => value;
 }
 
 

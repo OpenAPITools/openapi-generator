@@ -91,10 +91,17 @@ class ChildWithNullable {
 
 
 enum ChildWithNullableTypeEnum {
-  @JsonValue(r'ChildWithNullable')
-  childWithNullable,
-  @JsonValue(r'unknown_default_open_api')
-  unknownDefaultOpenApi,
+@JsonValue(r'ChildWithNullable')
+childWithNullable(r'ChildWithNullable'),
+@JsonValue(r'unknown_default_open_api')
+unknownDefaultOpenApi(r'unknown_default_open_api');
+
+const ChildWithNullableTypeEnum(this.value);
+
+final String value;
+
+@override
+String toString() => value;
 }
 
 
