@@ -6,7 +6,7 @@
 -ignore_xref([start/2]).
 
 -spec start(term(), #{transport      => tcp | ssl,
-                      transport_opts => ranch:transport_opts(),
+                      transport_opts => ranch:opts(),
                       protocol_opts  => cowboy:opts(),
                       logic_handler  => module()}) ->
     {ok, pid()} | {error, any()}.

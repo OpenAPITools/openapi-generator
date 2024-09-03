@@ -53,4 +53,4 @@ provide_callback(Class, OperationID, Req, Context) ->
                  operation_id => OperationID,
                  request => Req,
                  context => Context}),
-    {501, #{}, #{}}.
+    {<<>>, Req, Context}.
