@@ -79,7 +79,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
             {{/isArray}}
             {{^isArray}}
             for (const key of Object.keys(serializedParams)) {
-                requestContext.appendQueryParam(key, serializedParams[key]);
+                requestContext.setQueryParam(key, serializedParams[key]);
             }
             {{/isArray}}
             {{/isExplode}}

@@ -1039,7 +1039,7 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
         if (language !== undefined) {
             const serializedParams = ObjectSerializer.serialize(language, "{ [key: string]: string; }", "string");
             for (const key of Object.keys(serializedParams)) {
-                requestContext.appendQueryParam(key, serializedParams[key]);
+                requestContext.setQueryParam(key, serializedParams[key]);
             }
         }
 
