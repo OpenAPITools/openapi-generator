@@ -103,14 +103,6 @@ class FakeApi
      */
     protected $streamFactory;
     
-    /**
-     * @var string[]
-     */
-    public const JSON_FORMATS = [
-        'application/merge-patch+json', 
-        'application/json',
-    ]; 
-
     public function __construct(
         ClientInterface $httpClient = null,
         Configuration $config = null,
