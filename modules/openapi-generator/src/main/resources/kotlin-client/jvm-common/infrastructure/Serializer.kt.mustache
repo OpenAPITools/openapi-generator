@@ -28,9 +28,7 @@ import kotlinx.datetime.Instant
 import java.util.UUID
 {{/gson}}
 {{#jackson}}
-{{#enumUnknownDefaultCase}}
 import com.fasterxml.jackson.databind.DeserializationFeature
-{{/enumUnknownDefaultCase}}
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.annotation.JsonInclude
