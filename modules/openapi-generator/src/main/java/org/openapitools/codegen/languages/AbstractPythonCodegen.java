@@ -422,7 +422,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             // Enum case:
             example = schema.getEnum().get(0).toString();
             if (ModelUtils.isStringSchema(schema)) {
-                example = "'" + escapeText(example) + "'";
+                example = "'" + escapeTextInSingleQuotes(example) + "'";
             }
             if (null == example)
                 LOGGER.warn("Empty enum. Cannot built an example!");
@@ -521,7 +521,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 if (additional.getEnum() != null && !additional.getEnum().isEmpty()) {
                     theKey = additional.getEnum().get(0).toString();
                     if (ModelUtils.isStringSchema(additional)) {
-                        theKey = "'" + escapeText(theKey) + "'";
+                        theKey = "'" + escapeTextInSingleQuotes(theKey) + "'";
                     }
                 }
                 example = "{\n" + indentationString + theKey + " : " + toExampleValueRecursive(additional, includedSchemas, indentation + 1) + "\n" + indentationString + "}";
@@ -587,7 +587,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         if (ModelUtils.isStringSchema(schema)) {
-            example = "'" + escapeText(example) + "'";
+            example = "'" + escapeTextInSingleQuotes(example) + "'";
         }
 
         return example;
@@ -613,7 +613,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (example == null) {
                 example = p.paramName + "_example";
             }
-            example = "'" + escapeText(example) + "'";
+            example = "'" + escapeTextInSingleQuotes(example) + "'";
         } else if ("Integer".equals(type) || "int".equals(type)) {
             if (example == null) {
                 example = "56";
@@ -630,17 +630,17 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (example == null) {
                 example = "/path/to/file";
             }
-            example = "'" + escapeText(example) + "'";
+            example = "'" + escapeTextInSingleQuotes(example) + "'";
         } else if ("Date".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "2013-10-20";
             }
-            example = "'" + escapeText(example) + "'";
+            example = "'" + escapeTextInSingleQuotes(example) + "'";
         } else if ("DateTime".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "2013-10-20T19:20:30+01:00";
             }
-            example = "'" + escapeText(example) + "'";
+            example = "'" + escapeTextInSingleQuotes(example) + "'";
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
             example = this.packageName + "." + type + "()";
@@ -1412,8 +1412,16 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         if ("int".equals(datatype) || "float".equals(datatype)) {
             return value;
         } else {
-            return "\'" + escapeText(value) + "\'";
+            return "'" + escapeTextInSingleQuotes(value) + "'";
         }
+    }
+
+    public String escapeTextInSingleQuotes(String input) {
+        if (input == null) {
+            return null;
+        }
+
+        return escapeText(input).replace("'", "\\'");
     }
 
     @Override
