@@ -466,6 +466,7 @@ public class DefaultGenerator implements Generator {
 
         // process models only
         for (String name : modelKeys) {
+            processedModels.add(name);
             try {
                 //don't generate models that have an import mapping
                 if (config.schemaMapping().containsKey(name)) {
@@ -604,7 +605,7 @@ public class DefaultGenerator implements Generator {
         } else if (variable.getComplexType() != null && variable.getComposedSchemas() == null) {
             String ref = variable.getHasItems() ? variable.getItems().getRef() : variable.getRef();
             final String key = calculateModelKey(variable.getComplexType(), ref);
-            if (allSchemas.containsKey(key)) {
+            if (!processedModels.contains(key) && allSchemas.containsKey(key)) {
                 generateModels(files, allModels, unusedModels, aliasModels, processedModels, () -> Set.of(key));
             } else {
                 LOGGER.info("Type " + variable.getComplexType()+" of variable " + variable.getName() + " could not be resolve because it is not declared as a model.");

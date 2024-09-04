@@ -15,7 +15,7 @@
 
 <div align="center">
 
-[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`7.8.0`):
+[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`7.9.0`):
 [![Build Status](https://api.travis-ci.com/OpenAPITools/openapi-generator.svg?branch=master&status=passed)](https://app.travis-ci.com/github/OpenAPITools/openapi-generator/builds)
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator)
@@ -128,8 +128,8 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 
 | OpenAPI Generator Version                                                                                                                                 | Release Date | Notes                                             |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------- |
-| 7.8.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/7.8.0-SNAPSHOT/) | 09.08.2024   | Minor release with breaking changes (with fallback) |
-| [7.7.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v7.7.0) (latest stable release)                                                    | 02.07.2024   | Minor release with breaking changes (with fallback) |
+| 7.9.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/7.9.0-SNAPSHOT/) | 23.09.2024   | Minor release with breaking changes (with fallback) |
+| [7.8.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v7.8.0) (latest stable release)                                                    | 19.08.2024   | Minor release with breaking changes (with fallback) |
 | [6.6.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v6.6.0)                                                    | 11.05.2023   | Minor release with breaking changes (with fallback) |
 | [5.4.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v5.4.0)                                                    | 31.01.2022   | Minor release with breaking changes (with fallback) |
 | [4.3.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v4.3.1)                                                    | 06.05.2020   | Patch release (enhancements, bug fixes, etc)                       |
@@ -192,16 +192,16 @@ See the different versions of the [openapi-generator-cli](https://search.maven.o
 <!-- RELEASE_VERSION -->
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 11 runtime at a minimum):
 
-JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.7.0/openapi-generator-cli-7.7.0.jar`
+JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.8.0/openapi-generator-cli-7.8.0.jar`
 
 For **Mac/Linux** users:
 ```sh
-wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.7.0/openapi-generator-cli-7.7.0.jar -O openapi-generator-cli.jar
+wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.8.0/openapi-generator-cli-7.8.0.jar -O openapi-generator-cli.jar
 ```
 
 For **Windows** users, you will need to install [wget](http://gnuwin32.sourceforge.net/packages/wget.htm) or you can use Invoke-WebRequest in PowerShell (3.0+), e.g.
 ```
-Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.7.0/openapi-generator-cli-7.7.0.jar
+Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.8.0/openapi-generator-cli-7.8.0.jar
 ```
 
 After downloading the JAR, run `java -jar openapi-generator-cli.jar help` to show the usage.
@@ -436,7 +436,7 @@ openapi-generator-cli version
 To use a specific version of "openapi-generator-cli"
 
 ```sh
-openapi-generator-cli version-manager set 7.0.1
+openapi-generator-cli version-manager set 7.8.0
 ```
 
 Or install it as dev-dependency:
@@ -445,6 +445,43 @@ Or install it as dev-dependency:
 npm install @openapitools/openapi-generator-cli -D
 ```
 <!-- /RELEASE_VERSION -->
+
+#### Use locally built JAR
+In order to use a locally built jar of the generator CLI, you can copy the jar from your local build (i.e. if you were to `build` this repository it would be in `~/openapi-generator/modules/openapi-generator-cli/target/openapi-generator-cli.jar`) into `./node_modules/@openapitools/openapi-generator-cli/versions/` and change the `version` in the `openapitools.json` file to the base name of the jar file.
+E.g.:
+```sh
+cd openapi-generator
+./mvnw clean package
+cp ./modules/openapi-generator-cli/target/openapi-generator-cli.jar /your/project/node_modules/@openapitools/openapi-generator-cli/versions/my-local-snapshot.jar
+```
+and then:
+```json
+{
+  "$schema": "./node_modules/@openapitools/openapi-generator-cli/config.schema.json",
+  "spaces": 2,
+  "generator-cli": {
+    "version": "my-local-snapshot",
+  }
+}
+```
+
+#### Use nightly `SNAPSHOT` build
+Change your `openapitools.json` to:
+
+```json
+{
+  "$schema": "node_modules/@openapitools/openapi-generator-cli/config.schema.json",
+  "spaces": 2,
+  "generator-cli": {
+    "version": "7.9.0-20240829.123431-22",
+    "repository": {
+      "downloadUrl": "https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/7.9.0-SNAPSHOT/openapi-generator-cli-${versionName}.jar"
+    }
+  }
+}
+```
+(example is with a snapshot of `7.9.0`, please change the `version` and `downloadUrl` accordingly)
+
 ## [2 - Getting Started](#table-of-contents)
 
 To generate a PHP client for [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml), please run the following
@@ -460,7 +497,7 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 (if you're on Windows, replace the last command with `java -jar modules\openapi-generator-cli\target\openapi-generator-cli.jar generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g php -o c:\temp\php_api_client`)
 
 <!-- RELEASE_VERSION -->
-You can also download the JAR (latest release) directly from [maven.org](https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.0.1/openapi-generator-cli-7.0.1.jar)
+You can also download the JAR (latest release) directly from [maven.org](https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.8.0/openapi-generator-cli-7.8.0.jar)
 <!-- /RELEASE_VERSION -->
 
 To get a list of **general** options available, please run `java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar help generate`
@@ -576,9 +613,9 @@ Please refer to [online.md](docs/online.md) on how to run and use the `openapi-g
 
 ### [3.4 - License information on Generated Code](#table-of-contents)
 
-The OpenAPI Generator project is intended as a benefit for users of the Open API Specification.  The project itself has the [License](#license) as specified. In addition, please understand the following points:
+The OpenAPI Generator project is intended as a benefit for users of the Open API Specification.  The project itself has the [License](#7---license) as specified. In addition, please understand the following points:
 
-* The templates included with this project are subject to the [License](#license).
+* The templates included with this project are subject to the [License](#7---license).
 * Generated code is intentionally _not_ subject to the parent project license
 
 When code is generated from this project, it shall be considered **AS IS** and owned by the user of the software.  There are no warranties--expressed or implied--for generated code.  You can do what you wish with it, and once generated, the code is your responsibility and subject to the licensing terms that you deem appropriate.
@@ -943,7 +980,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 
 What's the design philosophy or principle behind OpenAPI Generator?
 
-We focus on developer experience. The generators should produce code, config, documentation, and more that are easily understandable and consumable by users. We focused on simple use cases to start with (bottom-up approach). Since then the project and the community have grown a lot: 300k weekly downloads via NPM CLI wrapper, 20M downloads via openapi-generator-cli docker image just to highlight a few. We've gradually supported more features (e.g. oneOf, anyOf introduced in OpenAPI 3.0) in various generators and we will continue this approach to deliver something based on our understanding of user demand and what they want, and continue to add support of new features introduced in OpenAPI specification (such as v3.1 and future versions of the OpenAPI specification).
+We focus on developer experience. The generators should produce code, config, documentation, and more that are easily understandable and consumable by users. We focused on simple use cases to start with (bottom-up approach). Since then the project and the community have grown a lot: 600k weekly downloads via NPM CLI wrapper, 30M downloads via openapi-generator-cli docker image just to highlight a few. We've gradually supported more features (e.g. oneOf, anyOf introduced in OpenAPI 3.0) in various generators and we will continue this approach to deliver something based on our understanding of user demand and what they want, and continue to add support of new features introduced in OpenAPI specification (such as v3.1 and future versions of the OpenAPI specification).
 
 ### [6.1 - OpenAPI Generator Core Team](#table-of-contents)
 

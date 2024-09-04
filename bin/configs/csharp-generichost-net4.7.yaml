@@ -12,3 +12,4 @@ additionalProperties:
   equatable: true
   targetFramework: net47
   modelPropertySorting: alphabetical
+  operationParameterSorting: alphabetical

@@ -34,7 +34,7 @@ import com.google.gson.reflect.TypeToken
 
 val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 
-open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
+open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClient) {
     companion object {
         protected const val ContentType = "Content-Type"
         protected const val Accept = "Accept"
