@@ -2027,11 +2027,6 @@ class UserApi
 
     private function bodyShouldBeEncoded(string $contentType): bool 
     {        
-        foreach(self::JSON_FORMATS as $format) {
-            if(stripos($contentType, $format) !== false) {
-               return true;
-            }
-        }
-        return false;
+        return preg_match('~^application/(json|[\w!#$&.+-^_]+\+json)\s*(;|$)~', $contentType) === 1;
     }
 }
