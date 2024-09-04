@@ -80,6 +80,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public String classFilename; // store the class file name, mainly used for import
     @Getter @Setter
     public String unescapedDescription;
+    @Getter @Setter
+    public String unescapedSafeDescription;
     /**
      * -- GETTER --
      *  Returns the discriminator for this schema object, or null if no discriminator has been specified.
@@ -938,6 +940,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 Objects.equals(xmlName, that.xmlName) &&
                 Objects.equals(classFilename, that.classFilename) &&
                 Objects.equals(unescapedDescription, that.unescapedDescription) &&
+                Objects.equals(unescapedSafeDescription, that.unescapedSafeDescription) &&
                 Objects.equals(discriminator, that.discriminator) &&
                 Objects.equals(defaultValue, that.defaultValue) &&
                 Objects.equals(arrayModelType, that.arrayModelType) &&
@@ -1019,6 +1022,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", xmlName='").append(xmlName).append('\'');
         sb.append(", classFilename='").append(classFilename).append('\'');
         sb.append(", unescapedDescription='").append(unescapedDescription).append('\'');
+        sb.append(", unescapedSafeDescription='").append(unescapedSafeDescription).append('\'');
         sb.append(", discriminator=").append(discriminator);
         sb.append(", defaultValue='").append(defaultValue).append('\'');
         sb.append(", arrayModelType='").append(arrayModelType).append('\'');

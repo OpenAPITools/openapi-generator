@@ -100,6 +100,8 @@ public interface CodegenConfig {
 
     String escapeUnsafeCharacters(String input);
 
+    String escapeUnsafeCharactersNullGuard(String input);
+
     String escapeReservedWord(String name);
 
     String escapeQuotationMark(String input);
