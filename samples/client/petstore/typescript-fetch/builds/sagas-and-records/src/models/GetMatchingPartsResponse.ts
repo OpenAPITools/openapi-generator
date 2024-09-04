@@ -69,10 +69,11 @@ export function GetMatchingPartsResponseFromJSONTyped(json: any, ignoreDiscrimin
     };
 }
 
-export function GetMatchingPartsResponseToJSON(value?: GetMatchingPartsResponse | null): any {
+export function GetMatchingPartsResponseToJSON(value?: GetMatchingPartsResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'meta': ResponseMetaToJSON(value['meta']),

@@ -164,10 +164,11 @@ export function FormatTestFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     };
 }
 
-export function FormatTestToJSON(value?: FormatTest | null): any {
+export function FormatTestToJSON(value?: FormatTest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'integer': value['integer'],

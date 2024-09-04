@@ -59,19 +59,20 @@ export function MatchingPartsFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
         
-        'connected': ((json['connected'] as Array<any>).map(PartFromJSON)),
-        'related': ((json['related'] as Array<any>).map(PartFromJSON)),
+        'connected': ((json['connected'] as Array<any>).map(s => PartFromJSON(s))),
+        'related': ((json['related'] as Array<any>).map(s => PartFromJSON(s))),
     };
 }
 
-export function MatchingPartsToJSON(value?: MatchingParts | null): any {
+export function MatchingPartsToJSON(value?: MatchingParts | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
-        'connected': ((value['connected'] as Array<any>).map(PartToJSON)),
-        'related': ((value['related'] as Array<any>).map(PartToJSON)),
+        'connected': ((value['connected'] as Array<any>).map(a => PartToJSON(a))),
+        'related': ((value['related'] as Array<any>).map(a => PartToJSON(a))),
     };
 }
 

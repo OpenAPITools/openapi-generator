@@ -65,18 +65,19 @@ export function FindPetsByUserResponseFromJSONTyped(json: any, ignoreDiscriminat
     return {
         
         'meta': ResponseMetaFromJSON(json['meta']),
-        'data': json['data'] == null ? undefined : ((json['data'] as Array<any>).map(UserFromJSON)),
+        'data': json['data'] == null ? undefined : ((json['data'] as Array<any>).map(s => UserFromJSON(s))),
     };
 }
 
-export function FindPetsByUserResponseToJSON(value?: FindPetsByUserResponse | null): any {
+export function FindPetsByUserResponseToJSON(value?: FindPetsByUserResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'meta': ResponseMetaToJSON(value['meta']),
-        'data': value['data'] == null ? undefined : ((value['data'] as Array<any>).map(UserToJSON)),
+        'data': value['data'] == null ? undefined : ((value['data'] as Array<any>).map(a => UserToJSON(a))),
     };
 }
 

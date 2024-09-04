@@ -55,10 +55,11 @@ export function ClubFromJSONTyped(json: any, ignoreDiscriminator: boolean): Club
     };
 }
 
-export function ClubToJSON(value?: Omit<Club, 'owner'> | null): any {
+export function ClubToJSON(value?: Omit<Club, 'owner'> | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
     };

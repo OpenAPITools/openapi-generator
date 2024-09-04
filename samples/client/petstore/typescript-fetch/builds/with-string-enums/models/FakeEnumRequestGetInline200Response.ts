@@ -107,10 +107,11 @@ export function FakeEnumRequestGetInline200ResponseFromJSONTyped(json: any, igno
     };
 }
 
-export function FakeEnumRequestGetInline200ResponseToJSON(value?: FakeEnumRequestGetInline200Response | null): any {
+export function FakeEnumRequestGetInline200ResponseToJSON(value?: FakeEnumRequestGetInline200Response | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'string-enum': value['stringEnum'],

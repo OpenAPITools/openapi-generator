@@ -64,10 +64,11 @@ export function AllOfWithSingleRefFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function AllOfWithSingleRefToJSON(value?: AllOfWithSingleRef | null): any {
+export function AllOfWithSingleRefToJSON(value?: AllOfWithSingleRef | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'username': value['username'],

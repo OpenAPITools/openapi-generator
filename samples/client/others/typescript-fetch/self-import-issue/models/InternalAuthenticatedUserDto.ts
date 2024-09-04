@@ -49,7 +49,7 @@ export function InternalAuthenticatedUserDtoFromJSONTyped(json: any, ignoreDiscr
     return json;
 }
 
-export function InternalAuthenticatedUserDtoToJSON(value?: InternalAuthenticatedUserDto | null): any {
+export function InternalAuthenticatedUserDtoToJSON(value?: InternalAuthenticatedUserDto | null, ignoreDiscriminator: boolean = false): any {
     return value;
 }
 

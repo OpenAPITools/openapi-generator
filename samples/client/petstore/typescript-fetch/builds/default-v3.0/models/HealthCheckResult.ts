@@ -48,10 +48,11 @@ export function HealthCheckResultFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function HealthCheckResultToJSON(value?: HealthCheckResult | null): any {
+export function HealthCheckResultToJSON(value?: HealthCheckResult | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'NullableMessage': value['nullableMessage'],

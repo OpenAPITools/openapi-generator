@@ -71,10 +71,11 @@ export function GetBehaviorTypeResponseFromJSONTyped(json: any, ignoreDiscrimina
     };
 }
 
-export function GetBehaviorTypeResponseToJSON(value?: GetBehaviorTypeResponse | null): any {
+export function GetBehaviorTypeResponseToJSON(value?: GetBehaviorTypeResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'meta': ResponseMetaToJSON(value['meta']),

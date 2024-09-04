@@ -55,10 +55,11 @@ export function FileSchemaTestClassFromJSONTyped(json: any, ignoreDiscriminator:
     };
 }
 
-export function FileSchemaTestClassToJSON(value?: FileSchemaTestClass | null): any {
+export function FileSchemaTestClassToJSON(value?: FileSchemaTestClass | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'file': value['file'],

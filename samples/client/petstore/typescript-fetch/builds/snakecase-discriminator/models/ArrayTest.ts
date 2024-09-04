@@ -69,10 +69,11 @@ export function ArrayTestFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     };
 }
 
-export function ArrayTestToJSON(value?: ArrayTest | null): any {
+export function ArrayTestToJSON(value?: ArrayTest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'array_of_string': value['arrayOfString'],

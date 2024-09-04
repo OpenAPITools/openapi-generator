@@ -49,10 +49,11 @@ export function TestBFromJSONTyped(json: any, ignoreDiscriminator: boolean): Tes
     };
 }
 
-export function TestBToJSON(value?: TestB | null): any {
+export function TestBToJSON(value?: TestB | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'bar': value['bar'],

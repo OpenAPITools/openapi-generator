@@ -55,10 +55,11 @@ export function FooGetDefaultResponseFromJSONTyped(json: any, ignoreDiscriminato
     };
 }
 
-export function FooGetDefaultResponseToJSON(value?: FooGetDefaultResponse | null): any {
+export function FooGetDefaultResponseToJSON(value?: FooGetDefaultResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'string': FooToJSON(value['string']),

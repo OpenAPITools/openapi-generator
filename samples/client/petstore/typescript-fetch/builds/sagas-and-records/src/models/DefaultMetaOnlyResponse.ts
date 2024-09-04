@@ -56,10 +56,11 @@ export function DefaultMetaOnlyResponseFromJSONTyped(json: any, ignoreDiscrimina
     };
 }
 
-export function DefaultMetaOnlyResponseToJSON(value?: DefaultMetaOnlyResponse | null): any {
+export function DefaultMetaOnlyResponseToJSON(value?: DefaultMetaOnlyResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'meta': ResponseMetaToJSON(value['meta']),

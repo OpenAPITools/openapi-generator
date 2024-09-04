@@ -70,10 +70,11 @@ export function NameFromJSONTyped(json: any, ignoreDiscriminator: boolean): Name
     };
 }
 
-export function NameToJSON(value?: Omit<Name, 'snake_case'|'123Number'> | null): any {
+export function NameToJSON(value?: Omit<Name, 'snake_case'|'123Number'> | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'name': value['name'],

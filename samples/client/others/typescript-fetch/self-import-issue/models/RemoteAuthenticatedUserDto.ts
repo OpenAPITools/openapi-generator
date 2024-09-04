@@ -49,7 +49,7 @@ export function RemoteAuthenticatedUserDtoFromJSONTyped(json: any, ignoreDiscrim
     return json;
 }
 
-export function RemoteAuthenticatedUserDtoToJSON(value?: RemoteAuthenticatedUserDto | null): any {
+export function RemoteAuthenticatedUserDtoToJSON(value?: RemoteAuthenticatedUserDto | null, ignoreDiscriminator: boolean = false): any {
     return value;
 }
 

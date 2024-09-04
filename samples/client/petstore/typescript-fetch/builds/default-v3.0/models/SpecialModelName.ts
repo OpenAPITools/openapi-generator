@@ -48,10 +48,11 @@ export function SpecialModelNameFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function SpecialModelNameToJSON(value?: SpecialModelName | null): any {
+export function SpecialModelNameToJSON(value?: SpecialModelName | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         '$special[property.name]': value['$specialPropertyName'],

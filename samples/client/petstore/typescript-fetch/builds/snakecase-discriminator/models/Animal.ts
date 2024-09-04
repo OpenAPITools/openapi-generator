@@ -13,8 +13,8 @@
  */
 
 import { mapValues } from '../runtime';
-import { CatFromJSONTyped } from './Cat';
-import { DogFromJSONTyped } from './Dog';
+import { Cat, CatFromJSONTyped, CatToJSON } from './Cat';
+import { Dog, DogFromJSONTyped, DogToJSON } from './Dog';
 /**
  * 
  * @export
@@ -53,10 +53,10 @@ export function AnimalFromJSONTyped(json: any, ignoreDiscriminator: boolean): An
     }
     if (!ignoreDiscriminator) {
         if (json['class_name'] === 'CAT') {
-            return CatFromJSONTyped(json, true);
+            return CatFromJSONTyped(json, ignoreDiscriminator);
         }
         if (json['class_name'] === 'DOG') {
-            return DogFromJSONTyped(json, true);
+            return DogFromJSONTyped(json, ignoreDiscriminator);
         }
     }
     return {
@@ -66,10 +66,22 @@ export function AnimalFromJSONTyped(json: any, ignoreDiscriminator: boolean): An
     };
 }
 
-export function AnimalToJSON(value?: Animal | null): any {
+export function AnimalToJSON(value?: Animal | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
+    if (!ignoreDiscriminator) {
+        switch (value['className']) {
+            case 'CAT':
+                return CatToJSON(value as Cat, ignoreDiscriminator);
+            case 'DOG':
+                return DogToJSON(value as Dog, ignoreDiscriminator);
+            default:
+                throw new Error(`No variant of Animal exists with 'className=${value['className']}'`);
+        }
+    }
+
     return {
         
         'class_name': value['className'],

@@ -48,10 +48,11 @@ export function ArrayOfNumberOnlyFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function ArrayOfNumberOnlyToJSON(value?: ArrayOfNumberOnly | null): any {
+export function ArrayOfNumberOnlyToJSON(value?: ArrayOfNumberOnly | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'ArrayNumber': value['arrayNumber'],

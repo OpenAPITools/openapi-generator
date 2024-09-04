@@ -75,10 +75,11 @@ export function EnumArraysFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     };
 }
 
-export function EnumArraysToJSON(value?: EnumArrays | null): any {
+export function EnumArraysToJSON(value?: EnumArrays | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'just_symbol': value['justSymbol'],

@@ -20,8 +20,8 @@ import {
     BranchDtoToJSON,
 } from './BranchDto';
 
-import { InternalAuthenticatedUserDtoFromJSONTyped } from './InternalAuthenticatedUserDto';
-import { RemoteAuthenticatedUserDtoFromJSONTyped } from './RemoteAuthenticatedUserDto';
+import { InternalAuthenticatedUserDto, InternalAuthenticatedUserDtoFromJSONTyped, InternalAuthenticatedUserDtoToJSON } from './InternalAuthenticatedUserDto';
+import { RemoteAuthenticatedUserDto, RemoteAuthenticatedUserDtoFromJSONTyped, RemoteAuthenticatedUserDtoToJSON } from './RemoteAuthenticatedUserDto';
 /**
  * 
  * @export
@@ -65,10 +65,10 @@ export function AbstractUserDtoFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     if (!ignoreDiscriminator) {
         if (json['type'] === 'internal-authenticated') {
-            return InternalAuthenticatedUserDtoFromJSONTyped(json, true);
+            return InternalAuthenticatedUserDtoFromJSONTyped(json, ignoreDiscriminator);
         }
         if (json['type'] === 'remote-authenticated') {
-            return RemoteAuthenticatedUserDtoFromJSONTyped(json, true);
+            return RemoteAuthenticatedUserDtoFromJSONTyped(json, ignoreDiscriminator);
         }
     }
     return {
@@ -79,10 +79,22 @@ export function AbstractUserDtoFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function AbstractUserDtoToJSON(value?: AbstractUserDto | null): any {
+export function AbstractUserDtoToJSON(value?: AbstractUserDto | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
+    if (!ignoreDiscriminator) {
+        switch (value['type']) {
+            case 'internal-authenticated':
+                return InternalAuthenticatedUserDtoToJSON(value as InternalAuthenticatedUserDto, ignoreDiscriminator);
+            case 'remote-authenticated':
+                return RemoteAuthenticatedUserDtoToJSON(value as RemoteAuthenticatedUserDto, ignoreDiscriminator);
+            default:
+                throw new Error(`No variant of AbstractUserDto exists with 'type=${value['type']}'`);
+        }
+    }
+
     return {
         
         'username': value['username'],

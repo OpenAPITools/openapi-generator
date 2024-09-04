@@ -71,10 +71,11 @@ export function GetPetPartTypeResponseFromJSONTyped(json: any, ignoreDiscriminat
     };
 }
 
-export function GetPetPartTypeResponseToJSON(value?: GetPetPartTypeResponse | null): any {
+export function GetPetPartTypeResponseToJSON(value?: GetPetPartTypeResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'meta': ResponseMetaToJSON(value['meta']),

@@ -62,10 +62,11 @@ export function ModelApiResponseFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function ModelApiResponseToJSON(value?: ModelApiResponse | null): any {
+export function ModelApiResponseToJSON(value?: ModelApiResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'code': value['code'],

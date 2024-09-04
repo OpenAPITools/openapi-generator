@@ -123,10 +123,11 @@ export function ResponseMetaFromJSONTyped(json: any, ignoreDiscriminator: boolea
     };
 }
 
-export function ResponseMetaToJSON(value?: ResponseMeta | null): any {
+export function ResponseMetaToJSON(value?: ResponseMeta | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'code': value['code'],

@@ -84,10 +84,11 @@ export function EnumPatternObjectFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function EnumPatternObjectToJSON(value?: EnumPatternObject | null): any {
+export function EnumPatternObjectToJSON(value?: EnumPatternObject | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'string-enum': StringEnumToJSON(value['stringEnum']),

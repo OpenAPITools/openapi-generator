@@ -63,10 +63,11 @@ export function PetRegionsResponseFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function PetRegionsResponseToJSON(value?: PetRegionsResponse | null): any {
+export function PetRegionsResponseToJSON(value?: PetRegionsResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'meta': ResponseMetaToJSON(value['meta']),

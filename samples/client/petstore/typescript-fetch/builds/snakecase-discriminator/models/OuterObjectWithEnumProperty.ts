@@ -58,10 +58,11 @@ export function OuterObjectWithEnumPropertyFromJSONTyped(json: any, ignoreDiscri
     };
 }
 
-export function OuterObjectWithEnumPropertyToJSON(value?: OuterObjectWithEnumProperty | null): any {
+export function OuterObjectWithEnumPropertyToJSON(value?: OuterObjectWithEnumProperty | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'value': OuterEnumIntegerToJSON(value['value']),

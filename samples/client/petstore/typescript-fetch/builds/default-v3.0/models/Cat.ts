@@ -50,17 +50,18 @@ export function CatFromJSONTyped(json: any, ignoreDiscriminator: boolean): Cat {
         return json;
     }
     return {
-        ...AnimalFromJSONTyped(json, ignoreDiscriminator),
+        ...AnimalFromJSONTyped(json, true),
         'declawed': json['declawed'] == null ? undefined : json['declawed'],
     };
 }
 
-export function CatToJSON(value?: Cat | null): any {
+export function CatToJSON(value?: Cat | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
-        ...AnimalToJSON(value),
+        ...AnimalToJSON(value, true),
         'declawed': value['declawed'],
     };
 }

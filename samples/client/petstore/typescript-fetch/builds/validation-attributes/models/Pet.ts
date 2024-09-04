@@ -106,22 +106,23 @@ export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
         'category': json['category'] == null ? undefined : CategoryFromJSON(json['category']),
         'name': json['name'],
         'photoUrls': json['photoUrls'],
-        'tags': json['tags'] == null ? undefined : ((json['tags'] as Array<any>).map(TagFromJSON)),
+        'tags': json['tags'] == null ? undefined : ((json['tags'] as Array<any>).map(s => TagFromJSON(s))),
         'status': json['status'] == null ? undefined : json['status'],
     };
 }
 
-export function PetToJSON(value?: Pet | null): any {
+export function PetToJSON(value?: Pet | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],
         'category': CategoryToJSON(value['category']),
         'name': value['name'],
         'photoUrls': Array.from(value['photoUrls'] as Set<any>),
-        'tags': value['tags'] == null ? undefined : ((value['tags'] as Array<any>).map(TagToJSON)),
+        'tags': value['tags'] == null ? undefined : ((value['tags'] as Array<any>).map(a => TagToJSON(a))),
         'status': value['status'],
     };
 }

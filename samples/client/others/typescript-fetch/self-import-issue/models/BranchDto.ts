@@ -48,10 +48,11 @@ export function BranchDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     };
 }
 
-export function BranchDtoToJSON(value?: BranchDto | null): any {
+export function BranchDtoToJSON(value?: BranchDto | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'name': value['name'],

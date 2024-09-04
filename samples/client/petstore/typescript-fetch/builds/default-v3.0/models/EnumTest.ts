@@ -163,10 +163,11 @@ export function EnumTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     };
 }
 
-export function EnumTestToJSON(value?: EnumTest | null): any {
+export function EnumTestToJSON(value?: EnumTest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'enum_string': value['enumString'],

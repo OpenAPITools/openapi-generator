@@ -48,10 +48,11 @@ export function OwnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): Own
     };
 }
 
-export function OwnerToJSON(value?: Owner | null): any {
+export function OwnerToJSON(value?: Owner | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'name': value['name'],

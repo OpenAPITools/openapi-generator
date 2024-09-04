@@ -63,10 +63,11 @@ export function GetBehaviorPermissionsResponseFromJSONTyped(json: any, ignoreDis
     };
 }
 
-export function GetBehaviorPermissionsResponseToJSON(value?: GetBehaviorPermissionsResponse | null): any {
+export function GetBehaviorPermissionsResponseToJSON(value?: GetBehaviorPermissionsResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'meta': ResponseMetaToJSON(value['meta']),

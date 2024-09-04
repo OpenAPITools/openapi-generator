@@ -225,24 +225,25 @@ export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
         'category': CategoryFromJSON(json['category']),
         'optionalCategory': json['optionalCategory'] == null ? undefined : CategoryFromJSON(json['optionalCategory']),
         'name': json['name'],
-        '_entries': json['entries'] == null ? undefined : ((json['entries'] as Array<any>).map(CategoryFromJSON)),
+        '_entries': json['entries'] == null ? undefined : ((json['entries'] as Array<any>).map(s => CategoryFromJSON(s))),
         'surname': json['surname'] == null ? undefined : json['surname'],
         'photoUrls': json['photoUrls'],
         'warningStatus': WarningCodeFromJSON(json['warningStatus']),
         'depStatus': json['depStatus'] == null ? undefined : DeploymentRequestStatusFromJSON(json['depStatus']),
         'alternateStatus': DeploymentRequestStatusFromJSON(json['alternateStatus']),
-        'otherDepStatuses': ((json['otherDepStatuses'] as Array<any>).map(DeploymentRequestStatusFromJSON)),
-        'tags': ((json['tags'] as Array<any>).map(TagFromJSON)),
-        'optionalTags': json['optionalTags'] == null ? undefined : ((json['optionalTags'] as Array<any>).map(TagFromJSON)),
+        'otherDepStatuses': ((json['otherDepStatuses'] as Array<any>).map(s => DeploymentRequestStatusFromJSON(s))),
+        'tags': ((json['tags'] as Array<any>).map(s => TagFromJSON(s))),
+        'optionalTags': json['optionalTags'] == null ? undefined : ((json['optionalTags'] as Array<any>).map(s => TagFromJSON(s))),
         'status': json['status'],
         'regions': json['regions'] == null ? undefined : json['regions'],
     };
 }
 
-export function PetToJSON(value?: Pet | null): any {
+export function PetToJSON(value?: Pet | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],
@@ -255,15 +256,15 @@ export function PetToJSON(value?: Pet | null): any {
         'category': CategoryToJSON(value['category']),
         'optionalCategory': CategoryToJSON(value['optionalCategory']),
         'name': value['name'],
-        'entries': value['_entries'] == null ? undefined : ((value['_entries'] as Array<any>).map(CategoryToJSON)),
+        'entries': value['_entries'] == null ? undefined : ((value['_entries'] as Array<any>).map(a => CategoryToJSON(a))),
         'surname': value['surname'],
         'photoUrls': value['photoUrls'],
         'warningStatus': WarningCodeToJSON(value['warningStatus']),
         'depStatus': DeploymentRequestStatusToJSON(value['depStatus']),
         'alternateStatus': DeploymentRequestStatusToJSON(value['alternateStatus']),
-        'otherDepStatuses': ((value['otherDepStatuses'] as Array<any>).map(DeploymentRequestStatusToJSON)),
-        'tags': ((value['tags'] as Array<any>).map(TagToJSON)),
-        'optionalTags': value['optionalTags'] == null ? undefined : ((value['optionalTags'] as Array<any>).map(TagToJSON)),
+        'otherDepStatuses': ((value['otherDepStatuses'] as Array<any>).map(a => DeploymentRequestStatusToJSON(a))),
+        'tags': ((value['tags'] as Array<any>).map(a => TagToJSON(a))),
+        'optionalTags': value['optionalTags'] == null ? undefined : ((value['optionalTags'] as Array<any>).map(a => TagToJSON(a))),
         'status': value['status'],
         'regions': value['regions'],
     };

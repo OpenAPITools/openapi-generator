@@ -62,10 +62,11 @@ export function OuterCompositeFromJSONTyped(json: any, ignoreDiscriminator: bool
     };
 }
 
-export function OuterCompositeToJSON(value?: OuterComposite | null): any {
+export function OuterCompositeToJSON(value?: OuterComposite | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'my_number': value['myNumber'],

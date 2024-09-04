@@ -55,10 +55,11 @@ export function Model200ResponseFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function Model200ResponseToJSON(value?: Model200Response | null): any {
+export function Model200ResponseToJSON(value?: Model200Response | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'name': value['name'],

@@ -55,10 +55,11 @@ export function AdditionalPropertiesClassFromJSONTyped(json: any, ignoreDiscrimi
     };
 }
 
-export function AdditionalPropertiesClassToJSON(value?: AdditionalPropertiesClass | null): any {
+export function AdditionalPropertiesClassToJSON(value?: AdditionalPropertiesClass | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'map_property': value['mapProperty'],
