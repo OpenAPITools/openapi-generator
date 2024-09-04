@@ -4935,4 +4935,30 @@ public class DefaultCodegenTest {
         CodegenModel springCat2 = springCodegen.fromModel("Cat2", cat2Model);
         assertThat(getNames(springCat2.allVars)).isEqualTo(List.of("petType", "name"));
     }
+
+    @Test
+    public void testMultipleRequestParameter_hasSingleParamFalse() {
+        // Given
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/content-data.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path = "/jsonQueryParams";
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+
+        // When & Then
+        assertThat(codegenOperation.hasSingleParam).isFalse();
+    }
+
+    @Test
+    public void testSingleRequestParameter_hasSingleParamTrue() {
+        // Given
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path = "/fake/inline-additionalProperties";
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+
+        // When & Then
+        assertThat(codegenOperation.hasSingleParam).isTrue();
+    }
 }
