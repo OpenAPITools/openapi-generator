@@ -59,7 +59,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
         '{{name}}': {{^required}}json['{{baseName}}'] == null ? undefined : {{/required}}{{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}new Set(json['{{baseName}}']),{{/required}}
         {{/uniqueItems}}
         {{^uniqueItems}}
-        '{{name}}': {{^required}}json['{{baseName}}'] == null ? undefined : {{/required}}{{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}(json['{{baseName}}'] as Array<any>),{{/required}}
+        '{{name}}': {{^required}}json['{{baseName}}'] == null ? undefined : {{/required}}{{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}json['{{baseName}}'],{{/required}}
         {{/uniqueItems}}
         {{/isArray}}
         {{^isArray}}
