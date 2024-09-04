@@ -56,10 +56,10 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
         {{#isPrimitiveType}}
         {{#isArray}}
         {{#uniqueItems}}
-        '{{name}}': {{^required}}json['{{baseName}}'] == null ? undefined : {{/required}}{{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}new Set(json['{{baseName}}']),{{/required}}
+        '{{name}}': {{^required}}json['{{baseName}}'] == null ? undefined : {{/required}}{{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}{{/required}}new Set(json['{{baseName}}']),
         {{/uniqueItems}}
         {{^uniqueItems}}
-        '{{name}}': {{^required}}json['{{baseName}}'] == null ? undefined : {{/required}}{{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}json['{{baseName}}'],{{/required}}
+        '{{name}}': {{^required}}json['{{baseName}}'] == null ? undefined : {{/required}}{{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}{{/required}}json['{{baseName}}'],
         {{/uniqueItems}}
         {{/isArray}}
         {{^isArray}}
