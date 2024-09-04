@@ -1,0 +1,27 @@
+using FastEndpoints;
+using FastEndpoints.Swagger;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services
+    .AddFastEndpoints()
+    .SwaggerDocument(o =>
+    {
+        o.DocumentSettings = s =>
+        {
+            s.DocumentName = "{{{appName}}}{{^appName}}{{packageName}}{{/appName}}";
+            s.Title = "{{{appName}}}{{^appName}}{{packageName}}{{/appName}}";
+            s.Description = "{{{packageDescription}}}";
+            s.Version = "{{{version}}}{{^version}}v1{{/version}}";
+        };
+        o.AutoTagPathSegmentIndex = 0;
+    });
+
+var app = builder.Build();
+
+app.UseFastEndpoints()
+    .UseSwaggerGen();
+
+app.UseHttpsRedirection();
+
+app.Run();

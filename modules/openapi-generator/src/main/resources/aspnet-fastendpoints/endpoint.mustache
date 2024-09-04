@@ -1,0 +1,48 @@
+using FastEndpoints;
+using {{packageName}}.Models;
+
+namespace {{packageName}}.{{apiPackage}};
+
+{{#operations}}
+
+    {{#operation}}
+
+/// <summary>
+/// {{summary}}
+/// </summary>
+{{#isDeprecated}}[Obsolete]{{/isDeprecated}}
+public class {{operationId}}Endpoint : {{>endpointType}}{{>endpointRequestType}}{{>endpointResponseType}}
+{
+    public override void Configure()
+    {
+        {{httpMethod}}("{{{basePathWithoutHost}}}{{{path}}}");
+        AllowAnonymous();
+        {{#allParams}}{{#isFile}}AllowFileUploads();{{/isFile}}{{/allParams}}
+        Description(x =>
+        {
+            x.WithTags("{{#tags}}{{name}}{{/tags}}");
+        });
+
+        Summary(s => {
+            s.Summary = "{{summary}}";
+            {{#allParams}}
+            s.RequestParam(r => r.{{#isBodyParam}}{{paramName}}{{/isBodyParam}}{{^isBodyParam}}{{nameInPascalCase}}{{/isBodyParam}}, "{{description}}");
+            {{/allParams}}
+            {{#responses}}
+            s.Responses[{{code}}] = "{{message}}";
+            {{/responses}}
+        });
+    }
+
+    public override async Task HandleAsync({{#allParams}}{{#-first}}{{operationId}}Request req, {{/-first}}{{/allParams}}CancellationToken ct)
+    {
+        //Response = new()
+        //{
+            //...
+        //};
+        //return Task.CompletedTask;
+    }
+}
+
+    {{/operation}}
+{{/operations}}
