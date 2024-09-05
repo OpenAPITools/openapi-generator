@@ -108,7 +108,8 @@ for the `OperationID` operation.
         OperationID :: operation_id(),
         Code :: 200..599,
         Body :: jesse:json_term(),
-        ValidatorState :: jesse_state:state()) -> ok | no_return().
+        ValidatorState :: jesse_state:state()) ->
+    ok | {ok, term()} | [ok | {ok, term()}] | no_return().
 validate_response('TestAuthHttpBasic', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
 validate_response('TestAuthHttpBearer', 200, Body, ValidatorState) ->
@@ -872,7 +873,7 @@ to_list(V) when is_atom(V)    -> atom_to_list(V);
 to_list(V) when is_integer(V) -> integer_to_list(V);
 to_list(V) when is_float(V)   -> float_to_list(V).
 
--spec to_float(iodata()) -> number().
+-spec to_float(iodata()) -> float().
 to_float(V) ->
     binary_to_float(iolist_to_binary([V])).
 
@@ -917,7 +918,7 @@ get_openapi_path() ->
 
 -include_lib("kernel/include/file.hrl").
 
--spec priv_dir(Application :: atom()) -> file:filename().
+-spec priv_dir(Application :: atom()) -> file:name_all().
 priv_dir(AppName) ->
     case code:priv_dir(AppName) of
         Value when is_list(Value) ->
