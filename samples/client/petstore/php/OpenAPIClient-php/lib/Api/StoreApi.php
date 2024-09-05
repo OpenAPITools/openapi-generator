@@ -307,10 +307,6 @@ class StoreApi
         }
 
 
-        if ($contentType === 'multipart/form-data') {
-            $multipart = true;
-        }
-
         $headers = $this->headerSelector->selectHeaders(
             [],
             $contentType,
@@ -597,10 +593,6 @@ class StoreApi
 
 
 
-
-        if ($contentType === 'multipart/form-data') {
-            $multipart = true;
-        }
 
         $headers = $this->headerSelector->selectHeaders(
             ['application/json', ],
@@ -920,10 +912,6 @@ class StoreApi
         }
 
 
-        if ($contentType === 'multipart/form-data') {
-            $multipart = true;
-        }
-
         $headers = $this->headerSelector->selectHeaders(
             ['application/xml', 'application/json', ],
             $contentType,
@@ -1222,10 +1210,6 @@ class StoreApi
 
 
 
-
-        if ($contentType === 'multipart/form-data') {
-            $multipart = true;
-        }
 
         $headers = $this->headerSelector->selectHeaders(
             ['application/xml', 'application/json', ],
