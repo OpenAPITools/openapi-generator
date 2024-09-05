@@ -18,12 +18,14 @@ import {
     NumberEnumFromJSON,
     NumberEnumFromJSONTyped,
     NumberEnumToJSON,
+    NumberEnumToJSONTyped,
 } from './NumberEnum';
 import type { StringEnum } from './StringEnum';
 import {
     StringEnumFromJSON,
     StringEnumFromJSONTyped,
     StringEnumToJSON,
+    StringEnumToJSONTyped,
 } from './StringEnum';
 
 /**
@@ -84,7 +86,11 @@ export function EnumPatternObjectFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function EnumPatternObjectToJSON(value?: EnumPatternObject | null, ignoreDiscriminator: boolean = false): any {
+  export function EnumPatternObjectToJSON(json: any): EnumPatternObject {
+      return EnumPatternObjectToJSONTyped(json, false);
+  }
+
+  export function EnumPatternObjectToJSONTyped(value?: EnumPatternObject | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

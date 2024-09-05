@@ -18,10 +18,11 @@ import {
     BranchDtoFromJSON,
     BranchDtoFromJSONTyped,
     BranchDtoToJSON,
+    BranchDtoToJSONTyped,
 } from './BranchDto';
 
-import { InternalAuthenticatedUserDto, InternalAuthenticatedUserDtoFromJSONTyped, InternalAuthenticatedUserDtoToJSON } from './InternalAuthenticatedUserDto';
-import { RemoteAuthenticatedUserDto, RemoteAuthenticatedUserDtoFromJSONTyped, RemoteAuthenticatedUserDtoToJSON } from './RemoteAuthenticatedUserDto';
+import { InternalAuthenticatedUserDto, InternalAuthenticatedUserDtoFromJSONTyped, InternalAuthenticatedUserDtoToJSON, InternalAuthenticatedUserDtoToJSONTyped } from './InternalAuthenticatedUserDto';
+import { RemoteAuthenticatedUserDto, RemoteAuthenticatedUserDtoFromJSONTyped, RemoteAuthenticatedUserDtoToJSON, RemoteAuthenticatedUserDtoToJSONTyped } from './RemoteAuthenticatedUserDto';
 /**
  * 
  * @export
@@ -79,7 +80,11 @@ export function AbstractUserDtoFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function AbstractUserDtoToJSON(value?: AbstractUserDto | null, ignoreDiscriminator: boolean = false): any {
+  export function AbstractUserDtoToJSON(json: any): AbstractUserDto {
+      return AbstractUserDtoToJSONTyped(json, false);
+  }
+
+  export function AbstractUserDtoToJSONTyped(value?: AbstractUserDto | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
@@ -87,9 +92,9 @@ export function AbstractUserDtoToJSON(value?: AbstractUserDto | null, ignoreDisc
     if (!ignoreDiscriminator) {
         switch (value['type']) {
             case 'internal-authenticated':
-                return InternalAuthenticatedUserDtoToJSON(value as InternalAuthenticatedUserDto, ignoreDiscriminator);
+                return InternalAuthenticatedUserDtoToJSONTyped(value as InternalAuthenticatedUserDto, ignoreDiscriminator);
             case 'remote-authenticated':
-                return RemoteAuthenticatedUserDtoToJSON(value as RemoteAuthenticatedUserDto, ignoreDiscriminator);
+                return RemoteAuthenticatedUserDtoToJSONTyped(value as RemoteAuthenticatedUserDto, ignoreDiscriminator);
             default:
                 throw new Error(`No variant of AbstractUserDto exists with 'type=${value['type']}'`);
         }

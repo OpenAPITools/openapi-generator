@@ -6,13 +6,14 @@ import {
     {{classname}}FromJSON,
     {{classname}}FromJSONTyped,
     {{classname}}ToJSON,
+    {{classname}}ToJSONTyped,
 } from './{{filename}}{{importFileExtension}}';
 {{/tsImports}}
 
 {{/hasImports}}
 {{#discriminator}}
 {{#discriminator.mappedModels}}
-import { {{modelName}}, {{modelName}}FromJSONTyped, {{modelName}}ToJSON } from './{{modelName}}{{importFileExtension}}';
+import { {{modelName}}, {{modelName}}FromJSONTyped, {{modelName}}ToJSON, {{modelName}}ToJSONTyped } from './{{modelName}}{{importFileExtension}}';
 {{/discriminator.mappedModels}}
 {{/discriminator}}
 {{>modelGenericInterfaces}}
@@ -69,10 +70,10 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
         {{^isPrimitiveType}}
         {{#isArray}}
         {{#uniqueItems}}
-        '{{name}}': {{^required}}json['{{baseName}}'] == null ? undefined : {{/required}}({{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}{{/required}}new Set((json['{{baseName}}'] as Array<any>).map(s => {{#items}}{{datatype}}{{/items}}FromJSON(s)))),
+        '{{name}}': {{^required}}json['{{baseName}}'] == null ? undefined : {{/required}}({{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}{{/required}}new Set((json['{{baseName}}'] as Array<any>).map({{#items}}{{datatype}}{{/items}}FromJSON))),
         {{/uniqueItems}}
         {{^uniqueItems}}
-        '{{name}}': {{^required}}json['{{baseName}}'] == null ? undefined : {{/required}}({{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}{{/required}}(json['{{baseName}}'] as Array<any>).map(s => {{#items}}{{datatype}}{{/items}}FromJSON(s))),
+        '{{name}}': {{^required}}json['{{baseName}}'] == null ? undefined : {{/required}}({{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}{{/required}}(json['{{baseName}}'] as Array<any>).map({{#items}}{{datatype}}{{/items}}FromJSON)),
         {{/uniqueItems}}
         {{/isArray}}
         {{#isMap}}
@@ -97,7 +98,11 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     {{/hasVars}}
 }
 
-export function {{classname}}ToJSON(value?: {{#hasReadOnly}}Omit<{{classname}}, {{#readOnlyVars}}'{{baseName}}'{{^-last}}|{{/-last}}{{/readOnlyVars}}>{{/hasReadOnly}}{{^hasReadOnly}}{{classname}}{{/hasReadOnly}} | null, ignoreDiscriminator: boolean = false): any {
+  export function {{classname}}ToJSON(json: any): {{classname}} {
+      return {{classname}}ToJSONTyped(json, false);
+  }
+
+  export function {{classname}}ToJSONTyped(value?: {{#hasReadOnly}}Omit<{{classname}}, {{#readOnlyVars}}'{{baseName}}'{{^-last}}|{{/-last}}{{/readOnlyVars}}>{{/hasReadOnly}}{{^hasReadOnly}}{{classname}}{{/hasReadOnly}} | null, ignoreDiscriminator: boolean = false): any {
     {{#hasVars}}
     if (value == null) {
         return value;
@@ -108,7 +113,7 @@ export function {{classname}}ToJSON(value?: {{#hasReadOnly}}Omit<{{classname}}, 
         switch (value['{{discriminator.propertyName}}']) {
         {{#discriminator.mappedModels}}
             case '{{mappingName}}':
-                return {{modelName}}ToJSON(value as {{modelName}}, ignoreDiscriminator);
+                return {{modelName}}ToJSONTyped(value as {{modelName}}, ignoreDiscriminator);
         {{/discriminator.mappedModels}}
             default:
                 throw new Error(`No variant of {{classname}} exists with '{{discriminator.propertyName}}=${value['{{discriminator.propertyName}}']}'`);
@@ -117,7 +122,7 @@ export function {{classname}}ToJSON(value?: {{#hasReadOnly}}Omit<{{classname}}, 
     {{/discriminator}}
 
     return {
-        {{#parent}}...{{{.}}}ToJSON(value, true),{{/parent}}
+        {{#parent}}...{{{.}}}ToJSONTyped(value, true),{{/parent}}
         {{#additionalPropertiesType}}
             ...value,
         {{/additionalPropertiesType}}
@@ -144,10 +149,10 @@ export function {{classname}}ToJSON(value?: {{#hasReadOnly}}Omit<{{classname}}, 
         {{^isPrimitiveType}}
         {{#isArray}}
         {{#uniqueItems}}
-        '{{baseName}}': {{^required}}value['{{name}}'] == null ? undefined : {{/required}}({{#required}}{{#isNullable}}value['{{name}}'] == null ? null : {{/isNullable}}{{/required}}Array.from(value['{{name}}'] as Set<any>).map(s => {{#items}}{{datatype}}{{/items}}ToJSON(s))),
+        '{{baseName}}': {{^required}}value['{{name}}'] == null ? undefined : {{/required}}({{#required}}{{#isNullable}}value['{{name}}'] == null ? null : {{/isNullable}}{{/required}}Array.from(value['{{name}}'] as Set<any>).map({{#items}}{{datatype}}{{/items}}ToJSON)),
         {{/uniqueItems}}
         {{^uniqueItems}}
-        '{{baseName}}': {{^required}}value['{{name}}'] == null ? undefined : {{/required}}({{#required}}{{#isNullable}}value['{{name}}'] == null ? null : {{/isNullable}}{{/required}}(value['{{name}}'] as Array<any>).map(a => {{#items}}{{datatype}}{{/items}}ToJSON(a))),
+        '{{baseName}}': {{^required}}value['{{name}}'] == null ? undefined : {{/required}}({{#required}}{{#isNullable}}value['{{name}}'] == null ? null : {{/isNullable}}{{/required}}(value['{{name}}'] as Array<any>).map({{#items}}{{datatype}}{{/items}}ToJSON)),
         {{/uniqueItems}}
         {{/isArray}}
         {{#isMap}}

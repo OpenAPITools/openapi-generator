@@ -48,7 +48,11 @@ export function ArrayOfNumberOnlyFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function ArrayOfNumberOnlyToJSON(value?: ArrayOfNumberOnly | null, ignoreDiscriminator: boolean = false): any {
+  export function ArrayOfNumberOnlyToJSON(json: any): ArrayOfNumberOnly {
+      return ArrayOfNumberOnlyToJSONTyped(json, false);
+  }
+
+  export function ArrayOfNumberOnlyToJSONTyped(value?: ArrayOfNumberOnly | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

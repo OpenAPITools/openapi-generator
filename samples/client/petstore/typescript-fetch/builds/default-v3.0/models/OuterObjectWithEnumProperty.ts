@@ -18,6 +18,7 @@ import {
     OuterEnumIntegerFromJSON,
     OuterEnumIntegerFromJSONTyped,
     OuterEnumIntegerToJSON,
+    OuterEnumIntegerToJSONTyped,
 } from './OuterEnumInteger';
 
 /**
@@ -58,7 +59,11 @@ export function OuterObjectWithEnumPropertyFromJSONTyped(json: any, ignoreDiscri
     };
 }
 
-export function OuterObjectWithEnumPropertyToJSON(value?: OuterObjectWithEnumProperty | null, ignoreDiscriminator: boolean = false): any {
+  export function OuterObjectWithEnumPropertyToJSON(json: any): OuterObjectWithEnumProperty {
+      return OuterObjectWithEnumPropertyToJSONTyped(json, false);
+  }
+
+  export function OuterObjectWithEnumPropertyToJSONTyped(value?: OuterObjectWithEnumProperty | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

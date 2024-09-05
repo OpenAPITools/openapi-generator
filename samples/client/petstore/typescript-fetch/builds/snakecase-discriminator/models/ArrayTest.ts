@@ -18,6 +18,7 @@ import {
     ReadOnlyFirstFromJSON,
     ReadOnlyFirstFromJSONTyped,
     ReadOnlyFirstToJSON,
+    ReadOnlyFirstToJSONTyped,
 } from './ReadOnlyFirst';
 
 /**
@@ -69,7 +70,11 @@ export function ArrayTestFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     };
 }
 
-export function ArrayTestToJSON(value?: ArrayTest | null, ignoreDiscriminator: boolean = false): any {
+  export function ArrayTestToJSON(json: any): ArrayTest {
+      return ArrayTestToJSONTyped(json, false);
+  }
+
+  export function ArrayTestToJSONTyped(value?: ArrayTest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

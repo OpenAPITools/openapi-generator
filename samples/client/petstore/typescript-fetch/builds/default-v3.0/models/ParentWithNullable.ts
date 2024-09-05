@@ -13,7 +13,7 @@
  */
 
 import { mapValues } from '../runtime';
-import { ChildWithNullable, ChildWithNullableFromJSONTyped, ChildWithNullableToJSON } from './ChildWithNullable';
+import { ChildWithNullable, ChildWithNullableFromJSONTyped, ChildWithNullableToJSON, ChildWithNullableToJSONTyped } from './ChildWithNullable';
 /**
  * 
  * @export
@@ -71,7 +71,11 @@ export function ParentWithNullableFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function ParentWithNullableToJSON(value?: ParentWithNullable | null, ignoreDiscriminator: boolean = false): any {
+  export function ParentWithNullableToJSON(json: any): ParentWithNullable {
+      return ParentWithNullableToJSONTyped(json, false);
+  }
+
+  export function ParentWithNullableToJSONTyped(value?: ParentWithNullable | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
@@ -79,7 +83,7 @@ export function ParentWithNullableToJSON(value?: ParentWithNullable | null, igno
     if (!ignoreDiscriminator) {
         switch (value['type']) {
             case 'ChildWithNullable':
-                return ChildWithNullableToJSON(value as ChildWithNullable, ignoreDiscriminator);
+                return ChildWithNullableToJSONTyped(value as ChildWithNullable, ignoreDiscriminator);
             default:
                 throw new Error(`No variant of ParentWithNullable exists with 'type=${value['type']}'`);
         }

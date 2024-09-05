@@ -113,7 +113,11 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
     };
 }
 
-export function UserToJSON(value?: User | null, ignoreDiscriminator: boolean = false): any {
+  export function UserToJSON(json: any): User {
+      return UserToJSONTyped(json, false);
+  }
+
+  export function UserToJSONTyped(value?: User | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

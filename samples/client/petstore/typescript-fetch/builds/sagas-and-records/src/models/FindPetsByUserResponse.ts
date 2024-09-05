@@ -18,12 +18,14 @@ import {
     UserFromJSON,
     UserFromJSONTyped,
     UserToJSON,
+    UserToJSONTyped,
 } from './User';
 import type { ResponseMeta } from './ResponseMeta';
 import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
+    ResponseMetaToJSONTyped,
 } from './ResponseMeta';
 
 /**
@@ -65,11 +67,15 @@ export function FindPetsByUserResponseFromJSONTyped(json: any, ignoreDiscriminat
     return {
         
         'meta': ResponseMetaFromJSON(json['meta']),
-        'data': json['data'] == null ? undefined : ((json['data'] as Array<any>).map(s => UserFromJSON(s))),
+        'data': json['data'] == null ? undefined : ((json['data'] as Array<any>).map(UserFromJSON)),
     };
 }
 
-export function FindPetsByUserResponseToJSON(value?: FindPetsByUserResponse | null, ignoreDiscriminator: boolean = false): any {
+  export function FindPetsByUserResponseToJSON(json: any): FindPetsByUserResponse {
+      return FindPetsByUserResponseToJSONTyped(json, false);
+  }
+
+  export function FindPetsByUserResponseToJSONTyped(value?: FindPetsByUserResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
@@ -77,7 +83,7 @@ export function FindPetsByUserResponseToJSON(value?: FindPetsByUserResponse | nu
     return {
         
         'meta': ResponseMetaToJSON(value['meta']),
-        'data': value['data'] == null ? undefined : ((value['data'] as Array<any>).map(a => UserToJSON(a))),
+        'data': value['data'] == null ? undefined : ((value['data'] as Array<any>).map(UserToJSON)),
     };
 }
 

@@ -48,7 +48,11 @@ export function ReturnFromJSONTyped(json: any, ignoreDiscriminator: boolean): Re
     };
 }
 
-export function ReturnToJSON(value?: Return | null, ignoreDiscriminator: boolean = false): any {
+  export function ReturnToJSON(json: any): Return {
+      return ReturnToJSONTyped(json, false);
+  }
+
+  export function ReturnToJSONTyped(value?: Return | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

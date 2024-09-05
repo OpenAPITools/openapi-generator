@@ -57,7 +57,11 @@ export function ItemIdFromJSONTyped(json: any, ignoreDiscriminator: boolean): It
     };
 }
 
-export function ItemIdToJSON(value?: ItemId | null, ignoreDiscriminator: boolean = false): any {
+  export function ItemIdToJSON(json: any): ItemId {
+      return ItemIdToJSONTyped(json, false);
+  }
+
+  export function ItemIdToJSONTyped(value?: ItemId | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

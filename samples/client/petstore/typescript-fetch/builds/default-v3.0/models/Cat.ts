@@ -18,6 +18,7 @@ import {
     AnimalFromJSON,
     AnimalFromJSONTyped,
     AnimalToJSON,
+    AnimalToJSONTyped,
 } from './Animal';
 
 /**
@@ -55,13 +56,17 @@ export function CatFromJSONTyped(json: any, ignoreDiscriminator: boolean): Cat {
     };
 }
 
-export function CatToJSON(value?: Cat | null, ignoreDiscriminator: boolean = false): any {
+  export function CatToJSON(json: any): Cat {
+      return CatToJSONTyped(json, false);
+  }
+
+  export function CatToJSONTyped(value?: Cat | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
 
     return {
-        ...AnimalToJSON(value, true),
+        ...AnimalToJSONTyped(value, true),
         'declawed': value['declawed'],
     };
 }

@@ -18,6 +18,7 @@ import {
     ParentWithNullableFromJSON,
     ParentWithNullableFromJSONTyped,
     ParentWithNullableToJSON,
+    ParentWithNullableToJSONTyped,
 } from './ParentWithNullable';
 
 /**
@@ -57,13 +58,17 @@ export function ChildWithNullableFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function ChildWithNullableToJSON(value?: ChildWithNullable | null, ignoreDiscriminator: boolean = false): any {
+  export function ChildWithNullableToJSON(json: any): ChildWithNullable {
+      return ChildWithNullableToJSONTyped(json, false);
+  }
+
+  export function ChildWithNullableToJSONTyped(value?: ChildWithNullable | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
 
     return {
-        ...ParentWithNullableToJSON(value, true),
+        ...ParentWithNullableToJSONTyped(value, true),
         'otherProperty': value['otherProperty'],
     };
 }

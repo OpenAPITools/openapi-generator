@@ -18,12 +18,14 @@ import {
     CategoryFromJSON,
     CategoryFromJSONTyped,
     CategoryToJSON,
+    CategoryToJSONTyped,
 } from './Category';
 import type { Tag } from './Tag';
 import {
     TagFromJSON,
     TagFromJSONTyped,
     TagToJSON,
+    TagToJSONTyped,
 } from './Tag';
 
 /**
@@ -106,12 +108,16 @@ export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
         'category': json['category'] == null ? undefined : CategoryFromJSON(json['category']),
         'name': json['name'],
         'photoUrls': json['photoUrls'],
-        'tags': json['tags'] == null ? undefined : ((json['tags'] as Array<any>).map(s => TagFromJSON(s))),
+        'tags': json['tags'] == null ? undefined : ((json['tags'] as Array<any>).map(TagFromJSON)),
         'status': json['status'] == null ? undefined : json['status'],
     };
 }
 
-export function PetToJSON(value?: Pet | null, ignoreDiscriminator: boolean = false): any {
+  export function PetToJSON(json: any): Pet {
+      return PetToJSONTyped(json, false);
+  }
+
+  export function PetToJSONTyped(value?: Pet | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
@@ -122,7 +128,7 @@ export function PetToJSON(value?: Pet | null, ignoreDiscriminator: boolean = fal
         'category': CategoryToJSON(value['category']),
         'name': value['name'],
         'photoUrls': Array.from(value['photoUrls'] as Set<any>),
-        'tags': value['tags'] == null ? undefined : ((value['tags'] as Array<any>).map(a => TagToJSON(a))),
+        'tags': value['tags'] == null ? undefined : ((value['tags'] as Array<any>).map(TagToJSON)),
         'status': value['status'],
     };
 }

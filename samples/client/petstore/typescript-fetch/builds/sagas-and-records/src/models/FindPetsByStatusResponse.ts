@@ -18,12 +18,14 @@ import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
+    ResponseMetaToJSONTyped,
 } from './ResponseMeta';
 import type { Pet } from './Pet';
 import {
     PetFromJSON,
     PetFromJSONTyped,
     PetToJSON,
+    PetToJSONTyped,
 } from './Pet';
 
 /**
@@ -65,11 +67,15 @@ export function FindPetsByStatusResponseFromJSONTyped(json: any, ignoreDiscrimin
     return {
         
         'meta': ResponseMetaFromJSON(json['meta']),
-        'data': json['data'] == null ? undefined : ((json['data'] as Array<any>).map(s => PetFromJSON(s))),
+        'data': json['data'] == null ? undefined : ((json['data'] as Array<any>).map(PetFromJSON)),
     };
 }
 
-export function FindPetsByStatusResponseToJSON(value?: FindPetsByStatusResponse | null, ignoreDiscriminator: boolean = false): any {
+  export function FindPetsByStatusResponseToJSON(json: any): FindPetsByStatusResponse {
+      return FindPetsByStatusResponseToJSONTyped(json, false);
+  }
+
+  export function FindPetsByStatusResponseToJSONTyped(value?: FindPetsByStatusResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
@@ -77,7 +83,7 @@ export function FindPetsByStatusResponseToJSON(value?: FindPetsByStatusResponse 
     return {
         
         'meta': ResponseMetaToJSON(value['meta']),
-        'data': value['data'] == null ? undefined : ((value['data'] as Array<any>).map(a => PetToJSON(a))),
+        'data': value['data'] == null ? undefined : ((value['data'] as Array<any>).map(PetToJSON)),
     };
 }
 
