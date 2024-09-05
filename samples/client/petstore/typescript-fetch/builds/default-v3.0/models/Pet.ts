@@ -106,7 +106,7 @@ export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
         'id': json['id'] == null ? undefined : json['id'],
         'category': json['category'] == null ? undefined : CategoryFromJSON(json['category']),
         'name': json['name'],
-        'photoUrls': json['photoUrls'],
+        'photoUrls': new Set(json['photoUrls']),
         'tags': json['tags'] == null ? undefined : ((json['tags'] as Array<any>).map(TagFromJSON)),
         'status': json['status'] == null ? undefined : json['status'],
     };

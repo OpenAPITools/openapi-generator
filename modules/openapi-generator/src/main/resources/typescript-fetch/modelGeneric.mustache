@@ -55,6 +55,15 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
         {{/additionalPropertiesType}}
         {{#vars}}
         {{#isPrimitiveType}}
+        {{#isArray}}
+        {{#uniqueItems}}
+        '{{name}}': {{^required}}json['{{baseName}}'] == null ? undefined : {{/required}}{{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}{{/required}}new Set(json['{{baseName}}']),
+        {{/uniqueItems}}
+        {{^uniqueItems}}
+        '{{name}}': {{^required}}json['{{baseName}}'] == null ? undefined : {{/required}}{{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}{{/required}}json['{{baseName}}'],
+        {{/uniqueItems}}
+        {{/isArray}}
+        {{^isArray}}
         {{#isDateType}}
         '{{name}}': {{^required}}json['{{baseName}}'] == null ? undefined : {{/required}}({{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}{{/required}}new Date(json['{{baseName}}'])),
         {{/isDateType}}
@@ -66,6 +75,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
         '{{name}}': {{^required}}json['{{baseName}}'] == null ? undefined : {{/required}}json['{{baseName}}'],
         {{/isDateTimeType}}
         {{/isDateType}}
+        {{/isArray}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{#isArray}}
