@@ -1351,7 +1351,7 @@ public class ApiClient extends JavaTimeFormatter {
     } else if ("PUT".equals(method)) {
       response = invocationBuilder.put(entity);
     } else if ("DELETE".equals(method)) {
-      response = invocationBuilder.method("DELETE", entity);
+      response = invocationBuilder.method("DELETE");
     } else if ("PATCH".equals(method)) {
       response = invocationBuilder.method("PATCH", entity);
     } else {
