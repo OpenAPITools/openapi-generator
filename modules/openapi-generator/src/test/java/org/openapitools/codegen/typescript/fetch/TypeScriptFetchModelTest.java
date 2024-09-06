@@ -384,12 +384,10 @@ public class TypeScriptFetchModelTest {
         fish.put("name", "Fish");
         fish.put("value", "'fish'");
         fish.put("isString", false);
-        fish.put("isValueNull", false);
         HashMap<String, Object> crab = new HashMap<String, Object>();
         crab.put("name", "Crab");
         crab.put("value", "'crab'");
         crab.put("isString", false);
-        crab.put("isValueNull", false);
         Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
 
         // assert inner items
@@ -426,12 +424,10 @@ public class TypeScriptFetchModelTest {
         one.put("name", "NUMBER_1");
         one.put("value", "1");
         one.put("isString", false);
-        one.put("isValueNull", false);
         HashMap<String, Object> minusOne = new HashMap<String, Object>();
         minusOne.put("name", "NUMBER_MINUS_1");
         minusOne.put("value", "-1");
         minusOne.put("isString", false);
-        minusOne.put("isValueNull", false);
         Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(one, minusOne));
 
         //IMPORTANT: these are not final enum values, which may be further updated

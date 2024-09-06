@@ -315,12 +315,10 @@ public class PhpModelTest {
         fish.put("name", "FISH");
         fish.put("value", "\'fish\'");
         fish.put("isString", true);
-        fish.put("isValueNull", false);
         HashMap<String, Object> crab= new HashMap<String, Object>();
         crab.put("name", "CRAB");
         crab.put("value", "\'crab\'");
         crab.put("isString", true);
-        crab.put("isValueNull", false);
         Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
 
         // assert inner items
@@ -353,12 +351,10 @@ public class PhpModelTest {
         one.put("name", "1");
         one.put("value", "1");
         one.put("isString", false);
-        one.put("isValueNull", false);
         HashMap<String, Object> minusOne = new HashMap<String, Object>();
         minusOne.put("name", "MINUS_1");
         minusOne.put("value", "-1");
         minusOne.put("isString", false);
-        minusOne.put("isValueNull", false);
         Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(one, minusOne));
     }
 
