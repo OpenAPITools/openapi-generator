@@ -3947,7 +3947,9 @@ public class DefaultCodegen implements CodegenConfig {
             List<Object> _enum = p.getEnum();
             property._enum = new ArrayList<>();
             for (Object i : _enum) {
-                property._enum.add(String.valueOf(i));
+                if(i != null) {
+                    property._enum.add(String.valueOf(i));
+                }
             }
             property.isEnum = true;
             property.isInnerEnum = true;
@@ -6641,6 +6643,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             enumVar.put("name", finalEnumName);
             enumVar.put("value", toEnumValue(String.valueOf(value), dataType));
+            enumVar.put("isValueNull", value == null);
             enumVar.put("isString", isDataTypeString(dataType));
             // TODO: add isNumeric
             enumVars.add(enumVar);
