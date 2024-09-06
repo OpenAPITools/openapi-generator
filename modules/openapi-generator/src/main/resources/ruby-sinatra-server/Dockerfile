@@ -1,5 +1,5 @@
 ## Build libraries
-FROM ruby:3.0-alpine as rubydev
+FROM ruby:3.3.5-alpine as rubydev
 
 ## for thin or falcon
 #RUN apk --no-cache add make g++ libc-dev
@@ -13,7 +13,7 @@ RUN bundle config set path lib
 RUN bundle install
 
 ## Build Runtime image
-FROM ruby:3.0-alpine
+FROM ruby:3.3.5-alpine
 
 RUN apk --no-cache add tzdata ## ca-certificates
 
