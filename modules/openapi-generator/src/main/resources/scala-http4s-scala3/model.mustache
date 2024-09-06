@@ -1,0 +1,68 @@
+package {{modelPackage}}
+
+import enumeratum.values.*
+import io.circe.*
+import io.circe.Decoder.*
+import io.circe.Encoder.*
+import io.circe.refined.*
+import io.circe.syntax.*
+import io.circe.{ Decoder, Encoder }
+
+import java.time.*
+{{#imports}}
+import {{import}}
+{{/imports}}
+
+{{#models}}
+{{#model}}
+/**
+* {{{description}}}
+{{#vars}}
+* @param {{name}} {{{description}}}
+{{/vars}}
+*/
+{{#isEnum}}
+sealed abstract class {{classname}}(val value: String) extends StringEnumEntry
+case object {{classname}} extends StringEnum[{{classname}}] with StringCirceEnum[{{classname}}] {
+  {{#allowableValues}}
+  {{#values}}
+  case object {{#fnEnumEntry}}{{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}{{/fnEnumEntry}} extends {{name}}("{{.}}")
+  {{/values}}
+  {{/allowableValues}}
+  val values: IndexedSeq[{{classname}}] = findValues
+}
+{{/isEnum}}
+{{^isEnum}}
+case class {{classname}}(
+{{#vars}}
+  {{name}}: {{^required}}Option[{{{dataType}}}]{{/required}}{{#required}}{{{dataType}}}{{/required}}{{^-last}},{{/-last}}
+{{/vars}}
+)
+  
+object {{name}} {
+  implicit val encoder{{name}}: Encoder[{{name}}] = Encoder.instance { t =>
+    Json.fromFields{
+      Seq(
+        {{#vars}}
+        {{#required}}Some("{{#lambda.snakecase}}{{name}}{{/lambda.snakecase}}" -> t.{{name}}.asJson){{/required}}{{^required}}t.{{name}}.map(v => "{{#lambda.snakecase}}{{name}}{{/lambda.snakecase}}" -> v.asJson){{/required}}{{^-last}},{{/-last}}
+        {{/vars}}
+      ).flatten
+    }
+  }
+  implicit val decode{{name}}: Decoder[{{name}}] = Decoder.instance { c =>
+    for {
+      {{#vars}}
+      {{name}} <- c.downField("{{#lambda.snakecase}}{{name}}{{/lambda.snakecase}}").as[{{^required}}Option[{{{dataType}}}]{{/required}}{{#required}}{{{dataType}}}{{/required}}]
+      {{/vars}}
+    } yield {{name}}(
+      {{#vars}}
+      {{name}} = {{name}}{{^-last}},{{/-last}}
+      {{/vars}}
+    )
+  }
+}
+  
+{{/isEnum}}
+{{/model}}
+{{/models}}
+

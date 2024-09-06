@@ -1,0 +1,5 @@
+package {{modelPackage}}
+
+case class FailedRequest(responseCode: Int, message: String, requestUri: Option[java.net.URI] = None)
+  extends Exception(s"HTTP URL: $requestUri, status: $responseCode; message: $message")
+
