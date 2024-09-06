@@ -84,6 +84,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     protected boolean hasModelsToImport = Boolean.FALSE;
     protected String mapNumberTo = "Union[StrictFloat, StrictInt]";
     protected Map<Character, String> regexModifiers;
+    @Setter protected boolean allEnumValuesUpperCase = true;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
     // map of set (model imports)
@@ -1122,20 +1123,23 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         if (reservedWords.contains(name)) {
             name = name.toUpperCase(Locale.ROOT);
-        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains(String.valueOf((char) character)))) {
-            name = underscore(escape(name, specialCharReplacements, Collections.singletonList("_"), "_")).toUpperCase(Locale.ROOT);
-        } else {
-            name = name.toUpperCase(Locale.ROOT);
+        }
+        if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains(String.valueOf((char) character)))) {
+            name = underscore(escape(name, specialCharReplacements, Collections.singletonList("_"), "_"));
         }
 
         name = name.replace(" ", "_");
         name = name.replaceFirst("^_", "");
         name = name.replaceFirst("_$", "");
-
+        
         if (name.matches("\\d.*")) {
-            name = "ENUM_" + name.toUpperCase(Locale.ROOT);
+            name = "enum_" + name;
         }
 
+        if (allEnumValuesUpperCase) {
+            name = name.toUpperCase(Locale.ROOT);
+        }
+        
         return name;
     }
 
