@@ -86,23 +86,22 @@
                         try {
                             final dynamic parsedModel= fromJsonMethod.call(json);
                             // Note following line won't be executed if already the above parsing fails.
-                            switch (parsedModel) {
-                                {{#anyOf}}
-                                    case {{#lambda.titlecase}}{{#PrimitiveInUnion}}{{{.}}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}:
-                                        deserializedModel =  {{classname}}.as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}(
-                                        {{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}Value : parsedModel as {{#lambda.titlecase}}{{#PrimitiveInUnion}}{{{.}}}{{/PrimitiveInUnion}}{{/lambda.titlecase}},
-                                        );
-                                        break;
-                                {{/anyOf}}
-                                {{#oneOf}}
-                                    case {{#lambda.titlecase}}{{#PrimitiveInUnion}}{{{.}}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}:
-                                        deserializedModel =  {{classname}}.as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}(
-                                        {{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}Value : parsedModel as {{#lambda.titlecase}}{{#PrimitiveInUnion}}{{{.}}}{{/PrimitiveInUnion}}{{/lambda.titlecase}},
-                                        );
-                                        break;
-                                {{/oneOf}}
-                                default:
-                                    deserializedModel =  {{classname}}.unknown(json: json,);
+                            {{#anyOf}}
+                                    if (parsedModel is {{#lambda.titlecase}}{{#PrimitiveInUnion}}{{{.}}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}) {
+                                    deserializedModel =  {{classname}}.as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}(
+                                {{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}Value : parsedModel,
+                                    );
+                                    } else
+                            {{/anyOf}}
+                            {{#oneOf}}
+                                    if (parsedModel is {{#lambda.titlecase}}{{#PrimitiveInUnion}}{{{.}}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}) {
+                                    deserializedModel =  {{classname}}.as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}(
+                                {{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}Value : parsedModel,
+                                    );
+                                    } else
+                            {{/oneOf}}
+                            {
+                            deserializedModel =  {{classname}}.unknown(json: json);
                             }
                             deserializedModels.add(deserializedModel);
                         } catch (e) {
