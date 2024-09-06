@@ -21,6 +21,14 @@ type Category struct {
 	Name string `json:"name,omitempty" validate:"regexp=^[a-zA-Z0-9]+[a-zA-Z0-9\\\\.\\\\-_]*[a-zA-Z0-9]+$"`
 }
 
+// NewCategoryWithDefaults instantiates a new Category object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewCategoryWithDefaults() Category {
+	this := Category{}
+	return this
+}
+
 // AssertCategoryRequired checks if the required fields are not zero-ed
 func AssertCategoryRequired(obj Category) error {
 	return nil

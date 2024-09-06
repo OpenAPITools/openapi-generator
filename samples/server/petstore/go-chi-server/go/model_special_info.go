@@ -21,6 +21,14 @@ type SpecialInfo struct {
 	Type string `json:"type,omitempty"`
 }
 
+// NewSpecialInfoWithDefaults instantiates a new SpecialInfo object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewSpecialInfoWithDefaults() SpecialInfo {
+	this := SpecialInfo{}
+	return this
+}
+
 // AssertSpecialInfoRequired checks if the required fields are not zero-ed
 func AssertSpecialInfoRequired(obj SpecialInfo) error {
 	return nil

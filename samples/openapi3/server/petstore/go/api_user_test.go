@@ -8,9 +8,10 @@ import (
 	"strings"
 	"testing"
 
+	petstoreserver "go-petstore/go"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	petstoreserver "go-petstore/go"
 )
 
 type UserAPITestService struct {
@@ -115,9 +116,7 @@ func TestCreateUserOK(t *testing.T) {
 	}
 
 	// Create the controller with the service
-	router := petstoreserver.NewUserAPIController(service)
-	controller, ok := router.(*petstoreserver.UserAPIController)
-	require.True(t, ok)
+	controller := petstoreserver.NewUserAPIController(service)
 
 	// Call the method of controller we are testing
 	controller.CreateUser(w, req)
@@ -214,9 +213,7 @@ func TestCreateUserOKNullablePhone(t *testing.T) {
 	}
 
 	// Create the controller with the service
-	router := petstoreserver.NewUserAPIController(service)
-	controller, ok := router.(*petstoreserver.UserAPIController)
-	require.True(t, ok)
+	controller := petstoreserver.NewUserAPIController(service)
 
 	// Call the method of controller we are testing
 	controller.CreateUser(w, req)
@@ -258,9 +255,7 @@ func TestCreateUserFailDeepSliceModelRequired(t *testing.T) {
 	}
 
 	// Create the controller with the service
-	router := petstoreserver.NewUserAPIController(service)
-	controller, ok := router.(*petstoreserver.UserAPIController)
-	require.True(t, ok)
+	controller := petstoreserver.NewUserAPIController(service)
 
 	// Call the method of controller we are testing
 	controller.CreateUser(w, req)
@@ -328,7 +323,7 @@ func TestLoginUserOK(t *testing.T) {
 		status = http.StatusOK
 	)
 
-	req := httptest.NewRequest(http.MethodPost, "/user/login?username=test&int32_test=1&int64_test=2&float32_test=1.1&float64_test=1.2&boolean_test=true", nil)
+	req := httptest.NewRequest(http.MethodPost, "/user/login?username=test&password=test&int32_test=1&int64_test=2&float32_test=1.1&float64_test=1.2&boolean_test=true", nil)
 	w := httptest.NewRecorder()
 
 	// Create the service and inject the logic
@@ -345,9 +340,7 @@ func TestLoginUserOK(t *testing.T) {
 	}
 
 	// Create the controller with the service
-	router := petstoreserver.NewUserAPIController(service)
-	controller, ok := router.(*petstoreserver.UserAPIController)
-	require.True(t, ok)
+	controller := petstoreserver.NewUserAPIController(service)
 
 	// Call the method of controller we are testing
 	controller.LoginUser(w, req)
@@ -367,7 +360,7 @@ func TestLoginUserOKOptional(t *testing.T) {
 		status = http.StatusOK
 	)
 
-	req := httptest.NewRequest(http.MethodPost, "/user/login?username=test", nil)
+	req := httptest.NewRequest(http.MethodPost, "/user/login?username=test&password=test", nil)
 	w := httptest.NewRecorder()
 
 	// Create the service and inject the logic
@@ -385,9 +378,7 @@ func TestLoginUserOKOptional(t *testing.T) {
 	}
 
 	// Create the controller with the service
-	router := petstoreserver.NewUserAPIController(service)
-	controller, ok := router.(*petstoreserver.UserAPIController)
-	require.True(t, ok)
+	controller := petstoreserver.NewUserAPIController(service)
 
 	// Call the method of controller we are testing
 	controller.LoginUser(w, req)

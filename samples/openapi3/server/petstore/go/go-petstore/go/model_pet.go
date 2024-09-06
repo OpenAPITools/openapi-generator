@@ -31,6 +31,15 @@ type Pet struct {
 	Status string `json:"status,omitempty"`
 }
 
+// NewPetWithDefaults instantiates a new Pet object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewPetWithDefaults() Pet {
+	this := Pet{}
+	*this.Category = NewCategoryWithDefaults()
+	return this
+}
+
 // AssertPetRequired checks if the required fields are not zero-ed
 func AssertPetRequired(obj Pet) error {
 	elements := map[string]interface{}{

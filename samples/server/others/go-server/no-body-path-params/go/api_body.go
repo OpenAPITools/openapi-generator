@@ -59,7 +59,7 @@ func (c *BodyAPIController) Routes() Routes {
 
 // Body - summary
 func (c *BodyAPIController) Body(w http.ResponseWriter, r *http.Request) {
-	bodyRequestParam := BodyRequest{}
+	bodyRequestParam := NewBodyRequestWithDefaults()
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(&bodyRequestParam); err != nil {

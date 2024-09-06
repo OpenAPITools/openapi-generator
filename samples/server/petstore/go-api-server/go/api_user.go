@@ -96,7 +96,7 @@ func (c *UserAPIController) Routes() Routes {
 
 // CreateUser - Create user
 func (c *UserAPIController) CreateUser(w http.ResponseWriter, r *http.Request) {
-	userParam := User{}
+	userParam := NewUserWithDefaults()
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(&userParam); err != nil {
@@ -295,7 +295,7 @@ func (c *UserAPIController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &RequiredError{"username"}, nil)
 		return
 	}
-	userParam := User{}
+	userParam := NewUserWithDefaults()
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(&userParam); err != nil {
