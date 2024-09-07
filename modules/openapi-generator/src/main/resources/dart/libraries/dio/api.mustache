@@ -137,9 +137,7 @@ class {{classname}} {
             {{{returnType}}} _responseData;
         {{/freezedUnionResponse}}
     {{/useFreezed}}
-    {{^useFreezed}}
-        {{{.}}}? _responseData;
-    {{/useFreezed}}
+    {{^useFreezed}}{{{.}}}? _responseData;{{/useFreezed}}
 
     try {
 {{#includeLibraryTemplate}}api/deserialize{{/includeLibraryTemplate}}
