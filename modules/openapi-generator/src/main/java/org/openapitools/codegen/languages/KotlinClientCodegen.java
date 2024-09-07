@@ -109,7 +109,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     @Setter protected String roomModelPackage = "";
     @Setter protected boolean omitGradleWrapper = false;
     @Setter protected boolean generateOneOfAnyOfWrappers = true;
-    @Getter protected boolean failOnUnknownProperties = false;
+    @Getter @Setter protected boolean failOnUnknownProperties = false;
 
     protected String authFolder;
 
@@ -441,8 +441,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             setGenerateOneOfAnyOfWrappers(Boolean.parseBoolean(additionalProperties.get(GENERATE_ONEOF_ANYOF_WRAPPERS).toString()));
         }
 
-        if (!additionalProperties.containsKey(FAIL_ON_UNKNOWN_PROPERTIES)) {
+        if (additionalProperties.containsKey(FAIL_ON_UNKNOWN_PROPERTIES)) {
+            setFailOnUnknownProperties(Boolean.parseBoolean(additionalProperties.get(FAIL_ON_UNKNOWN_PROPERTIES).toString()));
+        } else {
             additionalProperties.put(FAIL_ON_UNKNOWN_PROPERTIES, false);
+            setFailOnUnknownProperties(false);
         }
 
         commonSupportingFiles();
