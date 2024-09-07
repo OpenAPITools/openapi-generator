@@ -59,6 +59,7 @@ class DefaultApi {
     );
 
             Fruit _responseData;
+    
 
     try {
                 _responseData = Fruit.fromJson(_response.data as Map<String,dynamic>);

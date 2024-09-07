@@ -59,6 +59,7 @@ class DefaultApi {
     );
 
             Example _responseData;
+    
 
     try {
                 _responseData = Example.fromJson(_response.data as Map<String,dynamic>);

@@ -59,6 +59,7 @@ class FakeApi {
     );
 
             FakeBigDecimalMap200Response _responseData;
+    
 
     try {
                 _responseData = FakeBigDecimalMap200Response.fromJson(_response.data as Map<String,dynamic>);
@@ -129,6 +130,7 @@ class FakeApi {
     );
 
             HealthCheckResult _responseData;
+    
 
     try {
                 _responseData = HealthCheckResult.fromJson(_response.data as Map<String,dynamic>);
@@ -304,6 +306,7 @@ class FakeApi {
     );
 
             bool _responseData;
+    
 
     try {
                 _responseData = _response.data as bool;
@@ -395,6 +398,7 @@ class FakeApi {
     );
 
             OuterComposite _responseData;
+    
 
     try {
                 _responseData = OuterComposite.fromJson(_response.data as Map<String,dynamic>);
@@ -486,6 +490,7 @@ class FakeApi {
     );
 
             num _responseData;
+    
 
     try {
                 _responseData = _response.data as num;
@@ -577,6 +582,7 @@ class FakeApi {
     );
 
             String _responseData;
+    
 
     try {
                 _responseData = _response.data as String;
@@ -668,6 +674,7 @@ class FakeApi {
     );
 
             OuterObjectWithEnumProperty _responseData;
+    
 
     try {
                 _responseData = OuterObjectWithEnumProperty.fromJson(_response.data as Map<String,dynamic>);
@@ -1035,6 +1042,7 @@ class FakeApi {
     );
 
             ModelClient _responseData;
+    
 
     try {
                 _responseData = ModelClient.fromJson(_response.data as Map<String,dynamic>);

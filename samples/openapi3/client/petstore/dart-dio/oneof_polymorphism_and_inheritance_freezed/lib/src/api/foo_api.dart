@@ -80,6 +80,7 @@ class FooApi {
     );
 
             FooRefOrValue _responseData;
+    
 
     try {
                 _responseData = FooRefOrValue.fromJson(_response.data as Map<String,dynamic>);
@@ -150,6 +151,7 @@ class FooApi {
     );
 
             List<FooRefOrValue> _responseData;
+    
 
     try {
                             final _responseDataAsList = _response.data as List<dynamic>;

@@ -59,6 +59,7 @@ class DefaultApi {
     );
 
             FooGetDefaultResponse _responseData;
+    
 
     try {
                 _responseData = FooGetDefaultResponse.fromJson(_response.data as Map<String,dynamic>);

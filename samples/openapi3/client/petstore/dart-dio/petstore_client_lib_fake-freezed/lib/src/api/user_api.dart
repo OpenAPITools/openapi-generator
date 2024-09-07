@@ -310,6 +310,7 @@ class UserApi {
     );
 
             User _responseData;
+    
 
     try {
                 _responseData = User.fromJson(_response.data as Map<String,dynamic>);
@@ -390,6 +391,7 @@ class UserApi {
     );
 
             String _responseData;
+    
 
     try {
                 _responseData = _response.data as String;

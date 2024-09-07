@@ -114,6 +114,7 @@ class StoreApi {
     );
 
             Map<String, int> _responseData;
+    
 
     try {
                 _responseData = _response.data as Map<String, int>;
@@ -186,6 +187,7 @@ class StoreApi {
     );
 
             Order _responseData;
+    
 
     try {
                 _responseData = Order.fromJson(_response.data as Map<String,dynamic>);
@@ -277,6 +279,7 @@ class StoreApi {
     );
 
             Order _responseData;
+    
 
     try {
                 _responseData = Order.fromJson(_response.data as Map<String,dynamic>);

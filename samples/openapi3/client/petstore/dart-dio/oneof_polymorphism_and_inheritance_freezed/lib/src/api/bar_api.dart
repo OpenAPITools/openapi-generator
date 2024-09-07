@@ -80,6 +80,7 @@ class BarApi {
     );
 
             Bar _responseData;
+    
 
     try {
                 _responseData = Bar.fromJson(_response.data as Map<String,dynamic>);

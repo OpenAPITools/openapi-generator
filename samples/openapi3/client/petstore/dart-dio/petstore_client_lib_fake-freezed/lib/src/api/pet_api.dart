@@ -199,6 +199,7 @@ class PetApi {
     );
 
             List<Pet> _responseData;
+    
 
     try {
                             final _responseDataAsList = _response.data as List<dynamic>;
@@ -283,6 +284,7 @@ class PetApi {
     );
 
             Set<Pet> _responseData;
+    
 
     try {
                         final _responseDataAsSet = _response.data as List<dynamic>;
@@ -363,6 +365,7 @@ class PetApi {
     );
 
             Pet _responseData;
+    
 
     try {
                 _responseData = Pet.fromJson(_response.data as Map<String,dynamic>);
@@ -623,6 +626,7 @@ class PetApi {
     );
 
             ApiResponse _responseData;
+    
 
     try {
                 _responseData = ApiResponse.fromJson(_response.data as Map<String,dynamic>);
@@ -731,6 +735,7 @@ r'requiredFile':
     );
 
             ApiResponse _responseData;
+    
 
     try {
                 _responseData = ApiResponse.fromJson(_response.data as Map<String,dynamic>);
