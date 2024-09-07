@@ -1416,14 +1416,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
     }
 
-    public String escapeTextInSingleQuotes(String input) {
-        if (input == null) {
-            return null;
-        }
-
-        return escapeText(input).replace("'", "\\'");
-    }
-
     @Override
     public String toEnumDefaultValue(CodegenProperty property, String value) {
         if (property.isEnumRef) {

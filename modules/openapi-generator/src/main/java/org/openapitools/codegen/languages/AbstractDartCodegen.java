@@ -756,14 +756,6 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         }
     }
 
-    public String escapeTextInSingleQuotes(String input) {
-        if (input == null) {
-            return null;
-        }
-
-        return escapeText(input).replace("'", "\\'");
-    }
-
     @Override
     public String toOperationId(String operationId) {
         operationId = super.toOperationId(operationId);

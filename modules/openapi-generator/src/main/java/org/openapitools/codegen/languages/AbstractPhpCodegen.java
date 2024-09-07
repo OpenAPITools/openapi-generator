@@ -801,14 +801,14 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         return super.escapeText(input).trim();
     }
 
+    @Override
     public String escapeTextInSingleQuotes(String input) {
         if (input == null) {
             return input;
         }
 
         // Unescape double quotes because PHP keeps the backslashes if a character does not need to be escaped
-        return escapeText(input).replace("'", "\\'")
-                .replace("\\\"", "\"");
+        return super.escapeTextInSingleQuotes(input).replace("\\\"", "\"");
     }
 
     public void escapeMediaType(List<CodegenOperation> operationList) {
