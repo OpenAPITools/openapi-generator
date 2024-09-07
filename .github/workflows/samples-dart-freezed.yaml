@@ -10,9 +10,7 @@ on:
       - master
       - '[5-9]+.[0-9]+.x'
     paths:
-      - 'samples/openapi3/client/petstore/dart*/**'
-      - '!samples/openapi3/client/petstore/dart*/freezed'
-
+      - 'samples/openapi3/client/petstore/dart*/freezed'
 
 jobs:
   tests-dart:
@@ -34,7 +32,7 @@ jobs:
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('samples/**/pubspec.*') }}
       - uses: dart-lang/setup-dart@v1
         with:
-          sdk: 2.15.0
+          sdk: 3.0.0
       - name: Run tests
         uses: ./.github/actions/run-samples
         with:
