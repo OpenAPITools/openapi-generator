@@ -1,5 +1,5 @@
 %% basic handler
--module({{classname}}).
+-module(openapi_auth_handler).
 
 -behaviour(cowboy_rest).
 
@@ -18,15 +18,15 @@
 -ignore_xref([handle_type_accepted/2, handle_type_provided/2]).
 
 -record(state,
-        {operation_id :: {{packageName}}_api:operation_id(),
-         accept_callback :: {{packageName}}_logic_handler:accept_callback(),
-         provide_callback :: {{packageName}}_logic_handler:provide_callback(),
-         api_key_handler :: {{packageName}}_logic_handler:api_key_callback(),
-         context = #{} :: {{packageName}}_logic_handler:context()}).
+        {operation_id :: openapi_api:operation_id(),
+         accept_callback :: openapi_logic_handler:accept_callback(),
+         provide_callback :: openapi_logic_handler:provide_callback(),
+         api_key_handler :: openapi_logic_handler:api_key_callback(),
+         context = #{} :: openapi_logic_handler:context()}).
 
 -type state() :: #state{}.
 
--spec init(cowboy_req:req(), {{packageName}}_router:init_opts()) ->
+-spec init(cowboy_req:req(), openapi_router:init_opts()) ->
     {cowboy_rest, cowboy_req:req(), state()}.
 init(Req, {Operations, Module}) ->
     Method = cowboy_req:method(Req),
@@ -42,68 +42,65 @@ init(Req, {Operations, Module}) ->
 
 -spec allowed_methods(cowboy_req:req(), state()) ->
     {[binary()], cowboy_req:req(), state()}.
-{{#operations}}{{#operation}}allowed_methods(Req, #state{operation_id = '{{operationId}}'} = State) ->
-    {[<<"{{httpMethod}}">>], Req, State};
-{{/operation}}{{/operations}}allowed_methods(Req, State) ->
+allowed_methods(Req, #state{operation_id = 'TestAuthHttpBasic'} = State) ->
+    {[<<"POST">>], Req, State};
+allowed_methods(Req, #state{operation_id = 'TestAuthHttpBearer'} = State) ->
+    {[<<"POST">>], Req, State};
+allowed_methods(Req, State) ->
     {[], Req, State}.
 
 -spec is_authorized(cowboy_req:req(), state()) ->
     {true | {false, iodata()}, cowboy_req:req(), state()}.
-{{#operations}}
-{{#operation}}
-{{#authMethods.size}}
 is_authorized(Req0,
-              #state{operation_id = '{{operationId}}' = OperationID,
+              #state{operation_id = 'TestAuthHttpBasic' = OperationID,
                      api_key_handler = Handler} = State) ->
-    case {{packageName}}_auth:authorize_api_key(Handler, OperationID, {{#isApiKey.isKeyInQuery}}qs_val, {{/isApiKey.isKeyInQuery}}{{^isApiKey.isKeyInQuery}}header, {{/isApiKey.isKeyInQuery}}{{#isApiKey}}"{{keyParamName}}", {{/isApiKey}}{{^isApiKey}}"authorization", {{/isApiKey}}Req0) of
+    case openapi_auth:authorize_api_key(Handler, OperationID, header, "authorization", Req0) of
         {true, Context, Req} ->
             {true, Req, State#state{context = Context}};
         {false, AuthHeader, Req} ->
             {{false, AuthHeader}, Req, State}
     end;
-{{/authMethods.size}}
-{{/operation}}
-{{/operations}}
+is_authorized(Req0,
+              #state{operation_id = 'TestAuthHttpBearer' = OperationID,
+                     api_key_handler = Handler} = State) ->
+    case openapi_auth:authorize_api_key(Handler, OperationID, header, "authorization", Req0) of
+        {true, Context, Req} ->
+            {true, Req, State#state{context = Context}};
+        {false, AuthHeader, Req} ->
+            {{false, AuthHeader}, Req, State}
+    end;
 is_authorized(Req, State) ->
     {true, Req, State}.
 
 -spec content_types_accepted(cowboy_req:req(), state()) ->
     {[{binary(), atom()}], cowboy_req:req(), state()}.
-{{#operations}}{{#operation}}content_types_accepted(Req, #state{operation_id = '{{operationId}}'} = State) ->
-    {{^consumes.size}}
+content_types_accepted(Req, #state{operation_id = 'TestAuthHttpBasic'} = State) ->
     {[], Req, State};
-    {{/consumes.size}}
-    {{#consumes.size}}
-    {[
-    {{#consumes}}
-      {<<"{{mediaType}}">>, handle_type_accepted}{{^-last}}{{#consumes.size}},{{/consumes.size}}{{/-last}}
-    {{/consumes}}
-     ], Req, State};
-    {{/consumes.size}}
-{{/operation}}{{/operations}}content_types_accepted(Req, State) ->
+content_types_accepted(Req, #state{operation_id = 'TestAuthHttpBearer'} = State) ->
+    {[], Req, State};
+content_types_accepted(Req, State) ->
     {[], Req, State}.
 
 -spec valid_content_headers(cowboy_req:req(), state()) ->
     {boolean(), cowboy_req:req(), state()}.
-{{#operations}}{{#operation}}valid_content_headers(Req, #state{operation_id = '{{operationId}}'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'TestAuthHttpBasic'} = State) ->
     {true, Req, State};
-{{/operation}}{{/operations}}valid_content_headers(Req, State) ->
+valid_content_headers(Req, #state{operation_id = 'TestAuthHttpBearer'} = State) ->
+    {true, Req, State};
+valid_content_headers(Req, State) ->
     {false, Req, State}.
 
 -spec content_types_provided(cowboy_req:req(), state()) ->
     {[{binary(), atom()}], cowboy_req:req(), state()}.
-{{#operations}}{{#operation}}content_types_provided(Req, #state{operation_id = '{{operationId}}'} = State) ->
-    {{^produces.size}}
-    {[], Req, State};
-    {{/produces.size}}
-    {{#produces.size}}
+content_types_provided(Req, #state{operation_id = 'TestAuthHttpBasic'} = State) ->
     {[
-    {{#produces}}
-      {<<"{{mediaType}}">>, handle_type_provided}{{^-last}}{{#produces.size}},{{/produces.size}}{{/-last}}
-    {{/produces}}
+      {<<"text/plain">>, handle_type_provided}
      ], Req, State};
-    {{/produces.size}}
-{{/operation}}{{/operations}}content_types_provided(Req, State) ->
+content_types_provided(Req, #state{operation_id = 'TestAuthHttpBearer'} = State) ->
+    {[
+      {<<"text/plain">>, handle_type_provided}
+     ], Req, State};
+content_types_provided(Req, State) ->
     {[], Req, State}.
 
 -spec delete_resource(cowboy_req:req(), state()) ->
@@ -120,10 +117,10 @@ delete_resource(Req, State) ->
     boolean() | {created, iodata()} | {see_other, iodata()}.
 handle_type_accepted(Req, #state{operation_id = OperationID,
                                  accept_callback = Handler} = State) ->
-    Handler({{operations.pathPrefix}}, OperationID, Req, State#state.context).
+    Handler(auth, OperationID, Req, State#state.context).
 
 -spec handle_type_provided(cowboy_req:req(), state()) ->
-    {cowboy_req:resp_body(), cowboy_req:req(), {{packageName}}_logic_handler:context()}.
+    {cowboy_req:resp_body(), cowboy_req:req(), openapi_logic_handler:context()}.
 handle_type_provided(Req, #state{operation_id = OperationID,
                                  provide_callback = Handler} = State) ->
-    Handler({{operations.pathPrefix}}, OperationID, Req, State#state.context).
+    Handler(auth, OperationID, Req, State#state.context).

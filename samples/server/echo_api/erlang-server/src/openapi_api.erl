@@ -110,192 +110,362 @@ for the `OperationID` operation.
         Body :: jesse:json_term(),
         ValidatorState :: jesse_state:state()) ->
     ok | {ok, term()} | [ok | {ok, term()}] | no_return().
-validate_response('AddPet', 200, Body, ValidatorState) ->
-    validate_response_body('Pet', 'Pet', Body, ValidatorState);
-validate_response('AddPet', 405, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('DeletePet', 400, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('FindPetsByStatus', 200, Body, ValidatorState) ->
-    validate_response_body('list', 'Pet', Body, ValidatorState);
-validate_response('FindPetsByStatus', 400, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('FindPetsByTags', 200, Body, ValidatorState) ->
-    validate_response_body('list', 'Pet', Body, ValidatorState);
-validate_response('FindPetsByTags', 400, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('GetPetById', 200, Body, ValidatorState) ->
-    validate_response_body('Pet', 'Pet', Body, ValidatorState);
-validate_response('GetPetById', 400, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('GetPetById', 404, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('UpdatePet', 200, Body, ValidatorState) ->
-    validate_response_body('Pet', 'Pet', Body, ValidatorState);
-validate_response('UpdatePet', 400, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('UpdatePet', 404, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('UpdatePet', 405, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('UpdatePetWithForm', 405, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('UploadFile', 200, Body, ValidatorState) ->
-    validate_response_body('ApiResponse', 'ApiResponse', Body, ValidatorState);
-validate_response('DeleteOrder', 400, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('DeleteOrder', 404, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('GetInventory', 200, Body, ValidatorState) ->
-    validate_response_body('map', 'integer', Body, ValidatorState);
-validate_response('GetOrderById', 200, Body, ValidatorState) ->
-    validate_response_body('Order', 'Order', Body, ValidatorState);
-validate_response('GetOrderById', 400, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('GetOrderById', 404, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('PlaceOrder', 200, Body, ValidatorState) ->
-    validate_response_body('Order', 'Order', Body, ValidatorState);
-validate_response('PlaceOrder', 400, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('CreateUser', 0, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('CreateUsersWithArrayInput', 0, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('CreateUsersWithListInput', 0, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('DeleteUser', 400, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('DeleteUser', 404, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('GetUserByName', 200, Body, ValidatorState) ->
-    validate_response_body('User', 'User', Body, ValidatorState);
-validate_response('GetUserByName', 400, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('GetUserByName', 404, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('LoginUser', 200, Body, ValidatorState) ->
+validate_response('TestAuthHttpBasic', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
-validate_response('LoginUser', 400, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('LogoutUser', 0, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('UpdateUser', 400, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
-validate_response('UpdateUser', 404, Body, ValidatorState) ->
-    validate_response_body('', '', Body, ValidatorState);
+validate_response('TestAuthHttpBearer', 200, Body, ValidatorState) ->
+    validate_response_body('binary', 'string', Body, ValidatorState);
+validate_response('TestBinaryGif', 200, Body, ValidatorState) ->
+    validate_response_body('file', 'file', Body, ValidatorState);
+validate_response('TestBodyApplicationOctetstreamBinary', 200, Body, ValidatorState) ->
+    validate_response_body('binary', 'string', Body, ValidatorState);
+validate_response('TestBodyMultipartFormdataArrayOfBinary', 200, Body, ValidatorState) ->
+    validate_response_body('binary', 'string', Body, ValidatorState);
+validate_response('TestBodyMultipartFormdataSingleBinary', 200, Body, ValidatorState) ->
+    validate_response_body('binary', 'string', Body, ValidatorState);
+validate_response('TestEchoBodyAllOfPet', 200, Body, ValidatorState) ->
+    validate_response_body('Pet', 'Pet', Body, ValidatorState);
+validate_response('TestEchoBodyFreeFormObjectResponseString', 200, Body, ValidatorState) ->
+    validate_response_body('binary', 'string', Body, ValidatorState);
+validate_response('TestEchoBodyPet', 200, Body, ValidatorState) ->
+    validate_response_body('Pet', 'Pet', Body, ValidatorState);
+validate_response('TestEchoBodyPetResponseString', 200, Body, ValidatorState) ->
+    validate_response_body('binary', 'string', Body, ValidatorState);
+validate_response('TestEchoBodyStringEnum', 200, Body, ValidatorState) ->
+    validate_response_body('StringEnumRef', 'StringEnumRef', Body, ValidatorState);
+validate_response('TestEchoBodyTagResponseString', 200, Body, ValidatorState) ->
+    validate_response_body('binary', 'string', Body, ValidatorState);
+validate_response('TestFormIntegerBooleanString', 200, Body, ValidatorState) ->
+    validate_response_body('binary', 'string', Body, ValidatorState);
+validate_response('TestFormObjectMultipart', 200, Body, ValidatorState) ->
+    validate_response_body('binary', 'string', Body, ValidatorState);
+validate_response('TestFormOneof', 200, Body, ValidatorState) ->
+    validate_response_body('binary', 'string', Body, ValidatorState);
+validate_response('TestHeaderIntegerBooleanStringEnums', 200, Body, ValidatorState) ->
+    validate_response_body('binary', 'string', Body, ValidatorState);
+validate_response('TestsPathString{pathString}Integer{pathInteger}{enumNonrefStringPath}{enumRefStringPath}', 200, Body, ValidatorState) ->
+    validate_response_body('binary', 'string', Body, ValidatorState);
+validate_response('TestEnumRefString', 200, Body, ValidatorState) ->
+    validate_response_body('binary', 'string', Body, ValidatorState);
+validate_response('TestQueryDatetimeDateString', 200, Body, ValidatorState) ->
+    validate_response_body('binary', 'string', Body, ValidatorState);
+validate_response('TestQueryIntegerBooleanString', 200, Body, ValidatorState) ->
+    validate_response_body('binary', 'string', Body, ValidatorState);
+validate_response('TestQueryStyleDeepObjectExplodeTrueObject', 200, Body, ValidatorState) ->
+    validate_response_body('binary', 'string', Body, ValidatorState);
+validate_response('TestQueryStyleDeepObjectExplodeTrueObjectAllOf', 200, Body, ValidatorState) ->
+    validate_response_body('binary', 'string', Body, ValidatorState);
+validate_response('TestQueryStyleFormExplodeFalseArrayInteger', 200, Body, ValidatorState) ->
+    validate_response_body('binary', 'string', Body, ValidatorState);
+validate_response('TestQueryStyleFormExplodeFalseArrayString', 200, Body, ValidatorState) ->
+    validate_response_body('binary', 'string', Body, ValidatorState);
+validate_response('TestQueryStyleFormExplodeTrueArrayString', 200, Body, ValidatorState) ->
+    validate_response_body('binary', 'string', Body, ValidatorState);
+validate_response('TestQueryStyleFormExplodeTrueObject', 200, Body, ValidatorState) ->
+    validate_response_body('binary', 'string', Body, ValidatorState);
+validate_response('TestQueryStyleFormExplodeTrueObjectAllOf', 200, Body, ValidatorState) ->
+    validate_response_body('binary', 'string', Body, ValidatorState);
 validate_response(_OperationID, _Code, _Body, _ValidatorState) ->
     ok.
 
 %%%
 -spec request_params(OperationID :: operation_id()) -> [Param :: request_param()].
-request_params('AddPet') ->
+request_params('TestAuthHttpBasic') ->
     [
-        'Pet'
     ];
-request_params('DeletePet') ->
+request_params('TestAuthHttpBearer') ->
     [
-        'petId',
-        'api_key'
     ];
-request_params('FindPetsByStatus') ->
+request_params('TestBinaryGif') ->
     [
-        'status'
     ];
-request_params('FindPetsByTags') ->
+request_params('TestBodyApplicationOctetstreamBinary') ->
     [
-        'tags'
-    ];
-request_params('GetPetById') ->
-    [
-        'petId'
-    ];
-request_params('UpdatePet') ->
-    [
-        'Pet'
-    ];
-request_params('UpdatePetWithForm') ->
-    [
-        'petId',
-        'name',
-        'status'
-    ];
-request_params('UploadFile') ->
-    [
-        'petId',
-        'additionalMetadata',
         'file'
     ];
-request_params('DeleteOrder') ->
+request_params('TestBodyMultipartFormdataArrayOfBinary') ->
     [
-        'orderId'
+        'files'
     ];
-request_params('GetInventory') ->
+request_params('TestBodyMultipartFormdataSingleBinary') ->
     [
+        'my-file'
     ];
-request_params('GetOrderById') ->
+request_params('TestEchoBodyAllOfPet') ->
     [
-        'orderId'
+        'Pet'
     ];
-request_params('PlaceOrder') ->
+request_params('TestEchoBodyFreeFormObjectResponseString') ->
     [
-        'Order'
+        'object'
     ];
-request_params('CreateUser') ->
+request_params('TestEchoBodyPet') ->
     [
-        'User'
+        'Pet'
     ];
-request_params('CreateUsersWithArrayInput') ->
+request_params('TestEchoBodyPetResponseString') ->
     [
-        'list'
+        'Pet'
     ];
-request_params('CreateUsersWithListInput') ->
+request_params('TestEchoBodyStringEnum') ->
     [
-        'list'
+        'binary'
     ];
-request_params('DeleteUser') ->
+request_params('TestEchoBodyTagResponseString') ->
     [
-        'username'
+        'Tag'
     ];
-request_params('GetUserByName') ->
+request_params('TestFormIntegerBooleanString') ->
     [
-        'username'
+        'integer_form',
+        'boolean_form',
+        'string_form'
     ];
-request_params('LoginUser') ->
+request_params('TestFormObjectMultipart') ->
     [
-        'username',
-        'password'
+        'marker'
     ];
-request_params('LogoutUser') ->
+request_params('TestFormOneof') ->
     [
+        'form1',
+        'form2',
+        'form3',
+        'form4',
+        'id',
+        'name'
     ];
-request_params('UpdateUser') ->
+request_params('TestHeaderIntegerBooleanStringEnums') ->
     [
-        'username',
-        'User'
+        'integer_header',
+        'boolean_header',
+        'string_header',
+        'enum_nonref_string_header',
+        'enum_ref_string_header'
+    ];
+request_params('TestsPathString{pathString}Integer{pathInteger}{enumNonrefStringPath}{enumRefStringPath}') ->
+    [
+        'path_string',
+        'path_integer',
+        'enum_nonref_string_path',
+        'enum_ref_string_path'
+    ];
+request_params('TestEnumRefString') ->
+    [
+        'enum_nonref_string_query',
+        'enum_ref_string_query'
+    ];
+request_params('TestQueryDatetimeDateString') ->
+    [
+        'datetime_query',
+        'date_query',
+        'string_query'
+    ];
+request_params('TestQueryIntegerBooleanString') ->
+    [
+        'integer_query',
+        'boolean_query',
+        'string_query'
+    ];
+request_params('TestQueryStyleDeepObjectExplodeTrueObject') ->
+    [
+        'query_object'
+    ];
+request_params('TestQueryStyleDeepObjectExplodeTrueObjectAllOf') ->
+    [
+        'query_object'
+    ];
+request_params('TestQueryStyleFormExplodeFalseArrayInteger') ->
+    [
+        'query_object'
+    ];
+request_params('TestQueryStyleFormExplodeFalseArrayString') ->
+    [
+        'query_object'
+    ];
+request_params('TestQueryStyleFormExplodeTrueArrayString') ->
+    [
+        'query_object'
+    ];
+request_params('TestQueryStyleFormExplodeTrueObject') ->
+    [
+        'query_object'
+    ];
+request_params('TestQueryStyleFormExplodeTrueObjectAllOf') ->
+    [
+        'query_object'
     ];
 request_params(_) ->
     error(unknown_operation).
 
 -spec request_param_info(OperationID :: operation_id(), Name :: request_param()) ->
     #{source => qs_val | binding | header | body, rules => [rule()]}.
-request_param_info('AddPet', 'Pet') ->
+request_param_info('TestBodyApplicationOctetstreamBinary', 'file') ->
+    #{
+        source => body,
+        rules => [
+            {type, binary},
+            schema,
+            not_required
+        ]
+    };
+request_param_info('TestBodyMultipartFormdataArrayOfBinary', 'files') ->
+    #{
+        source => body,
+        rules => [
+            required
+        ]
+    };
+request_param_info('TestBodyMultipartFormdataSingleBinary', 'my-file') ->
+    #{
+        source => body,
+        rules => [
+            {type, binary},
+            not_required
+        ]
+    };
+request_param_info('TestEchoBodyAllOfPet', 'Pet') ->
     #{
         source => body,
         rules => [
             schema,
-            required
+            not_required
         ]
     };
-request_param_info('DeletePet', 'petId') ->
+request_param_info('TestEchoBodyFreeFormObjectResponseString', 'object') ->
     #{
-        source => binding,
+        source => body,
+        rules => [
+            schema,
+            not_required
+        ]
+    };
+request_param_info('TestEchoBodyPet', 'Pet') ->
+    #{
+        source => body,
+        rules => [
+            schema,
+            not_required
+        ]
+    };
+request_param_info('TestEchoBodyPetResponseString', 'Pet') ->
+    #{
+        source => body,
+        rules => [
+            schema,
+            not_required
+        ]
+    };
+request_param_info('TestEchoBodyStringEnum', 'binary') ->
+    #{
+        source => body,
+        rules => [
+            schema,
+            not_required
+        ]
+    };
+request_param_info('TestEchoBodyTagResponseString', 'Tag') ->
+    #{
+        source => body,
+        rules => [
+            schema,
+            not_required
+        ]
+    };
+request_param_info('TestFormIntegerBooleanString', 'integer_form') ->
+    #{
+        source => body,
         rules => [
             {type, integer},
+            not_required
+        ]
+    };
+request_param_info('TestFormIntegerBooleanString', 'boolean_form') ->
+    #{
+        source => body,
+        rules => [
+            {type, boolean},
+            not_required
+        ]
+    };
+request_param_info('TestFormIntegerBooleanString', 'string_form') ->
+    #{
+        source => body,
+        rules => [
+            {type, binary},
+            not_required
+        ]
+    };
+request_param_info('TestFormObjectMultipart', 'marker') ->
+    #{
+        source => body,
+        rules => [
             required
         ]
     };
-request_param_info('DeletePet', 'api_key') ->
+request_param_info('TestFormOneof', 'form1') ->
+    #{
+        source => body,
+        rules => [
+            {type, binary},
+            not_required
+        ]
+    };
+request_param_info('TestFormOneof', 'form2') ->
+    #{
+        source => body,
+        rules => [
+            {type, integer},
+            not_required
+        ]
+    };
+request_param_info('TestFormOneof', 'form3') ->
+    #{
+        source => body,
+        rules => [
+            {type, binary},
+            not_required
+        ]
+    };
+request_param_info('TestFormOneof', 'form4') ->
+    #{
+        source => body,
+        rules => [
+            {type, boolean},
+            not_required
+        ]
+    };
+request_param_info('TestFormOneof', 'id') ->
+    #{
+        source => body,
+        rules => [
+            {type, integer},
+            not_required
+        ]
+    };
+request_param_info('TestFormOneof', 'name') ->
+    #{
+        source => body,
+        rules => [
+            {type, binary},
+            not_required
+        ]
+    };
+request_param_info('TestHeaderIntegerBooleanStringEnums', 'integer_header') ->
+    #{
+        source => header,
+        rules => [
+            {type, integer},
+            not_required
+        ]
+    };
+request_param_info('TestHeaderIntegerBooleanStringEnums', 'boolean_header') ->
+    #{
+        source => header,
+        rules => [
+            {type, boolean},
+            not_required
+        ]
+    };
+request_param_info('TestHeaderIntegerBooleanStringEnums', 'string_header') ->
     #{
         source => header,
         rules => [
@@ -303,22 +473,31 @@ request_param_info('DeletePet', 'api_key') ->
             not_required
         ]
     };
-request_param_info('FindPetsByStatus', 'status') ->
+request_param_info('TestHeaderIntegerBooleanStringEnums', 'enum_nonref_string_header') ->
     #{
-        source => qs_val,
+        source => header,
         rules => [
-            {enum, ['available', 'pending', 'sold'] },
+            {type, binary},
+            {enum, ['success', 'failure', 'unclassified'] },
+            not_required
+        ]
+    };
+request_param_info('TestHeaderIntegerBooleanStringEnums', 'enum_ref_string_header') ->
+    #{
+        source => header,
+        rules => [
+            not_required
+        ]
+    };
+request_param_info('TestsPathString{pathString}Integer{pathInteger}{enumNonrefStringPath}{enumRefStringPath}', 'path_string') ->
+    #{
+        source => binding,
+        rules => [
+            {type, binary},
             required
         ]
     };
-request_param_info('FindPetsByTags', 'tags') ->
-    #{
-        source => qs_val,
-        rules => [
-            required
-        ]
-    };
-request_param_info('GetPetById', 'petId') ->
+request_param_info('TestsPathString{pathString}Integer{pathInteger}{enumNonrefStringPath}{enumRefStringPath}', 'path_integer') ->
     #{
         source => binding,
         rules => [
@@ -326,159 +505,133 @@ request_param_info('GetPetById', 'petId') ->
             required
         ]
     };
-request_param_info('UpdatePet', 'Pet') ->
-    #{
-        source => body,
-        rules => [
-            schema,
-            required
-        ]
-    };
-request_param_info('UpdatePetWithForm', 'petId') ->
-    #{
-        source => binding,
-        rules => [
-            {type, integer},
-            required
-        ]
-    };
-request_param_info('UpdatePetWithForm', 'name') ->
-    #{
-        source => body,
-        rules => [
-            {type, binary},
-            not_required
-        ]
-    };
-request_param_info('UpdatePetWithForm', 'status') ->
-    #{
-        source => body,
-        rules => [
-            {type, binary},
-            not_required
-        ]
-    };
-request_param_info('UploadFile', 'petId') ->
-    #{
-        source => binding,
-        rules => [
-            {type, integer},
-            required
-        ]
-    };
-request_param_info('UploadFile', 'additionalMetadata') ->
-    #{
-        source => body,
-        rules => [
-            {type, binary},
-            not_required
-        ]
-    };
-request_param_info('UploadFile', 'file') ->
-    #{
-        source => body,
-        rules => [
-            {type, binary},
-            not_required
-        ]
-    };
-request_param_info('DeleteOrder', 'orderId') ->
+request_param_info('TestsPathString{pathString}Integer{pathInteger}{enumNonrefStringPath}{enumRefStringPath}', 'enum_nonref_string_path') ->
     #{
         source => binding,
         rules => [
             {type, binary},
+            {enum, ['success', 'failure', 'unclassified'] },
             required
         ]
     };
-request_param_info('GetOrderById', 'orderId') ->
+request_param_info('TestsPathString{pathString}Integer{pathInteger}{enumNonrefStringPath}{enumRefStringPath}', 'enum_ref_string_path') ->
     #{
         source => binding,
         rules => [
-            {type, integer},
-            {max, 5},
-            {min, 1},
             required
         ]
     };
-request_param_info('PlaceOrder', 'Order') ->
-    #{
-        source => body,
-        rules => [
-            schema,
-            required
-        ]
-    };
-request_param_info('CreateUser', 'User') ->
-    #{
-        source => body,
-        rules => [
-            schema,
-            required
-        ]
-    };
-request_param_info('CreateUsersWithArrayInput', 'list') ->
-    #{
-        source => body,
-        rules => [
-            schema,
-            required
-        ]
-    };
-request_param_info('CreateUsersWithListInput', 'list') ->
-    #{
-        source => body,
-        rules => [
-            schema,
-            required
-        ]
-    };
-request_param_info('DeleteUser', 'username') ->
-    #{
-        source => binding,
-        rules => [
-            {type, binary},
-            required
-        ]
-    };
-request_param_info('GetUserByName', 'username') ->
-    #{
-        source => binding,
-        rules => [
-            {type, binary},
-            required
-        ]
-    };
-request_param_info('LoginUser', 'username') ->
+request_param_info('TestEnumRefString', 'enum_nonref_string_query') ->
     #{
         source => qs_val,
         rules => [
             {type, binary},
-            {pattern, "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"},
-            required
+            {enum, ['success', 'failure', 'unclassified'] },
+            not_required
         ]
     };
-request_param_info('LoginUser', 'password') ->
+request_param_info('TestEnumRefString', 'enum_ref_string_query') ->
+    #{
+        source => qs_val,
+        rules => [
+            not_required
+        ]
+    };
+request_param_info('TestQueryDatetimeDateString', 'datetime_query') ->
+    #{
+        source => qs_val,
+        rules => [
+            {type, datetime},
+            not_required
+        ]
+    };
+request_param_info('TestQueryDatetimeDateString', 'date_query') ->
+    #{
+        source => qs_val,
+        rules => [
+            {type, date},
+            not_required
+        ]
+    };
+request_param_info('TestQueryDatetimeDateString', 'string_query') ->
     #{
         source => qs_val,
         rules => [
             {type, binary},
-            required
+            not_required
         ]
     };
-request_param_info('UpdateUser', 'username') ->
+request_param_info('TestQueryIntegerBooleanString', 'integer_query') ->
     #{
-        source => binding,
+        source => qs_val,
+        rules => [
+            {type, integer},
+            not_required
+        ]
+    };
+request_param_info('TestQueryIntegerBooleanString', 'boolean_query') ->
+    #{
+        source => qs_val,
+        rules => [
+            {type, boolean},
+            not_required
+        ]
+    };
+request_param_info('TestQueryIntegerBooleanString', 'string_query') ->
+    #{
+        source => qs_val,
         rules => [
             {type, binary},
-            required
+            not_required
         ]
     };
-request_param_info('UpdateUser', 'User') ->
+request_param_info('TestQueryStyleDeepObjectExplodeTrueObject', 'query_object') ->
     #{
-        source => body,
+        source => qs_val,
         rules => [
-            schema,
-            required
+            not_required
+        ]
+    };
+request_param_info('TestQueryStyleDeepObjectExplodeTrueObjectAllOf', 'query_object') ->
+    #{
+        source => qs_val,
+        rules => [
+            not_required
+        ]
+    };
+request_param_info('TestQueryStyleFormExplodeFalseArrayInteger', 'query_object') ->
+    #{
+        source => qs_val,
+        rules => [
+            not_required
+        ]
+    };
+request_param_info('TestQueryStyleFormExplodeFalseArrayString', 'query_object') ->
+    #{
+        source => qs_val,
+        rules => [
+            not_required
+        ]
+    };
+request_param_info('TestQueryStyleFormExplodeTrueArrayString', 'query_object') ->
+    #{
+        source => qs_val,
+        rules => [
+            not_required
+        ]
+    };
+request_param_info('TestQueryStyleFormExplodeTrueObject', 'query_object') ->
+    #{
+        source => qs_val,
+        rules => [
+            not_required
+        ]
+    };
+request_param_info('TestQueryStyleFormExplodeTrueObjectAllOf', 'query_object') ->
+    #{
+        source => qs_val,
+        rules => [
+            not_required
         ]
     };
 request_param_info(OperationID, Name) ->

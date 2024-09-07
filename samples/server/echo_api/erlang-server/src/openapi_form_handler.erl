@@ -1,5 +1,5 @@
 %% basic handler
--module(openapi_store_handler).
+-module(openapi_form_handler).
 
 -behaviour(cowboy_rest).
 
@@ -42,76 +42,61 @@ init(Req, {Operations, Module}) ->
 
 -spec allowed_methods(cowboy_req:req(), state()) ->
     {[binary()], cowboy_req:req(), state()}.
-allowed_methods(Req, #state{operation_id = 'DeleteOrder'} = State) ->
-    {[<<"DELETE">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'GetInventory'} = State) ->
-    {[<<"GET">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'GetOrderById'} = State) ->
-    {[<<"GET">>], Req, State};
-allowed_methods(Req, #state{operation_id = 'PlaceOrder'} = State) ->
+allowed_methods(Req, #state{operation_id = 'TestFormIntegerBooleanString'} = State) ->
+    {[<<"POST">>], Req, State};
+allowed_methods(Req, #state{operation_id = 'TestFormObjectMultipart'} = State) ->
+    {[<<"POST">>], Req, State};
+allowed_methods(Req, #state{operation_id = 'TestFormOneof'} = State) ->
     {[<<"POST">>], Req, State};
 allowed_methods(Req, State) ->
     {[], Req, State}.
 
 -spec is_authorized(cowboy_req:req(), state()) ->
     {true | {false, iodata()}, cowboy_req:req(), state()}.
-is_authorized(Req0,
-              #state{operation_id = 'GetInventory' = OperationID,
-                     api_key_handler = Handler} = State) ->
-    case openapi_auth:authorize_api_key(Handler, OperationID, header, "authorization", Req0) of
-        {true, Context, Req} ->
-            {true, Req, State#state{context = Context}};
-        {false, AuthHeader, Req} ->
-            {{false, AuthHeader}, Req, State}
-    end;
 is_authorized(Req, State) ->
     {true, Req, State}.
 
 -spec content_types_accepted(cowboy_req:req(), state()) ->
     {[{binary(), atom()}], cowboy_req:req(), state()}.
-content_types_accepted(Req, #state{operation_id = 'DeleteOrder'} = State) ->
-    {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'GetInventory'} = State) ->
-    {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'GetOrderById'} = State) ->
-    {[], Req, State};
-content_types_accepted(Req, #state{operation_id = 'PlaceOrder'} = State) ->
+content_types_accepted(Req, #state{operation_id = 'TestFormIntegerBooleanString'} = State) ->
     {[
-      {<<"application/json">>, handle_type_accepted}
+      {<<"application/x-www-form-urlencoded">>, handle_type_accepted}
+     ], Req, State};
+content_types_accepted(Req, #state{operation_id = 'TestFormObjectMultipart'} = State) ->
+    {[
+      {<<"multipart/form-data">>, handle_type_accepted}
+     ], Req, State};
+content_types_accepted(Req, #state{operation_id = 'TestFormOneof'} = State) ->
+    {[
+      {<<"application/x-www-form-urlencoded">>, handle_type_accepted}
      ], Req, State};
 content_types_accepted(Req, State) ->
     {[], Req, State}.
 
 -spec valid_content_headers(cowboy_req:req(), state()) ->
     {boolean(), cowboy_req:req(), state()}.
-valid_content_headers(Req, #state{operation_id = 'DeleteOrder'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'TestFormIntegerBooleanString'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'GetInventory'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'TestFormObjectMultipart'} = State) ->
     {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'GetOrderById'} = State) ->
-    {true, Req, State};
-valid_content_headers(Req, #state{operation_id = 'PlaceOrder'} = State) ->
+valid_content_headers(Req, #state{operation_id = 'TestFormOneof'} = State) ->
     {true, Req, State};
 valid_content_headers(Req, State) ->
     {false, Req, State}.
 
 -spec content_types_provided(cowboy_req:req(), state()) ->
     {[{binary(), atom()}], cowboy_req:req(), state()}.
-content_types_provided(Req, #state{operation_id = 'DeleteOrder'} = State) ->
-    {[], Req, State};
-content_types_provided(Req, #state{operation_id = 'GetInventory'} = State) ->
+content_types_provided(Req, #state{operation_id = 'TestFormIntegerBooleanString'} = State) ->
     {[
-      {<<"application/json">>, handle_type_provided}
+      {<<"text/plain">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'GetOrderById'} = State) ->
+content_types_provided(Req, #state{operation_id = 'TestFormObjectMultipart'} = State) ->
     {[
-      {<<"application/xml">>, handle_type_provided},
-      {<<"application/json">>, handle_type_provided}
+      {<<"text/plain">>, handle_type_provided}
      ], Req, State};
-content_types_provided(Req, #state{operation_id = 'PlaceOrder'} = State) ->
+content_types_provided(Req, #state{operation_id = 'TestFormOneof'} = State) ->
     {[
-      {<<"application/xml">>, handle_type_provided},
-      {<<"application/json">>, handle_type_provided}
+      {<<"text/plain">>, handle_type_provided}
      ], Req, State};
 content_types_provided(Req, State) ->
     {[], Req, State}.
@@ -130,10 +115,10 @@ delete_resource(Req, State) ->
     boolean() | {created, iodata()} | {see_other, iodata()}.
 handle_type_accepted(Req, #state{operation_id = OperationID,
                                  accept_callback = Handler} = State) ->
-    Handler(store, OperationID, Req, State#state.context).
+    Handler(form, OperationID, Req, State#state.context).
 
 -spec handle_type_provided(cowboy_req:req(), state()) ->
     {cowboy_req:resp_body(), cowboy_req:req(), openapi_logic_handler:context()}.
 handle_type_provided(Req, #state{operation_id = OperationID,
                                  provide_callback = Handler} = State) ->
-    Handler(store, OperationID, Req, State#state.context).
+    Handler(form, OperationID, Req, State#state.context).
