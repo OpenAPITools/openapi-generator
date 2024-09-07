@@ -1,5 +1,5 @@
 generatorName: dart-dio
-outputDir: samples/openapi3/client/petstore/dart-dio/oneof_primitive_freezed
+outputDir: samples/openapi3/client/petstore/dart-dio/freezed/oneof_primitive
 inputSpec: modules/openapi-generator/src/test/resources/3_0/oneOf_primitive.yaml
 templateDir: modules/openapi-generator/src/main/resources/dart/libraries/dio
 typeMappings:
