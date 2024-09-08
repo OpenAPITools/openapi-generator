@@ -10,7 +10,7 @@ class UpdatePetWithFormRequestReflection extends ModelReflection<UpdatePetWithFo
   static const instance = UpdatePetWithFormRequestReflection._(
     modelName: r'updatePetWithForm_request',
     className: r'UpdatePetWithFormRequest',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     namePart: PropertyReflection<UpdatePetWithFormRequest, UndefinedWrapper<
             String
@@ -23,17 +23,22 @@ class UpdatePetWithFormRequestReflection extends ModelReflection<UpdatePetWithFo
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_nameGetter),
       setter: FunctionWrapper2(_nameSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     statusPart: PropertyReflection<UpdatePetWithFormRequest, UndefinedWrapper<
@@ -47,25 +52,35 @@ class UpdatePetWithFormRequestReflection extends ModelReflection<UpdatePetWithFo
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_statusGetter),
       setter: FunctionWrapper2(_statusSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -148,7 +163,7 @@ statusPart,
   
 
   @override
-  List<AllOfReflection<UpdatePetWithFormRequest, dynamic>> get allOfs => [
+  List<AllOfReflection<UpdatePetWithFormRequest, Object>> get allOfs => [
     
   ];
 
@@ -160,6 +175,14 @@ statusPart,
     return UpdatePetWithFormRequest(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is UpdatePetWithFormRequestReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

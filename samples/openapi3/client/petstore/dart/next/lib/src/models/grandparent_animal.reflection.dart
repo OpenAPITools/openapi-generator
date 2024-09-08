@@ -10,7 +10,7 @@ class GrandparentAnimalReflection extends ModelReflection<GrandparentAnimal> {
   static const instance = GrandparentAnimalReflection._(
     modelName: r'GrandparentAnimal',
     className: r'GrandparentAnimal',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     petTypePart: PropertyReflection<GrandparentAnimal, 
             String
@@ -23,17 +23,22 @@ class GrandparentAnimalReflection extends ModelReflection<GrandparentAnimal> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: true,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_petTypeGetter),
       setter: FunctionWrapper2(_petTypeSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     discriminatorKey: r'pet_type',
@@ -45,8 +50,13 @@ class GrandparentAnimalReflection extends ModelReflection<GrandparentAnimal> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -113,7 +123,7 @@ class GrandparentAnimalReflection extends ModelReflection<GrandparentAnimal> {
   
 
   @override
-  List<AllOfReflection<GrandparentAnimal, dynamic>> get allOfs => [
+  List<AllOfReflection<GrandparentAnimal, Object>> get allOfs => [
     
   ];
 
@@ -126,6 +136,14 @@ class GrandparentAnimalReflection extends ModelReflection<GrandparentAnimal> {
       petType: petTypePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GrandparentAnimalReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

@@ -10,7 +10,7 @@ class FileReflection extends ModelReflection<File> {
   static const instance = FileReflection._(
     modelName: r'File',
     className: r'File',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     sourceURIPart: PropertyReflection<File, UndefinedWrapper<
             String
@@ -23,25 +23,35 @@ class FileReflection extends ModelReflection<File> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_sourceURIGetter),
       setter: FunctionWrapper2(_sourceURISetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -108,7 +118,7 @@ class FileReflection extends ModelReflection<File> {
   
 
   @override
-  List<AllOfReflection<File, dynamic>> get allOfs => [
+  List<AllOfReflection<File, Object>> get allOfs => [
     
   ];
 
@@ -120,6 +130,14 @@ class FileReflection extends ModelReflection<File> {
     return File(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FileReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

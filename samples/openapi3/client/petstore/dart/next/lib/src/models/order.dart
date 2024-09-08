@@ -128,16 +128,20 @@ OrderMixin {
     return super.validate();
   }
 
-  factory Order.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  factory Order.deserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.deserialize(src, context);
   }
 
-  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.canDeserialize(src, context);
   }
 
-  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+  Object? serialize([SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.serialize(this, context);
+  }
+
+  Order clone() {
+    return $reflection.clone(this);
   }
 }
 
@@ -154,7 +158,7 @@ OrderMixin {
 
 
 
-extension type const OrderStatusEnum._(String value) {
+extension type const OrderStatusEnum._(String value) implements String {
   /// Order Status
       const OrderStatusEnum.placed() : this._(r'placed');
   /// Order Status

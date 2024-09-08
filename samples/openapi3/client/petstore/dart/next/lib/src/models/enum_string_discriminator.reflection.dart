@@ -10,7 +10,7 @@ class EnumStringDiscriminatorReflection extends ModelReflection<EnumStringDiscri
   static const instance = EnumStringDiscriminatorReflection._(
     modelName: r'EnumStringDiscriminator',
     className: r'EnumStringDiscriminator',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     enumStrTypePart: PropertyReflection<EnumStringDiscriminator, 
             EnumStringDiscriminatorEnumStrTypeEnum
@@ -23,14 +23,19 @@ class EnumStringDiscriminatorReflection extends ModelReflection<EnumStringDiscri
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: true,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_enumStrTypeGetter),
       setter: FunctionWrapper2(_enumStrTypeSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             EnumStringDiscriminatorEnumStrTypeEnum.$reflection
         
         
+,
+)
 ,
     ),
     discriminatorKey: r'enum_str_type',
@@ -42,8 +47,13 @@ class EnumStringDiscriminatorReflection extends ModelReflection<EnumStringDiscri
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -110,7 +120,7 @@ class EnumStringDiscriminatorReflection extends ModelReflection<EnumStringDiscri
   
 
   @override
-  List<AllOfReflection<EnumStringDiscriminator, dynamic>> get allOfs => [
+  List<AllOfReflection<EnumStringDiscriminator, Object>> get allOfs => [
     
   ];
 
@@ -123,6 +133,14 @@ class EnumStringDiscriminatorReflection extends ModelReflection<EnumStringDiscri
       enumStrType: enumStrTypePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is EnumStringDiscriminatorReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

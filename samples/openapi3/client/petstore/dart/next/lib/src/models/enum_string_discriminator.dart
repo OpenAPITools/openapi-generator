@@ -57,21 +57,25 @@ EnumStringDiscriminatorMixin {
     return super.validate();
   }
 
-  factory EnumStringDiscriminator.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  factory EnumStringDiscriminator.deserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.deserialize(src, context);
   }
 
-  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.canDeserialize(src, context);
   }
 
-  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+  Object? serialize([SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.serialize(this, context);
+  }
+
+  EnumStringDiscriminator clone() {
+    return $reflection.clone(this);
   }
 }
 
 
-extension type const EnumStringDiscriminatorEnumStrTypeEnum._(String value) {
+extension type const EnumStringDiscriminatorEnumStrTypeEnum._(String value) implements String {
   /// enum string type
       const EnumStringDiscriminatorEnumStrTypeEnum.a() : this._(r'type_a');
   /// enum string type

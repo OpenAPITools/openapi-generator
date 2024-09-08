@@ -10,7 +10,7 @@ class CatReflection extends ModelReflection<Cat> {
   static const instance = CatReflection._(
     modelName: r'Cat',
     className: r'Cat',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     colorPart: PropertyReflection<Cat, UndefinedWrapper<
             String
@@ -23,17 +23,22 @@ class CatReflection extends ModelReflection<Cat> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_colorGetter),
       setter: FunctionWrapper2(_colorSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     declawedPart: PropertyReflection<Cat, UndefinedWrapper<
@@ -47,17 +52,22 @@ class CatReflection extends ModelReflection<Cat> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_declawedGetter),
       setter: FunctionWrapper2(_declawedSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forbool
         
+,
+)
 ),
     ),
     classNamePart: PropertyReflection<Cat, 
@@ -71,17 +81,22 @@ class CatReflection extends ModelReflection<Cat> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: true,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_classNameGetter),
       setter: FunctionWrapper2(_classNameSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     discriminatorKey: r'className',
@@ -98,8 +113,13 @@ class CatReflection extends ModelReflection<Cat> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -200,16 +220,16 @@ classNamePart,
   
 
   @override
-  List<AllOfReflection<Cat, dynamic>> get allOfs => [
+  List<AllOfReflection<Cat, Object>> get allOfs => [
     allOfAnimalPart,
   ];
 
   @override
-  List<OneOfReflection<Cat, dynamic>> get oneOfs => [
+  List<OneOfReflection<Cat, Object>> get oneOfs => [
     
   ];
   @override
-  List<AnyOfReflection<Cat, dynamic>> get anyOfs => [
+  List<AnyOfReflection<Cat, Object>> get anyOfs => [
     
   ];
 
@@ -221,6 +241,14 @@ classNamePart,
       className: classNamePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is CatReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

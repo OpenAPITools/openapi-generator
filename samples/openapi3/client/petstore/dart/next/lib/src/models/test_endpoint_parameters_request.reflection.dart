@@ -10,7 +10,7 @@ class TestEndpointParametersRequestReflection extends ModelReflection<TestEndpoi
   static const instance = TestEndpointParametersRequestReflection._(
     modelName: r'testEndpointParameters_request',
     className: r'TestEndpointParametersRequest',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     integerPart: PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
             int
@@ -23,17 +23,22 @@ class TestEndpointParametersRequestReflection extends ModelReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_integerGetter),
       setter: FunctionWrapper2(_integerSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     int32Part: PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
@@ -47,17 +52,22 @@ class TestEndpointParametersRequestReflection extends ModelReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_int32Getter),
       setter: FunctionWrapper2(_int32Setter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     int64Part: PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
@@ -71,17 +81,22 @@ class TestEndpointParametersRequestReflection extends ModelReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_int64Getter),
       setter: FunctionWrapper2(_int64Setter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     numberPart: PropertyReflection<TestEndpointParametersRequest, 
@@ -95,17 +110,22 @@ class TestEndpointParametersRequestReflection extends ModelReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_numberGetter),
       setter: FunctionWrapper2(_numberSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.fornum
         
+,
+)
 ,
     ),
     floatPart: PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
@@ -119,17 +139,22 @@ class TestEndpointParametersRequestReflection extends ModelReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_floatGetter),
       setter: FunctionWrapper2(_floatSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.fordouble
         
+,
+)
 ),
     ),
     $doublePart: PropertyReflection<TestEndpointParametersRequest, 
@@ -143,17 +168,22 @@ class TestEndpointParametersRequestReflection extends ModelReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_$doubleGetter),
       setter: FunctionWrapper2(_$doubleSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.fordouble
         
+,
+)
 ,
     ),
     stringPart: PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
@@ -167,17 +197,22 @@ class TestEndpointParametersRequestReflection extends ModelReflection<TestEndpoi
       pattern: r'/[a-z]/i',
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_stringGetter),
       setter: FunctionWrapper2(_stringSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     patternWithoutDelimiterPart: PropertyReflection<TestEndpointParametersRequest, 
@@ -191,17 +226,22 @@ class TestEndpointParametersRequestReflection extends ModelReflection<TestEndpoi
       pattern: r'/^[A-Z].*/',
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_patternWithoutDelimiterGetter),
       setter: FunctionWrapper2(_patternWithoutDelimiterSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     bytePart: PropertyReflection<TestEndpointParametersRequest, 
@@ -215,17 +255,22 @@ class TestEndpointParametersRequestReflection extends ModelReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_byteGetter),
       setter: FunctionWrapper2(_byteSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forUint8List
         
+,
+)
 ,
     ),
     binaryPart: PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
@@ -239,17 +284,22 @@ class TestEndpointParametersRequestReflection extends ModelReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_binaryGetter),
       setter: FunctionWrapper2(_binarySetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forXFile
         
+,
+)
 ),
     ),
     datePart: PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
@@ -263,17 +313,22 @@ class TestEndpointParametersRequestReflection extends ModelReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_dateGetter),
       setter: FunctionWrapper2(_dateSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forDateTime
         
+,
+)
 ),
     ),
     dateTimePart: PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
@@ -287,17 +342,22 @@ class TestEndpointParametersRequestReflection extends ModelReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_dateTimeGetter),
       setter: FunctionWrapper2(_dateTimeSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forDateTime
         
+,
+)
 ),
     ),
     passwordPart: PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
@@ -311,17 +371,22 @@ class TestEndpointParametersRequestReflection extends ModelReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_passwordGetter),
       setter: FunctionWrapper2(_passwordSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     callbackPart: PropertyReflection<TestEndpointParametersRequest, UndefinedWrapper<
@@ -335,25 +400,35 @@ class TestEndpointParametersRequestReflection extends ModelReflection<TestEndpoi
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_callbackGetter),
       setter: FunctionWrapper2(_callbackSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -628,7 +703,7 @@ callbackPart,
   
 
   @override
-  List<AllOfReflection<TestEndpointParametersRequest, dynamic>> get allOfs => [
+  List<AllOfReflection<TestEndpointParametersRequest, Object>> get allOfs => [
     
   ];
 
@@ -644,6 +719,14 @@ callbackPart,
       byte: bytePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is TestEndpointParametersRequestReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

@@ -10,7 +10,7 @@ class TestInlineFreeformAdditionalPropertiesRequestReflection extends ModelRefle
   static const instance = TestInlineFreeformAdditionalPropertiesRequestReflection._(
     modelName: r'testInlineFreeformAdditionalProperties_request',
     className: r'TestInlineFreeformAdditionalPropertiesRequest',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     somePropertyPart: PropertyReflection<TestInlineFreeformAdditionalPropertiesRequest, UndefinedWrapper<
             String
@@ -23,25 +23,35 @@ class TestInlineFreeformAdditionalPropertiesRequestReflection extends ModelRefle
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_somePropertyGetter),
       setter: FunctionWrapper2(_somePropertySetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -108,7 +118,7 @@ class TestInlineFreeformAdditionalPropertiesRequestReflection extends ModelRefle
   
 
   @override
-  List<AllOfReflection<TestInlineFreeformAdditionalPropertiesRequest, dynamic>> get allOfs => [
+  List<AllOfReflection<TestInlineFreeformAdditionalPropertiesRequest, Object>> get allOfs => [
     
   ];
 
@@ -120,6 +130,14 @@ class TestInlineFreeformAdditionalPropertiesRequestReflection extends ModelRefle
     return TestInlineFreeformAdditionalPropertiesRequest(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is TestInlineFreeformAdditionalPropertiesRequestReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

@@ -114,13 +114,18 @@ class AnotherFakeApi$123testSpecialTagsResponse200ApplicationJson extends Anothe
             Client
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Client.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling jsonDecode

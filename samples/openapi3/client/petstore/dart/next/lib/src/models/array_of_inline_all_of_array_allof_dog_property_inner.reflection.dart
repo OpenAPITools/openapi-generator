@@ -10,7 +10,7 @@ class ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection extends ModelReflec
   static const instance = ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection._(
     modelName: r'ArrayOfInlineAllOf_array_allof_dog_property_inner',
     className: r'ArrayOfInlineAllOfArrayAllofDogPropertyInner',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     breedPart: PropertyReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner, UndefinedWrapper<
             String
@@ -23,17 +23,22 @@ class ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection extends ModelReflec
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_breedGetter),
       setter: FunctionWrapper2(_breedSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     colorPart: PropertyReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner, UndefinedWrapper<
@@ -47,25 +52,35 @@ class ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection extends ModelReflec
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_colorGetter),
       setter: FunctionWrapper2(_colorSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -148,16 +163,16 @@ colorPart,
   
 
   @override
-  List<AllOfReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner, dynamic>> get allOfs => [
+  List<AllOfReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner, Object>> get allOfs => [
     
   ];
 
   @override
-  List<OneOfReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner, dynamic>> get oneOfs => [
+  List<OneOfReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner, Object>> get oneOfs => [
     
   ];
   @override
-  List<AnyOfReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner, dynamic>> get anyOfs => [
+  List<AnyOfReflection<ArrayOfInlineAllOfArrayAllofDogPropertyInner, Object>> get anyOfs => [
     
   ];
 
@@ -168,6 +183,14 @@ colorPart,
     return ArrayOfInlineAllOfArrayAllofDogPropertyInner(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ArrayOfInlineAllOfArrayAllofDogPropertyInnerReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

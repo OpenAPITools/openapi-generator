@@ -10,7 +10,7 @@ class PetsMulticontentTestPostRequestReflection extends ModelReflection<PetsMult
   static const instance = PetsMulticontentTestPostRequestReflection._(
     modelName: r'_pets_multicontent_test_post_request',
     className: r'PetsMulticontentTestPostRequest',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     idPart: PropertyReflection<PetsMulticontentTestPostRequest, UndefinedWrapper<
             String
@@ -23,17 +23,22 @@ class PetsMulticontentTestPostRequestReflection extends ModelReflection<PetsMult
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_idGetter),
       setter: FunctionWrapper2(_idSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     addressPart: PropertyReflection<PetsMulticontentTestPostRequest, UndefinedWrapper<
@@ -47,17 +52,22 @@ class PetsMulticontentTestPostRequestReflection extends ModelReflection<PetsMult
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_addressGetter),
       setter: FunctionWrapper2(_addressSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PetsMulticontentTestPostRequestAddress.$reflection
         
+,
+)
 ),
     ),
     profileImagesPart: PropertyReflection<PetsMulticontentTestPostRequest, UndefinedWrapper<
@@ -74,18 +84,28 @@ class PetsMulticontentTestPostRequestReflection extends ModelReflection<PetsMult
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_profileImagesGetter),
       setter: FunctionWrapper2(_profileImagesSetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forXFile
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -93,8 +113,13 @@ class PetsMulticontentTestPostRequestReflection extends ModelReflection<PetsMult
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -202,7 +227,7 @@ profileImagesPart,
   
 
   @override
-  List<AllOfReflection<PetsMulticontentTestPostRequest, dynamic>> get allOfs => [
+  List<AllOfReflection<PetsMulticontentTestPostRequest, Object>> get allOfs => [
     
   ];
 
@@ -214,6 +239,14 @@ profileImagesPart,
     return PetsMulticontentTestPostRequest(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is PetsMulticontentTestPostRequestReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

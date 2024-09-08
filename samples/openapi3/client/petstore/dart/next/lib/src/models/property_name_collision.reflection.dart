@@ -10,7 +10,7 @@ class PropertyNameCollisionReflection extends ModelReflection<PropertyNameCollis
   static const instance = PropertyNameCollisionReflection._(
     modelName: r'PropertyNameCollision',
     className: r'PropertyNameCollision',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     $typePart: PropertyReflection<PropertyNameCollision, UndefinedWrapper<
             String
@@ -23,17 +23,22 @@ class PropertyNameCollisionReflection extends ModelReflection<PropertyNameCollis
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_$typeGetter),
       setter: FunctionWrapper2(_$typeSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     typePart: PropertyReflection<PropertyNameCollision, UndefinedWrapper<
@@ -47,17 +52,22 @@ class PropertyNameCollisionReflection extends ModelReflection<PropertyNameCollis
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_typeGetter),
       setter: FunctionWrapper2(_typeSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     type$Part: PropertyReflection<PropertyNameCollision, UndefinedWrapper<
@@ -71,25 +81,35 @@ class PropertyNameCollisionReflection extends ModelReflection<PropertyNameCollis
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_type$Getter),
       setter: FunctionWrapper2(_type$Setter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -188,7 +208,7 @@ type$Part,
   
 
   @override
-  List<AllOfReflection<PropertyNameCollision, dynamic>> get allOfs => [
+  List<AllOfReflection<PropertyNameCollision, Object>> get allOfs => [
     
   ];
 
@@ -200,6 +220,14 @@ type$Part,
     return PropertyNameCollision(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is PropertyNameCollisionReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

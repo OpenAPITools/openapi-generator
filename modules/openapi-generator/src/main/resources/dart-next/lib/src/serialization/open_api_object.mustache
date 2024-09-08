@@ -9,5 +9,15 @@ mixin $OpenApiObjectMixin {
   @mustCallSuper
   bool validate() => true;
 
-  ModelReflection get $classReflection;
+  ModelReflection<Object> get $classReflection;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        ($classReflection.isValidKey(other) &&
+            $classReflection.equals(this, other));
+  }
+
+  @override
+  int get hashCode => $classReflection.hash(this);
 }

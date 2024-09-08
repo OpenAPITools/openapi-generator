@@ -10,7 +10,7 @@ class MixedTypeOneOfNumberReflection extends ModelReflection<MixedTypeOneOfNumbe
   static const instance = MixedTypeOneOfNumberReflection._(
     modelName: r'MixedTypeOneOfNumber',
     className: r'MixedTypeOneOfNumber',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     
     
@@ -64,16 +64,16 @@ class MixedTypeOneOfNumberReflection extends ModelReflection<MixedTypeOneOfNumbe
   
 
   @override
-  List<AllOfReflection<MixedTypeOneOfNumber, dynamic>> get allOfs => [
+  List<AllOfReflection<MixedTypeOneOfNumber, Object>> get allOfs => [
     
   ];
 
   @override
-  List<OneOfReflection<MixedTypeOneOfNumber, dynamic>> get oneOfs => [
+  List<OneOfReflection<MixedTypeOneOfNumber, Object>> get oneOfs => [
     oneOf0Part,oneOf1Part,
   ];
   @override
-  List<AnyOfReflection<MixedTypeOneOfNumber, dynamic>> get anyOfs => [
+  List<AnyOfReflection<MixedTypeOneOfNumber, Object>> get anyOfs => [
     
   ];
 
@@ -84,6 +84,14 @@ class MixedTypeOneOfNumberReflection extends ModelReflection<MixedTypeOneOfNumbe
     return MixedTypeOneOfNumber(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is MixedTypeOneOfNumberReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 
@@ -118,12 +126,18 @@ static void _setter(MixedTypeOneOfNumber src, UndefinedWrapper<
 UndefinedWrapperReflection<
             double
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.fordouble
         
+
+  ),
 );
 
   UndefinedWrapper<
@@ -182,12 +196,18 @@ static void _setter(MixedTypeOneOfNumber src, UndefinedWrapper<
 UndefinedWrapperReflection<
             double
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.fordouble
         
+
+  ),
 );
 
   UndefinedWrapper<

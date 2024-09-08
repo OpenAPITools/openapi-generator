@@ -10,7 +10,7 @@ class PetWithRequiredTagsReflection extends ModelReflection<PetWithRequiredTags>
   static const instance = PetWithRequiredTagsReflection._(
     modelName: r'PetWithRequiredTags',
     className: r'PetWithRequiredTags',
-    xml: const XmlReflection(
+    xml: XmlReflection(
     xmlName: r'Pet',
 ),
     idPart: PropertyReflection<PetWithRequiredTags, UndefinedWrapper<
@@ -24,17 +24,22 @@ class PetWithRequiredTagsReflection extends ModelReflection<PetWithRequiredTags>
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_idGetter),
       setter: FunctionWrapper2(_idSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     categoryPart: PropertyReflection<PetWithRequiredTags, UndefinedWrapper<
@@ -48,18 +53,24 @@ class PetWithRequiredTagsReflection extends ModelReflection<PetWithRequiredTags>
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     xmlName: r'Category',
 ),
       getter: FunctionWrapper1(_categoryGetter),
       setter: FunctionWrapper2(_categorySetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Category',
+),
+    
             
         
         
             
                 Category.$reflection
         
+,
+)
 ),
     ),
     namePart: PropertyReflection<PetWithRequiredTags, 
@@ -73,17 +84,22 @@ class PetWithRequiredTagsReflection extends ModelReflection<PetWithRequiredTags>
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_nameGetter),
       setter: FunctionWrapper2(_nameSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     photoUrlsPart: PropertyReflection<PetWithRequiredTags, 
@@ -100,20 +116,32 @@ class PetWithRequiredTagsReflection extends ModelReflection<PetWithRequiredTags>
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     xmlName: r'photoUrl',
     wrapped: true,
 ),
       getter: FunctionWrapper1(_photoUrlsGetter),
       setter: FunctionWrapper2(_photoUrlsSetter),
-      reflection: 
-    ListReflection(
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'photoUrl',
+    wrapped: true,
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
+)
+,
 )
 ,
     ),
@@ -131,20 +159,33 @@ class PetWithRequiredTagsReflection extends ModelReflection<PetWithRequiredTags>
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     xmlName: r'tag',
     wrapped: true,
 ),
       getter: FunctionWrapper1(_tagsGetter),
       setter: FunctionWrapper2(_tagsSetter),
-      reflection: 
-    ListReflection(
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'tag',
+    wrapped: true,
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Tag',
+),
+    
             
         
         
             
                 Tag.$reflection
         
+,
+)
+)
+,
 )
 ,
     ),
@@ -159,22 +200,32 @@ class PetWithRequiredTagsReflection extends ModelReflection<PetWithRequiredTags>
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_statusGetter),
       setter: FunctionWrapper2(_statusSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             PetWithRequiredTagsStatusEnum.$reflection
         
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -339,7 +390,7 @@ statusPart,
   
 
   @override
-  List<AllOfReflection<PetWithRequiredTags, dynamic>> get allOfs => [
+  List<AllOfReflection<PetWithRequiredTags, Object>> get allOfs => [
     
   ];
 
@@ -354,6 +405,14 @@ statusPart,
       tags: tagsPart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is PetWithRequiredTagsReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

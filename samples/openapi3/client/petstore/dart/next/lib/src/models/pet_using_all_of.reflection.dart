@@ -10,7 +10,7 @@ class PetUsingAllOfReflection extends ModelReflection<PetUsingAllOf> {
   static const instance = PetUsingAllOfReflection._(
     modelName: r'PetUsingAllOf',
     className: r'PetUsingAllOf',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     idPart: PropertyReflection<PetUsingAllOf, UndefinedWrapper<
             int
@@ -23,17 +23,22 @@ class PetUsingAllOfReflection extends ModelReflection<PetUsingAllOf> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_idGetter),
       setter: FunctionWrapper2(_idSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     categoryPart: PropertyReflection<PetUsingAllOf, UndefinedWrapper<
@@ -47,18 +52,24 @@ class PetUsingAllOfReflection extends ModelReflection<PetUsingAllOf> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     xmlName: r'Category',
 ),
       getter: FunctionWrapper1(_categoryGetter),
       setter: FunctionWrapper2(_categorySetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Category',
+),
+    
             
         
         
             
                 Category.$reflection
         
+,
+)
 ),
     ),
     namePart: PropertyReflection<PetUsingAllOf, 
@@ -72,17 +83,22 @@ class PetUsingAllOfReflection extends ModelReflection<PetUsingAllOf> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_nameGetter),
       setter: FunctionWrapper2(_nameSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     photoUrlsPart: PropertyReflection<PetUsingAllOf, 
@@ -99,20 +115,32 @@ class PetUsingAllOfReflection extends ModelReflection<PetUsingAllOf> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     xmlName: r'photoUrl',
     wrapped: true,
 ),
       getter: FunctionWrapper1(_photoUrlsGetter),
       setter: FunctionWrapper2(_photoUrlsSetter),
-      reflection: 
-    ListReflection(
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'photoUrl',
+    wrapped: true,
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
+)
+,
 )
 ,
     ),
@@ -130,20 +158,33 @@ class PetUsingAllOfReflection extends ModelReflection<PetUsingAllOf> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     xmlName: r'tag',
     wrapped: true,
 ),
       getter: FunctionWrapper1(_tagsGetter),
       setter: FunctionWrapper2(_tagsSetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'tag',
+    wrapped: true,
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Tag',
+),
+    
             
         
         
             
                 Tag.$reflection
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -158,22 +199,32 @@ class PetUsingAllOfReflection extends ModelReflection<PetUsingAllOf> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_statusGetter),
       setter: FunctionWrapper2(_statusSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             PetUsingAllOfStatusEnum.$reflection
         
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -338,7 +389,7 @@ statusPart,
   
 
   @override
-  List<AllOfReflection<PetUsingAllOf, dynamic>> get allOfs => [
+  List<AllOfReflection<PetUsingAllOf, Object>> get allOfs => [
     
   ];
 
@@ -352,6 +403,14 @@ statusPart,
       photoUrls: photoUrlsPart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is PetUsingAllOfReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

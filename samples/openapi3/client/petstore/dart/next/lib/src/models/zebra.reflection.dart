@@ -10,7 +10,7 @@ class ZebraReflection extends ModelReflection<Zebra> {
   static const instance = ZebraReflection._(
     modelName: r'zebra',
     className: r'Zebra',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     typePart: PropertyReflection<Zebra, UndefinedWrapper<
             ZebraTypeEnum
@@ -23,14 +23,19 @@ class ZebraReflection extends ModelReflection<Zebra> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_typeGetter),
       setter: FunctionWrapper2(_typeSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             ZebraTypeEnum.$reflection
         
         
+,
+)
 ),
     ),
     classNamePart: PropertyReflection<Zebra, 
@@ -44,11 +49,14 @@ class ZebraReflection extends ModelReflection<Zebra> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_classNameGetter),
       setter: FunctionWrapper2(_classNameSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
@@ -56,13 +64,20 @@ class ZebraReflection extends ModelReflection<Zebra> {
                 PrimitiveReflection.forString
         
 ,
+)
+,
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -145,7 +160,7 @@ classNamePart,
   
 
   @override
-  List<AllOfReflection<Zebra, dynamic>> get allOfs => [
+  List<AllOfReflection<Zebra, Object>> get allOfs => [
     
   ];
 
@@ -158,6 +173,14 @@ classNamePart,
       className: classNamePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ZebraReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

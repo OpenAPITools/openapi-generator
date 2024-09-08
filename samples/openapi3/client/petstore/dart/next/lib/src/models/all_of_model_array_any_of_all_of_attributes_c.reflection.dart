@@ -10,7 +10,7 @@ class AllOfModelArrayAnyOfAllOfAttributesCReflection extends ModelReflection<All
   static const instance = AllOfModelArrayAnyOfAllOfAttributesCReflection._(
     modelName: r'AllOfModelArrayAnyOf_allOf_attributes_C',
     className: r'AllOfModelArrayAnyOfAllOfAttributesC',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     
     
@@ -24,8 +24,13 @@ class AllOfModelArrayAnyOfAllOfAttributesCReflection extends ModelReflection<All
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -84,16 +89,16 @@ class AllOfModelArrayAnyOfAllOfAttributesCReflection extends ModelReflection<All
   
 
   @override
-  List<AllOfReflection<AllOfModelArrayAnyOfAllOfAttributesC, dynamic>> get allOfs => [
+  List<AllOfReflection<AllOfModelArrayAnyOfAllOfAttributesC, Object>> get allOfs => [
     
   ];
 
   @override
-  List<OneOfReflection<AllOfModelArrayAnyOfAllOfAttributesC, dynamic>> get oneOfs => [
+  List<OneOfReflection<AllOfModelArrayAnyOfAllOfAttributesC, Object>> get oneOfs => [
     oneOf0Part,oneOf1Part,
   ];
   @override
-  List<AnyOfReflection<AllOfModelArrayAnyOfAllOfAttributesC, dynamic>> get anyOfs => [
+  List<AnyOfReflection<AllOfModelArrayAnyOfAllOfAttributesC, Object>> get anyOfs => [
     
   ];
 
@@ -104,6 +109,14 @@ class AllOfModelArrayAnyOfAllOfAttributesCReflection extends ModelReflection<All
     return AllOfModelArrayAnyOfAllOfAttributesC(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is AllOfModelArrayAnyOfAllOfAttributesCReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 
@@ -138,12 +151,19 @@ static void _setter(AllOfModelArrayAnyOfAllOfAttributesC src, UndefinedWrapper<
 UndefinedWrapperReflection<
             Pet
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Pet',
+),
+    
             
         
         
             
                 Pet.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<
@@ -202,12 +222,19 @@ static void _setter(AllOfModelArrayAnyOfAllOfAttributesC src, UndefinedWrapper<
 UndefinedWrapperReflection<
             Order
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Order',
+),
+    
             
         
         
             
                 Order.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<

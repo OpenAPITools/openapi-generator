@@ -114,13 +114,18 @@ class FakeClassnameTags123ApiTestClassnameResponse200ApplicationJson extends Fak
             Client
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Client.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling jsonDecode

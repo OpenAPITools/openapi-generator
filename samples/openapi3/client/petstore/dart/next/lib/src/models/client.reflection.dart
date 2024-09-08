@@ -10,7 +10,7 @@ class ClientReflection extends ModelReflection<Client> {
   static const instance = ClientReflection._(
     modelName: r'Client',
     className: r'Client',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     clientPart: PropertyReflection<Client, UndefinedWrapper<
             String
@@ -23,25 +23,35 @@ class ClientReflection extends ModelReflection<Client> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_clientGetter),
       setter: FunctionWrapper2(_clientSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -108,7 +118,7 @@ class ClientReflection extends ModelReflection<Client> {
   
 
   @override
-  List<AllOfReflection<Client, dynamic>> get allOfs => [
+  List<AllOfReflection<Client, Object>> get allOfs => [
     
   ];
 
@@ -120,6 +130,14 @@ class ClientReflection extends ModelReflection<Client> {
     return Client(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ClientReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

@@ -114,13 +114,18 @@ class FakeApiFakeGetFreeFormObjectGetResponse200ApplicationJson extends FakeApiF
             FreeFormObjectTestClass
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 FreeFormObjectTestClass.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling jsonDecode
@@ -294,13 +299,18 @@ class FakeApiFakeOuterBooleanSerializeResponse200AnyAny extends FakeApiFakeOuter
             bool
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forbool
         
+,
+)
 ;
 
 
@@ -446,13 +456,18 @@ class FakeApiFakeOuterCompositeSerializeResponse200AnyAny extends FakeApiFakeOut
             OuterComposite
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 OuterComposite.$reflection
         
+,
+)
 ;
 
 
@@ -598,13 +613,18 @@ class FakeApiFakeOuterNumberSerializeResponse200AnyAny extends FakeApiFakeOuterN
             num
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.fornum
         
+,
+)
 ;
 
 
@@ -750,13 +770,18 @@ class FakeApiFakeOuterStringSerializeResponse200AnyAny extends FakeApiFakeOuterS
             String
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ;
 
 
@@ -902,13 +927,18 @@ class FakeApiFakeUploadRefRequestBodiesResponse200ApplicationJson extends FakeAp
             ApiResponse
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 ApiResponse.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling jsonDecode
@@ -1087,14 +1117,24 @@ class FakeApiGetFakeArrayofenumsResponse200ApplicationJson extends FakeApiGetFak
 ?>
 > body;
 
-  static const bodyReflection = 
-    ListReflection(NullableReflection(
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(
             
         
         
             OuterEnum.$reflection
         
-))
+),
+)
+)
+,
+)
 ;
 
   /// The raw result of calling jsonDecode
@@ -1268,13 +1308,18 @@ class FakeApiGetFakeHealthResponse200ApplicationJson extends FakeApiGetFakeHealt
             HealthCheckResult
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 HealthCheckResult.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling jsonDecode
@@ -1748,13 +1793,18 @@ class FakeApiTestClientModelResponse200ApplicationJson extends FakeApiTestClient
             Client
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Client.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling jsonDecode

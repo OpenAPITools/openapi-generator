@@ -10,7 +10,7 @@ class ArrayOfInlineAllOfReflection extends ModelReflection<ArrayOfInlineAllOf> {
   static const instance = ArrayOfInlineAllOfReflection._(
     modelName: r'ArrayOfInlineAllOf',
     className: r'ArrayOfInlineAllOf',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     idPart: PropertyReflection<ArrayOfInlineAllOf, UndefinedWrapper<
             int
@@ -23,17 +23,22 @@ class ArrayOfInlineAllOfReflection extends ModelReflection<ArrayOfInlineAllOf> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_idGetter),
       setter: FunctionWrapper2(_idSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     namePart: PropertyReflection<ArrayOfInlineAllOf, 
@@ -47,17 +52,22 @@ class ArrayOfInlineAllOfReflection extends ModelReflection<ArrayOfInlineAllOf> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_nameGetter),
       setter: FunctionWrapper2(_nameSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     arrayAllofDogPropertyPart: PropertyReflection<ArrayOfInlineAllOf, UndefinedWrapper<
@@ -74,18 +84,28 @@ class ArrayOfInlineAllOfReflection extends ModelReflection<ArrayOfInlineAllOf> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_arrayAllofDogPropertyGetter),
       setter: FunctionWrapper2(_arrayAllofDogPropertySetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 ArrayOfInlineAllOfArrayAllofDogPropertyInner.$reflection
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -93,8 +113,13 @@ class ArrayOfInlineAllOfReflection extends ModelReflection<ArrayOfInlineAllOf> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -202,7 +227,7 @@ arrayAllofDogPropertyPart,
   
 
   @override
-  List<AllOfReflection<ArrayOfInlineAllOf, dynamic>> get allOfs => [
+  List<AllOfReflection<ArrayOfInlineAllOf, Object>> get allOfs => [
     
   ];
 
@@ -215,6 +240,14 @@ arrayAllofDogPropertyPart,
       name: namePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ArrayOfInlineAllOfReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

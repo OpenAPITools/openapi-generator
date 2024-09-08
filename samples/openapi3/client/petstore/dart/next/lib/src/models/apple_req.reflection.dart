@@ -10,7 +10,7 @@ class AppleReqReflection extends ModelReflection<AppleReq> {
   static const instance = AppleReqReflection._(
     modelName: r'appleReq',
     className: r'AppleReq',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     cultivarPart: PropertyReflection<AppleReq, 
             String
@@ -23,17 +23,22 @@ class AppleReqReflection extends ModelReflection<AppleReq> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_cultivarGetter),
       setter: FunctionWrapper2(_cultivarSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     mealyPart: PropertyReflection<AppleReq, UndefinedWrapper<
@@ -47,17 +52,22 @@ class AppleReqReflection extends ModelReflection<AppleReq> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_mealyGetter),
       setter: FunctionWrapper2(_mealySetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forbool
         
+,
+)
 ),
     ),
     
@@ -128,7 +138,7 @@ mealyPart,
   
 
   @override
-  List<AllOfReflection<AppleReq, dynamic>> get allOfs => [
+  List<AllOfReflection<AppleReq, Object>> get allOfs => [
     
   ];
 
@@ -141,6 +151,14 @@ mealyPart,
       cultivar: cultivarPart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is AppleReqReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

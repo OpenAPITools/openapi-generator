@@ -10,7 +10,7 @@ class GmFruitReflection extends ModelReflection<GmFruit> {
   static const instance = GmFruitReflection._(
     modelName: r'gmFruit',
     className: r'GmFruit',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     colorPart: PropertyReflection<GmFruit, UndefinedWrapper<
             String
@@ -23,17 +23,22 @@ class GmFruitReflection extends ModelReflection<GmFruit> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_colorGetter),
       setter: FunctionWrapper2(_colorSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     
@@ -104,16 +109,16 @@ class GmFruitReflection extends ModelReflection<GmFruit> {
   
 
   @override
-  List<AllOfReflection<GmFruit, dynamic>> get allOfs => [
+  List<AllOfReflection<GmFruit, Object>> get allOfs => [
     
   ];
 
   @override
-  List<OneOfReflection<GmFruit, dynamic>> get oneOfs => [
+  List<OneOfReflection<GmFruit, Object>> get oneOfs => [
     
   ];
   @override
-  List<AnyOfReflection<GmFruit, dynamic>> get anyOfs => [
+  List<AnyOfReflection<GmFruit, Object>> get anyOfs => [
     anyOf0Part,anyOf1Part,
   ];
 
@@ -124,6 +129,14 @@ class GmFruitReflection extends ModelReflection<GmFruit> {
     return GmFruit(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GmFruitReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 class GmFruitAnyOf0Part extends AnyOfReflection<GmFruit, 
@@ -157,12 +170,18 @@ static void _setter(GmFruit src, UndefinedWrapper<
 UndefinedWrapperReflection<
             Apple
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Apple.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<
@@ -212,12 +231,18 @@ static void _setter(GmFruit src, UndefinedWrapper<
 UndefinedWrapperReflection<
             Banana
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Banana.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<

@@ -10,7 +10,7 @@ class NameReflection extends ModelReflection<Name> {
   static const instance = NameReflection._(
     modelName: r'Name',
     className: r'Name',
-    xml: const XmlReflection(
+    xml: XmlReflection(
     xmlName: r'Name',
 ),
     namePart: PropertyReflection<Name, 
@@ -24,17 +24,22 @@ class NameReflection extends ModelReflection<Name> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_nameGetter),
       setter: FunctionWrapper2(_nameSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ,
     ),
     snakeCasePart: PropertyReflection<Name, UndefinedWrapper<
@@ -48,17 +53,22 @@ class NameReflection extends ModelReflection<Name> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_snakeCaseGetter),
       setter: FunctionWrapper2(_snakeCaseSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     propertyPart: PropertyReflection<Name, UndefinedWrapper<
@@ -72,17 +82,22 @@ class NameReflection extends ModelReflection<Name> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_propertyGetter),
       setter: FunctionWrapper2(_propertySetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     $123numberPart: PropertyReflection<Name, UndefinedWrapper<
@@ -96,25 +111,35 @@ class NameReflection extends ModelReflection<Name> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_$123numberGetter),
       setter: FunctionWrapper2(_$123numberSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -229,7 +254,7 @@ $123numberPart,
   
 
   @override
-  List<AllOfReflection<Name, dynamic>> get allOfs => [
+  List<AllOfReflection<Name, Object>> get allOfs => [
     
   ];
 
@@ -242,6 +267,14 @@ $123numberPart,
       name: namePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is NameReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

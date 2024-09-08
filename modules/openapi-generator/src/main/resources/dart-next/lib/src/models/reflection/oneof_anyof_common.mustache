@@ -14,4 +14,9 @@ static void _setter({{classname}} src, UndefinedWrapper<{{>types/variable_recurs
 }
 
 @override
-UndefinedWrapperReflection<{{>types/variable_recursive_nonnullable}}> get reflection => UndefinedWrapperReflection({{>types/reflection_recursive_nonnullable}});
+UndefinedWrapperReflection<{{>types/variable_recursive_nonnullable}}> get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: {{>types/xml}},
+    {{>types/reflection_recursive_nonnullable}}
+  ),
+);

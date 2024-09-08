@@ -10,7 +10,7 @@ class NullableClassReflection extends ModelReflection<NullableClass> {
   static const instance = NullableClassReflection._(
     modelName: r'NullableClass',
     className: r'NullableClass',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     integerPropPart: PropertyReflection<NullableClass, UndefinedWrapper<
             int
@@ -23,18 +23,23 @@ class NullableClassReflection extends ModelReflection<NullableClass> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_integerPropGetter),
       setter: FunctionWrapper2(_integerPropSetter),
-      reflection: UndefinedWrapperReflection(NullableReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(
             
         
         
             
                 PrimitiveReflection.forint
         
-)),
+),
+)
+),
     ),
     numberPropPart: PropertyReflection<NullableClass, UndefinedWrapper<
             num
@@ -47,18 +52,23 @@ class NullableClassReflection extends ModelReflection<NullableClass> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_numberPropGetter),
       setter: FunctionWrapper2(_numberPropSetter),
-      reflection: UndefinedWrapperReflection(NullableReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(
             
         
         
             
                 PrimitiveReflection.fornum
         
-)),
+),
+)
+),
     ),
     booleanPropPart: PropertyReflection<NullableClass, UndefinedWrapper<
             bool
@@ -71,18 +81,23 @@ class NullableClassReflection extends ModelReflection<NullableClass> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_booleanPropGetter),
       setter: FunctionWrapper2(_booleanPropSetter),
-      reflection: UndefinedWrapperReflection(NullableReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(
             
         
         
             
                 PrimitiveReflection.forbool
         
-)),
+),
+)
+),
     ),
     stringPropPart: PropertyReflection<NullableClass, UndefinedWrapper<
             String
@@ -95,18 +110,23 @@ class NullableClassReflection extends ModelReflection<NullableClass> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_stringPropGetter),
       setter: FunctionWrapper2(_stringPropSetter),
-      reflection: UndefinedWrapperReflection(NullableReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(
             
         
         
             
                 PrimitiveReflection.forString
         
-)),
+),
+)
+),
     ),
     datePropPart: PropertyReflection<NullableClass, UndefinedWrapper<
             DateTime
@@ -119,18 +139,23 @@ class NullableClassReflection extends ModelReflection<NullableClass> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_datePropGetter),
       setter: FunctionWrapper2(_datePropSetter),
-      reflection: UndefinedWrapperReflection(NullableReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(
             
         
         
             
                 PrimitiveReflection.forDateTime
         
-)),
+),
+)
+),
     ),
     datetimePropPart: PropertyReflection<NullableClass, UndefinedWrapper<
             DateTime
@@ -143,18 +168,23 @@ class NullableClassReflection extends ModelReflection<NullableClass> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_datetimePropGetter),
       setter: FunctionWrapper2(_datetimePropSetter),
-      reflection: UndefinedWrapperReflection(NullableReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(
             
         
         
             
                 PrimitiveReflection.forDateTime
         
-)),
+),
+)
+),
     ),
     arrayNullablePropPart: PropertyReflection<NullableClass, UndefinedWrapper<
     List<
@@ -170,20 +200,30 @@ class NullableClassReflection extends ModelReflection<NullableClass> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_arrayNullablePropGetter),
       setter: FunctionWrapper2(_arrayNullablePropSetter),
-      reflection: UndefinedWrapperReflection(NullableReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.for$FreeFormObject
         
+,
 )
-)),
+)
+),
+)
+),
     ),
     arrayAndItemsNullablePropPart: PropertyReflection<NullableClass, UndefinedWrapper<
     List<
@@ -199,20 +239,30 @@ class NullableClassReflection extends ModelReflection<NullableClass> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_arrayAndItemsNullablePropGetter),
       setter: FunctionWrapper2(_arrayAndItemsNullablePropSetter),
-      reflection: UndefinedWrapperReflection(NullableReflection(
-    ListReflection(NullableReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(
             
         
         
             
                 PrimitiveReflection.for$FreeFormObject
         
-))
-)),
+),
+)
+)
+),
+)
+),
     ),
     arrayItemsNullablePart: PropertyReflection<NullableClass, UndefinedWrapper<
     List<
@@ -228,19 +278,29 @@ class NullableClassReflection extends ModelReflection<NullableClass> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_arrayItemsNullableGetter),
       setter: FunctionWrapper2(_arrayItemsNullableSetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(NullableReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(
             
         
         
             
                 PrimitiveReflection.for$FreeFormObject
         
-))
+),
+)
+)
+,
+)
 ),
     ),
     objectNullablePropPart: PropertyReflection<NullableClass, UndefinedWrapper<
@@ -257,20 +317,30 @@ class NullableClassReflection extends ModelReflection<NullableClass> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_objectNullablePropGetter),
       setter: FunctionWrapper2(_objectNullablePropSetter),
-      reflection: UndefinedWrapperReflection(NullableReflection(
-    MapReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(
+    MapReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.for$FreeFormObject
         
+,
 )
-)),
+)
+),
+)
+),
     ),
     objectAndItemsNullablePropPart: PropertyReflection<NullableClass, UndefinedWrapper<
     Map<String, 
@@ -286,20 +356,30 @@ class NullableClassReflection extends ModelReflection<NullableClass> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_objectAndItemsNullablePropGetter),
       setter: FunctionWrapper2(_objectAndItemsNullablePropSetter),
-      reflection: UndefinedWrapperReflection(NullableReflection(
-    MapReflection(NullableReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(
+    MapReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(
             
         
         
             
                 PrimitiveReflection.for$FreeFormObject
         
-))
-)),
+),
+)
+)
+),
+)
+),
     ),
     objectItemsNullablePart: PropertyReflection<NullableClass, UndefinedWrapper<
     Map<String, 
@@ -315,26 +395,39 @@ class NullableClassReflection extends ModelReflection<NullableClass> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_objectItemsNullableGetter),
       setter: FunctionWrapper2(_objectItemsNullableSetter),
-      reflection: UndefinedWrapperReflection(
-    MapReflection(NullableReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    MapReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(
             
         
         
             
                 PrimitiveReflection.for$FreeFormObject
         
-))
+),
+)
+)
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(
             
         
         
@@ -342,6 +435,8 @@ class NullableClassReflection extends ModelReflection<NullableClass> {
                 PrimitiveReflection.for$FreeFormObject
         
 ),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -641,7 +736,7 @@ objectItemsNullablePart,
   
 
   @override
-  List<AllOfReflection<NullableClass, dynamic>> get allOfs => [
+  List<AllOfReflection<NullableClass, Object>> get allOfs => [
     
   ];
 
@@ -653,6 +748,14 @@ objectItemsNullablePart,
     return NullableClass(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is NullableClassReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

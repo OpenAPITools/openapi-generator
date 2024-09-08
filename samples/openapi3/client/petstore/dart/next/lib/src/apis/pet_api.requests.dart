@@ -184,13 +184,19 @@ class PetApiAddPetRequestApplicationJson extends PetApiAddPetRequest {
   final 
             Pet
  data;
-  static const dataReflection = 
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Pet',
+),
+    
             
         
         
             
                 Pet.$reflection
         
+,
+)
 ;
 
 
@@ -236,13 +242,19 @@ class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
   final 
             Pet
  data;
-  static const dataReflection = 
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Pet',
+),
+    
             
         
         
             
                 Pet.$reflection
         
+,
+)
 ;
 
 
@@ -411,7 +423,7 @@ class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
 
 
 
-extension type const StatusEnum._(String value) {
+extension type const StatusEnum._(String value) implements String {
       const StatusEnum.available() : this._(r'available');
       const StatusEnum.pending() : this._(r'pending');
       const StatusEnum.sold() : this._(r'sold');
@@ -986,13 +998,19 @@ class PetApiUpdatePetRequestApplicationJson extends PetApiUpdatePetRequest {
   final 
             Pet
  data;
-  static const dataReflection = 
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Pet',
+),
+    
             
         
         
             
                 Pet.$reflection
         
+,
+)
 ;
 
 
@@ -1038,13 +1056,19 @@ class PetApiUpdatePetRequestApplicationXml extends PetApiUpdatePetRequest {
   final 
             Pet
  data;
-  static const dataReflection = 
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Pet',
+),
+    
             
         
         
             
                 Pet.$reflection
         
+,
+)
 ;
 
 

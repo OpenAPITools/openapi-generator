@@ -80,16 +80,20 @@ FakeOneOfWIthSameErasureGet200ResponseMixin {
     return super.validate();
   }
 
-  factory FakeOneOfWIthSameErasureGet200Response.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  factory FakeOneOfWIthSameErasureGet200Response.deserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.deserialize(src, context);
   }
 
-  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.canDeserialize(src, context);
   }
 
-  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+  Object? serialize([SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.serialize(this, context);
+  }
+
+  FakeOneOfWIthSameErasureGet200Response clone() {
+    return $reflection.clone(this);
   }
 }
 

@@ -10,7 +10,7 @@ class NewPetCategoryInlineAllofReflection extends ModelReflection<NewPetCategory
   static const instance = NewPetCategoryInlineAllofReflection._(
     modelName: r'NewPet_category_inline_allof',
     className: r'NewPetCategoryInlineAllof',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     idPart: PropertyReflection<NewPetCategoryInlineAllof, UndefinedWrapper<
             int
@@ -23,17 +23,22 @@ class NewPetCategoryInlineAllofReflection extends ModelReflection<NewPetCategory
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_idGetter),
       setter: FunctionWrapper2(_idSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     namePart: PropertyReflection<NewPetCategoryInlineAllof, 
@@ -47,17 +52,22 @@ class NewPetCategoryInlineAllofReflection extends ModelReflection<NewPetCategory
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_nameGetter),
       setter: FunctionWrapper2(_nameSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     categoryTagPart: PropertyReflection<NewPetCategoryInlineAllof, UndefinedWrapper<
@@ -71,25 +81,35 @@ class NewPetCategoryInlineAllofReflection extends ModelReflection<NewPetCategory
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_categoryTagGetter),
       setter: FunctionWrapper2(_categoryTagSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 NewPetCategoryInlineAllofAllOfCategoryTag.$reflection
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -188,16 +208,16 @@ categoryTagPart,
   
 
   @override
-  List<AllOfReflection<NewPetCategoryInlineAllof, dynamic>> get allOfs => [
+  List<AllOfReflection<NewPetCategoryInlineAllof, Object>> get allOfs => [
     
   ];
 
   @override
-  List<OneOfReflection<NewPetCategoryInlineAllof, dynamic>> get oneOfs => [
+  List<OneOfReflection<NewPetCategoryInlineAllof, Object>> get oneOfs => [
     
   ];
   @override
-  List<AnyOfReflection<NewPetCategoryInlineAllof, dynamic>> get anyOfs => [
+  List<AnyOfReflection<NewPetCategoryInlineAllof, Object>> get anyOfs => [
     
   ];
 
@@ -209,6 +229,14 @@ categoryTagPart,
       name: namePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is NewPetCategoryInlineAllofReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

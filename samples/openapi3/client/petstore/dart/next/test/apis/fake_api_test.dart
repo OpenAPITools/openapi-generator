@@ -619,13 +619,18 @@ void main() {
                 "nice": "work",
             },
             
-petId: 
+petId: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 .exampleFunction(exampleContext),
 
         );
@@ -938,31 +943,46 @@ petId:
                 "nice": "work",
             },
             
-$type: 
+$type: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 .exampleFunction(exampleContext),
 
-type: 
+type: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 .exampleFunction(exampleContext),
 
-type$: 
+type$: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 .exampleFunction(exampleContext),
 
         );
@@ -1195,13 +1215,18 @@ type$:
                 "nice": "work",
             },
             
-query: 
+query: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 .exampleFunction(exampleContext),
 
         );
@@ -1222,13 +1247,19 @@ query:
                 "nice": "work",
             },
             
-query: 
+query: XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'User',
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 .exampleFunction(exampleContext),
 
         );
@@ -1510,44 +1541,84 @@ query:
                 "nice": "work",
             },
             
-enumHeaderStringArray: UndefinedWrapperReflection(
-    ListReflection(
+enumHeaderStringArray: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             EnumHeaderStringArrayEnum.$reflection
         
         
+,
+)
+)
+,
 )
 ).exampleFunction(exampleContext),
 
-enumHeaderString: UndefinedWrapperReflection(
+enumHeaderString: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             EnumHeaderStringEnum.$reflection
         
         
-).exampleFunction(exampleContext),
-
-enumQueryStringArray: UndefinedWrapperReflection(
-    ListReflection(
-            EnumQueryStringArrayEnum.$reflection
-        
-        
+,
 )
 ).exampleFunction(exampleContext),
 
-enumQueryString: UndefinedWrapperReflection(
+enumQueryStringArray: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+            EnumQueryStringArrayEnum.$reflection
+        
+        
+,
+)
+)
+,
+)
+).exampleFunction(exampleContext),
+
+enumQueryString: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             EnumQueryStringEnum.$reflection
         
         
+,
+)
 ).exampleFunction(exampleContext),
 
-enumQueryInteger: UndefinedWrapperReflection(
+enumQueryInteger: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             EnumQueryIntegerEnum.$reflection
         
         
+,
+)
 ).exampleFunction(exampleContext),
 
-enumQueryDouble: UndefinedWrapperReflection(
+enumQueryDouble: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             EnumQueryDoubleEnum.$reflection
         
         
+,
+)
 ).exampleFunction(exampleContext),
 
         );
@@ -1636,58 +1707,88 @@ enumQueryDouble: UndefinedWrapperReflection(
                 "nice": "work",
             },
             
-requiredStringGroup: 
+requiredStringGroup: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 .exampleFunction(exampleContext),
 
-requiredBooleanGroup: 
+requiredBooleanGroup: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forbool
         
+,
+)
 .exampleFunction(exampleContext),
 
-requiredInt64Group: 
+requiredInt64Group: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 .exampleFunction(exampleContext),
 
-stringGroup: UndefinedWrapperReflection(
+stringGroup: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ).exampleFunction(exampleContext),
 
-booleanGroup: UndefinedWrapperReflection(
+booleanGroup: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forbool
         
+,
+)
 ).exampleFunction(exampleContext),
 
-int64Group: UndefinedWrapperReflection(
+int64Group: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ).exampleFunction(exampleContext),
 
         );
@@ -1989,58 +2090,108 @@ int64Group: UndefinedWrapperReflection(
                 "nice": "work",
             },
             
-pipe: 
-    ListReflection(
+pipe: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
+)
+,
 )
 .exampleFunction(exampleContext),
 
-ioutil: 
-    ListReflection(
+ioutil: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
+)
+,
 )
 .exampleFunction(exampleContext),
 
-http: 
-    ListReflection(
+http: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
+)
+,
 )
 .exampleFunction(exampleContext),
 
-url: 
-    ListReflection(
+url: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
+)
+,
 )
 .exampleFunction(exampleContext),
 
-context: 
-    ListReflection(
+context: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
+)
+,
 )
 .exampleFunction(exampleContext),
 

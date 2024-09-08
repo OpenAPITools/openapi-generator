@@ -78,21 +78,25 @@ EnumArraysMixin {
     return super.validate();
   }
 
-  factory EnumArrays.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  factory EnumArrays.deserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.deserialize(src, context);
   }
 
-  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.canDeserialize(src, context);
   }
 
-  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+  Object? serialize([SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.serialize(this, context);
+  }
+
+  EnumArrays clone() {
+    return $reflection.clone(this);
   }
 }
 
 
-extension type const EnumArraysJustSymbolEnum._(String value) {
+extension type const EnumArraysJustSymbolEnum._(String value) implements String {
       const EnumArraysJustSymbolEnum.greaterThanEqual() : this._(r'>=');
       const EnumArraysJustSymbolEnum.value() : this._(r'$');
 
@@ -140,7 +144,7 @@ extension type const EnumArraysJustSymbolEnum._(String value) {
 }
 
 
-extension type const EnumArraysArrayEnumEnum._(String value) {
+extension type const EnumArraysArrayEnumEnum._(String value) implements String {
       const EnumArraysArrayEnumEnum.fish() : this._(r'fish');
       const EnumArraysArrayEnumEnum.crab() : this._(r'crab');
 

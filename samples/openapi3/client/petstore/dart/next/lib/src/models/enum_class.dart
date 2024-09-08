@@ -8,7 +8,7 @@ part 'enum_class.reflection.dart';
 
 //enum def
 
-extension type const EnumClass._(String value) {
+extension type const EnumClass._(String value) implements String {
       const EnumClass.abc() : this._(r'_abc');
       const EnumClass.efg() : this._(r'-efg');
       const EnumClass.xyz() : this._(r'(xyz)');

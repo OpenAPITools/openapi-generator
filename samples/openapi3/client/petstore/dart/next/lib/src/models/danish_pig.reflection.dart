@@ -10,7 +10,7 @@ class DanishPigReflection extends ModelReflection<DanishPig> {
   static const instance = DanishPigReflection._(
     modelName: r'DanishPig',
     className: r'DanishPig',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     classNamePart: PropertyReflection<DanishPig, 
             String
@@ -23,11 +23,14 @@ class DanishPigReflection extends ModelReflection<DanishPig> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_classNameGetter),
       setter: FunctionWrapper2(_classNameSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
@@ -35,13 +38,20 @@ class DanishPigReflection extends ModelReflection<DanishPig> {
                 PrimitiveReflection.forString
         
 ,
+)
+,
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -108,7 +118,7 @@ class DanishPigReflection extends ModelReflection<DanishPig> {
   
 
   @override
-  List<AllOfReflection<DanishPig, dynamic>> get allOfs => [
+  List<AllOfReflection<DanishPig, Object>> get allOfs => [
     
   ];
 
@@ -121,6 +131,14 @@ class DanishPigReflection extends ModelReflection<DanishPig> {
       className: classNamePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is DanishPigReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

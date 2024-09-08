@@ -10,7 +10,7 @@ class AllOfModelArrayAnyOfReflection extends ModelReflection<AllOfModelArrayAnyO
   static const instance = AllOfModelArrayAnyOfReflection._(
     modelName: r'AllOfModelArrayAnyOf',
     className: r'AllOfModelArrayAnyOf',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     namePart: PropertyReflection<AllOfModelArrayAnyOf, 
             String
@@ -23,17 +23,22 @@ class AllOfModelArrayAnyOfReflection extends ModelReflection<AllOfModelArrayAnyO
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_nameGetter),
       setter: FunctionWrapper2(_nameSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     attributesPart: PropertyReflection<AllOfModelArrayAnyOf, UndefinedWrapper<
@@ -47,17 +52,22 @@ class AllOfModelArrayAnyOfReflection extends ModelReflection<AllOfModelArrayAnyO
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_attributesGetter),
       setter: FunctionWrapper2(_attributesSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 AllOfModelArrayAnyOfAllOfAttributes.$reflection
         
+,
+)
 ),
     ),
     idPart: PropertyReflection<AllOfModelArrayAnyOf, UndefinedWrapper<
@@ -71,17 +81,22 @@ class AllOfModelArrayAnyOfReflection extends ModelReflection<AllOfModelArrayAnyO
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_idGetter),
       setter: FunctionWrapper2(_idSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     linkListColumn1Part: PropertyReflection<AllOfModelArrayAnyOf, UndefinedWrapper<
@@ -95,17 +110,22 @@ class AllOfModelArrayAnyOfReflection extends ModelReflection<AllOfModelArrayAnyO
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_linkListColumn1Getter),
       setter: FunctionWrapper2(_linkListColumn1Setter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 AllOfModelArrayAnyOfAllOfLinkListColumn1.$reflection
         
+,
+)
 ),
     ),
     allOfCategoryPart: AllOfReflection(
@@ -116,8 +136,13 @@ class AllOfModelArrayAnyOfReflection extends ModelReflection<AllOfModelArrayAnyO
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -234,16 +259,16 @@ linkListColumn1Part,
   
 
   @override
-  List<AllOfReflection<AllOfModelArrayAnyOf, dynamic>> get allOfs => [
+  List<AllOfReflection<AllOfModelArrayAnyOf, Object>> get allOfs => [
     allOfCategoryPart,
   ];
 
   @override
-  List<OneOfReflection<AllOfModelArrayAnyOf, dynamic>> get oneOfs => [
+  List<OneOfReflection<AllOfModelArrayAnyOf, Object>> get oneOfs => [
     
   ];
   @override
-  List<AnyOfReflection<AllOfModelArrayAnyOf, dynamic>> get anyOfs => [
+  List<AnyOfReflection<AllOfModelArrayAnyOf, Object>> get anyOfs => [
     
   ];
 
@@ -255,6 +280,14 @@ linkListColumn1Part,
       name: namePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is AllOfModelArrayAnyOfReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

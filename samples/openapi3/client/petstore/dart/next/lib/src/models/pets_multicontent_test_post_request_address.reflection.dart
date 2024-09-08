@@ -10,7 +10,7 @@ class PetsMulticontentTestPostRequestAddressReflection extends ModelReflection<P
   static const instance = PetsMulticontentTestPostRequestAddressReflection._(
     modelName: r'_pets_multicontent_test_post_request_address',
     className: r'PetsMulticontentTestPostRequestAddress',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     streetPart: PropertyReflection<PetsMulticontentTestPostRequestAddress, UndefinedWrapper<
             String
@@ -23,17 +23,22 @@ class PetsMulticontentTestPostRequestAddressReflection extends ModelReflection<P
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_streetGetter),
       setter: FunctionWrapper2(_streetSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     cityPart: PropertyReflection<PetsMulticontentTestPostRequestAddress, UndefinedWrapper<
@@ -47,25 +52,35 @@ class PetsMulticontentTestPostRequestAddressReflection extends ModelReflection<P
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_cityGetter),
       setter: FunctionWrapper2(_citySetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -148,7 +163,7 @@ cityPart,
   
 
   @override
-  List<AllOfReflection<PetsMulticontentTestPostRequestAddress, dynamic>> get allOfs => [
+  List<AllOfReflection<PetsMulticontentTestPostRequestAddress, Object>> get allOfs => [
     
   ];
 
@@ -160,6 +175,14 @@ cityPart,
     return PetsMulticontentTestPostRequestAddress(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is PetsMulticontentTestPostRequestAddressReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

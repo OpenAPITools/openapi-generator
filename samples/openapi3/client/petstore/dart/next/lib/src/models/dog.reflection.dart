@@ -10,7 +10,7 @@ class DogReflection extends ModelReflection<Dog> {
   static const instance = DogReflection._(
     modelName: r'Dog',
     className: r'Dog',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     colorPart: PropertyReflection<Dog, UndefinedWrapper<
             String
@@ -23,17 +23,22 @@ class DogReflection extends ModelReflection<Dog> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_colorGetter),
       setter: FunctionWrapper2(_colorSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     breedPart: PropertyReflection<Dog, UndefinedWrapper<
@@ -47,17 +52,22 @@ class DogReflection extends ModelReflection<Dog> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_breedGetter),
       setter: FunctionWrapper2(_breedSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     classNamePart: PropertyReflection<Dog, 
@@ -71,17 +81,22 @@ class DogReflection extends ModelReflection<Dog> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: true,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_classNameGetter),
       setter: FunctionWrapper2(_classNameSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     discriminatorKey: r'className',
@@ -98,8 +113,13 @@ class DogReflection extends ModelReflection<Dog> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -200,16 +220,16 @@ classNamePart,
   
 
   @override
-  List<AllOfReflection<Dog, dynamic>> get allOfs => [
+  List<AllOfReflection<Dog, Object>> get allOfs => [
     allOfAnimalPart,
   ];
 
   @override
-  List<OneOfReflection<Dog, dynamic>> get oneOfs => [
+  List<OneOfReflection<Dog, Object>> get oneOfs => [
     
   ];
   @override
-  List<AnyOfReflection<Dog, dynamic>> get anyOfs => [
+  List<AnyOfReflection<Dog, Object>> get anyOfs => [
     
   ];
 
@@ -221,6 +241,14 @@ classNamePart,
       className: classNamePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is DogReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

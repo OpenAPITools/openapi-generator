@@ -10,7 +10,7 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
   static const instance = XmlItemReflection._(
     modelName: r'XmlItem',
     className: r'XmlItem',
-    xml: const XmlReflection(
+    xml: XmlReflection(
     namespace: r'http://a.com/schema',
     prefix: r'pre',
 ),
@@ -25,18 +25,24 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     attribute: true,
 ),
       getter: FunctionWrapper1(_attributeStringGetter),
       setter: FunctionWrapper2(_attributeStringSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    attribute: true,
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     attributeNumberPart: PropertyReflection<XmlItem, UndefinedWrapper<
@@ -50,18 +56,24 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     attribute: true,
 ),
       getter: FunctionWrapper1(_attributeNumberGetter),
       setter: FunctionWrapper2(_attributeNumberSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    attribute: true,
+),
+    
             
         
         
             
                 PrimitiveReflection.fornum
         
+,
+)
 ),
     ),
     attributeIntegerPart: PropertyReflection<XmlItem, UndefinedWrapper<
@@ -75,18 +87,24 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     attribute: true,
 ),
       getter: FunctionWrapper1(_attributeIntegerGetter),
       setter: FunctionWrapper2(_attributeIntegerSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    attribute: true,
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     attributeBooleanPart: PropertyReflection<XmlItem, UndefinedWrapper<
@@ -100,18 +118,24 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     attribute: true,
 ),
       getter: FunctionWrapper1(_attributeBooleanGetter),
       setter: FunctionWrapper2(_attributeBooleanSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    attribute: true,
+),
+    
             
         
         
             
                 PrimitiveReflection.forbool
         
+,
+)
 ),
     ),
     wrappedArrayPart: PropertyReflection<XmlItem, UndefinedWrapper<
@@ -128,19 +152,30 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     wrapped: true,
 ),
       getter: FunctionWrapper1(_wrappedArrayGetter),
       setter: FunctionWrapper2(_wrappedArraySetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    wrapped: true,
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -155,18 +190,24 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     xmlName: r'xml_name_string',
 ),
       getter: FunctionWrapper1(_nameStringGetter),
       setter: FunctionWrapper2(_nameStringSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'xml_name_string',
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     nameNumberPart: PropertyReflection<XmlItem, UndefinedWrapper<
@@ -180,18 +221,24 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     xmlName: r'xml_name_number',
 ),
       getter: FunctionWrapper1(_nameNumberGetter),
       setter: FunctionWrapper2(_nameNumberSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'xml_name_number',
+),
+    
             
         
         
             
                 PrimitiveReflection.fornum
         
+,
+)
 ),
     ),
     nameIntegerPart: PropertyReflection<XmlItem, UndefinedWrapper<
@@ -205,18 +252,24 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     xmlName: r'xml_name_integer',
 ),
       getter: FunctionWrapper1(_nameIntegerGetter),
       setter: FunctionWrapper2(_nameIntegerSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'xml_name_integer',
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     nameBooleanPart: PropertyReflection<XmlItem, UndefinedWrapper<
@@ -230,18 +283,24 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     xmlName: r'xml_name_boolean',
 ),
       getter: FunctionWrapper1(_nameBooleanGetter),
       setter: FunctionWrapper2(_nameBooleanSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'xml_name_boolean',
+),
+    
             
         
         
             
                 PrimitiveReflection.forbool
         
+,
+)
 ),
     ),
     nameArrayPart: PropertyReflection<XmlItem, UndefinedWrapper<
@@ -258,18 +317,29 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_nameArrayGetter),
       setter: FunctionWrapper2(_nameArraySetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'xml_name_array_item',
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -287,20 +357,33 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     xmlName: r'xml_name_wrapped_array',
     wrapped: true,
 ),
       getter: FunctionWrapper1(_nameWrappedArrayGetter),
       setter: FunctionWrapper2(_nameWrappedArraySetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'xml_name_wrapped_array',
+    wrapped: true,
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'xml_name_wrapped_array_item',
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -315,18 +398,24 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     prefix: r'ab',
 ),
       getter: FunctionWrapper1(_prefixStringGetter),
       setter: FunctionWrapper2(_prefixStringSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    prefix: r'ab',
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     prefixNumberPart: PropertyReflection<XmlItem, UndefinedWrapper<
@@ -340,18 +429,24 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     prefix: r'cd',
 ),
       getter: FunctionWrapper1(_prefixNumberGetter),
       setter: FunctionWrapper2(_prefixNumberSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    prefix: r'cd',
+),
+    
             
         
         
             
                 PrimitiveReflection.fornum
         
+,
+)
 ),
     ),
     prefixIntegerPart: PropertyReflection<XmlItem, UndefinedWrapper<
@@ -365,18 +460,24 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     prefix: r'ef',
 ),
       getter: FunctionWrapper1(_prefixIntegerGetter),
       setter: FunctionWrapper2(_prefixIntegerSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    prefix: r'ef',
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     prefixBooleanPart: PropertyReflection<XmlItem, UndefinedWrapper<
@@ -390,18 +491,24 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     prefix: r'gh',
 ),
       getter: FunctionWrapper1(_prefixBooleanGetter),
       setter: FunctionWrapper2(_prefixBooleanSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    prefix: r'gh',
+),
+    
             
         
         
             
                 PrimitiveReflection.forbool
         
+,
+)
 ),
     ),
     prefixArrayPart: PropertyReflection<XmlItem, UndefinedWrapper<
@@ -418,18 +525,29 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_prefixArrayGetter),
       setter: FunctionWrapper2(_prefixArraySetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    prefix: r'ij',
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -447,20 +565,33 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     prefix: r'kl',
     wrapped: true,
 ),
       getter: FunctionWrapper1(_prefixWrappedArrayGetter),
       setter: FunctionWrapper2(_prefixWrappedArraySetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    prefix: r'kl',
+    wrapped: true,
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    prefix: r'mn',
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -475,18 +606,24 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     namespace: r'http://a.com/schema',
 ),
       getter: FunctionWrapper1(_namespaceStringGetter),
       setter: FunctionWrapper2(_namespaceStringSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    namespace: r'http://a.com/schema',
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     namespaceNumberPart: PropertyReflection<XmlItem, UndefinedWrapper<
@@ -500,18 +637,24 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     namespace: r'http://b.com/schema',
 ),
       getter: FunctionWrapper1(_namespaceNumberGetter),
       setter: FunctionWrapper2(_namespaceNumberSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    namespace: r'http://b.com/schema',
+),
+    
             
         
         
             
                 PrimitiveReflection.fornum
         
+,
+)
 ),
     ),
     namespaceIntegerPart: PropertyReflection<XmlItem, UndefinedWrapper<
@@ -525,18 +668,24 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     namespace: r'http://c.com/schema',
 ),
       getter: FunctionWrapper1(_namespaceIntegerGetter),
       setter: FunctionWrapper2(_namespaceIntegerSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    namespace: r'http://c.com/schema',
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     namespaceBooleanPart: PropertyReflection<XmlItem, UndefinedWrapper<
@@ -550,18 +699,24 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     namespace: r'http://d.com/schema',
 ),
       getter: FunctionWrapper1(_namespaceBooleanGetter),
       setter: FunctionWrapper2(_namespaceBooleanSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    namespace: r'http://d.com/schema',
+),
+    
             
         
         
             
                 PrimitiveReflection.forbool
         
+,
+)
 ),
     ),
     namespaceArrayPart: PropertyReflection<XmlItem, UndefinedWrapper<
@@ -578,18 +733,29 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_namespaceArrayGetter),
       setter: FunctionWrapper2(_namespaceArraySetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    namespace: r'http://e.com/schema',
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -607,20 +773,33 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     namespace: r'http://f.com/schema',
     wrapped: true,
 ),
       getter: FunctionWrapper1(_namespaceWrappedArrayGetter),
       setter: FunctionWrapper2(_namespaceWrappedArraySetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    namespace: r'http://f.com/schema',
+    wrapped: true,
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    namespace: r'http://g.com/schema',
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -635,19 +814,26 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     namespace: r'http://a.com/schema',
     prefix: r'a',
 ),
       getter: FunctionWrapper1(_prefixNsStringGetter),
       setter: FunctionWrapper2(_prefixNsStringSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    namespace: r'http://a.com/schema',
+    prefix: r'a',
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     prefixNsNumberPart: PropertyReflection<XmlItem, UndefinedWrapper<
@@ -661,19 +847,26 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     namespace: r'http://b.com/schema',
     prefix: r'b',
 ),
       getter: FunctionWrapper1(_prefixNsNumberGetter),
       setter: FunctionWrapper2(_prefixNsNumberSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    namespace: r'http://b.com/schema',
+    prefix: r'b',
+),
+    
             
         
         
             
                 PrimitiveReflection.fornum
         
+,
+)
 ),
     ),
     prefixNsIntegerPart: PropertyReflection<XmlItem, UndefinedWrapper<
@@ -687,19 +880,26 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     namespace: r'http://c.com/schema',
     prefix: r'c',
 ),
       getter: FunctionWrapper1(_prefixNsIntegerGetter),
       setter: FunctionWrapper2(_prefixNsIntegerSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    namespace: r'http://c.com/schema',
+    prefix: r'c',
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     prefixNsBooleanPart: PropertyReflection<XmlItem, UndefinedWrapper<
@@ -713,19 +913,26 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     namespace: r'http://d.com/schema',
     prefix: r'd',
 ),
       getter: FunctionWrapper1(_prefixNsBooleanGetter),
       setter: FunctionWrapper2(_prefixNsBooleanSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    namespace: r'http://d.com/schema',
+    prefix: r'd',
+),
+    
             
         
         
             
                 PrimitiveReflection.forbool
         
+,
+)
 ),
     ),
     prefixNsArrayPart: PropertyReflection<XmlItem, UndefinedWrapper<
@@ -742,18 +949,30 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_prefixNsArrayGetter),
       setter: FunctionWrapper2(_prefixNsArraySetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    namespace: r'http://e.com/schema',
+    prefix: r'e',
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -771,21 +990,36 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     namespace: r'http://f.com/schema',
     prefix: r'f',
     wrapped: true,
 ),
       getter: FunctionWrapper1(_prefixNsWrappedArrayGetter),
       setter: FunctionWrapper2(_prefixNsWrappedArraySetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    namespace: r'http://f.com/schema',
+    prefix: r'f',
+    wrapped: true,
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    namespace: r'http://g.com/schema',
+    prefix: r'g',
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -793,8 +1027,13 @@ class XmlItemReflection extends ModelReflection<XmlItem> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -1390,7 +1629,7 @@ prefixNsWrappedArrayPart,
   
 
   @override
-  List<AllOfReflection<XmlItem, dynamic>> get allOfs => [
+  List<AllOfReflection<XmlItem, Object>> get allOfs => [
     
   ];
 
@@ -1402,6 +1641,14 @@ prefixNsWrappedArrayPart,
     return XmlItem(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is XmlItemReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

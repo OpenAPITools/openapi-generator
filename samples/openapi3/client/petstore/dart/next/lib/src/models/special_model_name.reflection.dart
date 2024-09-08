@@ -10,7 +10,7 @@ class SpecialModelNameReflection extends ModelReflection<SpecialModelName> {
   static const instance = SpecialModelNameReflection._(
     modelName: r'_special_model.name_',
     className: r'SpecialModelName',
-    xml: const XmlReflection(
+    xml: XmlReflection(
     xmlName: r'$special[model.name]',
 ),
     $specialPropertyNamePart: PropertyReflection<SpecialModelName, UndefinedWrapper<
@@ -24,17 +24,22 @@ class SpecialModelNameReflection extends ModelReflection<SpecialModelName> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_$specialPropertyNameGetter),
       setter: FunctionWrapper2(_$specialPropertyNameSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     specialModelNamePart: PropertyReflection<SpecialModelName, UndefinedWrapper<
@@ -48,25 +53,35 @@ class SpecialModelNameReflection extends ModelReflection<SpecialModelName> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_specialModelNameGetter),
       setter: FunctionWrapper2(_specialModelNameSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -149,7 +164,7 @@ specialModelNamePart,
   
 
   @override
-  List<AllOfReflection<SpecialModelName, dynamic>> get allOfs => [
+  List<AllOfReflection<SpecialModelName, Object>> get allOfs => [
     
   ];
 
@@ -161,6 +176,14 @@ specialModelNamePart,
     return SpecialModelName(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is SpecialModelNameReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

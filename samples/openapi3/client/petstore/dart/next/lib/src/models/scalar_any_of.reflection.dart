@@ -10,7 +10,7 @@ class ScalarAnyOfReflection extends ModelReflection<ScalarAnyOf> {
   static const instance = ScalarAnyOfReflection._(
     modelName: r'ScalarAnyOf',
     className: r'ScalarAnyOf',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     
     
@@ -28,8 +28,13 @@ class ScalarAnyOfReflection extends ModelReflection<ScalarAnyOf> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -92,16 +97,16 @@ class ScalarAnyOfReflection extends ModelReflection<ScalarAnyOf> {
   
 
   @override
-  List<AllOfReflection<ScalarAnyOf, dynamic>> get allOfs => [
+  List<AllOfReflection<ScalarAnyOf, Object>> get allOfs => [
     
   ];
 
   @override
-  List<OneOfReflection<ScalarAnyOf, dynamic>> get oneOfs => [
+  List<OneOfReflection<ScalarAnyOf, Object>> get oneOfs => [
     
   ];
   @override
-  List<AnyOfReflection<ScalarAnyOf, dynamic>> get anyOfs => [
+  List<AnyOfReflection<ScalarAnyOf, Object>> get anyOfs => [
     anyOf0Part,anyOf1Part,anyOf2Part,
   ];
 
@@ -112,6 +117,14 @@ class ScalarAnyOfReflection extends ModelReflection<ScalarAnyOf> {
     return ScalarAnyOf(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ScalarAnyOfReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 class ScalarAnyOfAnyOf0Part extends AnyOfReflection<ScalarAnyOf, 
@@ -145,12 +158,18 @@ static void _setter(ScalarAnyOf src, UndefinedWrapper<
 UndefinedWrapperReflection<
             String
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+
+  ),
 );
 
   UndefinedWrapper<
@@ -200,12 +219,18 @@ static void _setter(ScalarAnyOf src, UndefinedWrapper<
 UndefinedWrapperReflection<
             num
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.fornum
         
+
+  ),
 );
 
   UndefinedWrapper<
@@ -255,12 +280,18 @@ static void _setter(ScalarAnyOf src, UndefinedWrapper<
 UndefinedWrapperReflection<
             bool
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forbool
         
+
+  ),
 );
 
   UndefinedWrapper<

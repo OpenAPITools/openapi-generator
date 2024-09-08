@@ -80,16 +80,20 @@ required  this.className     ,
     return super.validate();
   }
 
-  factory Dog.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  factory Dog.deserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.deserialize(src, context);
   }
 
-  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.canDeserialize(src, context);
   }
 
-  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+  Object? serialize([SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.serialize(this, context);
+  }
+
+  Dog clone() {
+    return $reflection.clone(this);
   }
 }
 

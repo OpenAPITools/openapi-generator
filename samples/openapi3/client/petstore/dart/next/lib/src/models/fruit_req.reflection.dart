@@ -10,7 +10,7 @@ class FruitReqReflection extends ModelReflection<FruitReq> {
   static const instance = FruitReqReflection._(
     modelName: r'fruitReq',
     className: r'FruitReq',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     
     
@@ -64,16 +64,16 @@ class FruitReqReflection extends ModelReflection<FruitReq> {
   
 
   @override
-  List<AllOfReflection<FruitReq, dynamic>> get allOfs => [
+  List<AllOfReflection<FruitReq, Object>> get allOfs => [
     
   ];
 
   @override
-  List<OneOfReflection<FruitReq, dynamic>> get oneOfs => [
+  List<OneOfReflection<FruitReq, Object>> get oneOfs => [
     oneOf0Part,oneOf1Part,
   ];
   @override
-  List<AnyOfReflection<FruitReq, dynamic>> get anyOfs => [
+  List<AnyOfReflection<FruitReq, Object>> get anyOfs => [
     
   ];
 
@@ -84,6 +84,14 @@ class FruitReqReflection extends ModelReflection<FruitReq> {
     return FruitReq(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FruitReqReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 
@@ -118,12 +126,18 @@ static void _setter(FruitReq src, UndefinedWrapper<
 UndefinedWrapperReflection<
             AppleReq
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 AppleReq.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<
@@ -182,12 +196,18 @@ static void _setter(FruitReq src, UndefinedWrapper<
 UndefinedWrapperReflection<
             BananaReq
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 BananaReq.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<

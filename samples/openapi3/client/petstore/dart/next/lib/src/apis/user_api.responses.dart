@@ -467,13 +467,19 @@ class UserApiGetUserByNameResponse200ApplicationXml extends UserApiGetUserByName
             User
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'User',
+),
+    
             
         
         
             
                 User.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling XmlDocumentFragment.parse
@@ -534,13 +540,19 @@ class UserApiGetUserByNameResponse200ApplicationJson extends UserApiGetUserByNam
             User
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'User',
+),
+    
             
         
         
             
                 User.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling jsonDecode
@@ -802,13 +814,18 @@ class UserApiLoginUserResponse200ApplicationXml extends UserApiLoginUserResponse
             String
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ;
 
   /// The raw result of calling XmlDocumentFragment.parse
@@ -845,21 +862,31 @@ class UserApiLoginUserResponse200ApplicationXml extends UserApiLoginUserResponse
           reasonPhrase: response.reasonPhrase,
           userContext: userContext,
           rawXml: v,
-          xRateLimit: UndefinedWrapperReflection(
+          xRateLimit: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ).deserializeFunction(response.headers.getOrUndefined(r'X-Rate-Limit')),
-xExpiresAfter: UndefinedWrapperReflection(
+xExpiresAfter: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forDateTime
         
+,
+)
 ).deserializeFunction(response.headers.getOrUndefined(r'X-Expires-After')),
 
         );
@@ -871,21 +898,31 @@ xExpiresAfter: UndefinedWrapperReflection(
       reasonPhrase: response.reasonPhrase,
       userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
-      xRateLimit: UndefinedWrapperReflection(
+      xRateLimit: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ).deserializeFunction(response.headers.getOrUndefined(r'X-Rate-Limit')),
-xExpiresAfter: UndefinedWrapperReflection(
+xExpiresAfter: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forDateTime
         
+,
+)
 ).deserializeFunction(response.headers.getOrUndefined(r'X-Expires-After')),
 
     );
@@ -903,13 +940,18 @@ class UserApiLoginUserResponse200ApplicationJson extends UserApiLoginUserRespons
             String
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ;
 
   /// The raw result of calling jsonDecode
@@ -947,21 +989,31 @@ class UserApiLoginUserResponse200ApplicationJson extends UserApiLoginUserRespons
             reasonPhrase: response.reasonPhrase,
             userContext: userContext,
             body: UndefinedWrapper(res),
-            xRateLimit: UndefinedWrapperReflection(
+            xRateLimit: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ).deserializeFunction(response.headers.getOrUndefined(r'X-Rate-Limit')),
-xExpiresAfter: UndefinedWrapperReflection(
+xExpiresAfter: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forDateTime
         
+,
+)
 ).deserializeFunction(response.headers.getOrUndefined(r'X-Expires-After')),
 
           );
@@ -973,21 +1025,31 @@ xExpiresAfter: UndefinedWrapperReflection(
             reasonPhrase: response.reasonPhrase,
             userContext: userContext,
             rawJson: v,
-            xRateLimit: UndefinedWrapperReflection(
+            xRateLimit: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ).deserializeFunction(response.headers.getOrUndefined(r'X-Rate-Limit')),
-xExpiresAfter: UndefinedWrapperReflection(
+xExpiresAfter: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forDateTime
         
+,
+)
 ).deserializeFunction(response.headers.getOrUndefined(r'X-Expires-After')),
 
           );
@@ -1000,21 +1062,31 @@ xExpiresAfter: UndefinedWrapperReflection(
       reasonPhrase: response.reasonPhrase,
       userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
-      xRateLimit: UndefinedWrapperReflection(
+      xRateLimit: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ).deserializeFunction(response.headers.getOrUndefined(r'X-Rate-Limit')),
-xExpiresAfter: UndefinedWrapperReflection(
+xExpiresAfter: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forDateTime
         
+,
+)
 ).deserializeFunction(response.headers.getOrUndefined(r'X-Expires-After')),
 
     );

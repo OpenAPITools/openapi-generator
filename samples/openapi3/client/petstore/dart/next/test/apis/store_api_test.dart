@@ -27,13 +27,18 @@ void main() {
                 "nice": "work",
             },
             
-orderId: 
+orderId: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 .exampleFunction(exampleContext),
 
         );
@@ -227,13 +232,18 @@ orderId:
                 "nice": "work",
             },
             
-orderId: 
+orderId: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 .exampleFunction(exampleContext),
 
         );

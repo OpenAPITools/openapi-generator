@@ -10,7 +10,7 @@ class ArrayDefaultReflection extends ModelReflection<ArrayDefault> {
   static const instance = ArrayDefaultReflection._(
     modelName: r'ArrayDefault',
     className: r'ArrayDefault',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     withDefaultEmptyBracketPart: PropertyReflection<ArrayDefault, UndefinedWrapper<
     List<
@@ -26,18 +26,28 @@ class ArrayDefaultReflection extends ModelReflection<ArrayDefault> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_withDefaultEmptyBracketGetter),
       setter: FunctionWrapper2(_withDefaultEmptyBracketSetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -55,18 +65,28 @@ class ArrayDefaultReflection extends ModelReflection<ArrayDefault> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_withoutDefaultGetter),
       setter: FunctionWrapper2(_withoutDefaultSetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -74,8 +94,13 @@ class ArrayDefaultReflection extends ModelReflection<ArrayDefault> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -176,7 +201,7 @@ withoutDefaultPart,
   
 
   @override
-  List<AllOfReflection<ArrayDefault, dynamic>> get allOfs => [
+  List<AllOfReflection<ArrayDefault, Object>> get allOfs => [
     
   ];
 
@@ -188,6 +213,14 @@ withoutDefaultPart,
     return ArrayDefault(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ArrayDefaultReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

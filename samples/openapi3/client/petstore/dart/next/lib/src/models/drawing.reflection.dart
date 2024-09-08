@@ -10,7 +10,7 @@ class DrawingReflection extends ModelReflection<Drawing> {
   static const instance = DrawingReflection._(
     modelName: r'Drawing',
     className: r'Drawing',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     mainShapePart: PropertyReflection<Drawing, UndefinedWrapper<
             Shape
@@ -23,17 +23,22 @@ class DrawingReflection extends ModelReflection<Drawing> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_mainShapeGetter),
       setter: FunctionWrapper2(_mainShapeSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Shape.$reflection
         
+,
+)
 ),
     ),
     shapeOrNullPart: PropertyReflection<Drawing, UndefinedWrapper<
@@ -47,17 +52,22 @@ class DrawingReflection extends ModelReflection<Drawing> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_shapeOrNullGetter),
       setter: FunctionWrapper2(_shapeOrNullSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 ShapeOrNull.$reflection
         
+,
+)
 ),
     ),
     nullableShapePart: PropertyReflection<Drawing, UndefinedWrapper<
@@ -71,18 +81,23 @@ class DrawingReflection extends ModelReflection<Drawing> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_nullableShapeGetter),
       setter: FunctionWrapper2(_nullableShapeSetter),
-      reflection: UndefinedWrapperReflection(NullableReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(
             
         
         
             
                 NullableShape.$reflection
         
-)),
+),
+)
+),
     ),
     shapesPart: PropertyReflection<Drawing, UndefinedWrapper<
     List<
@@ -98,18 +113,28 @@ class DrawingReflection extends ModelReflection<Drawing> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_shapesGetter),
       setter: FunctionWrapper2(_shapesSetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Shape.$reflection
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -117,13 +142,18 @@ class DrawingReflection extends ModelReflection<Drawing> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: 
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Fruit.$reflection
         
+,
+)
 ,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
@@ -251,7 +281,7 @@ shapesPart,
   
 
   @override
-  List<AllOfReflection<Drawing, dynamic>> get allOfs => [
+  List<AllOfReflection<Drawing, Object>> get allOfs => [
     
   ];
 
@@ -263,6 +293,14 @@ shapesPart,
     return Drawing(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is DrawingReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

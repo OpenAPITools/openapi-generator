@@ -10,7 +10,7 @@ class ScaleneTriangleReflection extends ModelReflection<ScaleneTriangle> {
   static const instance = ScaleneTriangleReflection._(
     modelName: r'ScaleneTriangle',
     className: r'ScaleneTriangle',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     shapeTypePart: PropertyReflection<ScaleneTriangle, 
             String
@@ -23,17 +23,22 @@ class ScaleneTriangleReflection extends ModelReflection<ScaleneTriangle> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_shapeTypeGetter),
       setter: FunctionWrapper2(_shapeTypeSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     triangleTypePart: PropertyReflection<ScaleneTriangle, 
@@ -47,17 +52,22 @@ class ScaleneTriangleReflection extends ModelReflection<ScaleneTriangle> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_triangleTypeGetter),
       setter: FunctionWrapper2(_triangleTypeSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     allOfShapeInterfacePart: AllOfReflection(
@@ -72,8 +82,13 @@ allOfTriangleInterfacePart: AllOfReflection(
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -160,16 +175,16 @@ final AllOfReflection<ScaleneTriangle, TriangleInterfaceMixin> allOfTriangleInte
   
 
   @override
-  List<AllOfReflection<ScaleneTriangle, dynamic>> get allOfs => [
+  List<AllOfReflection<ScaleneTriangle, Object>> get allOfs => [
     allOfShapeInterfacePart,allOfTriangleInterfacePart,
   ];
 
   @override
-  List<OneOfReflection<ScaleneTriangle, dynamic>> get oneOfs => [
+  List<OneOfReflection<ScaleneTriangle, Object>> get oneOfs => [
     
   ];
   @override
-  List<AnyOfReflection<ScaleneTriangle, dynamic>> get anyOfs => [
+  List<AnyOfReflection<ScaleneTriangle, Object>> get anyOfs => [
     
   ];
 
@@ -182,6 +197,14 @@ final AllOfReflection<ScaleneTriangle, TriangleInterfaceMixin> allOfTriangleInte
       triangleType: triangleTypePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ScaleneTriangleReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

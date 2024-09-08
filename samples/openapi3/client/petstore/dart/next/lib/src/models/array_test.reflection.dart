@@ -10,7 +10,7 @@ class ArrayTestReflection extends ModelReflection<ArrayTest> {
   static const instance = ArrayTestReflection._(
     modelName: r'ArrayTest',
     className: r'ArrayTest',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     arrayOfStringPart: PropertyReflection<ArrayTest, UndefinedWrapper<
     List<
@@ -26,18 +26,28 @@ class ArrayTestReflection extends ModelReflection<ArrayTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_arrayOfStringGetter),
       setter: FunctionWrapper2(_arrayOfStringSetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -58,20 +68,35 @@ class ArrayTestReflection extends ModelReflection<ArrayTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_arrayArrayOfIntegerGetter),
       setter: FunctionWrapper2(_arrayArrayOfIntegerSetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
 )
+)
+,
+)
+)
+,
 )
 ),
     ),
@@ -92,20 +117,35 @@ class ArrayTestReflection extends ModelReflection<ArrayTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_arrayArrayOfModelGetter),
       setter: FunctionWrapper2(_arrayArrayOfModelSetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 ReadOnlyFirst.$reflection
         
+,
 )
+)
+,
+)
+)
+,
 )
 ),
     ),
@@ -113,8 +153,13 @@ class ArrayTestReflection extends ModelReflection<ArrayTest> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -258,7 +303,7 @@ arrayArrayOfModelPart,
   
 
   @override
-  List<AllOfReflection<ArrayTest, dynamic>> get allOfs => [
+  List<AllOfReflection<ArrayTest, Object>> get allOfs => [
     
   ];
 
@@ -270,6 +315,14 @@ arrayArrayOfModelPart,
     return ArrayTest(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ArrayTestReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

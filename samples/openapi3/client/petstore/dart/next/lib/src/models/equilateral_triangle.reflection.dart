@@ -10,7 +10,7 @@ class EquilateralTriangleReflection extends ModelReflection<EquilateralTriangle>
   static const instance = EquilateralTriangleReflection._(
     modelName: r'EquilateralTriangle',
     className: r'EquilateralTriangle',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     shapeTypePart: PropertyReflection<EquilateralTriangle, 
             String
@@ -23,17 +23,22 @@ class EquilateralTriangleReflection extends ModelReflection<EquilateralTriangle>
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_shapeTypeGetter),
       setter: FunctionWrapper2(_shapeTypeSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     triangleTypePart: PropertyReflection<EquilateralTriangle, 
@@ -47,17 +52,22 @@ class EquilateralTriangleReflection extends ModelReflection<EquilateralTriangle>
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_triangleTypeGetter),
       setter: FunctionWrapper2(_triangleTypeSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     allOfShapeInterfacePart: AllOfReflection(
@@ -72,8 +82,13 @@ allOfTriangleInterfacePart: AllOfReflection(
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -160,16 +175,16 @@ final AllOfReflection<EquilateralTriangle, TriangleInterfaceMixin> allOfTriangle
   
 
   @override
-  List<AllOfReflection<EquilateralTriangle, dynamic>> get allOfs => [
+  List<AllOfReflection<EquilateralTriangle, Object>> get allOfs => [
     allOfShapeInterfacePart,allOfTriangleInterfacePart,
   ];
 
   @override
-  List<OneOfReflection<EquilateralTriangle, dynamic>> get oneOfs => [
+  List<OneOfReflection<EquilateralTriangle, Object>> get oneOfs => [
     
   ];
   @override
-  List<AnyOfReflection<EquilateralTriangle, dynamic>> get anyOfs => [
+  List<AnyOfReflection<EquilateralTriangle, Object>> get anyOfs => [
     
   ];
 
@@ -182,6 +197,14 @@ final AllOfReflection<EquilateralTriangle, TriangleInterfaceMixin> allOfTriangle
       triangleType: triangleTypePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is EquilateralTriangleReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

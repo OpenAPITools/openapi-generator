@@ -8,7 +8,7 @@ part 'outer_enum.reflection.dart';
 
 //enum def
 
-extension type const OuterEnum._(String value) {
+extension type const OuterEnum._(String value) implements String {
       const OuterEnum.placed() : this._(r'placed');
       const OuterEnum.approved() : this._(r'approved');
       const OuterEnum.delivered() : this._(r'delivered');

@@ -10,7 +10,7 @@ class IsoscelesTriangleReflection extends ModelReflection<IsoscelesTriangle> {
   static const instance = IsoscelesTriangleReflection._(
     modelName: r'IsoscelesTriangle',
     className: r'IsoscelesTriangle',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     shapeTypePart: PropertyReflection<IsoscelesTriangle, 
             String
@@ -23,17 +23,22 @@ class IsoscelesTriangleReflection extends ModelReflection<IsoscelesTriangle> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_shapeTypeGetter),
       setter: FunctionWrapper2(_shapeTypeSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     triangleTypePart: PropertyReflection<IsoscelesTriangle, 
@@ -47,17 +52,22 @@ class IsoscelesTriangleReflection extends ModelReflection<IsoscelesTriangle> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_triangleTypeGetter),
       setter: FunctionWrapper2(_triangleTypeSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     allOfShapeInterfacePart: AllOfReflection(
@@ -140,16 +150,16 @@ final AllOfReflection<IsoscelesTriangle, TriangleInterfaceMixin> allOfTriangleIn
   
 
   @override
-  List<AllOfReflection<IsoscelesTriangle, dynamic>> get allOfs => [
+  List<AllOfReflection<IsoscelesTriangle, Object>> get allOfs => [
     allOfShapeInterfacePart,allOfTriangleInterfacePart,
   ];
 
   @override
-  List<OneOfReflection<IsoscelesTriangle, dynamic>> get oneOfs => [
+  List<OneOfReflection<IsoscelesTriangle, Object>> get oneOfs => [
     
   ];
   @override
-  List<AnyOfReflection<IsoscelesTriangle, dynamic>> get anyOfs => [
+  List<AnyOfReflection<IsoscelesTriangle, Object>> get anyOfs => [
     
   ];
 
@@ -162,6 +172,14 @@ final AllOfReflection<IsoscelesTriangle, TriangleInterfaceMixin> allOfTriangleIn
       triangleType: triangleTypePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is IsoscelesTriangleReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

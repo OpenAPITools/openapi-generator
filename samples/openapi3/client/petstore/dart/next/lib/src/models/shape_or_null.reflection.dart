@@ -10,7 +10,7 @@ class ShapeOrNullReflection extends ModelReflection<ShapeOrNull> {
   static const instance = ShapeOrNullReflection._(
     modelName: r'ShapeOrNull',
     className: r'ShapeOrNull',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     discriminatorKey: r'shapeType',
     discriminatorImplicitMappings: const {
@@ -33,8 +33,13 @@ class ShapeOrNullReflection extends ModelReflection<ShapeOrNull> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -93,16 +98,16 @@ class ShapeOrNullReflection extends ModelReflection<ShapeOrNull> {
   
 
   @override
-  List<AllOfReflection<ShapeOrNull, dynamic>> get allOfs => [
+  List<AllOfReflection<ShapeOrNull, Object>> get allOfs => [
     
   ];
 
   @override
-  List<OneOfReflection<ShapeOrNull, dynamic>> get oneOfs => [
+  List<OneOfReflection<ShapeOrNull, Object>> get oneOfs => [
     oneOf0Part,oneOf1Part,
   ];
   @override
-  List<AnyOfReflection<ShapeOrNull, dynamic>> get anyOfs => [
+  List<AnyOfReflection<ShapeOrNull, Object>> get anyOfs => [
     
   ];
 
@@ -113,6 +118,14 @@ class ShapeOrNullReflection extends ModelReflection<ShapeOrNull> {
     return ShapeOrNull(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ShapeOrNullReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 
@@ -147,12 +160,18 @@ static void _setter(ShapeOrNull src, UndefinedWrapper<
 UndefinedWrapperReflection<
             Triangle
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Triangle.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<
@@ -211,12 +230,18 @@ static void _setter(ShapeOrNull src, UndefinedWrapper<
 UndefinedWrapperReflection<
             Quadrilateral
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Quadrilateral.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<

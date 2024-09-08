@@ -283,14 +283,25 @@ class PetApiFindPetsByStatusResponse200ApplicationXml extends PetApiFindPetsBySt
 >
 > body;
 
-  static const bodyReflection = 
-    ListReflection(
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Pet',
+),
+    
             
         
         
             
                 Pet.$reflection
         
+,
+)
+)
+,
 )
 ;
 
@@ -357,14 +368,25 @@ class PetApiFindPetsByStatusResponse200ApplicationJson extends PetApiFindPetsByS
 >
 > body;
 
-  static const bodyReflection = 
-    ListReflection(
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Pet',
+),
+    
             
         
         
             
                 Pet.$reflection
         
+,
+)
+)
+,
 )
 ;
 
@@ -588,14 +610,25 @@ class PetApiFindPetsByTagsResponse200ApplicationXml extends PetApiFindPetsByTags
 >
 > body;
 
-  static const bodyReflection = 
-    ListReflection(
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Pet',
+),
+    
             
         
         
             
                 Pet.$reflection
         
+,
+)
+)
+,
 )
 ;
 
@@ -663,14 +696,25 @@ class PetApiFindPetsByTagsResponse200ApplicationJson extends PetApiFindPetsByTag
 >
 > body;
 
-  static const bodyReflection = 
-    ListReflection(
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Pet',
+),
+    
             
         
         
             
                 Pet.$reflection
         
+,
+)
+)
+,
 )
 ;
 
@@ -893,13 +937,19 @@ class PetApiGetPetByIdResponse200ApplicationXml extends PetApiGetPetByIdResponse
             Pet
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Pet',
+),
+    
             
         
         
             
                 Pet.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling XmlDocumentFragment.parse
@@ -960,13 +1010,19 @@ class PetApiGetPetByIdResponse200ApplicationJson extends PetApiGetPetByIdRespons
             Pet
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Pet',
+),
+    
             
         
         
             
                 Pet.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling jsonDecode
@@ -1410,13 +1466,18 @@ class PetApiUploadFileResponse200ApplicationJson extends PetApiUploadFileRespons
             ApiResponse
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 ApiResponse.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling jsonDecode
@@ -1590,13 +1651,18 @@ class PetApiUploadFileWithRequiredFileResponse200ApplicationJson extends PetApiU
             ApiResponse
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 ApiResponse.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling jsonDecode

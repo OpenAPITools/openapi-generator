@@ -270,13 +270,18 @@ class FakeApiFakeOuterBooleanSerializeRequestApplicationJson extends FakeApiFake
   final 
             bool
  data;
-  static const dataReflection = 
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forbool
         
+,
+)
 ;
 
 
@@ -483,13 +488,18 @@ class FakeApiFakeOuterCompositeSerializeRequestApplicationJson extends FakeApiFa
   final 
             OuterComposite
  data;
-  static const dataReflection = 
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 OuterComposite.$reflection
         
+,
+)
 ;
 
 
@@ -696,13 +706,18 @@ class FakeApiFakeOuterNumberSerializeRequestApplicationJson extends FakeApiFakeO
   final 
             num
  data;
-  static const dataReflection = 
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.fornum
         
+,
+)
 ;
 
 
@@ -909,13 +924,18 @@ class FakeApiFakeOuterStringSerializeRequestApplicationJson extends FakeApiFakeO
   final 
             String
  data;
-  static const dataReflection = 
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ;
 
 
@@ -1645,9 +1665,19 @@ class FakeApiTestAdditionalPropertiesReferenceRequestApplicationJson extends Fak
         Object
 ?>
  data;
-  static const dataReflection = 
-    MapReflection(NullableReflection(ObjectReflection()
-))
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    MapReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(ObjectReflection()
+),
+)
+)
+,
+)
 ;
 
 
@@ -1854,13 +1884,18 @@ class FakeApiTestBodyWithFileSchemaRequestApplicationJson extends FakeApiTestBod
   final 
             FileSchemaTestClass
  data;
-  static const dataReflection = 
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 FileSchemaTestClass.$reflection
         
+,
+)
 ;
 
 
@@ -2094,13 +2129,19 @@ class FakeApiTestBodyWithQueryParamsRequestApplicationJson extends FakeApiTestBo
   final 
             User
  data;
-  static const dataReflection = 
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'User',
+),
+    
             
         
         
             
                 User.$reflection
         
+,
+)
 ;
 
 
@@ -2310,13 +2351,18 @@ class FakeApiTestClientModelRequestApplicationJson extends FakeApiTestClientMode
   final 
             Client
  data;
-  static const dataReflection = 
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Client.$reflection
         
+,
+)
 ;
 
 
@@ -2596,7 +2642,7 @@ class FakeApiTestEndpointParametersRequestUnsafe extends FakeApiTestEndpointPara
 
 
 
-extension type const EnumHeaderStringArrayEnum._(String value) {
+extension type const EnumHeaderStringArrayEnum._(String value) implements String {
       const EnumHeaderStringArrayEnum.greaterThan() : this._(r'>');
       const EnumHeaderStringArrayEnum.value() : this._(r'$');
 
@@ -2647,7 +2693,7 @@ extension type const EnumHeaderStringArrayEnum._(String value) {
 
 
 
-extension type const EnumHeaderStringEnum._(String value) {
+extension type const EnumHeaderStringEnum._(String value) implements String {
       const EnumHeaderStringEnum.abc() : this._(r'_abc');
       const EnumHeaderStringEnum.efg() : this._(r'-efg');
       const EnumHeaderStringEnum.xyz() : this._(r'(xyz)');
@@ -2700,7 +2746,7 @@ extension type const EnumHeaderStringEnum._(String value) {
 
 
 
-extension type const EnumQueryStringArrayEnum._(String value) {
+extension type const EnumQueryStringArrayEnum._(String value) implements String {
       const EnumQueryStringArrayEnum.greaterThan() : this._(r'>');
       const EnumQueryStringArrayEnum.value() : this._(r'$');
 
@@ -2751,7 +2797,7 @@ extension type const EnumQueryStringArrayEnum._(String value) {
 
 
 
-extension type const EnumQueryStringEnum._(String value) {
+extension type const EnumQueryStringEnum._(String value) implements String {
       const EnumQueryStringEnum.abc() : this._(r'_abc');
       const EnumQueryStringEnum.efg() : this._(r'-efg');
       const EnumQueryStringEnum.xyz() : this._(r'(xyz)');
@@ -2804,7 +2850,7 @@ extension type const EnumQueryStringEnum._(String value) {
 
 
 
-extension type const EnumQueryIntegerEnum._(int value) {
+extension type const EnumQueryIntegerEnum._(int value) implements int {
       const EnumQueryIntegerEnum.number1() : this._(1);
       const EnumQueryIntegerEnum.numberNegative2() : this._(-2);
 
@@ -2853,7 +2899,7 @@ extension type const EnumQueryIntegerEnum._(int value) {
 
 
 
-extension type const EnumQueryDoubleEnum._(double value) {
+extension type const EnumQueryDoubleEnum._(double value) implements double {
       const EnumQueryDoubleEnum.number11() : this._(1.1);
       const EnumQueryDoubleEnum.numberNegative12() : this._(-1.2);
 
@@ -2903,7 +2949,7 @@ extension type const EnumQueryDoubleEnum._(double value) {
 
 
 
-extension type const InnerEnum._(String value) {
+extension type const InnerEnum._(String value) implements String {
 
   /// Creates a [InnerEnum] enum from a value and safely checking if it exists.
   factory InnerEnum.$safe(String value) {
@@ -2946,7 +2992,7 @@ extension type const InnerEnum._(String value) {
 
 
 
-extension type const EnumFormStringEnum._(String value) {
+extension type const EnumFormStringEnum._(String value) implements String {
   /// Form parameter enum test (string)
       const EnumFormStringEnum.abc() : this._(r'_abc');
   /// Form parameter enum test (string)
@@ -3579,14 +3625,24 @@ class FakeApiTestInlineAdditionalPropertiesRequestApplicationJson extends FakeAp
             String
 >
  data;
-  static const dataReflection = 
-    MapReflection(
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    MapReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
+)
+,
 )
 ;
 
@@ -3794,13 +3850,18 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson extend
   final 
             TestInlineFreeformAdditionalPropertiesRequest
  data;
-  static const dataReflection = 
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 TestInlineFreeformAdditionalPropertiesRequest.$reflection
         
+,
+)
 ;
 
 
@@ -4417,14 +4478,24 @@ class FakeApiTestStringMapReferenceRequestApplicationJson extends FakeApiTestStr
             String
 >
  data;
-  static const dataReflection = 
-    MapReflection(
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    MapReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
+)
+,
 )
 ;
 

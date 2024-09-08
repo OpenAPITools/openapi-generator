@@ -10,7 +10,7 @@ class FormatTestReflection extends ModelReflection<FormatTest> {
   static const instance = FormatTestReflection._(
     modelName: r'format_test',
     className: r'FormatTest',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     integerPart: PropertyReflection<FormatTest, UndefinedWrapper<
             int
@@ -23,17 +23,22 @@ class FormatTestReflection extends ModelReflection<FormatTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_integerGetter),
       setter: FunctionWrapper2(_integerSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     int32Part: PropertyReflection<FormatTest, UndefinedWrapper<
@@ -47,17 +52,22 @@ class FormatTestReflection extends ModelReflection<FormatTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_int32Getter),
       setter: FunctionWrapper2(_int32Setter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     int64Part: PropertyReflection<FormatTest, UndefinedWrapper<
@@ -71,17 +81,22 @@ class FormatTestReflection extends ModelReflection<FormatTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_int64Getter),
       setter: FunctionWrapper2(_int64Setter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     numberPart: PropertyReflection<FormatTest, 
@@ -95,17 +110,22 @@ class FormatTestReflection extends ModelReflection<FormatTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_numberGetter),
       setter: FunctionWrapper2(_numberSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.fornum
         
+,
+)
 ,
     ),
     floatPart: PropertyReflection<FormatTest, UndefinedWrapper<
@@ -119,17 +139,22 @@ class FormatTestReflection extends ModelReflection<FormatTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_floatGetter),
       setter: FunctionWrapper2(_floatSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.fordouble
         
+,
+)
 ),
     ),
     $doublePart: PropertyReflection<FormatTest, UndefinedWrapper<
@@ -143,17 +168,22 @@ class FormatTestReflection extends ModelReflection<FormatTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_$doubleGetter),
       setter: FunctionWrapper2(_$doubleSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.fordouble
         
+,
+)
 ),
     ),
     decimalPart: PropertyReflection<FormatTest, UndefinedWrapper<
@@ -167,17 +197,22 @@ class FormatTestReflection extends ModelReflection<FormatTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_decimalGetter),
       setter: FunctionWrapper2(_decimalSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.fordouble
         
+,
+)
 ),
     ),
     stringPart: PropertyReflection<FormatTest, UndefinedWrapper<
@@ -191,17 +226,22 @@ class FormatTestReflection extends ModelReflection<FormatTest> {
       pattern: r'/[a-z]/i',
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_stringGetter),
       setter: FunctionWrapper2(_stringSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     bytePart: PropertyReflection<FormatTest, 
@@ -215,17 +255,22 @@ class FormatTestReflection extends ModelReflection<FormatTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_byteGetter),
       setter: FunctionWrapper2(_byteSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forUint8List
         
+,
+)
 ,
     ),
     binaryPart: PropertyReflection<FormatTest, UndefinedWrapper<
@@ -239,17 +284,22 @@ class FormatTestReflection extends ModelReflection<FormatTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_binaryGetter),
       setter: FunctionWrapper2(_binarySetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forXFile
         
+,
+)
 ),
     ),
     datePart: PropertyReflection<FormatTest, 
@@ -263,17 +313,22 @@ class FormatTestReflection extends ModelReflection<FormatTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_dateGetter),
       setter: FunctionWrapper2(_dateSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forDateTime
         
+,
+)
 ,
     ),
     dateTimePart: PropertyReflection<FormatTest, UndefinedWrapper<
@@ -287,17 +342,22 @@ class FormatTestReflection extends ModelReflection<FormatTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_dateTimeGetter),
       setter: FunctionWrapper2(_dateTimeSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forDateTime
         
+,
+)
 ),
     ),
     uuidPart: PropertyReflection<FormatTest, UndefinedWrapper<
@@ -311,17 +371,22 @@ class FormatTestReflection extends ModelReflection<FormatTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_uuidGetter),
       setter: FunctionWrapper2(_uuidSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     uuidWithDefaultPart: PropertyReflection<FormatTest, UndefinedWrapper<
@@ -335,17 +400,22 @@ class FormatTestReflection extends ModelReflection<FormatTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_uuidWithDefaultGetter),
       setter: FunctionWrapper2(_uuidWithDefaultSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     passwordPart: PropertyReflection<FormatTest, 
@@ -359,17 +429,22 @@ class FormatTestReflection extends ModelReflection<FormatTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_passwordGetter),
       setter: FunctionWrapper2(_passwordSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     patternWithDigitsPart: PropertyReflection<FormatTest, UndefinedWrapper<
@@ -383,17 +458,22 @@ class FormatTestReflection extends ModelReflection<FormatTest> {
       pattern: r'/^\\d{10}$/',
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_patternWithDigitsGetter),
       setter: FunctionWrapper2(_patternWithDigitsSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     patternWithDigitsAndDelimiterPart: PropertyReflection<FormatTest, UndefinedWrapper<
@@ -407,25 +487,35 @@ class FormatTestReflection extends ModelReflection<FormatTest> {
       pattern: r'/^image_\\d{1,3}$/i',
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_patternWithDigitsAndDelimiterGetter),
       setter: FunctionWrapper2(_patternWithDigitsAndDelimiterSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -748,7 +838,7 @@ patternWithDigitsAndDelimiterPart,
   
 
   @override
-  List<AllOfReflection<FormatTest, dynamic>> get allOfs => [
+  List<AllOfReflection<FormatTest, Object>> get allOfs => [
     
   ];
 
@@ -764,6 +854,14 @@ patternWithDigitsAndDelimiterPart,
       password: passwordPart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FormatTestReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

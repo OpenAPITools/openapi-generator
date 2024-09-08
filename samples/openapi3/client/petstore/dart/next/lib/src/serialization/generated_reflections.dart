@@ -1,7 +1,7 @@
 import 'package:petstore_api/_internal.dart';
 // All the model reflections that were generated.
 
-const generatedModelReflectionsList = [
+const generatedClassReflectionsList = <ModelReflection<Object>>[
 
     $200ResponseReflection.instance,
 
@@ -222,8 +222,23 @@ const generatedModelReflectionsList = [
     ZebraReflection.instance,
 
 ];
+/// This does NOT include inline enums.
+const generatedEnumReflectionsList = <EnumReflection<Object, Object>>[
+  
+    EnumClass.$reflection,
+  
+    OuterEnum.$reflection,
+  
+    OuterEnumDefaultValue.$reflection,
+  
+    OuterEnumInteger.$reflection,
+  
+    OuterEnumIntegerDefaultValue.$reflection,
+  
+];
 
-const generatedModelReflectionsMap = {
+
+const generatedClassReflectionsMap = <String, ModelReflection<Object>>{
     
       r'200_response': $200ResponseReflection.instance,
     
@@ -443,4 +458,17 @@ const generatedModelReflectionsMap = {
     
       r'zebra': ZebraReflection.instance,
     
+};
+const generatedEnumReflectionsMap = <String, EnumReflection<Object, Object>>{
+  
+    r'EnumClass': EnumClass.$reflection,
+  
+    r'OuterEnum': OuterEnum.$reflection,
+  
+    r'OuterEnumDefaultValue': OuterEnumDefaultValue.$reflection,
+  
+    r'OuterEnumInteger': OuterEnumInteger.$reflection,
+  
+    r'OuterEnumIntegerDefaultValue': OuterEnumIntegerDefaultValue.$reflection,
+  
 };

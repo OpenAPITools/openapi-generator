@@ -10,7 +10,7 @@ class DeprecatedObjectReflection extends ModelReflection<DeprecatedObject> {
   static const instance = DeprecatedObjectReflection._(
     modelName: r'DeprecatedObject',
     className: r'DeprecatedObject',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     namePart: PropertyReflection<DeprecatedObject, UndefinedWrapper<
             String
@@ -23,25 +23,35 @@ class DeprecatedObjectReflection extends ModelReflection<DeprecatedObject> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_nameGetter),
       setter: FunctionWrapper2(_nameSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -108,7 +118,7 @@ class DeprecatedObjectReflection extends ModelReflection<DeprecatedObject> {
   
 
   @override
-  List<AllOfReflection<DeprecatedObject, dynamic>> get allOfs => [
+  List<AllOfReflection<DeprecatedObject, Object>> get allOfs => [
     
   ];
 
@@ -120,6 +130,14 @@ class DeprecatedObjectReflection extends ModelReflection<DeprecatedObject> {
     return DeprecatedObject(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is DeprecatedObjectReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

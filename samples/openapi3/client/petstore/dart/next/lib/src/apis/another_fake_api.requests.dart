@@ -173,13 +173,18 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
   final 
             Client
  data;
-  static const dataReflection = 
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Client.$reflection
         
+,
+)
 ;
 
 

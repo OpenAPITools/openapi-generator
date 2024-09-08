@@ -10,7 +10,7 @@ class BasquePigReflection extends ModelReflection<BasquePig> {
   static const instance = BasquePigReflection._(
     modelName: r'BasquePig',
     className: r'BasquePig',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     classNamePart: PropertyReflection<BasquePig, 
             String
@@ -23,11 +23,14 @@ class BasquePigReflection extends ModelReflection<BasquePig> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_classNameGetter),
       setter: FunctionWrapper2(_classNameSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
@@ -35,13 +38,20 @@ class BasquePigReflection extends ModelReflection<BasquePig> {
                 PrimitiveReflection.forString
         
 ,
+)
+,
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -108,7 +118,7 @@ class BasquePigReflection extends ModelReflection<BasquePig> {
   
 
   @override
-  List<AllOfReflection<BasquePig, dynamic>> get allOfs => [
+  List<AllOfReflection<BasquePig, Object>> get allOfs => [
     
   ];
 
@@ -121,6 +131,14 @@ class BasquePigReflection extends ModelReflection<BasquePig> {
       className: classNamePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is BasquePigReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

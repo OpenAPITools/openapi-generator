@@ -10,7 +10,7 @@ class ScalarReflection extends ModelReflection<Scalar> {
   static const instance = ScalarReflection._(
     modelName: r'Scalar',
     className: r'Scalar',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     
     
@@ -28,8 +28,13 @@ class ScalarReflection extends ModelReflection<Scalar> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -92,16 +97,16 @@ class ScalarReflection extends ModelReflection<Scalar> {
   
 
   @override
-  List<AllOfReflection<Scalar, dynamic>> get allOfs => [
+  List<AllOfReflection<Scalar, Object>> get allOfs => [
     
   ];
 
   @override
-  List<OneOfReflection<Scalar, dynamic>> get oneOfs => [
+  List<OneOfReflection<Scalar, Object>> get oneOfs => [
     oneOf0Part,oneOf1Part,oneOf2Part,
   ];
   @override
-  List<AnyOfReflection<Scalar, dynamic>> get anyOfs => [
+  List<AnyOfReflection<Scalar, Object>> get anyOfs => [
     
   ];
 
@@ -112,6 +117,14 @@ class ScalarReflection extends ModelReflection<Scalar> {
     return Scalar(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ScalarReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 
@@ -146,12 +159,18 @@ static void _setter(Scalar src, UndefinedWrapper<
 UndefinedWrapperReflection<
             String
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+
+  ),
 );
 
   UndefinedWrapper<
@@ -210,12 +229,18 @@ static void _setter(Scalar src, UndefinedWrapper<
 UndefinedWrapperReflection<
             num
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.fornum
         
+
+  ),
 );
 
   UndefinedWrapper<
@@ -274,12 +299,18 @@ static void _setter(Scalar src, UndefinedWrapper<
 UndefinedWrapperReflection<
             bool
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forbool
         
+
+  ),
 );
 
   UndefinedWrapper<

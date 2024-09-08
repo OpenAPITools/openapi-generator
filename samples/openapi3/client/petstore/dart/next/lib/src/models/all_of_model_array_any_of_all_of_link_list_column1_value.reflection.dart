@@ -10,7 +10,7 @@ class AllOfModelArrayAnyOfAllOfLinkListColumn1ValueReflection extends ModelRefle
   static const instance = AllOfModelArrayAnyOfAllOfLinkListColumn1ValueReflection._(
     modelName: r'AllOfModelArrayAnyOf_allOf_linkListColumn1_value',
     className: r'AllOfModelArrayAnyOfAllOfLinkListColumn1Value',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     
     
@@ -24,8 +24,13 @@ class AllOfModelArrayAnyOfAllOfLinkListColumn1ValueReflection extends ModelRefle
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -84,16 +89,16 @@ class AllOfModelArrayAnyOfAllOfLinkListColumn1ValueReflection extends ModelRefle
   
 
   @override
-  List<AllOfReflection<AllOfModelArrayAnyOfAllOfLinkListColumn1Value, dynamic>> get allOfs => [
+  List<AllOfReflection<AllOfModelArrayAnyOfAllOfLinkListColumn1Value, Object>> get allOfs => [
     
   ];
 
   @override
-  List<OneOfReflection<AllOfModelArrayAnyOfAllOfLinkListColumn1Value, dynamic>> get oneOfs => [
+  List<OneOfReflection<AllOfModelArrayAnyOfAllOfLinkListColumn1Value, Object>> get oneOfs => [
     
   ];
   @override
-  List<AnyOfReflection<AllOfModelArrayAnyOfAllOfLinkListColumn1Value, dynamic>> get anyOfs => [
+  List<AnyOfReflection<AllOfModelArrayAnyOfAllOfLinkListColumn1Value, Object>> get anyOfs => [
     anyOf0Part,anyOf1Part,
   ];
 
@@ -104,6 +109,14 @@ class AllOfModelArrayAnyOfAllOfLinkListColumn1ValueReflection extends ModelRefle
     return AllOfModelArrayAnyOfAllOfLinkListColumn1Value(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is AllOfModelArrayAnyOfAllOfLinkListColumn1ValueReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 class AllOfModelArrayAnyOfAllOfLinkListColumn1ValueAnyOf0Part extends AnyOfReflection<AllOfModelArrayAnyOfAllOfLinkListColumn1Value, 
@@ -137,12 +150,19 @@ static void _setter(AllOfModelArrayAnyOfAllOfLinkListColumn1Value src, Undefined
 UndefinedWrapperReflection<
             User
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'User',
+),
+    
             
         
         
             
                 User.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<
@@ -192,12 +212,19 @@ static void _setter(AllOfModelArrayAnyOfAllOfLinkListColumn1Value src, Undefined
 UndefinedWrapperReflection<
             Tag
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Tag',
+),
+    
             
         
         
             
                 Tag.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<

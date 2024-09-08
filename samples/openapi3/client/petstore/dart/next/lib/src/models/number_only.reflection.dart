@@ -10,7 +10,7 @@ class NumberOnlyReflection extends ModelReflection<NumberOnly> {
   static const instance = NumberOnlyReflection._(
     modelName: r'NumberOnly',
     className: r'NumberOnly',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     justNumberPart: PropertyReflection<NumberOnly, UndefinedWrapper<
             num
@@ -23,25 +23,35 @@ class NumberOnlyReflection extends ModelReflection<NumberOnly> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_justNumberGetter),
       setter: FunctionWrapper2(_justNumberSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.fornum
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -108,7 +118,7 @@ class NumberOnlyReflection extends ModelReflection<NumberOnly> {
   
 
   @override
-  List<AllOfReflection<NumberOnly, dynamic>> get allOfs => [
+  List<AllOfReflection<NumberOnly, Object>> get allOfs => [
     
   ];
 
@@ -120,6 +130,14 @@ class NumberOnlyReflection extends ModelReflection<NumberOnly> {
     return NumberOnly(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is NumberOnlyReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

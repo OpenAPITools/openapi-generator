@@ -57,16 +57,20 @@ MixedTypeOneOfObjectAnyOf1Mixin {
     return super.validate();
   }
 
-  factory MixedTypeOneOfObjectAnyOf1.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  factory MixedTypeOneOfObjectAnyOf1.deserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.deserialize(src, context);
   }
 
-  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.canDeserialize(src, context);
   }
 
-  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+  Object? serialize([SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.serialize(this, context);
+  }
+
+  MixedTypeOneOfObjectAnyOf1 clone() {
+    return $reflection.clone(this);
   }
 }
 

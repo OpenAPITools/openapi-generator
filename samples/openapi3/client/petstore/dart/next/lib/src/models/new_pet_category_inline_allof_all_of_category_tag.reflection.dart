@@ -10,7 +10,7 @@ class NewPetCategoryInlineAllofAllOfCategoryTagReflection extends ModelReflectio
   static const instance = NewPetCategoryInlineAllofAllOfCategoryTagReflection._(
     modelName: r'NewPet_category_inline_allof_allOf_category_tag',
     className: r'NewPetCategoryInlineAllofAllOfCategoryTag',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     idPart: PropertyReflection<NewPetCategoryInlineAllofAllOfCategoryTag, UndefinedWrapper<
             int
@@ -23,17 +23,22 @@ class NewPetCategoryInlineAllofAllOfCategoryTagReflection extends ModelReflectio
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_idGetter),
       setter: FunctionWrapper2(_idSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     namePart: PropertyReflection<NewPetCategoryInlineAllofAllOfCategoryTag, UndefinedWrapper<
@@ -47,25 +52,35 @@ class NewPetCategoryInlineAllofAllOfCategoryTagReflection extends ModelReflectio
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_nameGetter),
       setter: FunctionWrapper2(_nameSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -148,7 +163,7 @@ namePart,
   
 
   @override
-  List<AllOfReflection<NewPetCategoryInlineAllofAllOfCategoryTag, dynamic>> get allOfs => [
+  List<AllOfReflection<NewPetCategoryInlineAllofAllOfCategoryTag, Object>> get allOfs => [
     
   ];
 
@@ -160,6 +175,14 @@ namePart,
     return NewPetCategoryInlineAllofAllOfCategoryTag(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is NewPetCategoryInlineAllofAllOfCategoryTagReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

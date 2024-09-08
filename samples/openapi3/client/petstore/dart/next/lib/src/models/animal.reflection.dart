@@ -10,7 +10,7 @@ class AnimalReflection extends ModelReflection<Animal> {
   static const instance = AnimalReflection._(
     modelName: r'Animal',
     className: r'Animal',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     classNamePart: PropertyReflection<Animal, 
             String
@@ -23,17 +23,22 @@ class AnimalReflection extends ModelReflection<Animal> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: true,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_classNameGetter),
       setter: FunctionWrapper2(_classNameSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     colorPart: PropertyReflection<Animal, UndefinedWrapper<
@@ -47,17 +52,22 @@ class AnimalReflection extends ModelReflection<Animal> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_colorGetter),
       setter: FunctionWrapper2(_colorSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     discriminatorKey: r'className',
@@ -69,8 +79,13 @@ class AnimalReflection extends ModelReflection<Animal> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -153,7 +168,7 @@ colorPart,
   
 
   @override
-  List<AllOfReflection<Animal, dynamic>> get allOfs => [
+  List<AllOfReflection<Animal, Object>> get allOfs => [
     
   ];
 
@@ -166,6 +181,14 @@ colorPart,
       className: classNamePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is AnimalReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

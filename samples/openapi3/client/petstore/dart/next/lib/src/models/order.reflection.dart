@@ -10,7 +10,7 @@ class OrderReflection extends ModelReflection<Order> {
   static const instance = OrderReflection._(
     modelName: r'Order',
     className: r'Order',
-    xml: const XmlReflection(
+    xml: XmlReflection(
     xmlName: r'Order',
 ),
     idPart: PropertyReflection<Order, UndefinedWrapper<
@@ -24,17 +24,22 @@ class OrderReflection extends ModelReflection<Order> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_idGetter),
       setter: FunctionWrapper2(_idSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     petIdPart: PropertyReflection<Order, UndefinedWrapper<
@@ -48,17 +53,22 @@ class OrderReflection extends ModelReflection<Order> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_petIdGetter),
       setter: FunctionWrapper2(_petIdSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     quantityPart: PropertyReflection<Order, UndefinedWrapper<
@@ -72,17 +82,22 @@ class OrderReflection extends ModelReflection<Order> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_quantityGetter),
       setter: FunctionWrapper2(_quantitySetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     shipDatePart: PropertyReflection<Order, UndefinedWrapper<
@@ -96,17 +111,22 @@ class OrderReflection extends ModelReflection<Order> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_shipDateGetter),
       setter: FunctionWrapper2(_shipDateSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forDateTime
         
+,
+)
 ),
     ),
     statusPart: PropertyReflection<Order, UndefinedWrapper<
@@ -120,14 +140,19 @@ class OrderReflection extends ModelReflection<Order> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_statusGetter),
       setter: FunctionWrapper2(_statusSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             OrderStatusEnum.$reflection
         
         
+,
+)
 ),
     ),
     completePart: PropertyReflection<Order, UndefinedWrapper<
@@ -141,25 +166,35 @@ class OrderReflection extends ModelReflection<Order> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_completeGetter),
       setter: FunctionWrapper2(_completeSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forbool
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -306,7 +341,7 @@ completePart,
   
 
   @override
-  List<AllOfReflection<Order, dynamic>> get allOfs => [
+  List<AllOfReflection<Order, Object>> get allOfs => [
     
   ];
 
@@ -318,6 +353,14 @@ completePart,
     return Order(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is OrderReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

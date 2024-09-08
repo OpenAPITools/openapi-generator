@@ -10,7 +10,7 @@ class MixedTypeOneOfObjectAnyOf1Reflection extends ModelReflection<MixedTypeOneO
   static const instance = MixedTypeOneOfObjectAnyOf1Reflection._(
     modelName: r'MixedTypeOneOfObject_anyOf_1',
     className: r'MixedTypeOneOfObjectAnyOf1',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     bPart: PropertyReflection<MixedTypeOneOfObjectAnyOf1, 
             num
@@ -23,11 +23,14 @@ class MixedTypeOneOfObjectAnyOf1Reflection extends ModelReflection<MixedTypeOneO
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_bGetter),
       setter: FunctionWrapper2(_bSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
@@ -35,13 +38,20 @@ class MixedTypeOneOfObjectAnyOf1Reflection extends ModelReflection<MixedTypeOneO
                 PrimitiveReflection.fornum
         
 ,
+)
+,
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -108,7 +118,7 @@ class MixedTypeOneOfObjectAnyOf1Reflection extends ModelReflection<MixedTypeOneO
   
 
   @override
-  List<AllOfReflection<MixedTypeOneOfObjectAnyOf1, dynamic>> get allOfs => [
+  List<AllOfReflection<MixedTypeOneOfObjectAnyOf1, Object>> get allOfs => [
     
   ];
 
@@ -121,6 +131,14 @@ class MixedTypeOneOfObjectAnyOf1Reflection extends ModelReflection<MixedTypeOneO
       b: bPart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is MixedTypeOneOfObjectAnyOf1Reflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

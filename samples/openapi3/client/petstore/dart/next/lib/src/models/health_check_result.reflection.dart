@@ -10,7 +10,7 @@ class HealthCheckResultReflection extends ModelReflection<HealthCheckResult> {
   static const instance = HealthCheckResultReflection._(
     modelName: r'HealthCheckResult',
     className: r'HealthCheckResult',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     nullableMessagePart: PropertyReflection<HealthCheckResult, UndefinedWrapper<
             String
@@ -23,25 +23,35 @@ class HealthCheckResultReflection extends ModelReflection<HealthCheckResult> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_nullableMessageGetter),
       setter: FunctionWrapper2(_nullableMessageSetter),
-      reflection: UndefinedWrapperReflection(NullableReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(
             
         
         
             
                 PrimitiveReflection.forString
         
-)),
+),
+)
+),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -108,7 +118,7 @@ class HealthCheckResultReflection extends ModelReflection<HealthCheckResult> {
   
 
   @override
-  List<AllOfReflection<HealthCheckResult, dynamic>> get allOfs => [
+  List<AllOfReflection<HealthCheckResult, Object>> get allOfs => [
     
   ];
 
@@ -120,6 +130,14 @@ class HealthCheckResultReflection extends ModelReflection<HealthCheckResult> {
     return HealthCheckResult(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is HealthCheckResultReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

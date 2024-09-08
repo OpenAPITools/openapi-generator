@@ -70,21 +70,25 @@ required  this.className     ,
     return super.validate();
   }
 
-  factory Zebra.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  factory Zebra.deserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.deserialize(src, context);
   }
 
-  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.canDeserialize(src, context);
   }
 
-  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+  Object? serialize([SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.serialize(this, context);
+  }
+
+  Zebra clone() {
+    return $reflection.clone(this);
   }
 }
 
 
-extension type const ZebraTypeEnum._(String value) {
+extension type const ZebraTypeEnum._(String value) implements String {
       const ZebraTypeEnum.plains() : this._(r'plains');
       const ZebraTypeEnum.mountain() : this._(r'mountain');
       const ZebraTypeEnum.grevys() : this._(r'grevys');

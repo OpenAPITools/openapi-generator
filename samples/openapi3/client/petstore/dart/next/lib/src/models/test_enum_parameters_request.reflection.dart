@@ -10,7 +10,7 @@ class TestEnumParametersRequestReflection extends ModelReflection<TestEnumParame
   static const instance = TestEnumParametersRequestReflection._(
     modelName: r'testEnumParameters_request',
     className: r'TestEnumParametersRequest',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     enumFormStringArrayPart: PropertyReflection<TestEnumParametersRequest, UndefinedWrapper<
     List<
@@ -26,15 +26,25 @@ class TestEnumParametersRequestReflection extends ModelReflection<TestEnumParame
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_enumFormStringArrayGetter),
       setter: FunctionWrapper2(_enumFormStringArraySetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             TestEnumParametersRequestEnumFormStringArrayEnum.$reflection
         
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -49,22 +59,32 @@ class TestEnumParametersRequestReflection extends ModelReflection<TestEnumParame
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_enumFormStringGetter),
       setter: FunctionWrapper2(_enumFormStringSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             TestEnumParametersRequestEnumFormStringEnum.$reflection
         
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -156,7 +176,7 @@ enumFormStringPart,
   
 
   @override
-  List<AllOfReflection<TestEnumParametersRequest, dynamic>> get allOfs => [
+  List<AllOfReflection<TestEnumParametersRequest, Object>> get allOfs => [
     
   ];
 
@@ -168,6 +188,14 @@ enumFormStringPart,
     return TestEnumParametersRequest(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is TestEnumParametersRequestReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

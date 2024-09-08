@@ -33,7 +33,7 @@ class ExampleContext {
   }
 
   MapEntry<DiscriminatorValue, ModelReflection>? exampleDiscriminator(
-    Map<DiscriminatorValue, ModelReflection<dynamic>> discriminatorMappings,
+    Map<DiscriminatorValue, ModelReflection> discriminatorMappings,
   ) {
     if (discriminatorMappings.isEmpty) {
       return null;

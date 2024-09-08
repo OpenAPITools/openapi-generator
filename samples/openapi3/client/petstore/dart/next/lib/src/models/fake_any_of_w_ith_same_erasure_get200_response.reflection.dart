@@ -10,7 +10,7 @@ class FakeAnyOfWIthSameErasureGet200ResponseReflection extends ModelReflection<F
   static const instance = FakeAnyOfWIthSameErasureGet200ResponseReflection._(
     modelName: r'_fake_anyOfWIthSameErasure_get_200_response',
     className: r'FakeAnyOfWIthSameErasureGet200Response',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     
     
@@ -24,8 +24,13 @@ class FakeAnyOfWIthSameErasureGet200ResponseReflection extends ModelReflection<F
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -84,16 +89,16 @@ class FakeAnyOfWIthSameErasureGet200ResponseReflection extends ModelReflection<F
   
 
   @override
-  List<AllOfReflection<FakeAnyOfWIthSameErasureGet200Response, dynamic>> get allOfs => [
+  List<AllOfReflection<FakeAnyOfWIthSameErasureGet200Response, Object>> get allOfs => [
     
   ];
 
   @override
-  List<OneOfReflection<FakeAnyOfWIthSameErasureGet200Response, dynamic>> get oneOfs => [
+  List<OneOfReflection<FakeAnyOfWIthSameErasureGet200Response, Object>> get oneOfs => [
     
   ];
   @override
-  List<AnyOfReflection<FakeAnyOfWIthSameErasureGet200Response, dynamic>> get anyOfs => [
+  List<AnyOfReflection<FakeAnyOfWIthSameErasureGet200Response, Object>> get anyOfs => [
     anyOf0Part,anyOf1Part,
   ];
 
@@ -104,6 +109,14 @@ class FakeAnyOfWIthSameErasureGet200ResponseReflection extends ModelReflection<F
     return FakeAnyOfWIthSameErasureGet200Response(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FakeAnyOfWIthSameErasureGet200ResponseReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 class FakeAnyOfWIthSameErasureGet200ResponseAnyOf0Part extends AnyOfReflection<FakeAnyOfWIthSameErasureGet200Response, 
@@ -155,14 +168,25 @@ UndefinedWrapperReflection<
             String
 >
 > get reflection => UndefinedWrapperReflection(
-    ListReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
 )
+)
+
+  ),
 );
 
   UndefinedWrapper<
@@ -233,14 +257,25 @@ UndefinedWrapperReflection<
             int
 >
 > get reflection => UndefinedWrapperReflection(
-    ListReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
 )
+)
+
+  ),
 );
 
   UndefinedWrapper<

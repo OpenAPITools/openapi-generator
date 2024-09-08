@@ -68,16 +68,20 @@ required  this.param2     ,
     return super.validate();
   }
 
-  factory TestJsonFormDataRequest.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  factory TestJsonFormDataRequest.deserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.deserialize(src, context);
   }
 
-  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.canDeserialize(src, context);
   }
 
-  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+  Object? serialize([SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.serialize(this, context);
+  }
+
+  TestJsonFormDataRequest clone() {
+    return $reflection.clone(this);
   }
 }
 

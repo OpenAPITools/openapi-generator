@@ -2,6 +2,24 @@ import 'package:xml/xml.dart';
 import 'package:openapi_infrastructure/openapi_infrastructure.dart';
 
 extension UndefinedWrapperXmlNodeExtensions on XmlNode {
+  Map<String?, XmlNode> readNormalized() {
+    final srcMap = <String?, List<XmlNode>>{};
+    for (final child in children.followedBy(attributes)) {
+      String? srcMapKey;
+      if (child case XmlHasName namedChild) {
+        srcMapKey = namedChild.name.qualified;
+      }
+      final nodes = srcMap[srcMapKey] ??= [];
+      nodes.add(child);
+    }
+    final srcNormalized = srcMap.map(
+      (key, value) => MapEntry(
+        key,
+        value.normalize(),
+      ),
+    );
+    return srcNormalized;
+  }
   UndefinedWrapper<XmlElement> getElementOrUndefined(
     String key, {
     String? namespace,
@@ -72,5 +90,16 @@ extension UndefinedWrapperXmlNodeExtensions on XmlNode {
     } else {
       return mapper(element);
     }
+  }
+}
+
+extension XmlNodeListExtensions on Iterable<XmlNode> {
+  XmlNode normalize() {
+    final length = this.length;
+    return length == 0
+        ? XmlDocumentFragment([])
+        : length == 1
+            ? first
+            : XmlDocumentFragment(this.map((e) => e.copy()));
   }
 }

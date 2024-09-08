@@ -494,13 +494,19 @@ class StoreApiPlaceOrderRequestApplicationJson extends StoreApiPlaceOrderRequest
   final 
             Order
  data;
-  static const dataReflection = 
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Order',
+),
+    
             
         
         
             
                 Order.$reflection
         
+,
+)
 ;
 
 

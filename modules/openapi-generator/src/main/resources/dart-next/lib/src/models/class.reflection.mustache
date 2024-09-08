@@ -5,7 +5,7 @@ class {{classname}}Reflection extends ModelReflection<{{classname}}> {
   static const instance = {{classname}}Reflection._(
     modelName: r'{{schemaName}}',
     className: r'{{classname}}',
-    xml: {{>lib/src/models/reflection/xml}},
+    xml: {{>types/xml}},
     {{#allVars}}
     {{name}}Part: PropertyReflection<{{classname}}, {{>types/variable}}>(
       dartName: r'{{name}}',
@@ -16,7 +16,7 @@ class {{classname}}Reflection extends ModelReflection<{{classname}}> {
       pattern: {{#pattern}}r'{{{pattern}}}'{{/pattern}}{{^pattern}}null{{/pattern}},
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: {{isDiscriminator}},
-      xml: {{>lib/src/models/reflection/xml}},
+      xml: {{>types/xml}},
       getter: FunctionWrapper1(_{{name}}Getter),
       setter: FunctionWrapper2(_{{name}}Setter),
       reflection: {{>types/reflection}},
@@ -139,17 +139,17 @@ class {{classname}}Reflection extends ModelReflection<{{classname}}> {
   {{/anyOf}}{{/composedSchemas}}
 
   @override
-  List<AllOfReflection<{{classname}}, dynamic>> get allOfs => [
+  List<AllOfReflection<{{classname}}, Object>> get allOfs => [
     {{#allOf}}allOf{{.}}Part,{{/allOf}}
   ];
 
   {{#composedSchemas}}
   @override
-  List<OneOfReflection<{{classname}}, dynamic>> get oneOfs => [
+  List<OneOfReflection<{{classname}}, Object>> get oneOfs => [
     {{#oneOf}}{{name}}Part,{{/oneOf}}
   ];
   @override
-  List<AnyOfReflection<{{classname}}, dynamic>> get anyOfs => [
+  List<AnyOfReflection<{{classname}}, Object>> get anyOfs => [
     {{#anyOf}}{{name}}Part,{{/anyOf}}
   ];
   {{/composedSchemas}}
@@ -166,6 +166,14 @@ class {{classname}}Reflection extends ModelReflection<{{classname}}> {
       {{/allVars}}
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is {{classname}}Reflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 {{#composedSchemas}}{{#oneOf}}

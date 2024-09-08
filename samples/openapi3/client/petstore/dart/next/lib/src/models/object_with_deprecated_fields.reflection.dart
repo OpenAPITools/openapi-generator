@@ -10,7 +10,7 @@ class ObjectWithDeprecatedFieldsReflection extends ModelReflection<ObjectWithDep
   static const instance = ObjectWithDeprecatedFieldsReflection._(
     modelName: r'ObjectWithDeprecatedFields',
     className: r'ObjectWithDeprecatedFields',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     uuidPart: PropertyReflection<ObjectWithDeprecatedFields, UndefinedWrapper<
             String
@@ -23,17 +23,22 @@ class ObjectWithDeprecatedFieldsReflection extends ModelReflection<ObjectWithDep
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_uuidGetter),
       setter: FunctionWrapper2(_uuidSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     idPart: PropertyReflection<ObjectWithDeprecatedFields, UndefinedWrapper<
@@ -47,17 +52,22 @@ class ObjectWithDeprecatedFieldsReflection extends ModelReflection<ObjectWithDep
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_idGetter),
       setter: FunctionWrapper2(_idSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.fornum
         
+,
+)
 ),
     ),
     deprecatedRefPart: PropertyReflection<ObjectWithDeprecatedFields, UndefinedWrapper<
@@ -71,17 +81,22 @@ class ObjectWithDeprecatedFieldsReflection extends ModelReflection<ObjectWithDep
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_deprecatedRefGetter),
       setter: FunctionWrapper2(_deprecatedRefSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 DeprecatedObject.$reflection
         
+,
+)
 ),
     ),
     barsPart: PropertyReflection<ObjectWithDeprecatedFields, UndefinedWrapper<
@@ -98,18 +113,28 @@ class ObjectWithDeprecatedFieldsReflection extends ModelReflection<ObjectWithDep
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_barsGetter),
       setter: FunctionWrapper2(_barsSetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -117,8 +142,13 @@ class ObjectWithDeprecatedFieldsReflection extends ModelReflection<ObjectWithDep
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -242,7 +272,7 @@ barsPart,
   
 
   @override
-  List<AllOfReflection<ObjectWithDeprecatedFields, dynamic>> get allOfs => [
+  List<AllOfReflection<ObjectWithDeprecatedFields, Object>> get allOfs => [
     
   ];
 
@@ -254,6 +284,14 @@ barsPart,
     return ObjectWithDeprecatedFields(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ObjectWithDeprecatedFieldsReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

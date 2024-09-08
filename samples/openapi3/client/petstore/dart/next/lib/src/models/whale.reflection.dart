@@ -10,7 +10,7 @@ class WhaleReflection extends ModelReflection<Whale> {
   static const instance = WhaleReflection._(
     modelName: r'whale',
     className: r'Whale',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     hasBaleenPart: PropertyReflection<Whale, UndefinedWrapper<
             bool
@@ -23,17 +23,22 @@ class WhaleReflection extends ModelReflection<Whale> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_hasBaleenGetter),
       setter: FunctionWrapper2(_hasBaleenSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forbool
         
+,
+)
 ),
     ),
     hasTeethPart: PropertyReflection<Whale, UndefinedWrapper<
@@ -47,17 +52,22 @@ class WhaleReflection extends ModelReflection<Whale> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_hasTeethGetter),
       setter: FunctionWrapper2(_hasTeethSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forbool
         
+,
+)
 ),
     ),
     classNamePart: PropertyReflection<Whale, 
@@ -71,11 +81,14 @@ class WhaleReflection extends ModelReflection<Whale> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_classNameGetter),
       setter: FunctionWrapper2(_classNameSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
@@ -83,13 +96,20 @@ class WhaleReflection extends ModelReflection<Whale> {
                 PrimitiveReflection.forString
         
 ,
+)
+,
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -188,7 +208,7 @@ classNamePart,
   
 
   @override
-  List<AllOfReflection<Whale, dynamic>> get allOfs => [
+  List<AllOfReflection<Whale, Object>> get allOfs => [
     
   ];
 
@@ -201,6 +221,14 @@ classNamePart,
       className: classNamePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is WhaleReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

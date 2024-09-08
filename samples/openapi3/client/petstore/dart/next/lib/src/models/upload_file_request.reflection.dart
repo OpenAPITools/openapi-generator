@@ -10,7 +10,7 @@ class UploadFileRequestReflection extends ModelReflection<UploadFileRequest> {
   static const instance = UploadFileRequestReflection._(
     modelName: r'uploadFile_request',
     className: r'UploadFileRequest',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     additionalMetadataPart: PropertyReflection<UploadFileRequest, UndefinedWrapper<
             String
@@ -23,17 +23,22 @@ class UploadFileRequestReflection extends ModelReflection<UploadFileRequest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_additionalMetadataGetter),
       setter: FunctionWrapper2(_additionalMetadataSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     filePart: PropertyReflection<UploadFileRequest, UndefinedWrapper<
@@ -47,25 +52,35 @@ class UploadFileRequestReflection extends ModelReflection<UploadFileRequest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_fileGetter),
       setter: FunctionWrapper2(_fileSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forXFile
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -148,7 +163,7 @@ filePart,
   
 
   @override
-  List<AllOfReflection<UploadFileRequest, dynamic>> get allOfs => [
+  List<AllOfReflection<UploadFileRequest, Object>> get allOfs => [
     
   ];
 
@@ -160,6 +175,14 @@ filePart,
     return UploadFileRequest(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is UploadFileRequestReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

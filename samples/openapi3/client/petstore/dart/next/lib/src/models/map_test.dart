@@ -128,16 +128,20 @@ MapTestMixin {
     return super.validate();
   }
 
-  factory MapTest.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  factory MapTest.deserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.deserialize(src, context);
   }
 
-  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.canDeserialize(src, context);
   }
 
-  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+  Object? serialize([SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.serialize(this, context);
+  }
+
+  MapTest clone() {
+    return $reflection.clone(this);
   }
 }
 
@@ -149,7 +153,7 @@ MapTestMixin {
 
 
 
-extension type const MapTestMapOfEnumStringEnum._(String value) {
+extension type const MapTestMapOfEnumStringEnum._(String value) implements String {
       const MapTestMapOfEnumStringEnum.UPPER() : this._(r'UPPER');
       const MapTestMapOfEnumStringEnum.lower() : this._(r'lower');
 

@@ -10,7 +10,7 @@ class MammalReflection extends ModelReflection<Mammal> {
   static const instance = MammalReflection._(
     modelName: r'mammal',
     className: r'Mammal',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     classNamePart: PropertyReflection<Mammal, 
             String
@@ -23,17 +23,22 @@ class MammalReflection extends ModelReflection<Mammal> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: true,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_classNameGetter),
       setter: FunctionWrapper2(_classNameSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     discriminatorKey: r'className',
@@ -63,8 +68,13 @@ class MammalReflection extends ModelReflection<Mammal> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -143,16 +153,16 @@ class MammalReflection extends ModelReflection<Mammal> {
   
 
   @override
-  List<AllOfReflection<Mammal, dynamic>> get allOfs => [
+  List<AllOfReflection<Mammal, Object>> get allOfs => [
     
   ];
 
   @override
-  List<OneOfReflection<Mammal, dynamic>> get oneOfs => [
+  List<OneOfReflection<Mammal, Object>> get oneOfs => [
     oneOf0Part,oneOf1Part,oneOf2Part,
   ];
   @override
-  List<AnyOfReflection<Mammal, dynamic>> get anyOfs => [
+  List<AnyOfReflection<Mammal, Object>> get anyOfs => [
     
   ];
 
@@ -164,6 +174,14 @@ class MammalReflection extends ModelReflection<Mammal> {
       className: classNamePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is MammalReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 
@@ -198,12 +216,18 @@ static void _setter(Mammal src, UndefinedWrapper<
 UndefinedWrapperReflection<
             Whale
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Whale.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<
@@ -262,12 +286,18 @@ static void _setter(Mammal src, UndefinedWrapper<
 UndefinedWrapperReflection<
             Zebra
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Zebra.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<
@@ -326,12 +356,18 @@ static void _setter(Mammal src, UndefinedWrapper<
 UndefinedWrapperReflection<
             Pig
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Pig.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<

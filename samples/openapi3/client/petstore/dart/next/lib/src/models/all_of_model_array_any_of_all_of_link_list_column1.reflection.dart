@@ -10,7 +10,7 @@ class AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection extends ModelReflection
   static const instance = AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection._(
     modelName: r'AllOfModelArrayAnyOf_allOf_linkListColumn1',
     className: r'AllOfModelArrayAnyOfAllOfLinkListColumn1',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     valuePart: PropertyReflection<AllOfModelArrayAnyOfAllOfLinkListColumn1, 
     List<
@@ -26,18 +26,28 @@ class AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection extends ModelReflection
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_valueGetter),
       setter: FunctionWrapper2(_valueSetter),
-      reflection: 
-    ListReflection(
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 AllOfModelArrayAnyOfAllOfLinkListColumn1Value.$reflection
         
+,
+)
+)
+,
 )
 ,
     ),
@@ -45,8 +55,13 @@ class AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection extends ModelReflection
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -122,7 +137,7 @@ class AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection extends ModelReflection
   
 
   @override
-  List<AllOfReflection<AllOfModelArrayAnyOfAllOfLinkListColumn1, dynamic>> get allOfs => [
+  List<AllOfReflection<AllOfModelArrayAnyOfAllOfLinkListColumn1, Object>> get allOfs => [
     
   ];
 
@@ -135,6 +150,14 @@ class AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection extends ModelReflection
       value: valuePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

@@ -227,14 +227,24 @@ class StoreApiGetInventoryResponse200ApplicationJson extends StoreApiGetInventor
 >
 > body;
 
-  static const bodyReflection = 
-    MapReflection(
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    MapReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
+)
+,
 )
 ;
 
@@ -429,13 +439,19 @@ class StoreApiGetOrderByIdResponse200ApplicationXml extends StoreApiGetOrderById
             Order
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Order',
+),
+    
             
         
         
             
                 Order.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling XmlDocumentFragment.parse
@@ -496,13 +512,19 @@ class StoreApiGetOrderByIdResponse200ApplicationJson extends StoreApiGetOrderByI
             Order
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Order',
+),
+    
             
         
         
             
                 Order.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling jsonDecode
@@ -744,13 +766,19 @@ class StoreApiPlaceOrderResponse200ApplicationXml extends StoreApiPlaceOrderResp
             Order
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Order',
+),
+    
             
         
         
             
                 Order.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling XmlDocumentFragment.parse
@@ -811,13 +839,19 @@ class StoreApiPlaceOrderResponse200ApplicationJson extends StoreApiPlaceOrderRes
             Order
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Order',
+),
+    
             
         
         
             
                 Order.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling jsonDecode

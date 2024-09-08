@@ -10,7 +10,7 @@ class OuterCompositeReflection extends ModelReflection<OuterComposite> {
   static const instance = OuterCompositeReflection._(
     modelName: r'OuterComposite',
     className: r'OuterComposite',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     myNumberPart: PropertyReflection<OuterComposite, UndefinedWrapper<
             num
@@ -23,17 +23,22 @@ class OuterCompositeReflection extends ModelReflection<OuterComposite> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_myNumberGetter),
       setter: FunctionWrapper2(_myNumberSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.fornum
         
+,
+)
 ),
     ),
     myStringPart: PropertyReflection<OuterComposite, UndefinedWrapper<
@@ -47,17 +52,22 @@ class OuterCompositeReflection extends ModelReflection<OuterComposite> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_myStringGetter),
       setter: FunctionWrapper2(_myStringSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     myBooleanPart: PropertyReflection<OuterComposite, UndefinedWrapper<
@@ -71,25 +81,35 @@ class OuterCompositeReflection extends ModelReflection<OuterComposite> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_myBooleanGetter),
       setter: FunctionWrapper2(_myBooleanSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forbool
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -188,7 +208,7 @@ myBooleanPart,
   
 
   @override
-  List<AllOfReflection<OuterComposite, dynamic>> get allOfs => [
+  List<AllOfReflection<OuterComposite, Object>> get allOfs => [
     
   ];
 
@@ -200,6 +220,14 @@ myBooleanPart,
     return OuterComposite(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is OuterCompositeReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

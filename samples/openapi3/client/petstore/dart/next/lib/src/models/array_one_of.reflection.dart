@@ -10,7 +10,7 @@ class ArrayOneOfReflection extends ModelReflection<ArrayOneOf> {
   static const instance = ArrayOneOfReflection._(
     modelName: r'ArrayOneOf',
     className: r'ArrayOneOf',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     
     
@@ -24,8 +24,13 @@ class ArrayOneOfReflection extends ModelReflection<ArrayOneOf> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -84,16 +89,16 @@ class ArrayOneOfReflection extends ModelReflection<ArrayOneOf> {
   
 
   @override
-  List<AllOfReflection<ArrayOneOf, dynamic>> get allOfs => [
+  List<AllOfReflection<ArrayOneOf, Object>> get allOfs => [
     
   ];
 
   @override
-  List<OneOfReflection<ArrayOneOf, dynamic>> get oneOfs => [
+  List<OneOfReflection<ArrayOneOf, Object>> get oneOfs => [
     oneOf0Part,oneOf1Part,
   ];
   @override
-  List<AnyOfReflection<ArrayOneOf, dynamic>> get anyOfs => [
+  List<AnyOfReflection<ArrayOneOf, Object>> get anyOfs => [
     
   ];
 
@@ -104,6 +109,14 @@ class ArrayOneOfReflection extends ModelReflection<ArrayOneOf> {
     return ArrayOneOf(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ArrayOneOfReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 
@@ -138,12 +151,18 @@ static void _setter(ArrayOneOf src, UndefinedWrapper<
 UndefinedWrapperReflection<
             int
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+
+  ),
 );
 
   UndefinedWrapper<
@@ -220,14 +239,25 @@ UndefinedWrapperReflection<
             String
 >
 > get reflection => UndefinedWrapperReflection(
-    ListReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
 )
+)
+
+  ),
 );
 
   UndefinedWrapper<

@@ -10,7 +10,7 @@ class UserReflection extends ModelReflection<User> {
   static const instance = UserReflection._(
     modelName: r'User',
     className: r'User',
-    xml: const XmlReflection(
+    xml: XmlReflection(
     xmlName: r'User',
 ),
     idPart: PropertyReflection<User, UndefinedWrapper<
@@ -24,17 +24,22 @@ class UserReflection extends ModelReflection<User> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_idGetter),
       setter: FunctionWrapper2(_idSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     usernamePart: PropertyReflection<User, UndefinedWrapper<
@@ -48,17 +53,22 @@ class UserReflection extends ModelReflection<User> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_usernameGetter),
       setter: FunctionWrapper2(_usernameSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     firstNamePart: PropertyReflection<User, UndefinedWrapper<
@@ -72,17 +82,22 @@ class UserReflection extends ModelReflection<User> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_firstNameGetter),
       setter: FunctionWrapper2(_firstNameSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     lastNamePart: PropertyReflection<User, UndefinedWrapper<
@@ -96,17 +111,22 @@ class UserReflection extends ModelReflection<User> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_lastNameGetter),
       setter: FunctionWrapper2(_lastNameSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     emailPart: PropertyReflection<User, UndefinedWrapper<
@@ -120,17 +140,22 @@ class UserReflection extends ModelReflection<User> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_emailGetter),
       setter: FunctionWrapper2(_emailSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     passwordPart: PropertyReflection<User, UndefinedWrapper<
@@ -144,17 +169,22 @@ class UserReflection extends ModelReflection<User> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_passwordGetter),
       setter: FunctionWrapper2(_passwordSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     phonePart: PropertyReflection<User, UndefinedWrapper<
@@ -168,17 +198,22 @@ class UserReflection extends ModelReflection<User> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_phoneGetter),
       setter: FunctionWrapper2(_phoneSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     userStatusPart: PropertyReflection<User, UndefinedWrapper<
@@ -192,17 +227,22 @@ class UserReflection extends ModelReflection<User> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_userStatusGetter),
       setter: FunctionWrapper2(_userStatusSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     objectWithNoDeclaredPropsPart: PropertyReflection<User, UndefinedWrapper<
@@ -216,17 +256,22 @@ class UserReflection extends ModelReflection<User> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_objectWithNoDeclaredPropsGetter),
       setter: FunctionWrapper2(_objectWithNoDeclaredPropsSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.for$FreeFormObject
         
+,
+)
 ),
     ),
     objectWithNoDeclaredPropsNullablePart: PropertyReflection<User, UndefinedWrapper<
@@ -240,18 +285,23 @@ class UserReflection extends ModelReflection<User> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_objectWithNoDeclaredPropsNullableGetter),
       setter: FunctionWrapper2(_objectWithNoDeclaredPropsNullableSetter),
-      reflection: UndefinedWrapperReflection(NullableReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(
             
         
         
             
                 PrimitiveReflection.for$FreeFormObject
         
-)),
+),
+)
+),
     ),
     anyTypePropPart: PropertyReflection<User, UndefinedWrapper<Object
 ?>>(
@@ -263,12 +313,17 @@ class UserReflection extends ModelReflection<User> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_anyTypePropGetter),
       setter: FunctionWrapper2(_anyTypePropSetter),
-      reflection: UndefinedWrapperReflection(NullableReflection(ObjectReflection()
-)),
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(ObjectReflection()
+),
+)
+),
     ),
     anyTypePropNullablePart: PropertyReflection<User, UndefinedWrapper<Object
 ?>>(
@@ -280,19 +335,29 @@ class UserReflection extends ModelReflection<User> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_anyTypePropNullableGetter),
       setter: FunctionWrapper2(_anyTypePropNullableSetter),
-      reflection: UndefinedWrapperReflection(NullableReflection(ObjectReflection()
-)),
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(ObjectReflection()
+),
+)
+),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -529,7 +594,7 @@ anyTypePropNullablePart,
   
 
   @override
-  List<AllOfReflection<User, dynamic>> get allOfs => [
+  List<AllOfReflection<User, Object>> get allOfs => [
     
   ];
 
@@ -541,6 +606,14 @@ anyTypePropNullablePart,
     return User(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is UserReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

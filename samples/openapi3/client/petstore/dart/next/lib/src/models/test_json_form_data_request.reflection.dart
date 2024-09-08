@@ -10,7 +10,7 @@ class TestJsonFormDataRequestReflection extends ModelReflection<TestJsonFormData
   static const instance = TestJsonFormDataRequestReflection._(
     modelName: r'testJsonFormData_request',
     className: r'TestJsonFormDataRequest',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     paramPart: PropertyReflection<TestJsonFormDataRequest, 
             String
@@ -23,17 +23,22 @@ class TestJsonFormDataRequestReflection extends ModelReflection<TestJsonFormData
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_paramGetter),
       setter: FunctionWrapper2(_paramSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     param2Part: PropertyReflection<TestJsonFormDataRequest, 
@@ -47,11 +52,14 @@ class TestJsonFormDataRequestReflection extends ModelReflection<TestJsonFormData
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_param2Getter),
       setter: FunctionWrapper2(_param2Setter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
@@ -59,13 +67,20 @@ class TestJsonFormDataRequestReflection extends ModelReflection<TestJsonFormData
                 PrimitiveReflection.forString
         
 ,
+)
+,
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -148,7 +163,7 @@ param2Part,
   
 
   @override
-  List<AllOfReflection<TestJsonFormDataRequest, dynamic>> get allOfs => [
+  List<AllOfReflection<TestJsonFormDataRequest, Object>> get allOfs => [
     
   ];
 
@@ -162,6 +177,14 @@ param2Part,
       param2: param2Part.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is TestJsonFormDataRequestReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

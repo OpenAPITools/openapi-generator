@@ -173,13 +173,18 @@ class FakeClassnameTags123ApiTestClassnameRequestApplicationJson extends FakeCla
   final 
             Client
  data;
-  static const dataReflection = 
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Client.$reflection
         
+,
+)
 ;
 
 

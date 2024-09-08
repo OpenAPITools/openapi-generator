@@ -10,7 +10,7 @@ class FooGetDefaultResponseReflection extends ModelReflection<FooGetDefaultRespo
   static const instance = FooGetDefaultResponseReflection._(
     modelName: r'_foo_get_default_response',
     className: r'FooGetDefaultResponse',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     stringPart: PropertyReflection<FooGetDefaultResponse, UndefinedWrapper<
             Foo
@@ -23,25 +23,35 @@ class FooGetDefaultResponseReflection extends ModelReflection<FooGetDefaultRespo
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_stringGetter),
       setter: FunctionWrapper2(_stringSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Foo.$reflection
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -108,7 +118,7 @@ class FooGetDefaultResponseReflection extends ModelReflection<FooGetDefaultRespo
   
 
   @override
-  List<AllOfReflection<FooGetDefaultResponse, dynamic>> get allOfs => [
+  List<AllOfReflection<FooGetDefaultResponse, Object>> get allOfs => [
     
   ];
 
@@ -120,6 +130,14 @@ class FooGetDefaultResponseReflection extends ModelReflection<FooGetDefaultRespo
     return FooGetDefaultResponse(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FooGetDefaultResponseReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

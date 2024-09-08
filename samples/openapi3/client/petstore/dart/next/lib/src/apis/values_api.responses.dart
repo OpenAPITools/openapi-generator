@@ -120,13 +120,18 @@ class ValuesApiGetSomeValuesResponse200ApplicationJson extends ValuesApiGetSomeV
             Variable
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Variable.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling jsonDecode

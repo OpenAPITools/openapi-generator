@@ -279,13 +279,18 @@ void main() {
                 "nice": "work",
             },
             
-username: 
+username: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 .exampleFunction(exampleContext),
 
         );
@@ -374,13 +379,18 @@ username:
                 "nice": "work",
             },
             
-username: 
+username: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 .exampleFunction(exampleContext),
 
         );
@@ -570,22 +580,32 @@ username:
                 "nice": "work",
             },
             
-username: 
+username: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 .exampleFunction(exampleContext),
 
-password: 
+password: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 .exampleFunction(exampleContext),
 
         );
@@ -819,13 +839,18 @@ password:
                 "nice": "work",
             },
             
-username: 
+username: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 .exampleFunction(exampleContext),
 
         );
@@ -846,13 +871,19 @@ username:
                 "nice": "work",
             },
             
-username: 
+username: XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'User',
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 .exampleFunction(exampleContext),
 
         );

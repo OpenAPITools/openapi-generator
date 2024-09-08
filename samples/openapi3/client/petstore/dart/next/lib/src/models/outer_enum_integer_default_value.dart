@@ -8,7 +8,7 @@ part 'outer_enum_integer_default_value.reflection.dart';
 
 //enum def
 
-extension type const OuterEnumIntegerDefaultValue._(int value) {
+extension type const OuterEnumIntegerDefaultValue._(int value) implements int {
       const OuterEnumIntegerDefaultValue.number0() : this._(0);
       const OuterEnumIntegerDefaultValue.number1() : this._(1);
       const OuterEnumIntegerDefaultValue.number2() : this._(2);

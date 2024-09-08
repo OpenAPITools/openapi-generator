@@ -10,7 +10,7 @@ class QuadrilateralReflection extends ModelReflection<Quadrilateral> {
   static const instance = QuadrilateralReflection._(
     modelName: r'Quadrilateral',
     className: r'Quadrilateral',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     quadrilateralTypePart: PropertyReflection<Quadrilateral, 
             String
@@ -23,17 +23,22 @@ class QuadrilateralReflection extends ModelReflection<Quadrilateral> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: true,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_quadrilateralTypeGetter),
       setter: FunctionWrapper2(_quadrilateralTypeSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     discriminatorKey: r'quadrilateralType',
@@ -57,8 +62,13 @@ class QuadrilateralReflection extends ModelReflection<Quadrilateral> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -133,16 +143,16 @@ class QuadrilateralReflection extends ModelReflection<Quadrilateral> {
   
 
   @override
-  List<AllOfReflection<Quadrilateral, dynamic>> get allOfs => [
+  List<AllOfReflection<Quadrilateral, Object>> get allOfs => [
     
   ];
 
   @override
-  List<OneOfReflection<Quadrilateral, dynamic>> get oneOfs => [
+  List<OneOfReflection<Quadrilateral, Object>> get oneOfs => [
     oneOf0Part,oneOf1Part,
   ];
   @override
-  List<AnyOfReflection<Quadrilateral, dynamic>> get anyOfs => [
+  List<AnyOfReflection<Quadrilateral, Object>> get anyOfs => [
     
   ];
 
@@ -154,6 +164,14 @@ class QuadrilateralReflection extends ModelReflection<Quadrilateral> {
       quadrilateralType: quadrilateralTypePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is QuadrilateralReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 
@@ -188,12 +206,18 @@ static void _setter(Quadrilateral src, UndefinedWrapper<
 UndefinedWrapperReflection<
             SimpleQuadrilateral
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 SimpleQuadrilateral.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<
@@ -252,12 +276,18 @@ static void _setter(Quadrilateral src, UndefinedWrapper<
 UndefinedWrapperReflection<
             ComplexQuadrilateral
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 ComplexQuadrilateral.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<

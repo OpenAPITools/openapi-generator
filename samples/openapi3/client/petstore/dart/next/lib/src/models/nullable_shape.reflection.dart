@@ -10,7 +10,7 @@ class NullableShapeReflection extends ModelReflection<NullableShape> {
   static const instance = NullableShapeReflection._(
     modelName: r'NullableShape',
     className: r'NullableShape',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     discriminatorKey: r'shapeType',
     discriminatorImplicitMappings: const {
@@ -33,8 +33,13 @@ class NullableShapeReflection extends ModelReflection<NullableShape> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -93,16 +98,16 @@ class NullableShapeReflection extends ModelReflection<NullableShape> {
   
 
   @override
-  List<AllOfReflection<NullableShape, dynamic>> get allOfs => [
+  List<AllOfReflection<NullableShape, Object>> get allOfs => [
     
   ];
 
   @override
-  List<OneOfReflection<NullableShape, dynamic>> get oneOfs => [
+  List<OneOfReflection<NullableShape, Object>> get oneOfs => [
     oneOf0Part,oneOf1Part,
   ];
   @override
-  List<AnyOfReflection<NullableShape, dynamic>> get anyOfs => [
+  List<AnyOfReflection<NullableShape, Object>> get anyOfs => [
     
   ];
 
@@ -113,6 +118,14 @@ class NullableShapeReflection extends ModelReflection<NullableShape> {
     return NullableShape(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is NullableShapeReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 
@@ -147,12 +160,18 @@ static void _setter(NullableShape src, UndefinedWrapper<
 UndefinedWrapperReflection<
             Triangle
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Triangle.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<
@@ -211,12 +230,18 @@ static void _setter(NullableShape src, UndefinedWrapper<
 UndefinedWrapperReflection<
             Quadrilateral
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Quadrilateral.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<

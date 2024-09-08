@@ -10,7 +10,7 @@ class FileSchemaTestClassReflection extends ModelReflection<FileSchemaTestClass>
   static const instance = FileSchemaTestClassReflection._(
     modelName: r'FileSchemaTestClass',
     className: r'FileSchemaTestClass',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     filePart: PropertyReflection<FileSchemaTestClass, UndefinedWrapper<
             File
@@ -23,17 +23,22 @@ class FileSchemaTestClassReflection extends ModelReflection<FileSchemaTestClass>
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_fileGetter),
       setter: FunctionWrapper2(_fileSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 File.$reflection
         
+,
+)
 ),
     ),
     filesPart: PropertyReflection<FileSchemaTestClass, UndefinedWrapper<
@@ -50,18 +55,28 @@ class FileSchemaTestClassReflection extends ModelReflection<FileSchemaTestClass>
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_filesGetter),
       setter: FunctionWrapper2(_filesSetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 File.$reflection
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -69,8 +84,13 @@ class FileSchemaTestClassReflection extends ModelReflection<FileSchemaTestClass>
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -162,7 +182,7 @@ filesPart,
   
 
   @override
-  List<AllOfReflection<FileSchemaTestClass, dynamic>> get allOfs => [
+  List<AllOfReflection<FileSchemaTestClass, Object>> get allOfs => [
     
   ];
 
@@ -174,6 +194,14 @@ filesPart,
     return FileSchemaTestClass(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FileSchemaTestClassReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

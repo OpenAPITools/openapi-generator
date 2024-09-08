@@ -8,7 +8,7 @@ part 'outer_enum_integer.reflection.dart';
 
 //enum def
 
-extension type const OuterEnumInteger._(int value) {
+extension type const OuterEnumInteger._(int value) implements int {
       const OuterEnumInteger.number0() : this._(0);
       const OuterEnumInteger.number1() : this._(1);
       const OuterEnumInteger.number2() : this._(2);

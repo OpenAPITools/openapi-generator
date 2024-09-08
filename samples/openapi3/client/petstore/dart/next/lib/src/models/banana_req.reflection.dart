@@ -10,7 +10,7 @@ class BananaReqReflection extends ModelReflection<BananaReq> {
   static const instance = BananaReqReflection._(
     modelName: r'bananaReq',
     className: r'BananaReq',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     lengthCmPart: PropertyReflection<BananaReq, 
             num
@@ -23,17 +23,22 @@ class BananaReqReflection extends ModelReflection<BananaReq> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_lengthCmGetter),
       setter: FunctionWrapper2(_lengthCmSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.fornum
         
+,
+)
 ,
     ),
     sweetPart: PropertyReflection<BananaReq, UndefinedWrapper<
@@ -47,17 +52,22 @@ class BananaReqReflection extends ModelReflection<BananaReq> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_sweetGetter),
       setter: FunctionWrapper2(_sweetSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forbool
         
+,
+)
 ),
     ),
     
@@ -128,7 +138,7 @@ sweetPart,
   
 
   @override
-  List<AllOfReflection<BananaReq, dynamic>> get allOfs => [
+  List<AllOfReflection<BananaReq, Object>> get allOfs => [
     
   ];
 
@@ -141,6 +151,14 @@ sweetPart,
       lengthCm: lengthCmPart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is BananaReqReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

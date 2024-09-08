@@ -10,7 +10,7 @@ class FruitReflection extends ModelReflection<Fruit> {
   static const instance = FruitReflection._(
     modelName: r'fruit',
     className: r'Fruit',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     colorPart: PropertyReflection<Fruit, UndefinedWrapper<
             String
@@ -23,17 +23,22 @@ class FruitReflection extends ModelReflection<Fruit> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_colorGetter),
       setter: FunctionWrapper2(_colorSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     
@@ -104,16 +109,16 @@ class FruitReflection extends ModelReflection<Fruit> {
   
 
   @override
-  List<AllOfReflection<Fruit, dynamic>> get allOfs => [
+  List<AllOfReflection<Fruit, Object>> get allOfs => [
     
   ];
 
   @override
-  List<OneOfReflection<Fruit, dynamic>> get oneOfs => [
+  List<OneOfReflection<Fruit, Object>> get oneOfs => [
     oneOf0Part,oneOf1Part,
   ];
   @override
-  List<AnyOfReflection<Fruit, dynamic>> get anyOfs => [
+  List<AnyOfReflection<Fruit, Object>> get anyOfs => [
     
   ];
 
@@ -124,6 +129,14 @@ class FruitReflection extends ModelReflection<Fruit> {
     return Fruit(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FruitReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 
@@ -158,12 +171,18 @@ static void _setter(Fruit src, UndefinedWrapper<
 UndefinedWrapperReflection<
             Apple
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Apple.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<
@@ -222,12 +241,18 @@ static void _setter(Fruit src, UndefinedWrapper<
 UndefinedWrapperReflection<
             Banana
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Banana.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<

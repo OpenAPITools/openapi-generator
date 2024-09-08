@@ -10,7 +10,7 @@ class ShapeReflection extends ModelReflection<Shape> {
   static const instance = ShapeReflection._(
     modelName: r'Shape',
     className: r'Shape',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     discriminatorKey: r'shapeType',
     discriminatorImplicitMappings: const {
@@ -33,8 +33,13 @@ class ShapeReflection extends ModelReflection<Shape> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -93,16 +98,16 @@ class ShapeReflection extends ModelReflection<Shape> {
   
 
   @override
-  List<AllOfReflection<Shape, dynamic>> get allOfs => [
+  List<AllOfReflection<Shape, Object>> get allOfs => [
     
   ];
 
   @override
-  List<OneOfReflection<Shape, dynamic>> get oneOfs => [
+  List<OneOfReflection<Shape, Object>> get oneOfs => [
     oneOf0Part,oneOf1Part,
   ];
   @override
-  List<AnyOfReflection<Shape, dynamic>> get anyOfs => [
+  List<AnyOfReflection<Shape, Object>> get anyOfs => [
     
   ];
 
@@ -113,6 +118,14 @@ class ShapeReflection extends ModelReflection<Shape> {
     return Shape(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ShapeReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 
@@ -147,12 +160,18 @@ static void _setter(Shape src, UndefinedWrapper<
 UndefinedWrapperReflection<
             Triangle
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Triangle.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<
@@ -211,12 +230,18 @@ static void _setter(Shape src, UndefinedWrapper<
 UndefinedWrapperReflection<
             Quadrilateral
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Quadrilateral.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<

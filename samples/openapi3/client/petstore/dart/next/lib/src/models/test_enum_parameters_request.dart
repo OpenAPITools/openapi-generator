@@ -82,21 +82,25 @@ TestEnumParametersRequestMixin {
     return super.validate();
   }
 
-  factory TestEnumParametersRequest.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  factory TestEnumParametersRequest.deserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.deserialize(src, context);
   }
 
-  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.canDeserialize(src, context);
   }
 
-  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+  Object? serialize([SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.serialize(this, context);
+  }
+
+  TestEnumParametersRequest clone() {
+    return $reflection.clone(this);
   }
 }
 
 
-extension type const TestEnumParametersRequestEnumFormStringArrayEnum._(String value) {
+extension type const TestEnumParametersRequestEnumFormStringArrayEnum._(String value) implements String {
       const TestEnumParametersRequestEnumFormStringArrayEnum.greaterThan() : this._(r'>');
       const TestEnumParametersRequestEnumFormStringArrayEnum.value() : this._(r'$');
 
@@ -146,7 +150,7 @@ extension type const TestEnumParametersRequestEnumFormStringArrayEnum._(String v
 
 
 
-extension type const TestEnumParametersRequestEnumFormStringEnum._(String value) {
+extension type const TestEnumParametersRequestEnumFormStringEnum._(String value) implements String {
   /// Form parameter enum test (string)
       const TestEnumParametersRequestEnumFormStringEnum.abc() : this._(r'_abc');
   /// Form parameter enum test (string)

@@ -10,7 +10,7 @@ class TriangleReflection extends ModelReflection<Triangle> {
   static const instance = TriangleReflection._(
     modelName: r'Triangle',
     className: r'Triangle',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     triangleTypePart: PropertyReflection<Triangle, 
             String
@@ -23,17 +23,22 @@ class TriangleReflection extends ModelReflection<Triangle> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: true,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_triangleTypeGetter),
       setter: FunctionWrapper2(_triangleTypeSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     discriminatorKey: r'triangleType',
@@ -63,8 +68,13 @@ class TriangleReflection extends ModelReflection<Triangle> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -143,16 +153,16 @@ class TriangleReflection extends ModelReflection<Triangle> {
   
 
   @override
-  List<AllOfReflection<Triangle, dynamic>> get allOfs => [
+  List<AllOfReflection<Triangle, Object>> get allOfs => [
     
   ];
 
   @override
-  List<OneOfReflection<Triangle, dynamic>> get oneOfs => [
+  List<OneOfReflection<Triangle, Object>> get oneOfs => [
     oneOf0Part,oneOf1Part,oneOf2Part,
   ];
   @override
-  List<AnyOfReflection<Triangle, dynamic>> get anyOfs => [
+  List<AnyOfReflection<Triangle, Object>> get anyOfs => [
     
   ];
 
@@ -164,6 +174,14 @@ class TriangleReflection extends ModelReflection<Triangle> {
       triangleType: triangleTypePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is TriangleReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 
@@ -198,12 +216,18 @@ static void _setter(Triangle src, UndefinedWrapper<
 UndefinedWrapperReflection<
             EquilateralTriangle
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 EquilateralTriangle.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<
@@ -262,12 +286,18 @@ static void _setter(Triangle src, UndefinedWrapper<
 UndefinedWrapperReflection<
             IsoscelesTriangle
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 IsoscelesTriangle.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<
@@ -326,12 +356,18 @@ static void _setter(Triangle src, UndefinedWrapper<
 UndefinedWrapperReflection<
             ScaleneTriangle
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 ScaleneTriangle.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<

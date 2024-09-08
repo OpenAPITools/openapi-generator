@@ -173,13 +173,19 @@ class UserApiCreateUserRequestApplicationJson extends UserApiCreateUserRequest {
   final 
             User
  data;
-  static const dataReflection = 
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'User',
+),
+    
             
         
         
             
                 User.$reflection
         
+,
+)
 ;
 
 
@@ -394,14 +400,25 @@ class UserApiCreateUsersWithArrayInputRequestApplicationJson extends UserApiCrea
             User
 >
  data;
-  static const dataReflection = 
-    ListReflection(
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'User',
+),
+    
             
         
         
             
                 User.$reflection
         
+,
+)
+)
+,
 )
 ;
 
@@ -617,14 +634,25 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
             User
 >
  data;
-  static const dataReflection = 
-    ListReflection(
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'User',
+),
+    
             
         
         
             
                 User.$reflection
         
+,
+)
+)
+,
 )
 ;
 
@@ -1307,13 +1335,19 @@ class UserApiUpdateUserRequestApplicationJson extends UserApiUpdateUserRequest {
   final 
             User
  data;
-  static const dataReflection = 
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'User',
+),
+    
             
         
         
             
                 User.$reflection
         
+,
+)
 ;
 
 

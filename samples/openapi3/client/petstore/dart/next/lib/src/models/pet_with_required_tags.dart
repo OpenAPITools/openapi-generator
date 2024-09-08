@@ -130,16 +130,20 @@ required  this.tags     ,
     return super.validate();
   }
 
-  factory PetWithRequiredTags.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  factory PetWithRequiredTags.deserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.deserialize(src, context);
   }
 
-  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.canDeserialize(src, context);
   }
 
-  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+  Object? serialize([SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.serialize(this, context);
+  }
+
+  PetWithRequiredTags clone() {
+    return $reflection.clone(this);
   }
 }
 
@@ -163,7 +167,7 @@ required  this.tags     ,
 
 
 
-extension type const PetWithRequiredTagsStatusEnum._(String value) {
+extension type const PetWithRequiredTagsStatusEnum._(String value) implements String {
   /// pet status in the store
       const PetWithRequiredTagsStatusEnum.available() : this._(r'available');
   /// pet status in the store

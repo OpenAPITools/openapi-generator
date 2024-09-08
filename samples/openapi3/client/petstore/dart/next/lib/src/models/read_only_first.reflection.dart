@@ -10,7 +10,7 @@ class ReadOnlyFirstReflection extends ModelReflection<ReadOnlyFirst> {
   static const instance = ReadOnlyFirstReflection._(
     modelName: r'ReadOnlyFirst',
     className: r'ReadOnlyFirst',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     barPart: PropertyReflection<ReadOnlyFirst, UndefinedWrapper<
             String
@@ -23,17 +23,22 @@ class ReadOnlyFirstReflection extends ModelReflection<ReadOnlyFirst> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_barGetter),
       setter: FunctionWrapper2(_barSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     bazPart: PropertyReflection<ReadOnlyFirst, UndefinedWrapper<
@@ -47,25 +52,35 @@ class ReadOnlyFirstReflection extends ModelReflection<ReadOnlyFirst> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_bazGetter),
       setter: FunctionWrapper2(_bazSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -148,7 +163,7 @@ bazPart,
   
 
   @override
-  List<AllOfReflection<ReadOnlyFirst, dynamic>> get allOfs => [
+  List<AllOfReflection<ReadOnlyFirst, Object>> get allOfs => [
     
   ];
 
@@ -160,6 +175,14 @@ bazPart,
     return ReadOnlyFirst(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ReadOnlyFirstReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

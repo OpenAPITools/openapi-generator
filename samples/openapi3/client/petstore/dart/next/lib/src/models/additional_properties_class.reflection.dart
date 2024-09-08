@@ -10,7 +10,7 @@ class AdditionalPropertiesClassReflection extends ModelReflection<AdditionalProp
   static const instance = AdditionalPropertiesClassReflection._(
     modelName: r'AdditionalPropertiesClass',
     className: r'AdditionalPropertiesClass',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     mapPropertyPart: PropertyReflection<AdditionalPropertiesClass, UndefinedWrapper<
     Map<String, 
@@ -26,18 +26,28 @@ class AdditionalPropertiesClassReflection extends ModelReflection<AdditionalProp
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_mapPropertyGetter),
       setter: FunctionWrapper2(_mapPropertySetter),
-      reflection: UndefinedWrapperReflection(
-    MapReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    MapReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -58,20 +68,35 @@ class AdditionalPropertiesClassReflection extends ModelReflection<AdditionalProp
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_mapOfMapPropertyGetter),
       setter: FunctionWrapper2(_mapOfMapPropertySetter),
-      reflection: UndefinedWrapperReflection(
-    MapReflection(
-    MapReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    MapReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    MapReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
 )
+)
+,
+)
+)
+,
 )
 ),
     ),
@@ -85,12 +110,17 @@ class AdditionalPropertiesClassReflection extends ModelReflection<AdditionalProp
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_anytype1Getter),
       setter: FunctionWrapper2(_anytype1Setter),
-      reflection: UndefinedWrapperReflection(NullableReflection(ObjectReflection()
-)),
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(ObjectReflection()
+),
+)
+),
     ),
     mapWithUndeclaredPropertiesAnytype1Part: PropertyReflection<AdditionalPropertiesClass, UndefinedWrapper<
             $FreeFormObject
@@ -103,17 +133,22 @@ class AdditionalPropertiesClassReflection extends ModelReflection<AdditionalProp
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_mapWithUndeclaredPropertiesAnytype1Getter),
       setter: FunctionWrapper2(_mapWithUndeclaredPropertiesAnytype1Setter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.for$FreeFormObject
         
+,
+)
 ),
     ),
     mapWithUndeclaredPropertiesAnytype2Part: PropertyReflection<AdditionalPropertiesClass, UndefinedWrapper<
@@ -127,17 +162,22 @@ class AdditionalPropertiesClassReflection extends ModelReflection<AdditionalProp
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_mapWithUndeclaredPropertiesAnytype2Getter),
       setter: FunctionWrapper2(_mapWithUndeclaredPropertiesAnytype2Setter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.for$FreeFormObject
         
+,
+)
 ),
     ),
     mapWithUndeclaredPropertiesAnytype3Part: PropertyReflection<AdditionalPropertiesClass, UndefinedWrapper<
@@ -153,13 +193,23 @@ class AdditionalPropertiesClassReflection extends ModelReflection<AdditionalProp
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_mapWithUndeclaredPropertiesAnytype3Getter),
       setter: FunctionWrapper2(_mapWithUndeclaredPropertiesAnytype3Setter),
-      reflection: UndefinedWrapperReflection(
-    MapReflection(NullableReflection(ObjectReflection()
-))
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    MapReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(ObjectReflection()
+),
+)
+)
+,
+)
 ),
     ),
     emptyMapPart: PropertyReflection<AdditionalPropertiesClass, UndefinedWrapper<
@@ -173,17 +223,22 @@ class AdditionalPropertiesClassReflection extends ModelReflection<AdditionalProp
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_emptyMapGetter),
       setter: FunctionWrapper2(_emptyMapSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.for$FreeFormObject
         
+,
+)
 ),
     ),
     mapWithUndeclaredPropertiesStringPart: PropertyReflection<AdditionalPropertiesClass, UndefinedWrapper<
@@ -200,18 +255,28 @@ class AdditionalPropertiesClassReflection extends ModelReflection<AdditionalProp
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_mapWithUndeclaredPropertiesStringGetter),
       setter: FunctionWrapper2(_mapWithUndeclaredPropertiesStringSetter),
-      reflection: UndefinedWrapperReflection(
-    MapReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    MapReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -219,8 +284,13 @@ class AdditionalPropertiesClassReflection extends ModelReflection<AdditionalProp
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -438,7 +508,7 @@ mapWithUndeclaredPropertiesStringPart,
   
 
   @override
-  List<AllOfReflection<AdditionalPropertiesClass, dynamic>> get allOfs => [
+  List<AllOfReflection<AdditionalPropertiesClass, Object>> get allOfs => [
     
   ];
 
@@ -450,6 +520,14 @@ mapWithUndeclaredPropertiesStringPart,
     return AdditionalPropertiesClass(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is AdditionalPropertiesClassReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

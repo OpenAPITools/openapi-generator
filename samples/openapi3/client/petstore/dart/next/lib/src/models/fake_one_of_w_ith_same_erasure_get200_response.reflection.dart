@@ -10,7 +10,7 @@ class FakeOneOfWIthSameErasureGet200ResponseReflection extends ModelReflection<F
   static const instance = FakeOneOfWIthSameErasureGet200ResponseReflection._(
     modelName: r'_fake_oneOfWIthSameErasure_get_200_response',
     className: r'FakeOneOfWIthSameErasureGet200Response',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     
     
@@ -24,8 +24,13 @@ class FakeOneOfWIthSameErasureGet200ResponseReflection extends ModelReflection<F
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -84,16 +89,16 @@ class FakeOneOfWIthSameErasureGet200ResponseReflection extends ModelReflection<F
   
 
   @override
-  List<AllOfReflection<FakeOneOfWIthSameErasureGet200Response, dynamic>> get allOfs => [
+  List<AllOfReflection<FakeOneOfWIthSameErasureGet200Response, Object>> get allOfs => [
     
   ];
 
   @override
-  List<OneOfReflection<FakeOneOfWIthSameErasureGet200Response, dynamic>> get oneOfs => [
+  List<OneOfReflection<FakeOneOfWIthSameErasureGet200Response, Object>> get oneOfs => [
     oneOf0Part,oneOf1Part,
   ];
   @override
-  List<AnyOfReflection<FakeOneOfWIthSameErasureGet200Response, dynamic>> get anyOfs => [
+  List<AnyOfReflection<FakeOneOfWIthSameErasureGet200Response, Object>> get anyOfs => [
     
   ];
 
@@ -104,6 +109,14 @@ class FakeOneOfWIthSameErasureGet200ResponseReflection extends ModelReflection<F
     return FakeOneOfWIthSameErasureGet200Response(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FakeOneOfWIthSameErasureGet200ResponseReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 
@@ -156,14 +169,25 @@ UndefinedWrapperReflection<
             String
 >
 > get reflection => UndefinedWrapperReflection(
-    ListReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
 )
+)
+
+  ),
 );
 
   UndefinedWrapper<
@@ -243,14 +267,25 @@ UndefinedWrapperReflection<
             int
 >
 > get reflection => UndefinedWrapperReflection(
-    ListReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
 )
+)
+
+  ),
 );
 
   UndefinedWrapper<

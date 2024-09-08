@@ -10,7 +10,7 @@ class EnumArraysReflection extends ModelReflection<EnumArrays> {
   static const instance = EnumArraysReflection._(
     modelName: r'EnumArrays',
     className: r'EnumArrays',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     justSymbolPart: PropertyReflection<EnumArrays, UndefinedWrapper<
             EnumArraysJustSymbolEnum
@@ -23,14 +23,19 @@ class EnumArraysReflection extends ModelReflection<EnumArrays> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_justSymbolGetter),
       setter: FunctionWrapper2(_justSymbolSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             EnumArraysJustSymbolEnum.$reflection
         
         
+,
+)
 ),
     ),
     arrayEnumPart: PropertyReflection<EnumArrays, UndefinedWrapper<
@@ -47,15 +52,25 @@ class EnumArraysReflection extends ModelReflection<EnumArrays> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_arrayEnumGetter),
       setter: FunctionWrapper2(_arrayEnumSetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             EnumArraysArrayEnumEnum.$reflection
         
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -63,8 +78,13 @@ class EnumArraysReflection extends ModelReflection<EnumArrays> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -156,7 +176,7 @@ arrayEnumPart,
   
 
   @override
-  List<AllOfReflection<EnumArrays, dynamic>> get allOfs => [
+  List<AllOfReflection<EnumArrays, Object>> get allOfs => [
     
   ];
 
@@ -168,6 +188,14 @@ arrayEnumPart,
     return EnumArrays(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is EnumArraysReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

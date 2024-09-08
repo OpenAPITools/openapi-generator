@@ -10,7 +10,7 @@ class TriangleInterfaceReflection extends ModelReflection<TriangleInterface> {
   static const instance = TriangleInterfaceReflection._(
     modelName: r'TriangleInterface',
     className: r'TriangleInterface',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     triangleTypePart: PropertyReflection<TriangleInterface, 
             String
@@ -23,11 +23,14 @@ class TriangleInterfaceReflection extends ModelReflection<TriangleInterface> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_triangleTypeGetter),
       setter: FunctionWrapper2(_triangleTypeSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
@@ -35,13 +38,20 @@ class TriangleInterfaceReflection extends ModelReflection<TriangleInterface> {
                 PrimitiveReflection.forString
         
 ,
+)
+,
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -108,7 +118,7 @@ class TriangleInterfaceReflection extends ModelReflection<TriangleInterface> {
   
 
   @override
-  List<AllOfReflection<TriangleInterface, dynamic>> get allOfs => [
+  List<AllOfReflection<TriangleInterface, Object>> get allOfs => [
     
   ];
 
@@ -121,6 +131,14 @@ class TriangleInterfaceReflection extends ModelReflection<TriangleInterface> {
       triangleType: triangleTypePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is TriangleInterfaceReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

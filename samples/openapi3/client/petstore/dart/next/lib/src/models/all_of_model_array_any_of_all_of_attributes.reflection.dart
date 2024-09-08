@@ -10,7 +10,7 @@ class AllOfModelArrayAnyOfAllOfAttributesReflection extends ModelReflection<AllO
   static const instance = AllOfModelArrayAnyOfAllOfAttributesReflection._(
     modelName: r'AllOfModelArrayAnyOf_allOf_attributes',
     className: r'AllOfModelArrayAnyOfAllOfAttributes',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     CPart: PropertyReflection<AllOfModelArrayAnyOfAllOfAttributes, UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfAttributesC
@@ -23,25 +23,35 @@ class AllOfModelArrayAnyOfAllOfAttributesReflection extends ModelReflection<AllO
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_CGetter),
       setter: FunctionWrapper2(_CSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 AllOfModelArrayAnyOfAllOfAttributesC.$reflection
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -108,7 +118,7 @@ class AllOfModelArrayAnyOfAllOfAttributesReflection extends ModelReflection<AllO
   
 
   @override
-  List<AllOfReflection<AllOfModelArrayAnyOfAllOfAttributes, dynamic>> get allOfs => [
+  List<AllOfReflection<AllOfModelArrayAnyOfAllOfAttributes, Object>> get allOfs => [
     
   ];
 
@@ -120,6 +130,14 @@ class AllOfModelArrayAnyOfAllOfAttributesReflection extends ModelReflection<AllO
     return AllOfModelArrayAnyOfAllOfAttributes(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is AllOfModelArrayAnyOfAllOfAttributesReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

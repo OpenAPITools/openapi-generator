@@ -10,7 +10,7 @@ class TagReflection extends ModelReflection<Tag> {
   static const instance = TagReflection._(
     modelName: r'Tag',
     className: r'Tag',
-    xml: const XmlReflection(
+    xml: XmlReflection(
     xmlName: r'Tag',
 ),
     idPart: PropertyReflection<Tag, UndefinedWrapper<
@@ -24,17 +24,22 @@ class TagReflection extends ModelReflection<Tag> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_idGetter),
       setter: FunctionWrapper2(_idSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     namePart: PropertyReflection<Tag, UndefinedWrapper<
@@ -48,25 +53,35 @@ class TagReflection extends ModelReflection<Tag> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_nameGetter),
       setter: FunctionWrapper2(_nameSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -149,7 +164,7 @@ namePart,
   
 
   @override
-  List<AllOfReflection<Tag, dynamic>> get allOfs => [
+  List<AllOfReflection<Tag, Object>> get allOfs => [
     
   ];
 
@@ -161,6 +176,14 @@ namePart,
     return Tag(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is TagReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

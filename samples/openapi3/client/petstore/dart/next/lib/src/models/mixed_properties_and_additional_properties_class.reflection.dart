@@ -10,7 +10,7 @@ class MixedPropertiesAndAdditionalPropertiesClassReflection extends ModelReflect
   static const instance = MixedPropertiesAndAdditionalPropertiesClassReflection._(
     modelName: r'MixedPropertiesAndAdditionalPropertiesClass',
     className: r'MixedPropertiesAndAdditionalPropertiesClass',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     uuidPart: PropertyReflection<MixedPropertiesAndAdditionalPropertiesClass, UndefinedWrapper<
             String
@@ -23,17 +23,22 @@ class MixedPropertiesAndAdditionalPropertiesClassReflection extends ModelReflect
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_uuidGetter),
       setter: FunctionWrapper2(_uuidSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     dateTimePart: PropertyReflection<MixedPropertiesAndAdditionalPropertiesClass, UndefinedWrapper<
@@ -47,17 +52,22 @@ class MixedPropertiesAndAdditionalPropertiesClassReflection extends ModelReflect
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_dateTimeGetter),
       setter: FunctionWrapper2(_dateTimeSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forDateTime
         
+,
+)
 ),
     ),
     mapPart: PropertyReflection<MixedPropertiesAndAdditionalPropertiesClass, UndefinedWrapper<
@@ -74,18 +84,28 @@ class MixedPropertiesAndAdditionalPropertiesClassReflection extends ModelReflect
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_mapGetter),
       setter: FunctionWrapper2(_mapSetter),
-      reflection: UndefinedWrapperReflection(
-    MapReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    MapReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Animal.$reflection
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -93,8 +113,13 @@ class MixedPropertiesAndAdditionalPropertiesClassReflection extends ModelReflect
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -202,7 +227,7 @@ mapPart,
   
 
   @override
-  List<AllOfReflection<MixedPropertiesAndAdditionalPropertiesClass, dynamic>> get allOfs => [
+  List<AllOfReflection<MixedPropertiesAndAdditionalPropertiesClass, Object>> get allOfs => [
     
   ];
 
@@ -214,6 +239,14 @@ mapPart,
     return MixedPropertiesAndAdditionalPropertiesClass(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is MixedPropertiesAndAdditionalPropertiesClassReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

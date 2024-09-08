@@ -150,14 +150,24 @@ void main() {
                 "nice": "work",
             },
             
-array: 
-    ListReflection(
+array: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
+)
+,
 )
 .exampleFunction(exampleContext),
 
@@ -224,13 +234,18 @@ array:
                 "nice": "work",
             },
             
-stringNumber: 
+stringNumber: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.fordouble
         
+,
+)
 .exampleFunction(exampleContext),
 
         );
@@ -296,13 +311,18 @@ stringNumber:
                 "nice": "work",
             },
             
-acceptLanguage: UndefinedWrapperReflection(
+acceptLanguage: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ).exampleFunction(exampleContext),
 
         );

@@ -10,7 +10,7 @@ class ParentPetReflection extends ModelReflection<ParentPet> {
   static const instance = ParentPetReflection._(
     modelName: r'ParentPet',
     className: r'ParentPet',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     petTypePart: PropertyReflection<ParentPet, 
             String
@@ -23,17 +23,22 @@ class ParentPetReflection extends ModelReflection<ParentPet> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: true,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_petTypeGetter),
       setter: FunctionWrapper2(_petTypeSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     discriminatorKey: r'pet_type',
@@ -50,8 +55,13 @@ class ParentPetReflection extends ModelReflection<ParentPet> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -120,16 +130,16 @@ class ParentPetReflection extends ModelReflection<ParentPet> {
   
 
   @override
-  List<AllOfReflection<ParentPet, dynamic>> get allOfs => [
+  List<AllOfReflection<ParentPet, Object>> get allOfs => [
     allOfGrandparentAnimalPart,
   ];
 
   @override
-  List<OneOfReflection<ParentPet, dynamic>> get oneOfs => [
+  List<OneOfReflection<ParentPet, Object>> get oneOfs => [
     
   ];
   @override
-  List<AnyOfReflection<ParentPet, dynamic>> get anyOfs => [
+  List<AnyOfReflection<ParentPet, Object>> get anyOfs => [
     
   ];
 
@@ -141,6 +151,14 @@ class ParentPetReflection extends ModelReflection<ParentPet> {
       petType: petTypePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ParentPetReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

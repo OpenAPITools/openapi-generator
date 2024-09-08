@@ -1,6 +1,5 @@
 import 'package:{{pubName}}/_internal.dart';
 
-import 'dart:collection';
 import 'package:collection/collection.dart';
 
 extension type DiscriminatorKey(String key) {}
@@ -9,13 +8,15 @@ extension type DiscriminatorValue(String key) {}
 typedef AggregatedDiscriminatorsResult
     = Map<DiscriminatorKey, Map<DiscriminatorValue, ModelReflection>>;
 
-abstract class ModelReflection<T>
+abstract class ModelReflection<T extends Object>
     with
         HasXmlReflection,
         HasOasName,
         SerializationReflection<T>,
-        InheritanceBasedSerializationReflection<T> {
+        InheritanceBasedSerializationReflection<T>
+    implements Equality<T> {
   const ModelReflection();
+
   String get modelName;
 
   @override
@@ -26,10 +27,10 @@ abstract class ModelReflection<T>
   Map<String, ModelReflection> get discriminatorMappings;
   Map<String, ModelReflection> get discriminatorImplicitMappings;
 
-  AdditionalPropertiesPart<T, dynamic>? get additionalPropertiesPart => null;
-  List<OneOfReflection<T, dynamic>> get oneOfs => [];
-  List<AnyOfReflection<T, dynamic>> get anyOfs => [];
-  List<AllOfReflection<T, dynamic>> get allOfs => [];
+  AdditionalPropertiesPart<T, Object?>? get additionalPropertiesPart => null;
+  List<OneOfReflection<T, Object?>> get oneOfs => [];
+  List<AnyOfReflection<T, Object?>> get anyOfs => [];
+  List<AllOfReflection<T, Object>> get allOfs => [];
 
   ModelReflection? tryGetDiscriminatorModel(String? discriminatorValue) {
     if (discriminatorValue == null) {
@@ -69,15 +70,18 @@ abstract class ModelReflection<T>
             .map((key, value) => MapEntry(DiscriminatorValue(key), value)),
       );
     }
-    for (final OneOfReflection(reflection: UndefinedWrapperReflection(subReflection: classReflection))
-        in reflection.oneOfs) {
+    for (final OneOfReflection(
+          reflection: UndefinedWrapperReflection(subReflection: classReflection)
+        ) in reflection.oneOfs) {
       //TODO: this logic is WRONG, classReflection can be UndefinedWrapperReflection
       if (classReflection is! ModelReflection) {
         continue;
       }
       _aggregatedDiscriminators(classReflection, result);
     }
-    for (final AnyOfReflection(reflection: UndefinedWrapperReflection(subReflection: classReflection)) in reflection.anyOfs) {
+    for (final AnyOfReflection(
+          reflection: UndefinedWrapperReflection(subReflection: classReflection)
+        ) in reflection.anyOfs) {
       //TODO: this logic is WRONG, classReflection can be UndefinedWrapperReflection
       if (classReflection is! ModelReflection) {
         continue;
@@ -134,13 +138,14 @@ abstract class ModelReflection<T>
   Set<String> get knownKeys => aggregatedProperties.keys.toSet();
 
   T example([ExampleContext? context]) {
-    context ??= ExampleContext(discriminators:  aggregatedDiscriminators);
-    for (final MapEntry(key: propName, value: mappings) in context.discriminators.entries) {
+    context ??= ExampleContext(discriminators: aggregatedDiscriminators);
+    for (final MapEntry(key: propName, value: mappings)
+        in context.discriminators.entries) {
       if (context.discriminatorExampleResults.containsKey(propName)) {
         continue;
       }
-      final r =  context.exampleDiscriminator(mappings);
-      if (r != null){
+      final r = context.exampleDiscriminator(mappings);
+      if (r != null) {
         context.discriminatorExampleResults[propName] = r;
       }
     }
@@ -148,7 +153,8 @@ abstract class ModelReflection<T>
     final exampleResult = empty();
     for (var propPart in properties) {
       var propExample = propPart.reflection.exampleFunction(context);
-      final preSelectedResult = context.discriminatorExampleResults[propPart.oasName]?.key.key;
+      final preSelectedResult =
+          context.discriminatorExampleResults[propPart.oasName]?.key.key;
       if (preSelectedResult != null) {
         propExample = preSelectedResult;
       }
@@ -159,8 +165,10 @@ abstract class ModelReflection<T>
           setter: final additionalPropertiesPartSetter,
           reflection: final additionalPropertiesPartReflection,
         )) {
-      additionalPropertiesPartSetter(exampleResult,
-          additionalPropertiesPartReflection.exampleFunction(context),);
+      additionalPropertiesPartSetter(
+        exampleResult,
+        additionalPropertiesPartReflection.exampleFunction(context),
+      );
     }
     for (var element in [...oneOfs, ...anyOfs]) {
       element.setter(
@@ -189,7 +197,7 @@ abstract class ModelReflection<T>
             .firstOrNull;
         if (oneOfResult != null) {
           result = oneOfResult.reflection.serializeFunction(
-            oneOfResult.getter(instance).valueRequired,
+            oneOfResult.getter(instance),
             context,
           );
         }
@@ -201,7 +209,7 @@ abstract class ModelReflection<T>
           final serializedAnyOfs = anyOfResults
               .map(
                 (anyOf) => anyOf.reflection.serializeFunction!(
-                  anyOf.getter(instance).valueRequired,
+                  anyOf.getter(instance),
                   context,
                 ),
               )
@@ -284,7 +292,7 @@ abstract class ModelReflection<T>
             .firstOrNull;
         if (oneOfResult != null) {
           result = oneOfResult.reflection.serializeFunction!(
-            oneOfResult.getter(instance).valueRequired,
+            oneOfResult.getter(instance),
             context,
           ) as XmlNode?;
         }
@@ -296,7 +304,7 @@ abstract class ModelReflection<T>
           final serializedAnyOfs = anyOfResults
               .map(
                 (anyOf) => anyOf.reflection.serializeFunction!(
-                  anyOf.getter(instance).valueRequired,
+                  anyOf.getter(instance),
                   context,
                 ),
               )
@@ -320,32 +328,53 @@ abstract class ModelReflection<T>
             }
           }
         }
-        result ??= XmlElement(elementName, [], []);
+        result ??= XmlElement(
+          elementName,
+          [
+            XmlSerializationContext.xsiNamespaceAttribute.copy(),
+            XmlSerializationContext.xmlnsAttribute.copy()
+          ],
+          [],
+        );
         // 3. Handle properties
         if (result is XmlElement) {
+          final namespaceAttribute = xmlReflection.getXmlNamespaceAttribute();
+          if (namespaceAttribute != null) {
+            result.attributes.add(namespaceAttribute);
+          }
           final definedProps = reflection.properties.where(
             (x) => x.getter(instance) != UndefinedWrapper.$undefinedToken,
           );
           final serializedProps = Map.fromEntries(definedProps.map(
             (propPart) => MapEntry(
               propPart.oasName,
-              propPart.reflection.serializeFunction(
-                propPart.getter(instance),
-                context.withXmlAndOasNameContainer(propPart, propPart),
-              ) as XmlNode?,
+              context.handleAttributes(
+                propPart.xml,
+                context.wrapSerializedValue(
+                  propPart.xml.getQualifiedName(propPart.oasName),
+                  propPart.reflection.serializeFunction(
+                    propPart.getter(instance),
+                    context.withOasNameContainer(propPart),
+                  ),
+                ),
+              ),
             ),
           ));
 
           final attributesToAdd = Map.fromEntries(
-            serializedProps.entries.where(
-              (element) => element.value is XmlAttribute,
-            ),
-          ).cast<String, XmlAttribute>();
+            serializedProps.entries
+                .where(
+                  (element) => element.value is XmlAttribute,
+                )
+                .map(
+                  (e) => MapEntry(e.key, e.value as XmlAttribute),
+                ),
+          );
           final childrenToAdd = Map.fromEntries(
             serializedProps.entries.where(
-              (element) => element.value != null,
+              (element) => element.value is! XmlAttribute,
             ),
-          ).cast<String, XmlNode>();
+          );
 
           // Put additional properties last so that users can override any existing property value.
           final additionalPropertiesPart = reflection.additionalPropertiesPart;
@@ -360,31 +389,34 @@ abstract class ModelReflection<T>
                   .map(
                     (e) => MapEntry(
                       e.key,
-                      additionalPropertiesPart
-                          .itemReflection.serializeFunction!(
-                        e.value,
-                        context.withXmlAndOasNameContainer(
-                          additionalPropertiesPart,
-                          OasNameWrapper(oasName: e.key),
+                      context.handleAttributes(
+                        additionalPropertiesPart.xml,
+                        context.wrapSerializedValue(
+                          additionalPropertiesPart.xml.getQualifiedName(e.key),
+                          additionalPropertiesPart
+                              .itemReflection.serializeFunction!(
+                            e.value,
+                            context.withOasNameContainer(
+                              OasNameWrapper(oasName: e.key),
+                            ),
+                          ),
                         ),
-                      ) as XmlNode?,
+                      ),
                     ),
-                  )
-                  .where((e) => e.value != null),
-            ).cast<String, XmlNode>();
-            if (additionalPropertiesPart.xml.attribute) {
-              attributesToAdd.addAll(
-                Map.fromEntries(
-                  serializedAdditionalPropertiesEntries.entries
-                      .where((e) => e.value is XmlAttribute),
-                ).cast<String, XmlAttribute>(),
-              );
-            } else {
-              childrenToAdd.addAll(serializedAdditionalPropertiesEntries);
-            }
+                  ),
+            );
+            attributesToAdd.addEntries(
+              serializedAdditionalPropertiesEntries.entries
+                  .where((e) => e.value is XmlAttribute)
+                  .cast<MapEntry<String, XmlAttribute>>(),
+            );
+            childrenToAdd.addEntries(
+              serializedAdditionalPropertiesEntries.entries
+                  .where((e) => e.value is! XmlAttribute),
+            );
           }
-          result.children.addAll(childrenToAdd.values);
-          result.attributes.addAll(attributesToAdd.values);
+          result.children.addAll(childrenToAdd.values.map((e) => e.copy()));
+          result.attributes.addAll(attributesToAdd.values.map((e) => e.copy()));
         }
         return result;
       },
@@ -476,7 +508,7 @@ abstract class ModelReflection<T>
       },
       onXml: (context) {
         if (src is! XmlNode) {
-          throw UnimplementedError('Can only desesrialize xml nodes');
+          throw UnimplementedError('Can only deserialize xml nodes');
         }
         final result = reflection.empty();
         final discriminatorKey = reflection.discriminatorKey;
@@ -485,25 +517,8 @@ abstract class ModelReflection<T>
             : XmlName.fromString(discriminatorKey);
         XmlNode? discriminatorValue;
 
-        final srcMap = HashMap<XmlName, List<XmlNode>>(
-          equals: xmlNameEquals,
-          hashCode: xmlNameHashcode,
-        );
-        for (final child in src.children.followedBy(src.attributes)) {
-          if (child case XmlHasName namedChild) {
-            final nodes = srcMap[namedChild.name] ??= [];
-            nodes.add(child);
-          }
-        }
-        final srcNormalized = HashMap<XmlName, XmlNode>(
-          equals: xmlNameEquals,
-          hashCode: xmlNameHashcode,
-        )..addEntries(srcMap.entries.map(
-            (e) => MapEntry(
-              e.key,
-              context.normalizeNodes(e.value),
-            ),
-          ));
+        final srcNormalized = src.readNormalized();
+
         discriminatorValue =
             discriminatorName == null ? null : srcNormalized[discriminatorName];
         final discriminatedReflection =
@@ -511,7 +526,7 @@ abstract class ModelReflection<T>
 
         for (final property in reflection.properties) {
           final propertyName = property.xml.getQualifiedName(property.oasName);
-          final rawNode = srcNormalized.getOrUndefined(propertyName);
+          final rawNode = srcNormalized.getOrUndefined(propertyName.qualified);
           if (property.required && !rawNode.isDefined) {
             throwArgumentRequired(propertyName.qualified);
           }
@@ -528,11 +543,18 @@ abstract class ModelReflection<T>
               );
             }
           }
-          final propertyValue = property.reflection.deserializeFunction(
-            node,
-            context.withXmlAndOasNameContainer(property, property),
-          );
-          property.setter(result, propertyValue);
+          final propContext = context.withOasNameContainer(property);
+          if (property.reflection.canDeserializeFunction(node, propContext)) {
+            final propertyValue = property.reflection.deserializeFunction(
+              node,
+              propContext,
+            );
+            property.setter(result, propertyValue);
+          } else {
+            throw UnsupportedError(
+              'Not possible to deserialize the property ${property.oasName}',
+            );
+          }
         }
         final additionalPropertiesPart = reflection.additionalPropertiesPart;
         if (additionalPropertiesPart != null) {
@@ -541,10 +563,16 @@ abstract class ModelReflection<T>
           final knownKeys = reflection.properties
               .map((e) => e.xml.getQualifiedName(e.oasName))
               .toSet();
-          for (final MapEntry(:key, value: node) in srcNormalized.entries) {
-            if (knownKeys.contains(key)) {
+          for (final MapEntry(key: keyRaw, value: node)
+              in srcNormalized.entries) {
+            if (keyRaw == null) {
               continue;
             }
+            if (knownKeys.contains(keyRaw)) {
+              continue;
+            }
+            final key = XmlName.fromString(keyRaw);
+
             if (key.prefix != additionalPropertiesPart.xml.prefix) {
               continue;
             }
@@ -557,10 +585,9 @@ abstract class ModelReflection<T>
             }
 
             additionalProperties[key.local] =
-                additionalPropertiesPart.reflection.deserializeFunction!(
+                additionalPropertiesPart.itemReflection.deserializeFunction!(
               node,
-              context.withXmlAndOasNameContainer(
-                additionalPropertiesPart,
+              context.withOasNameContainer(
                 OasNameWrapper(oasName: key.local),
               ),
             );
@@ -637,12 +664,15 @@ abstract class ModelReflection<T>
               return false;
             }
           }
-          if (reflection.additionalPropertiesPart != null &&
-              !src.except(reflection.knownKeys).values.every(
-                    (v) => reflection.additionalPropertiesPart!.reflection
-                        .canDeserializeFunction!(v, context),
-                  )) {
-            return false;
+          if (reflection.additionalPropertiesPart != null) {
+            final additionalProps = src.except(reflection.knownKeys);
+            final badEntries = additionalProps.entries.where(
+              (e) => !reflection.additionalPropertiesPart!.itemReflection
+                  .canDeserializeFunction!(e.value, context),
+            );
+            if (badEntries.isNotEmpty) {
+              return false;
+            }
           }
         } else {
           if (reflection.properties.any((e) => e.required)) {
@@ -677,6 +707,7 @@ abstract class ModelReflection<T>
         if (src is! XmlNode) {
           return false;
         }
+
         final discriminatorKey = reflection.discriminatorKey;
         final discriminatorName = discriminatorKey == null
             ? null
@@ -685,32 +716,15 @@ abstract class ModelReflection<T>
         // step 1: prepare the src object by grouping it into a srcMap where the key
         // is the fully qualified name of the node and the value is a list of nodes
         // or attributes with the same name.
-        final srcMap = HashMap<XmlName, List<XmlNode>>(
-          equals: xmlNameEquals,
-          hashCode: xmlNameHashcode,
-        );
-        for (final child in src.children.followedBy(src.attributes)) {
-          if (child case XmlHasName namedChild) {
-            final nodes = srcMap[namedChild.name] ??= [];
-            nodes.add(child);
-          }
-        }
-        final srcNormalized = HashMap<XmlName, XmlNode>(
-          equals: xmlNameEquals,
-          hashCode: xmlNameHashcode,
-        )..addEntries(srcMap.entries.map(
-            (e) => MapEntry(
-              e.key,
-              context.normalizeNodes(e.value),
-            ),
-          ));
-        discriminatorValue =
-            discriminatorName == null ? null : srcNormalized[discriminatorName];
+        final srcNormalized = src.readNormalized();
+        discriminatorValue = discriminatorName == null
+            ? null
+            : srcNormalized[discriminatorName.qualified];
         final discriminatedReflection =
             reflection.tryGetDiscriminatorModel(discriminatorValue?.value);
         for (final property in reflection.properties) {
           final propertyName = property.xml.getQualifiedName(property.oasName);
-          final rawNode = srcNormalized.getOrUndefined(propertyName);
+          final rawNode = srcNormalized.getOrUndefined(propertyName.qualified);
           if (property.required && !rawNode.isDefined) {
             return false;
           }
@@ -727,7 +741,7 @@ abstract class ModelReflection<T>
           }
           if (!property.reflection.canDeserializeFunction(
             node,
-            context.withXmlAndOasNameContainer(property, property),
+            context.withOasNameContainer(property),
           )) {
             return false;
           }
@@ -735,12 +749,17 @@ abstract class ModelReflection<T>
         final additionalPropertiesPart = reflection.additionalPropertiesPart;
         if (additionalPropertiesPart != null) {
           final knownKeys = reflection.properties
-              .map((e) => e.xml.getQualifiedName(e.oasName))
+              .map((e) => e.xml.getQualifiedName(e.oasName).qualified)
               .toSet();
-          for (final MapEntry(:key, value: node) in srcNormalized.entries) {
-            if (knownKeys.contains(key)) {
+          for (final MapEntry(key: keyRaw, value: node)
+              in srcNormalized.entries) {
+            if (keyRaw == null) {
               continue;
             }
+            if (knownKeys.contains(keyRaw)) {
+              continue;
+            }
+            final key = XmlName.fromString(keyRaw);
 
             if (key.prefix != additionalPropertiesPart.xml.prefix) {
               continue;
@@ -756,8 +775,7 @@ abstract class ModelReflection<T>
             if (!additionalPropertiesPart
                 .itemReflection.canDeserializeFunction!(
               node,
-              context.withXmlAndOasNameContainer(
-                additionalPropertiesPart,
+              context.withOasNameContainer(
                 OasNameWrapper(oasName: key.local),
               ),
             )) {
@@ -789,9 +807,111 @@ abstract class ModelReflection<T>
       },
     );
   }
+
+  @override
+  int hash(T e) {
+    const propEq = MapEquality(
+      keys: const StrictEquality<String>(),
+      values: const StrictEquality<int>(),
+    );
+
+    final toHash = <String, int>{};
+
+    toHash.addEntries(properties.map(
+      (prop) =>
+          MapEntry(prop.oasName, prop.reflection.equality.hash(prop.getter(e))),
+    ));
+
+    int additionalPropsHash = 0;
+    final additionalPropertiesPart = this.additionalPropertiesPart;
+    if (additionalPropertiesPart != null) {
+      final additionalProps = additionalPropertiesPart.getter(e);
+      additionalPropsHash =
+          additionalPropertiesPart.reflection.equality.hash(additionalProps);
+    }
+
+    final oneOfsHash = Object.hashAll(
+      this.oneOfs.map((o) => o.reflection.equality.hash(o.getter(e))),
+    );
+    final anyOfsHash = Object.hashAll(
+      this.anyOfs.map((o) => o.reflection.equality.hash(o.getter(e))),
+    );
+    return Object.hash(
+      // include model name in the hash
+      this.oasName,
+      propEq.hash(toHash),
+      additionalPropsHash,
+      oneOfsHash,
+      anyOfsHash,
+    );
+  }
+
+  @override
+  bool equals(T e1, T e2) {
+    for (final prop in properties) {
+      final e1Value = prop.getter(e1);
+      final e2Value = prop.getter(e2);
+      final eq = prop.reflection.equality;
+      if (!eq.equals(e1Value, e2Value)) {
+        return false;
+      }
+    }
+    final additionalPropertiesPart = this.additionalPropertiesPart;
+    if (additionalPropertiesPart != null) {
+      final e1Additional = additionalPropertiesPart.getter(e1);
+      final e2Additional = additionalPropertiesPart.getter(e2);
+      if (!additionalPropertiesPart.reflection.equality
+          .equals(e1Additional, e2Additional)) {
+        return false;
+      }
+    }
+    for (var oneof in oneOfs) {
+      final e1Value = oneof.getter(e1);
+      final e2Value = oneof.getter(e2);
+      if (!oneof.reflection.equality.equals(e1Value, e2Value)) {
+        return false;
+      }
+    }
+    for (var anyof in anyOfs) {
+      final e1Value = anyof.getter(e1);
+      final e2Value = anyof.getter(e2);
+      if (!anyof.reflection.equality.equals(e1Value, e2Value)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  @override
+  bool isValidKey(Object? o) {
+    return o is T;
+  }
+
+  @override
+  T clone(T src) {
+    final res = empty();
+    for (var props in properties) {
+      props.setter(res, props.reflection.cloneFunction(props.getter(src)));
+    }
+    for (var oneOf in oneOfs) {
+      oneOf.setter(res, oneOf.reflection.cloneFunction(oneOf.getter(src)));
+    }
+    for (var anyOf in anyOfs) {
+      anyOf.setter(res, anyOf.reflection.cloneFunction(anyOf.getter(src)));
+    }
+    final additionalPropertiesPart = this.additionalPropertiesPart;
+    if (additionalPropertiesPart != null) {
+      additionalPropertiesPart.setter(
+        res,
+        additionalPropertiesPart.reflection
+            .cloneFunction(additionalPropertiesPart.getter(src)),
+      );
+    }
+    return res;
+  }
 }
 
-mixin PartReflectionMixin<TParent, T> {
+mixin PartReflectionMixin<TParent extends Object, T> {
   SerializationReflection<T> get reflection;
   ModelReflection<TParent> Function() get parentReflectionGetter;
 
@@ -799,7 +919,8 @@ mixin PartReflectionMixin<TParent, T> {
   FunctionWrapper2<void, TParent, T> get setter;
 }
 
-abstract class PartReflection<TParent, T> with PartReflectionMixin<TParent, T> {
+abstract class PartReflection<TParent extends Object, T>
+    with PartReflectionMixin<TParent, T> {
   const PartReflection({
     required this.parentReflectionGetter,
   });
@@ -807,23 +928,8 @@ abstract class PartReflection<TParent, T> with PartReflectionMixin<TParent, T> {
   final ModelReflection<TParent> Function() parentReflectionGetter;
 }
 
-// class ItemsReflection<TParent, T> extends PartReflection<TParent, T>
-//     with HasXmlReflection {
-//   const ItemsReflection({
-//     // super.deserializeFunction,
-//     // super.serializeFunction,
-//     // super.canDeserializeFunction,
-//     super.reflection,
-//     super.parentReflectionGetter,
-//     // super.itemsReflection,
-//     this.xml = const XmlReflection(),
-//   });
-//   @override
-//   final XmlReflection xml;
-// }
-
-class PropertyReflection<TParent, T> extends PartReflection<TParent, T>
-    with HasXmlReflection, HasOasName {
+class PropertyReflection<TParent extends Object, T>
+    extends PartReflection<TParent, T> with HasXmlReflection, HasOasName {
   const PropertyReflection({
     required this.dartName,
     required this.oasName,
@@ -861,7 +967,7 @@ class PropertyReflection<TParent, T> extends PartReflection<TParent, T>
   final bool isDiscriminator;
 }
 
-class AdditionalPropertiesPart<TParent, T>
+class AdditionalPropertiesPart<TParent extends Object, T>
     extends PartReflection<TParent, Map<String, T>> with HasXmlReflection {
   const AdditionalPropertiesPart({
     required this.getter,
@@ -884,7 +990,8 @@ class AdditionalPropertiesPart<TParent, T>
   final FunctionWrapper2<void, TParent, AdditionalProperties<T>> setter;
 }
 
-abstract class OneOfReflection<TParent, T> extends PartReflection<TParent, UndefinedWrapper<T>> {
+abstract class OneOfReflection<TParent extends Object, T>
+    extends PartReflection<TParent, UndefinedWrapper<T>> {
   const OneOfReflection({
     required super.parentReflectionGetter,
   });
@@ -893,7 +1000,8 @@ abstract class OneOfReflection<TParent, T> extends PartReflection<TParent, Undef
   UndefinedWrapperReflection<T> get reflection;
 }
 
-abstract class AnyOfReflection<TParent, T> extends PartReflection<TParent, UndefinedWrapper<T>> {
+abstract class AnyOfReflection<TParent extends Object, T>
+    extends PartReflection<TParent, UndefinedWrapper<T>> {
   const AnyOfReflection({
     required super.parentReflectionGetter,
   });
@@ -902,7 +1010,7 @@ abstract class AnyOfReflection<TParent, T> extends PartReflection<TParent, Undef
   UndefinedWrapperReflection<T> get reflection;
 }
 
-class AllOfReflection<TParent extends T, T>
+class AllOfReflection<TParent extends T, T extends Object>
     with PartReflectionMixin<TParent, T> {
   const AllOfReflection({
     required this.parentReflectionGetter,

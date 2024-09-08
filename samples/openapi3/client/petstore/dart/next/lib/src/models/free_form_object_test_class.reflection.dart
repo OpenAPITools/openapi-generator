@@ -10,7 +10,7 @@ class FreeFormObjectTestClassReflection extends ModelReflection<FreeFormObjectTe
   static const instance = FreeFormObjectTestClassReflection._(
     modelName: r'FreeFormObjectTestClass',
     className: r'FreeFormObjectTestClass',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     namePart: PropertyReflection<FreeFormObjectTestClass, UndefinedWrapper<
             String
@@ -23,17 +23,22 @@ class FreeFormObjectTestClassReflection extends ModelReflection<FreeFormObjectTe
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_nameGetter),
       setter: FunctionWrapper2(_nameSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     propertiesPart: PropertyReflection<FreeFormObjectTestClass, UndefinedWrapper<
@@ -47,25 +52,35 @@ class FreeFormObjectTestClassReflection extends ModelReflection<FreeFormObjectTe
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_propertiesGetter),
       setter: FunctionWrapper2(_propertiesSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 FreeFormObjectTestClassProperties.$reflection
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -148,7 +163,7 @@ propertiesPart,
   
 
   @override
-  List<AllOfReflection<FreeFormObjectTestClass, dynamic>> get allOfs => [
+  List<AllOfReflection<FreeFormObjectTestClass, Object>> get allOfs => [
     
   ];
 
@@ -160,6 +175,14 @@ propertiesPart,
     return FreeFormObjectTestClass(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FreeFormObjectTestClassReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

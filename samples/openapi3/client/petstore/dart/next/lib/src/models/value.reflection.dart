@@ -10,7 +10,7 @@ class ValueReflection extends ModelReflection<Value> {
   static const instance = ValueReflection._(
     modelName: r'Value',
     className: r'Value',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     
     
@@ -24,8 +24,13 @@ class ValueReflection extends ModelReflection<Value> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -84,16 +89,16 @@ class ValueReflection extends ModelReflection<Value> {
   
 
   @override
-  List<AllOfReflection<Value, dynamic>> get allOfs => [
+  List<AllOfReflection<Value, Object>> get allOfs => [
     
   ];
 
   @override
-  List<OneOfReflection<Value, dynamic>> get oneOfs => [
+  List<OneOfReflection<Value, Object>> get oneOfs => [
     oneOf0Part,oneOf1Part,
   ];
   @override
-  List<AnyOfReflection<Value, dynamic>> get anyOfs => [
+  List<AnyOfReflection<Value, Object>> get anyOfs => [
     
   ];
 
@@ -104,6 +109,14 @@ class ValueReflection extends ModelReflection<Value> {
     return Value(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ValueReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 
@@ -138,12 +151,18 @@ static void _setter(Value src, UndefinedWrapper<
 UndefinedWrapperReflection<
             Scalar
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Scalar.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<
@@ -220,14 +239,25 @@ UndefinedWrapperReflection<
             Scalar
 >
 > get reflection => UndefinedWrapperReflection(
-    ListReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Scalar.$reflection
         
+,
 )
+)
+
+  ),
 );
 
   UndefinedWrapper<

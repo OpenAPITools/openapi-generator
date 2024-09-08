@@ -10,7 +10,7 @@ class FreeFormObjectTestClassPropertiesReflection extends ModelReflection<FreeFo
   static const instance = FreeFormObjectTestClassPropertiesReflection._(
     modelName: r'FreeFormObjectTestClass_properties',
     className: r'FreeFormObjectTestClassProperties',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     
     
@@ -24,8 +24,13 @@ class FreeFormObjectTestClassPropertiesReflection extends ModelReflection<FreeFo
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -84,16 +89,16 @@ class FreeFormObjectTestClassPropertiesReflection extends ModelReflection<FreeFo
   
 
   @override
-  List<AllOfReflection<FreeFormObjectTestClassProperties, dynamic>> get allOfs => [
+  List<AllOfReflection<FreeFormObjectTestClassProperties, Object>> get allOfs => [
     
   ];
 
   @override
-  List<OneOfReflection<FreeFormObjectTestClassProperties, dynamic>> get oneOfs => [
+  List<OneOfReflection<FreeFormObjectTestClassProperties, Object>> get oneOfs => [
     oneOf0Part,oneOf1Part,
   ];
   @override
-  List<AnyOfReflection<FreeFormObjectTestClassProperties, dynamic>> get anyOfs => [
+  List<AnyOfReflection<FreeFormObjectTestClassProperties, Object>> get anyOfs => [
     
   ];
 
@@ -104,6 +109,14 @@ class FreeFormObjectTestClassPropertiesReflection extends ModelReflection<FreeFo
     return FreeFormObjectTestClassProperties(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FreeFormObjectTestClassPropertiesReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 
@@ -138,12 +151,18 @@ static void _setter(FreeFormObjectTestClassProperties src, UndefinedWrapper<
 UndefinedWrapperReflection<
             String
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+
+  ),
 );
 
   UndefinedWrapper<
@@ -214,8 +233,19 @@ UndefinedWrapperReflection<
         Object
 ?>
 > get reflection => UndefinedWrapperReflection(
-    MapReflection(NullableReflection(ObjectReflection()
-))
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    MapReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(ObjectReflection()
+),
+)
+)
+
+  ),
 );
 
   UndefinedWrapper<

@@ -1,1 +1,4 @@
-{{#isNullable}}NullableReflection({{/isNullable}}{{>types/reflection_recursive_nonnullable}}{{#isNullable}}){{/isNullable}}
+XmlReflectionWrapper(
+    xml: {{>types/xml}},
+    {{#isNullable}}NullableReflection({{/isNullable}}{{>types/reflection_recursive_nonnullable}}{{#isNullable}}){{/isNullable}},
+)

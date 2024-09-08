@@ -10,7 +10,7 @@ class PetCompositionReflection extends ModelReflection<PetComposition> {
   static const instance = PetCompositionReflection._(
     modelName: r'PetComposition',
     className: r'PetComposition',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     photoUrlsPart: PropertyReflection<PetComposition, 
     List<
@@ -26,20 +26,32 @@ class PetCompositionReflection extends ModelReflection<PetComposition> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     xmlName: r'photoUrl',
     wrapped: true,
 ),
       getter: FunctionWrapper1(_photoUrlsGetter),
       setter: FunctionWrapper2(_photoUrlsSetter),
-      reflection: 
-    ListReflection(
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'photoUrl',
+    wrapped: true,
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
+)
+,
 )
 ,
     ),
@@ -54,17 +66,22 @@ class PetCompositionReflection extends ModelReflection<PetComposition> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_nameGetter),
       setter: FunctionWrapper2(_nameSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     idPart: PropertyReflection<PetComposition, UndefinedWrapper<
@@ -78,17 +95,22 @@ class PetCompositionReflection extends ModelReflection<PetComposition> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_idGetter),
       setter: FunctionWrapper2(_idSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     categoryPart: PropertyReflection<PetComposition, UndefinedWrapper<
@@ -102,18 +124,24 @@ class PetCompositionReflection extends ModelReflection<PetComposition> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     xmlName: r'Category',
 ),
       getter: FunctionWrapper1(_categoryGetter),
       setter: FunctionWrapper2(_categorySetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Category',
+),
+    
             
         
         
             
                 Category.$reflection
         
+,
+)
 ),
     ),
     tagsPart: PropertyReflection<PetComposition, UndefinedWrapper<
@@ -130,20 +158,33 @@ class PetCompositionReflection extends ModelReflection<PetComposition> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
     xmlName: r'tag',
     wrapped: true,
 ),
       getter: FunctionWrapper1(_tagsGetter),
       setter: FunctionWrapper2(_tagsSetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'tag',
+    wrapped: true,
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Tag',
+),
+    
             
         
         
             
                 Tag.$reflection
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -158,14 +199,19 @@ class PetCompositionReflection extends ModelReflection<PetComposition> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_statusGetter),
       setter: FunctionWrapper2(_statusSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             PetStatusEnum.$reflection
         
         
+,
+)
 ),
     ),
     allOfPetPart: AllOfReflection(
@@ -176,8 +222,13 @@ class PetCompositionReflection extends ModelReflection<PetComposition> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -344,16 +395,16 @@ statusPart,
   
 
   @override
-  List<AllOfReflection<PetComposition, dynamic>> get allOfs => [
+  List<AllOfReflection<PetComposition, Object>> get allOfs => [
     allOfPetPart,
   ];
 
   @override
-  List<OneOfReflection<PetComposition, dynamic>> get oneOfs => [
+  List<OneOfReflection<PetComposition, Object>> get oneOfs => [
     
   ];
   @override
-  List<AnyOfReflection<PetComposition, dynamic>> get anyOfs => [
+  List<AnyOfReflection<PetComposition, Object>> get anyOfs => [
     
   ];
 
@@ -366,6 +417,14 @@ statusPart,
       name: namePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is PetCompositionReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

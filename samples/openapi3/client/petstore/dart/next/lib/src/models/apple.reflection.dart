@@ -10,7 +10,7 @@ class AppleReflection extends ModelReflection<Apple> {
   static const instance = AppleReflection._(
     modelName: r'apple',
     className: r'Apple',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     cultivarPart: PropertyReflection<Apple, UndefinedWrapper<
             String
@@ -23,17 +23,22 @@ class AppleReflection extends ModelReflection<Apple> {
       pattern: r'/^[a-zA-Z\\s]*$/',
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_cultivarGetter),
       setter: FunctionWrapper2(_cultivarSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     originPart: PropertyReflection<Apple, UndefinedWrapper<
@@ -47,25 +52,35 @@ class AppleReflection extends ModelReflection<Apple> {
       pattern: r'/^[A-Z\\s]*$/i',
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_originGetter),
       setter: FunctionWrapper2(_originSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -148,7 +163,7 @@ originPart,
   
 
   @override
-  List<AllOfReflection<Apple, dynamic>> get allOfs => [
+  List<AllOfReflection<Apple, Object>> get allOfs => [
     
   ];
 
@@ -160,6 +175,14 @@ originPart,
     return Apple(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is AppleReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

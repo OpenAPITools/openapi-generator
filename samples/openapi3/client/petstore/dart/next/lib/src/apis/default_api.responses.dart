@@ -114,13 +114,18 @@ class DefaultApiFakeAnyOfWIthSameErasureGetResponse200ApplicationJson extends De
             FakeAnyOfWIthSameErasureGet200Response
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 FakeAnyOfWIthSameErasureGet200Response.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling jsonDecode
@@ -294,13 +299,18 @@ class DefaultApiFakeOneOfWIthSameErasureGetResponse200ApplicationJson extends De
             FakeOneOfWIthSameErasureGet200Response
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 FakeOneOfWIthSameErasureGet200Response.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling jsonDecode
@@ -474,13 +484,18 @@ class DefaultApiFooGetResponseDefaultApplicationJson extends DefaultApiFooGetRes
             FooGetDefaultResponse
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 FooGetDefaultResponse.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling jsonDecode
@@ -696,13 +711,18 @@ class DefaultApiPetsMulticontentTestPostResponse200TextPlain extends DefaultApiP
             int
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ;
 
   /// The raw result of decoding bytes to text.
@@ -774,8 +794,13 @@ class DefaultApiPetsMulticontentTestPostResponse200AnyAny extends DefaultApiPets
   final UndefinedWrapper<Object
 ?> body;
 
-  static const bodyReflection = NullableReflection(ObjectReflection()
-);
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(ObjectReflection()
+),
+)
+;
 
 
   DefaultApiPetsMulticontentTestPostResponse200AnyAny({
@@ -819,13 +844,18 @@ class DefaultApiPetsMulticontentTestPostResponse200TextAny extends DefaultApiPet
             String
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ;
 
   /// The raw result of decoding bytes to text.
@@ -898,13 +928,18 @@ class DefaultApiPetsMulticontentTestPostResponse200MultipartFormData extends Def
             PetsMulticontentTestPostRequest
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PetsMulticontentTestPostRequest.$reflection
         
+,
+)
 ;
 
 
@@ -1031,13 +1066,19 @@ class DefaultApiPetsMulticontentTestPostResponse201ApplicationJson extends Defau
             Pet
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Pet',
+),
+    
             
         
         
             
                 Pet.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling jsonDecode
@@ -1110,13 +1151,18 @@ class DefaultApiPetsMulticontentTestPostResponse201ApplicationXml extends Defaul
             NewPet
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 NewPet.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling XmlDocumentFragment.parse
@@ -1177,13 +1223,18 @@ class DefaultApiPetsMulticontentTestPostResponse201ApplicationXWwwFormUrlencoded
             Triangle
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Triangle.$reflection
         
+,
+)
 ;
 
   final Map<String, dynamic>? rawQueryParameters;
@@ -1346,13 +1397,19 @@ class DefaultApiPetsMulticontentTestPostResponse2XXApplicationJson extends Defau
             Pet
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Pet',
+),
+    
             
         
         
             
                 Pet.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling jsonDecode
@@ -1391,29 +1448,44 @@ class DefaultApiPetsMulticontentTestPostResponse2XXApplicationJson extends Defau
             reasonPhrase: response.reasonPhrase,
             userContext: userContext,
             body: UndefinedWrapper(res),
-            xRateLimit: UndefinedWrapperReflection(
+            xRateLimit: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ).deserializeFunction(response.headers.getOrUndefined(r'X-Rate-Limit')),
-xRateLimitRemaining: UndefinedWrapperReflection(
+xRateLimitRemaining: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ).deserializeFunction(response.headers.getOrUndefined(r'X-RateLimit-Remaining')),
-xRateLimitReset: UndefinedWrapperReflection(
+xRateLimitReset: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forDateTime
         
+,
+)
 ).deserializeFunction(response.headers.getOrUndefined(r'X-RateLimit-Reset')),
 
           );
@@ -1425,29 +1497,44 @@ xRateLimitReset: UndefinedWrapperReflection(
             reasonPhrase: response.reasonPhrase,
             userContext: userContext,
             rawJson: v,
-            xRateLimit: UndefinedWrapperReflection(
+            xRateLimit: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ).deserializeFunction(response.headers.getOrUndefined(r'X-Rate-Limit')),
-xRateLimitRemaining: UndefinedWrapperReflection(
+xRateLimitRemaining: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ).deserializeFunction(response.headers.getOrUndefined(r'X-RateLimit-Remaining')),
-xRateLimitReset: UndefinedWrapperReflection(
+xRateLimitReset: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forDateTime
         
+,
+)
 ).deserializeFunction(response.headers.getOrUndefined(r'X-RateLimit-Reset')),
 
           );
@@ -1460,29 +1547,44 @@ xRateLimitReset: UndefinedWrapperReflection(
       reasonPhrase: response.reasonPhrase,
       userContext: userContext,
       bodyBytesStream: response.bodyBytesStream,
-      xRateLimit: UndefinedWrapperReflection(
+      xRateLimit: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ).deserializeFunction(response.headers.getOrUndefined(r'X-Rate-Limit')),
-xRateLimitRemaining: UndefinedWrapperReflection(
+xRateLimitRemaining: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ).deserializeFunction(response.headers.getOrUndefined(r'X-RateLimit-Remaining')),
-xRateLimitReset: UndefinedWrapperReflection(
+xRateLimitReset: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forDateTime
         
+,
+)
 ).deserializeFunction(response.headers.getOrUndefined(r'X-RateLimit-Reset')),
 
     );
@@ -1561,13 +1663,19 @@ class DefaultApiPetsMulticontentTestPostResponseDefaultApplicationJson extends D
             Pet
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Pet',
+),
+    
             
         
         
             
                 Pet.$reflection
         
+,
+)
 ;
 
   /// The raw result of calling jsonDecode
@@ -1640,13 +1748,18 @@ class DefaultApiPetsMulticontentTestPostResponseDefaultApplicationXWwwFormUrlenc
             Triangle
 > body;
 
-  static const bodyReflection = 
+  static const bodyReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Triangle.$reflection
         
+,
+)
 ;
 
   final Map<String, dynamic>? rawQueryParameters;

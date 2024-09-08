@@ -10,7 +10,7 @@ class ModelWithOneOfAnyOfPropertiesReflection extends ModelReflection<ModelWithO
   static const instance = ModelWithOneOfAnyOfPropertiesReflection._(
     modelName: r'ModelWithOneOfAnyOfProperties',
     className: r'ModelWithOneOfAnyOfProperties',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     oneofPropPart: PropertyReflection<ModelWithOneOfAnyOfProperties, UndefinedWrapper<
             ArrayOneOf
@@ -23,17 +23,22 @@ class ModelWithOneOfAnyOfPropertiesReflection extends ModelReflection<ModelWithO
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_oneofPropGetter),
       setter: FunctionWrapper2(_oneofPropSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 ArrayOneOf.$reflection
         
+,
+)
 ),
     ),
     anyofPropPart: PropertyReflection<ModelWithOneOfAnyOfProperties, UndefinedWrapper<
@@ -47,25 +52,35 @@ class ModelWithOneOfAnyOfPropertiesReflection extends ModelReflection<ModelWithO
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_anyofPropGetter),
       setter: FunctionWrapper2(_anyofPropSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 ArrayAnyOf.$reflection
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -148,7 +163,7 @@ anyofPropPart,
   
 
   @override
-  List<AllOfReflection<ModelWithOneOfAnyOfProperties, dynamic>> get allOfs => [
+  List<AllOfReflection<ModelWithOneOfAnyOfProperties, Object>> get allOfs => [
     
   ];
 
@@ -160,6 +175,14 @@ anyofPropPart,
     return ModelWithOneOfAnyOfProperties(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ModelWithOneOfAnyOfPropertiesReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

@@ -145,16 +145,20 @@ required  this.photoUrls     ,
     return super.validate();
   }
 
-  factory NewPet.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  factory NewPet.deserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.deserialize(src, context);
   }
 
-  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.canDeserialize(src, context);
   }
 
-  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+  Object? serialize([SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.serialize(this, context);
+  }
+
+  NewPet clone() {
+    return $reflection.clone(this);
   }
 }
 
@@ -181,7 +185,7 @@ required  this.photoUrls     ,
 
 
 
-extension type const NewPetStatusEnum._(String value) {
+extension type const NewPetStatusEnum._(String value) implements String {
   /// pet status in the store
       const NewPetStatusEnum.available() : this._(r'available');
   /// pet status in the store

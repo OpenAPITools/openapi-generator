@@ -51,7 +51,8 @@ class WireSerializationOptions {
   /// to stringify the value.
   final AppendFormDataPartHandler appendUnkownFormDataPart;
 
-  WireSerializationOptions withEncodingRules(Map<String, PropertyEncodingRule> rules) {
+  WireSerializationOptions withEncodingRules(
+      Map<String, PropertyEncodingRule> rules) {
     return copyWith(encodingRules: rules);
   }
 
@@ -63,7 +64,8 @@ class WireSerializationOptions {
     bool Function(MediaType mediaType)? isFormUrlEncoded,
     bool Function(MediaType mediaType)? isMultiPart,
     bool Function(MediaType mediaType)? isMultiPartFormData,
-    bool Function(MediaType mediaType, WireSerializationOptions options)? isTextBased,
+    bool Function(MediaType mediaType, WireSerializationOptions options)?
+        isTextBased,
     AppendPartHandler? appendUnkownPart = defaultAppendPart,
     AppendFormDataPartHandler? appendUnkownFormDataPart,
   }) {
@@ -77,7 +79,8 @@ class WireSerializationOptions {
       isMultiPartFormData: isMultiPartFormData ?? this.isMultiPartFormData,
       isTextBased: isTextBased ?? this.isTextBased,
       appendUnkownPart: appendUnkownPart ?? this.appendUnkownPart,
-      appendUnkownFormDataPart: appendUnkownFormDataPart ?? this.appendUnkownFormDataPart,
+      appendUnkownFormDataPart:
+          appendUnkownFormDataPart ?? this.appendUnkownFormDataPart,
     );
   }
 
@@ -85,8 +88,7 @@ class WireSerializationOptions {
     if (isXml(mediaType)) {
       return SerializationContext.xml();
     }
-    // in non-json media types (e.g. multipart) don't throw when unknown values are encountered.
-    return SerializationContext.json(serializeUnknownValue: isJson(mediaType) ? null : (value) => value);
+    return SerializationContext.json();
   }
 
   /// True if the entire message can be represented textually.
@@ -136,8 +138,6 @@ class WireSerializationOptions {
     return mediaType.type == 'multipart' && mediaType.subtype == 'form-data';
   }
 
-
-
   Stream<List<int>> getBodyFromSerialized({
     required Map<String, String> headers,
     required Object? serialized,
@@ -162,40 +162,45 @@ class WireSerializationOptions {
         yield* _stringResult(serialized.toString());
         return;
       }
-      yield* _stringResult(OASNetworkingUtils.formUrlEncoded(serialized, encodingRules));
+      yield* _stringResult(
+          OASNetworkingUtils.formUrlEncoded(serialized, encodingRules));
     } else if (isMultiPart(resolvedMediaType)) {
       if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
+        throw ArgumentError(
+            'The serialized data must be a map in a multipart request.');
+      }
 
-        Stream<HttpPacketMixin> getParts() async* {
-          if (isMultiPartFormData(resolvedMediaType)) {
-            for (final e in serialized.entries) {
-              final fieldName = e.key;
-              final rule = encodingRules[e.key];
-              final value = e.value;
-              final contentType = rule?.contentType;
-              final headers = rule?.headers;
-              yield* appendFormDataValue(fieldName, value, contentType, headers, unkownHandler: appendUnkownFormDataPart);
-            }
-          } else {
-            for (final e in serialized.entries) {
-              final key = e.key;
-              final value = e.value;
-              final rule = encodingRules[key];
-              final contentType = rule?.contentType;
-              final headers = rule?.headers;
-              //key is meaningless here
-              yield* appendPartValue(value, contentType, headers, unkownHandler: appendUnkownPart);
-            }
+      Stream<HttpPacketMixin> getParts() async* {
+        if (isMultiPartFormData(resolvedMediaType)) {
+          for (final e in serialized.entries) {
+            final fieldName = e.key;
+            final rule = encodingRules[e.key];
+            final value = e.value;
+            final contentType = rule?.contentType;
+            final headers = rule?.headers;
+            yield* appendFormDataValue(fieldName, value, contentType, headers,
+                unkownHandler: appendUnkownFormDataPart);
+          }
+        } else {
+          for (final e in serialized.entries) {
+            final key = e.key;
+            final value = e.value;
+            final rule = encodingRules[key];
+            final contentType = rule?.contentType;
+            final headers = rule?.headers;
+            //key is meaningless here
+            yield* appendPartValue(value, contentType, headers,
+                unkownHandler: appendUnkownPart);
           }
         }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: getParts(),
-        );
-        final result = await bodySerializer.serialize();
-        yield* result.bodyBytesStream;
+      }
+
+      final bodySerializer = MultiPartBodySerializer(
+        boundary: resolvedMediaType.parameters['boundary'],
+        parts: getParts(),
+      );
+      final result = await bodySerializer.serialize();
+      yield* result.bodyBytesStream;
     } else {
       if (serialized is Stream<List<int>>) {
         yield* serialized;
@@ -211,7 +216,8 @@ class WireSerializationOptions {
       }
       final handleUnkownMediaType = this.handleUnkownMediaType;
       if (handleUnkownMediaType != null) {
-        yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+        yield* handleUnkownMediaType(
+            resolvedMediaType, serialized, encoding, encodingRules);
         return;
       }
       yield* _stringResult(serialized.toString());

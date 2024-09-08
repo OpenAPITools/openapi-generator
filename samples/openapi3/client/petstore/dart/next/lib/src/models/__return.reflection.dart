@@ -10,7 +10,7 @@ class $ReturnReflection extends ModelReflection<$Return> {
   static const instance = $ReturnReflection._(
     modelName: r'Return',
     className: r'$Return',
-    xml: const XmlReflection(
+    xml: XmlReflection(
     xmlName: r'Return',
 ),
     $returnPart: PropertyReflection<$Return, UndefinedWrapper<
@@ -24,25 +24,35 @@ class $ReturnReflection extends ModelReflection<$Return> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_$returnGetter),
       setter: FunctionWrapper2(_$returnSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -109,7 +119,7 @@ class $ReturnReflection extends ModelReflection<$Return> {
   
 
   @override
-  List<AllOfReflection<$Return, dynamic>> get allOfs => [
+  List<AllOfReflection<$Return, Object>> get allOfs => [
     
   ];
 
@@ -121,6 +131,14 @@ class $ReturnReflection extends ModelReflection<$Return> {
     return $Return(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is $ReturnReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

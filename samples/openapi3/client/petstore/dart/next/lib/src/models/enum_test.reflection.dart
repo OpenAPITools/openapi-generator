@@ -10,7 +10,7 @@ class EnumTestReflection extends ModelReflection<EnumTest> {
   static const instance = EnumTestReflection._(
     modelName: r'Enum_Test',
     className: r'EnumTest',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     enumStringPart: PropertyReflection<EnumTest, UndefinedWrapper<
             EnumTestEnumStringEnum
@@ -23,14 +23,19 @@ class EnumTestReflection extends ModelReflection<EnumTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_enumStringGetter),
       setter: FunctionWrapper2(_enumStringSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             EnumTestEnumStringEnum.$reflection
         
         
+,
+)
 ),
     ),
     enumStringRequiredPart: PropertyReflection<EnumTest, 
@@ -44,14 +49,19 @@ class EnumTestReflection extends ModelReflection<EnumTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_enumStringRequiredGetter),
       setter: FunctionWrapper2(_enumStringRequiredSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             EnumTestEnumStringRequiredEnum.$reflection
         
         
+,
+)
 ,
     ),
     enumIntegerPart: PropertyReflection<EnumTest, UndefinedWrapper<
@@ -65,14 +75,19 @@ class EnumTestReflection extends ModelReflection<EnumTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_enumIntegerGetter),
       setter: FunctionWrapper2(_enumIntegerSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             EnumTestEnumIntegerEnum.$reflection
         
         
+,
+)
 ),
     ),
     enumIntegerOnlyPart: PropertyReflection<EnumTest, UndefinedWrapper<
@@ -86,14 +101,19 @@ class EnumTestReflection extends ModelReflection<EnumTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_enumIntegerOnlyGetter),
       setter: FunctionWrapper2(_enumIntegerOnlySetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             EnumTestEnumIntegerOnlyEnum.$reflection
         
         
+,
+)
 ),
     ),
     enumNumberPart: PropertyReflection<EnumTest, UndefinedWrapper<
@@ -107,14 +127,19 @@ class EnumTestReflection extends ModelReflection<EnumTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_enumNumberGetter),
       setter: FunctionWrapper2(_enumNumberSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             EnumTestEnumNumberEnum.$reflection
         
         
+,
+)
 ),
     ),
     outerEnumPart: PropertyReflection<EnumTest, UndefinedWrapper<
@@ -128,17 +153,22 @@ class EnumTestReflection extends ModelReflection<EnumTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_outerEnumGetter),
       setter: FunctionWrapper2(_outerEnumSetter),
-      reflection: UndefinedWrapperReflection(NullableReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(
             
         
         
             OuterEnum.$reflection
         
-)),
+),
+)
+),
     ),
     outerEnumIntegerPart: PropertyReflection<EnumTest, UndefinedWrapper<
             OuterEnumInteger
@@ -151,16 +181,21 @@ class EnumTestReflection extends ModelReflection<EnumTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_outerEnumIntegerGetter),
       setter: FunctionWrapper2(_outerEnumIntegerSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             OuterEnumInteger.$reflection
         
+,
+)
 ),
     ),
     outerEnumDefaultValuePart: PropertyReflection<EnumTest, UndefinedWrapper<
@@ -174,16 +209,21 @@ class EnumTestReflection extends ModelReflection<EnumTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_outerEnumDefaultValueGetter),
       setter: FunctionWrapper2(_outerEnumDefaultValueSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             OuterEnumDefaultValue.$reflection
         
+,
+)
 ),
     ),
     outerEnumIntegerDefaultValuePart: PropertyReflection<EnumTest, UndefinedWrapper<
@@ -197,24 +237,34 @@ class EnumTestReflection extends ModelReflection<EnumTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_outerEnumIntegerDefaultValueGetter),
       setter: FunctionWrapper2(_outerEnumIntegerDefaultValueSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             OuterEnumIntegerDefaultValue.$reflection
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -409,7 +459,7 @@ outerEnumIntegerDefaultValuePart,
   
 
   @override
-  List<AllOfReflection<EnumTest, dynamic>> get allOfs => [
+  List<AllOfReflection<EnumTest, Object>> get allOfs => [
     
   ];
 
@@ -422,6 +472,14 @@ outerEnumIntegerDefaultValuePart,
       enumStringRequired: enumStringRequiredPart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is EnumTestReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

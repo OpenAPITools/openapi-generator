@@ -130,22 +130,32 @@ void main() {
                 "nice": "work",
             },
             
-petId: 
+petId: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 .exampleFunction(exampleContext),
 
-apiKey: UndefinedWrapperReflection(
+apiKey: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ).exampleFunction(exampleContext),
 
         );
@@ -213,11 +223,21 @@ apiKey: UndefinedWrapperReflection(
                 "nice": "work",
             },
             
-status: 
-    ListReflection(
+status: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             StatusEnum.$reflection
         
         
+,
+)
+)
+,
 )
 .exampleFunction(exampleContext),
 
@@ -387,14 +407,24 @@ status:
                 "nice": "work",
             },
             
-tags: 
-    ListReflection(
+tags: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
+)
+,
 )
 .exampleFunction(exampleContext),
 
@@ -564,13 +594,18 @@ tags:
                 "nice": "work",
             },
             
-petId: 
+petId: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 .exampleFunction(exampleContext),
 
         );
@@ -906,13 +941,18 @@ petId:
                 "nice": "work",
             },
             
-petId: 
+petId: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 .exampleFunction(exampleContext),
 
         );
@@ -982,13 +1022,18 @@ petId:
                 "nice": "work",
             },
             
-petId: 
+petId: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 .exampleFunction(exampleContext),
 
         );
@@ -1098,13 +1143,18 @@ petId:
                 "nice": "work",
             },
             
-petId: 
+petId: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 .exampleFunction(exampleContext),
 
         );

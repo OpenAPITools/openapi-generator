@@ -10,7 +10,7 @@ class ApiResponseReflection extends ModelReflection<ApiResponse> {
   static const instance = ApiResponseReflection._(
     modelName: r'ApiResponse',
     className: r'ApiResponse',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     codePart: PropertyReflection<ApiResponse, UndefinedWrapper<
             int
@@ -23,17 +23,22 @@ class ApiResponseReflection extends ModelReflection<ApiResponse> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_codeGetter),
       setter: FunctionWrapper2(_codeSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     typePart: PropertyReflection<ApiResponse, UndefinedWrapper<
@@ -47,17 +52,22 @@ class ApiResponseReflection extends ModelReflection<ApiResponse> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_typeGetter),
       setter: FunctionWrapper2(_typeSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     messagePart: PropertyReflection<ApiResponse, UndefinedWrapper<
@@ -71,25 +81,35 @@ class ApiResponseReflection extends ModelReflection<ApiResponse> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_messageGetter),
       setter: FunctionWrapper2(_messageSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -188,7 +208,7 @@ messagePart,
   
 
   @override
-  List<AllOfReflection<ApiResponse, dynamic>> get allOfs => [
+  List<AllOfReflection<ApiResponse, Object>> get allOfs => [
     
   ];
 
@@ -200,6 +220,14 @@ messagePart,
     return ApiResponse(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ApiResponseReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

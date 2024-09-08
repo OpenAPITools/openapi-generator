@@ -532,13 +532,19 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationJson extends DefaultAp
   final 
             Pet
  data;
-  static const dataReflection = 
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+    xmlName: r'Pet',
+),
+    
             
         
         
             
                 Pet.$reflection
         
+,
+)
 ;
 
 
@@ -584,13 +590,18 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXml extends DefaultApi
   final 
             NewPet
  data;
-  static const dataReflection = 
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 NewPet.$reflection
         
+,
+)
 ;
 
 
@@ -636,13 +647,18 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded ext
   final 
             Triangle
  data;
-  static const dataReflection = 
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 Triangle.$reflection
         
+,
+)
 ;
 
 
@@ -696,13 +712,18 @@ class DefaultApiPetsMulticontentTestPostRequestTextPlain extends DefaultApiPetsM
   final 
             int
  data;
-  static const dataReflection = 
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ;
 
 
@@ -747,8 +768,13 @@ class DefaultApiPetsMulticontentTestPostRequestAnyAny extends DefaultApiPetsMult
 
   final Object
 ? data;
-  static const dataReflection = NullableReflection(ObjectReflection()
-);
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    NullableReflection(ObjectReflection()
+),
+)
+;
 
 
   const DefaultApiPetsMulticontentTestPostRequestAnyAny({
@@ -793,13 +819,18 @@ class DefaultApiPetsMulticontentTestPostRequestTextAny extends DefaultApiPetsMul
   final 
             String
  data;
-  static const dataReflection = 
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ;
 
 
@@ -850,13 +881,18 @@ class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends Default
   final 
             PetsMulticontentTestPostRequest
  data;
-  static const dataReflection = 
+  static const dataReflection = XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PetsMulticontentTestPostRequest.$reflection
         
+,
+)
 ;
 
   final UndefinedWrapper<

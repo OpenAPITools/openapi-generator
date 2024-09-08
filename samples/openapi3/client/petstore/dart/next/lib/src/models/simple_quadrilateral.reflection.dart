@@ -10,7 +10,7 @@ class SimpleQuadrilateralReflection extends ModelReflection<SimpleQuadrilateral>
   static const instance = SimpleQuadrilateralReflection._(
     modelName: r'SimpleQuadrilateral',
     className: r'SimpleQuadrilateral',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     quadrilateralTypePart: PropertyReflection<SimpleQuadrilateral, 
             String
@@ -23,17 +23,22 @@ class SimpleQuadrilateralReflection extends ModelReflection<SimpleQuadrilateral>
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_quadrilateralTypeGetter),
       setter: FunctionWrapper2(_quadrilateralTypeSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     shapeTypePart: PropertyReflection<SimpleQuadrilateral, 
@@ -47,17 +52,22 @@ class SimpleQuadrilateralReflection extends ModelReflection<SimpleQuadrilateral>
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_shapeTypeGetter),
       setter: FunctionWrapper2(_shapeTypeSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     allOfQuadrilateralInterfacePart: AllOfReflection(
@@ -72,8 +82,13 @@ allOfShapeInterfacePart: AllOfReflection(
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -160,16 +175,16 @@ final AllOfReflection<SimpleQuadrilateral, ShapeInterfaceMixin> allOfShapeInterf
   
 
   @override
-  List<AllOfReflection<SimpleQuadrilateral, dynamic>> get allOfs => [
+  List<AllOfReflection<SimpleQuadrilateral, Object>> get allOfs => [
     allOfQuadrilateralInterfacePart,allOfShapeInterfacePart,
   ];
 
   @override
-  List<OneOfReflection<SimpleQuadrilateral, dynamic>> get oneOfs => [
+  List<OneOfReflection<SimpleQuadrilateral, Object>> get oneOfs => [
     
   ];
   @override
-  List<AnyOfReflection<SimpleQuadrilateral, dynamic>> get anyOfs => [
+  List<AnyOfReflection<SimpleQuadrilateral, Object>> get anyOfs => [
     
   ];
 
@@ -182,6 +197,14 @@ final AllOfReflection<SimpleQuadrilateral, ShapeInterfaceMixin> allOfShapeInterf
       shapeType: shapeTypePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is SimpleQuadrilateralReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

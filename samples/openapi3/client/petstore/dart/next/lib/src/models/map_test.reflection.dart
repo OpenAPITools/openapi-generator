@@ -10,7 +10,7 @@ class MapTestReflection extends ModelReflection<MapTest> {
   static const instance = MapTestReflection._(
     modelName: r'MapTest',
     className: r'MapTest',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     mapMapOfStringPart: PropertyReflection<MapTest, UndefinedWrapper<
     Map<String, 
@@ -29,20 +29,35 @@ class MapTestReflection extends ModelReflection<MapTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_mapMapOfStringGetter),
       setter: FunctionWrapper2(_mapMapOfStringSetter),
-      reflection: UndefinedWrapperReflection(
-    MapReflection(
-    MapReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    MapReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    MapReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
 )
+)
+,
+)
+)
+,
 )
 ),
     ),
@@ -60,15 +75,25 @@ class MapTestReflection extends ModelReflection<MapTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_mapOfEnumStringGetter),
       setter: FunctionWrapper2(_mapOfEnumStringSetter),
-      reflection: UndefinedWrapperReflection(
-    MapReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    MapReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             MapTestMapOfEnumStringEnum.$reflection
         
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -86,18 +111,28 @@ class MapTestReflection extends ModelReflection<MapTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_directMapGetter),
       setter: FunctionWrapper2(_directMapSetter),
-      reflection: UndefinedWrapperReflection(
-    MapReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    MapReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forbool
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -115,18 +150,28 @@ class MapTestReflection extends ModelReflection<MapTest> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_indirectMapGetter),
       setter: FunctionWrapper2(_indirectMapSetter),
-      reflection: UndefinedWrapperReflection(
-    MapReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    MapReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forbool
         
+,
+)
+)
+,
 )
 ),
     ),
@@ -134,8 +179,13 @@ class MapTestReflection extends ModelReflection<MapTest> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -295,7 +345,7 @@ indirectMapPart,
   
 
   @override
-  List<AllOfReflection<MapTest, dynamic>> get allOfs => [
+  List<AllOfReflection<MapTest, Object>> get allOfs => [
     
   ];
 
@@ -307,6 +357,14 @@ indirectMapPart,
     return MapTest(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is MapTestReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

@@ -18,6 +18,17 @@ void main() {
         expect(exampleInstance.validate(), isTrue);
       });
 
+      test('equals itself', () {
+        expect(exampleInstance, exampleInstance);
+      });
+
+      test('equals its clone', () {
+        final clone = exampleInstance.clone();
+        expect(exampleInstance, modelEquals(clone, reflection: reflection));
+        // test if equality is transitive
+        expect(clone, modelEquals(exampleInstance, reflection: reflection));
+      });
+
       parameterizedTest(
         'serialization roundtrip',
         [
@@ -30,9 +41,21 @@ void main() {
         ],
         (SerializationContext context) {
           final serialized = exampleInstance.serialize(context);
+          final roundTripped = context.split(
+            onJson: (context) {
+              final encoded = jsonEncode(serialized);
+              return jsonDecode(encoded);
+            },
+            onXml: (context) {
+              final pretty = (serialized as XmlNode).toXmlString(pretty: true);
+              return XmlDocument.parse(pretty).firstElementChild;
+            },
+          );
+          expect(Mammal.canDeserialize(roundTripped, context), isTrue);
+
           final deserialized = Mammal.deserialize(serialized, context);
           expect(deserialized.validate(), isTrue);
-          expect(deserialized.serialize(context), serialized);
+          expect(deserialized, modelEquals(exampleInstance, reflection: reflection));
         }
       );
   });

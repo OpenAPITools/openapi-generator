@@ -10,7 +10,7 @@ class PigReflection extends ModelReflection<Pig> {
   static const instance = PigReflection._(
     modelName: r'Pig',
     className: r'Pig',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     classNamePart: PropertyReflection<Pig, 
             String
@@ -23,17 +23,22 @@ class PigReflection extends ModelReflection<Pig> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: true,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_classNameGetter),
       setter: FunctionWrapper2(_classNameSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     discriminatorKey: r'className',
@@ -57,8 +62,13 @@ class PigReflection extends ModelReflection<Pig> {
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -133,16 +143,16 @@ class PigReflection extends ModelReflection<Pig> {
   
 
   @override
-  List<AllOfReflection<Pig, dynamic>> get allOfs => [
+  List<AllOfReflection<Pig, Object>> get allOfs => [
     
   ];
 
   @override
-  List<OneOfReflection<Pig, dynamic>> get oneOfs => [
+  List<OneOfReflection<Pig, Object>> get oneOfs => [
     oneOf0Part,oneOf1Part,
   ];
   @override
-  List<AnyOfReflection<Pig, dynamic>> get anyOfs => [
+  List<AnyOfReflection<Pig, Object>> get anyOfs => [
     
   ];
 
@@ -154,6 +164,14 @@ class PigReflection extends ModelReflection<Pig> {
       className: classNamePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is PigReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 
@@ -188,12 +206,18 @@ static void _setter(Pig src, UndefinedWrapper<
 UndefinedWrapperReflection<
             BasquePig
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 BasquePig.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<
@@ -252,12 +276,18 @@ static void _setter(Pig src, UndefinedWrapper<
 UndefinedWrapperReflection<
             DanishPig
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 DanishPig.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<

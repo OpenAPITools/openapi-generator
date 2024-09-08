@@ -10,7 +10,7 @@ class ArrayOfArrayOfNumberOnlyReflection extends ModelReflection<ArrayOfArrayOfN
   static const instance = ArrayOfArrayOfNumberOnlyReflection._(
     modelName: r'ArrayOfArrayOfNumberOnly',
     className: r'ArrayOfArrayOfNumberOnly',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     arrayArrayNumberPart: PropertyReflection<ArrayOfArrayOfNumberOnly, UndefinedWrapper<
     List<
@@ -29,20 +29,35 @@ class ArrayOfArrayOfNumberOnlyReflection extends ModelReflection<ArrayOfArrayOfN
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_arrayArrayNumberGetter),
       setter: FunctionWrapper2(_arrayArrayNumberSetter),
-      reflection: UndefinedWrapperReflection(
-    ListReflection(
-    ListReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+    ListReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.fornum
         
+,
 )
+)
+,
+)
+)
+,
 )
 ),
     ),
@@ -50,8 +65,13 @@ class ArrayOfArrayOfNumberOnlyReflection extends ModelReflection<ArrayOfArrayOfN
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -136,7 +156,7 @@ class ArrayOfArrayOfNumberOnlyReflection extends ModelReflection<ArrayOfArrayOfN
   
 
   @override
-  List<AllOfReflection<ArrayOfArrayOfNumberOnly, dynamic>> get allOfs => [
+  List<AllOfReflection<ArrayOfArrayOfNumberOnly, Object>> get allOfs => [
     
   ];
 
@@ -148,6 +168,14 @@ class ArrayOfArrayOfNumberOnlyReflection extends ModelReflection<ArrayOfArrayOfN
     return ArrayOfArrayOfNumberOnly(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ArrayOfArrayOfNumberOnlyReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

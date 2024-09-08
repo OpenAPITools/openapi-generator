@@ -10,7 +10,7 @@ class VariableReflection extends ModelReflection<Variable> {
   static const instance = VariableReflection._(
     modelName: r'Variable',
     className: r'Variable',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     namePart: PropertyReflection<Variable, 
             String
@@ -23,17 +23,22 @@ class VariableReflection extends ModelReflection<Variable> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_nameGetter),
       setter: FunctionWrapper2(_nameSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ,
     ),
     valuePart: PropertyReflection<Variable, 
@@ -47,11 +52,14 @@ class VariableReflection extends ModelReflection<Variable> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_valueGetter),
       setter: FunctionWrapper2(_valueSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
@@ -59,13 +67,20 @@ class VariableReflection extends ModelReflection<Variable> {
                 Value.$reflection
         
 ,
+)
+,
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -148,7 +163,7 @@ valuePart,
   
 
   @override
-  List<AllOfReflection<Variable, dynamic>> get allOfs => [
+  List<AllOfReflection<Variable, Object>> get allOfs => [
     
   ];
 
@@ -162,6 +177,14 @@ valuePart,
       value: valuePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is VariableReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

@@ -10,7 +10,7 @@ class HasOnlyReadOnlyReflection extends ModelReflection<HasOnlyReadOnly> {
   static const instance = HasOnlyReadOnlyReflection._(
     modelName: r'hasOnlyReadOnly',
     className: r'HasOnlyReadOnly',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     barPart: PropertyReflection<HasOnlyReadOnly, UndefinedWrapper<
             String
@@ -23,17 +23,22 @@ class HasOnlyReadOnlyReflection extends ModelReflection<HasOnlyReadOnly> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_barGetter),
       setter: FunctionWrapper2(_barSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     fooPart: PropertyReflection<HasOnlyReadOnly, UndefinedWrapper<
@@ -47,25 +52,35 @@ class HasOnlyReadOnlyReflection extends ModelReflection<HasOnlyReadOnly> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_fooGetter),
       setter: FunctionWrapper2(_fooSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -148,7 +163,7 @@ fooPart,
   
 
   @override
-  List<AllOfReflection<HasOnlyReadOnly, dynamic>> get allOfs => [
+  List<AllOfReflection<HasOnlyReadOnly, Object>> get allOfs => [
     
   ];
 
@@ -160,6 +175,14 @@ fooPart,
     return HasOnlyReadOnly(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is HasOnlyReadOnlyReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

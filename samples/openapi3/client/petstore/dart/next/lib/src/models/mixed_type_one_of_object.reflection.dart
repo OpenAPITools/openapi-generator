@@ -10,7 +10,7 @@ class MixedTypeOneOfObjectReflection extends ModelReflection<MixedTypeOneOfObjec
   static const instance = MixedTypeOneOfObjectReflection._(
     modelName: r'MixedTypeOneOfObject',
     className: r'MixedTypeOneOfObject',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     cPart: PropertyReflection<MixedTypeOneOfObject, UndefinedWrapper<
             bool
@@ -23,17 +23,22 @@ class MixedTypeOneOfObjectReflection extends ModelReflection<MixedTypeOneOfObjec
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_cGetter),
       setter: FunctionWrapper2(_cSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forbool
         
+,
+)
 ),
     ),
     
@@ -48,8 +53,13 @@ class MixedTypeOneOfObjectReflection extends ModelReflection<MixedTypeOneOfObjec
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -124,16 +134,16 @@ class MixedTypeOneOfObjectReflection extends ModelReflection<MixedTypeOneOfObjec
   
 
   @override
-  List<AllOfReflection<MixedTypeOneOfObject, dynamic>> get allOfs => [
+  List<AllOfReflection<MixedTypeOneOfObject, Object>> get allOfs => [
     
   ];
 
   @override
-  List<OneOfReflection<MixedTypeOneOfObject, dynamic>> get oneOfs => [
+  List<OneOfReflection<MixedTypeOneOfObject, Object>> get oneOfs => [
     
   ];
   @override
-  List<AnyOfReflection<MixedTypeOneOfObject, dynamic>> get anyOfs => [
+  List<AnyOfReflection<MixedTypeOneOfObject, Object>> get anyOfs => [
     anyOf0Part,anyOf1Part,
   ];
 
@@ -144,6 +154,14 @@ class MixedTypeOneOfObjectReflection extends ModelReflection<MixedTypeOneOfObjec
     return MixedTypeOneOfObject(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is MixedTypeOneOfObjectReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 class MixedTypeOneOfObjectAnyOf0Part extends AnyOfReflection<MixedTypeOneOfObject, 
@@ -177,12 +195,18 @@ static void _setter(MixedTypeOneOfObject src, UndefinedWrapper<
 UndefinedWrapperReflection<
             MixedTypeOneOfObjectAnyOf
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 MixedTypeOneOfObjectAnyOf.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<
@@ -232,12 +256,18 @@ static void _setter(MixedTypeOneOfObject src, UndefinedWrapper<
 UndefinedWrapperReflection<
             MixedTypeOneOfObjectAnyOf1
 > get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 MixedTypeOneOfObjectAnyOf1.$reflection
         
+
+  ),
 );
 
   UndefinedWrapper<

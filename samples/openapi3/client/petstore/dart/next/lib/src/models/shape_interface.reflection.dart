@@ -10,7 +10,7 @@ class ShapeInterfaceReflection extends ModelReflection<ShapeInterface> {
   static const instance = ShapeInterfaceReflection._(
     modelName: r'ShapeInterface',
     className: r'ShapeInterface',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     shapeTypePart: PropertyReflection<ShapeInterface, 
             String
@@ -23,11 +23,14 @@ class ShapeInterfaceReflection extends ModelReflection<ShapeInterface> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_shapeTypeGetter),
       setter: FunctionWrapper2(_shapeTypeSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
@@ -35,13 +38,20 @@ class ShapeInterfaceReflection extends ModelReflection<ShapeInterface> {
                 PrimitiveReflection.forString
         
 ,
+)
+,
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -108,7 +118,7 @@ class ShapeInterfaceReflection extends ModelReflection<ShapeInterface> {
   
 
   @override
-  List<AllOfReflection<ShapeInterface, dynamic>> get allOfs => [
+  List<AllOfReflection<ShapeInterface, Object>> get allOfs => [
     
   ];
 
@@ -121,6 +131,14 @@ class ShapeInterfaceReflection extends ModelReflection<ShapeInterface> {
       shapeType: shapeTypePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ShapeInterfaceReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

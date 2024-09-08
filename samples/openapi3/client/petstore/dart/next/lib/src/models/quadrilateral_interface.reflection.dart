@@ -10,7 +10,7 @@ class QuadrilateralInterfaceReflection extends ModelReflection<QuadrilateralInte
   static const instance = QuadrilateralInterfaceReflection._(
     modelName: r'QuadrilateralInterface',
     className: r'QuadrilateralInterface',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     quadrilateralTypePart: PropertyReflection<QuadrilateralInterface, 
             String
@@ -23,11 +23,14 @@ class QuadrilateralInterfaceReflection extends ModelReflection<QuadrilateralInte
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_quadrilateralTypeGetter),
       setter: FunctionWrapper2(_quadrilateralTypeSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
@@ -35,13 +38,20 @@ class QuadrilateralInterfaceReflection extends ModelReflection<QuadrilateralInte
                 PrimitiveReflection.forString
         
 ,
+)
+,
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -108,7 +118,7 @@ class QuadrilateralInterfaceReflection extends ModelReflection<QuadrilateralInte
   
 
   @override
-  List<AllOfReflection<QuadrilateralInterface, dynamic>> get allOfs => [
+  List<AllOfReflection<QuadrilateralInterface, Object>> get allOfs => [
     
   ];
 
@@ -121,6 +131,14 @@ class QuadrilateralInterfaceReflection extends ModelReflection<QuadrilateralInte
       quadrilateralType: quadrilateralTypePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is QuadrilateralInterfaceReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

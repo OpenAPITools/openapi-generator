@@ -10,7 +10,7 @@ class CategoryReflection extends ModelReflection<Category> {
   static const instance = CategoryReflection._(
     modelName: r'Category',
     className: r'Category',
-    xml: const XmlReflection(
+    xml: XmlReflection(
     xmlName: r'Category',
 ),
     idPart: PropertyReflection<Category, UndefinedWrapper<
@@ -24,17 +24,22 @@ class CategoryReflection extends ModelReflection<Category> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_idGetter),
       setter: FunctionWrapper2(_idSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forint
         
+,
+)
 ),
     ),
     namePart: PropertyReflection<Category, 
@@ -48,11 +53,14 @@ class CategoryReflection extends ModelReflection<Category> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_nameGetter),
       setter: FunctionWrapper2(_nameSetter),
-      reflection: 
+      reflection: XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
@@ -60,13 +68,20 @@ class CategoryReflection extends ModelReflection<Category> {
                 PrimitiveReflection.forString
         
 ,
+)
+,
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -149,7 +164,7 @@ namePart,
   
 
   @override
-  List<AllOfReflection<Category, dynamic>> get allOfs => [
+  List<AllOfReflection<Category, Object>> get allOfs => [
     
   ];
 
@@ -162,6 +177,14 @@ namePart,
       name: namePart.reflection.emptyFunction(),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is CategoryReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

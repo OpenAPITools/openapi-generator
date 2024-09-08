@@ -10,7 +10,7 @@ class $ListReflection extends ModelReflection<$List> {
   static const instance = $ListReflection._(
     modelName: r'List',
     className: r'$List',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     $123listPart: PropertyReflection<$List, UndefinedWrapper<
             String
@@ -23,25 +23,35 @@ class $ListReflection extends ModelReflection<$List> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_$123listGetter),
       setter: FunctionWrapper2(_$123listSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -108,7 +118,7 @@ class $ListReflection extends ModelReflection<$List> {
   
 
   @override
-  List<AllOfReflection<$List, dynamic>> get allOfs => [
+  List<AllOfReflection<$List, Object>> get allOfs => [
     
   ];
 
@@ -120,6 +130,14 @@ class $ListReflection extends ModelReflection<$List> {
     return $List(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is $ListReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

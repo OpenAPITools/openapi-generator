@@ -10,7 +10,7 @@ class CapitalizationReflection extends ModelReflection<Capitalization> {
   static const instance = CapitalizationReflection._(
     modelName: r'Capitalization',
     className: r'Capitalization',
-    xml: const XmlReflection(
+    xml: XmlReflection(
 ),
     smallCamelPart: PropertyReflection<Capitalization, UndefinedWrapper<
             String
@@ -23,17 +23,22 @@ class CapitalizationReflection extends ModelReflection<Capitalization> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_smallCamelGetter),
       setter: FunctionWrapper2(_smallCamelSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     capitalCamelPart: PropertyReflection<Capitalization, UndefinedWrapper<
@@ -47,17 +52,22 @@ class CapitalizationReflection extends ModelReflection<Capitalization> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_capitalCamelGetter),
       setter: FunctionWrapper2(_capitalCamelSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     smallSnakePart: PropertyReflection<Capitalization, UndefinedWrapper<
@@ -71,17 +81,22 @@ class CapitalizationReflection extends ModelReflection<Capitalization> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_smallSnakeGetter),
       setter: FunctionWrapper2(_smallSnakeSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     capitalSnakePart: PropertyReflection<Capitalization, UndefinedWrapper<
@@ -95,17 +110,22 @@ class CapitalizationReflection extends ModelReflection<Capitalization> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_capitalSnakeGetter),
       setter: FunctionWrapper2(_capitalSnakeSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     scAETHFlowPointsPart: PropertyReflection<Capitalization, UndefinedWrapper<
@@ -119,17 +139,22 @@ class CapitalizationReflection extends ModelReflection<Capitalization> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_scAETHFlowPointsGetter),
       setter: FunctionWrapper2(_scAETHFlowPointsSetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     ATT_NAMEPart: PropertyReflection<Capitalization, UndefinedWrapper<
@@ -143,25 +168,35 @@ class CapitalizationReflection extends ModelReflection<Capitalization> {
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
-      xml: const XmlReflection(
+      xml: XmlReflection(
 ),
       getter: FunctionWrapper1(_ATT_NAMEGetter),
       setter: FunctionWrapper2(_ATT_NAMESetter),
-      reflection: UndefinedWrapperReflection(
+      reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
             
         
         
             
                 PrimitiveReflection.forString
         
+,
+)
 ),
     ),
     
     
     additionalPropertiesPart: AdditionalPropertiesPart(
       parentReflectionGetter: instanceGetter,
-      itemReflection: NullableReflection(ObjectReflection()
+      itemReflection: XmlReflectionWrapper(
+    xml: XmlReflection(
 ),
+    NullableReflection(ObjectReflection()
+),
+)
+,
       getter: FunctionWrapper1(_AdditionalPropertiesGetter),
       setter: FunctionWrapper2(_AdditionalPropertiesSetter),
     ),
@@ -308,7 +343,7 @@ ATT_NAMEPart,
   
 
   @override
-  List<AllOfReflection<Capitalization, dynamic>> get allOfs => [
+  List<AllOfReflection<Capitalization, Object>> get allOfs => [
     
   ];
 
@@ -320,6 +355,14 @@ ATT_NAMEPart,
     return Capitalization(
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is CapitalizationReflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
 }
 
 

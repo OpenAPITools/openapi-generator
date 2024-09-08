@@ -161,21 +161,25 @@ required  this.enumStringRequired     ,
     return super.validate();
   }
 
-  factory EnumTest.deserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  factory EnumTest.deserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.deserialize(src, context);
   }
 
-  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json()]) {
+  static bool canDeserialize(Object? src, [SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.canDeserialize(src, context);
   }
 
-  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+  Object? serialize([SerializationContext context = const SerializationContext.json(),]) {
     return $reflection.serialize(this, context);
+  }
+
+  EnumTest clone() {
+    return $reflection.clone(this);
   }
 }
 
 
-extension type const EnumTestEnumStringEnum._(String value) {
+extension type const EnumTestEnumStringEnum._(String value) implements String {
       const EnumTestEnumStringEnum.UPPER() : this._(r'UPPER');
       const EnumTestEnumStringEnum.lower() : this._(r'lower');
       const EnumTestEnumStringEnum.empty() : this._(r'');
@@ -227,7 +231,7 @@ extension type const EnumTestEnumStringEnum._(String value) {
 }
 
 
-extension type const EnumTestEnumStringRequiredEnum._(String value) {
+extension type const EnumTestEnumStringRequiredEnum._(String value) implements String {
       const EnumTestEnumStringRequiredEnum.UPPER() : this._(r'UPPER');
       const EnumTestEnumStringRequiredEnum.lower() : this._(r'lower');
       const EnumTestEnumStringRequiredEnum.empty() : this._(r'');
@@ -279,7 +283,7 @@ extension type const EnumTestEnumStringRequiredEnum._(String value) {
 }
 
 
-extension type const EnumTestEnumIntegerEnum._(int value) {
+extension type const EnumTestEnumIntegerEnum._(int value) implements int {
       const EnumTestEnumIntegerEnum.number1() : this._(1);
       const EnumTestEnumIntegerEnum.numberNegative1() : this._(-1);
 
@@ -327,7 +331,7 @@ extension type const EnumTestEnumIntegerEnum._(int value) {
 }
 
 
-extension type const EnumTestEnumIntegerOnlyEnum._(int value) {
+extension type const EnumTestEnumIntegerOnlyEnum._(int value) implements int {
       const EnumTestEnumIntegerOnlyEnum.number2() : this._(2);
       const EnumTestEnumIntegerOnlyEnum.numberNegative2() : this._(-2);
 
@@ -375,7 +379,7 @@ extension type const EnumTestEnumIntegerOnlyEnum._(int value) {
 }
 
 
-extension type const EnumTestEnumNumberEnum._(double value) {
+extension type const EnumTestEnumNumberEnum._(double value) implements double {
       const EnumTestEnumNumberEnum.number11() : this._(1.1);
       const EnumTestEnumNumberEnum.numberNegative12() : this._(-1.2);
 
