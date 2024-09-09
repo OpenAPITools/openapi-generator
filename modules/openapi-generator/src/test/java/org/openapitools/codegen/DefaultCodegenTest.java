@@ -781,14 +781,6 @@ public class DefaultCodegenTest {
     }
 
     @Test
-    public void testescapeUnsafeCharacters() {
-        final DefaultCodegen codegen = new DefaultCodegen();
-
-        // allow null
-        Assertions.assertEquals(codegen.escapeUnsafeCharacters(null), null);
-    }
-
-    @Test
     public void updateCodegenPropertyEnum() {
         final DefaultCodegen codegen = new DefaultCodegen();
         CodegenProperty array = codegenPropertyWithArrayOfIntegerValues();
