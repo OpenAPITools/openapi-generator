@@ -44,9 +44,6 @@ mixin SerializationReflection<T> {
 }
 
 mixin InheritanceBasedSerializationReflection<T> on SerializationReflection<T> {
-
-
-
   @override
   SerializationFunction<bool, Object?> get canDeserializeFunction =>
       SerializationFunction(canDeserialize);
@@ -194,65 +191,4 @@ extension type const FunctionWrapper3<TOut, TIn1, TIn2, TIn3>.unsafe(
   TOut call(TIn1 value1, TIn2 value2, TIn3 value3) {
     return fn(value1, value2, value3) as TOut;
   }
-}
-
-class EnumReflection<T extends Object, TDataType extends Object> extends ContainerReflection<T, TDataType> {
-  const EnumReflection(super.subReflection, {
-    required this.members,
-  });
-
-  final List<EnumMemberReflection<T, TDataType>> members;
-
-  @override
-  T deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
-    final deserialized = subReflection.deserializeFunction(value);
-    final res = members.where((element) => element.oasValue == deserialized).firstOrNull;
-    if (res == null) {
-      throw 'Invalid enum value $value';
-    }
-    return res.value;
-  }
-
-  @override
-  bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
-    if (!subReflection.canDeserializeFunction(value, context)) {
-      return false;
-    }
-    final deserialized = subReflection.deserializeFunction(value, context);
-    return members.any((element) => element.oasValue == deserialized);
-  }
-
-  @override
-  Object? serialize(T value, [SerializationContext context = const SerializationContext.json()]) {
-    return subReflection.serializeFunction(value as TDataType, context);
-  }
-
-  @override
-  T empty() {
-    return subReflection.emptyFunction() as T;
-  }
-
-  @override
-  T example([ExampleContext? context]) {
-    context ??= ExampleContext();
-    final member = members.elementAt(context.random.nextInt(members.length));
-    return member.value;
-  }
-
-  @override
-  T clone(T src) {
-    return subReflection.cloneFunction(src as TDataType) as T;
-  }
-}
-
-class EnumMemberReflection<T, TDataType> {
-  const EnumMemberReflection({
-    required this.dartName,
-    required this.oasValue,
-    required this.value,
-  });
-
-  final String dartName;
-  final TDataType oasValue;
-  final T value;
 }

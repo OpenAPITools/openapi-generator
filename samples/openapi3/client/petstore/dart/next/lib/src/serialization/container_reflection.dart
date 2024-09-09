@@ -1,8 +1,54 @@
 import 'package:petstore_api/_internal.dart'hide e;
+
 import 'package:collection/collection.dart';
 
 const $FreeFormObjectReflection =
     MapReflection(NullableReflection(ObjectReflection()));
+
+extension SerializationReflectionExtensions<T> on SerializationReflection<T> {
+  ModelReflection? getNearestModelReflection({
+    bool Function(ContainerReflection reflection) shouldVisitChildOf =
+        defaultShouldVisitChildOf,
+  }) {
+    return getNearestReflectionOfType<ModelReflection>(shouldVisitChildOf: shouldVisitChildOf);
+  }
+  /// searches serialization reflection tree to find a reflection that matches a given type.
+  TReflection? getNearestReflectionOfType<
+      TReflection extends SerializationReflection<Object?>>({
+    bool Function(ContainerReflection reflection) shouldVisitChildOf =
+        defaultShouldVisitChildOf,
+  }) {
+    return getNearestReflectionWhere(
+      (reflection) => reflection is TReflection,
+      shouldVisitChildOf: shouldVisitChildOf,
+    ) as TReflection?;
+  }
+
+  static bool defaultShouldVisitChildOf(
+      ContainerReflection containerReflection) {
+    return containerReflection is! ListReflection &&
+        containerReflection is! SetReflection &&
+        containerReflection is! MapReflection;
+  }
+
+  SerializationReflection<Object?>? getNearestReflectionWhere(
+    bool Function(SerializationReflection<Object?> reflection) predicate, {
+    bool Function(ContainerReflection reflection) shouldVisitChildOf =
+        defaultShouldVisitChildOf,
+  }) {
+    SerializationReflection<Object?> current = this;
+    while (true) {
+      if (predicate(current)) {
+        return current;
+      }
+      if (current is ContainerReflection && shouldVisitChildOf(current)) {
+        current = current.subReflection;
+        continue;
+      }
+      return null;
+    }
+  }
+}
 
 abstract class ContainerReflection<T, TItem> extends PrimitiveReflection<T> {
   const ContainerReflection(this.subReflection);
@@ -29,7 +75,7 @@ class MapReflection<T> extends ContainerReflection<Map<String, T>, T> {
           src is Map<String, Object?> &&
           src.values
               .every((v) => subReflection.canDeserializeFunction(v, context)),
-     onXml: (context) {
+      onXml: (context) {
         if (src is! XmlNode) {
           return false;
         }
@@ -448,4 +494,165 @@ class UndefinedWrapperReflection<T>
       (src) => subReflection.cloneFunction(src),
     );
   }
+}
+
+class XmlReflectionWrapper<T> extends ContainerReflection<T, T>
+    with HasXmlReflection {
+  const XmlReflectionWrapper(
+    super.subReflection, {
+    required this.xml,
+  });
+
+  final XmlReflection xml;
+
+  @override
+  bool canDeserialize(
+    Object? src, [
+    SerializationContext context = const SerializationContext.json(),
+  ]) {
+    return context.split(
+      onJson: (context) => subReflection.canDeserializeFunction(src, context),
+      onXml: (context) {
+        if (src is MapEntry<XmlReflection, Object?>) {
+          return subReflection.canDeserializeFunction(
+            src.value,
+            context.withXmlContainer(this),
+          );
+        }
+        return subReflection.canDeserializeFunction(
+          src,
+          context.withXmlContainer(this),
+        );
+      },
+    );
+  }
+
+  @override
+  T deserialize(
+    Object? src, [
+    SerializationContext context = const SerializationContext.json(),
+  ]) {
+    return context.split(
+      onJson: (context) {
+        return subReflection.deserializeFunction(src, context);
+      },
+      onXml: (context) {
+        if (src is MapEntry<XmlReflection, Object?>) {
+          return subReflection.deserializeFunction(
+            src.value,
+            context.withXmlContainer(this),
+          );
+        }
+        return subReflection.deserializeFunction(
+          src,
+          context.withXmlContainer(this),
+        );
+      },
+    );
+  }
+
+  @override
+  Object? serialize(
+    T src, [
+    SerializationContext context = const SerializationContext.json(),
+  ]) {
+    return context.split(
+      onJson: (context) => subReflection.serializeFunction(src, context),
+      onXml: (context) {
+        return MapEntry(
+          xml,
+          subReflection.serializeFunction(
+            src,
+            context.withXmlContainer(this),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  T empty() {
+    return subReflection.emptyFunction();
+  }
+
+  @override
+  T example([ExampleContext? context]) {
+    return subReflection.exampleFunction(context);
+  }
+
+  @override
+  T clone(T src) {
+    return subReflection.cloneFunction(src);
+  }
+
+  @override
+  Equality<T> get equality => subReflection.equality;
+}
+
+class EnumReflection<T extends Object, TDataType extends Object>
+    extends ContainerReflection<T, TDataType> {
+  const EnumReflection(
+    super.subReflection, {
+    required this.members,
+  });
+
+  final List<EnumMemberReflection<T, TDataType>> members;
+
+  @override
+  T deserialize(Object? value,
+      [SerializationContext context = const SerializationContext.json()]) {
+    final deserialized = subReflection.deserializeFunction(value);
+    final res = members
+        .where((element) => element.oasValue == deserialized)
+        .firstOrNull;
+    if (res == null) {
+      throw 'Invalid enum value $value';
+    }
+    return res.value;
+  }
+
+  @override
+  bool canDeserialize(Object? value,
+      [SerializationContext context = const SerializationContext.json()]) {
+    if (!subReflection.canDeserializeFunction(value, context)) {
+      return false;
+    }
+    final deserialized = subReflection.deserializeFunction(value, context);
+    return members.any((element) => element.oasValue == deserialized);
+  }
+
+  @override
+  Object? serialize(T value,
+      [SerializationContext context = const SerializationContext.json()]) {
+    return subReflection.serializeFunction(value as TDataType, context);
+  }
+
+  @override
+  T empty() {
+    return subReflection.emptyFunction() as T;
+  }
+
+  @override
+  T example([ExampleContext? context]) {
+    context ??= ExampleContext();
+    final member = members.elementAt(context.random.nextInt(members.length));
+    return member.value;
+  }
+
+  @override
+  T clone(T src) {
+    return subReflection.cloneFunction(src as TDataType) as T;
+  }
+}
+
+class EnumMemberReflection<T, TDataType> {
+  const EnumMemberReflection({
+    required this.dartName,
+    required this.oasValue,
+    required this.value,
+  });
+
+  final String dartName;
+  final TDataType oasValue;
+  final T value;
 }

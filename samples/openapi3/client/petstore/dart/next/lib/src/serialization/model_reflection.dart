@@ -73,20 +73,20 @@ abstract class ModelReflection<T extends Object>
     for (final OneOfReflection(
           reflection: UndefinedWrapperReflection(subReflection: classReflection)
         ) in reflection.oneOfs) {
-      //TODO: this logic is WRONG, classReflection can be UndefinedWrapperReflection
-      if (classReflection is! ModelReflection) {
+      final modelReflection = classReflection.getNearestModelReflection();
+      if (modelReflection == null) {
         continue;
       }
-      _aggregatedDiscriminators(classReflection, result);
+      _aggregatedDiscriminators(modelReflection, result);
     }
     for (final AnyOfReflection(
           reflection: UndefinedWrapperReflection(subReflection: classReflection)
         ) in reflection.anyOfs) {
-      //TODO: this logic is WRONG, classReflection can be UndefinedWrapperReflection
-      if (classReflection is! ModelReflection) {
+      final modelReflection = classReflection.getNearestModelReflection();
+      if (modelReflection == null) {
         continue;
       }
-      _aggregatedDiscriminators(reflection, result);
+      _aggregatedDiscriminators(modelReflection, result);
     }
   }
 
@@ -113,17 +113,19 @@ abstract class ModelReflection<T extends Object>
     for (var element in reflection.properties) {
       result[element.oasName] = element;
     }
-    for (var element in reflection.oneOfs) {
-      final subReflection = element.reflection.subReflection;
-      if (subReflection is ModelReflection) {
-        _aggregateProperties(subReflection, result);
+    for (var oneOf in reflection.oneOfs) {
+      final modelReflection = oneOf.reflection.getNearestModelReflection();
+      if (modelReflection == null) {
+        continue;
       }
+      _aggregateProperties(modelReflection, result);
     }
-    for (var element in reflection.anyOfs) {
-      final subReflection = element.reflection.subReflection;
-      if (subReflection is ModelReflection) {
-        _aggregateProperties(subReflection, result);
+    for (var anyOf in reflection.anyOfs) {
+     final modelReflection = anyOf.reflection.getNearestModelReflection();
+      if (modelReflection == null) {
+        continue;
       }
+      _aggregateProperties(modelReflection, result);
     }
   }
 

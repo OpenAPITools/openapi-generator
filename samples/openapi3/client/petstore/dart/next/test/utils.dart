@@ -9,14 +9,14 @@ HttpResponseBase createFakeResponse({
   String? reasonPhrase,
 }) {
   return HttpResponseBase.stream(
-    originalRequest: HttpRequestBase.empty(url: Uri.https("example.com", "/api"), method: 'GET'),
+    originalRequest: HttpRequestBase.empty(
+        url: Uri.https("example.com", "/api"), method: 'GET'),
     bodyBytesStream: bodyBytesStream,
     statusCode: statusCode,
     reasonPhrase: reasonPhrase,
     headers: CaseInsensitiveMap.from({
-        if (contentType != null)
-            'Content-Type': contentType,
-        ...headers,
+      if (contentType != null) 'Content-Type': contentType,
+      ...headers,
     }),
   );
 }
@@ -61,6 +61,8 @@ _DeepMatcher<T> modelEquals<T extends $OpenApiObjectMixin>(
   return _DeepMatcher(
     expected,
     reflection: reflection,
+    ignoreAdditionalPropertiesExtraKeys:
+        reflection.anyOfs.isNotEmpty || reflection.oneOfs.isNotEmpty,
   );
 }
 
@@ -100,24 +102,26 @@ class ModelEqualsMatcher<T extends $OpenApiObjectMixin> extends Matcher {
 class _DeepMatcher<T extends $OpenApiObjectMixin> extends Matcher {
   final T _expected;
   final ModelReflection<T> reflection;
-
+  final bool ignoreAdditionalPropertiesExtraKeys;
   _DeepMatcher(
     this._expected, {
     required this.reflection,
+    required this.ignoreAdditionalPropertiesExtraKeys,
   });
-  _Mismatch? _getMismatch({
+
+  _Mismatch? _getMismatch<TModel extends Object>({
     required Object? actual,
-    required T expected,
-    required ModelReflection<T> reflection,
+    required TModel expected,
+    required ModelReflection<TModel> reflection,
   }) {
     if (actual == _expected) {
       return null;
     }
-    if (actual is! T) {
+    if (actual is! TModel) {
       return _Mismatch.simple(
         '',
         actual,
-        'expected $T',
+        'expected $TModel',
         reflection: reflection,
       );
     }
@@ -149,22 +153,28 @@ class _DeepMatcher<T extends $OpenApiObjectMixin> extends Matcher {
             actual,
             (description, verbose) => description
                 .add('${err}is missing map key ')
-                .addDescriptionOf(key),
+                .addDescriptionOf(key)
+                .add('where the actual map is ')
+                .addDescriptionOf(actualValue),
             reflection: reflection,
           );
         }
       }
 
-      for (var key in actualValue.keys) {
-        if (!expectedValue.containsKey(key)) {
-          return _Mismatch(
-            'additionalProperties',
-            actual,
-            (description, verbose) => description
-                .add('${err}has extra map key ')
-                .addDescriptionOf(key),
-            reflection: reflection,
-          );
+      if (!ignoreAdditionalPropertiesExtraKeys) {
+        for (var key in actualValue.keys) {
+          if (!expectedValue.containsKey(key)) {
+            return _Mismatch(
+              'additionalProperties',
+              actualValue,
+              (description, verbose) => description
+                  .add('${err}has extra map key ')
+                  .addDescriptionOf(key)
+                  .add(' where the expected map is ')
+                  .addDescriptionOf(expectedValue),
+              reflection: reflection,
+            );
+          }
         }
       }
 
@@ -188,6 +198,7 @@ class _DeepMatcher<T extends $OpenApiObjectMixin> extends Matcher {
     for (final (index, oneof) in reflection.oneOfs.indexed) {
       final expectedValue = oneof.getter(expected);
       final actualValue = oneof.getter(actual);
+
       if (!oneof.reflection.equality.equals(expectedValue, actualValue)) {
         return _Mismatch(
           'oneOf[$index]',
