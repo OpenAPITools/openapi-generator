@@ -1,6 +1,6 @@
 <?php
 /**
- * EnumClass
+ * EnumWithNameAndDescription
  *
  * PHP version 8.1
  *
@@ -28,19 +28,30 @@
 namespace OpenAPI\Client\Model;
 
 /**
- * EnumClass Class Doc Comment
+ * EnumWithNameAndDescription Class Doc Comment
  *
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-enum EnumClass: string
+enum EnumWithNameAndDescription: int
 {
-    case ABC = '_abc';
+    /**
+    * The word one
+    */
+    case ONE = 1;
 
-    case EFG = '-efg';
+    /**
+    * The digit two
+    */
+    case NUMBER_2 = 2;
 
-    case XYZ = '(xyz)';
+    /**
+    * The digit three prefixed by a space
+    */
+    case _3 = 3;
+
+    case NUMBER_4 = 4;
 }
 
 
