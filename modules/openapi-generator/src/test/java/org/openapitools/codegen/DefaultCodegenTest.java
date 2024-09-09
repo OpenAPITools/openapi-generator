@@ -781,11 +781,11 @@ public class DefaultCodegenTest {
     }
 
     @Test
-    public void testEscapeUnsafeCharactersNullGuard() {
+    public void testescapeUnsafeCharacters() {
         final DefaultCodegen codegen = new DefaultCodegen();
 
         // allow null
-        Assertions.assertEquals(codegen.escapeUnsafeCharactersNullGuard(null), null);
+        Assertions.assertEquals(codegen.escapeUnsafeCharacters(null), null);
     }
 
     @Test

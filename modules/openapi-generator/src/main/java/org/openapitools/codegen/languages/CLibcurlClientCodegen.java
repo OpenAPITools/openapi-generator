@@ -880,6 +880,9 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String escapeUnsafeCharacters(String input) {
+        if (input == null) {
+            return input;
+        }
         return input.replace("=end", "=_end").replace("=begin", "=_begin");
     }
 

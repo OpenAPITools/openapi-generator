@@ -181,6 +181,9 @@ public class MyclientcodegenGenerator extends DefaultCodegen implements CodegenC
    */
   @Override
   public String escapeUnsafeCharacters(String input) {
+    if (input == null) {
+      return input;
+    }
     //TODO: check that this logic is safe to escape unsafe characters to avoid code injection
     return input;
   }

@@ -989,6 +989,9 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String escapeUnsafeCharacters(String input) {
+        if (input == null) {
+            return input;
+        }
         return input.replace("*/", "*_/").replace("/*", "/_*").replace("--", "- -");
     }
 

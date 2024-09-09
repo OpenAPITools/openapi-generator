@@ -54,6 +54,9 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
 
     @Override
     public String escapeUnsafeCharacters(String input) {
+        if (input == null) {
+            return input;
+        }
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 

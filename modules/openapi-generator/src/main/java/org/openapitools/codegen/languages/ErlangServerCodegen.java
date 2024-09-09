@@ -318,6 +318,9 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String escapeUnsafeCharacters(String input) {
+        if (input == null) {
+            return input;
+        }
         // ref: http://stackoverflow.com/a/30421295/677735
         return input.replace("-ifdef", "- if def").replace("-endif", "- end if");
     }

@@ -1168,19 +1168,6 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Same as escapeUnsafeCharacters, but with a null guard
-     *
-     * @see escapeUnsafeCharacters
-     */
-    @Override
-    public String escapeUnsafeCharactersNullGuard(String input) {
-        if (input == null) {
-            return input;
-        }
-        return escapeUnsafeCharacters(input);
-    }
-
-    /**
      * Escape single and/or double quote to avoid code injection
      *
      * @param input String to be cleaned up
@@ -3015,7 +3002,7 @@ public class DefaultCodegen implements CodegenConfig {
         m.title = escapeText(schema.getTitle());
         m.description = escapeText(schema.getDescription());
         m.unescapedDescription = schema.getDescription();
-        m.unescapedSafeDescription = escapeUnsafeCharactersNullGuard(schema.getDescription());
+        m.unescapedSafeDescription = escapeUnsafeCharacters(schema.getDescription());
         m.classname = toModelName(name);
         m.classVarName = toVarName(name);
         m.classFilename = toModelFilename(name);
@@ -3909,7 +3896,7 @@ public class DefaultCodegen implements CodegenConfig {
         property.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, property.nameInPascalCase);
         property.description = escapeText(p.getDescription());
         property.unescapedDescription = p.getDescription();
-        property.unescapedSafeDescription = escapeUnsafeCharactersNullGuard(p.getDescription());
+        property.unescapedSafeDescription = escapeUnsafeCharacters(p.getDescription());
         property.title = p.getTitle();
         property.getter = toGetter(name);
         property.setter = toSetter(name);
@@ -4116,7 +4103,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (original.getDescription() != null) {
                 property.description = escapeText(p.getDescription());
                 property.unescapedDescription = p.getDescription();
-                property.unescapedSafeDescription = escapeUnsafeCharactersNullGuard(p.getDescription());
+                property.unescapedSafeDescription = escapeUnsafeCharacters(p.getDescription());
             }
             if (original.getMaxLength() != null) {
                 property.setMaxLength(original.getMaxLength());
@@ -5115,7 +5102,7 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.baseName = parameter.getName();
         codegenParameter.description = escapeText(parameter.getDescription());
         codegenParameter.unescapedDescription = parameter.getDescription();
-        codegenParameter.unescapedSafeDescription = escapeUnsafeCharactersNullGuard(parameter.getDescription());
+        codegenParameter.unescapedSafeDescription = escapeUnsafeCharacters(parameter.getDescription());
         if (parameter.getRequired() != null) {
             codegenParameter.required = parameter.getRequired();
         }
@@ -7269,7 +7256,7 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.isFormParam = Boolean.TRUE;
         codegenParameter.description = escapeText(codegenProperty.description);
         codegenParameter.unescapedDescription = codegenProperty.getDescription();
-        codegenParameter.unescapedSafeDescription = escapeUnsafeCharactersNullGuard(codegenProperty.getDescription());
+        codegenParameter.unescapedSafeDescription = escapeUnsafeCharacters(codegenProperty.getDescription());
         codegenParameter.jsonSchema = Json.pretty(propertySchema);
         codegenParameter.containerType = codegenProperty.containerType;
         codegenParameter.containerTypeMapped = codegenProperty.containerTypeMapped;
@@ -7808,7 +7795,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (original.getDescription() != null) {
                 codegenParameter.description = escapeText(original.getDescription());
                 codegenParameter.unescapedDescription = original.getDescription();
-                codegenParameter.unescapedSafeDescription = escapeUnsafeCharactersNullGuard(original.getDescription());
+                codegenParameter.unescapedSafeDescription = escapeUnsafeCharacters(original.getDescription());
             }
             if (original.getMaxLength() != null) {
                 codegenParameter.setMaxLength(original.getMaxLength());

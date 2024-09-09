@@ -431,6 +431,9 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String escapeUnsafeCharacters(String input) {
+        if (input == null) {
+            return input;
+        }
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
