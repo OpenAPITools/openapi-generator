@@ -13,7 +13,7 @@
 import { HttpFile } from '../http/http';
 
 /**
-* Model for testing model with \"_class\" property
+* Model for testing model with "_class" property
 */
 export class ClassModel {
     '_class'?: string;

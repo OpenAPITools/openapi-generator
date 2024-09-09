@@ -19,7 +19,8 @@ export class Capitalization {
     'capitalSnake'?: string;
     'sCAETHFlowPoints'?: string;
     /**
-    * Name of the pet 
+    * Name of the pet
+
     */
     'ATT_NAME'?: string;
 
