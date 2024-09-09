@@ -1,3 +1,4 @@
+{{>licenseInfo}}
 package {{apiPackage}}
 
 import cats.effect.Concurrent
@@ -25,7 +26,6 @@ class {{classname}}ApiEndpointsImpl[F[*]: Concurrent](
 ) extends BaseClient[F](baseUrl, auth, defaultHeaders, httpClient) with {{classname}}ApiEndpoints[F] {
   
   import JsonEntityEncoderDecoder.*
-
 
   override def {{operationId}}({{>methodParameters}}, requestHeaders: Seq[(String, String)] = Nil): F[{{>operationReturnType}}] = {
 

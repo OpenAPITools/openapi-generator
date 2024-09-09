@@ -33,28 +33,25 @@ import java.io.File;
 import java.util.*;
 
 public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
+    private final Logger LOGGER = LoggerFactory.getLogger(ScalaHttp4sScala3ClientCodegen.class);
+
     protected String mainPackage = "org.openapitools.client"; //TODO: configuable??
     protected String groupId = "org.openapitools";  //TODO: configuable??
     protected String artifactId = "http4s-client-scala3"; //TODO: configuable??
     protected String sourceFolder = "scala";
     protected String sourceSubFolder = "main";
     protected String artifactVersion = "1.0.0";
-    protected String resourcesFolder = "src/main/resources";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String configKey = "apiRequest";
-    protected int defaultTimeoutInMs = 5000;
     protected String configKeyPath = mainPackage;
     protected boolean registerNonStandardStatusCodes = true;
-    protected boolean renderJavadoc = true;
     protected boolean removeOAuthSecurities = true;
     public static final String EXCLUDE_SBT = "excludeSbt"; // generate as whole project
     public static final String SOURCE_SUBFOLDER = "sourceSubfolder"; // generate as whole project
+    public static final String MAIN_PACKAGE = "mainPackage"; // generate as whole project
 
     private String packageName = mainPackage;
-
-    @SuppressWarnings("hiding")
-    protected final Logger LOGGER = LoggerFactory.getLogger(ScalaHttp4sScala3ClientCodegen.class);
 
     @Override
     public CodegenType getTag() {
@@ -96,9 +93,10 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         addOneOfInterfaceImports = true;
 
         outputFolder = "generated-code" + File.separator + "scala-http4s-scala3";
+        embeddedTemplateDir = templateDir = "scala-http4s-scala3";
+
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
-        embeddedTemplateDir = templateDir = "scala-http4s-scala3";
         apiPackage = mainPackage;
         modelPackage = mainPackage + ".models";
 
@@ -143,37 +141,6 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
                         "Map")
         );
 
-        typeMapping = new HashMap<>();
-        typeMapping.put("string", "String");
-        typeMapping.put("boolean", "Boolean");
-        typeMapping.put("integer", "Int");
-        typeMapping.put("long", "Long");
-        typeMapping.put("float", "Float");
-        typeMapping.put("double", "Double");
-        typeMapping.put("number", "BigDecimal");
-        typeMapping.put("decimal", "BigDecimal");
-        typeMapping.put("date-time", "ZonedDateTime");
-        typeMapping.put("offset-date-time", "OffsetDateTime");
-        typeMapping.put("date", "LocalDate");
-        typeMapping.put("file", "File");
-        typeMapping.put("array", "List");
-        typeMapping.put("list", "List");
-        typeMapping.put("map", "Map");
-        typeMapping.put("object", "Object");
-        typeMapping.put("binary", "Array[Byte]");
-        typeMapping.put("Date", "LocalDate");
-        typeMapping.put("DateTime", "ZonedDateTime");
-        typeMapping.put("OffsetDateTime", "OffsetDateTime");
-        typeMapping.put("uuid", "UUID");
-
-        additionalProperties.put("modelPackage", modelPackage());
-        additionalProperties.put("apiPackage", apiPackage());
-        additionalProperties.put("infoUrl", "http://org.openapitools");
-        additionalProperties.put("infoEmail", "team@openapitools.org");
-        additionalProperties.put("licenseInfo", "Apache 2.0");
-        additionalProperties.put("licenseUrl", "http://apache.org/licenses/LICENSE-2.0.html");
-
-
         languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "String",
@@ -190,8 +157,36 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
                         "BigDecimal"
                 )
         );
-        instantiationTypes.put("array", "ArrayList");
-        instantiationTypes.put("map", "HashMap");
+
+        typeMapping = new HashMap<>();
+        typeMapping.put("string", "String");
+        typeMapping.put("boolean", "Boolean");
+        typeMapping.put("integer", "Int");
+        typeMapping.put("long", "Long");
+        typeMapping.put("float", "Float");
+        typeMapping.put("double", "Double");
+        typeMapping.put("number", "BigDecimal");
+        typeMapping.put("decimal", "BigDecimal");
+        typeMapping.put("date", "LocalDate");
+        typeMapping.put("date-time", "Instant");
+        typeMapping.put("offset-date-time", "OffsetDateTime");
+        typeMapping.put("file", "File");
+        typeMapping.put("array", "List");
+        typeMapping.put("list", "List");
+        typeMapping.put("map", "Map");
+        typeMapping.put("object", "Object");
+        typeMapping.put("binary", "Array[Byte]");
+        typeMapping.put("Date", "LocalDate");
+        typeMapping.put("DateTime", "Instant");
+        typeMapping.put("OffsetDateTime", "OffsetDateTime");
+        typeMapping.put("uuid", "UUID");
+
+        additionalProperties.put("modelPackage", modelPackage());
+        additionalProperties.put("apiPackage", apiPackage());
+        additionalProperties.put("infoUrl", "http://org.openapitools");
+        additionalProperties.put("infoEmail", "team@openapitools.org");
+        additionalProperties.put("licenseInfo", "Apache 2.0");
+        additionalProperties.put("licenseUrl", "http://apache.org/licenses/LICENSE-2.0.html");
 
         importMapping = new HashMap<>();
         importMapping.put("UUID", "java.util.UUID");
@@ -203,13 +198,13 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         importMapping.put("HashMap", "scala.collection.immutable.HashMap");
         importMapping.put("Seq", "scala.collection.immutable.Seq");
         importMapping.put("ArrayBuffer", "scala.collection.mutable.ArrayBuffer");
-        importMapping.put("DateTime", "java.time.LocalDateTime");
+        importMapping.put("Instant", "java.time.Instant");
         importMapping.put("LocalDateTime", "java.time.LocalDateTime");
         importMapping.put("LocalDate", "java.time.LocalDate");
         importMapping.put("LocalTime", "java.time.LocalTime");
         importMapping.put("ZonedDateTime", "java.time.ZonedDateTime");
         importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
-        //refined
+        //refined TODO??
         importMapping.put("Refined", "eu.timepit.refined.api.Refined");
         importMapping.put("And", "eu.timepit.refined.boolean.And");
         importMapping.put("MinSize", "eu.timepit.refined.collection.MinSize");
@@ -220,18 +215,39 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         importMapping.put("Less", "eu.timepit.refined.numeric.Less");
         importMapping.put("LessEqual", "eu.timepit.refined.numeric.LessEqual");
 
+        instantiationTypes.put("array", "ArrayList");
+        instantiationTypes.put("map", "HashMap");
+
         cliOptions.add(new CliOption(EXCLUDE_SBT, "exclude sbt from generation"));
         cliOptions.add(new CliOption(SOURCE_SUBFOLDER, "name of subfolder, for example to generate code in src/scala/generated"));
+        cliOptions.add(new CliOption(MAIN_PACKAGE, "Main package name").defaultValue("org.openapitools.client"));
 
         //inlineSchemaOption.put("SKIP_SCHEMA_REUSE", "true");
         //inlineSchemaOption.put("REFACTOR_ALLOF_INLINE_SCHEMAS", "true");
 
-        cliOptions.add(new CliOption("mainPackage", "Main package name").defaultValue("org.openapitools.client"));
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (DateLibraries.java8.name().equals(dateLibrary)) {
+            typeMapping.put("date", "LocalDate");
+            typeMapping.put("date-time", "Instant");
+            typeMapping.put("offset-date-time", "OffsetDateTime");
+            typeMapping.put("Date", "LocalDate");
+            typeMapping.put("DateTime", "Instant");
+            typeMapping.put("OffsetDateTime", "OffsetDateTime");
+            this.importMapping.put("LocalDate", "java.time.LocalDate");
+            this.importMapping.put("Instant", "java.time.Instant");
+            this.importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
+            additionalProperties.put("java8", "true");
+        } else  {
+            String error = "DateLibrary " + dateLibrary + " is not supported. Please java8";
+            LOGGER.error(error);
+            throw new RuntimeException(error);
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             packageName = (String) additionalProperties.get(CodegenConstants.PACKAGE_NAME);
 
@@ -248,8 +264,6 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
             sourceSubFolder = (String) additionalProperties.get(SOURCE_SUBFOLDER);
         }
         additionalProperties.put("fnEnumEntry", new EnumEntryLambda());
-        additionalProperties.put("fnCapitalize", new CapitalizeLambda());
-        additionalProperties.put("fnCamelize", new CamelizeLambda(true));
 
         sourceFolder = "src" + File.separator + sourceSubFolder + File.separator + sourceFolder;
 
@@ -399,27 +413,6 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         }
     }
 
-
-    private static class JavadocLambda extends CustomLambda {
-        @Override
-        public String formatFragment(String fragment) {
-            final String[] lines = fragment.split("\\r?\\n");
-            final StringBuilder sb = new StringBuilder();
-            sb.append("  /**\n");
-            for (String line : lines) {
-                sb.append("   * ").append(line).append("\n");
-            }
-            sb.append("   */\n");
-            return sb.toString();
-        }
-    }
-
-    private static class CapitalizeLambda extends CustomLambda {
-        @Override
-        public String formatFragment(String fragment) {
-            return StringUtils.capitalize(fragment);
-        }
-    }
 
     private class EnumEntryLambda extends CustomLambda {
         @Override
