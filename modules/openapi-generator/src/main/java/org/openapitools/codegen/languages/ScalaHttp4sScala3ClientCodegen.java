@@ -17,9 +17,10 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import org.apache.commons.lang3.StringUtils;
+import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -31,6 +32,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaHttp4sScala3ClientCodegen.class);
@@ -269,14 +272,11 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
 
         //supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("baseClient.mustache", packageFileFolderRelative(), "BaseClient.scala"));
-        supportingFiles.add(new SupportingFile("jsonEntityEncoderDecoder.mustache", packageFileFolderRelative(), "JsonEntityEncoderDecoder.scala"));
+        supportingFiles.add(new SupportingFile("jsonSupports.mustache", packageFileFolderRelative(), "JsonSupports.scala"));
         //supportingFiles.add(new SupportingFile("model.mustache", modelFileFolderRelative(), "Models.scala"));
         supportingFiles.add(new SupportingFile("failedRequest.mustache", modelFileFolderRelative(), "FailedRequest.scala"));
         supportingFiles.add(new SupportingFile("auth_model.mustache", modelFileFolderRelative(), "Authorization.scala"));
         supportingFiles.add(new SupportingFile("models_package.mustache", modelFileFolderRelative(), "package.scala"));
-        supportingFiles.add(new SupportingFile("api.mustache", packageFileFolderRelative(), "Api.scala"));
-
-        apiTemplateFiles.put("api.mustache", ".scala");
 
         if (!additionalProperties.containsKey(EXCLUDE_SBT) && !Boolean.parseBoolean((String) additionalProperties.get(EXCLUDE_SBT))) {
             supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
@@ -285,7 +285,6 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
-
 
     }
 
@@ -374,6 +373,31 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         }
 
         return formatIdentifier(name, false);
+    }
+
+    @Override
+    public String encodePath(String input) {
+        String path = super.encodePath(input);
+
+        // The parameter names in the URI must be converted to the same case as
+        // the method parameter.
+        StringBuilder buf = new StringBuilder(path.length());
+        Matcher matcher = Pattern.compile("[{](.*?)[}]").matcher(path);
+        while (matcher.find()) {
+            matcher.appendReplacement(buf, "\\${" + toParamName(matcher.group(0)) + "}");
+        }
+        matcher.appendTail(buf);
+        return buf.toString();
+    }
+
+    @Override
+    public CodegenOperation fromOperation(String path,
+                                          String httpMethod,
+                                          Operation operation,
+                                          List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+        op.path = encodePath(path);
+        return op;
     }
 
     @Override

@@ -8,54 +8,50 @@ import org.http4s.client.Client as Http4sClient
 import {{modelPackage}}.*
 
 {{#operations}}
-trait {{classname}}ApiEndpoints[F[*]] {
+trait {{classname}}Endpoints[F[*]] {
 
 {{#operation}}
-  def {{operationId}}({{>methodParameters}}, requestHeaders: Seq[(String, String)] = Nil): F[{{>operationReturnType}}]
+  def {{operationId}}({{>methodParameters}}requestHeaders: Seq[(String, String)] = Nil): F[{{>operationReturnType}}]
 {{/operation}}
 
 }
 {{/operations}}
 
 {{#operations}}
-class {{classname}}ApiEndpointsImpl[F[*]: Concurrent](
+class {{classname}}EndpointsImpl[F[*]: Concurrent](
   override val baseUrl: Uri,
   auth: Option[Authorization] = None,
   defaultHeaders: Seq[(String, String)] = Nil,
   httpClient: Http4sClient[F]
-) extends BaseClient[F](baseUrl, auth, defaultHeaders, httpClient) with {{classname}}ApiEndpoints[F] {
+) extends BaseClient[F](baseUrl, auth, defaultHeaders, httpClient) with {{classname}}Endpoints[F] {
   
-  import JsonEntityEncoderDecoder.*
+  import JsonSupports.*
+  import io.circe.syntax.EncoderOps
+  import cats.implicits.*
 
-  override def {{operationId}}({{>methodParameters}}, requestHeaders: Seq[(String, String)] = Nil): F[{{>operationReturnType}}] = {
-
+{{#operation}}
+  override def {{operationId}}({{>methodParameters}}requestHeaders: Seq[(String, String)] = Nil): F[{{>operationReturnType}}] = {
     val headerParameters = Seq(
-       {{#headerParams}}
-           {{>paramCreation}}
-       {{/headerParams}}
+      {{#headerParams}}{{>paramCreation}}{{/headerParams}}
     )
 
-    val urlPath = s"{{{path}}}"{{#pathParams}}.replace({{>pathParamCreation}}){{/pathParams}}
+    val urlPath = s"{{{path}}}"
 
-    _executeRequest[Unit, {{>operationReturnType}}](
+    _executeRequest[{{>bodyParamType}}, {{>operationReturnType}}](
       method = "{{httpMethod.toUpperCase}}",
       path = urlPath,
       {{#bodyParam}}
       body = Some({{paramName}}),
       {{/bodyParam}}
-      queryParameters = {{#queryParams}}{{>paramCreation}}{{/queryParams}},
+      {{#queryParams}}
+      queryParameters = {{>paramCreation}},
+      {{/queryParams}}
       requestHeaders = requestHeaders ++ headerParameters) {
-{{#responses}}
-{{#is2xx}}case r if r.status.code == {{code}} => parseJson[F, {{>operationReturnType}}]("{{apiPackage}}.{{>operationReturnType}}", r){{/is2xx}}
-{{#is3xx}}case r if r.status.code == {{code}} => Concurrent[F].raiseError(ErrorResponse(r.status.code)){{/is3xx}}
-{{#is4xx}}case r if r.status.code == {{code}} => Concurrent[F].raiseError(ErrorResponse(r.status.code)){{/is4xx}}
-{{#is5xx}}case r if r.status.code == {{code}} => Concurrent[F].raiseError(ErrorResponse(r.status.code)){{/is5xx}}
-{{#isDefault}}case r => Concurrent[F].raiseError(FailedRequest(r.status.code, s"Unsupported response code ${r.status.code}")){{/isDefault}}
-{{/responses}}
+      {{>responseState}}
     }
-
   }
 
+  {{/operation}}
 }
 {{/operations}}
 

@@ -7,7 +7,7 @@ import org.http4s.{EntityDecoder, EntityEncoder, Response}
 import org.http4s.circe as http4sCirce
 import {{modelPackage}}.*
 
-object JsonEntityEncoderDecoder {
+object JsonSupports {
 
   implicit def circeJsonEncoder[F[*]: Concurrent, A](implicit encoder: Encoder[A]): EntityEncoder[F, A] =
     http4sCirce.jsonEncoderOf[F, A]
@@ -19,7 +19,7 @@ object JsonEntityEncoderDecoder {
       r: Response[F]
   )(implicit decoder: Decoder[T]): F[T] = r.attemptAs[T].value.flatMap {
     case Right(value) => Concurrent[F].pure(value)
-    case Left(error)  => Concurrent[F].raiseError(FailedRequest(r.status.code, s"Invalid json for class[" + className + "]", None))
+    case Left(error)  => Concurrent[F].raiseError(FailedRequest(r.status.code, s"Invalid json for class[" + className + "]"))
   }
 
 }

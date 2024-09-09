@@ -61,7 +61,7 @@ abstract class BaseClient[F[*]: Concurrent](
       case a => sys.error("Invalid authorization scheme[" + a.getClass + "]")
     }
 
-    import JsonEntityEncoderDecoder.*
+    import JsonSupports.*
     val reqAndMaybeAuthAndBody = body.fold(reqAndMaybeAuth)(reqAndMaybeAuth.withEntity)
 
     httpClient.run(modifyRequest(reqAndMaybeAuthAndBody)).use(handler)

@@ -1,5 +1,32 @@
 package {{modelPackage}}
 
-case class FailedRequest(responseCode: Int, message: String, requestUri: Option[java.net.URI] = None)
-  extends Exception(s"HTTP URL: $requestUri, status: $responseCode; message: $message")
+import io.circe.*
+import io.circe.Decoder.*
+import io.circe.Encoder.*
+import io.circe.syntax.*
+
+case class FailedRequest(code: Int, message: String) extends Exception(s"Server return status code: $code; message: $message")
+
+object FailedRequest {
+
+  implicit val encoderFailedRequest: Encoder[FailedRequest] = Encoder.instance { t =>
+    Json.fromFields{
+      Seq(
+        Some("code" -> t.code.asJson),
+        Some("message" -> t.message.asJson)
+      ).flatten
+    }
+  }
+
+  implicit val decodeFailedRequest: Decoder[FailedRequest] = Decoder.instance { c =>
+    for {
+      code <- c.downField("code").as[Int]
+      message <- c.downField("message").as[String]
+    } yield FailedRequest(
+      code = code,
+      message = message
+    )
+  }
+
+}
 

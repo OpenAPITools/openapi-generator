@@ -1,0 +1,7 @@
+{{#responses}}{{#is2xx}}{{#dataType}}
+        case r if r.status.code == {{code}} => parseJson[F, {{>operationReturnType}}]("{{>operationReturnType}}", r){{/dataType}}{{^dataType}}
+        case r if r.status.code == {{code}} => Concurrent[F].pure(()){{/dataType}}{{/is2xx}}{{^is2xx}}{{#dataType}}
+        case r if r.status.code == {{code}} => parseJson[F, {{dataType}}]("{{dataType}}", r).flatMap(res => Concurrent[F].raiseError(FailedRequest(r.status.code, res.asJson.noSpaces))){{/dataType}}{{^dataType}}
+        case r if r.status.code == {{code}} => Concurrent[F].raiseError(FailedRequest(r.status.code, r.status.reason)){{/dataType}}{{/is2xx}}
+{{/responses}}
+        case r  => Concurrent[F].raiseError(FailedRequest(r.status.code, r.status.reason))
