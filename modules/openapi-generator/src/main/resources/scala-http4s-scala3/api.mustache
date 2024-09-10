@@ -5,13 +5,16 @@ import cats.effect.Concurrent
 import io.circe.Encoder
 import org.http4s.Uri
 import org.http4s.client.Client as Http4sClient
+{{#imports}}
+import {{import}}
+{{/imports}}
 import {{modelPackage}}.*
 
 {{#operations}}
 trait {{classname}}Endpoints[F[*]] {
 
 {{#operation}}
-  def {{operationId}}({{>methodParameters}}requestHeaders: Seq[(String, String)] = Nil): F[{{>operationReturnType}}]
+  def {{operationId}}({{>methodParameters}}): F[{{>operationReturnType}}]
 {{/operation}}
 
 }
@@ -30,23 +33,22 @@ class {{classname}}EndpointsImpl[F[*]: Concurrent](
   import cats.implicits.*
 
 {{#operation}}
-  override def {{operationId}}({{>methodParameters}}requestHeaders: Seq[(String, String)] = Nil): F[{{>operationReturnType}}] = {
-    val headerParameters = Seq(
-      {{#headerParams}}{{>paramCreation}}{{/headerParams}}
-    )
+  override def {{operationId}}({{>methodParameters}}): F[{{>operationReturnType}}] = {
+    val requestHeaders =
+      {{>headerParamCreation}}
 
     val urlPath = s"{{{path}}}"
+    {{#hasQueryParams}}
+    val queryParameters = (
+      {{>queryParams}}
+    ).toSeq.flatten{{/hasQueryParams}}
 
     _executeRequest[{{>bodyParamType}}, {{>operationReturnType}}](
       method = "{{httpMethod.toUpperCase}}",
-      path = urlPath,
-      {{#bodyParam}}
-      body = Some({{paramName}}),
-      {{/bodyParam}}
-      {{#queryParams}}
-      queryParameters = {{>paramCreation}},
-      {{/queryParams}}
-      requestHeaders = requestHeaders ++ headerParameters) {
+      path = urlPath,{{#bodyParam}}
+      body = Some({{paramName}}),{{/bodyParam}}{{#hasQueryParams}}
+      queryParameters = queryParameters, {{/hasQueryParams}}
+      requestHeaders = requestHeaders) {
       {{>responseState}}
     }
   }

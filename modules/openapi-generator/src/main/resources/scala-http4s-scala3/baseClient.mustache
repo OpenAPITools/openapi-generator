@@ -2,7 +2,7 @@ package {{apiPackage}}
 
 import cats.effect.Concurrent
 import io.circe.Encoder
-import org.http4s.{Header, Headers, Method, Request, Response, Uri}
+import org.http4s.{Header, Headers, Method, Request, Response, Uri, UrlForm}
 import org.http4s.client.Client as Http4sClient
 import org.http4s.QueryParamEncoder.*
 import org.typelevel.ci.CIString
@@ -31,7 +31,8 @@ abstract class BaseClient[F[*]: Concurrent](
       method: String,
       path: String,
       body: Option[T] = None,
-      queryParameters: Seq[(String, String)] = Nil,
+      formBody : Option[UrlForm] = None,
+      queryParameters: Seq[(String, Any)] = Nil,
       requestHeaders: Seq[(String, String)] = Nil
   )(handler: Response[F] => F[U])(implicit encoder: Encoder[T]): F[U] = {
 
@@ -48,7 +49,7 @@ abstract class BaseClient[F[*]: Concurrent](
       ).groupBy(_._1).map { case (k, l) => Header.Raw(CIString(k), l.last._2) }.toList
     )
 
-    val queryMap = queryParameters.groupBy(_._1).map { case (k, v) => k -> v.map(_._2) }
+    val queryMap = queryParameters.groupBy(_._1).map { case (k, v) => k -> v.map(_._2.toString) }
     val uri      = (baseUrl / path).setQueryParams(queryMap)
 
     val request = Request[F](method = m, uri = uri, headers = headers)
@@ -62,7 +63,9 @@ abstract class BaseClient[F[*]: Concurrent](
     }
 
     import JsonSupports.*
-    val reqAndMaybeAuthAndBody = body.fold(reqAndMaybeAuth)(reqAndMaybeAuth.withEntity)
+    val reqAndMaybeAuthAndBody =
+      if (formBody.nonEmpty) formBody.fold(reqAndMaybeAuth)(reqAndMaybeAuth.withEntity)
+      else body.fold(reqAndMaybeAuth)(reqAndMaybeAuth.withEntity)
 
     httpClient.run(modifyRequest(reqAndMaybeAuthAndBody)).use(handler)
   }

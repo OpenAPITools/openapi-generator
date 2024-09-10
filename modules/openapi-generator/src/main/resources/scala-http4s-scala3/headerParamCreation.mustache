@@ -1,0 +1,3 @@
+{{^hasHeaderParams}}Seq(){{/hasHeaderParams}}{{#hasHeaderParams}}Seq(
+        {{#headerParams}}{{#required}}Some("{{baseName}}" -> {{{paramName}}}){{/required}}{{^required}}{{{paramName}}}.map(x => "{{baseName}}" -> x){{/required}}{{^-last}}, {{/-last}}{{/headerParams}}
+      ).flatten{{/hasHeaderParams}}

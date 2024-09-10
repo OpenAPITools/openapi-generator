@@ -74,7 +74,11 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
 
         modifyFeatureSet(features -> features
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.BearerToken
+                ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.Callbacks,
@@ -88,7 +92,7 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
                         ParameterFeature.Cookie
                 )
         );
-
+        
         useOneOfInterfaces = true;
         supportsMultipleInheritance = true;
         supportsInheritance = true;
@@ -174,7 +178,7 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         typeMapping.put("date-time", "Instant");
         typeMapping.put("offset-date-time", "OffsetDateTime");
         typeMapping.put("file", "File");
-        typeMapping.put("array", "List");
+        typeMapping.put("array", "Seq");
         typeMapping.put("list", "List");
         typeMapping.put("map", "Map");
         typeMapping.put("object", "Object");
@@ -218,8 +222,10 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         importMapping.put("Less", "eu.timepit.refined.numeric.Less");
         importMapping.put("LessEqual", "eu.timepit.refined.numeric.LessEqual");
 
-        instantiationTypes.put("array", "ArrayList");
-        instantiationTypes.put("map", "HashMap");
+        instantiationTypes.put("array", "Seq");
+        instantiationTypes.put("seq", "Seq");
+        instantiationTypes.put("list", "List");
+        instantiationTypes.put("map", "Map");
 
         cliOptions.add(new CliOption(EXCLUDE_SBT, "exclude sbt from generation"));
         cliOptions.add(new CliOption(SOURCE_SUBFOLDER, "name of subfolder, for example to generate code in src/scala/generated"));
@@ -451,6 +457,7 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         return input.replace("\"", "");
     }
 
+    //TODO
     public void setMainPackage(String mainPackage) {
         this.configKeyPath = this.mainPackage = mainPackage;
     }
