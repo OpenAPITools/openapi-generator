@@ -246,7 +246,7 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
             this.importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
             additionalProperties.put("java8", "true");
         } else  {
-            String error = "DateLibrary " + dateLibrary + " is not supported. Please java8";
+            String error = "DateLibrary " + dateLibrary + " is not supported. Please use java8";
             LOGGER.error(error);
             throw new RuntimeException(error);
         }
@@ -274,7 +274,7 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         supportingFiles.add(new SupportingFile("baseClient.mustache", packageFileFolderRelative(), "BaseClient.scala"));
         supportingFiles.add(new SupportingFile("jsonSupports.mustache", packageFileFolderRelative(), "JsonSupports.scala"));
         //supportingFiles.add(new SupportingFile("model.mustache", modelFileFolderRelative(), "Models.scala"));
-        supportingFiles.add(new SupportingFile("failedRequest.mustache", modelFileFolderRelative(), "FailedRequest.scala"));
+        supportingFiles.add(new SupportingFile("failedRequest.mustache", modelFileFolderRelative(), "_FailedRequest.scala"));
         supportingFiles.add(new SupportingFile("auth_model.mustache", modelFileFolderRelative(), "Authorization.scala"));
         supportingFiles.add(new SupportingFile("models_package.mustache", modelFileFolderRelative(), "package.scala"));
 

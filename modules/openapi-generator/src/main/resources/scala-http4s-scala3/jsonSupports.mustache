@@ -19,7 +19,7 @@ object JsonSupports {
       r: Response[F]
   )(implicit decoder: Decoder[T]): F[T] = r.attemptAs[T].value.flatMap {
     case Right(value) => Concurrent[F].pure(value)
-    case Left(error)  => Concurrent[F].raiseError(FailedRequest(r.status.code, s"Invalid json for class[" + className + "]"))
+    case Left(error)  => Concurrent[F].raiseError(_FailedRequest(r.status.code, s"Invalid json for class[" + className + "]"))
   }
 
 }

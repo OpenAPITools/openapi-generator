@@ -5,24 +5,24 @@ import io.circe.Decoder.*
 import io.circe.Encoder.*
 import io.circe.syntax.*
 
-case class FailedRequest(code: Int, message: String) extends Exception(s"Server return status code: $code; message: $message")
+case class _FailedRequest(code: Int, message: String) extends Exception(s"Server return status code: $code; message: $message")
 
-object FailedRequest {
+object _FailedRequest {
 
-  implicit val encoderFailedRequest: Encoder[FailedRequest] = Encoder.instance { t =>
+  implicit val encoderFailedRequest: Encoder[_FailedRequest] = Encoder.instance { t =>
     Json.fromFields{
       Seq(
-        Some("code" -> t.code.asJson),
-        Some("message" -> t.message.asJson)
-      ).flatten
+        "code" -> t.code.asJson,
+        "message" -> t.message.asJson
+      )
     }
   }
 
-  implicit val decodeFailedRequest: Decoder[FailedRequest] = Decoder.instance { c =>
+  implicit val decodeFailedRequest: Decoder[_FailedRequest] = Decoder.instance { c =>
     for {
       code <- c.downField("code").as[Int]
       message <- c.downField("message").as[String]
-    } yield FailedRequest(
+    } yield _FailedRequest(
       code = code,
       message = message
     )
