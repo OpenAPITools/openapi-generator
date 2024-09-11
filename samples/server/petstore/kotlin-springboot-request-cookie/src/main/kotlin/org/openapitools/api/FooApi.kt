@@ -14,7 +14,6 @@ import io.swagger.v3.oas.annotations.security.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
-import org.springframework.http.server.reactive.ServerHttpRequest
 
 import org.springframework.web.bind.annotation.*
 import org.springframework.validation.annotation.Validated
@@ -52,7 +51,7 @@ interface FooApi {
             value = ["/foo"],
             produces = ["application/json"]
     )
-    fun fooGet(serverHttpRequest: ServerHttpRequest): ResponseEntity<FooGetDefaultResponse> {
+    fun fooGet(): ResponseEntity<FooGetDefaultResponse> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }

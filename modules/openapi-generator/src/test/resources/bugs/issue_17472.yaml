@@ -1,0 +1,138 @@
+openapi: 3.0.1
+info:
+  title: TEST 17472
+  description: TEST 17472
+  version: 1.0.0
+tags:
+  - name: listOfStrings
+  - name: listOfObjects
+  - name: listOfPatterns
+  - name: listOfQualifiedItem
+  - name: listOfUniqueItem
+paths:
+  /testListOfStrings:
+    post:
+      description: test list of string in argument and response
+      tags:
+        - listOfStrings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListOfStrings'
+      responses:
+        200:
+          description: 'response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOfStrings'
+  /testListOfObjects:
+    post:
+      description: test list of string in argument and response
+      tags:
+        - listOfObjects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListOfObjects'
+      responses:
+        200:
+          description: 'response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOfObjects'
+  /testListOfPatterns:
+    post:
+      description: test list of string in argument and response
+      tags:
+        - listOfPatterns
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListOfPatterns'
+      responses:
+        200:
+          description: 'response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOfPatterns'
+  /testListOfUniqueItems:
+    post:
+      description: test list of string in argument and response
+      tags:
+        - listOfUniqueItem
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListOfUniqueItem'
+      responses:
+        200:
+          description: 'response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOfUniqueItem'
+  /testListQualifiedItem:
+    post:
+      description: test list of string in argument and response
+      tags:
+        - listOfQualifiedItem
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListOfMyItem'
+      responses:
+        200:
+          description: 'response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOfMyItem'
+
+components:
+  schemas:
+    ListOfStrings:
+      type: array
+      minItems: 5
+      items:
+        maxLength: 2
+        minLength: 2
+        type: string
+    ListOfObjects:
+      type: array
+      minItems: 5
+      items:
+        type: object
+        properties:
+          text:
+            maxLength: 2
+            minLength: 2
+            type: string
+    ListOfPatterns:
+      type: array
+      minItems: 5
+      items:
+        pattern: '([a-z]+)'
+        type: string
+    ListOfMyItem:
+      type: array
+      items:
+        $ref: '#/components/schemas/MyItem'
+    MyItem:
+      type: object
+      properties:
+        data:
+          type: string
+    ListOfUniqueItem:
+      uniqueItems: true
+      type: array
+      default: []
+      items:
+        $ref: '#/components/schemas/MyItem'

@@ -3884,6 +3884,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         property.name = toVarName(name);
         property.baseName = name;
+        property.setHasSanitizedName(!property.baseName.equals(property.name));
         if (ModelUtils.getType(p) == null) {
             property.openApiType = getSchemaType(p);
         } else {
@@ -4736,6 +4737,9 @@ public class DefaultCodegen implements CodegenConfig {
             op.hasParams = true;
         }
         op.hasRequiredParams = op.requiredParams.size() > 0;
+
+        // check if the operation has only a single parameter
+       op.hasSingleParam = op.allParams.size() == 1;
 
         // set Restful Flag
         op.isRestfulShow = op.isRestfulShow();

@@ -63,6 +63,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static org.openapitools.codegen.utils.CamelizeOption.*;
+import static org.openapitools.codegen.utils.ModelUtils.getSchemaItems;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -1008,8 +1009,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         Schema<?> schema = unaliasSchema(p);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
-            Schema<?> items = ModelUtils.getSchemaItems(schema);
-            return getSchemaType(target) + "<" + getBeanValidation(items) + getTypeDeclaration(items) + ">";
+            Schema<?> items = getSchemaItems(schema);
+            String typeDeclaration = getTypeDeclarationForArray(items);
+            return getSchemaType(target) + "<" + typeDeclaration + ">";
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true
@@ -1022,6 +1024,29 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return getSchemaType(target) + "<String, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(target);
+    }
+
+    private String getTypeDeclarationForArray(Schema<?> items) {
+        String typeDeclaration = getTypeDeclaration(items);
+
+        String beanValidation = getBeanValidation(items);
+        if (StringUtils.isEmpty(beanValidation)) {
+            return typeDeclaration;
+        }
+        int idxLt = typeDeclaration.indexOf('<');
+
+        int idx = idxLt < 0 ?
+                typeDeclaration.lastIndexOf('.'):
+                // last dot before the generic like in List<com.mycompany.Container<java.lang.Object>
+                typeDeclaration.substring(0, idxLt).lastIndexOf('.');
+        if (idx > 0) {
+            // fix full qualified name, we need List<java.lang.@Valid String>
+            // or List<com.mycompany.@Valid Container<java.lang.Object>
+            return typeDeclaration.substring(0, idx + 1) + beanValidation
+                    + typeDeclaration.substring(idx + 1);
+        } else {
+            return beanValidation + typeDeclaration;
+        }
     }
 
     /**

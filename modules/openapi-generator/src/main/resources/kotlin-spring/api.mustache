@@ -29,9 +29,6 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
 
-{{#appendRequestToHandler}}
-import org.springframework.http.server.reactive.ServerHttpRequest
-{{/appendRequestToHandler}}
 {{#useBeanValidation}}
 import {{javaxPackage}}.validation.Valid
 import {{javaxPackage}}.validation.constraints.DecimalMax
@@ -92,7 +89,7 @@ class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) v
         produces = [{{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}]{{/hasProduces}}{{#hasConsumes}},
         consumes = [{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}]{{/hasConsumes}}{{/singleContentTypes}}
     )
-    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{>requesObject}}{{^-last}},{{/-last}}{{/allParams}}): ResponseEntity<{{>returnTypes}}> {
+    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}): ResponseEntity<{{>returnTypes}}> {
         return {{>returnValue}}
     }
 {{/operation}}
