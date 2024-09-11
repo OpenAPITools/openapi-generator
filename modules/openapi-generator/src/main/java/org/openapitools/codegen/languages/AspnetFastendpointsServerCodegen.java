@@ -1,16 +1,9 @@
 package org.openapitools.codegen.languages;
 
-import lombok.Setter;
 import org.openapitools.codegen.*;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.parameters.Parameter;
 
 import java.io.File;
 import java.util.*;
-
-import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +11,14 @@ import org.slf4j.LoggerFactory;
 import static java.util.UUID.randomUUID;
 
 public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen implements CodegenConfig {
+
     public static final String PROJECT_NAME = "projectName";
+    public static final String USE_PROBLEM_DETAILS = "useProblemDetails";
 
     private final Logger LOGGER = LoggerFactory.getLogger(AspnetFastendpointsServerCodegen.class);
+
+    private boolean useProblemDetails = false;
+
 
     public CodegenType getTag() {
         return CodegenType.SERVER;
@@ -61,6 +59,8 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
         supportingFiles.add(new SupportingFile("appsettings.Development.json", packageFolder, "appsettings.Development.json"));
 
         supportingFiles.add(new SupportingFile("program.mustache", packageFolder, "Program.cs"));
+
+        addSwitch(USE_PROBLEM_DETAILS, "Enable RFC compatible error responses.", useProblemDetails);
     }
 
     @Override
@@ -71,6 +71,8 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
 
         setPackageDescription(openAPI.getInfo().getDescription());
 
+        setUseProblemDetails();
+
         super.processOpts();
     }
 
@@ -80,5 +82,13 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
 
         // Converts, for example, PUT to Put for endpoint configuration
         operation.httpMethod = operation.httpMethod.charAt(0) + operation.httpMethod.substring(1).toLowerCase(Locale.ROOT);
+    }
+
+    private void setUseProblemDetails() {
+        if (additionalProperties.containsKey(USE_PROBLEM_DETAILS)) {
+            useProblemDetails = convertPropertyToBooleanAndWriteBack(USE_PROBLEM_DETAILS);
+        } else {
+            additionalProperties.put(USE_PROBLEM_DETAILS, useProblemDetails);
+        }
     }
 }
