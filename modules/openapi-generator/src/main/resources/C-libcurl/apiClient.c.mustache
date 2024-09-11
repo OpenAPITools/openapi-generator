@@ -387,11 +387,16 @@ void apiClient_invoke(apiClient_t    *apiClient,
                             memcpy(&fileVar,
                                    keyValuePair->value,
                                    sizeof(fileVar));
-                            curl_mime_data(part,
-                                           fileVar->data,
-                                           fileVar->len);
-                            curl_mime_filename(part,
-                                               "image.png");
+                            if (fileVar->filepath) {
+                                curl_mime_filedata(part, fileVar->filepath);
+                            } else {
+                                curl_mime_data(part, fileVar->data, fileVar->len);
+                            }
+                            if (fileVar->filename) {
+                                curl_mime_filename(part, fileVar->filename);
+                            } else {
+                                curl_mime_filename(part, "image.png");
+                            }
                         } else {
                             curl_mime_data(part,
                                            keyValuePair->value,
