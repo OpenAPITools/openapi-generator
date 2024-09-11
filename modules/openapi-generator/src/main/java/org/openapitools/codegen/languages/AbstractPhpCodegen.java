@@ -18,6 +18,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
@@ -382,6 +383,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             return "\\" + modelPackage + "\\" + name;
         }
         return super.getTypeDeclaration(name);
+    }
+
+    @Override
+    protected String getParameterDataType(Parameter parameter, Schema schema) {
+        return getTypeDeclaration(schema);
     }
 
     @Override
