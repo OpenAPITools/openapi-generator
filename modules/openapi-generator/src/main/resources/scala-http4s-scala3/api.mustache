@@ -30,7 +30,7 @@ class {{classname}}EndpointsImpl[F[*]: Concurrent](
   
   import JsonSupports.*
   import io.circe.syntax.EncoderOps
-  import cats.implicits.*
+  import cats.implicits.toFlatMapOps
 
 {{#operation}}
   override def {{operationId}}({{>methodParameters}}): F[{{>operationReturnType}}] = {
@@ -38,16 +38,13 @@ class {{classname}}EndpointsImpl[F[*]: Concurrent](
       {{>headerParamCreation}}
 
     val urlPath = s"{{{path}}}"
-    {{#hasQueryParams}}
-    val queryParameters = (
-      {{>queryParams}}
-    ).toSeq.flatten{{/hasQueryParams}}
+    {{>queryParams}}
 
     _executeRequest[{{>bodyParamType}}, {{>operationReturnType}}](
       method = "{{httpMethod.toUpperCase}}",
-      path = urlPath,{{#bodyParam}}
-      body = Some({{paramName}}),{{/bodyParam}}{{#hasQueryParams}}
-      queryParameters = queryParameters, {{/hasQueryParams}}
+      path = urlPath,
+      {{#bodyParam}}body = {{#required}}Some({{paramName}}){{/required}}{{^required}}{{paramName}}{{/required}},{{/bodyParam}}
+      queryParameters = queryParameters,
       requestHeaders = requestHeaders) {
       {{>responseState}}
     }

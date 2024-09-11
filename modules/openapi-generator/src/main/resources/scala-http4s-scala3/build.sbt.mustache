@@ -2,22 +2,15 @@ scalaVersion := "3.3.3"
 
 val CirceVersion   = "0.14.9"
 val Http4sVersion  = "0.23.26"
-val RefinedVersion = "0.11.2"
 
 libraryDependencies ++= Seq(
-  "org.http4s"   %% "http4s-ember-server" % Http4sVersion,
   "org.http4s"   %% "http4s-ember-client" % Http4sVersion,
   "org.http4s"   %% "http4s-circe"        % Http4sVersion,
   "org.http4s"   %% "http4s-dsl"          % Http4sVersion,
   "org.http4s"   %% "http4s-client"       % Http4sVersion,
-  "org.typelevel" %% "jawn-fs2"            % "2.4.0",
   "io.circe" %% "circe-core"    % CirceVersion,
   "io.circe" %% "circe-generic" % CirceVersion,
   "io.circe" %% "circe-parser"  % CirceVersion,
-  "io.circe" %% "circe-refined" % CirceVersion,
-  "eu.timepit" %% "refined" % RefinedVersion,
-  "com.beachape" %% "enumeratum-circe" % "1.7.4",
-  // test dependencies
   "org.scalatest" %% "scalatest"  % "3.2.19"   % "test"
 )
 

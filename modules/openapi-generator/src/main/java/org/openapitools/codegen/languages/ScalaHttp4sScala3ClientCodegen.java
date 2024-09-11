@@ -92,7 +92,7 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
                         ParameterFeature.Cookie
                 )
         );
-        
+
         useOneOfInterfaces = true;
         supportsMultipleInheritance = true;
         supportsInheritance = true;
@@ -181,7 +181,7 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         typeMapping.put("array", "Seq");
         typeMapping.put("list", "List");
         typeMapping.put("map", "Map");
-        typeMapping.put("object", "Object");
+        typeMapping.put("object", "Json");
         typeMapping.put("binary", "Array[Byte]");
         typeMapping.put("Date", "LocalDate");
         typeMapping.put("DateTime", "Instant");
@@ -199,6 +199,7 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         importMapping.put("UUID", "java.util.UUID");
         importMapping.put("URI", "java.net.URI");
         importMapping.put("File", "java.io.File");
+        importMapping.put("Json", "io.circe.Json");
         importMapping.put("Date", "java.util.Date");
         importMapping.put("Timestamp", "java.sql.Timestamp");
         importMapping.put("Map", "scala.collection.immutable.Map");
@@ -211,16 +212,6 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         importMapping.put("LocalTime", "java.time.LocalTime");
         importMapping.put("ZonedDateTime", "java.time.ZonedDateTime");
         importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
-        //refined TODO??
-        importMapping.put("Refined", "eu.timepit.refined.api.Refined");
-        importMapping.put("And", "eu.timepit.refined.boolean.And");
-        importMapping.put("MinSize", "eu.timepit.refined.collection.MinSize");
-        importMapping.put("MaxSize", "eu.timepit.refined.collection.MaxSize");
-        importMapping.put("MatchesRegex", "eu.timepit.refined.string.MatchesRegex");
-        importMapping.put("Greater", "eu.timepit.refined.numeric.Greater");
-        importMapping.put("GreaterEqual", "eu.timepit.refined.numeric.GreaterEqual");
-        importMapping.put("Less", "eu.timepit.refined.numeric.Less");
-        importMapping.put("LessEqual", "eu.timepit.refined.numeric.LessEqual");
 
         instantiationTypes.put("array", "Seq");
         instantiationTypes.put("seq", "Seq");

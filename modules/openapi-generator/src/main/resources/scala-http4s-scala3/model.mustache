@@ -1,10 +1,6 @@
 package {{modelPackage}}
 
-import enumeratum.values.*
 import io.circe.*
-import io.circe.Decoder.*
-import io.circe.Encoder.*
-import io.circe.refined.*
 import io.circe.syntax.*
 import io.circe.{ Decoder, Encoder }
 
@@ -21,14 +17,19 @@ import {{import}}
 {{/vars}}
 */
 {{#isEnum}}
-sealed abstract class {{classname}}(val value: String) extends StringEnumEntry
-case object {{classname}} extends StringEnum[{{classname}}] with StringCirceEnum[{{classname}}] {
+enum {{classname}}(val value: String) {
   {{#allowableValues}}
   {{#values}}
-  case object {{#fnEnumEntry}}{{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}{{/fnEnumEntry}} extends {{name}}("{{.}}")
+  case {{#fnEnumEntry}}{{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}{{/fnEnumEntry}} extends {{classname}}("{{.}}")
   {{/values}}
   {{/allowableValues}}
-  val values: IndexedSeq[{{classname}}] = findValues
+}
+
+object {{classname}} {
+  given decoder{{classname}}: Decoder[{{classname}}] =
+    Decoder.decodeString.map(str => {{classname}}.valueOf(str))
+  given encoder{{classname}}: Encoder[{{classname}}] =
+   Encoder.encodeString.contramap[{{classname}}](_.value)
 }
 {{/isEnum}}
 {{^isEnum}}
@@ -38,8 +39,8 @@ case class {{classname}}(
 {{/vars}}
 )
   
-object {{name}} {
-  implicit val encoder{{name}}: Encoder[{{name}}] = Encoder.instance { t =>
+object {{classname}} {
+  given encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance { t =>
     Json.fromFields{
       Seq(
         {{#vars}}
@@ -48,19 +49,18 @@ object {{name}} {
       ).flatten
     }
   }
-  implicit val decode{{name}}: Decoder[{{name}}] = Decoder.instance { c =>
+  given decode{{classname}}: Decoder[{{classname}}] = Decoder.instance { c =>
     for {
       {{#vars}}
       {{name}} <- c.downField("{{#lambda.snakecase}}{{name}}{{/lambda.snakecase}}").as[{{^required}}Option[{{{dataType}}}]{{/required}}{{#required}}{{{dataType}}}{{/required}}]
       {{/vars}}
-    } yield {{name}}(
+    } yield {{classname}}(
       {{#vars}}
       {{name}} = {{name}}{{^-last}},{{/-last}}
       {{/vars}}
     )
   }
 }
-  
 {{/isEnum}}
 {{/model}}
 {{/models}}
