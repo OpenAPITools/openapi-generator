@@ -38,23 +38,16 @@ import java.util.regex.Pattern;
 public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaHttp4sScala3ClientCodegen.class);
 
-    protected String mainPackage = "org.openapitools.client"; //TODO: configuable??
-    protected String groupId = "org.openapitools";  //TODO: configuable??
-    protected String artifactId = "http4s-client-scala3"; //TODO: configuable??
-    protected String sourceFolder = "scala";
-    protected String sourceSubFolder = "main";
+    protected String mainPackage = "org.openapitools.client";
+    protected String groupId = "org.openapitools";
+    protected String artifactId = "http4s-client-scala3";
     protected String artifactVersion = "1.0.0";
-    protected String apiDocPath = "docs/";
-    protected String modelDocPath = "docs/";
-    protected String configKey = "apiRequest";
-    protected String configKeyPath = mainPackage;
-    protected boolean registerNonStandardStatusCodes = true;
-    protected boolean removeOAuthSecurities = true;
-    public static final String EXCLUDE_SBT = "excludeSbt"; // generate as whole project
-    public static final String SOURCE_SUBFOLDER = "sourceSubfolder"; // generate as whole project
-    public static final String MAIN_PACKAGE = "mainPackage"; // generate as whole project
-
-    private String packageName = mainPackage;
+    protected boolean registerNonStandardStatusCodes = true; //TODO??
+    protected boolean removeOAuthSecurities = true; //TODO??
+    protected boolean excludeSbt = false;
+    public static final String EXCLUDE_SBT = "excludeSbt";
+    protected String sourceFolder = "src" + File.separator + "main" + File.separator + "scala";
+    protected String projectName = artifactId;
 
     @Override
     public CodegenType getTag() {
@@ -86,7 +79,8 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
                         GlobalFeature.ParameterStyling
                 )
                 .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.not
                 )
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
@@ -99,13 +93,13 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         supportsMixins = true;
         addOneOfInterfaceImports = true;
 
-        outputFolder = "generated-code" + File.separator + "scala-http4s-scala3";
         embeddedTemplateDir = templateDir = "scala-http4s-scala3";
 
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
-        apiPackage = mainPackage;
-        modelPackage = mainPackage + ".models";
+
+        setApiPackage(mainPackage+ ".apis");
+        setModelPackage(mainPackage + ".models");
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -188,8 +182,9 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         typeMapping.put("OffsetDateTime", "OffsetDateTime");
         typeMapping.put("uuid", "UUID");
 
-        additionalProperties.put("modelPackage", modelPackage());
-        additionalProperties.put("apiPackage", apiPackage());
+        additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage());
+        additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage());
+        additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
         additionalProperties.put("infoUrl", "http://org.openapitools");
         additionalProperties.put("infoEmail", "team@openapitools.org");
         additionalProperties.put("licenseInfo", "Apache 2.0");
@@ -218,12 +213,8 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         instantiationTypes.put("list", "List");
         instantiationTypes.put("map", "Map");
 
-        cliOptions.add(new CliOption(EXCLUDE_SBT, "exclude sbt from generation"));
-        cliOptions.add(new CliOption(SOURCE_SUBFOLDER, "name of subfolder, for example to generate code in src/scala/generated"));
-        cliOptions.add(new CliOption(MAIN_PACKAGE, "Main package name").defaultValue("org.openapitools.client"));
-
-        //inlineSchemaOption.put("SKIP_SCHEMA_REUSE", "true");
-        //inlineSchemaOption.put("REFACTOR_ALLOF_INLINE_SCHEMAS", "true");
+        //this option allows inline enums to be separate own models
+        inlineSchemaOption.put("RESOLVE_INLINE_ENUMS", "true");
 
     }
 
@@ -249,41 +240,39 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
-            packageName = (String) additionalProperties.get(CodegenConstants.PACKAGE_NAME);
-
-            setApiPackage(packageName + ".apis");
+            mainPackage = (String) additionalProperties.get(CodegenConstants.PACKAGE_NAME);
+            setApiPackage(mainPackage + ".apis");
+            setModelPackage(mainPackage + ".models");
             additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage());
-
-            setModelPackage(packageName + ".models");
-            additionalProperties.put(CodegenConstants.PACKAGE_NAME, modelPackage());
+            additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage());
         } else {
-            additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
+            additionalProperties.put(CodegenConstants.PACKAGE_NAME, mainPackage);
+        }
+        if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
+            //you can set your own source folder, i.e. target/scala-3.3.3/src_managed/main
+            this.sourceFolder = (String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER);
+        }
+        if (additionalProperties.containsKey(CodegenConstants.PROJECT_NAME)) {
+            this.projectName = (String) additionalProperties.get(CodegenConstants.PROJECT_NAME);
         }
 
-        if (additionalProperties.containsKey(SOURCE_SUBFOLDER)) {
-            sourceSubFolder = (String) additionalProperties.get(SOURCE_SUBFOLDER);
-        }
         additionalProperties.put("fnEnumEntry", new EnumEntryLambda());
 
-        sourceFolder = "src" + File.separator + sourceSubFolder + File.separator + sourceFolder;
-
-        //supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("baseClient.mustache", packageFileFolderRelative(), "BaseClient.scala"));
-        supportingFiles.add(new SupportingFile("jsonSupports.mustache", packageFileFolderRelative(), "JsonSupports.scala"));
-        //supportingFiles.add(new SupportingFile("model.mustache", modelFileFolderRelative(), "Models.scala"));
+        supportingFiles.add(new SupportingFile("baseClient.mustache", apisFileFolderRelative(), "BaseClient.scala"));
+        supportingFiles.add(new SupportingFile("jsonSupports.mustache", apisFileFolderRelative(), "JsonSupports.scala"));
         supportingFiles.add(new SupportingFile("failedRequest.mustache", modelFileFolderRelative(), "_FailedRequest.scala"));
-        supportingFiles.add(new SupportingFile("auth_model.mustache", modelFileFolderRelative(), "Authorization.scala"));
-        supportingFiles.add(new SupportingFile("models_package.mustache", modelFileFolderRelative(), "package.scala"));
+        supportingFiles.add(new SupportingFile("authModel.mustache", modelFileFolderRelative(), "Authorization.scala"));
+        supportingFiles.add(new SupportingFile("modelsPackage.mustache", modelFileFolderRelative(), "package.scala"));
 
-        if (!additionalProperties.containsKey(EXCLUDE_SBT) && !Boolean.parseBoolean((String) additionalProperties.get(EXCLUDE_SBT))) {
+        if (additionalProperties.containsKey(EXCLUDE_SBT)) {
+            this.excludeSbt = convertPropertyToBoolean(EXCLUDE_SBT);
+        }
+        if (!excludeSbt) {
             supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
             supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
         }
-        additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
-        additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
-        additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
-
     }
+
 
     @Override
     public String apiFileFolder() {
@@ -303,10 +292,9 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         return sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar);
     }
 
-    private String packageFileFolderRelative() {
-        return sourceFolder + File.separator + packageName.replace('.', File.separatorChar);
+    private String apisFileFolderRelative() {
+        return sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
-
 
     @Override
     public String escapeReservedWord(String name) {
@@ -448,18 +436,4 @@ public class ScalaHttp4sScala3ClientCodegen extends AbstractScalaCodegen impleme
         return input.replace("\"", "");
     }
 
-    //TODO
-    public void setMainPackage(String mainPackage) {
-        this.configKeyPath = this.mainPackage = mainPackage;
-    }
-
-    @Override
-    public String apiDocFileFolder() {
-        return (outputFolder + File.separator + apiDocPath).replace('/', File.separatorChar);
-    }
-
-    @Override
-    public String modelDocFileFolder() {
-        return (outputFolder + File.separator + modelDocPath).replace('/', File.separatorChar);
-    }
 }

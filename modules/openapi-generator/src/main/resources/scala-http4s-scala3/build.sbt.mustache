@@ -30,8 +30,6 @@ scalacOptions := Seq(
 lazy val root = project
   .in(file("."))
   .settings(
-    version := "{{artifactVersion}}",
-    name := "{{artifactId}}",
-    organization := "{{groupId}}",
+    name := "{{projectName}}",
     publishArtifact := false
   )

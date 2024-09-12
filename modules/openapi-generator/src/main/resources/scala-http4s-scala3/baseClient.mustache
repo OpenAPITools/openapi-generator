@@ -13,7 +13,7 @@ import {{modelPackage}}.*
 
 abstract class BaseClient[F[*]: Concurrent](
     val baseUrl: Uri,
-    auth: Option[Authorization] = None,
+    defaultAuth: Option[Authorization] = None,
     defaultHeaders: Seq[(String, String)] = Nil,
     httpClient: Http4sClient[F]
 ) {
@@ -34,7 +34,8 @@ abstract class BaseClient[F[*]: Concurrent](
       body: Option[T] = None,
       formBody : Option[UrlForm] = None,
       queryParameters: Seq[(String, Any)] = Nil,
-      requestHeaders: Seq[(String, String)] = Nil
+      requestHeaders: Seq[(String, String)] = Nil,
+      auth: Option[Authorization] = None
   )(handler: Response[F] => F[U])(implicit encoder: Encoder[T]): F[U] = {
 
     val m = Method.fromString(method) match {
@@ -55,12 +56,15 @@ abstract class BaseClient[F[*]: Concurrent](
 
     val request = Request[F](method = m, uri = uri, headers = headers)
 
-    val reqAndMaybeAuth = auth.fold(request) {
+    val reqAndMaybeAuth = auth.orElse(defaultAuth).fold(request) {
       case Authorization.Basic(username, passwordOpt) =>
         val userpass = s"$username:${passwordOpt.getOrElse("")}"
         val token    = Base64.getEncoder.encodeToString(userpass.getBytes(StandardCharsets.ISO_8859_1))
         request.putHeaders(Header.Raw(CIString("Authorization"), s"Basic $token"))
-      case a => sys.error("Invalid authorization scheme[" + a.getClass + "]")
+      case Authorization.Bearer(token) =>
+        request.putHeaders(Header.Raw(CIString("Authorization"), s"Bearer $token"))
+      case Authorization.ApiKey(apiKey) =>
+        request.putHeaders(Header.Raw(CIString("api_key"), apiKey))
     }
 
     import JsonSupports.*

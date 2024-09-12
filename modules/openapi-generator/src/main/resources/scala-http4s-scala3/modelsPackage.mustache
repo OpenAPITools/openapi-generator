@@ -1,4 +1,5 @@
-package {{apiPackage}}
+{{>licenseInfo}}
+package {{packageName}}
 
 import io.circe.{Decoder, Encoder}
 
@@ -21,5 +22,11 @@ package object models {
 
   given encodeLocalDate: Encoder[_root_.java.time.LocalDate] =
     Encoder.encodeString.contramap[_root_.java.time.LocalDate](_.toString)
+
+  given decodeJson: Decoder[io.circe.Json] =
+    Decoder.decodeString.map(str => io.circe.Json.fromString(str))
+
+  given encodeJson: Encoder[io.circe.Json] =
+    Encoder.encodeString.contramap[io.circe.Json](_.toString)
 
 }

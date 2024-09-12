@@ -1,3 +1,4 @@
+{{>licenseInfo}}
 package {{modelPackage}}
 
 import io.circe.*
@@ -29,7 +30,7 @@ object {{classname}} {
   given decoder{{classname}}: Decoder[{{classname}}] =
     Decoder.decodeString.map(str => {{classname}}.valueOf(str))
   given encoder{{classname}}: Encoder[{{classname}}] =
-   Encoder.encodeString.contramap[{{classname}}](_.value)
+    Encoder.encodeString.contramap[{{classname}}](_.value)
 }
 {{/isEnum}}
 {{^isEnum}}

@@ -23,10 +23,10 @@ trait {{classname}}Endpoints[F[*]] {
 {{#operations}}
 class {{classname}}EndpointsImpl[F[*]: Concurrent](
   override val baseUrl: Uri,
-  auth: Option[Authorization] = None,
+  defaultAuth: Option[Authorization] = None,
   defaultHeaders: Seq[(String, String)] = Nil,
   httpClient: Http4sClient[F]
-) extends BaseClient[F](baseUrl, auth, defaultHeaders, httpClient) with {{classname}}Endpoints[F] {
+) extends BaseClient[F](baseUrl, defaultAuth, defaultHeaders, httpClient) with {{classname}}Endpoints[F] {
   
   import JsonSupports.*
   import io.circe.syntax.EncoderOps
@@ -34,19 +34,17 @@ class {{classname}}EndpointsImpl[F[*]: Concurrent](
 
 {{#operation}}
   override def {{operationId}}({{>methodParameters}}): F[{{>operationReturnType}}] = {
-    val requestHeaders =
-      {{>headerParamCreation}}
-    val urlPath = s"{{{path}}}"
+    val requestHeaders = {{>headerParamCreation}}
     {{>queryParams}}
-    val body = {{#bodyParam}}{{#required}}Some({{paramName}}){{/required}}{{^required}}{{paramName}}{{/required}}{{/bodyParam}}{{^bodyParam}}None{{/bodyParam}}
 
     _executeRequest[{{>bodyParamType}}, {{>operationReturnType}}](
       method = "{{httpMethod.toUpperCase}}",
-      path = urlPath,
-      body = body,
+      path = s"{{{path}}}",
+      body = {{#bodyParam}}{{#required}}Some({{paramName}}){{/required}}{{^required}}{{paramName}}{{/required}}{{/bodyParam}}{{^bodyParam}}None{{/bodyParam}},
       queryParameters = queryParameters,
-      requestHeaders = requestHeaders) {
-      {{>responseState}}
+      requestHeaders = requestHeaders,
+      auth = {{#authMethods}}Some(auth){{/authMethods}}{{^authMethods}}None{{/authMethods}}) {
+        {{>responseState}}
     }
   }
 

@@ -1,3 +1,4 @@
-{{^hasHeaderParams}}Seq(){{/hasHeaderParams}}{{#hasHeaderParams}}Seq(
-        {{#headerParams}}{{#required}}Some("{{baseName}}" -> {{{paramName}}}){{/required}}{{^required}}{{{paramName}}}.map(x => "{{baseName}}" -> x){{/required}}{{^-last}}, {{/-last}}{{/headerParams}}
-      ).flatten{{/hasHeaderParams}}
+Seq(
+      Some("Content-Type" -> {{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{^consumes}}"application/json"{{/consumes}}){{#hasHeaderParams}},
+      {{#headerParams}}{{#required}}Some("{{baseName}}" -> {{{paramName}}}){{/required}}{{^required}}{{{paramName}}}.map(x => "{{baseName}}" -> x){{/required}}{{^-last}}, {{/-last}}{{/headerParams}}{{/hasHeaderParams}}
+    ).flatten
