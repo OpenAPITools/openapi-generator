@@ -2,17 +2,24 @@
 
 -include_lib("kernel/include/logger.hrl").
 
+-type accept_callback_return() ::
+        stop
+        | boolean()
+        | {true, iodata()}
+        | {created, iodata()}
+        | {see_other, iodata()}.
 -type api_key_callback() ::
     fun(({{packageName}}_api:operation_id(), binary()) -> {true, context()} | {false, iodata()}).
 -type accept_callback() ::
     fun((atom(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
-            boolean() | {created, iodata()} | {see_other, iodata()}).
+            {accept_callback_return(), cowboy_req:req(), context()}).
 -type provide_callback() ::
     fun((atom(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
             {cowboy_req:resp_body(), cowboy_req:req(), context()}).
--type context() :: #{binary() => any()}.
+-type context() :: #{_ := _}.
 
--export_type([context/0, api_key_callback/0, accept_callback/0, provide_callback/0]).
+-export_type([context/0, api_key_callback/0,
+              accept_callback_return/0, accept_callback/0, provide_callback/0]).
 
 -optional_callbacks([api_key_callback/2]).
 
@@ -20,7 +27,7 @@
     {true, context()} | {false, iodata()}.
 
 -callback accept_callback(atom(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
-    boolean() | {created, iodata()} | {see_other, iodata()}.
+    {accept_callback_return(), cowboy_req:req(), context()}.
 
 -callback provide_callback(atom(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
     {cowboy_req:resp_body(), cowboy_req:req(), context()}.
@@ -36,14 +43,14 @@ api_key_callback(OperationID, ApiKey) ->
     {true, #{}}.
 
 -spec accept_callback(atom(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
-    {cowboy:http_status(), cowboy:http_headers(), json:encode_value()}.
+    {accept_callback_return(), cowboy_req:req(), context()}.
 accept_callback(Class, OperationID, Req, Context) ->
     ?LOG_ERROR(#{what => "Got not implemented request to process",
                  class => Class,
                  operation_id => OperationID,
                  request => Req,
                  context => Context}),
-    {501, #{}, #{}}.
+    {false, Req, Context}.
 
 -spec provide_callback(atom(), {{packageName}}_api:operation_id(), cowboy_req:req(), context()) ->
     {cowboy_req:resp_body(), cowboy_req:req(), context()}.
