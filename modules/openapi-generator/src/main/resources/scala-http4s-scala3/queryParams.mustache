@@ -1,8 +1,7 @@
 {{#hasQueryParams}}
 val queryParameters = (
       {{#queryParams}}{{#isContainer}}Some({{paramName}}.map("{{baseName}}" -> _)){{/isContainer}}{{^isContainer}}{{#required}}Some(Seq("{{baseName}}" -> {{{paramName}}})){{/required}}{{^required}}{{paramName}}.map("{{baseName}}" -> _).map(Seq(_)){{/required}}{{/isContainer}}{{^-last}} ++ {{/-last}}{{/queryParams}}
-    ).toSeq.flatten
-{{/hasQueryParams}}
+    ).toSeq.flatten{{/hasQueryParams}}
 {{^hasQueryParams}}
-val queryParameters = Nil
+    val queryParameters = Nil
 {{/hasQueryParams}}

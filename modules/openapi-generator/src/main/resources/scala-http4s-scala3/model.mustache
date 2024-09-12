@@ -49,7 +49,7 @@ object {{classname}} {
       ).flatten
     }
   }
-  given decode{{classname}}: Decoder[{{classname}}] = Decoder.instance { c =>
+  given decoder{{classname}}: Decoder[{{classname}}] = Decoder.instance { c =>
     for {
       {{#vars}}
       {{name}} <- c.downField("{{#lambda.snakecase}}{{name}}{{/lambda.snakecase}}").as[{{^required}}Option[{{{dataType}}}]{{/required}}{{#required}}{{{dataType}}}{{/required}}]

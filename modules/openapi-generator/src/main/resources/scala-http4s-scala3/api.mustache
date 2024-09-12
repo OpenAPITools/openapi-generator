@@ -36,14 +36,14 @@ class {{classname}}EndpointsImpl[F[*]: Concurrent](
   override def {{operationId}}({{>methodParameters}}): F[{{>operationReturnType}}] = {
     val requestHeaders =
       {{>headerParamCreation}}
-
     val urlPath = s"{{{path}}}"
     {{>queryParams}}
+    val body = {{#bodyParam}}{{#required}}Some({{paramName}}){{/required}}{{^required}}{{paramName}}{{/required}}{{/bodyParam}}{{^bodyParam}}None{{/bodyParam}}
 
     _executeRequest[{{>bodyParamType}}, {{>operationReturnType}}](
       method = "{{httpMethod.toUpperCase}}",
       path = urlPath,
-      {{#bodyParam}}body = {{#required}}Some({{paramName}}){{/required}}{{^required}}{{paramName}}{{/required}},{{/bodyParam}}
+      body = body,
       queryParameters = queryParameters,
       requestHeaders = requestHeaders) {
       {{>responseState}}

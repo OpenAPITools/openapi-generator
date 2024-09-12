@@ -1,5 +1,5 @@
 {{#responses}}
   {{#is2xx}}{{>successResponsePart}}{{/is2xx}}{{^is2xx}}
       {{#is3xx}}{{>successResponsePart}}{{/is3xx}}
-        {{^is3xx}}{{^isDefault}}{{>errorResponsePart}}{{/isDefault}}{{#isDefault}}case r  => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason)){{/isDefault}}{{/is3xx}}{{/is2xx}}{{/responses}}
-        {{^hasDefaultResponse}}case r  => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason)){{/hasDefaultResponse}}
+        {{^is3xx}}{{^isDefault}}{{>errorResponsePart}}{{/isDefault}}{{/is3xx}}{{/is2xx}}{{/responses}}
+        case r  => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason))
