@@ -102,7 +102,7 @@ class UserApi
      * @var StreamFactoryInterface
      */
     protected $streamFactory;
-    
+
     public function __construct(
         ClientInterface $httpClient = null,
         Configuration $config = null,
@@ -331,7 +331,7 @@ class UserApi
 
         // for model (json/xml)
         if (isset($user)) {
-            if ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
+            if ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($user));
             } else {
                 $httpBody = $user;
@@ -351,7 +351,7 @@ class UserApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -538,7 +538,7 @@ class UserApi
 
         // for model (json/xml)
         if (isset($user)) {
-            if ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
+            if ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($user));
             } else {
                 $httpBody = $user;
@@ -558,7 +558,7 @@ class UserApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -745,7 +745,7 @@ class UserApi
 
         // for model (json/xml)
         if (isset($user)) {
-            if ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
+            if ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($user));
             } else {
                 $httpBody = $user;
@@ -765,7 +765,7 @@ class UserApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -974,7 +974,7 @@ class UserApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -1228,7 +1228,7 @@ class UserApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -1507,7 +1507,7 @@ class UserApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -1697,7 +1697,7 @@ class UserApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -1903,7 +1903,7 @@ class UserApi
 
         // for model (json/xml)
         if (isset($user)) {
-            if ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
+            if ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($user));
             } else {
                 $httpBody = $user;
@@ -1923,7 +1923,7 @@ class UserApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -2015,10 +2015,5 @@ class UserApi
         }
 
         return $uri;
-    }
-
-    private function bodyShouldBeEncoded(string $contentType): bool 
-    {        
-        return preg_match('~^application/(json|[\w!#$&.+-^_]+\+json)\s*(;|$)~', $contentType) === 1;
     }
 }

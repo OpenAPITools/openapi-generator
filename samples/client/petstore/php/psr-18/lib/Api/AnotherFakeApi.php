@@ -102,7 +102,7 @@ class AnotherFakeApi
      * @var StreamFactoryInterface
      */
     protected $streamFactory;
-    
+
     public function __construct(
         ClientInterface $httpClient = null,
         Configuration $config = null,
@@ -376,7 +376,7 @@ class AnotherFakeApi
 
         // for model (json/xml)
         if (isset($client)) {
-            if ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
+            if ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($client));
             } else {
                 $httpBody = $client;
@@ -396,7 +396,7 @@ class AnotherFakeApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -488,10 +488,5 @@ class AnotherFakeApi
         }
 
         return $uri;
-    }
-
-    private function bodyShouldBeEncoded(string $contentType): bool 
-    {        
-        return preg_match('~^application/(json|[\w!#$&.+-^_]+\+json)\s*(;|$)~', $contentType) === 1;
     }
 }

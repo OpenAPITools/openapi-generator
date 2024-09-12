@@ -102,7 +102,7 @@ class StoreApi
      * @var StreamFactoryInterface
      */
     protected $streamFactory;
-    
+
     public function __construct(
         ClientInterface $httpClient = null,
         Configuration $config = null,
@@ -353,7 +353,7 @@ class StoreApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -588,7 +588,7 @@ class StoreApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -854,7 +854,7 @@ class StoreApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -1086,7 +1086,7 @@ class StoreApi
 
         // for model (json/xml)
         if (isset($order)) {
-            if ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
+            if ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($order));
             } else {
                 $httpBody = $order;
@@ -1106,7 +1106,7 @@ class StoreApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -1198,10 +1198,5 @@ class StoreApi
         }
 
         return $uri;
-    }
-
-    private function bodyShouldBeEncoded(string $contentType): bool 
-    {        
-        return preg_match('~^application/(json|[\w!#$&.+-^_]+\+json)\s*(;|$)~', $contentType) === 1;
     }
 }

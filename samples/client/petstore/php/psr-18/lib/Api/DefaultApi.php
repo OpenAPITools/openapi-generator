@@ -102,7 +102,7 @@ class DefaultApi
      * @var StreamFactoryInterface
      */
     protected $streamFactory;
-    
+
     public function __construct(
         ClientInterface $httpClient = null,
         Configuration $config = null,
@@ -371,7 +371,7 @@ class DefaultApi
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($this->bodyShouldBeEncoded($headers['Content-Type'])) {
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {
@@ -463,10 +463,5 @@ class DefaultApi
         }
 
         return $uri;
-    }
-
-    private function bodyShouldBeEncoded(string $contentType): bool 
-    {        
-        return preg_match('~^application/(json|[\w!#$&.+-^_]+\+json)\s*(;|$)~', $contentType) === 1;
     }
 }
