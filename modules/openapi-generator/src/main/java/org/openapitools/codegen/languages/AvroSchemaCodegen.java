@@ -25,12 +25,20 @@ import org.openapitools.codegen.model.ModelsMap;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
+    private final Logger LOGGER = LoggerFactory.getLogger(AvroSchemaCodegen.class);
     private static final String AVRO = "avro-schema";
     protected String packageName = "model";
 
@@ -148,4 +156,44 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
         return input;
     }
 
+    @Override
+    protected List<Map<String, Object>> buildEnumVars(List<Object> values, String dataType) {
+        List<Object> sanitizedValues = values.stream().map(Object::toString).map(this::sanitizeEnumValue)
+                .collect(Collectors.toList());
+        removeEnumValueCollisions(sanitizedValues);
+        return super.buildEnumVars(sanitizedValues, dataType);
+    }
+
+    /**
+     * Valid enums in Avro need to adhere to [A-Za-z_][A-Za-z0-9_]*
+     * See https://avro.apache.org/docs/1.12.0/specification/#enums
+     */
+    private String sanitizeEnumValue(String value) {
+        // Replace any non-alphanumeric characters with an underscore
+        String sanitizedValue = value.replaceAll("[^A-Za-z0-9_]", "_");
+        // If the enum starts with a number, prefix it with an underscore
+        sanitizedValue = sanitizedValue.replaceAll("^([0-9])", "_$1");
+        return sanitizedValue;
+    }
+
+    private void removeEnumValueCollisions(List<Object> values) {
+        Collections.reverse(values);
+        for (int i = 0; i < values.size(); i++) {
+            final String value = values.get(i).toString();
+            long count = values.stream().filter(v1 -> v1.equals(value)).count();
+            if (count > 1) {
+                String uniqueEnumValue = getUniqueEnumValue(value.toString(), values);
+                LOGGER.debug("Changing duplicate enumeration value from " + value + " to " + uniqueEnumValue);
+                values.set(i, uniqueEnumValue);
+            }
+        }
+        Collections.reverse(values);
+    }
+
+    private String getUniqueEnumValue(String value, List<Object> values) {
+        long count = values.stream().filter(v -> v.equals(value)).count();
+        return count > 1
+                ? getUniqueEnumValue(value + count, values)
+                : value;
+    }
 }
