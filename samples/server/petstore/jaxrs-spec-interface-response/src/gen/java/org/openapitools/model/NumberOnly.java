@@ -21,6 +21,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class NumberOnly  implements Serializable {
   private BigDecimal justNumber;
 
+  public NumberOnly() {
+  }
+
   /**
    **/
   public NumberOnly justNumber(BigDecimal justNumber) {

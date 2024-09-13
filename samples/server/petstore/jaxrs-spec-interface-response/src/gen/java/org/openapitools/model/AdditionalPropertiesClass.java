@@ -34,6 +34,9 @@ public class AdditionalPropertiesClass  implements Serializable {
   private Object anytype2;
   private Object anytype3;
 
+  public AdditionalPropertiesClass() {
+  }
+
   /**
    **/
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {

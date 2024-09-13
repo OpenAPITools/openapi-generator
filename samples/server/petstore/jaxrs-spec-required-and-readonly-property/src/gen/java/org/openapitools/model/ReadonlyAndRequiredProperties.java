@@ -33,6 +33,15 @@ public class ReadonlyAndRequiredProperties  implements Serializable {
   public ReadonlyAndRequiredProperties() {
   }
 
+  @JsonCreator
+  public ReadonlyAndRequiredProperties(
+    @JsonProperty(required = true, value = "requiredYesReadonlyYes") String requiredYesReadonlyYes,
+    @JsonProperty(required = true, value = "requiredYesReadonlyNo") String requiredYesReadonlyNo
+  ) {
+    this.requiredYesReadonlyYes = requiredYesReadonlyYes;
+    this.requiredYesReadonlyNo = requiredYesReadonlyNo;
+  }
+
   /**
    **/
   public ReadonlyAndRequiredProperties requiredYesReadonlyYes(String requiredYesReadonlyYes) {
@@ -42,12 +51,12 @@ public class ReadonlyAndRequiredProperties  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("requiredYesReadonlyYes")
+  @JsonProperty(required = true, value = "requiredYesReadonlyYes")
   public String getRequiredYesReadonlyYes() {
     return requiredYesReadonlyYes;
   }
 
-  @JsonProperty("requiredYesReadonlyYes")
+  @JsonProperty(required = true, value = "requiredYesReadonlyYes")
   public void setRequiredYesReadonlyYes(String requiredYesReadonlyYes) {
     this.requiredYesReadonlyYes = requiredYesReadonlyYes;
   }
@@ -61,12 +70,12 @@ public class ReadonlyAndRequiredProperties  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("requiredYesReadonlyNo")
+  @JsonProperty(required = true, value = "requiredYesReadonlyNo")
   @NotNull public String getRequiredYesReadonlyNo() {
     return requiredYesReadonlyNo;
   }
 
-  @JsonProperty("requiredYesReadonlyNo")
+  @JsonProperty(required = true, value = "requiredYesReadonlyNo")
   public void setRequiredYesReadonlyNo(String requiredYesReadonlyNo) {
     this.requiredYesReadonlyNo = requiredYesReadonlyNo;
   }

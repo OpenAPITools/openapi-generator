@@ -68,6 +68,18 @@ public class BigCat extends Cat implements Serializable {
 
   private KindEnum kind;
 
+  public BigCat() {
+  }
+
+  @JsonCreator
+  public BigCat(
+    @JsonProperty(required = true, value = "className") String className
+  ) {
+    super(
+      className
+    );
+  }
+
   /**
    **/
   public BigCat kind(KindEnum kind) {

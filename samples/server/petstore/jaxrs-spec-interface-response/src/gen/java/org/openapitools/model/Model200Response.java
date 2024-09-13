@@ -24,6 +24,9 @@ public class Model200Response  implements Serializable {
   private Integer name;
   private String propertyClass;
 
+  public Model200Response() {
+  }
+
   /**
    **/
   public Model200Response name(Integer name) {

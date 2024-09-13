@@ -23,6 +23,9 @@ public class OuterComposite  implements Serializable {
   private String myString;
   private Boolean myBoolean;
 
+  public OuterComposite() {
+  }
+
   /**
    **/
   public OuterComposite myNumber(BigDecimal myNumber) {

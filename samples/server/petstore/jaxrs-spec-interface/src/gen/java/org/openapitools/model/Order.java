@@ -73,6 +73,9 @@ public class Order  implements Serializable {
   private StatusEnum status;
   private Boolean complete = false;
 
+  public Order() {
+  }
+
   /**
    **/
   public Order id(Long id) {

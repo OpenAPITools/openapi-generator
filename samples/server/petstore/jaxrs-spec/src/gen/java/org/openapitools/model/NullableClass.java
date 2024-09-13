@@ -40,6 +40,9 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   private @Valid Map<String, Object> objectAndItemsNullableProp;
   private @Valid Map<String, Object> objectItemsNullable = new HashMap<>();
 
+  public NullableClass() {
+  }
+
   /**
    **/
   public NullableClass integerProp(Integer integerProp) {

@@ -26,6 +26,13 @@ public class OuterObjectWithEnumProperty  implements Serializable {
   public OuterObjectWithEnumProperty() {
   }
 
+  @JsonCreator
+  public OuterObjectWithEnumProperty(
+    @JsonProperty(required = true, value = "value") OuterEnumInteger value
+  ) {
+    this.value = value;
+  }
+
   /**
    **/
   public OuterObjectWithEnumProperty value(OuterEnumInteger value) {
@@ -35,12 +42,12 @@ public class OuterObjectWithEnumProperty  implements Serializable {
 
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
-  @JsonProperty("value")
+  @JsonProperty(required = true, value = "value")
   @NotNull public OuterEnumInteger getValue() {
     return value;
   }
 
-  @JsonProperty("value")
+  @JsonProperty(required = true, value = "value")
   public void setValue(OuterEnumInteger value) {
     this.value = value;
   }

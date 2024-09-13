@@ -33,6 +33,13 @@ public class Name  implements Serializable {
   public Name() {
   }
 
+  @JsonCreator
+  public Name(
+    @JsonProperty(required = true, value = "name") Integer name
+  ) {
+    this.name = name;
+  }
+
   /**
    **/
   public Name name(Integer name) {
@@ -42,12 +49,12 @@ public class Name  implements Serializable {
 
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
-  @JsonProperty("name")
+  @JsonProperty(required = true, value = "name")
   @NotNull public Integer getName() {
     return name;
   }
 
-  @JsonProperty("name")
+  @JsonProperty(required = true, value = "name")
   public void setName(Integer name) {
     this.name = name;
   }

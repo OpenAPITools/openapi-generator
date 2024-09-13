@@ -21,6 +21,9 @@ public class Tag  implements Serializable {
   private Long id;
   private String name;
 
+  public Tag() {
+  }
+
   /**
    **/
   public Tag id(Long id) {
